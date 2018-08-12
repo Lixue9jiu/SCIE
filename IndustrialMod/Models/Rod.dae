@@ -1,0 +1,120 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<COLLADA xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.4.1" xmlns="http://www.collada.org/2005/11/COLLADASchema">
+  <asset>
+    <contributor>
+      <author>Survivalcraft Moder</author>
+      <authoring_tool>Engine 0.0.0</authoring_tool>
+    </contributor>
+    <created>2018-08-06T03:25:00</created>
+    <modified>2018-08-06T03:25:00</modified>
+    <up_axis>Y_UP</up_axis>
+  </asset>
+  <library_images />
+  <library_effects />
+  <library_materials />
+  <library_geometries>
+    <geometry id="IronRod-mesh" name="IronRod">
+      <mesh>
+        <source id="IronRod-mesh-positions">
+          <float_array id="IronRod-mesh-positions-array" count="36">-1E-06 -0.052456 -2.498658 -2.226013 59.56377 -2.476727 -2.226013 -0.025208 -1.213757 0 59.5365372 -3.761629 -2.226013 59.6182365 0.093077 -2.226013 0.029259 1.356046 2E-06 59.64547 1.377977 1E-06 0.056473 2.640947 2.226014 59.6182365 0.093075 2.226014 0.029259 1.356046 2.226014 59.56377 -2.476728 2.226013 -0.025208 -1.213757</float_array>
+          <technique_common>
+            <accessor source="#IronRod-mesh-positions-array" count="12" stride="3">
+              <param name="X" type="float" />
+              <param name="Y" type="float" />
+              <param name="Z" type="float" />
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="IronRod-mesh-normals">
+          <float_array id="IronRod-mesh-normals-array" count="45">0 -0.02119001 -0.999775469 -0.866025865 -0.0105949994 -0.49988693 -0.866025269 -0.0105950041 -0.499888182 0 -0.0211899914 -0.9997755 -0.866025269 0.0105950041 0.499888182 -0.8660248 0.0105949976 0.499888867 0 0.02119001 0.999775469 0.866025448 0.0105949938 0.4998877 0.8660248 0.0105949976 0.499888867 0.866025269 -0.0105950041 -0.499888182 0.8660248 -0.0105949976 -0.499888867 0 0.999775469 -0.02119001 0 0.9997755 -0.0211899914 0 -0.9997755 0.0211889911 0 -0.999775469 0.0211890116</float_array>
+          <technique_common>
+            <accessor source="#IronRod-mesh-normals-array" count="15" stride="3">
+              <param name="X" type="float" />
+              <param name="Y" type="float" />
+              <param name="Z" type="float" />
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="IronRod-mesh-map">
+          <float_array id="IronRod-mesh-map-array" count="120">0.953246 0.750344 0.956347 0.812188 0.956347 0.750344 0.956347 0.812188 0.953246 0.750344 0.953246 0.812188 0.937743 0.750344 0.940844 0.812188 0.940844 0.750344 0.940844 0.812188 0.937743 0.750344 0.937743 0.812188 0.940844 0.750344 0.943945 0.812188 0.943945 0.750344 0.943945 0.812188 0.940844 0.750344 0.940844 0.812188 0.943945 0.750344 0.947045 0.812188 0.947045 0.750344 0.947045 0.812188 0.943945 0.750344 0.943945 0.812188 0.947045 0.750344 0.950146 0.812188 0.950146 0.750344 0.950146 0.812188 0.947045 0.750344 0.947045 0.812188 0.950146 0.750344 0.953246 0.812188 0.953246 0.750344 0.953246 0.812188 0.950146 0.750344 0.950146 0.812188 0.947589 0.808918 0.939723 0.808777 0.94361 0.810837 0.939723 0.808777 0.947589 0.808918 0.939816 0.804798 0.947589 0.808918 0.947682 0.804938 0.939816 0.804798 0.939816 0.804798 0.947682 0.804938 0.943795 0.802878 0.943945 0.750344 0.956347 0.750344 0.940844 0.750344 0.956347 0.750344 0.943945 0.750344 0.953246 0.750344 0.943945 0.750344 0.947045 0.750344 0.953246 0.750344 0.953246 0.750344 0.947045 0.750344 0.950146 0.750344</float_array>
+          <technique_common>
+            <accessor source="#IronRod-mesh-map-array" count="60" stride="2">
+              <param name="S" type="float" />
+              <param name="T" type="float" />
+            </accessor>
+          </technique_common>
+        </source>
+        <vertices id="IronRod-mesh-vertices">
+          <input semantic="POSITION" source="#IronRod-mesh-positions" />
+        </vertices>
+        <triangles count="20">
+          <input semantic="VERTEX" source="#IronRod-mesh-vertices" offset="0" />
+          <input semantic="NORMAL" source="#IronRod-mesh-normals" offset="1" />
+          <input semantic="TEXCOORD" source="#IronRod-mesh-map" offset="2" />
+          <p>0 0 0 2 2 2 1 1 1 1 1 3 3 3 5 0 0 4 2 2 6 5 5 8 4 4 7 4 4 9 1 1 11 2 2 10 5 5 12 7 6 14 6 6 13 6 6 15 4 4 17 5 5 16 7 6 18 9 8 20 8 7 19 8 7 21 6 6 23 7 6 22 9 8 24 11 10 26 10 9 25 10 9 27 8 7 29 9 8 28 11 10 30 0 0 32 3 3 31 3 3 33 10 9 35 11 10 34 10 11 36 3 12 38 1 11 37 1 11 39 4 11 41 10 11 40 10 11 42 4 11 44 8 11 43 4 11 45 6 11 47 8 11 46 7 13 48 5 13 50 2 13 49 2 13 51 0 14 53 7 13 52 7 13 54 0 14 56 9 13 55 0 14 57 11 13 59 9 13 58</p>
+        </triangles>
+      </mesh>
+    </geometry>
+    <geometry id="SteelRod-mesh" name="SteelRod">
+      <mesh>
+        <source id="SteelRod-mesh-positions">
+          <float_array id="SteelRod-mesh-positions-array" count="36">-1E-06 -0.052456 -2.498658 -2.226013 59.56377 -2.476727 -2.226013 -0.025208 -1.213757 0 59.5365372 -3.761629 -2.226013 59.6182365 0.093077 -2.226013 0.029259 1.356046 2E-06 59.64547 1.377977 1E-06 0.056473 2.640947 2.226014 59.6182365 0.093075 2.226014 0.029259 1.356046 2.226014 59.56377 -2.476728 2.226013 -0.025208 -1.213757</float_array>
+          <technique_common>
+            <accessor source="#SteelRod-mesh-positions-array" count="12" stride="3">
+              <param name="X" type="float" />
+              <param name="Y" type="float" />
+              <param name="Z" type="float" />
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="SteelRod-mesh-normals">
+          <float_array id="SteelRod-mesh-normals-array" count="45">0 -0.02119001 -0.999775469 -0.866025865 -0.0105949994 -0.49988693 -0.866025269 -0.0105950041 -0.499888182 0 -0.0211899914 -0.9997755 -0.866025269 0.0105950041 0.499888182 -0.8660248 0.0105949976 0.499888867 0 0.02119001 0.999775469 0.866025448 0.0105949938 0.4998877 0.8660248 0.0105949976 0.499888867 0.866025269 -0.0105950041 -0.499888182 0.8660248 -0.0105949976 -0.499888867 0 0.999775469 -0.02119001 0 0.9997755 -0.0211899914 0 -0.9997755 0.0211889911 0 -0.999775469 0.0211890116</float_array>
+          <technique_common>
+            <accessor source="#SteelRod-mesh-normals-array" count="15" stride="3">
+              <param name="X" type="float" />
+              <param name="Y" type="float" />
+              <param name="Z" type="float" />
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="SteelRod-mesh-map">
+          <float_array id="SteelRod-mesh-map-array" count="120">0.998945 0.998945 0.998945 0.998945 0.998945 0.998945 0.998945 0.998945 0.998945 0.998945 0.998945 0.998945 0.998945 0.998945 0.998945 0.998945 0.998945 0.998945 0.998945 0.998945 0.998945 0.998945 0.998945 0.998945 0.998945 0.998945 0.998945 0.998945 0.998945 0.998945 0.998945 0.998945 0.998945 0.998945 0.998945 0.998945 0.998945 0.998945 0.998945 0.998945 0.998945 0.998945 0.998945 0.998945 0.998945 0.998945 0.998945 0.998945 0.998945 0.998945 0.998945 0.998945 0.998945 0.998945 0.998945 0.998945 0.998945 0.998945 0.998945 0.998945 0.998945 0.998945 0.998945 0.998945 0.998945 0.998945 0.998945 0.998945 0.998945 0.998945 0.998945 0.998945 0.998945 0.998945 0.998945 0.998945 0.998945 0.998945 0.998945 0.998945 0.998945 0.998945 0.998945 0.998945 0.998945 0.998945 0.998945 0.998945 0.998945 0.998945 0.998945 0.998945 0.998945 0.998945 0.998945 0.998945 0.998945 0.998945 0.998945 0.998945 0.998945 0.998945 0.998945 0.998945 0.998945 0.998945 0.998945 0.998945 0.998945 0.998945 0.998945 0.998945 0.998945 0.998945 0.998945 0.998945 0.998945 0.998945 0.998945 0.998945</float_array>
+          <technique_common>
+            <accessor source="#SteelRod-mesh-map-array" count="60" stride="2">
+              <param name="S" type="float" />
+              <param name="T" type="float" />
+            </accessor>
+          </technique_common>
+        </source>
+        <vertices id="SteelRod-mesh-vertices">
+          <input semantic="POSITION" source="#SteelRod-mesh-positions" />
+        </vertices>
+        <triangles count="20">
+          <input semantic="VERTEX" source="#SteelRod-mesh-vertices" offset="0" />
+          <input semantic="NORMAL" source="#SteelRod-mesh-normals" offset="1" />
+          <input semantic="TEXCOORD" source="#SteelRod-mesh-map" offset="2" />
+          <p>0 0 0 2 2 2 1 1 1 1 1 3 3 3 5 0 0 4 2 2 6 5 5 8 4 4 7 4 4 9 1 1 11 2 2 10 5 5 12 7 6 14 6 6 13 6 6 15 4 4 17 5 5 16 7 6 18 9 8 20 8 7 19 8 7 21 6 6 23 7 6 22 9 8 24 11 10 26 10 9 25 10 9 27 8 7 29 9 8 28 11 10 30 0 0 32 3 3 31 3 3 33 10 9 35 11 10 34 10 11 36 3 12 38 1 11 37 1 11 39 4 11 41 10 11 40 10 11 42 4 11 44 8 11 43 4 11 45 6 11 47 8 11 46 7 13 48 5 13 50 2 13 49 2 13 51 0 14 53 7 13 52 7 13 54 0 14 56 9 13 55 0 14 57 11 13 59 9 13 58</p>
+        </triangles>
+      </mesh>
+    </geometry>
+  </library_geometries>
+  <library_controllers />
+  <library_visual_scenes>
+    <visual_scene id="Scene" name="Scene">
+      <node id="" name="" type="NODE">
+        <matrix sid="transform">1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1</matrix>
+        <node id="IronRod" name="IronRod" type="NODE">
+          <matrix sid="transform">0 -0.00035599 -0.01679623 0 0 0.01679623 -0.00035599 0 0.0168 0 0 0 0 0 0 1</matrix>
+          <instance_geometry url="#IronRod-mesh" name="IronRod" />
+        </node>
+        <node id="SteelRod" name="SteelRod" type="NODE">
+          <matrix sid="transform">0 -0.00035599 -0.01679623 0 0 0.01679623 -0.00035599 0 0.0168 0 0 0 0 0 0 1</matrix>
+          <instance_geometry url="#SteelRod-mesh" name="SteelRod" />
+        </node>
+      </node>
+    </visual_scene>
+  </library_visual_scenes>
+  <scene>
+    <instance_visual_scene url="#Scene" />
+  </scene>
+</COLLADA>
