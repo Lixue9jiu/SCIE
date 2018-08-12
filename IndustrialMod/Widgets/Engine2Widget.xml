@@ -1,0 +1,27 @@
+<FurnaceWidget xmlns="runtime-namespace:Game">
+  <BevelledRectangleWidget Size="714, 382" BevelSize="3" />
+  <CanvasWidget CanvasWidget.Position="252, 52" Size="64, 64">
+    <LabelWidget Text="Water" Font="{Fonts/Pericles24}" Color="0, 0, 0, 64" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+  </CanvasWidget>
+  <GridPanelWidget Name="InventoryGrid" CanvasWidget.Position="406, 52" ColumnsCount="4" RowsCount="4"/>
+  <GridPanelWidget Name="FurnaceGrid" CanvasWidget.Position="12, 52" ColumnsCount="3" RowsCount="4"/>
+  <CanvasWidget CanvasWidget.Position="252, 130" >
+    <FireWidget Name="Fire" Size="68, 40" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+    <StackPanelWidget Direction="Horizontal">
+      <BevelledRectangleWidget Size="24, 44" BevelSize="-2" CenterColor="0, 0, 0, 0" />
+      <BevelledRectangleWidget Size="24, 44" BevelSize="-2" CenterColor="0, 0, 0, 0" />
+      <BevelledRectangleWidget Size="24, 44" BevelSize="-2" CenterColor="0, 0, 0, 0" />
+    </StackPanelWidget>
+  </CanvasWidget>
+  <ValueBarWidget Name="Progress" CanvasWidget.Position="350, 120" LayoutDirection="Vertical" BarsCount="8" FlipDirection="false" LitBarColor="96, 48, 0" UnlitBarColor="48, 48, 48, 80" BarSize="12, 12" BarSubtexture="{Textures/Atlas/ProgressBar}"/>
+  <InventorySlotWidget Name="FuelSlot" CanvasWidget.Position="252, 180">
+    <LabelWidget Text="Fuel" Font="{Fonts/Pericles24}" Color="0, 0, 0, 64" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+  </InventorySlotWidget>
+  <InventorySlotWidget Name="ResultSlot" CanvasWidget.Position="322, 268" />
+  <InventorySlotWidget Name="RemainsSlot" CanvasWidget.Position="252, 52" >
+  </InventorySlotWidget>
+  <LabelWidget CanvasWidget.Position="18, 14" Text="SteamBoat" Font="{Fonts/Pericles24}" Color="255, 255, 255, 192"/>
+  <LabelWidget CanvasWidget.Position="406, 14" Text="Inventory" Font="{Fonts/Pericles24}" Color="255, 255, 255, 192"/>
+  <ArrowLineWidget Color="0, 0, 0, 96" Width="8" ArrowWidth="0" PointsString="332, 88; 356, 88; 356, 118" AbsoluteCoordinates="true"/>
+  <ArrowLineWidget Color="0, 0, 0, 96" Width="8" ArrowWidth="24" PointsString="356, 218; 356, 248" AbsoluteCoordinates="true"/>
+</FurnaceWidget>

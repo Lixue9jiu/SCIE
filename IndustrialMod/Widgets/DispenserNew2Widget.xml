@@ -1,0 +1,14 @@
+<DispenserWidget xmlns="runtime-namespace:Game">
+  <BevelledRectangleWidget Size="614, 382" BevelSize="3" />
+  <CanvasWidget CanvasWidget.Position="12, 152" Size="256, 64">
+    <LabelWidget Text="Liquid Container" Font="{Fonts/Pericles24}" Color="0, 0, 0, 64" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+  </CanvasWidget>
+  <LabelWidget CanvasWidget.Position="12, 14" Name="DispenserLabel" Text="LiquidPump" Font="{Fonts/Pericles24}" Color="255, 255, 255, 192"/>
+  <LabelWidget CanvasWidget.Position="306, 14" Name="InventoryLabel" Text="Inventory" Font="{Fonts/Pericles24}" Color="255, 255, 255, 192"/>
+  <GridPanelWidget CanvasWidget.Position="12, 52" Name="DispenserGrid" ColumnsCount="4" RowsCount="1"/>
+  <GridPanelWidget CanvasWidget.Position="12, 152" Name="DispenserGrid2" ColumnsCount="4" RowsCount="1"/>
+  <GridPanelWidget CanvasWidget.Position="306, 52" Name="InventoryGrid" ColumnsCount="4" RowsCount="4"/>
+  <InventorySlotWidget Name="DrillSlot" CanvasWidget.Position="180, 248" >
+    <LabelWidget Text="Tube" Font="{Fonts/Pericles24}" Color="0, 0, 0, 64" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+  </InventorySlotWidget>
+</DispenserWidget>
