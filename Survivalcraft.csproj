@@ -1,0 +1,155 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <ProjectGuid>{22A33C4B-0760-4E9F-A638-7255BBC78413}</ProjectGuid>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <OutputType>Library</OutputType>
+    <AssemblyName>IndustrialMod</AssemblyName>
+    <TargetFrameworkIdentifier>MonoAndroid</TargetFrameworkIdentifier>
+    <TargetFrameworkVersion>v4.0.3</TargetFrameworkVersion>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+    <NoStdLib>False</NoStdLib>
+    <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
+    <NoWin32Manifest>False</NoWin32Manifest>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Platform)' == 'AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <OutputPath>bin\Debug\</OutputPath>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <OutputPath>bin\Release\</OutputPath>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Engine">
+      <HintPath>D:\assemblies\Engine.dll</HintPath>
+    </Reference>
+    <Reference Include="EntitySystem">
+      <HintPath>D:\assemblies\EntitySystem.dll</HintPath>
+    </Reference>
+    <Reference Include="Survivalcraft">
+      <HintPath>D:\assemblies\Survivalcraft.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml">
+      <HintPath>D:\assemblies\System.Xml.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq">
+      <HintPath>D:\assemblies\System.Xml.Linq.dll</HintPath>
+    </Reference>
+    <Reference Include="System">
+      <HintPath>D:\assemblies\System.dll</HintPath>
+    </Reference>
+    <Reference Include="Mono.Android">
+      <HintPath>D:\assemblies\Mono.Android.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http">
+      <HintPath>D:\assemblies\System.Net.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Core">
+      <HintPath>D:\assemblies\System.Core.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Blocks\BoatIBlock.cs" />
+    <Compile Include="Blocks\Bullet2Block.cs" />
+    <Compile Include="Blocks\BulletBlock.cs" />
+    <Compile Include="Blocks\ChestNewBlock.cs" />
+    <Compile Include="Subsystems\SubsystemConnectionModel.cs" />
+    <Compile Include="Widgets\ChestNewWidget.cs" />
+    <Compile Include="Components\ComponentBoatI.cs" />
+    <Compile Include="Components\ComponentChestNew.cs" />
+    <Compile Include="Components\ComponentDispenserNew.cs" />
+    <Compile Include="Components\ComponentDispenserNew2.cs" />
+    <Compile Include="Components\ComponentEngine.cs" />
+    <Compile Include="Components\ComponentEngine2.cs" />
+    <Compile Include="Components\ComponentEngineH.cs" />
+    <Compile Include="Components\ComponentFurnaceN.cs" />
+    <Compile Include="Components\ComponentNGui.cs" />
+    <Compile Include="Components\ComponentPlayer.cs" />
+    <Compile Include="Components\ComponentPresser.cs" />
+    <Compile Include="Components\ComponentPresserN.cs" />
+    <Compile Include="Components\ComponentPresserNN.cs" />
+    <Compile Include="Blocks\CopperPlateBlock.cs" />
+    <Compile Include="Blocks\DispenBlock.cs" />
+    <Compile Include="Blocks\DispenserNBlock.cs" />
+    <Compile Include="Blocks\DispenserNew2Block.cs" />
+    <Compile Include="Blocks\DispenserNew2ElectricElement.cs" />
+    <Compile Include="Widgets\DispenserNew2Widget.cs" />
+    <Compile Include="Blocks\DispenserNewBlock.cs" />
+    <Compile Include="Blocks\DispenserNewElectricElement.cs" />
+    <Compile Include="Widgets\DispenserNewWidget.cs" />
+    <Compile Include="Blocks\Drill1Block.cs" />
+    <Compile Include="Blocks\Drill2Block.cs" />
+    <Compile Include="Widgets\Engine2Widget.cs" />
+    <Compile Include="Blocks\EngineBlock.cs" />
+    <Compile Include="Blocks\EngineHBlock.cs" />
+    <Compile Include="Widgets\EngineHWidget.cs" />
+    <Compile Include="Widgets\EngineWidget.cs" />
+    <Compile Include="Blocks\Fan1Block.cs" />
+    <Compile Include="Blocks\Fan2Block.cs" />
+    <Compile Include="Blocks\FurnaceNBlock.cs" />
+    <Compile Include="Widgets\FurnaceNWidget.cs" />
+    <Compile Include="Blocks\IngotBlock.cs" />
+    <Compile Include="Blocks\IronOrePowder2Block.cs" />
+    <Compile Include="Blocks\IronOrePowder3Block.cs" />
+    <Compile Include="Blocks\IronOrePowder4Block.cs" />
+    <Compile Include="Blocks\IronOrePowderBlock.cs" />
+    <Compile Include="Blocks\IronPlateBlock.cs" />
+    <Compile Include="Blocks\LitEngineBlock.cs" />
+    <Compile Include="Blocks\LitEngineHBlock.cs" />
+    <Compile Include="Blocks\LitFurnaceNBlock.cs" />
+    <Compile Include="Blocks\Musket2Block.cs" />
+    <Compile Include="Widgets\Musket2Widget.cs" />
+    <Compile Include="Blocks\PlateBlock.cs" />
+    <Compile Include="Blocks\PresserBlock.cs" />
+    <Compile Include="Blocks\PresserNBlock.cs" />
+    <Compile Include="Blocks\PresserNNBlock.cs" />
+    <Compile Include="Widgets\PresserNNWidget.cs" />
+    <Compile Include="Widgets\PresserNWidget.cs" />
+    <Compile Include="Widgets\PresserWidget.cs" />
+    <Compile Include="Blocks\Rod2Block.cs" />
+    <Compile Include="Blocks\Rod3Block.cs" />
+    <Compile Include="Blocks\SteelAxeBlock.cs" />
+    <Compile Include="Blocks\SteelBlock.cs" />
+    <Compile Include="Blocks\SteelIngotBlock.cs" />
+    <Compile Include="Blocks\SteelMacheteBlock.cs" />
+    <Compile Include="Blocks\SteelPickaxeBlock.cs" />
+    <Compile Include="Blocks\SteelPlateBlock.cs" />
+    <Compile Include="Blocks\SteelRakeBlock.cs" />
+    <Compile Include="Blocks\SteelShovelBlock.cs" />
+    <Compile Include="Blocks\SteelSpearBlock.cs" />
+    <Compile Include="Subsystems\SubsystemBoatIBlockBehavior.cs" />
+    <Compile Include="Subsystems\SubsystemBullet2BlockBehavior.cs" />
+    <Compile Include="Subsystems\SubsystemChestNewBlockBehavior.cs" />
+    <Compile Include="Subsystems\SubsystemDispenBlockBehavior.cs" />
+    <Compile Include="Subsystems\SubsystemDispenserNBlockBehavior.cs" />
+    <Compile Include="Subsystems\SubsystemDispenserNew2BlockBehavior.cs" />
+    <Compile Include="Subsystems\SubsystemDispenserNewBlockBehavior.cs" />
+    <Compile Include="Subsystems\SubsystemEngineBlockBehavior.cs" />
+    <Compile Include="Subsystems\SubsystemEngineHBlockBehavior.cs" />
+    <Compile Include="Subsystems\SubsystemFurnaceNBlockBehavior.cs" />
+    <Compile Include="Subsystems\SubsystemMusket2BlockBehavior.cs" />
+    <Compile Include="Subsystems\SubsystemPresserBlockBehavior.cs" />
+    <Compile Include="Subsystems\SubsystemPresserNBlockBehavior.cs" />
+    <Compile Include="Subsystems\SubsystemPresserNNBlockBehavior.cs" />
+    <Compile Include="Subsystems\SubsystemNRotBlockBehavior.cs" />
+    <Compile Include="Subsystems\SubsystemNSoilBlockBehavior.cs" />
+    <Compile Include="Blocks\TankBlock.cs" />
+    <Compile Include="Subsystems\SubsystemEnergy.cs" />
+    <Compile Include="Subsystems\SubsystemMineral.cs" />
+    <Compile Include="Structs\CircuitDevices.cs" />
+    <Compile Include="Structs\CircuitElements.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
