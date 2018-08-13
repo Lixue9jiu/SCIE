@@ -110,7 +110,7 @@ namespace Game
 			}
 		}
 
-		protected override void Load(ValuesDictionary valuesDictionary, IdToEntityMap idToEntityMap)
+		public override void Load(ValuesDictionary valuesDictionary, IdToEntityMap idToEntityMap)
 		{
 			m_subsystemTime = base.Project.FindSubsystem<SubsystemTime>(true);
 			m_subsystemAudio = base.Project.FindSubsystem<SubsystemAudio>(true);
