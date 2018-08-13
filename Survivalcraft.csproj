@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <OutputType>Library</OutputType>
     <AssemblyName>IndustrialMod</AssemblyName>
-    <TargetFrameworkIdentifier>MonoAndroid</TargetFrameworkIdentifier>
-    <TargetFrameworkVersion>v4.0.3</TargetFrameworkVersion>
+    <TargetFrameworkIdentifier>.NETFramework</TargetFrameworkIdentifier>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <WarningLevel>4</WarningLevel>
     <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
@@ -32,13 +32,13 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Engine">
-      <HintPath>D:\assemblies\Engine.dll</HintPath>
+      <HintPath>D:\游戏文件夹\Engine.dll</HintPath>
     </Reference>
     <Reference Include="EntitySystem">
-      <HintPath>D:\assemblies\EntitySystem.dll</HintPath>
+      <HintPath>D:\游戏文件夹\EntitySystem.dll</HintPath>
     </Reference>
     <Reference Include="Survivalcraft">
-      <HintPath>D:\assemblies\Survivalcraft.dll</HintPath>
+      <HintPath>D:\游戏文件夹\Survivalcraft.exe</HintPath>
     </Reference>
     <Reference Include="System.Xml">
       <HintPath>D:\assemblies\System.Xml.dll</HintPath>
@@ -48,9 +48,6 @@
     </Reference>
     <Reference Include="System">
       <HintPath>D:\assemblies\System.dll</HintPath>
-    </Reference>
-    <Reference Include="Mono.Android">
-      <HintPath>D:\assemblies\Mono.Android.dll</HintPath>
     </Reference>
     <Reference Include="System.Net.Http">
       <HintPath>D:\assemblies\System.Net.Http.dll</HintPath>
@@ -65,6 +62,8 @@
     <Compile Include="Blocks\Bullet2Block.cs" />
     <Compile Include="Blocks\BulletBlock.cs" />
     <Compile Include="Blocks\ChestNewBlock.cs" />
+    <Compile Include="Structs\Devices.cs" />
+    <Compile Include="Structs\Elements.cs" />
     <Compile Include="Subsystems\SubsystemConnectionModel.cs" />
     <Compile Include="Widgets\ChestNewWidget.cs" />
     <Compile Include="Components\ComponentBoatI.cs" />

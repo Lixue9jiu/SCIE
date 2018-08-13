@@ -123,10 +123,10 @@ namespace Game
 		{
 			Type = type;
 		}
-        protected Node(SerializationInfo info, StreamingContext context)
-        {
-        	Type = (ElementType)info.GetInt32("Type");
-        }
+		protected Node(SerializationInfo info, StreamingContext context)
+		{
+			Type = (ElementType)info.GetInt32("Type");
+		}
 		public bool Equals(Node other)
 		{
 			return other.Type == Type;
@@ -148,10 +148,14 @@ namespace Game
 		{
 			return (int)Type;
 		}
-        public virtual void GetObjectData(SerializationInfo info, StreamingContext context)
-        {
-        	info.AddValue("Type", (int)Type);
-        }
+		public virtual void GetObjectData(SerializationInfo info, StreamingContext context)
+		{
+			info.AddValue("Type", (int)Type);
+		}
+		public override string ToString()
+		{
+			return Type.ToString();
+		}
 	}
 	[Serializable]
 	public abstract class Element : Node, IEnumerable<Element>, IEnumerable, IEquatable<Element>
@@ -161,9 +165,9 @@ namespace Game
 		{
 		}
 		protected Element(SerializationInfo info, StreamingContext context) : base(info, context)
-        {
+		{
 			Next = (DynamicArray<Element>)info.GetValue("Next", typeof(DynamicArray<Element>));
-        }
+		}
 		public virtual void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
 		{
 			BlocksManager.DrawCubeBlock(primitivesRenderer, value, new Vector3(size), ref matrix, color, color, environmentData);
@@ -204,11 +208,11 @@ namespace Game
 				return other.Next == null;
 			return Next.Count == other.Next.Count;
 		}
-        public override void GetObjectData(SerializationInfo info, StreamingContext context)
-        {
-        	info.AddValue("Type", (int)Type);
-        	info.AddValue("Next", Next, typeof(DynamicArray<Element>));
-        }
+		public override void GetObjectData(SerializationInfo info, StreamingContext context)
+		{
+			info.AddValue("Type", (int)Type);
+			info.AddValue("Next", Next, typeof(DynamicArray<Element>));
+		}
 	}
 	public abstract class Device : Element
 	{
