@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using System.Collections.Generic;
 using System.Text;
 using Engine;
@@ -18,9 +17,9 @@ namespace Game
 		Ba = 21, W = 1<<22, Pt = 1<<23, Au = 1<<24, Hg = 1<<25, Pb = 1<<26,
 		U = 1<<31
 	}
-	public class MineralBlock : StoneChunkBlock
+	public abstract class MineralBlock : StoneChunkBlock
 	{
-		public new const int Index = 79;
+		//public new const int Index = 79;
 		public override void GetDropValues(SubsystemTerrain subsystemTerrain, int oldValue, int newValue, int toolLevel, List<BlockDropValue> dropValues, out bool showDebris)
 		{
 			showDebris = true;
@@ -102,7 +101,7 @@ namespace Game
 		{
 			int i;
 			var array = MinesData.Array;
-			for (i = 1; i < MinesData.Count; i++)
+			for (i = 1; i < array.Length; i++)
 				if (array[i] == 0 || array[i] == value)
 					break;
 			if (i == 262144)
@@ -112,7 +111,7 @@ namespace Game
 			if (i == 262144)
 				return 0;
 			array[i] = value;
-			MinesData.Count++;
+			MinesData.set_Count(MinesData.get_Count() + 1);
 			return i;
 		}
 
@@ -124,7 +123,7 @@ namespace Game
 			var arr = valuesDictionary.GetValue<string>("MinesData", "0").Split(',');
 			int i = arr.Length + 1;
 			MinesData = new DynamicArray<long>(i);
-			MinesData.Count = i;
+			MinesData.set_Count(i);
 			var array = MinesData.Array;
 			for (i = 0; i < arr.Length;)
 				long.TryParse(arr[i], out array[++i]);
@@ -138,10 +137,10 @@ namespace Game
 		public override void Save(ValuesDictionary valuesDictionary)
 		{
 			base.Save(valuesDictionary);
-			var stringBuilder = new StringBuilder(MinesData.Count);
 			var values = MinesData.Array;
+			var stringBuilder = new StringBuilder(values.Length);
 			stringBuilder.Append(values[0].ToString());
-			for (int i = 1; i < MinesData.Count; i++)
+			for (int i = 1; i < values.Length; i++)
 			{
 				stringBuilder.Append(',');
 				stringBuilder.Append(values[i].ToString());
@@ -170,7 +169,7 @@ namespace Game
 			if (!SubsystemTime.PeriodicGameTimeEvent(120.0, 0.0))
 				return;
 			int i;
-			for (i = 1; i < MinesData.Count; i++)
+			for (i = 1; i < MinesData.get_Count(); i++)
 				if (Used[i] == 1)
 					Used[i] = 0;
 			for (i = 0; i < allExistingItems.Count; i++)

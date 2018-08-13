@@ -64,7 +64,7 @@ namespace Game
 			}
 			if (m_helpButtonWidget.IsClicked)
 			{
-				ScreensManager.SwitchScreen("Help", Array.Empty<object>());
+				ScreensManager.SwitchScreen("Help");
 			}
 			if (playerInput.ToggleInventory || m_inventoryButtonWidget.IsClicked)
 			{
