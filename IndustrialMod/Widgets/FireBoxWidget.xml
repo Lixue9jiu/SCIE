@@ -1,0 +1,21 @@
+<FurnaceWidget xmlns="runtime-namespace:Game">
+  <BevelledRectangleWidget Size="514, 382" BevelSize="3" />
+  <CanvasWidget CanvasWidget.Position="64, 52" Size="64, 64">
+  </CanvasWidget>
+  <GridPanelWidget Name="InventoryGrid" CanvasWidget.Position="186, 52" ColumnsCount="4" RowsCount="4"/>
+  <GridPanelWidget Name="FurnaceGrid" CanvasWidget.Position="64, 52" ColumnsCount="1" RowsCount="1"/>
+  <CanvasWidget CanvasWidget.Position="22, 130" >
+    <FireWidget Name="Fire" Size="68, 40" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+    <StackPanelWidget Direction="Horizontal">
+      <BevelledRectangleWidget Size="24, 44" BevelSize="-2" CenterColor="0, 0, 0, 0" />
+      <BevelledRectangleWidget Size="24, 44" BevelSize="-2" CenterColor="0, 0, 0, 0" />
+      <BevelledRectangleWidget Size="24, 44" BevelSize="-2" CenterColor="0, 0, 0, 0" />
+    </StackPanelWidget>
+  </CanvasWidget>
+  <ValueBarWidget Name="Progress" CanvasWidget.Position="112, 120" LayoutDirection="Vertical" BarsCount="9" FlipDirection="true" LitBarColor="96, 48, 0" UnlitBarColor="48, 48, 48, 80" BarSize="16, 16" BarSubtexture="{Textures/Atlas/ProgressBar}"/>
+<InventorySlotWidget Name="FuelSlot" CanvasWidget.Position="22, 180">
+    <LabelWidget Text="Fuel" Font="{Fonts/Pericles24}" Color="0, 0, 0, 64" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+  </InventorySlotWidget>
+  <LabelWidget CanvasWidget.Position="22, 14" Text="FireBox" Font="{Fonts/Pericles24}" Color="255, 255, 255, 192"/>
+  <LabelWidget CanvasWidget.Position="186, 14" Text="Inventory" Font="{Fonts/Pericles24}" Color="255, 255, 255, 192"/>
+</FurnaceWidget>
