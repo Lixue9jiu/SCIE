@@ -51,6 +51,7 @@
     <Reference Include="System.Xml.Linq, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Blocks\FireBoxBlock.cs" />
     <Compile Include="Blocks\RuIngotBlock.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Blocks\BoatIBlock.cs" />

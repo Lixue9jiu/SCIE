@@ -109,3 +109,5 @@ Backup*/
 UpgradeLog*.XML
 
 /.vs
+/*.dll
+/*.exe
