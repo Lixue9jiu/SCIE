@@ -24,17 +24,17 @@ namespace Game
 		// Token: 0x06002177 RID: 8567 RVA: 0x000E1AB4 File Offset: 0x000DFCB4
 		public override void OnBlockAdded(int value, int oldValue, int x, int y, int z)
 		{
-			DatabaseObject databaseObject = base.SubsystemTerrain.Project.GameDatabase.Database.FindDatabaseObject("BlastFurnace", base.SubsystemTerrain.Project.GameDatabase.EntityTemplateType, true);
+			DatabaseObject databaseObject = SubsystemTerrain.Project.GameDatabase.Database.FindDatabaseObject("BlastFurnace", SubsystemTerrain.Project.GameDatabase.EntityTemplateType, true);
 			ValuesDictionary valuesDictionary = new ValuesDictionary();
 			valuesDictionary.PopulateFromDatabaseObject(databaseObject);
 			valuesDictionary.GetValue<ValuesDictionary>("BlockEntity").SetValue<Point3>("Coordinates", new Point3(x, y, z));
-			base.SubsystemTerrain.Project.AddEntity(base.SubsystemTerrain.Project.CreateEntity(valuesDictionary));
+			SubsystemTerrain.Project.AddEntity(SubsystemTerrain.Project.CreateEntity(valuesDictionary));
 		}
 
 		// Token: 0x06002178 RID: 8568 RVA: 0x000DBAD4 File Offset: 0x000D9CD4
 		public override void OnBlockRemoved(int value, int newValue, int x, int y, int z)
 		{
-			ComponentBlockEntity blockEntity = base.SubsystemTerrain.Project.FindSubsystem<SubsystemBlockEntities>(true).GetBlockEntity(x, y, z);
+			ComponentBlockEntity blockEntity = SubsystemTerrain.Project.FindSubsystem<SubsystemBlockEntities>(true).GetBlockEntity(x, y, z);
 			if (blockEntity != null)
 			{
 				Vector3 position = new Vector3((float)x, (float)y, (float)z) + new Vector3(0.5f);
@@ -42,7 +42,7 @@ namespace Game
 				{
 					inventory.DropAllItems(position);
 				}
-				base.SubsystemTerrain.Project.RemoveEntity(blockEntity.Entity, true);
+				SubsystemTerrain.Project.RemoveEntity(blockEntity.Entity, true);
 			}
 		}
 
@@ -55,7 +55,7 @@ namespace Game
 		public override void OnChunkDiscarding(TerrainChunk chunk)
 		{
 			List<Point3> list = new List<Point3>();
-			foreach (Point3 point in this.m_particleSystemsByCell.Keys)
+			foreach (Point3 point in m_particleSystemsByCell.Keys)
 			{
 				if (point.X >= chunk.Origin.X && point.X < chunk.Origin.X + 16 && point.Z >= chunk.Origin.Y && point.Z < chunk.Origin.Y + 16)
 				{
@@ -67,7 +67,7 @@ namespace Game
 		// Token: 0x0600217B RID: 8571 RVA: 0x000E1BF4 File Offset: 0x000DFDF4
 		public override bool OnInteract(TerrainRaycastResult raycastResult, ComponentMiner componentMiner)
 		{
-			ComponentBlockEntity blockEntity = base.SubsystemTerrain.Project.FindSubsystem<SubsystemBlockEntities>(true).GetBlockEntity(raycastResult.CellFace.X, raycastResult.CellFace.Y, raycastResult.CellFace.Z);
+			ComponentBlockEntity blockEntity = SubsystemTerrain.Project.FindSubsystem<SubsystemBlockEntities>(true).GetBlockEntity(raycastResult.CellFace.X, raycastResult.CellFace.Y, raycastResult.CellFace.Z);
 			if (blockEntity == null || componentMiner.ComponentPlayer == null)
 			{
 				return false;
@@ -88,7 +88,7 @@ namespace Game
 		public override void Load(ValuesDictionary valuesDictionary)
 		{
 			base.Load(valuesDictionary);
-			this.m_subsystemParticles = base.Project.FindSubsystem<SubsystemParticles>(true);
+			m_subsystemParticles = Project.FindSubsystem<SubsystemParticles>(true);
 		}
 
 		// Token: 0x04001989 RID: 6537

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Text;
 using Engine;
-using Game;
 using TemplatesDatabase;
 namespace Game
 {
@@ -14,7 +13,7 @@ namespace Game
 		Al = 1<<1, P = 1<<2, S = 1<<3, Sc = 1<<4, Ti = 1<<5, V = 1<<6, Cr = 1<<7, Mn = 1<<8,
 		Fe = 1<<9, Co = 1<<10, Ni = 1<<11, Cu = 1<<12, Zn = 1<<13, Ga = 1<<14, Ge = 1<<15, As = 1<<16,
 		Ag = 1<<17, Cd = 1<<18, Sn = 1<<19, Sb = 1<<20,
-		Ba = 21, W = 1<<22, Pt = 1<<23, Au = 1<<24, Hg = 1<<25, Pb = 1<<26,
+		Ba = 1<<21, W = 1<<22, Pt = 1<<23, Au = 1<<24, Hg = 1<<25, Pb = 1<<26,
 		U = 1<<31
 	}
 	public abstract class MineralBlock : StoneChunkBlock
@@ -111,7 +110,7 @@ namespace Game
 			if (i == 262144)
 				return 0;
 			array[i] = value;
-			MinesData.set_Count(MinesData.get_Count() + 1);
+			MinesData.Count++;
 			return i;
 		}
 
@@ -122,8 +121,10 @@ namespace Game
 			SubsystemTime = Project.FindSubsystem<SubsystemTime>(true);
 			var arr = valuesDictionary.GetValue<string>("MinesData", "0").Split(',');
 			int i = arr.Length + 1;
-			MinesData = new DynamicArray<long>(i);
-			MinesData.set_Count(i);
+			MinesData = new DynamicArray<long>(i)
+			{
+				Count = i
+			};
 			var array = MinesData.Array;
 			for (i = 0; i < arr.Length;)
 				long.TryParse(arr[i], out array[++i]);
@@ -169,7 +170,7 @@ namespace Game
 			if (!SubsystemTime.PeriodicGameTimeEvent(120.0, 0.0))
 				return;
 			int i;
-			for (i = 1; i < MinesData.get_Count(); i++)
+			for (i = 1; i < MinesData.Count; i++)
 				if (Used[i] == 1)
 					Used[i] = 0;
 			for (i = 0; i < allExistingItems.Count; i++)

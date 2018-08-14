@@ -32,11 +32,11 @@ namespace Game
 		public override void Load(ValuesDictionary valuesDictionary, IdToEntityMap idToEntityMap)
 		{
 			base.Load(valuesDictionary, idToEntityMap);
-			m_subsystemTerrain = base.Project.FindSubsystem<SubsystemTerrain>(true);
-			m_subsystemAudio = base.Project.FindSubsystem<SubsystemAudio>(true);
-			m_subsystemPickables = base.Project.FindSubsystem<SubsystemPickables>(true);
-			m_subsystemProjectiles = base.Project.FindSubsystem<SubsystemProjectiles>(true);
-			m_componentBlockEntity = base.Entity.FindComponent<ComponentBlockEntity>(true);
+			m_subsystemTerrain = Project.FindSubsystem<SubsystemTerrain>(true);
+			m_subsystemAudio = Project.FindSubsystem<SubsystemAudio>(true);
+			m_subsystemPickables = Project.FindSubsystem<SubsystemPickables>(true);
+			m_subsystemProjectiles = Project.FindSubsystem<SubsystemProjectiles>(true);
+			m_componentBlockEntity = Entity.FindComponent<ComponentBlockEntity>(true);
 		}
 
 		private void Driller(Point3 point, int face)

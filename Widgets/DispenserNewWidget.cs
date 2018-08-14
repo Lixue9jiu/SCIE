@@ -87,7 +87,7 @@ namespace Game
 			m_acceptsDropsBox.IsChecked = DispenserNewBlock.GetAcceptsDrops(data);
 			if (!m_componentDispenser.IsAddedToProject)
 			{
-				base.ParentWidget.Children.Remove(this);
+				ParentWidget.Children.Remove(this);
 			}
 		}
 	}

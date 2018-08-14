@@ -75,7 +75,7 @@ namespace Game
 			m_turnSpeed += 2.5f * m_subsystemTime.GameTimeDelta * (1f * TurnOrder - m_turnSpeed);
 			Quaternion rotation = m_componentBody.Rotation;
 			float num3 = MathUtils.Atan2(2f * rotation.Y * rotation.W - 2f * rotation.X * rotation.Z, 1f - 2f * rotation.Y * rotation.Y - 2f * rotation.Z * rotation.Z);
-			ComponentEngine2 componentEngine = base.Entity.FindComponent<ComponentEngine2>();
+			ComponentEngine2 componentEngine = Entity.FindComponent<ComponentEngine2>();
 			float num4 = 1f;
 			if (componentEngine != null)
 			{
@@ -112,11 +112,11 @@ namespace Game
 
 		public override void Load(ValuesDictionary valuesDictionary, IdToEntityMap idToEntityMap)
 		{
-			m_subsystemTime = base.Project.FindSubsystem<SubsystemTime>(true);
-			m_subsystemAudio = base.Project.FindSubsystem<SubsystemAudio>(true);
-			m_componentMount = base.Entity.FindComponent<ComponentMount>(true);
-			m_componentBody = base.Entity.FindComponent<ComponentBody>(true);
-			m_componentDamage = base.Entity.FindComponent<ComponentDamage>(true);
+			m_subsystemTime = Project.FindSubsystem<SubsystemTime>(true);
+			m_subsystemAudio = Project.FindSubsystem<SubsystemAudio>(true);
+			m_componentMount = Entity.FindComponent<ComponentMount>(true);
+			m_componentBody = Entity.FindComponent<ComponentBody>(true);
+			m_componentDamage = Entity.FindComponent<ComponentDamage>(true);
 		}
 	}
 }

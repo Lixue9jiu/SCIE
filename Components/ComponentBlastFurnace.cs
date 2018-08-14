@@ -14,7 +14,7 @@ namespace Game
 		{
 			get
 			{
-				return this.SlotsCount - 3;
+				return SlotsCount - 3;
 			}
 		}
 
@@ -24,7 +24,7 @@ namespace Game
 		{
 			get
 			{
-				return this.SlotsCount - 4;
+				return SlotsCount - 4;
 			}
 		}
 
@@ -51,32 +51,32 @@ namespace Game
 		// Token: 0x0600216D RID: 8557 RVA: 0x000E0ABC File Offset: 0x000DECBC
 		public void Update(float dt)
 		{
-			Point3 coordinates = this.m_componentBlockEntity.Coordinates;
-			if (this.m_updateSmeltingRecipe)
+			Point3 coordinates = m_componentBlockEntity.Coordinates;
+			if (m_updateSmeltingRecipe)
 			{
-				this.m_updateSmeltingRecipe = false;
-				this.result[0] = this.m_matchedIngredients[7];
-				this.result[1] = this.m_matchedIngredients[8];
-				this.result[2] = this.m_matchedIngredients[9];
-				bool flag = this.FindSmeltingRecipe(5f);
-				if (this.result[0] != this.m_matchedIngredients[7] || this.result[1] != this.m_matchedIngredients[8] || this.result[2] != this.m_matchedIngredients[9])
+				m_updateSmeltingRecipe = false;
+				result[0] = m_matchedIngredients[7];
+				result[1] = m_matchedIngredients[8];
+				result[2] = m_matchedIngredients[9];
+				bool flag = FindSmeltingRecipe(5f);
+				if (result[0] != m_matchedIngredients[7] || result[1] != m_matchedIngredients[8] || result[2] != m_matchedIngredients[9])
 				{
-					this.SmeltingProgress = 0f;
-					this.m_time = 0;
+					SmeltingProgress = 0f;
+					m_time = 0;
 				}
-				this.m_smeltingRecipe2 = flag;
-				if (flag != this.m_smeltingRecipe)
+				m_smeltingRecipe2 = flag;
+				if (flag != m_smeltingRecipe)
 				{
-					this.m_smeltingRecipe = flag;
-					this.SmeltingProgress = 0f;
-					this.m_time = 0;
+					m_smeltingRecipe = flag;
+					SmeltingProgress = 0f;
+					m_time = 0;
 				}
 			}
-			if (this.m_smeltingRecipe2 && this.m_subsystemTime.PeriodicGameTimeEvent(0.2, 0.0))
+			if (m_smeltingRecipe2 && m_subsystemTime.PeriodicGameTimeEvent(0.2, 0.0))
 			{
 				int num = 1;
 				int num2 = 0;
-				Vector3 vector = new Vector3(CellFace.FaceToPoint3(BlastFurnaceBlock.GetDirection(Terrain.ExtractData(this.m_subsystemTerrain.Terrain.GetCellValue(coordinates.X, coordinates.Y, coordinates.Z)))));
+				Vector3 vector = new Vector3(CellFace.FaceToPoint3(BlastFurnaceBlock.GetDirection(Terrain.ExtractData(m_subsystemTerrain.Terrain.GetCellValue(coordinates.X, coordinates.Y, coordinates.Z)))));
 				int num3 = coordinates.X - (int)vector.X;
 				int num4 = coordinates.Y - (int)vector.Y;
 				int num5 = coordinates.Z - (int)vector.Z;
@@ -86,13 +86,13 @@ namespace Game
 					{
 						for (int k = -1; k < 2; k++)
 						{
-							int cellContents = this.m_subsystemTerrain.Terrain.GetCellContents(num3 + i, num4 + j, num5 + k);
+							int cellContents = m_subsystemTerrain.Terrain.GetCellContents(num3 + i, num4 + j, num5 + k);
 							if (i * i + k * k > 0 && j >= 1 && cellContents != 73)
 							{
 								num = 0;
 								break;
 							}
-							if (i * i + k * k == 1 && j == 0 && cellContents == 0 && (this.m_subsystemTerrain.Terrain.GetCellContents(num3 + 2 * i, num4 + j, num5 + 2 * k) != 540 || this.m_subsystemTerrain.Terrain.GetCellValue(num3 + 2 * i, num4 + j, num5 + 2 * k) != 16924) && (num3 + i != coordinates.X || num5 + k != coordinates.Z))
+							if (i * i + k * k == 1 && j == 0 && cellContents == 0 && (m_subsystemTerrain.Terrain.GetCellContents(num3 + 2 * i, num4 + j, num5 + 2 * k) != 540 || m_subsystemTerrain.Terrain.GetCellValue(num3 + 2 * i, num4 + j, num5 + 2 * k) != 16924) && (num3 + i != coordinates.X || num5 + k != coordinates.Z))
 							{
 								num = 0;
 								break;
@@ -121,28 +121,28 @@ namespace Game
 				}
 				if (num == 0 || num2 == 0)
 				{
-					this.m_smeltingRecipe = false;
+					m_smeltingRecipe = false;
 				}
-				if (num == 1 && num2 >= 1 && !this.m_smeltingRecipe)
+				if (num == 1 && num2 >= 1 && !m_smeltingRecipe)
 				{
-					this.m_smeltingRecipe = this.m_smeltingRecipe2;
+					m_smeltingRecipe = m_smeltingRecipe2;
 				}
 			}
-			this.m_time++;
-			if (!this.m_smeltingRecipe)
+			m_time++;
+			if (!m_smeltingRecipe)
 			{
-				this.HeatLevel = 0f;
-				this.m_fireTimeRemaining = 0f;
-				this.SmeltingProgress = 0f;
+				HeatLevel = 0f;
+				m_fireTimeRemaining = 0f;
+				SmeltingProgress = 0f;
 			}
-			if (this.m_smeltingRecipe && (double)this.m_fireTimeRemaining <= 0.0)
+			if (m_smeltingRecipe && (double)m_fireTimeRemaining <= 0.0)
 			{
-				this.HeatLevel = 5f;
+				HeatLevel = 5f;
 			}
-			if (this.m_smeltingRecipe)
+			if (m_smeltingRecipe)
 			{
-				this.SmeltingProgress = MathUtils.Min(this.SmeltingProgress + 0.1f * dt, 1f);
-				if ((double)this.SmeltingProgress >= 1.0)
+				SmeltingProgress = MathUtils.Min(SmeltingProgress + 0.1f * dt, 1f);
+				if ((double)SmeltingProgress >= 1.0)
 				{
 					string[] array = new string[]
 					{
@@ -156,24 +156,24 @@ namespace Game
 					};
 					for (int l = 0; l < 7; l++)
 					{
-						if (this.m_matchedIngredients[l] > 0)
+						if (m_matchedIngredients[l] > 0)
 						{
 							string b = array[l];
-							for (int m = 0; m < this.m_furnaceSize; m++)
+							for (int m = 0; m < m_furnaceSize; m++)
 							{
-								if (this.m_slots[m].Count > 0 && BlocksManager.Blocks[this.GetSlotValue(m)].CraftingId == b)
+								if (m_slots[m].Count > 0 && BlocksManager.Blocks[GetSlotValue(m)].CraftingId == b)
 								{
-									if (this.m_slots[m].Count >= this.m_matchedIngredients[l])
+									if (m_slots[m].Count >= m_matchedIngredients[l])
 									{
-										this.m_slots[m].Count -= this.m_matchedIngredients[l];
-										this.m_matchedIngredients[l] = 0;
+										m_slots[m].Count -= m_matchedIngredients[l];
+										m_matchedIngredients[l] = 0;
 									}
 									else
 									{
-										this.m_matchedIngredients[l] -= this.m_slots[m].Count;
-										this.m_slots[m].Count = 0;
+										m_matchedIngredients[l] -= m_slots[m].Count;
+										m_slots[m].Count = 0;
 									}
-									if (this.m_matchedIngredients[l] == 0)
+									if (m_matchedIngredients[l] == 0)
 									{
 										break;
 									}
@@ -181,24 +181,24 @@ namespace Game
 							}
 						}
 					}
-					if (this.m_matchedIngredients[8] >= 1)
+					if (m_matchedIngredients[8] >= 1)
 					{
-						this.m_slots[this.ResultSlotIndex].Value = 508;
-						this.m_slots[this.ResultSlotIndex].Count += this.m_matchedIngredients[8];
+						m_slots[ResultSlotIndex].Value = 508;
+						m_slots[ResultSlotIndex].Count += m_matchedIngredients[8];
 					}
-					if (this.m_matchedIngredients[7] >= 1)
+					if (m_matchedIngredients[7] >= 1)
 					{
-						this.m_slots[this.RemainsSlotIndex].Value = 546;
-						this.m_slots[this.RemainsSlotIndex].Count += this.m_matchedIngredients[7];
+						m_slots[RemainsSlotIndex].Value = 546;
+						m_slots[RemainsSlotIndex].Count += m_matchedIngredients[7];
 					}
-					if (this.m_matchedIngredients[9] >= 1)
+					if (m_matchedIngredients[9] >= 1)
 					{
-						this.m_slots[this.ResultSlotIndex].Value = 40;
-						this.m_slots[this.ResultSlotIndex].Count += this.m_matchedIngredients[9];
+						m_slots[ResultSlotIndex].Value = 40;
+						m_slots[ResultSlotIndex].Count += m_matchedIngredients[9];
 					}
-					this.m_smeltingRecipe = false;
-					this.SmeltingProgress = 0f;
-					this.m_updateSmeltingRecipe = true;
+					m_smeltingRecipe = false;
+					SmeltingProgress = 0f;
+					m_updateSmeltingRecipe = true;
 				}
 			}
 		}
@@ -207,13 +207,13 @@ namespace Game
 		public override void AddSlotItems(int slotIndex, int value, int count)
 		{
 			base.AddSlotItems(slotIndex, value, count);
-			this.m_updateSmeltingRecipe = true;
+			m_updateSmeltingRecipe = true;
 		}
 
 		// Token: 0x0600216F RID: 8559 RVA: 0x000156A3 File Offset: 0x000138A3
 		public override int RemoveSlotItems(int slotIndex, int count)
 		{
-			this.m_updateSmeltingRecipe = true;
+			m_updateSmeltingRecipe = true;
 			return base.RemoveSlotItems(slotIndex, count);
 		}
 
@@ -221,22 +221,22 @@ namespace Game
 		public override void Load(ValuesDictionary valuesDictionary, IdToEntityMap idToEntityMap)
 		{
 			base.Load(valuesDictionary, idToEntityMap);
-			this.m_subsystemTerrain = base.Project.FindSubsystem<SubsystemTerrain>(true);
-			this.m_subsystemTime = base.Project.FindSubsystem<SubsystemTime>(true);
-			this.m_subsystemExplosions = base.Project.FindSubsystem<SubsystemExplosions>(true);
-			this.m_componentBlockEntity = base.Entity.FindComponent<ComponentBlockEntity>(true);
-			this.m_furnaceSize = this.SlotsCount - 4;
-			this.m_fireTimeRemaining = valuesDictionary.GetValue<float>("FireTimeRemaining");
-			this.HeatLevel = valuesDictionary.GetValue<float>("HeatLevel");
-			this.m_updateSmeltingRecipe = true;
+			m_subsystemTerrain = Project.FindSubsystem<SubsystemTerrain>(true);
+			m_subsystemTime = Project.FindSubsystem<SubsystemTime>(true);
+			m_subsystemExplosions = Project.FindSubsystem<SubsystemExplosions>(true);
+			m_componentBlockEntity = Entity.FindComponent<ComponentBlockEntity>(true);
+			m_furnaceSize = SlotsCount - 4;
+			m_fireTimeRemaining = valuesDictionary.GetValue<float>("FireTimeRemaining");
+			HeatLevel = valuesDictionary.GetValue<float>("HeatLevel");
+			m_updateSmeltingRecipe = true;
 		}
 
 		// Token: 0x06002171 RID: 8561 RVA: 0x000156B4 File Offset: 0x000138B4
 		public override void Save(ValuesDictionary valuesDictionary, EntityToIdMap entityToIdMap)
 		{
 			base.Save(valuesDictionary, entityToIdMap);
-			valuesDictionary.SetValue<float>("FireTimeRemaining", this.m_fireTimeRemaining);
-			valuesDictionary.SetValue<float>("HeatLevel", this.HeatLevel);
+			valuesDictionary.SetValue<float>("FireTimeRemaining", m_fireTimeRemaining);
+			valuesDictionary.SetValue<float>("HeatLevel", HeatLevel);
 		}
 
 		// Token: 0x06002173 RID: 8563 RVA: 0x000E1158 File Offset: 0x000DF358
@@ -247,143 +247,143 @@ namespace Game
 				return false;
 			}
 			bool flag = false;
-			this.m_matchedIngredients2[0] = 0;
-			this.m_matchedIngredients2[1] = 0;
-			this.m_matchedIngredients2[2] = 0;
-			this.m_matchedIngredients2[3] = 0;
-			this.m_matchedIngredients2[4] = 0;
-			this.m_matchedIngredients2[5] = 0;
-			this.m_matchedIngredients2[6] = 0;
-			this.m_matchedIngredients2[7] = 0;
-			this.m_matchedIngredients2[8] = 0;
-			this.m_matchedIngredients[0] = 0;
-			this.m_matchedIngredients[1] = 0;
-			this.m_matchedIngredients[2] = 0;
-			this.m_matchedIngredients[3] = 0;
-			this.m_matchedIngredients[4] = 0;
-			this.m_matchedIngredients[5] = 0;
-			this.m_matchedIngredients[6] = 0;
-			this.m_matchedIngredients[7] = 0;
-			this.m_matchedIngredients[8] = 0;
-			this.m_matchedIngredients[9] = 0;
-			for (int i = 0; i < this.m_furnaceSize; i++)
+			m_matchedIngredients2[0] = 0;
+			m_matchedIngredients2[1] = 0;
+			m_matchedIngredients2[2] = 0;
+			m_matchedIngredients2[3] = 0;
+			m_matchedIngredients2[4] = 0;
+			m_matchedIngredients2[5] = 0;
+			m_matchedIngredients2[6] = 0;
+			m_matchedIngredients2[7] = 0;
+			m_matchedIngredients2[8] = 0;
+			m_matchedIngredients[0] = 0;
+			m_matchedIngredients[1] = 0;
+			m_matchedIngredients[2] = 0;
+			m_matchedIngredients[3] = 0;
+			m_matchedIngredients[4] = 0;
+			m_matchedIngredients[5] = 0;
+			m_matchedIngredients[6] = 0;
+			m_matchedIngredients[7] = 0;
+			m_matchedIngredients[8] = 0;
+			m_matchedIngredients[9] = 0;
+			for (int i = 0; i < m_furnaceSize; i++)
 			{
-				int slotValue = this.GetSlotValue(i);
+				int slotValue = GetSlotValue(i);
 				int num = Terrain.ExtractContents(slotValue);
 				Terrain.ExtractData(slotValue);
-				int slotCount = this.GetSlotCount(i);
-				if (this.GetSlotCount(i) > 0)
+				int slotCount = GetSlotCount(i);
+				if (GetSlotCount(i) > 0)
 				{
 					Block block = BlocksManager.Blocks[num];
 					if (block.CraftingId == "ironorechunk")
 					{
-						this.m_matchedIngredients2[0] += slotCount;
+						m_matchedIngredients2[0] += slotCount;
 					}
 					else if (block.CraftingId == "ironorepowder")
 					{
-						this.m_matchedIngredients2[1] += slotCount;
+						m_matchedIngredients2[1] += slotCount;
 					}
 					else if (block.CraftingId == "coalchunk")
 					{
-						this.m_matchedIngredients2[2] += slotCount;
+						m_matchedIngredients2[2] += slotCount;
 					}
 					else if (block.CraftingId == "coalpowder")
 					{
-						this.m_matchedIngredients2[3] += slotCount;
+						m_matchedIngredients2[3] += slotCount;
 					}
 					else if (block.CraftingId == "sand")
 					{
-						this.m_matchedIngredients2[4] += slotCount;
+						m_matchedIngredients2[4] += slotCount;
 					}
 					else if (block.CraftingId == "pigment")
 					{
-						this.m_matchedIngredients2[5] += slotCount;
+						m_matchedIngredients2[5] += slotCount;
 					}
 					else if (block.CraftingId == "ironingot")
 					{
-						this.m_matchedIngredients2[6] += slotCount;
+						m_matchedIngredients2[6] += slotCount;
 					}
 					else
 					{
-						this.m_matchedIngredients2[7] += slotCount;
+						m_matchedIngredients2[7] += slotCount;
 					}
 				}
 			}
-			if (this.m_matchedIngredients2[7] == 0)
+			if (m_matchedIngredients2[7] == 0)
 			{
-				if (this.m_matchedIngredients2[0] >= 7 && (this.m_matchedIngredients2[2] >= 1 || this.m_matchedIngredients2[3] >= 1) && this.m_matchedIngredients2[1] + this.m_matchedIngredients2[4] + this.m_matchedIngredients2[5] + this.m_matchedIngredients2[6] <= 0)
+				if (m_matchedIngredients2[0] >= 7 && (m_matchedIngredients2[2] >= 1 || m_matchedIngredients2[3] >= 1) && m_matchedIngredients2[1] + m_matchedIngredients2[4] + m_matchedIngredients2[5] + m_matchedIngredients2[6] <= 0)
 				{
-					int num2 = this.m_random.UniformInt(8, 11);
-					this.m_matchedIngredients[9] = num2;
-					this.m_matchedIngredients[0] = 7;
-					this.m_matchedIngredients[2] = 1;
-					this.m_matchedIngredients[3] = 1;
-					this.m_matchedIngredients[7] = 14 - num2;
+					int num2 = m_random.UniformInt(8, 11);
+					m_matchedIngredients[9] = num2;
+					m_matchedIngredients[0] = 7;
+					m_matchedIngredients[2] = 1;
+					m_matchedIngredients[3] = 1;
+					m_matchedIngredients[7] = 14 - num2;
 					flag = true;
 				}
-				if (this.m_matchedIngredients2[1] >= 7 && (this.m_matchedIngredients2[2] >= 1 || this.m_matchedIngredients2[3] >= 1) && this.m_matchedIngredients2[0] + this.m_matchedIngredients2[4] + this.m_matchedIngredients2[5] + this.m_matchedIngredients2[6] <= 0)
+				if (m_matchedIngredients2[1] >= 7 && (m_matchedIngredients2[2] >= 1 || m_matchedIngredients2[3] >= 1) && m_matchedIngredients2[0] + m_matchedIngredients2[4] + m_matchedIngredients2[5] + m_matchedIngredients2[6] <= 0)
 				{
-					int num3 = this.m_random.UniformInt(10, 12);
-					this.m_matchedIngredients[9] = num3;
-					this.m_matchedIngredients[1] = 7;
-					this.m_matchedIngredients[2] = 1;
-					this.m_matchedIngredients[3] = 1;
-					this.m_matchedIngredients[7] = 15 - num3;
+					int num3 = m_random.UniformInt(10, 12);
+					m_matchedIngredients[9] = num3;
+					m_matchedIngredients[1] = 7;
+					m_matchedIngredients[2] = 1;
+					m_matchedIngredients[3] = 1;
+					m_matchedIngredients[7] = 15 - num3;
 					flag = true;
 				}
-				if (this.m_matchedIngredients2[1] >= 6 && (this.m_matchedIngredients2[2] >= 1 || this.m_matchedIngredients2[3] >= 1) && this.m_matchedIngredients2[4] >= 1 && this.m_matchedIngredients2[0] + this.m_matchedIngredients2[5] + this.m_matchedIngredients2[6] <= 0)
+				if (m_matchedIngredients2[1] >= 6 && (m_matchedIngredients2[2] >= 1 || m_matchedIngredients2[3] >= 1) && m_matchedIngredients2[4] >= 1 && m_matchedIngredients2[0] + m_matchedIngredients2[5] + m_matchedIngredients2[6] <= 0)
 				{
 					int num4 = 11;
-					this.m_matchedIngredients[9] = num4;
-					this.m_matchedIngredients[1] = 6;
-					this.m_matchedIngredients[2] = 1;
-					this.m_matchedIngredients[3] = 1;
-					this.m_matchedIngredients[4] = 1;
-					this.m_matchedIngredients[7] = 12 - num4;
+					m_matchedIngredients[9] = num4;
+					m_matchedIngredients[1] = 6;
+					m_matchedIngredients[2] = 1;
+					m_matchedIngredients[3] = 1;
+					m_matchedIngredients[4] = 1;
+					m_matchedIngredients[7] = 12 - num4;
 					flag = true;
 				}
-				if (this.m_matchedIngredients2[1] >= 6 && (this.m_matchedIngredients2[2] >= 1 || this.m_matchedIngredients2[3] >= 1) && this.m_matchedIngredients2[5] >= 1 && this.m_matchedIngredients2[0] + this.m_matchedIngredients2[4] + this.m_matchedIngredients2[6] <= 0)
+				if (m_matchedIngredients2[1] >= 6 && (m_matchedIngredients2[2] >= 1 || m_matchedIngredients2[3] >= 1) && m_matchedIngredients2[5] >= 1 && m_matchedIngredients2[0] + m_matchedIngredients2[4] + m_matchedIngredients2[6] <= 0)
 				{
 					int num5 = 11;
-					this.m_matchedIngredients[9] = num5;
-					this.m_matchedIngredients[1] = 6;
-					this.m_matchedIngredients[2] = 1;
-					this.m_matchedIngredients[3] = 1;
-					this.m_matchedIngredients[5] = 1;
-					this.m_matchedIngredients[7] = 12 - num5;
+					m_matchedIngredients[9] = num5;
+					m_matchedIngredients[1] = 6;
+					m_matchedIngredients[2] = 1;
+					m_matchedIngredients[3] = 1;
+					m_matchedIngredients[5] = 1;
+					m_matchedIngredients[7] = 12 - num5;
 					flag = true;
 				}
-				if (this.m_matchedIngredients2[1] >= 5 && (this.m_matchedIngredients2[2] >= 1 || this.m_matchedIngredients2[3] >= 1) && this.m_matchedIngredients2[4] >= 1 && this.m_matchedIngredients2[5] >= 1 && this.m_matchedIngredients2[0] + this.m_matchedIngredients2[6] <= 0)
+				if (m_matchedIngredients2[1] >= 5 && (m_matchedIngredients2[2] >= 1 || m_matchedIngredients2[3] >= 1) && m_matchedIngredients2[4] >= 1 && m_matchedIngredients2[5] >= 1 && m_matchedIngredients2[0] + m_matchedIngredients2[6] <= 0)
 				{
 					int num6 = 10;
-					this.m_matchedIngredients[1] = 5;
-					this.m_matchedIngredients[2] = 1;
-					this.m_matchedIngredients[3] = 1;
-					this.m_matchedIngredients[4] = 1;
-					this.m_matchedIngredients[5] = 1;
-					this.m_matchedIngredients[9] = num6;
-					this.m_matchedIngredients[7] = 0;
+					m_matchedIngredients[1] = 5;
+					m_matchedIngredients[2] = 1;
+					m_matchedIngredients[3] = 1;
+					m_matchedIngredients[4] = 1;
+					m_matchedIngredients[5] = 1;
+					m_matchedIngredients[9] = num6;
+					m_matchedIngredients[7] = 0;
 					flag = true;
 				}
-				if (this.m_matchedIngredients2[6] >= 6 && this.m_matchedIngredients2[3] >= 2 && this.m_matchedIngredients2[0] + this.m_matchedIngredients2[1] + this.m_matchedIngredients2[2] + this.m_matchedIngredients2[4] + this.m_matchedIngredients2[5] <= 0)
+				if (m_matchedIngredients2[6] >= 6 && m_matchedIngredients2[3] >= 2 && m_matchedIngredients2[0] + m_matchedIngredients2[1] + m_matchedIngredients2[2] + m_matchedIngredients2[4] + m_matchedIngredients2[5] <= 0)
 				{
-					int num7 = this.m_random.UniformInt(2, 4);
-					this.m_matchedIngredients[6] = 6;
-					this.m_matchedIngredients[3] = 2;
-					this.m_matchedIngredients[8] = num7;
-					this.m_matchedIngredients[7] = 6 - num7;
+					int num7 = m_random.UniformInt(2, 4);
+					m_matchedIngredients[6] = 6;
+					m_matchedIngredients[3] = 2;
+					m_matchedIngredients[8] = num7;
+					m_matchedIngredients[7] = 6 - num7;
 					flag = true;
 				}
 			}
-			if (this.m_matchedIngredients[8] >= 1 && (BlocksManager.Blocks[this.m_slots[this.ResultSlotIndex].Value].CraftingId != "steelingot" || this.m_slots[this.ResultSlotIndex].Count + this.m_matchedIngredients[8] > 40) && this.m_slots[this.ResultSlotIndex].Count != 0)
+			if (m_matchedIngredients[8] >= 1 && (BlocksManager.Blocks[m_slots[ResultSlotIndex].Value].CraftingId != "steelingot" || m_slots[ResultSlotIndex].Count + m_matchedIngredients[8] > 40) && m_slots[ResultSlotIndex].Count != 0)
 			{
 				flag = false;
 			}
-			if (this.m_matchedIngredients[7] >= 1 && (BlocksManager.Blocks[this.m_slots[this.RemainsSlotIndex].Value].CraftingId != "scrapIron" || this.m_slots[this.RemainsSlotIndex].Count + this.m_matchedIngredients[7] > 40) && this.m_slots[this.RemainsSlotIndex].Count != 0)
+			if (m_matchedIngredients[7] >= 1 && (BlocksManager.Blocks[m_slots[RemainsSlotIndex].Value].CraftingId != "scrapIron" || m_slots[RemainsSlotIndex].Count + m_matchedIngredients[7] > 40) && m_slots[RemainsSlotIndex].Count != 0)
 			{
 				flag = false;
 			}
-			if (this.m_matchedIngredients[9] >= 1 && (BlocksManager.Blocks[this.m_slots[this.ResultSlotIndex].Value].CraftingId != "ironingot" || this.m_slots[this.ResultSlotIndex].Count + this.m_matchedIngredients[9] > 40) && this.m_slots[this.ResultSlotIndex].Count != 0)
+			if (m_matchedIngredients[9] >= 1 && (BlocksManager.Blocks[m_slots[ResultSlotIndex].Value].CraftingId != "ironingot" || m_slots[ResultSlotIndex].Count + m_matchedIngredients[9] > 40) && m_slots[ResultSlotIndex].Count != 0)
 			{
 				flag = false;
 			}

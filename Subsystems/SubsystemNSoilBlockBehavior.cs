@@ -55,17 +55,17 @@ namespace Game
 
 		public override void OnNeighborBlockChanged(int x, int y, int z, int neighborX, int neighborY, int neighborZ)
 		{
-			if (DegradesSoilIfOnTopOfIt(base.SubsystemTerrain.Terrain.GetCellValue(x, y + 1, z)))
+			if (DegradesSoilIfOnTopOfIt(SubsystemTerrain.Terrain.GetCellValue(x, y + 1, z)))
 			{
-				int cellValue = base.SubsystemTerrain.Terrain.GetCellValue(x, y, z);
-				base.SubsystemTerrain.ChangeCell(x, y, z, Terrain.ReplaceContents(cellValue, 2), true);
+				int cellValue = SubsystemTerrain.Terrain.GetCellValue(x, y, z);
+				SubsystemTerrain.ChangeCell(x, y, z, Terrain.ReplaceContents(cellValue, 2), true);
 			}
 		}
 
 		public override void Load(ValuesDictionary valuesDictionary)
 		{
 			base.Load(valuesDictionary);
-			m_subsystemTime = base.Project.FindSubsystem<SubsystemTime>(true);
+			m_subsystemTime = Project.FindSubsystem<SubsystemTime>(true);
 		}
 
 		public void Update(float dt)
@@ -74,10 +74,10 @@ namespace Game
 			{
 				foreach (Point3 key2 in m_toDegrade.Keys)
 				{
-					if (base.SubsystemTerrain.Terrain.GetCellContents(key2.X, key2.Y, key2.Z) == 168)
+					if (SubsystemTerrain.Terrain.GetCellContents(key2.X, key2.Y, key2.Z) == 168)
 					{
-						int cellValue = base.SubsystemTerrain.Terrain.GetCellValue(key2.X, key2.Y, key2.Z);
-						base.SubsystemTerrain.ChangeCell(key2.X, key2.Y, key2.Z, Terrain.ReplaceContents(cellValue, 2), true);
+						int cellValue = SubsystemTerrain.Terrain.GetCellValue(key2.X, key2.Y, key2.Z);
+						SubsystemTerrain.ChangeCell(key2.X, key2.Y, key2.Z, Terrain.ReplaceContents(cellValue, 2), true);
 					}
 				}
 				m_toDegrade.Clear();
@@ -88,12 +88,12 @@ namespace Game
 				{
 					Point3 key = item.Key;
 					bool value = item.Value;
-					int cellValue2 = base.SubsystemTerrain.Terrain.GetCellValue(key.X, key.Y, key.Z);
+					int cellValue2 = SubsystemTerrain.Terrain.GetCellValue(key.X, key.Y, key.Z);
 					if (Terrain.ExtractContents(cellValue2) == 168)
 					{
 						int data = SoilBlock.SetHydration(Terrain.ExtractData(cellValue2), value);
 						int value2 = Terrain.ReplaceData(cellValue2, data);
-						base.SubsystemTerrain.ChangeCell(key.X, key.Y, key.Z, value2, true);
+						SubsystemTerrain.ChangeCell(key.X, key.Y, key.Z, value2, true);
 					}
 				}
 				m_toHydrate.Clear();
@@ -103,7 +103,7 @@ namespace Game
 		private bool DegradesSoilIfOnTopOfIt(int value)
 		{
 			Block block = BlocksManager.Blocks[Terrain.ExtractContents(value)];
-			if (!block.IsFaceTransparent(base.SubsystemTerrain, 5, value))
+			if (!block.IsFaceTransparent(SubsystemTerrain, 5, value))
 			{
 				return block.IsCollidable;
 			}
@@ -133,7 +133,7 @@ namespace Game
 
 		private bool DetermineHydrationHelper(int x, int y, int z, int steps)
 		{
-			int cellValueFast = base.SubsystemTerrain.Terrain.GetCellValueFast(x, y, z);
+			int cellValueFast = SubsystemTerrain.Terrain.GetCellValueFast(x, y, z);
 			int num = Terrain.ExtractContents(cellValueFast);
 			int data = Terrain.ExtractData(cellValueFast);
 			switch (num)
@@ -167,18 +167,18 @@ namespace Game
 				{
 					for (int j = -1; j < 2; j++)
 					{
-						if (base.SubsystemTerrain.Terrain.GetCellContents(cellFace.X + i, cellFace.Y, cellFace.Z + j) == 168)
+						if (SubsystemTerrain.Terrain.GetCellContents(cellFace.X + i, cellFace.Y, cellFace.Z + j) == 168)
 						{
-							int cellValueFast = base.SubsystemTerrain.Terrain.GetCellValueFast(cellFace.X + i, cellFace.Y, cellFace.Z + j);
+							int cellValueFast = SubsystemTerrain.Terrain.GetCellValueFast(cellFace.X + i, cellFace.Y, cellFace.Z + j);
 							Terrain.ExtractContents(cellValueFast);
 							bool hydration = SoilBlock.GetHydration(Terrain.ExtractData(cellValueFast));
-							base.SubsystemTerrain.ChangeCell(cellFace.X + i, cellFace.Y, cellFace.Z + j, 168 + (SoilBlock.SetNitrogen(0, 3) + SoilBlock.SetHydration(0, hydration)) * 16384, true);
+							SubsystemTerrain.ChangeCell(cellFace.X + i, cellFace.Y, cellFace.Z + j, 168 + (SoilBlock.SetNitrogen(0, 3) + SoilBlock.SetHydration(0, hydration)) * 16384, true);
 							worldItem.ToRemove = true;
 						}
 					}
 				}
 			}
-			if (BlocksManager.Blocks[Terrain.ExtractContents(worldItem.Value)] is SeedsBlock && worldItem.Velocity.Length() >= 20f && base.SubsystemTerrain.Terrain.GetCellContents(cellFace.X, cellFace.Y + 1, cellFace.Z) == 0)
+			if (BlocksManager.Blocks[Terrain.ExtractContents(worldItem.Value)] is SeedsBlock && worldItem.Velocity.Length() >= 20f && SubsystemTerrain.Terrain.GetCellContents(cellFace.X, cellFace.Y + 1, cellFace.Z) == 0)
 			{
 				int value = 0;
 				switch (worldItem.Value)
@@ -208,7 +208,7 @@ namespace Game
 					value = 204 + CottonBlock.SetSize(CottonBlock.SetIsWild(0, false), 0) * 16384;
 					break;
 				}
-				base.SubsystemTerrain.ChangeCell(cellFace.X, cellFace.Y + 1, cellFace.Z, value, true);
+				SubsystemTerrain.ChangeCell(cellFace.X, cellFace.Y + 1, cellFace.Z, value, true);
 				worldItem.ToRemove = true;
 			}
 		}

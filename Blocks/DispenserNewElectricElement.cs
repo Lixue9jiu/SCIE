@@ -22,17 +22,17 @@ namespace Game
 				new CellFace(point.X, point.Y, point.Z, 5)
 			})
 		{
-			m_subsystemBlockEntities = base.SubsystemElectricity.Project.FindSubsystem<SubsystemBlockEntities>(true);
+			m_subsystemBlockEntities = SubsystemElectricity.Project.FindSubsystem<SubsystemBlockEntities>(true);
 		}
 
 		public override bool Simulate()
 		{
 			if (CalculateHighInputsCount() > 0)
 			{
-				if (m_isDispenseAllowed && (!m_lastDispenseTime.HasValue || base.SubsystemElectricity.SubsystemTime.GameTime - m_lastDispenseTime > 0.1))
+				if (m_isDispenseAllowed && (!m_lastDispenseTime.HasValue || SubsystemElectricity.SubsystemTime.GameTime - m_lastDispenseTime > 0.1))
 				{
 					m_isDispenseAllowed = false;
-					m_lastDispenseTime = base.SubsystemElectricity.SubsystemTime.GameTime;
+					m_lastDispenseTime = SubsystemElectricity.SubsystemTime.GameTime;
 					SubsystemBlockEntities subsystemBlockEntities = m_subsystemBlockEntities;
 					ReadOnlyList<CellFace> cellFaces = base.CellFaces;
 					CellFace cellFace = cellFaces[0];

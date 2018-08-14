@@ -191,9 +191,9 @@ namespace Game
 		public override void Load(ValuesDictionary valuesDictionary, IdToEntityMap idToEntityMap)
 		{
 			base.Load(valuesDictionary, idToEntityMap);
-			m_subsystemTerrain = base.Project.FindSubsystem<SubsystemTerrain>(true);
-			m_subsystemExplosions = base.Project.FindSubsystem<SubsystemExplosions>(true);
-			m_componentBlockEntity = base.Entity.FindComponent<ComponentBlockEntity>(true);
+			m_subsystemTerrain = Project.FindSubsystem<SubsystemTerrain>(true);
+			m_subsystemExplosions = Project.FindSubsystem<SubsystemExplosions>(true);
+			m_componentBlockEntity = Entity.FindComponent<ComponentBlockEntity>(true);
 			m_furnaceSize = SlotsCount - 3;
 			if (m_furnaceSize < 1 || m_furnaceSize > 3)
 			{
