@@ -85,7 +85,7 @@ namespace Game
 		}
 
 		// Token: 0x0600217D RID: 8573 RVA: 0x00015729 File Offset: 0x00013929
-		protected override void Load(ValuesDictionary valuesDictionary)
+		public override void Load(ValuesDictionary valuesDictionary)
 		{
 			base.Load(valuesDictionary);
 			this.m_subsystemParticles = base.Project.FindSubsystem<SubsystemParticles>(true);

@@ -8,7 +8,7 @@ namespace Game
 	public class BlastFurnaceWidget : CanvasWidget
 	{
 		// Token: 0x06002174 RID: 8564 RVA: 0x000E1850 File Offset: 0x000DFA50
-		public FurnaceEWidget(IInventory inventory, ComponentBlastFurnace componentFurnace)
+		public BlastFurnaceWidget(IInventory inventory, ComponentBlastFurnace componentFurnace)
 		{
 			this.m_componentFurnace = componentFurnace;
 			WidgetsManager.LoadWidgetContents(this, this, ContentManager.Get<XElement>("Widgets/BlastFurnaceWidget"));

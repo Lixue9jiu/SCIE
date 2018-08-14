@@ -218,7 +218,7 @@ namespace Game
 		}
 
 		// Token: 0x06002170 RID: 8560 RVA: 0x000E10C4 File Offset: 0x000DF2C4
-		protected override void Load(ValuesDictionary valuesDictionary, IdToEntityMap idToEntityMap)
+		public override void Load(ValuesDictionary valuesDictionary, IdToEntityMap idToEntityMap)
 		{
 			base.Load(valuesDictionary, idToEntityMap);
 			this.m_subsystemTerrain = base.Project.FindSubsystem<SubsystemTerrain>(true);
@@ -232,7 +232,7 @@ namespace Game
 		}
 
 		// Token: 0x06002171 RID: 8561 RVA: 0x000156B4 File Offset: 0x000138B4
-		protected override void Save(ValuesDictionary valuesDictionary, EntityToIdMap entityToIdMap)
+		public override void Save(ValuesDictionary valuesDictionary, EntityToIdMap entityToIdMap)
 		{
 			base.Save(valuesDictionary, entityToIdMap);
 			valuesDictionary.SetValue<float>("FireTimeRemaining", this.m_fireTimeRemaining);

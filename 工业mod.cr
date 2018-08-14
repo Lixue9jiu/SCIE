@@ -184,6 +184,21 @@
       "aba"
       "aaa"
     </Recipe>
+    <Recipe Result="FireBoxBlock" ResultCount="1" RequiredHeatLevel="0" a="ironplate" b="furnace" Description="Make a firebox from stone and iron">
+      "aaa"
+      "aba"
+      "aaa"
+    </Recipe>
+    <Recipe Result="BlastBlowerBlock" ResultCount="1" RequiredHeatLevel="0" a="rod" b="piston" c="steelblock" d="ironplate" e="ironingot" Description="Make a Blast Furnace Blower">
+      "bad"
+      "bad"
+      "ece"
+    </Recipe>
+    <Recipe Result="BlastFurnaceBlock" ResultCount="1" RequiredHeatLevel="0" a="brick" b="furnaceN" Description="Make a blast furnace from iron furnace">
+      "aaa"
+      "aba"
+      "aaa"
+    </Recipe>
     <Recipe Result="BoatIBlock" ResultCount="1" RequiredHeatLevel="0" a="ironplate" b="boat" c="sengine" Description="A Boat with steamengine can let you travel with high speed">
       "aaa"
       "aba"
