@@ -6,6 +6,7 @@ using TemplatesDatabase;
 namespace Game
 {
 	[Flags]
+	[Serializable]
 	public enum Mineral : long
 	{
 		None = 0,
@@ -28,7 +29,7 @@ namespace Game
 			var result = Mineral.None;
 			var terrain = subsystemTerrain.Terrain;
 			int v = terrain.GetCellValueFast(x ,y + 1, z);
-			switch(Terrain.ExtractContents(value))
+			switch (Terrain.ExtractContents(value))
 			{
 				case DirtBlock.Index:
 				if (Terrain.ExtractContents(v) != GrassBlock.Index)
@@ -139,14 +140,14 @@ namespace Game
 		{
 			base.Save(valuesDictionary);
 			var values = MinesData.Array;
-			var stringBuilder = new StringBuilder(values.Length);
-			stringBuilder.Append(values[0].ToString());
+			var sb = new StringBuilder(values.Length);
+			sb.Append(values[0].ToString());
 			for (int i = 1; i < values.Length; i++)
 			{
-				stringBuilder.Append(',');
-				stringBuilder.Append(values[i].ToString());
+				sb.Append(',');
+				sb.Append(values[i].ToString());
 			}
-			valuesDictionary.SetValue("MinesData", stringBuilder.ToString());
+			valuesDictionary.SetValue("MinesData", sb.ToString());
 		}
 
 		public override void OnBlockGenerated(int value, int x, int y, int z, bool isLoaded)

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using Engine;
 using Engine.Graphics;
 
@@ -12,9 +13,40 @@ namespace Game
 		public override void Initialize()
 		{
 			base.Initialize();
-			using (var stream = System.IO.File.OpenRead(TexturePath))
+			Stream stream = File.Exists(TexturePath) ? File.OpenRead(TexturePath) : GetFileInZip(Storage.GetFileName(TexturePath));
+			if (stream == null)
+				throw new InvalidOperationException(TexturePath + " not found.");
+			try
+			{
 				m_texture = Texture2D.Load(stream);
+			}
+			finally
+			{
+				stream.Dispose();
+			}
 			IsEmissive = false;
+		}
+		public static Stream GetFileInZip(string name)
+		{
+			var enumerator = ModsManager.GetFiles(".zip", null).GetEnumerator();
+			while (enumerator.MoveNext())
+			{
+				using (var zipArchive = ZipArchive.Open(File.OpenRead(enumerator.Current), false))
+				{
+					var enumerator2 = zipArchive.ReadCentralDir().GetEnumerator();
+					while (enumerator2.MoveNext())
+					{
+						if (Storage.GetFileName(enumerator2.Current.FilenameInZip).Equals(name, StringComparison.OrdinalIgnoreCase))
+						{
+							Stream stream = new MemoryStream();
+							zipArchive.ExtractFile(enumerator2.Current, stream);
+							stream.Position = 0L;
+							return stream;
+						}
+					}
+				}
+			}
+			return null;
 		}
 		public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
 		{

@@ -53,6 +53,7 @@
   <ItemGroup>
     <Compile Include="Blocks\BlastBlowerBlock.cs" />
     <Compile Include="Blocks\BlastFurnaceBlock.cs" />
+    <Compile Include="Blocks\CustomTexturesBlock.cs" />
     <Compile Include="Widgets\BlastFurnaceWidget.cs" />
     <Compile Include="Blocks\RuIngotBlock.cs" />
     <Compile Include="Components\ComponentBlastFurnace.cs" />

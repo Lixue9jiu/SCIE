@@ -4,10 +4,8 @@ using Engine;
 
 namespace Game
 {
-	// Token: 0x02000614 RID: 1556
 	public class BlastFurnaceWidget : CanvasWidget
 	{
-		// Token: 0x06002174 RID: 8564 RVA: 0x000E1850 File Offset: 0x000DFA50
 		public BlastFurnaceWidget(IInventory inventory, ComponentBlastFurnace componentFurnace)
 		{
 			m_componentFurnace = componentFurnace;
@@ -48,7 +46,6 @@ namespace Game
 			m_remainsSlot3.AssignInventorySlot(componentFurnace, 11);
 		}
 
-		// Token: 0x06002175 RID: 8565 RVA: 0x000E1A44 File Offset: 0x000DFC44
 		public override void Update()
 		{
 			m_fire.ParticlesPerSecond = (((double)m_componentFurnace.HeatLevel > 0.0) ? 24f : 0f);
@@ -60,34 +57,24 @@ namespace Game
 			ParentWidget.Children.Remove(this);
 		}
 
-		// Token: 0x0400197F RID: 6527
 		private readonly ComponentBlastFurnace m_componentFurnace;
 
-		// Token: 0x04001980 RID: 6528
 		private readonly FireWidget m_fire;
 
-		// Token: 0x04001981 RID: 6529
 		private readonly GridPanelWidget m_furnaceGrid;
 
-		// Token: 0x04001982 RID: 6530
 		private readonly GridPanelWidget m_inventoryGrid;
 
-		// Token: 0x04001983 RID: 6531
 		private readonly ValueBarWidget m_progress;
 
-		// Token: 0x04001984 RID: 6532
 		private readonly InventorySlotWidget m_remainsSlot;
 
-		// Token: 0x04001985 RID: 6533
 		private readonly InventorySlotWidget m_resultSlot;
 
-		// Token: 0x04001986 RID: 6534
 		private readonly GridPanelWidget m_fuelGrid;
 
-		// Token: 0x04001987 RID: 6535
 		private readonly InventorySlotWidget m_remainsSlot2;
 
-		// Token: 0x04001988 RID: 6536
 		private readonly InventorySlotWidget m_remainsSlot3;
 	}
 }
