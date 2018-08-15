@@ -23,17 +23,17 @@ namespace Game
 		public override void Load(ValuesDictionary valuesDictionary)
 		{
 			base.Load(valuesDictionary);
-			m_subsystemBlockEntities = base.Project.FindSubsystem<SubsystemBlockEntities>(true);
-			m_subsystemAudio = base.Project.FindSubsystem<SubsystemAudio>(true);
+			m_subsystemBlockEntities = Project.FindSubsystem<SubsystemBlockEntities>(true);
+			m_subsystemAudio = Project.FindSubsystem<SubsystemAudio>(true);
 		}
 
 		public override void OnBlockAdded(int value, int oldValue, int x, int y, int z)
 		{
-			DatabaseObject databaseObject = base.Project.GameDatabase.Database.FindDatabaseObject("ChestNew", base.Project.GameDatabase.EntityTemplateType, true);
+			DatabaseObject databaseObject = Project.GameDatabase.Database.FindDatabaseObject("ChestNew", Project.GameDatabase.EntityTemplateType, true);
 			ValuesDictionary valuesDictionary = new ValuesDictionary();
 			valuesDictionary.PopulateFromDatabaseObject(databaseObject);
 			valuesDictionary.GetValue<ValuesDictionary>("BlockEntity").SetValue("Coordinates", new Point3(x, y, z));
-			base.Project.AddEntity(base.Project.CreateEntity(valuesDictionary));
+			Project.AddEntity(Project.CreateEntity(valuesDictionary));
 		}
 
 		public override void OnBlockRemoved(int value, int newValue, int x, int y, int z)
@@ -46,7 +46,7 @@ namespace Game
 				{
 					item.DropAllItems(position);
 				}
-				base.Project.RemoveEntity(blockEntity.Entity, true);
+				Project.RemoveEntity(blockEntity.Entity, true);
 			}
 		}
 

@@ -34,9 +34,9 @@ namespace Game
 		public override void Load(ValuesDictionary valuesDictionary)
 		{
 			base.Load(valuesDictionary);
-			this.m_subsystemTime = base.Project.FindSubsystem<SubsystemTime>(true);
-			this.m_subsystemProjectiles = base.Project.FindSubsystem<SubsystemProjectiles>(true);
-			this.m_subsystemTerrain = base.Project.FindSubsystem<SubsystemTerrain>(true);
+			m_subsystemTime = Project.FindSubsystem<SubsystemTime>(true);
+			m_subsystemProjectiles = Project.FindSubsystem<SubsystemProjectiles>(true);
+			m_subsystemTerrain = Project.FindSubsystem<SubsystemTerrain>(true);
 		}
 
 		// Token: 0x06002182 RID: 8578 RVA: 0x0000391B File Offset: 0x00001B1B
@@ -55,7 +55,7 @@ namespace Game
 				{
 					for (int k = -1; k < 2; k++)
 					{
-						int cellContents = base.SubsystemTerrain.Terrain.GetCellContents(x + i, y + j, z + k);
+						int cellContents = SubsystemTerrain.Terrain.GetCellContents(x + i, y + j, z + k);
 						if (i * i + j * j + k * k <= 1 && (cellContents == 509 || cellContents == 534))
 						{
 							num = 1;
@@ -69,10 +69,10 @@ namespace Game
 			}
 			if (num == 0 || num2 == 0)
 			{
-				base.SubsystemTerrain.ChangeCell(x, y, z, 540, true);
+				SubsystemTerrain.ChangeCell(x, y, z, 540, true);
 				return;
 			}
-			base.SubsystemTerrain.ChangeCell(x, y, z, 16924, true);
+			SubsystemTerrain.ChangeCell(x, y, z, 16924, true);
 		}
 
 		// Token: 0x06002185 RID: 8581 RVA: 0x0000391B File Offset: 0x00001B1B
@@ -91,7 +91,7 @@ namespace Game
 				{
 					for (int k = -1; k < 2; k++)
 					{
-						int cellContents = base.SubsystemTerrain.Terrain.GetCellContents(x + i, y + j, z + k);
+						int cellContents = SubsystemTerrain.Terrain.GetCellContents(x + i, y + j, z + k);
 						if (i * i + j * j + k * k <= 1 && (cellContents == 509 || cellContents == 534))
 						{
 							num = 1;
@@ -105,10 +105,10 @@ namespace Game
 			}
 			if (num == 0 || num2 == 0)
 			{
-				base.SubsystemTerrain.ChangeCell(x, y, z, 540, true);
+				SubsystemTerrain.ChangeCell(x, y, z, 540, true);
 				return;
 			}
-			base.SubsystemTerrain.ChangeCell(x, y, z, 16924, true);
+			SubsystemTerrain.ChangeCell(x, y, z, 16924, true);
 		}
 
 		// Token: 0x0400198B RID: 6539

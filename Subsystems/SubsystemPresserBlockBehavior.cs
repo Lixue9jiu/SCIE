@@ -23,16 +23,16 @@ namespace Game
 
 		public override void OnBlockAdded(int value, int oldValue, int x, int y, int z)
 		{
-			DatabaseObject databaseObject = base.SubsystemTerrain.Project.GameDatabase.Database.FindDatabaseObject("Presser", base.SubsystemTerrain.Project.GameDatabase.EntityTemplateType, true);
+			DatabaseObject databaseObject = SubsystemTerrain.Project.GameDatabase.Database.FindDatabaseObject("Presser", SubsystemTerrain.Project.GameDatabase.EntityTemplateType, true);
 			ValuesDictionary valuesDictionary = new ValuesDictionary();
 			valuesDictionary.PopulateFromDatabaseObject(databaseObject);
 			valuesDictionary.GetValue<ValuesDictionary>("BlockEntity").SetValue("Coordinates", new Point3(x, y, z));
-			base.SubsystemTerrain.Project.AddEntity(base.SubsystemTerrain.Project.CreateEntity(valuesDictionary));
+			SubsystemTerrain.Project.AddEntity(SubsystemTerrain.Project.CreateEntity(valuesDictionary));
 		}
 
 		public override void OnBlockRemoved(int value, int newValue, int x, int y, int z)
 		{
-			ComponentBlockEntity blockEntity = base.SubsystemTerrain.Project.FindSubsystem<SubsystemBlockEntities>(true).GetBlockEntity(x, y, z);
+			ComponentBlockEntity blockEntity = SubsystemTerrain.Project.FindSubsystem<SubsystemBlockEntities>(true).GetBlockEntity(x, y, z);
 			if (blockEntity != null)
 			{
 				Vector3 position = new Vector3((float)x, (float)y, (float)z) + new Vector3(0.5f);
@@ -40,12 +40,8 @@ namespace Game
 				{
 					item.DropAllItems(position);
 				}
-				base.SubsystemTerrain.Project.RemoveEntity(blockEntity.Entity, true);
+				SubsystemTerrain.Project.RemoveEntity(blockEntity.Entity, true);
 			}
-		}
-
-		public override void OnBlockGenerated(int value, int x, int y, int z, bool isLoaded)
-		{
 		}
 
 		public override void OnChunkDiscarding(TerrainChunk chunk)
@@ -62,7 +58,7 @@ namespace Game
 
 		public override bool OnInteract(TerrainRaycastResult raycastResult, ComponentMiner componentMiner)
 		{
-			ComponentBlockEntity blockEntity = base.SubsystemTerrain.Project.FindSubsystem<SubsystemBlockEntities>(true).GetBlockEntity(raycastResult.CellFace.X, raycastResult.CellFace.Y, raycastResult.CellFace.Z);
+			ComponentBlockEntity blockEntity = SubsystemTerrain.Project.FindSubsystem<SubsystemBlockEntities>(true).GetBlockEntity(raycastResult.CellFace.X, raycastResult.CellFace.Y, raycastResult.CellFace.Z);
 			if (blockEntity == null || componentMiner.ComponentPlayer == null)
 			{
 				return false;
@@ -81,7 +77,7 @@ namespace Game
 		public override void Load(ValuesDictionary valuesDictionary)
 		{
 			base.Load(valuesDictionary);
-			m_subsystemParticles = base.Project.FindSubsystem<SubsystemParticles>(true);
+			m_subsystemParticles = Project.FindSubsystem<SubsystemParticles>(true);
 		}
 	}
 }

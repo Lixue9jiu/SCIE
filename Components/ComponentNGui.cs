@@ -8,13 +8,13 @@ namespace Game
 {
 	public class ComponentNGui : ComponentGui, IUpdateable, IDrawable
 	{
-		public void Update(float dt)
+		public new void Update(float dt)
 		{
 			HandleInput();
 			UpdateWidgets();
 		}
 
-		private void HandleInput()
+		private new void HandleInput()
 		{
 			WidgetInput input = m_componentPlayer.View.Input;
 			PlayerInput playerInput = m_componentPlayer.ComponentInput.PlayerInput;
@@ -243,7 +243,7 @@ namespace Game
 			if (m_subsystemGameInfo.WorldSettings.GameMode == GameMode.Creative && (m_lightningButtonWidget.IsClicked || playerInput.Lighting))
 			{
 				Matrix matrix = Matrix.CreateFromQuaternion(m_componentPlayer.ComponentCreatureModel.EyeRotation);
-				base.Project.FindSubsystem<SubsystemWeather>(true).ManualLightingStrike(m_componentPlayer.ComponentCreatureModel.EyePosition, matrix.Forward);
+				Project.FindSubsystem<SubsystemWeather>(true).ManualLightingStrike(m_componentPlayer.ComponentCreatureModel.EyePosition, matrix.Forward);
 			}
 			if (m_subsystemGameInfo.WorldSettings.GameMode == GameMode.Creative && (m_timeOfDayButtonWidget.IsClicked || playerInput.TimeOfDay))
 			{

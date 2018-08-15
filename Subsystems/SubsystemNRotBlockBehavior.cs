@@ -16,8 +16,8 @@ namespace Game
 		public override void Load(ValuesDictionary valuesDictionary)
 		{
 			base.Load(valuesDictionary);
-			m_subsystemGameInfo = base.Project.FindSubsystem<SubsystemGameInfo>(true);
-			m_subsystemItemsScanner = base.Project.FindSubsystem<SubsystemItemsScanner>(true);
+			m_subsystemGameInfo = Project.FindSubsystem<SubsystemGameInfo>(true);
+			m_subsystemItemsScanner = Project.FindSubsystem<SubsystemItemsScanner>(true);
 			m_lastRotTime = valuesDictionary.GetValue<double>("LastRotTime");
 			m_rotStep = valuesDictionary.GetValue<int>("RotStep");
 			m_subsystemItemsScanner.ItemsScanned += ItemsScanned;
@@ -42,7 +42,7 @@ namespace Game
 				{
 					int num2 = block.GetDamage(value) + 1;
 					value = ((num2 > 1) ? block.GetDamageDestructionValue(value) : block.SetDamage(value, num2));
-					base.SubsystemTerrain.ChangeCell(x, y, z, value, true);
+					SubsystemTerrain.ChangeCell(x, y, z, value, true);
 				}
 			}
 		}

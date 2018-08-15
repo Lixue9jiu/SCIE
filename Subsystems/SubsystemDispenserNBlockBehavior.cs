@@ -38,8 +38,8 @@ namespace Game
 		public override void Load(ValuesDictionary valuesDictionary)
 		{
 			base.Load(valuesDictionary);
-			m_subsystemTime = base.Project.FindSubsystem<SubsystemTime>(true);
-			m_subsystemProjectiles = base.Project.FindSubsystem<SubsystemProjectiles>(true);
+			m_subsystemTime = Project.FindSubsystem<SubsystemTime>(true);
+			m_subsystemProjectiles = Project.FindSubsystem<SubsystemProjectiles>(true);
 		}
 
 		public override void OnHitByProjectile(CellFace cellFace, WorldItem worldItem)
@@ -53,7 +53,7 @@ namespace Game
 				{
 					for (int k = -1; k < 2; k++)
 					{
-						int cellContents = base.SubsystemTerrain.Terrain.GetCellContents(cellFace.X + i, cellFace.Y + j, cellFace.Z + k);
+						int cellContents = SubsystemTerrain.Terrain.GetCellContents(cellFace.X + i, cellFace.Y + j, cellFace.Z + k);
 						if (i * i + j * j + k * k <= 1 && (cellContents == 509 || cellContents == 534))
 						{
 							num = 1;

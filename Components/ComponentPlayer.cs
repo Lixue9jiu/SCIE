@@ -8,7 +8,7 @@ namespace Game
 {
 	public class ComponentNPlayer : ComponentPlayer, IUpdateable
 	{
-		public void Update(float dt)
+		public new void Update(float dt)
 		{
 			PlayerInput playerInput = ComponentInput.PlayerInput;
 			if (ComponentInput.IsControlledByTouch && m_aimDirection.HasValue)
@@ -39,11 +39,11 @@ namespace Game
 				{
 					if (PlayerData.PlayerClass == PlayerClass.Male)
 					{
-						m_subsystemAudio.PlayRandomSound("Audio/Creatures/MaleYellFast", 0.75f, 0f, base.ComponentBody.Position, 2f, false);
+						m_subsystemAudio.PlayRandomSound("Audio/Creatures/MaleYellFast", 0.75f, 0f, ComponentBody.Position, 2f, false);
 					}
 					else
 					{
-						m_subsystemAudio.PlayRandomSound("Audio/Creatures/FemaleYellFast", 0.75f, 0f, base.ComponentBody.Position, 2f, false);
+						m_subsystemAudio.PlayRandomSound("Audio/Creatures/FemaleYellFast", 0.75f, 0f, ComponentBody.Position, 2f, false);
 					}
 					componentSteedBehavior.SpeedOrder = 1;
 					m_speedOrderBlocked = true;
@@ -52,11 +52,11 @@ namespace Game
 				{
 					if (PlayerData.PlayerClass == PlayerClass.Male)
 					{
-						m_subsystemAudio.PlayRandomSound("Audio/Creatures/MaleYellSlow", 0.75f, 0f, base.ComponentBody.Position, 2f, false);
+						m_subsystemAudio.PlayRandomSound("Audio/Creatures/MaleYellSlow", 0.75f, 0f, ComponentBody.Position, 2f, false);
 					}
 					else
 					{
-						m_subsystemAudio.PlayRandomSound("Audio/Creatures/FemaleYellSlow", 0.75f, 0f, base.ComponentBody.Position, 2f, false);
+						m_subsystemAudio.PlayRandomSound("Audio/Creatures/FemaleYellSlow", 0.75f, 0f, ComponentBody.Position, 2f, false);
 					}
 					componentSteedBehavior.SpeedOrder = -1;
 					m_speedOrderBlocked = true;
@@ -67,32 +67,32 @@ namespace Game
 				}
 				componentSteedBehavior.TurnOrder = playerInput.Move.X;
 				componentSteedBehavior.JumpOrder = (float)(playerInput.Jump ? 1 : 0);
-				base.ComponentLocomotion.LookOrder = new Vector2(playerInput.Look.X, 0f);
+				ComponentLocomotion.LookOrder = new Vector2(playerInput.Look.X, 0f);
 			}
 			else if (componentBoat != null)
 			{
 				componentBoat.TurnOrder = playerInput.Move.X;
 				componentBoat.MoveOrder = playerInput.Move.Z;
-				base.ComponentLocomotion.LookOrder = new Vector2(playerInput.Look.X, 0f);
-				base.ComponentCreatureModel.RowLeftOrder = (playerInput.Move.X < -0.2f || playerInput.Move.Z > 0.2f);
-				base.ComponentCreatureModel.RowRightOrder = (playerInput.Move.X > 0.2f || playerInput.Move.Z > 0.2f);
+				ComponentLocomotion.LookOrder = new Vector2(playerInput.Look.X, 0f);
+				ComponentCreatureModel.RowLeftOrder = (playerInput.Move.X < -0.2f || playerInput.Move.Z > 0.2f);
+				ComponentCreatureModel.RowRightOrder = (playerInput.Move.X > 0.2f || playerInput.Move.Z > 0.2f);
 			}
 			else if (componentBoatI != null)
 			{
 				componentBoatI.TurnOrder = playerInput.Move.X;
 				componentBoatI.MoveOrder = playerInput.Move.Z;
-				base.ComponentLocomotion.LookOrder = new Vector2(playerInput.Look.X, 0f);
-				base.ComponentCreatureModel.RowLeftOrder = (playerInput.Move.X < -0.2f || playerInput.Move.Z > 0.2f);
-				base.ComponentCreatureModel.RowRightOrder = (playerInput.Move.X > 0.2f || playerInput.Move.Z > 0.2f);
+				ComponentLocomotion.LookOrder = new Vector2(playerInput.Look.X, 0f);
+				ComponentCreatureModel.RowLeftOrder = (playerInput.Move.X < -0.2f || playerInput.Move.Z > 0.2f);
+				ComponentCreatureModel.RowRightOrder = (playerInput.Move.X > 0.2f || playerInput.Move.Z > 0.2f);
 			}
 			else
 			{
-				base.ComponentLocomotion.WalkOrder = (base.ComponentBody.IsSneaking ? (0.66f * new Vector2(playerInput.SneakMove.X, playerInput.SneakMove.Z)) : new Vector2(playerInput.Move.X, playerInput.Move.Z));
-				base.ComponentLocomotion.FlyOrder = new Vector3(0f, playerInput.Move.Y, 0f);
-				base.ComponentLocomotion.TurnOrder = playerInput.Look * new Vector2(1f, 0f);
-				base.ComponentLocomotion.JumpOrder = MathUtils.Max((float)(playerInput.Jump ? 1 : 0), base.ComponentLocomotion.JumpOrder);
+				ComponentLocomotion.WalkOrder = (ComponentBody.IsSneaking ? (0.66f * new Vector2(playerInput.SneakMove.X, playerInput.SneakMove.Z)) : new Vector2(playerInput.Move.X, playerInput.Move.Z));
+				ComponentLocomotion.FlyOrder = new Vector3(0f, playerInput.Move.Y, 0f);
+				ComponentLocomotion.TurnOrder = playerInput.Look * new Vector2(1f, 0f);
+				ComponentLocomotion.JumpOrder = MathUtils.Max((float)(playerInput.Jump ? 1 : 0), ComponentLocomotion.JumpOrder);
 			}
-			base.ComponentLocomotion.LookOrder += playerInput.Look * (SettingsManager.FlipVerticalAxis ? new Vector2(0f, -1f) : new Vector2(0f, 1f));
+			ComponentLocomotion.LookOrder += playerInput.Look * (SettingsManager.FlipVerticalAxis ? new Vector2(0f, -1f) : new Vector2(0f, 1f));
 			int num = Terrain.ExtractContents(ComponentMiner.ActiveBlockValue);
 			Block block = BlocksManager.Blocks[num];
 			bool flag = false;
@@ -189,7 +189,7 @@ namespace Game
 				{
 					flag = true;
 					m_isDigBlocked = true;
-					if (Vector3.Distance(viewPosition3 + vector * nullable4.Value.Distance, base.ComponentCreatureModel.EyePosition) <= 2f)
+					if (Vector3.Distance(viewPosition3 + vector * nullable4.Value.Distance, ComponentCreatureModel.EyePosition) <= 2f)
 					{
 						ComponentMiner.Hit(nullable4.Value.ComponentBody, vector);
 					}
@@ -217,10 +217,10 @@ namespace Game
 				int num3 = inventory.RemoveSlotItems(count: inventory.GetSlotCount(inventory.ActiveSlotIndex), slotIndex: inventory.ActiveSlotIndex);
 				if (slotValue != 0 && num3 != 0)
 				{
-					Vector3 v3 = base.ComponentBody.Position + new Vector3(0f, base.ComponentBody.BoxSize.Y * 0.66f, 0f);
-					Matrix matrix = base.ComponentBody.Matrix;
+					Vector3 v3 = ComponentBody.Position + new Vector3(0f, ComponentBody.BoxSize.Y * 0.66f, 0f);
+					Matrix matrix = ComponentBody.Matrix;
 					Vector3 position = v3 + 0.25f * matrix.Forward;
-					matrix = Matrix.CreateFromQuaternion(base.ComponentCreatureModel.EyeRotation);
+					matrix = Matrix.CreateFromQuaternion(ComponentCreatureModel.EyeRotation);
 					Vector3 value2 = 8f * matrix.Forward;
 					m_subsystemPickables.AddPickable(slotValue, num3, position, value2, null);
 				}
@@ -300,25 +300,25 @@ namespace Game
 		public override void Load(ValuesDictionary valuesDictionary, IdToEntityMap idToEntityMap)
 		{
 			base.Load(valuesDictionary, idToEntityMap);
-			m_subsystemGameInfo = base.Project.FindSubsystem<SubsystemGameInfo>(true);
-			m_subsystemTime = base.Project.FindSubsystem<SubsystemTime>(true);
-			m_subsystemAudio = base.Project.FindSubsystem<SubsystemAudio>(true);
-			m_subsystemPickables = base.Project.FindSubsystem<SubsystemPickables>(true);
-			m_subsystemTerrain = base.Project.FindSubsystem<SubsystemTerrain>(true);
-			ComponentGui = base.Entity.FindComponent<ComponentNGui>(true);
-			ComponentInput = base.Entity.FindComponent<ComponentInput>(true);
-			ComponentScreenOverlays = base.Entity.FindComponent<ComponentScreenOverlays>(true);
-			ComponentMiner = base.Entity.FindComponent<ComponentMiner>(true);
-			ComponentRider = base.Entity.FindComponent<ComponentRider>(true);
-			ComponentSleep = base.Entity.FindComponent<ComponentSleep>(true);
-			ComponentVitalStats = base.Entity.FindComponent<ComponentVitalStats>(true);
-			ComponentSickness = base.Entity.FindComponent<ComponentSickness>(true);
-			ComponentFlu = base.Entity.FindComponent<ComponentFlu>(true);
-			ComponentLevel = base.Entity.FindComponent<ComponentLevel>(true);
-			ComponentClothing = base.Entity.FindComponent<ComponentClothing>(true);
-			ComponentOuterClothingModel = base.Entity.FindComponent<ComponentOuterClothingModel>(true);
+			m_subsystemGameInfo = Project.FindSubsystem<SubsystemGameInfo>(true);
+			m_subsystemTime = Project.FindSubsystem<SubsystemTime>(true);
+			m_subsystemAudio = Project.FindSubsystem<SubsystemAudio>(true);
+			m_subsystemPickables = Project.FindSubsystem<SubsystemPickables>(true);
+			m_subsystemTerrain = Project.FindSubsystem<SubsystemTerrain>(true);
+			ComponentGui = Entity.FindComponent<ComponentNGui>(true);
+			ComponentInput = Entity.FindComponent<ComponentInput>(true);
+			ComponentScreenOverlays = Entity.FindComponent<ComponentScreenOverlays>(true);
+			ComponentMiner = Entity.FindComponent<ComponentMiner>(true);
+			ComponentRider = Entity.FindComponent<ComponentRider>(true);
+			ComponentSleep = Entity.FindComponent<ComponentSleep>(true);
+			ComponentVitalStats = Entity.FindComponent<ComponentVitalStats>(true);
+			ComponentSickness = Entity.FindComponent<ComponentSickness>(true);
+			ComponentFlu = Entity.FindComponent<ComponentFlu>(true);
+			ComponentLevel = Entity.FindComponent<ComponentLevel>(true);
+			ComponentClothing = Entity.FindComponent<ComponentClothing>(true);
+			ComponentOuterClothingModel = Entity.FindComponent<ComponentOuterClothingModel>(true);
 			int playerIndex = valuesDictionary.GetValue<int>("PlayerIndex");
-			PlayerData = base.Project.FindSubsystem<SubsystemPlayers>(true).PlayersData.First((PlayerData d) => d.PlayerIndex == playerIndex);
+			PlayerData = Project.FindSubsystem<SubsystemPlayers>(true).PlayersData.First((PlayerData d) => d.PlayerIndex == playerIndex);
 		}
 	}
 }

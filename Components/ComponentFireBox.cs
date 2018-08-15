@@ -14,7 +14,7 @@ namespace Game
 		{
 			get
 			{
-				return this.SlotsCount - 1;
+				return SlotsCount - 1;
 			}
 		}
 
@@ -41,95 +41,95 @@ namespace Game
 		// Token: 0x06002193 RID: 8595 RVA: 0x000E1F90 File Offset: 0x000E0190
 		public void Update(float dt)
 		{
-			Point3 coordinates = this.m_componentBlockEntity.Coordinates;
-			if ((double)this.HeatLevel > 0.0)
+			Point3 coordinates = m_componentBlockEntity.Coordinates;
+			if ((double)HeatLevel > 0.0)
 			{
-				this.m_fireTimeRemaining = MathUtils.Max(0f, this.m_fireTimeRemaining - dt);
-				if ((double)this.m_fireTimeRemaining == 0.0)
+				m_fireTimeRemaining = MathUtils.Max(0f, m_fireTimeRemaining - dt);
+				if ((double)m_fireTimeRemaining == 0.0)
 				{
-					this.HeatLevel = 0f;
+					HeatLevel = 0f;
 				}
 			}
-			if (this.m_updateSmeltingRecipe)
+			if (m_updateSmeltingRecipe)
 			{
-				this.m_updateSmeltingRecipe = false;
-				if ((double)this.HeatLevel > 0.0)
+				m_updateSmeltingRecipe = false;
+				if ((double)HeatLevel > 0.0)
 				{
-					float heatLevel = this.HeatLevel;
+					float heatLevel = HeatLevel;
 				}
 				else
 				{
-					ComponentInventoryBase.Slot slot = this.m_slots[this.FuelSlotIndex];
+					ComponentInventoryBase.Slot slot = m_slots[FuelSlotIndex];
 					if (slot.Count > 0)
 					{
 						float fuelHeatLevel = BlocksManager.Blocks[Terrain.ExtractContents(slot.Value)].FuelHeatLevel;
 					}
 				}
 				string text = "text";
-				if (text != this.m_smeltingRecipe)
+				if (text != m_smeltingRecipe)
 				{
-					this.m_smeltingRecipe = text;
-					this.SmeltingProgress = 0f;
-					this.m_music = 0;
+					m_smeltingRecipe = text;
+					SmeltingProgress = 0f;
+					m_music = 0;
 				}
 			}
-			if (this.m_smeltingRecipe == null)
+			if (m_smeltingRecipe == null)
 			{
-				this.HeatLevel = 0f;
-				this.m_fireTimeRemaining = 0f;
-				this.m_music = -1;
+				HeatLevel = 0f;
+				m_fireTimeRemaining = 0f;
+				m_music = -1;
 			}
-			if (this.m_smeltingRecipe != null && (double)this.m_fireTimeRemaining <= 0.0)
+			if (m_smeltingRecipe != null && (double)m_fireTimeRemaining <= 0.0)
 			{
-				ComponentInventoryBase.Slot slot2 = this.m_slots[this.FuelSlotIndex];
+				ComponentInventoryBase.Slot slot2 = m_slots[FuelSlotIndex];
 				if (slot2.Count > 0)
 				{
 					Block block = BlocksManager.Blocks[Terrain.ExtractContents(slot2.Value)];
 					if ((double)block.GetExplosionPressure(slot2.Value) > 0.0)
 					{
 						slot2.Count = 0;
-						this.m_subsystemExplosions.TryExplodeBlock(coordinates.X, coordinates.Y, coordinates.Z, slot2.Value);
+						m_subsystemExplosions.TryExplodeBlock(coordinates.X, coordinates.Y, coordinates.Z, slot2.Value);
 					}
 					else if ((double)block.FuelHeatLevel > 0.0)
 					{
 						slot2.Count--;
-						this.m_fireTimeRemaining = block.FuelFireDuration;
-						this.m_fireTime = block.FuelFireDuration;
-						this.HeatLevel = block.FuelHeatLevel;
+						m_fireTimeRemaining = block.FuelFireDuration;
+						m_fireTime = block.FuelFireDuration;
+						HeatLevel = block.FuelHeatLevel;
 					}
 				}
 			}
-			if ((double)this.m_fireTimeRemaining <= 0.0)
+			if ((double)m_fireTimeRemaining <= 0.0)
 			{
-				this.m_smeltingRecipe = null;
-				this.SmeltingProgress = 0f;
-				this.m_music = -1;
+				m_smeltingRecipe = null;
+				SmeltingProgress = 0f;
+				m_music = -1;
 			}
-			if (this.m_smeltingRecipe != null)
+			if (m_smeltingRecipe != null)
 			{
-				if (this.m_fireTime == 0f)
+				if (m_fireTime == 0f)
 				{
-					this.m_fireTime = this.m_fireTimeRemaining;
+					m_fireTime = m_fireTimeRemaining;
 				}
-				this.SmeltingProgress = MathUtils.Min(this.m_fireTimeRemaining / this.m_fireTime, 1f);
-				if ((double)this.SmeltingProgress >= 2.0)
+				SmeltingProgress = MathUtils.Min(m_fireTimeRemaining / m_fireTime, 1f);
+				if ((double)SmeltingProgress >= 2.0)
 				{
-					this.m_smeltingRecipe = null;
-					this.SmeltingProgress = 0f;
-					this.m_updateSmeltingRecipe = true;
+					m_smeltingRecipe = null;
+					SmeltingProgress = 0f;
+					m_updateSmeltingRecipe = true;
 				}
 			}
-			if (this.m_subsystemTerrain.Terrain.GetCellContents(coordinates.X, coordinates.Y, coordinates.Z) != 0)
+			if (m_subsystemTerrain.Terrain.GetCellContents(coordinates.X, coordinates.Y, coordinates.Z) != 0)
 			{
-				int cellValue = this.m_subsystemTerrain.Terrain.GetCellValue(coordinates.X, coordinates.Y, coordinates.Z);
-				this.m_subsystemTerrain.ChangeCell(coordinates.X, coordinates.Y, coordinates.Z, Terrain.ReplaceContents(cellValue, ((double)this.HeatLevel > 0.0) ? 544 : 543), true);
+				int cellValue = m_subsystemTerrain.Terrain.GetCellValue(coordinates.X, coordinates.Y, coordinates.Z);
+				m_subsystemTerrain.ChangeCell(coordinates.X, coordinates.Y, coordinates.Z, Terrain.ReplaceContents(cellValue, ((double)HeatLevel > 0.0) ? 544 : 543), true);
 			}
 		}
 
 		// Token: 0x06002194 RID: 8596 RVA: 0x000157FA File Offset: 0x000139FA
 		public override int GetSlotCapacity(int slotIndex, int value)
 		{
-			if (slotIndex != this.FuelSlotIndex)
+			if (slotIndex != FuelSlotIndex)
 			{
 				return base.GetSlotCapacity(slotIndex, value);
 			}
@@ -144,13 +144,13 @@ namespace Game
 		public override void AddSlotItems(int slotIndex, int value, int count)
 		{
 			base.AddSlotItems(slotIndex, value, count);
-			this.m_updateSmeltingRecipe = true;
+			m_updateSmeltingRecipe = true;
 		}
 
 		// Token: 0x06002196 RID: 8598 RVA: 0x00015847 File Offset: 0x00013A47
 		public override int RemoveSlotItems(int slotIndex, int count)
 		{
-			this.m_updateSmeltingRecipe = true;
+			m_updateSmeltingRecipe = true;
 			return base.RemoveSlotItems(slotIndex, count);
 		}
 
@@ -158,22 +158,22 @@ namespace Game
 		public override void Load(ValuesDictionary valuesDictionary, IdToEntityMap idToEntityMap)
 		{
 			base.Load(valuesDictionary, idToEntityMap);
-			this.m_subsystemTerrain = base.Project.FindSubsystem<SubsystemTerrain>(true);
-			this.m_subsystemExplosions = base.Project.FindSubsystem<SubsystemExplosions>(true);
-			this.m_componentBlockEntity = base.Entity.FindComponent<ComponentBlockEntity>(true);
-			this.m_subsystemAudio = base.Project.FindSubsystem<SubsystemAudio>(true);
-			this.m_furnaceSize = this.SlotsCount - 2;
-			this.m_fireTimeRemaining = valuesDictionary.GetValue<float>("FireTimeRemaining");
-			this.HeatLevel = valuesDictionary.GetValue<float>("HeatLevel");
-			this.m_updateSmeltingRecipe = true;
+			m_subsystemTerrain = Project.FindSubsystem<SubsystemTerrain>(true);
+			m_subsystemExplosions = Project.FindSubsystem<SubsystemExplosions>(true);
+			m_componentBlockEntity = Entity.FindComponent<ComponentBlockEntity>(true);
+			m_subsystemAudio = Project.FindSubsystem<SubsystemAudio>(true);
+			m_furnaceSize = SlotsCount - 2;
+			m_fireTimeRemaining = valuesDictionary.GetValue<float>("FireTimeRemaining");
+			HeatLevel = valuesDictionary.GetValue<float>("HeatLevel");
+			m_updateSmeltingRecipe = true;
 		}
 
 		// Token: 0x06002198 RID: 8600 RVA: 0x00015858 File Offset: 0x00013A58
 		public override void Save(ValuesDictionary valuesDictionary, EntityToIdMap entityToIdMap)
 		{
 			base.Save(valuesDictionary, entityToIdMap);
-			valuesDictionary.SetValue<float>("FireTimeRemaining", this.m_fireTimeRemaining);
-			valuesDictionary.SetValue<float>("HeatLevel", this.HeatLevel);
+			valuesDictionary.SetValue<float>("FireTimeRemaining", m_fireTimeRemaining);
+			valuesDictionary.SetValue<float>("HeatLevel", HeatLevel);
 		}
 
 		// Token: 0x04001997 RID: 6551

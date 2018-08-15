@@ -34,11 +34,11 @@ namespace Game
 					Vector3 vector = nullable.Value.RaycastStart + Vector3.Normalize(nullable.Value.RaycastEnd - nullable.Value.RaycastStart) * nullable.Value.Distance;
 					DynamicArray<ComponentBody> result = new DynamicArray<ComponentBody>();
 					m_subsystemBodies.FindBodiesInArea(new Vector2(vector.X, vector.Z) - new Vector2(8f), new Vector2(vector.X, vector.Z) + new Vector2(8f), result);
-					Entity entity = DatabaseManager.CreateEntity(base.Project, "BoatI", true);
+					Entity entity = DatabaseManager.CreateEntity(Project, "BoatI", true);
 					entity.FindComponent<ComponentFrame>(true).Position = vector;
 					entity.FindComponent<ComponentFrame>(true).Rotation = Quaternion.CreateFromAxisAngle(Vector3.UnitY, m_random.UniformFloat(0f, 6.283185f));
 					entity.FindComponent<ComponentSpawn>(true).SpawnDuration = 0f;
-					base.Project.AddEntity(entity);
+					Project.AddEntity(entity);
 					componentMiner.RemoveActiveTool(1);
 					m_subsystemAudio.PlaySound("Audio/BlockPlaced", 1f, 0f, vector, 3f, true);
 					return true;
@@ -50,8 +50,8 @@ namespace Game
 		public override void Load(ValuesDictionary valuesDictionary)
 		{
 			base.Load(valuesDictionary);
-			m_subsystemAudio = base.Project.FindSubsystem<SubsystemAudio>(true);
-			m_subsystemBodies = base.Project.FindSubsystem<SubsystemBodies>(true);
+			m_subsystemAudio = Project.FindSubsystem<SubsystemAudio>(true);
+			m_subsystemBodies = Project.FindSubsystem<SubsystemBodies>(true);
 		}
 	}
 }

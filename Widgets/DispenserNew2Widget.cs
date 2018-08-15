@@ -70,7 +70,7 @@ namespace Game
 		{
 			if (!m_componentDispenser.IsAddedToProject)
 			{
-				base.ParentWidget.Children.Remove(this);
+				ParentWidget.Children.Remove(this);
 			}
 		}
 	}

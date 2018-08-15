@@ -69,7 +69,7 @@ namespace Game
 			}
 			else
 			{
-				base.ParentWidget.Children.Remove(this);
+				ParentWidget.Children.Remove(this);
 			}
 		}
 	}

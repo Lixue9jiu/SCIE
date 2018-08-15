@@ -243,12 +243,12 @@ namespace Game
 
 		public override void Load(ValuesDictionary valuesDictionary)
 		{
-			m_subsystemTerrain = base.Project.FindSubsystem<SubsystemTerrain>(true);
-			m_subsystemTime = base.Project.FindSubsystem<SubsystemTime>(true);
-			m_subsystemProjectiles = base.Project.FindSubsystem<SubsystemProjectiles>(true);
-			m_subsystemParticles = base.Project.FindSubsystem<SubsystemParticles>(true);
-			m_subsystemAudio = base.Project.FindSubsystem<SubsystemAudio>(true);
-			m_subsystemNoise = base.Project.FindSubsystem<SubsystemNoise>(true);
+			m_subsystemTerrain = Project.FindSubsystem<SubsystemTerrain>(true);
+			m_subsystemTime = Project.FindSubsystem<SubsystemTime>(true);
+			m_subsystemProjectiles = Project.FindSubsystem<SubsystemProjectiles>(true);
+			m_subsystemParticles = Project.FindSubsystem<SubsystemParticles>(true);
+			m_subsystemAudio = Project.FindSubsystem<SubsystemAudio>(true);
+			m_subsystemNoise = Project.FindSubsystem<SubsystemNoise>(true);
 			base.Load(valuesDictionary);
 		}
 	}

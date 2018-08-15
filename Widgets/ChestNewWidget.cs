@@ -15,7 +15,7 @@ namespace Game
 		{
 			if (!m_componentChestNew.IsAddedToProject)
 			{
-				base.ParentWidget.Children.Remove(this);
+				ParentWidget.Children.Remove(this);
 			}
 		}
 
