@@ -129,17 +129,17 @@
       "aca"
       "aba"
     </Recipe>
-    <Recipe Result="DispenserNewBlock" ResultCount="1" RequiredHeatLevel="0" a="steelingot" b="piston" c="steelblock" d="steelrod" e="diamond" f="dispenser" Description="Make an auto driller to mining">
+    <Recipe Result="DispenserNewBlock" ResultCount="1" RequiredHeatLevel="0" a="steelgear" b="piston" c="steelblock" d="steelrod" e="diamond" f="dispenser" Description="Make an auto driller to mining">
       "dbf"
       "dcd"
       "aea"
     </Recipe>
-    <Recipe Result="DispenserNew2Block" ResultCount="1" RequiredHeatLevel="0" a="tank" b="piston" c="steelblock" d="steelingot"  Description="Make a liquid pump to pump liquid">
+    <Recipe Result="DispenserNew2Block" ResultCount="1" RequiredHeatLevel="0" a="tank" b="ipiston" c="steelblock" d="steelgear"  Description="Make a liquid pump to pump liquid">
       "dbd"
       "aca"
       "ada"
     </Recipe>
-    <Recipe Result="DispenserNBlock" ResultCount="1" RequiredHeatLevel="0" a="ironingot" b="piston" c="steelblock" d="rod" e="diamond" Description="Make an auto crusher to crush ore">
+    <Recipe Result="DispenserNBlock" ResultCount="1" RequiredHeatLevel="0" a="steelgear" b="ipiston" c="steelblock" d="steelrod" e="diamond" Description="Make an auto crusher to crush ore">
       "aba"
       "ded"
       "aca"
@@ -149,9 +149,14 @@
       "aba"
       "aaa"
     </Recipe>
-    <Recipe Result="EngineBlock" ResultCount="1" RequiredHeatLevel="0" a="ironingot" b="piston" c="steelblock" d="furnace" Description="Make a steam engine to enter the industrial era">
+    <Recipe Result="IPistonBlock" ResultCount="1" RequiredHeatLevel="0" a="ironingot" b="emptybucket" c="steelrod" d="steelingot" Description="Make a industrial piston">
+      "dcd"
+      "ada"
       "aba"
-      "aca"
+    </Recipe>
+    <Recipe Result="EngineBlock" ResultCount="1" RequiredHeatLevel="0" a="steelgear" b="ipiston" c="steelblock" d="furnace" e="steelrod" Description="Make a steam engine to enter the industrial era">
+      "aba"
+      "ece"
       "ada"
     </Recipe>
     <Recipe Result="TankBlock" ResultCount="1" RequiredHeatLevel="0" a="copperplate" Description="Make a empty tank">
@@ -159,22 +164,22 @@
       "a a"
       "aaa"
     </Recipe>
-    <Recipe Result="EngineHBlock" ResultCount="1" RequiredHeatLevel="0" a="tank" b="piston" c="steelblock" d="furnace" e="steelrod" Description="Make a stirling engine">
+    <Recipe Result="EngineHBlock" ResultCount="1" RequiredHeatLevel="0" a="tank" b="ipiston" c="steelblock" d="furnace" e="steelrod" Description="Make a stirling engine">
       "beb"
       "ece"
       "ada"
     </Recipe>
-    <Recipe Result="PresserBlock" ResultCount="1" RequiredHeatLevel="0" a="ironingot" b="piston" c="steelblock" Description="Make a Presser to create metal plate">
+    <Recipe Result="PresserBlock" ResultCount="1" RequiredHeatLevel="0" a="steelgear" b="ipiston" c="steelblock" Description="Make a Presser to create metal plate">
       "aba"
       "aca"
       "aba"
      </Recipe>
-    <Recipe Result="PresserNBlock" ResultCount="1" RequiredHeatLevel="0" a="ironplate" b="piston" c="steelblock" d="steelingot" Description="Make a Kinbbler to create ore powder">
+    <Recipe Result="PresserNBlock" ResultCount="1" RequiredHeatLevel="0" a="ironplate" b="ipiston" c="steelblock" d="steelgear" Description="Make a Kinbbler to create ore powder">
       "bab"
       "dcd"
       "aba"
     </Recipe>
-    <Recipe Result="PresserNNBlock" ResultCount="1" RequiredHeatLevel="0" a="steelrod" b="piston" c="steelblock" d="steelingot" e="rod" Description="Make a Rifling Machine to create rifle barrel">
+    <Recipe Result="PresserNNBlock" ResultCount="1" RequiredHeatLevel="0" a="steelrod" b="ipiston" c="steelblock" d="steelingot" e="steelgear" Description="Make a Rifling Machine to create rifle barrel">
       "bad"
       "dcd"
       "eee"
@@ -189,7 +194,7 @@
       "aba"
       "aaa"
     </Recipe>
-    <Recipe Result="BlastBlowerBlock" ResultCount="1" RequiredHeatLevel="0" a="rod" b="piston" c="steelblock" d="ironplate" e="ironingot" Description="Make a Blast Furnace Blower">
+    <Recipe Result="BlastBlowerBlock" ResultCount="1" RequiredHeatLevel="0" a="rod" b="piston" c="steelblock" d="ironplate" e="steelgear" Description="Make a Blast Furnace Blower">
       "bad"
       "bad"
       "ece"

@@ -59,6 +59,12 @@
         <Parameter Name="SlotsCount" Guid="3dad5622-a4c0-4ad5-85f8-813ef26dae6b" Value="3" Type="int" />
       </MemberComponentTemplate>
       </EntityTemplate>
+    <EntityTemplate Name="CastMach" Guid="b4a43058-d37d-455f-9a43-803260a915a9">
+      <MemberComponentTemplate Name="BlockEntity" Guid="b2d452cd-8233-4bee-ad3e-bde77df10654" InheritanceParent="09a85cba-d94e-41b8-9497-f20ed942c17e" />
+      <MemberComponentTemplate Name="CastMach" Guid="e7b41846-dfe9-4331-900e-4c5f3ce25348" InheritanceParent="c93f7909-de35-4e94-ba6e-90cd55cd19d4">
+        <Parameter Name="SlotsCount" Guid="3dad5627-a4c1-4ad5-85f8-813ef26dae6b" Value="4" Type="int" />
+      </MemberComponentTemplate>
+      </EntityTemplate>
     <EntityTemplate Name="HeatEngine" Guid="b4a43156-d37d-455f-9a43-803260a915a9">
       <MemberComponentTemplate Name="BlockEntity" Guid="b2d451cd-8233-4bee-ad3e-bde77df10654" InheritanceParent="09a85cba-d94e-41b8-9497-f20ed942c17e" />
       <MemberComponentTemplate Name="HeatEngine" Guid="e7b41944-dfe9-4331-900e-4c5f3ce25348" InheritanceParent="c93f7916-de35-4e94-ba6e-90cd55cd19d4">
@@ -121,6 +127,9 @@
     <MemberSubsystemTemplate Name="EngineBlockBehavior" Guid="c07ffe62-402f-4b96-987a-6050eb7ed2d4" InheritanceParent="fefb9590-4972-4893-b02a-76063611b745">
       <Parameter Name="Class" Guid="9618532b-5607-40f1-8704-4c42f35ec016" Value="Game.SubsystemEngineBlockBehavior" Type="string" />
     </MemberSubsystemTemplate>
+    <MemberSubsystemTemplate Name="CastMachBlockBehavior" Guid="c07ffe64-402f-4b96-987a-6050eb7ed2d4" InheritanceParent="fefb9590-4972-4893-b02a-76063611b745">
+      <Parameter Name="Class" Guid="9618537b-5607-40f1-8704-4c42f35ec016" Value="Game.SubsystemCastMachBlockBehavior" Type="string" />
+    </MemberSubsystemTemplate>
     <MemberSubsystemTemplate Name="EngineHBlockBehavior" Guid="d07ffe62-402f-4b96-987a-6050eb7ed2d4" InheritanceParent="fefb9590-4972-4893-b02a-76063611b745">
       <Parameter Name="Class" Guid="9618532e-5607-40f1-8704-4c42f35ec016" Value="Game.SubsystemEngineHBlockBehavior" Type="string" />
     </MemberSubsystemTemplate>
@@ -169,6 +178,11 @@
       <Parameter Name="FireTimeRemaining" Description="Fire time remaining, in seconds" Guid="4830cd84-3ff3-4165-aad1-19685e751850" Value="0" Type="float" />
       <Parameter Name="HeatLevel" Description="Current heat level in steamengine" Guid="d4667084-79c4-409e-b043-f9d3010d7e95" Value="0" Type="float" />
       <Parameter Name="Class" Guid="fb4c23fe-1d3c-467e-81bc-1796f686be51" Value="Game.ComponentEngine" Type="string" />
+     </ComponentTemplate>
+     <ComponentTemplate Name="CastMach" Description="A steamengine" Guid="c93f7909-de35-4e94-ba6e-90cd55cd19d4" InheritanceParent="81a44c6a-c30a-4f53-8d64-0c30aabab8f9">
+      <Parameter Name="FireTimeRemaining" Description="Fire time remaining, in seconds" Guid="4837cd84-3ff3-4165-aad1-19685e751850" Value="0" Type="float" />
+      <Parameter Name="HeatLevel" Description="Current heat level in steamengine" Guid="d4667784-79c4-409e-b043-f9d3010d7e95" Value="0" Type="float" />
+      <Parameter Name="Class" Guid="fb4c27fe-1d3c-467e-81bc-1796f686be51" Value="Game.ComponentCastMach" Type="string" />
      </ComponentTemplate>
     <ComponentTemplate Name="HeatEngine" Description="A heatengine" Guid="c93f7916-de35-4e94-ba6e-90cd55cd19d4" InheritanceParent="81a44c6a-c30a-4f53-8d64-0c30aabab8f9">
       <Parameter Name="FireTimeRemaining" Description="Fire time remaining, in seconds" Guid="4832cd84-3ff3-4165-aad1-19685e751850" Value="0" Type="float" />
