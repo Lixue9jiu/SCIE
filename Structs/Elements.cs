@@ -12,7 +12,7 @@ namespace Game
 		public const int Index = 300;
 		public override void GenerateTerrainVertices(BlockGeometryGenerator generator, TerrainGeometrySubsets geometry, int value, int x, int y, int z)
 		{
-			var element = SubsystemEnergy.GetCircuitElement(value);
+			var element = SubsystemEnergy.GetDevice(generator.Terrain, x, y, z);
 			if (element != null)
 			{
 				element.GenerateTerrainVertices(this, generator, geometry, value, x, y, z);
@@ -161,7 +161,7 @@ namespace Game
 	public abstract class Element : Node, IEnumerable<Element>, IEnumerable, IEquatable<Element>
 	{
 		public DynamicArray<Element> Next;
-		protected Element(ElementType type) : base(type)
+		protected Element(ElementType type = ElementType.Device) : base(type)
 		{
 		}
 		protected Element(SerializationInfo info, StreamingContext context) : base(info, context)
@@ -218,7 +218,7 @@ namespace Game
 	public abstract class Device : Element, IEquatable<Device>
 	{
 		public Point3 Point;
-		protected Device() : base(ElementType.Device)
+		protected Device(ElementType type = ElementType.Device) : base(type)
 		{
 		}
 		protected Device(SerializationInfo info, StreamingContext context) : base(info, context)
@@ -258,7 +258,7 @@ namespace Game
 				throw new ArgumentOutOfRangeException("resistance", resistance, "EnergyElement has Resistance < 1");
 			Resistance = resistance;
 		}
-		protected Device(SerializationInfo info, StreamingContext context) : base(info, context)
+		protected FixedDevice(SerializationInfo info, StreamingContext context) : base(info, context)
 		{
 			Resistance = info.GetInt32("Resistance");
 		}

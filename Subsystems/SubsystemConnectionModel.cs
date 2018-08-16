@@ -9,7 +9,7 @@ using TemplatesDatabase;
 
 namespace Game
 {
-	public static StackUtils
+	public static class StackUtils
 	{
 		public static void Push<T>(this DynamicArray<T> array, T item)
 		{
@@ -19,14 +19,14 @@ namespace Game
 				if (value != array.Capacity)
 				{
 					T[] arr = new T[value];
-					if (array.m_array != null)
+					if (array.Array != null)
 					{
-						System.Array.Copy(array.m_array, 0, arr, 0, array.m_count);
+						Array.Copy(array.Array, 0, arr, 0, array.m_count);
 					}
-					array.m_array = arr;
+					array.Array = arr;
 				}
 			}
-			array.m_array[array.m_count++] = item;
+			array.Array[array.m_count++] = item;
 		}
 	}
 	public class SubsystemConnectionModel : SubsystemBlockBehavior, IUpdateable
@@ -35,8 +35,9 @@ namespace Game
 		//public SubsystemAudio SubsystemAudio;
 		float m_remainingSimulationTime;
 		public int UpdateStep;
-		public DynamicArray<CircuitElement> Path;
-		public Dictionary<Point3, CircuitElement> Table;
+		public Terrain Terrain;
+		public DynamicArray<Element> Path;
+		public Dictionary<Point3, Element> Table;
 		public override int[] HandledBlocks
 		{
 			get { return new int[0]; }
@@ -48,9 +49,10 @@ namespace Game
 		public override void Load(ValuesDictionary valuesDictionary)
 		{
 			base.Load(valuesDictionary);
+			Terrain = SubsystemTerrain.Terrain;
 			int count = valuesDictionary.GetValue<int>("Count", 0);
-			Path = new DynamicArray<CircuitElement>(count);
-			Table = new Dictionary<Point3, CircuitElement>(count);
+			Path = new DynamicArray<Element>(count);
+			Table = new Dictionary<Point3, Element>(count);
 			SubsystemTime = Project.FindSubsystem<SubsystemTime>(true);
 			//SubsystemAudio = Project.FindSubsystem<SubsystemAudio>(true);
 		}
@@ -61,8 +63,8 @@ namespace Game
 		}
 		public override void OnBlockAdded(int value, int oldValue, int x, int y, int z)
 		{
-			var element = GetCircuitDevice(SubsystemTerrain.Terrain, x, y, z);
-			if (element == null || (element.Type & ElementType.Power) == 0 || Table.ContainsKey(element))
+			var element = GetDevice(SubsystemTerrain.Terrain, x, y, z);
+			if (element == null || (element.Type & ElementType.Supply) == 0 || Table.ContainsKey(element.Point))
 				return;
 			var neighbors = new DynamicArray<Device>();//当前顶点的邻接表
 			GetAllConnectedNeighbors(SubsystemTerrain.Terrain, element, 5, neighbors);
@@ -86,19 +88,19 @@ namespace Game
 					GetAllConnectedNeighbors(SubsystemTerrain.Terrain, current, 5, neighbors);
 					if (neighbors.Count > 0)
 					{
-						current.Next = new DynamicArray<Device>(neighbors.Count);
+						current.Next = new DynamicArray<Element>(neighbors.Count);
 						QuickSort(neighbors.Array, 0, neighbors.Count - 1);
 						bool flag = false;
 						for (int i = 0; i < neighbors.Count; i++)
 						{
 							var cur = neighbors.Array[i];
-							if (Table.TryGetValue(cur.Point, out Device visited))//如果访问过
+							if (Table.TryGetValue(cur.Point, out Element visited))//如果访问过
 							{
 								current.Next.Add(visited);
 								continue;
 							}
 							Table.Add(cur.Point, cur);//将该点添加到表中
-							if (cur.GetResistance() < 2)
+							if (cur.GetWeight() < 2)
 								flag = true;
 							else if (flag)
 								break;
@@ -112,7 +114,7 @@ namespace Game
 		}
 		public override void OnBlockRemoved(int value, int newValue, int x, int y, int z)
 		{
-			var element = GetCircuitDevice(SubsystemTerrain.Terrain, x, y, z);
+			var element = GetDevice(SubsystemTerrain.Terrain, x, y, z);
 			if (element != null)
 			{
 				var next = element.Next.Array;
@@ -120,7 +122,7 @@ namespace Game
 				{
 					next[i].Next.Remove(element);
 				}
-				if ((element.Type & ElementType.Power) != 0)
+				if ((element.Type & ElementType.Supply) != 0)
 				{
 					int index = Path.IndexOf(element);
 					if (index >= 0)
@@ -133,7 +135,7 @@ namespace Game
 		}
 		public override void OnBlockModified(int value, int oldValue, int x, int y, int z)
 		{
-			var element = GetCircuitDevice(SubsystemTerrain.Terrain, x, y, z);
+			var element = GetDevice(SubsystemTerrain.Terrain, x, y, z);
 			if (element != null)
 			{
 				OnBlockAdded(value, oldValue, x, y, z);
@@ -158,6 +160,15 @@ namespace Game
 				}
 			}
 		}
+		public virtual Device GetDevice(int x, int y, int z)
+		{
+			if (GetCircuitElement(Terrain.GetCellValueFast(x, y, z)) is Device device)
+			{
+				device.Point = new Point3(x, y, z);
+				return device;
+			}
+			return null;
+		}
 		public void Update(float dt)
 		{
 			m_remainingSimulationTime = MathUtils.Min(m_remainingSimulationTime + dt, 0.1f);
@@ -172,8 +183,10 @@ namespace Game
 					if (element == null)
 						continue;
 					int voltage = 0;
-					var stack = new DynamicArray<CircuitElement>(1);
-					stack.Add(element);
+					var stack = new DynamicArray<Element>(1)
+					{
+						element
+					};
 					while (stack.Count > 0)
 					{
 						if ((element = stack.Array[--stack.Count]) != null)
@@ -242,68 +255,9 @@ namespace Game
 				}
 			}
 		}
-		public static CircuitElement GetCircuitElement(int value)
-		{
-			if (Terrain.ExtractContents(value) == 300)
-			{
-				switch (Terrain.ExtractData(value))
-				{
-					case 1: return new SmallGenerator();
-					case 2: return new Wire();
-					case 3: return new ElectricFurnace();
-					case 10: return new DiodeDevice();
-					case 12: return new Battery12V();
-				}
-			}
-			return null;
-		}
-		public static Device GetCircuitDevice(Terrain terrain, int x, int y, int z)
-		{
-			var device = GetCircuitElement(terrain.GetCellValueFast(x, y, z)) as Device;
-			if (device != null)
-			{
-				device.Point = new Point3(x, y, z);
-				return device;
-			}
-			return null;
-		}
-		public static void GetAllConnectedNeighbors(Terrain terrain, Device elem, int mountingFace, ICollection<Device> list)
-		{
-			if (mountingFace != 5 || elem == null) return;
-			int x, y, z;
-			var type = elem.Type;
-			var point = elem.Point;
-			x = point.X;
-			y = point.Y;
-			z = point.Z;
-			if ((elem = GetCircuitDevice(terrain, x, y, z + 1)) != null && (elem.Type & type) != 0)
-			{
-				list.Add(elem);
-			}
-			if ((elem = GetCircuitDevice(terrain, x + 1, y, z)) != null && (elem.Type & type) != 0)
-			{
-				list.Add(elem);
-			}
-			if ((elem = GetCircuitDevice(terrain, x, y, z - 1)) != null && (elem.Type & type) != 0)
-			{
-				list.Add(elem);
-			}
-			if ((elem = GetCircuitDevice(terrain, x - 1, y, z)) != null && (elem.Type & type) != 0)
-			{
-				list.Add(elem);
-			}
-			if ((elem = GetCircuitDevice(terrain, x, y + 1, z)) != null && (elem.Type & type) != 0)
-			{
-				list.Add(elem);
-			}
-			if ((elem = GetCircuitDevice(terrain, x, y - 1, z)) != null && (elem.Type & type) != 0)
-			{
-				list.Add(elem);
-			}
-		}
 		public void GarbageCollectItems()
 		{
-			var path = new DynamicArray<CircuitElement>(Path.Count >> 1);
+			var path = new DynamicArray<Element>(Path.Count >> 1);
 			var arr = Path.Array;
 			for (int i = 0; i < arr.Length; i++)
 				if (arr[i] != null)

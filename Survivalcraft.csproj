@@ -64,6 +64,12 @@
     <Compile Include="Blocks\MetalLineBlock.cs" />
     <Compile Include="Blocks\SqueezerBlock.cs" />
     <Compile Include="Components\ComponentSqueezer.cs" />
+    <Compile Include="Structs\CircuitDevices.cs" />
+    <Compile Include="Structs\CircuitElements.cs" />
+    <Compile Include="Structs\Elements.cs" />
+    <Compile Include="Subsystems\SubsystemConnectionModel.cs" />
+    <Compile Include="Subsystems\SubsystemEnergy.cs" />
+    <Compile Include="Subsystems\SubsystemSourceOfFireBlockBehavior.cs" />
     <Compile Include="Widgets\SqueezerWidget.cs" />
     <Compile Include="Subsystems\SubsystemSqueezerBlockBehavior.cs" />
     <Compile Include="Widgets\CastMachWidget.cs" />
@@ -166,9 +172,7 @@
     <Compile Include="Blocks\TankBlock.cs" />
     <Compile Include="Subsystems\SubsystemMineral.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Structs\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>
