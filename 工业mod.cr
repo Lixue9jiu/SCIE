@@ -174,6 +174,21 @@
       "aca"
       "aba"
      </Recipe>
+     <Recipe Result="SqueezerBlock" ResultCount="1" RequiredHeatLevel="0" a="steelgear" b="ipiston" c="steelblock" Description="Make a Squeezer to create metal line">
+      "aba"
+      "bcb"
+      "aba"
+     </Recipe>
+     <Recipe Result="SteelWheelMouldBlock" ResultCount="1" RequiredHeatLevel="0" a="dirt" b="sand" Description="Make a WheelMould to create wheel">
+      "aba"
+      "bbb"
+      "aba"
+     </Recipe>
+     <Recipe Result="SteelGearMouldBlock" ResultCount="1" RequiredHeatLevel="0" a="dirt" b="sand" Description="Make a GearMould to create gear">
+      "bab"
+      "aaa"
+      "bab"
+     </Recipe>
     <Recipe Result="PresserNBlock" ResultCount="1" RequiredHeatLevel="0" a="ironplate" b="ipiston" c="steelblock" d="steelgear" Description="Make a Kinbbler to create ore powder">
       "bab"
       "dcd"
@@ -183,6 +198,11 @@
       "bad"
       "dcd"
       "eee"
+    </Recipe>
+    <Recipe Result="CastMachBlock" ResultCount="1" RequiredHeatLevel="0" a="furnace" b="ironingot" c="copperingot" Description="Make a Casting Machine to cast steel item">
+      "bab"
+      "cbc"
+      "bab"
     </Recipe>
     <Recipe Result="FurnaceNBlock" ResultCount="1" RequiredHeatLevel="0" a="ironingot" b="furnace" Description="Make a furnace from stone">
       "aaa"

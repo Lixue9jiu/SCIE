@@ -59,6 +59,13 @@
     <Compile Include="Blocks\SteelGearMouldBlock.cs" />
     <Compile Include="Blocks\SteelWheelBlock.cs" />
     <Compile Include="Blocks\SteelWheelMouldBlock.cs" />
+    <Compile Include="Blocks\MetalLine1Block.cs" />
+    <Compile Include="Blocks\MetalLine2Block.cs" />
+    <Compile Include="Blocks\MetalLineBlock.cs" />
+    <Compile Include="Blocks\SqueezerBlock.cs" />
+    <Compile Include="Components\ComponentSqueezer.cs" />
+    <Compile Include="Widgets\SqueezerWidget.cs" />
+    <Compile Include="Subsystems\SubsystemSqueezerBlockBehavior.cs" />
     <Compile Include="Widgets\CastMachWidget.cs" />
     <Compile Include="Components\ComponentCastMach.cs" />
     <Compile Include="Subsystems\SubsystemCastMachBlockBehavior.cs" />
