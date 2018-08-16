@@ -7,85 +7,6 @@ using Engine.Graphics;
 
 namespace Game
 {
-	public class ElementBlock : Block, IPaintableBlock
-	{
-		public const int Index = 300;
-		public override void GenerateTerrainVertices(BlockGeometryGenerator generator, TerrainGeometrySubsets geometry, int value, int x, int y, int z)
-		{
-			var element = SubsystemCircuit.GetDevice(generator.Terrain, x, y, z);
-			if (element != null)
-			{
-				element.GenerateTerrainVertices(this, generator, geometry, value, x, y, z);
-			}
-		}
-		public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
-		{
-			var element = SubsystemCircuit.GetElement(value);
-			if (element != null)
-			{
-				element.DrawBlock(primitivesRenderer, value, color, size, ref matrix, environmentData);
-			}
-		}
-		public override BlockPlacementData GetPlacementValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, TerrainRaycastResult raycastResult)
-		{
-			return new BlockPlacementData
-			{
-				Value = value,
-				CellFace = raycastResult.CellFace
-			};
-		}
-		public override IEnumerable<int> GetCreativeValues()
-		{
-			var list = new List<int>(8);
-			int i = 0;
-			Element element;
-			do
-			{
-				element = SubsystemCircuit.GetElement(Terrain.MakeBlockValue(Index, 0, i++));
-			}
-			while (element != null);
-			return list;
-		}
-		public override string GetDisplayName(SubsystemTerrain subsystemTerrain, int value)
-		{
-			var element = SubsystemCircuit.GetElement(value);
-			var name = element.GetDisplayName(subsystemTerrain, value);
-			if (element != null)
-			{
-				int? paintColor = GetPaintColor(value);
-				return SubsystemPalette.GetName(subsystemTerrain, paintColor, name);
-			}
-			return name;
-		}
-		public override string GetDescription(int value)
-		{
-			return "";
-		}
-		public override int GetFaceTextureSlot(int face, int value)
-		{
-			return value;
-		}
-		public int? GetPaintColor(int value)
-		{
-			return GetColor(Terrain.ExtractData(value));
-		}
-		public int Paint(SubsystemTerrain subsystemTerrain, int value, int? color)
-		{
-			int data = Terrain.ExtractData(value);
-			return Terrain.ReplaceData(value, SetColor(data, color));
-		}
-		public static int? GetColor(int data)
-		{
-			return (data & 64) != 0 ? data >> 7 & 15 : default(int?);
-		}
-		public static int SetColor(int data, int? color)
-		{
-			if (color.HasValue) {
-				return (data & -1985) | 64 | (color.Value & 15) << 7;
-			}
-			return data & -1985;
-		}
-	}
 	[Flags]
 	[Serializable]
 	public enum ElementType
@@ -163,7 +84,7 @@ namespace Game
 		public DynamicArray<Element> Next;
 
 		public int Count => Next.Count;
-		public bool IsReadOnly => ((ICollection<Element>)Next).IsReadOnly;
+		public bool IsReadOnly => Next.IsReadOnly;
 		public Element this[int index] { get => Next.Array[index]; set => Next.Array[index] = value; }
 		protected Element(ElementType type = ElementType.Device) : base(type)
 		{
@@ -179,6 +100,14 @@ namespace Game
 		public virtual string GetDisplayName(SubsystemTerrain subsystemTerrain, int value)
 		{
 			throw new NotImplementedException();
+		}
+		public virtual string GetDescription(int value)
+		{
+			return "";
+		}
+		public virtual int GetFaceTextureSlot(int face, int value)
+		{
+			return 245;
 		}
 		public virtual void Simulate(ref int value)
 		{
@@ -265,6 +194,14 @@ namespace Game
 		public virtual void GenerateTerrainVertices(Block block, BlockGeometryGenerator generator, TerrainGeometrySubsets geometry, int value, int x, int y, int z)
 		{
 			generator.GenerateCubeVertices(block, value, x, y, z, Color.White, geometry.OpaqueSubsetsByFace);
+		}
+		public virtual BlockPlacementData GetPlacementValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, TerrainRaycastResult raycastResult)
+		{
+			return new BlockPlacementData
+			{
+				Value = value,
+				CellFace = raycastResult.CellFace
+			};
 		}
 		public override bool Equals(object obj)
 		{

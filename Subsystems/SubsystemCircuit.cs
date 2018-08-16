@@ -168,9 +168,10 @@ namespace Game
 			{
 				switch (Terrain.ExtractData(value))
 				{
-					case 1: return new SmallGenerator();
-					case 2: return new WireElement();
-					case 3: return new ElectricFurnace();
+					//case 1: return new SmallGenerator();
+					//case 2: return new WireElement();
+					//case 3: return new ElectricFurnace();
+					case 0: return new Fridge();
 					case 10: return new DiodeDevice();
 					case 12: return new Battery12V();
 				}

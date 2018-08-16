@@ -54,13 +54,12 @@
     <Compile Include="Blocks\BlastBlowerBlock.cs" />
     <Compile Include="Blocks\BlastFurnaceBlock.cs" />
     <Compile Include="Blocks\CastMachBlock.cs" />
+    <Compile Include="Blocks\ElementBlock.cs" />
     <Compile Include="Blocks\IPistonBlock.cs" />
     <Compile Include="Blocks\SteelGearBlock.cs" />
     <Compile Include="Blocks\SteelGearMouldBlock.cs" />
     <Compile Include="Blocks\SteelWheelBlock.cs" />
     <Compile Include="Blocks\SteelWheelMouldBlock.cs" />
-    <Compile Include="Blocks\MetalLine1Block.cs" />
-    <Compile Include="Blocks\MetalLine2Block.cs" />
     <Compile Include="Blocks\MetalLineBlock.cs" />
     <Compile Include="Blocks\SqueezerBlock.cs" />
     <Compile Include="Components\ComponentSqueezer.cs" />
@@ -86,7 +85,6 @@
     <Compile Include="Blocks\BoatIBlock.cs" />
     <Compile Include="Blocks\Bullet2Block.cs" />
     <Compile Include="Blocks\BulletBlock.cs" />
-    <Compile Include="Blocks\ChestNewBlock.cs" />
     <Compile Include="Subsystems\SubsystemBlastBlowerBlockBehavior.cs" />
     <Compile Include="Subsystems\SubsystemBlastFurnaceBlockBehavior.cs" />
     <Compile Include="Subsystems\SubsystemFireBoxBlockBehavior.cs" />

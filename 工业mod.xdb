@@ -11,6 +11,10 @@
   <ToAdd Type="SubsystemTemplate" Name="SoilBlockBehavior" Guid="59d44a4c-bc6a-499f-944e-39390092696e">
     <Parameter Name="Class" Guid="9ef8d250-edd0-4fe5-8979-49f7dd023cdb" Value="Game.SubsystemNSoilBlockBehavior" Type="string" />
   </ToAdd>
+  <ToRemove Type="Parameter" Name="Class" Guid="5fb21b86-aa45-4991-97cf-0f78ce5ccde3" />
+  <ToAdd Type="SubsystemTemplate" Name="TorchBlockBehavior" Guid="1815d2e9-776d-40e3-abde-c46d1cc8b301">
+    <Parameter Name="Class" Guid="5fb21b86-aa45-4991-97cf-0f78ce5ccde3" Value="Game.SubsystemSourceOfFireBlockBehavior" Type="string" />
+  </ToAdd>
   <ToAdd Type="Folder" Name="Entities" Guid="5fcdf35f-7001-442c-883e-e0502b15d291">
     <EntityTemplate Name="ChestNew" Guid="0855a017-af17-4955-81fa-aafaf97b92bd">
       <MemberComponentTemplate Name="ChestNew" Guid="0f193a00-ac7d-4b4c-97c7-df652ca11b51" InheritanceParent="73a2ec8c-10c7-4133-85b4-4a35bd44c956" />
@@ -171,6 +175,9 @@
     </MemberSubsystemTemplate>
     <MemberSubsystemTemplate Name="BoatIBlockBehavior" Guid="fff38d3d-e999-452c-959d-47eefb16457a" InheritanceParent="fefb9590-4972-4893-b02a-76063611b745">
       <Parameter Name="Class" Guid="ff8571da-4268-41d7-90a9-9a066f2feea8" Value="Game.SubsystemBoatIBlockBehavior" Type="string" />
+    </MemberSubsystemTemplate>
+    <MemberSubsystemTemplate Name="Circuit" Guid="fff36d3d-e999-452c-959d-47eefb16457a" InheritanceParent="a3914c13-7801-46a6-b23a-9e2b36e9defb">
+      <Parameter Name="Class" Guid="ff8971da-4268-41d7-90a9-9a066f2feea8" Value="Game.SubsystemCircuit" Type="string" />
     </MemberSubsystemTemplate>
   </ToAdd>
   <ToAdd Type="Folder" Name="Gameplay" Guid="d3d4b692-acc9-4128-9b99-a5acf1de1fbb">

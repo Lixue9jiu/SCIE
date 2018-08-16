@@ -250,6 +250,80 @@ namespace Game
 	public class ElectricFurnace : Device
 	{
 	}
+	public class Fridge : Device
+	{
+		public override int GetFaceTextureSlot(int face, int value)
+		{
+			if (face != 4 && face != 5)
+			{
+				switch (Terrain.ExtractData(value))
+				{
+					case 0:
+						if (face == 0)
+						{
+							return 106;
+						}
+						return 107;
+					case 1:
+						if (face == 1)
+						{
+							return 106;
+						}
+						return 107;
+					case 2:
+						if (face == 2)
+						{
+							return 106;
+						}
+						return 107;
+					default:
+						if (face == 3)
+						{
+							return 106;
+						}
+						return 107;
+				}
+			}
+			return 107;
+		}
+		public override BlockPlacementData GetPlacementValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, TerrainRaycastResult raycastResult)
+		{
+			Vector3 forward = Matrix.CreateFromQuaternion(componentMiner.ComponentCreature.ComponentCreatureModel.EyeRotation).Forward;
+			float num = Vector3.Dot(forward, Vector3.UnitZ);
+			float num2 = Vector3.Dot(forward, Vector3.UnitX);
+			float num3 = Vector3.Dot(forward, -Vector3.UnitZ);
+			float num4 = Vector3.Dot(forward, -Vector3.UnitX);
+			int data = 0;
+			if (num == MathUtils.Max(num, num2, num3, num4))
+			{
+				data = 2;
+			}
+			else if (num2 == MathUtils.Max(num, num2, num3, num4))
+			{
+				data = 3;
+			}
+			else if (num3 == MathUtils.Max(num, num2, num3, num4))
+			{
+				data = 0;
+			}
+			else if (num4 == MathUtils.Max(num, num2, num3, num4))
+			{
+				data = 1;
+			}
+			BlockPlacementData result = default(BlockPlacementData);
+			result.Value = Terrain.ReplaceData(Terrain.ReplaceContents(0, ElementBlock.Index), data);
+			result.CellFace = raycastResult.CellFace;
+			return result;
+		}
+		public override string GetDisplayName(SubsystemTerrain subsystemTerrain, int value)
+		{
+			return "Freezer";
+		}
+		public override string GetDescription(int value)
+		{
+			return "A Freezer is a good place to protect food that can delay the decay of it. It will hold up to 16 stacks of items.";
+		}
+	}
 	public abstract class Diode : Element
 	{
 		public int MaxVoltage;
@@ -260,7 +334,7 @@ namespace Game
 		{
 			if (voltage < 0)
 			{
-				if(voltage > -MaxVoltage)
+				if (voltage > -MaxVoltage)
 					voltage = 0;
 				else MaxVoltage = 0;
 			}
