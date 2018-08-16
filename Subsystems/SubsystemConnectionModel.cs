@@ -9,23 +9,34 @@ using TemplatesDatabase;
 
 namespace Game
 {
+	public static StackUtils
+	{
+		public static void Push<T>(this DynamicArray<T> array, T item)
+		{
+			if (array.m_count >= array.Capacity)
+			{
+				int value = MathUtils.Max(array.Capacity << 1, 4);
+				if (value != array.Capacity)
+				{
+					T[] arr = new T[value];
+					if (array.m_array != null)
+					{
+						System.Array.Copy(array.m_array, 0, arr, 0, array.m_count);
+					}
+					array.m_array = arr;
+				}
+			}
+			array.m_array[array.m_count++] = item;
+		}
+	}
 	public class SubsystemConnectionModel : SubsystemBlockBehavior, IUpdateable
 	{
 		public SubsystemTime SubsystemTime;
 		//public SubsystemAudio SubsystemAudio;
 		float m_remainingSimulationTime;
-		public int CircuitStep;
+		public int UpdateStep;
 		public DynamicArray<CircuitElement> Path;
 		public Dictionary<Point3, CircuitElement> Table;
-		public static readonly ElectricConnectionPath[] PathTable =
-		{
-			new ElectricConnectionPath(0, 0, 1, 5, 5, 5),
-			new ElectricConnectionPath(1, 0, 0, 5, 5, 5),
-			new ElectricConnectionPath(0, 0, -1, 5, 5, 5),
-			new ElectricConnectionPath(-1, 0, 0, 5, 5, 5),
-			new ElectricConnectionPath(0, 1, 0, 5, 5, 5),
-			new ElectricConnectionPath(0, -1, 0, 5, 5, 5)
-		};
 		public override int[] HandledBlocks
 		{
 			get { return new int[0]; }
@@ -51,51 +62,52 @@ namespace Game
 		public override void OnBlockAdded(int value, int oldValue, int x, int y, int z)
 		{
 			var element = GetCircuitDevice(SubsystemTerrain.Terrain, x, y, z);
-			if (element != null)
+			if (element == null || (element.Type & ElementType.Power) == 0 || Table.ContainsKey(element))
+				return;
+			var neighbors = new DynamicArray<Device>();//当前顶点的邻接表
+			GetAllConnectedNeighbors(SubsystemTerrain.Terrain, element, 5, neighbors);
+			if (neighbors.Count < 2)
+				return;
+			Table.Add(element.Point, element);
+			var stack = new DynamicArray<Device>(1);
+			stack.Push(neighbors.Array[0]); // start
+			var end = neighbors.Array[1];
+			while (stack.Count > 0)
 			{
-				var stack = new DynamicArray<CircuitDevice>(1);
-				CircuitElement visited;
-				var powers = new Dictionary<CircuitElement, int>();
-				stack.Add(element);
-				while (stack.Count > 0)
+				var current = stack.Array[stack.Count - 1];//当前顶点
+				if (current == end)
 				{
-					var current = stack.Array[stack.Count - 1];//当前顶点
-					if (Table.TryGetValue(current.Point, out visited))//如果访问过
-					{
-						continue;
-					}
-					Table.Add(current.Point, current);//将该点添加到表中
-					var neighbors = new DynamicArray<CircuitDevice>();//当前顶点的邻接表
-					GetAllConnectedNeighbors(SubsystemTerrain.Terrain, current, 5, (ICollection<ElectricConnectionPath>)neighbors);
-					var narr = neighbors.Array;
-					QuickSort(narr, 0, narr.Length - 1);
-					bool flag = false;
-					for (int i = 0; i < narr.Length; i++)
-					{
-						int index;
-						if (narr[i].GetResistance() == 1)
-							flag = true;
-						else if (flag)
-						{
-							if ((narr[i].Type & ElementType.Power) != 0)
-							{
-								if (powers.TryGetValue(narr[i], out index))
-								{
-									if (index < stack.Count)
-									{
-										goto pop;
-									}
-								}
-								else
-									powers.Add(narr[i], stack.Count);
-							}
-						}
-						stack.Add(narr[i]);//将该点添加到访问栈中
-					}
-					pop: stack.RemoveAtEnd();
+					Path.Push(element);
+					//current.Next = null;
 				}
-				if ((element.Type & ElementType.Power) != 0)
-					Path.Add(element);
+				else
+				{
+					neighbors.Clear();
+					GetAllConnectedNeighbors(SubsystemTerrain.Terrain, current, 5, neighbors);
+					if (neighbors.Count > 0)
+					{
+						current.Next = new DynamicArray<Device>(neighbors.Count);
+						QuickSort(neighbors.Array, 0, neighbors.Count - 1);
+						bool flag = false;
+						for (int i = 0; i < neighbors.Count; i++)
+						{
+							var cur = neighbors.Array[i];
+							if (Table.TryGetValue(cur.Point, out Device visited))//如果访问过
+							{
+								current.Next.Add(visited);
+								continue;
+							}
+							Table.Add(cur.Point, cur);//将该点添加到表中
+							if (cur.GetResistance() < 2)
+								flag = true;
+							else if (flag)
+								break;
+							current.Next.Add(cur);
+							stack.Push(cur);//将该点添加到访问栈中
+						}
+					}
+				}
+				stack.RemoveAtEnd();
 			}
 		}
 		public override void OnBlockRemoved(int value, int newValue, int x, int y, int z)
@@ -151,7 +163,7 @@ namespace Game
 			m_remainingSimulationTime = MathUtils.Min(m_remainingSimulationTime + dt, 0.1f);
 			while (m_remainingSimulationTime >= 0.02f)
 			{
-				CircuitStep++;
+				UpdateStep++;
 				m_remainingSimulationTime -= 0.02f;
 				var arr = Path.Array;
 				for (int i = 0; i < Path.Count; i++)
@@ -178,7 +190,7 @@ namespace Game
 				}
 			}
 		}
-		public static void QuickSort(CircuitNode[] R, int Low, int High, int voltage = 0)
+		public static void QuickSort(Node[] R, int Low, int High, int voltage = 0)
 		{
 			int low = 2, high = High - Low;
 			while ((high >>= 1) > 0)
@@ -193,10 +205,10 @@ namespace Game
 				low = Low = stack[count - 1];
 				high = High = stack[count -= 2];
 				var tmp = R[low];
-				int r = R[random.UniformInt(low, high)].GetResistance(voltage);
+				int r = R[random.UniformInt(low, high)].GetWeight(voltage);
 				while (high > low)
 				{
-					while (low < high && r <= R[high].GetResistance(voltage))
+					while (low < high && r <= R[high].GetWeight(voltage))
 					{
 						high--;
 					}
@@ -205,7 +217,7 @@ namespace Game
 						R[low] = R[high];
 						R[high] = tmp;
 					}
-					while (low < high && r >= R[low].GetResistance(voltage))
+					while (low < high && r >= R[low].GetWeight(voltage))
 					{
 						low++;
 					}
@@ -245,9 +257,9 @@ namespace Game
 			}
 			return null;
 		}
-		public static CircuitDevice GetCircuitDevice(Terrain terrain, int x, int y, int z)
+		public static Device GetCircuitDevice(Terrain terrain, int x, int y, int z)
 		{
-			var device = GetCircuitElement(terrain.GetCellValueFast(x, y, z)) as CircuitDevice;
+			var device = GetCircuitElement(terrain.GetCellValueFast(x, y, z)) as Device;
 			if (device != null)
 			{
 				device.Point = new Point3(x, y, z);
@@ -255,7 +267,7 @@ namespace Game
 			}
 			return null;
 		}
-		public static void GetAllConnectedNeighbors(Terrain terrain, CircuitDevice elem, int mountingFace, ICollection<ElectricConnectionPath> list)
+		public static void GetAllConnectedNeighbors(Terrain terrain, Device elem, int mountingFace, ICollection<Device> list)
 		{
 			if (mountingFace != 5 || elem == null) return;
 			int x, y, z;
@@ -266,27 +278,27 @@ namespace Game
 			z = point.Z;
 			if ((elem = GetCircuitDevice(terrain, x, y, z + 1)) != null && (elem.Type & type) != 0)
 			{
-				list.Add(PathTable[0]);
+				list.Add(elem);
 			}
 			if ((elem = GetCircuitDevice(terrain, x + 1, y, z)) != null && (elem.Type & type) != 0)
 			{
-				list.Add(PathTable[1]);
+				list.Add(elem);
 			}
 			if ((elem = GetCircuitDevice(terrain, x, y, z - 1)) != null && (elem.Type & type) != 0)
 			{
-				list.Add(PathTable[2]);
+				list.Add(elem);
 			}
 			if ((elem = GetCircuitDevice(terrain, x - 1, y, z)) != null && (elem.Type & type) != 0)
 			{
-				list.Add(PathTable[3]);
+				list.Add(elem);
 			}
 			if ((elem = GetCircuitDevice(terrain, x, y + 1, z)) != null && (elem.Type & type) != 0)
 			{
-				list.Add(PathTable[4]);
+				list.Add(elem);
 			}
 			if ((elem = GetCircuitDevice(terrain, x, y - 1, z)) != null && (elem.Type & type) != 0)
 			{
-				list.Add(PathTable[5]);
+				list.Add(elem);
 			}
 		}
 		public void GarbageCollectItems()

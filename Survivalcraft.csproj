@@ -59,6 +59,7 @@
     <Compile Include="Blocks\SteelGearMouldBlock.cs" />
     <Compile Include="Blocks\SteelWheelBlock.cs" />
     <Compile Include="Blocks\SteelWheelMouldBlock.cs" />
+    <Compile Include="Subsystems\SubsystemSourceOfFireBlockBehavior.cs" />
     <Compile Include="Widgets\CastMachWidget.cs" />
     <Compile Include="Components\ComponentCastMach.cs" />
     <Compile Include="Subsystems\SubsystemCastMachBlockBehavior.cs" />

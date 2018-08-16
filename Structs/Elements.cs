@@ -214,11 +214,16 @@ namespace Game
 			info.AddValue("Next", Next, typeof(DynamicArray<Element>));
 		}
 	}
-	public abstract class Device : Element
+	[Serializable]
+	public abstract class Device : Element, IEquatable<Device>
 	{
 		public Point3 Point;
 		protected Device() : base(ElementType.Device)
 		{
+		}
+		protected Device(SerializationInfo info, StreamingContext context) : base(info, context)
+		{
+			Point = (Point3)info.GetValue("Point", typeof(Point3));
 		}
 		public virtual void GenerateTerrainVertices(Block block, BlockGeometryGenerator generator, TerrainGeometrySubsets geometry, int value, int x, int y, int z)
 		{
@@ -226,10 +231,10 @@ namespace Game
 		}
 		public override bool Equals(object obj)
 		{
-			var node = obj as CircuitDevice;
+			var node = obj as Device;
 			return node != null ? Equals(node) : base.Equals(node);
 		}
-		public bool Equals(CircuitDevice other)
+		public bool Equals(Device other)
 		{
 			return base.Equals(other) && Point.Equals(other.Point);
 		}
@@ -237,7 +242,13 @@ namespace Game
 		{
 			return Point.X | Point.Z << 10 | (base.GetHashCode() ^ Point.Y) << 20;
 		}
+		public override void GetObjectData(SerializationInfo info, StreamingContext context)
+		{
+			base.GetObjectData(info, context);
+			info.AddValue("Point", Point, typeof(Point3));
+		}
 	}
+	[Serializable]
 	public abstract class FixedDevice : Device, IEquatable<FixedDevice>
 	{
 		public readonly int Resistance;
@@ -246,6 +257,10 @@ namespace Game
 			if (resistance < 1)
 				throw new ArgumentOutOfRangeException("resistance", resistance, "EnergyElement has Resistance < 1");
 			Resistance = resistance;
+		}
+		protected Device(SerializationInfo info, StreamingContext context) : base(info, context)
+		{
+			Resistance = info.GetInt32("Resistance");
 		}
 		public override int GetWeight(int value)
 		{
@@ -266,7 +281,12 @@ namespace Game
 		}
 		public override int GetHashCode()
 		{
-			return (int)Type ^ Resistance;
+			return base.GetHashCode() ^ Resistance;
+		}
+		public override void GetObjectData(SerializationInfo info, StreamingContext context)
+		{
+			base.GetObjectData(info, context);
+			info.AddValue("Resistance", Resistance);
 		}
 	}
 }

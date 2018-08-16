@@ -20,14 +20,6 @@ namespace Game
 		public override void Simulate(ref int voltage)
 		{
 		}
-		/*public virtual int GetResistance(int voltage = 0)
-		{
-			return base.GetWeight(voltage);
-		}
-		public override int GetWeight(int value)
-		{
-			return GetResistance(value);
-		}*/
 		public static void GenerateWireVertices(BlockGeometryGenerator generator, int value, int x, int y, int z, int mountingFace, float centerBoxSize, Vector2 centerOffset, TerrainGeometrySubset subset)
 		{
 			var terrain = generator.Terrain;

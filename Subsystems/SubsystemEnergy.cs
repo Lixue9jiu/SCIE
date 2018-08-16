@@ -53,7 +53,7 @@ namespace Game
 			var element = GetCircuitDevice(SubsystemTerrain.Terrain, x, y, z);
 			if (element != null)
 			{
-				var stack = new DynamicArray<CircuitDevice>(1);
+				var stack = new DynamicArray<Device>(1);
 				CircuitElement visited;
 				var powers = new Dictionary<CircuitElement, int>();
 				stack.Add(element);
@@ -65,7 +65,7 @@ namespace Game
 						continue;
 					}
 					Table.Add(current.Point, current);//将该点添加到表中
-					var neighbors = new DynamicArray<CircuitDevice>();//当前顶点的邻接表
+					var neighbors = new DynamicArray<Device>();//当前顶点的邻接表
 					GetAllConnectedNeighbors(SubsystemTerrain.Terrain, current, 5, (ICollection<ElectricConnectionPath>)neighbors);
 					var narr = neighbors.Array;
 					QuickSort(narr, 0, narr.Length - 1);
@@ -178,58 +178,6 @@ namespace Game
 				}
 			}
 		}
-		public static void QuickSort(CircuitNode[] R, int Low, int High, int voltage = 0)
-		{
-			int low = 2, high = High - Low;
-			while ((high >>= 1) > 0)
-				low += 2;
-			var stack = new int[low];
-			stack[0] = Low;
-			stack[1] = High;
-			int count = 2;
-			var random = new Random(R.Length - Low + High);
-			while (count > 0)
-			{
-				low = Low = stack[count - 1];
-				high = High = stack[count -= 2];
-				var tmp = R[low];
-				int r = R[random.UniformInt(low, high)].GetResistance(voltage);
-				while (high > low)
-				{
-					while (low < high && r <= R[high].GetResistance(voltage))
-					{
-						high--;
-					}
-					if (high > low)
-					{
-						R[low] = R[high];
-						R[high] = tmp;
-					}
-					while (low < high && r >= R[low].GetResistance(voltage))
-					{
-						low++;
-					}
-					if (high > low)
-					{
-						R[high] = R[low];
-						R[low] = tmp;
-					}
-					if (low == high)
-					{
-						if (Low < low - 1)
-						{
-							stack[count + 1] = Low;
-							stack[count += 2] = low - 1;
-						}
-						if (High > low + 1)
-						{
-							stack[count + 1] = low + 1;
-							stack[count += 2] = High;
-						}
-					}
-				}
-			}
-		}
 		public static CircuitElement GetCircuitElement(int value)
 		{
 			if (Terrain.ExtractContents(value) == 300)
@@ -245,9 +193,9 @@ namespace Game
 			}
 			return null;
 		}
-		public static CircuitDevice GetCircuitDevice(Terrain terrain, int x, int y, int z)
+		public static Device GetCircuitDevice(Terrain terrain, int x, int y, int z)
 		{
-			var device = GetCircuitElement(terrain.GetCellValueFast(x, y, z)) as CircuitDevice;
+			var device = GetCircuitElement(terrain.GetCellValueFast(x, y, z)) as Device;
 			if (device != null)
 			{
 				device.Point = new Point3(x, y, z);
@@ -255,7 +203,7 @@ namespace Game
 			}
 			return null;
 		}
-		public static void GetAllConnectedNeighbors(Terrain terrain, CircuitDevice elem, int mountingFace, ICollection<ElectricConnectionPath> list)
+		public static void GetAllConnectedNeighbors(Terrain terrain, Device elem, int mountingFace, ICollection<ElectricConnectionPath> list)
 		{
 			if (mountingFace != 5 || elem == null) return;
 			int x, y, z;
