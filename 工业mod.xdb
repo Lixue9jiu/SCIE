@@ -89,6 +89,12 @@
         <Parameter Name="SlotsCount" Guid="3ded5823-a4c0-4ad5-85f8-813ef26dae6b" Value="2" Type="int" />
       </MemberComponentTemplate>
      </EntityTemplate>
+    <EntityTemplate Name="Squeezer" Guid="bff45156-d37d-455f-9a43-803260a915a9">
+      <MemberComponentTemplate Name="BlockEntity" Guid="b2f47fed-8233-4bee-ad3e-bde77df10654" InheritanceParent="09a85cba-d94e-41b8-9497-f20ed942c17e" />
+      <MemberComponentTemplate Name="Squeezer" Guid="e7f52845-dfe9-4331-900e-4c5f3ce25348" InheritanceParent="cfff7936-de35-4e94-ba6e-90cd55cd19d4">
+        <Parameter Name="SlotsCount" Guid="3ded5826-a4c0-4ad5-85f8-813ef26dae6b" Value="2" Type="int" />
+      </MemberComponentTemplate>
+     </EntityTemplate>
     <EntityTemplate Name="FurnaceN" Guid="a4a43056-d37d-455f-9a43-803260a915a9">
       <MemberComponentTemplate Name="BlockEntity" Guid="f2d450cd-8233-4bee-ad3e-bde77df10654" InheritanceParent="09a85cba-d94e-41b8-9497-f20ed942c17e" />
       <MemberComponentTemplate Name="FurnaceN" Guid="a7a41844-dfe9-4331-900e-4c5f3ce25348" InheritanceParent="f91f7906-de35-4e94-ba6e-90cd55cd19d4">
@@ -141,6 +147,9 @@
     </MemberSubsystemTemplate>
     <MemberSubsystemTemplate Name="PresserNNBlockBehavior" Guid="cfffff62-402f-4b96-987a-6050eb7ed2d4" InheritanceParent="fefb9590-4972-4893-b02a-76063611b745">
       <Parameter Name="Class" Guid="a6185e2b-5607-40f1-8704-4c42f35ec016" Value="Game.SubsystemPresserNNBlockBehavior" Type="string" />
+    </MemberSubsystemTemplate>
+    <MemberSubsystemTemplate Name="SqueezerBlockBehavior" Guid="cfffff63-402f-4b96-987a-6050eb7ed2d4" InheritanceParent="fefb9590-4972-4893-b02a-76063611b745">
+      <Parameter Name="Class" Guid="a6195e2b-5607-40f1-8704-4c42f35ec016" Value="Game.SubsystemSqueezerBlockBehavior" Type="string" />
     </MemberSubsystemTemplate>
     <MemberSubsystemTemplate Name="FurnaceNBlockBehavior" Guid="f07f0e62-402f-4b96-987a-6050eb7ed2d4" InheritanceParent="fefb9590-4972-4893-b02a-76063611b745">
       <Parameter Name="Class" Guid="8618532b-5607-40f1-8704-4c42f35ec016" Value="Game.SubsystemFurnaceNBlockBehavior" Type="string" />
@@ -208,6 +217,11 @@
       <Parameter Name="FireTimeRemaining" Description="Fire time remaining, in seconds" Guid="6831cd84-3ff3-4165-aad1-19685e751850" Value="0" Type="float" />
       <Parameter Name="HeatLevel" Description="Current heat level in steamengine" Guid="f4667184-79c4-409e-b043-f9d3010d7e95" Value="0" Type="float" />
       <Parameter Name="Class" Guid="fe4c23ff-1d3c-467e-81bc-1796f686be51" Value="Game.ComponentPresserNN" Type="string" />
+    </ComponentTemplate>
+    <ComponentTemplate Name="Squeezer" Description="A presserNN" Guid="cfff7936-de35-4e94-ba6e-90cd55cd19d4" InheritanceParent="81a44c6a-c30a-4f53-8d64-0c30aabab8f9">
+      <Parameter Name="FireTimeRemaining" Description="Fire time remaining, in seconds" Guid="6833cd84-3ff3-4165-aad1-19685e751850" Value="0" Type="float" />
+      <Parameter Name="HeatLevel" Description="Current heat level in steamengine" Guid="f4667384-79c4-409e-b043-f9d3010d7e95" Value="0" Type="float" />
+      <Parameter Name="Class" Guid="fe4c25ff-1d3c-467e-81bc-1796f686be51" Value="Game.ComponentSqueezer" Type="string" />
     </ComponentTemplate>
     <ComponentTemplate Name="FurnaceN" Description="A ironfurnace" Guid="f91f7906-de35-4e94-ba6e-90cd55cd19d4" InheritanceParent="81a44c6a-c30a-4f53-8d64-0c30aabab8f9">
       <Parameter Name="FireTimeRemaining" Description="Fire time remaining, in seconds" Guid="3830cd84-3ff3-4165-aad1-19685e751850" Value="0" Type="float" />
