@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections;
-using System.Linq;
 using System.Collections.Generic;
-using System.Text;
 using Engine;
-using Game;
 using TemplatesDatabase;
 
 namespace Game
@@ -29,7 +25,7 @@ namespace Game
 			array.Array[array.m_count++] = item;
 		}
 	}
-	public class SubsystemConnectionModel : SubsystemBlockBehavior, IUpdateable
+	public class SubsystemCircuit : SubsystemBlockBehavior, IUpdateable
 	{
 		public SubsystemTime SubsystemTime;
 		//public SubsystemAudio SubsystemAudio;
@@ -38,10 +34,16 @@ namespace Game
 		public Terrain Terrain;
 		public DynamicArray<Element> Path;
 		public Dictionary<Point3, Element> Table;
-		public override int[] HandledBlocks
+		public static readonly ElectricConnectionPath[] PathTable =
 		{
-			get { return new int[0]; }
-		}
+			new ElectricConnectionPath(0, 0, 1, 5, 5, 5),
+			new ElectricConnectionPath(1, 0, 0, 5, 5, 5),
+			new ElectricConnectionPath(0, 0, -1, 5, 5, 5),
+			new ElectricConnectionPath(-1, 0, 0, 5, 5, 5),
+			new ElectricConnectionPath(0, 1, 0, 5, 5, 5),
+			new ElectricConnectionPath(0, -1, 0, 5, 5, 5)
+		};
+		public override int[] HandledBlocks => new int[] { 601 };
 		public int UpdateOrder
 		{
 			get { return 0; }
@@ -63,11 +65,11 @@ namespace Game
 		}
 		public override void OnBlockAdded(int value, int oldValue, int x, int y, int z)
 		{
-			var element = GetDevice(SubsystemTerrain.Terrain, x, y, z);
+			var element = GetDevice(x, y, z);
 			if (element == null || (element.Type & ElementType.Supply) == 0 || Table.ContainsKey(element.Point))
 				return;
 			var neighbors = new DynamicArray<Device>();//当前顶点的邻接表
-			GetAllConnectedNeighbors(SubsystemTerrain.Terrain, element, 5, neighbors);
+			GetAllConnectedNeighbors(element, 5, neighbors);
 			if (neighbors.Count < 2)
 				return;
 			Table.Add(element.Point, element);
@@ -85,7 +87,7 @@ namespace Game
 				else
 				{
 					neighbors.Clear();
-					GetAllConnectedNeighbors(SubsystemTerrain.Terrain, current, 5, neighbors);
+					GetAllConnectedNeighbors(current, 5, neighbors);
 					if (neighbors.Count > 0)
 					{
 						current.Next = new DynamicArray<Element>(neighbors.Count);
@@ -114,7 +116,7 @@ namespace Game
 		}
 		public override void OnBlockRemoved(int value, int newValue, int x, int y, int z)
 		{
-			var element = GetDevice(SubsystemTerrain.Terrain, x, y, z);
+			var element = GetDevice(x, y, z);
 			if (element != null)
 			{
 				var next = element.Next.Array;
@@ -135,7 +137,7 @@ namespace Game
 		}
 		public override void OnBlockModified(int value, int oldValue, int x, int y, int z)
 		{
-			var element = GetDevice(SubsystemTerrain.Terrain, x, y, z);
+			var element = GetDevice(x, y, z);
 			if (element != null)
 			{
 				OnBlockAdded(value, oldValue, x, y, z);
@@ -160,9 +162,33 @@ namespace Game
 				}
 			}
 		}
+		public static Element GetElement(int value)
+		{
+			if (Terrain.ExtractContents(value) == 300)
+			{
+				switch (Terrain.ExtractData(value))
+				{
+					case 1: return new SmallGenerator();
+					case 2: return new WireElement();
+					case 3: return new ElectricFurnace();
+					case 10: return new DiodeDevice();
+					case 12: return new Battery12V();
+				}
+			}
+			return null;
+		}
 		public virtual Device GetDevice(int x, int y, int z)
 		{
-			if (GetCircuitElement(Terrain.GetCellValueFast(x, y, z)) is Device device)
+			if (GetElement(Terrain.GetCellValueFast(x, y, z)) is Device device)
+			{
+				device.Point = new Point3(x, y, z);
+				return device;
+			}
+			return null;
+		}
+		public static Device GetDevice(Terrain terrain, int x, int y, int z)
+		{
+			if (GetElement(terrain.GetCellValueFast(x, y, z)) is Device device)
 			{
 				device.Point = new Point3(x, y, z);
 				return device;
@@ -253,6 +279,74 @@ namespace Game
 						}
 					}
 				}
+			}
+		}
+		public void GetAllConnectedNeighbors(Device elem, int mountingFace, ICollection<ElectricConnectionPath> list)
+		{
+			if (mountingFace != 5 || elem == null) return;
+			int x, y, z;
+			var type = elem.Type;
+			var point = elem.Point;
+			x = point.X;
+			y = point.Y;
+			z = point.Z;
+			if ((elem = GetDevice(x, y, z + 1)) != null && (elem.Type & type) != 0)
+			{
+				list.Add(PathTable[0]);
+			}
+			if ((elem = GetDevice(x + 1, y, z)) != null && (elem.Type & type) != 0)
+			{
+				list.Add(PathTable[1]);
+			}
+			if ((elem = GetDevice(x, y, z - 1)) != null && (elem.Type & type) != 0)
+			{
+				list.Add(PathTable[2]);
+			}
+			if ((elem = GetDevice(x - 1, y, z)) != null && (elem.Type & type) != 0)
+			{
+				list.Add(PathTable[3]);
+			}
+			if ((elem = GetDevice(x, y + 1, z)) != null && (elem.Type & type) != 0)
+			{
+				list.Add(PathTable[4]);
+			}
+			if ((elem = GetDevice(x, y - 1, z)) != null && (elem.Type & type) != 0)
+			{
+				list.Add(PathTable[5]);
+			}
+		}
+		public void GetAllConnectedNeighbors(Device elem, int mountingFace, ICollection<Device> list)
+		{
+			if (mountingFace != 5 || elem == null) return;
+			int x, y, z;
+			var type = elem.Type;
+			var point = elem.Point;
+			x = point.X;
+			y = point.Y;
+			z = point.Z;
+			if ((elem = GetDevice(x, y, z + 1)) != null && (elem.Type & type) != 0)
+			{
+				list.Add(elem);
+			}
+			if ((elem = GetDevice(x + 1, y, z)) != null && (elem.Type & type) != 0)
+			{
+				list.Add(elem);
+			}
+			if ((elem = GetDevice(x, y, z - 1)) != null && (elem.Type & type) != 0)
+			{
+				list.Add(elem);
+			}
+			if ((elem = GetDevice(x - 1, y, z)) != null && (elem.Type & type) != 0)
+			{
+				list.Add(elem);
+			}
+			if ((elem = GetDevice(x, y + 1, z)) != null && (elem.Type & type) != 0)
+			{
+				list.Add(elem);
+			}
+			if ((elem = GetDevice(x, y - 1, z)) != null && (elem.Type & type) != 0)
+			{
+				list.Add(elem);
 			}
 		}
 		public void GarbageCollectItems()

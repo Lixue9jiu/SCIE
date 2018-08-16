@@ -67,7 +67,7 @@
     <Compile Include="Structs\CircuitDevices.cs" />
     <Compile Include="Structs\CircuitElements.cs" />
     <Compile Include="Structs\Elements.cs" />
-    <Compile Include="Subsystems\SubsystemConnectionModel.cs" />
+    <Compile Include="Subsystems\SubsystemCircuit.cs" />
     <Compile Include="Subsystems\SubsystemEnergy.cs" />
     <Compile Include="Subsystems\SubsystemSourceOfFireBlockBehavior.cs" />
     <Compile Include="Widgets\SqueezerWidget.cs" />

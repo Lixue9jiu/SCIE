@@ -62,7 +62,7 @@ namespace Game
 		public static void GenerateWireVertices(BlockGeometryGenerator generator, int value, int x, int y, int z, int mountingFace, float centerBoxSize, Vector2 centerOffset, TerrainGeometrySubset subset)
 		{
 			var terrain = generator.Terrain;
-			if (!(SubsystemEnergy.GetCircuitElement(terrain.GetCellValueFast(x, y, z)) is Device device)) return;
+			if (!(SubsystemEnergy.GetElement(terrain.GetCellValueFast(x, y, z)) is Device device)) return;
 			Color color = WireBlock.WireColor;
 			int num = Terrain.ExtractContents(value);
 			if (num == ElementBlock.Index)
@@ -83,7 +83,7 @@ namespace Game
 			Vector3 vector2 = CellFace.FaceToVector3(SubsystemElectricity.GetConnectorFace(mountingFace, ElectricConnectorDirection.Left)) * centerOffset.X + v4 * centerOffset.Y;
 			int num4 = 0;
 			var paths = new DynamicArray<ElectricConnectionPath>();
-			SubsystemEnergy.GetAllConnectedNeighbors(terrain, device, mountingFace, paths);
+			//SubsystemEnergy.GetAllConnectedNeighbors(device, mountingFace, paths);
 			foreach (ElectricConnectionPath tmpConnectionPath in paths)
 			{
 				if ((num4 & (1 << tmpConnectionPath.ConnectorFace)) == 0)

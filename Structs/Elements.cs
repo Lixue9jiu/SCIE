@@ -12,7 +12,7 @@ namespace Game
 		public const int Index = 300;
 		public override void GenerateTerrainVertices(BlockGeometryGenerator generator, TerrainGeometrySubsets geometry, int value, int x, int y, int z)
 		{
-			var element = SubsystemEnergy.GetDevice(generator.Terrain, x, y, z);
+			var element = SubsystemCircuit.GetDevice(generator.Terrain, x, y, z);
 			if (element != null)
 			{
 				element.GenerateTerrainVertices(this, generator, geometry, value, x, y, z);
@@ -20,7 +20,7 @@ namespace Game
 		}
 		public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
 		{
-			var element = SubsystemEnergy.GetCircuitElement(value);
+			var element = SubsystemCircuit.GetElement(value);
 			if (element != null)
 			{
 				element.DrawBlock(primitivesRenderer, value, color, size, ref matrix, environmentData);
@@ -41,14 +41,14 @@ namespace Game
 			Element element;
 			do
 			{
-				element = SubsystemEnergy.GetCircuitElement(Terrain.MakeBlockValue(Index, 0, i++));
+				element = SubsystemCircuit.GetElement(Terrain.MakeBlockValue(Index, 0, i++));
 			}
 			while (element != null);
 			return list;
 		}
 		public override string GetDisplayName(SubsystemTerrain subsystemTerrain, int value)
 		{
-			var element = SubsystemEnergy.GetCircuitElement(value);
+			var element = SubsystemCircuit.GetElement(value);
 			var name = element.GetDisplayName(subsystemTerrain, value);
 			if (element != null)
 			{
@@ -158,9 +158,13 @@ namespace Game
 		}
 	}
 	[Serializable]
-	public abstract class Element : Node, IEnumerable<Element>, IEnumerable, IEquatable<Element>
+	public abstract class Element : Node, IEnumerable<Element>, IEnumerable, IEquatable<Element>, IList<Element>
 	{
 		public DynamicArray<Element> Next;
+
+		public int Count => Next.Count;
+		public bool IsReadOnly => ((ICollection<Element>)Next).IsReadOnly;
+		public Element this[int index] { get => Next.Array[index]; set => Next.Array[index] = value; }
 		protected Element(ElementType type = ElementType.Device) : base(type)
 		{
 		}
@@ -213,9 +217,42 @@ namespace Game
 			info.AddValue("Type", (int)Type);
 			info.AddValue("Next", Next, typeof(DynamicArray<Element>));
 		}
+
+		public void CopyTo(Element[] array, int index)
+		{
+			Next.CopyTo(array, index);
+		}
+		public void Add(Element item)
+		{
+			Next.Add(item);
+		}
+		public void Clear()
+		{
+			Next.Clear();
+		}
+		public bool Contains(Element item)
+		{
+			return Next.Contains(item);
+		}
+		public bool Remove(Element item)
+		{
+			return Next.Remove(item);
+		}
+		public int IndexOf(Element item)
+		{
+			return Next.IndexOf(item);
+		}
+		public void Insert(int index, Element item)
+		{
+			throw new NotImplementedException();
+		}
+		public void RemoveAt(int index)
+		{
+			Next.RemoveAt(index);
+		}
 	}
 	[Serializable]
-	public abstract class Device : Element, IEquatable<Device>
+	public abstract class Device : Element, IEquatable<Device>, IEquatable<Point3>
 	{
 		public Point3 Point;
 		protected Device(ElementType type = ElementType.Device) : base(type)
@@ -246,6 +283,10 @@ namespace Game
 		{
 			base.GetObjectData(info, context);
 			info.AddValue("Point", Point, typeof(Point3));
+		}
+		public bool Equals(Point3 other)
+		{
+			return Point.Equals(other);
 		}
 	}
 	[Serializable]
