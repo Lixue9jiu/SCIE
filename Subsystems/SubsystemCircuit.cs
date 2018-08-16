@@ -43,7 +43,7 @@ namespace Game
 			new ElectricConnectionPath(0, 1, 0, 5, 5, 5),
 			new ElectricConnectionPath(0, -1, 0, 5, 5, 5)
 		};
-		public override int[] HandledBlocks => new int[] { 601 };
+		public override int[] HandledBlocks => new int[] { ElementBlock.Index };
 		public int UpdateOrder
 		{
 			get { return 0; }
@@ -148,7 +148,6 @@ namespace Game
 		{
 			int startX = chunk.Origin.X;
 			int startY = chunk.Origin.Y;
-			var arr = Path.Array;
 			for (var i = Table.GetEnumerator(); i.MoveNext();)
 			{
 				var key = i.Current.Key;
@@ -157,14 +156,14 @@ namespace Game
 					int index = Path.IndexOf(i.Current.Value);
 					if (index >= 0)
 					{
-						arr[index] = null;
+						Path.Array[index] = null;
 					}
 				}
 			}
 		}
 		public static Element GetElement(int value)
 		{
-			if (Terrain.ExtractContents(value) == 300)
+			if (Terrain.ExtractContents(value) == ElementBlock.Index)
 			{
 				switch (Terrain.ExtractData(value))
 				{

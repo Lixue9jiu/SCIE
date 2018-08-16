@@ -124,7 +124,7 @@
     </Recipe>
   </Weapons>
   <Items>
-    <Recipe Result="ChestNewBlock" ResultCount="1" RequiredHeatLevel="0" a="ironingot" b="piston" c="battery" Description="Make a storage freezer to protect food">
+    <Recipe Result="ElementBlock:0" ResultCount="1" RequiredHeatLevel="0" a="ironingot" b="piston" c="battery" Description="Make a storage freezer to protect food">
       "aba"
       "aca"
       "aba"

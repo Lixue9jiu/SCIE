@@ -18,6 +18,7 @@ namespace Game
 					92,
 					104,
 					132,
+					209
 				};
 			}
 		}
@@ -40,7 +41,9 @@ namespace Game
 		}
 		public override void OnBlockAdded(int value, int oldValue, int x, int y, int z)
 		{
-			if(!TryExplode(x, y, z))
+			TryExplode(x, y, z);
+			int content = Terrain.ExtractContents(value);
+			if (content != 92 && content != 104 && content != 209)
 				AddTorch(value, x, y, z);
 		}
 		public override void OnBlockRemoved(int value, int newValue, int x, int y, int z)
@@ -49,10 +52,14 @@ namespace Game
 		}
 		public override void OnBlockModified(int value, int oldValue, int x, int y, int z)
 		{
-			if(TryExplode(x, y, z))
-				return;
 			RemoveTorch(new Point3(x, y, z));
-			AddTorch(value, x, y, z);
+			OnBlockAdded(value, oldValue, x, y, z);
+		}
+		public override void OnBlockGenerated(int value, int x, int y, int z, bool isLoaded)
+		{
+			int content = Terrain.ExtractContents(value);
+			if (content != 92 && content != 104 && content != 209)
+				AddTorch(value, x, y, z);
 		}
 		public override void OnChunkDiscarding(TerrainChunk chunk)
 		{

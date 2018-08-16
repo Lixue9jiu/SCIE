@@ -6,7 +6,7 @@ namespace Game
 {
 	public class ElementBlock : Block, IPaintableBlock
 	{
-		public const int Index = 600;
+		public const int Index = 500;
 		public override void GenerateTerrainVertices(BlockGeometryGenerator generator, TerrainGeometrySubsets geometry, int value, int x, int y, int z)
 		{
 			var device = SubsystemCircuit.GetDevice(generator.Terrain, x, y, z);
@@ -26,7 +26,7 @@ namespace Game
 		public override IEnumerable<int> GetCreativeValues()
 		{
 			var list = new List<int>(8);
-			for (int i = 0, value = Terrain.MakeBlockValue(Index, 0, i); SubsystemCircuit.GetElement(value) != null; value = Terrain.MakeBlockValue(Index, 0, ++i))
+			for (int i = 0, value = Index; SubsystemCircuit.GetElement(value) != null; value = Terrain.MakeBlockValue(Index, 0, ++i))
 			{
 				list.Add(value);
 			}
@@ -55,7 +55,7 @@ namespace Game
 			return device != null ? device.GetPlacementValue(subsystemTerrain, componentMiner, value, raycastResult) : new BlockPlacementData
 			{
 				Value = value,
-				CellFace = raycastResult.CellFace
+				CellFace = cellFace
 			};
 		}
 		public override string GetDescription(int value)

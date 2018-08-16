@@ -15,7 +15,7 @@ namespace Game
 			{
 				return new int[1]
 				{
-					601
+					ElementBlock.Index
 				};
 			}
 		}
