@@ -374,7 +374,16 @@ namespace Game
 					m_matchedIngredients[7] = 6 - num7;
 					flag = true;
 				}
-			}
+                if (m_matchedIngredients2[6] >= 5 && m_matchedIngredients2[3] >= 2 && m_matchedIngredients2[5]>=1 && m_matchedIngredients2[0] + m_matchedIngredients2[1] + m_matchedIngredients2[2] + m_matchedIngredients2[4]  <= 0)
+                {
+                    int num7 = m_random.UniformInt(3, 5);
+                    m_matchedIngredients[6] = 6;
+                    m_matchedIngredients[3] = 2;
+                    m_matchedIngredients[8] = num7;
+                    m_matchedIngredients[7] = 6 - num7;
+                    flag = true;
+                }
+            }
 			if (m_matchedIngredients[8] >= 1 && (BlocksManager.Blocks[m_slots[ResultSlotIndex].Value].CraftingId != "steelingot" || m_slots[ResultSlotIndex].Count + m_matchedIngredients[8] > 40) && m_slots[ResultSlotIndex].Count != 0)
 			{
 				flag = false;

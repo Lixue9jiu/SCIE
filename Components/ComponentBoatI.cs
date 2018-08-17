@@ -81,14 +81,14 @@ namespace Game
 			{
 				num4 = componentEngine.HeatLevel;
 			}
-			if (num2)
+			if (num2 && num4>1f)
 			{
-				num3 -= m_turnSpeed * dt * num4;
+				num3 -= m_turnSpeed * dt;
 			}
 			m_componentBody.Rotation = Quaternion.CreateFromAxisAngle(Vector3.UnitY, num3);
 			if (num2 && MoveOrder != 0f)
 			{
-				m_componentBody.Velocity += dt * num4 * 10f * MoveOrder * m_componentBody.Matrix.Forward;
+				m_componentBody.Velocity += dt * num4 /90f * MoveOrder * m_componentBody.Matrix.Forward;
 			}
 			if (num)
 			{

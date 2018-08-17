@@ -1,54 +1,67 @@
+<IndustrialMod>
+<ToRemove Type="Recipe" Description="Smelt iron ore to obtain iron" />
+<ToRemove Type="Recipe" Description="Smelt copper ore to obtain copper" />
+<ToRemove Type="Recipe" Description="Smelt germanium ore to obtain germanium crystals" />
 <ToAdd>
   <Smelting>
-    <Recipe Result="SaltpeterChunkBlock" ResultCount="1" RequiredHeatLevel="1" a="rottendough" b="dirt" Description="Using bacterium to decompose dirt and rotten food to get Saltpeter">
+    <Recipe Result="SaltpeterChunkBlock" ResultCount="1" RequiredHeatLevel="700" a="rottendough" b="dirt" Description="Using bacterium to decompose dirt and rotten food to get Saltpeter">
       "ab"
     </Recipe>
-    <Recipe Result="SaltpeterChunkBlock" ResultCount="1" RequiredHeatLevel="1" a="rottenbread" b="dirt" Description="Using bacterium to decompose dirt and rotten food to get Saltpeter">
+    <Recipe Result="SaltpeterChunkBlock" ResultCount="1" RequiredHeatLevel="700" a="rottenbread" b="dirt" Description="Using bacterium to decompose dirt and rotten food to get Saltpeter">
       "ab"
     </Recipe>
-    <Recipe Result="SaltpeterChunkBlock" ResultCount="1" RequiredHeatLevel="1" a="rottenegg" b="dirt" Description="Using bacterium to decompose dirt and rotten food to get Saltpeter">
+    <Recipe Result="SaltpeterChunkBlock" ResultCount="1" RequiredHeatLevel="700" a="rottenegg" b="dirt" Description="Using bacterium to decompose dirt and rotten food to get Saltpeter">
       "ab"
     </Recipe>
-    <Recipe Result="SaltpeterChunkBlock" ResultCount="1" RequiredHeatLevel="1" a="rottenbird" b="dirt" Description="Using bacterium to decompose dirt and rotten food to get Saltpeter">
+    <Recipe Result="SaltpeterChunkBlock" ResultCount="1" RequiredHeatLevel="700" a="rottenbird" b="dirt" Description="Using bacterium to decompose dirt and rotten food to get Saltpeter">
       "ab"
     </Recipe>
-    <Recipe Result="SaltpeterChunkBlock" ResultCount="1" RequiredHeatLevel="1" a="rottenmeat" b="dirt" Description="Using bacterium to decompose dirt and rotten food to get Saltpeter">
+    <Recipe Result="SaltpeterChunkBlock" ResultCount="1" RequiredHeatLevel="700" a="rottenmeat" b="dirt" Description="Using bacterium to decompose dirt and rotten food to get Saltpeter">
       "ab"
     </Recipe>
-    <Recipe Result="SaltpeterChunkBlock" ResultCount="1" RequiredHeatLevel="1" a="rottenfish" b="dirt" Description="Using bacterium to decompose dirt and rotten food to get Saltpeter">
+    <Recipe Result="SaltpeterChunkBlock" ResultCount="1" RequiredHeatLevel="700" a="rottenfish" b="dirt" Description="Using bacterium to decompose dirt and rotten food to get Saltpeter">
       "ab"
     </Recipe>
-    <Recipe Result="SaltpeterChunkBlock" ResultCount="1" RequiredHeatLevel="1" a="rottenpumpkin" b="dirt" Description="Using bacterium to decompose dirt and rotten food to get Saltpeter">
+    <Recipe Result="SaltpeterChunkBlock" ResultCount="1" RequiredHeatLevel="700" a="rottenpumpkin" b="dirt" Description="Using bacterium to decompose dirt and rotten food to get Saltpeter">
       "ab"
     </Recipe>
-    <Recipe Result="SaltpeterChunkBlock" ResultCount="1" RequiredHeatLevel="1" Remains="EmptyBucketBlock" RemainsCount="1" a="rottenmilkbucket" b="dirt" Description="Using bacterium to decompose dirt and rotten food to get Saltpeter">
+    <Recipe Result="SaltpeterChunkBlock" ResultCount="1" RequiredHeatLevel="700" Remains="EmptyBucketBlock" RemainsCount="1" a="rottenmilkbucket" b="dirt" Description="Using bacterium to decompose dirt and rotten food to get Saltpeter">
       "ab"
     </Recipe>
-    <Recipe Result="SaltpeterChunkBlock" ResultCount="1" RequiredHeatLevel="1" Remains="EmptyBucketBlock" RemainsCount="1" a="rottenpumpkinsoupbucket" b="dirt" Description="Using bacterium to decompose dirt and rotten food to get Saltpeter">
+    <Recipe Result="SaltpeterChunkBlock" ResultCount="1" RequiredHeatLevel="700" Remains="EmptyBucketBlock" RemainsCount="1" a="rottenpumpkinsoupbucket" b="dirt" Description="Using bacterium to decompose dirt and rotten food to get Saltpeter">
       "ab"
     </Recipe>
-    <Recipe Result="IronIngotBlock" ResultCount="1" RequiredHeatLevel="1" a="ironorepowder" Description="Smelt iron ore powder to obtain iron">
+    <Recipe Result="IronIngotBlock" ResultCount="1" RequiredHeatLevel="1500" a="ironorepowder" Description="Smelt iron ore powder to obtain iron">
       "a"
      </Recipe>
-    <Recipe Result="IronIngotBlock" ResultCount="4" RequiredHeatLevel="1" a="ironorechunk" Description="Smelt iron ore to obtain iron">
+    <Recipe Result="IronIngotBlock" ResultCount="4" RequiredHeatLevel="1500" a="ironorechunk" Description="Smelt iron ore to obtain iron">
       "aaa"
      </Recipe>
-    <Recipe Result="SteelIngotBlock" ResultCount="1" RequiredHeatLevel="2" Remains="SulphurChunkBlock" RemainsCount="1" a="ironingot" Description="Smelt iron ingot to obtain steel and get rid of sulphur">
+    <Recipe Result="IronIngotBlock" ResultCount="1" RequiredHeatLevel="1500" a="ironorechunk" Description="Smelt iron ore to obtain iron">
+      "a"
+     </Recipe>
+     <Recipe Result="CopperIngotBlock" ResultCount="1" RequiredHeatLevel="1000" a="malachitechunk" Description="Smelt Copper ore to obtain copper">
+      "a"
+     </Recipe>
+     <Recipe Result="GermaniumChunkBlock" ResultCount="1" RequiredHeatLevel="900" a="germaniumorechunk" Description="Smelt germanium ore to obtain germanium crystals">
+      "a"
+     </Recipe>
+    <Recipe Result="SteelIngotBlock" ResultCount="1" RequiredHeatLevel="1500" Remains="SulphurChunkBlock" RemainsCount="1" a="ironingot" Description="Smelt iron ingot to obtain steel and get rid of sulphur">
       "aaa"
     </Recipe>
-    <Recipe Result="CopperIngotBlock" ResultCount="1" RequiredHeatLevel="1" a="copperorepowder" Description="Smelt copper ore powder to obtain copper">
+    <Recipe Result="CopperIngotBlock" ResultCount="1" RequiredHeatLevel="1000" a="copperorepowder" Description="Smelt copper ore powder to obtain copper">
       "a"
     </Recipe>
-     <Recipe Result="CopperIngotBlock" ResultCount="4" RequiredHeatLevel="1" a="malachitechunk" Description="Smelt copper ore to obtain copper">
+     <Recipe Result="CopperIngotBlock" ResultCount="4" RequiredHeatLevel="1000" a="malachitechunk" Description="Smelt copper ore to obtain copper">
       "aaa"
     </Recipe>
-    <Recipe Result="GermaniumChunkBlock" ResultCount="1" RequiredHeatLevel="1" a="gerorepowder" Description="Smelt germanium ore powder to obtain germanium crystals">
+    <Recipe Result="GermaniumChunkBlock" ResultCount="1" RequiredHeatLevel="900" a="gerorepowder" Description="Smelt germanium ore powder to obtain germanium crystals">
       "a"
     </Recipe>
-    <Recipe Result="GermaniumChunkBlock" ResultCount="4" RequiredHeatLevel="1" a="germaniumorechunk" Description="Smelt germanium ore to obtain germanium crystals">
+    <Recipe Result="GermaniumChunkBlock" ResultCount="4" RequiredHeatLevel="900" a="germaniumorechunk" Description="Smelt germanium ore to obtain germanium crystals">
       "aaa"
     </Recipe>
-    <Recipe Result="Rod2Block" ResultCount="2" RequiredHeatLevel="2" a="steelingot" Description="Forge an iron ingot into rods">
+    <Recipe Result="Rod2Block" ResultCount="2" RequiredHeatLevel="1500" a="steelingot" Description="Forge an iron ingot into rods">
       "aa"
     </Recipe>
   </Smelting>
@@ -231,3 +244,4 @@
     </Recipe>
   </Items>
 </ToAdd>
+</IndustrialMod>

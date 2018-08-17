@@ -156,15 +156,15 @@ namespace Game
 					int value = 0;
 					if (m_smeltingRecipe == "ironline")
 					{
-						value = 553;
+						value = 553+16384;
 					}
                     if (m_smeltingRecipe == "copperline")
                     {
-                        value = 554;
+                        value = 553 + 16384 * 2;
                     }
                     if (m_smeltingRecipe == "steelline")
                     {
-                        value = 555;
+                        value = 553 + 16384 * 3;
                     }
                     m_slots[ResultSlotIndex].Value = value;
 					m_slots[ResultSlotIndex].Count++;
@@ -222,6 +222,7 @@ namespace Game
 
 		private string FindSmeltingRecipe(float heatLevel)
 		{
+            int num4 = 0;
 			string text = null;
 			for (int i = 0; i < m_furnaceSize; i++)
 			{
@@ -235,14 +236,17 @@ namespace Game
 					if (block.CraftingId.ToString() == "ironingot")
 					{
 						text = "ironline";
+                        num4 = 553 + 16384;
 					}
                     if (block.CraftingId.ToString() == "copperingot")
                     {
                         text = "copperline";
+                        num4 = 553 + 16384*2;
                     }
                     if (block.CraftingId.ToString() == "steelingot")
                     {
                         text = "steelline";
+                        num4 = 553 + 16384*3;
                     }
                 }
 				else
@@ -253,9 +257,8 @@ namespace Game
 			if (text != null)
 			{
 				Slot slot = m_slots[ResultSlotIndex];
-				int num3 = Terrain.ExtractContents(GetSlotValue(1));
-				string craftingId = BlocksManager.Blocks[num3].CraftingId;
-				if (slot.Count != 0 && (craftingId != text || 1 + slot.Count > 40))
+				int num3 = GetSlotValue(1);
+				if (slot.Count != 0 && (num3 != num4 || 1 + slot.Count > 40))
 				{
 					text = null;
 				}
