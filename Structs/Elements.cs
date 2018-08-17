@@ -36,7 +36,7 @@ namespace Game
 		Inductor = 524288,
 	}
 	[Serializable]
-	public abstract class Node : IComparable, IComparable<Node>, IEquatable<Node>, IFormattable
+	public abstract class Node : ICloneable, IComparable, IComparable<Node>, IEquatable<Node>, IFormattable
 	{
 		public readonly ElementType Type;
 		//public ElectricConnectorDirection Direction;
@@ -48,14 +48,17 @@ namespace Game
 		{
 			Type = (ElementType)info.GetInt32("Type");
 		}
+		public object Clone()
+		{
+			return MemberwiseClone();
+		}
 		public bool Equals(Node other)
 		{
 			return other.Type == Type;
 		}
 		public override bool Equals(object obj)
 		{
-			var node = obj as Node;
-			return node != null && Equals(node);
+			return obj is Node node && Equals(node);
 		}
 		public virtual int GetWeight(int value = 0)
 		{
@@ -91,15 +94,16 @@ namespace Game
 		}
 	}
 	[Serializable]
-	public abstract class Element : Node, ICloneable, ICollection, IEnumerable<Element>, IEnumerable, IEquatable<Element>, IList<Element>, IStructuralComparable, IStructuralEquatable
+	public abstract class Element : Node, ICollection, ICollection<Element>, IEnumerable<Element>, IEnumerable, IEquatable<Element>, IList, IList<Element>, IReadOnlyList<Element>, IStructuralComparable, IStructuralEquatable
 	{
 		public DynamicArray<Element> Next;
 
 		public int Count => Next.Count;
 		public object SyncRoot => this;
 		public bool IsReadOnly => Next.IsReadOnly;
-		public bool IsFixedSize => true;
+		public bool IsFixedSize => false;
 		public bool IsSynchronized => false;
+		object IList.this[int index] { get => Next.Array[index]; set => Next.Array[index] = value as Element; }
 		public Element this[int index] { get => Next.Array[index]; set => Next.Array[index] = value; }
 		protected Element(ElementType type = ElementType.Device) : base(type)
 		{
@@ -107,10 +111,6 @@ namespace Game
 		protected Element(SerializationInfo info, StreamingContext context) : base(info, context)
 		{
 			Next = (DynamicArray<Element>)info.GetValue("Next", typeof(DynamicArray<Element>));
-		}
-		public object Clone()
-		{
-			return MemberwiseClone();
 		}
 		public virtual void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
 		{
@@ -174,6 +174,10 @@ namespace Game
 		{
 			Next.Array.CopyTo(array, index);
 		}
+		public int Add(object value)
+		{
+			throw new NotImplementedException();
+		}
 		public void Add(Element item)
 		{
 			Next.Add(item);
@@ -182,17 +186,33 @@ namespace Game
 		{
 			Next.Clear();
 		}
+		public bool Contains(object item)
+		{
+			return Next.Contains(item as Element);
+		}
 		public bool Contains(Element item)
 		{
 			return Next.Contains(item);
+		}
+		public void Remove(object item)
+		{
+			Next.IndexOf(item as Element);
 		}
 		public bool Remove(Element item)
 		{
 			return Next.Remove(item);
 		}
+		public int IndexOf(object item)
+		{
+			return Next.IndexOf(item as Element);
+		}
 		public int IndexOf(Element item)
 		{
 			return Next.IndexOf(item);
+		}
+		public void Insert(int index, object item)
+		{
+			Insert(index, item as Element);
 		}
 		public void Insert(int index, Element item)
 		{
