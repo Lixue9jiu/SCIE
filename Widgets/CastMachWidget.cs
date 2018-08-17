@@ -61,7 +61,7 @@ namespace Game
 
 		public override void Update()
 		{
-			m_fire.ParticlesPerSecond = (((double)m_componentFurnace.HeatLevel > 0.0) ? 24f : 0f);
+			m_fire.ParticlesPerSecond = ((double)m_componentFurnace.HeatLevel > 0.0) ? 24f : 0f;
 			m_progress.Value = m_componentFurnace.SmeltingProgress;
 			if (!m_componentFurnace.IsAddedToProject)
 			{

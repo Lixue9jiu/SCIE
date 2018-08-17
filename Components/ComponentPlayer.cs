@@ -74,20 +74,20 @@ namespace Game
 				componentBoat.TurnOrder = playerInput.Move.X;
 				componentBoat.MoveOrder = playerInput.Move.Z;
 				ComponentLocomotion.LookOrder = new Vector2(playerInput.Look.X, 0f);
-				ComponentCreatureModel.RowLeftOrder = (playerInput.Move.X < -0.2f || playerInput.Move.Z > 0.2f);
-				ComponentCreatureModel.RowRightOrder = (playerInput.Move.X > 0.2f || playerInput.Move.Z > 0.2f);
+				ComponentCreatureModel.RowLeftOrder = playerInput.Move.X < -0.2f || playerInput.Move.Z > 0.2f;
+				ComponentCreatureModel.RowRightOrder = playerInput.Move.X > 0.2f || playerInput.Move.Z > 0.2f;
 			}
 			else if (componentBoatI != null)
 			{
 				componentBoatI.TurnOrder = playerInput.Move.X;
 				componentBoatI.MoveOrder = playerInput.Move.Z;
 				ComponentLocomotion.LookOrder = new Vector2(playerInput.Look.X, 0f);
-				ComponentCreatureModel.RowLeftOrder = (playerInput.Move.X < -0.2f || playerInput.Move.Z > 0.2f);
-				ComponentCreatureModel.RowRightOrder = (playerInput.Move.X > 0.2f || playerInput.Move.Z > 0.2f);
+				ComponentCreatureModel.RowLeftOrder = playerInput.Move.X < -0.2f || playerInput.Move.Z > 0.2f;
+				ComponentCreatureModel.RowRightOrder = playerInput.Move.X > 0.2f || playerInput.Move.Z > 0.2f;
 			}
 			else
 			{
-				ComponentLocomotion.WalkOrder = (ComponentBody.IsSneaking ? (0.66f * new Vector2(playerInput.SneakMove.X, playerInput.SneakMove.Z)) : new Vector2(playerInput.Move.X, playerInput.Move.Z));
+				ComponentLocomotion.WalkOrder = ComponentBody.IsSneaking ? (0.66f * new Vector2(playerInput.SneakMove.X, playerInput.SneakMove.Z)) : new Vector2(playerInput.Move.X, playerInput.Move.Z);
 				ComponentLocomotion.FlyOrder = new Vector3(0f, playerInput.Move.Y, 0f);
 				ComponentLocomotion.TurnOrder = playerInput.Look * new Vector2(1f, 0f);
 				ComponentLocomotion.JumpOrder = MathUtils.Max((float)(playerInput.Jump ? 1 : 0), ComponentLocomotion.JumpOrder);
@@ -178,20 +178,23 @@ namespace Game
 				Vector3 vector = Vector3.Normalize(View.ActiveCamera.ScreenToWorld(new Vector3(playerInput.Hit.Value, 1f), Matrix.Identity) - viewPosition3);
 				TerrainRaycastResult? nullable3 = ComponentMiner.PickTerrainForInteraction(viewPosition3, vector);
 				BodyRaycastResult? nullable4 = ComponentMiner.PickBody(viewPosition3, vector);
-				ComponentEngine2 componentEngine = nullable4.Value.ComponentBody.Entity.FindComponent<ComponentEngine2>();
-				if (componentEngine != null)
+				if(nullable4.HasValue)
 				{
-					ComponentGui.ModalPanelWidget = new Engine2Widget(ComponentMiner.Inventory, componentEngine);
-					AudioManager.PlaySound("Audio/UI/ButtonClick", 1f, 0f, 0f);
-					return;
-				}
-				if (nullable4.HasValue && (!nullable3.HasValue || nullable3.Value.Distance > nullable4.Value.Distance))
-				{
-					flag = true;
-					m_isDigBlocked = true;
-					if (Vector3.Distance(viewPosition3 + vector * nullable4.Value.Distance, ComponentCreatureModel.EyePosition) <= 2f)
+					ComponentEngine2 componentEngine = nullable4.Value.ComponentBody.Entity.FindComponent<ComponentEngine2>();
+					if (componentEngine != null)
 					{
-						ComponentMiner.Hit(nullable4.Value.ComponentBody, vector);
+						ComponentGui.ModalPanelWidget = new Engine2Widget(ComponentMiner.Inventory, componentEngine);
+						AudioManager.PlaySound("Audio/UI/ButtonClick", 1f, 0f, 0f);
+						return;
+					}
+					if (!nullable3.HasValue || nullable3.Value.Distance > nullable4.Value.Distance)
+					{
+						flag = true;
+						m_isDigBlocked = true;
+						if (Vector3.Distance(viewPosition3 + vector * nullable4.Value.Distance, ComponentCreatureModel.EyePosition) <= 2f)
+						{
+							ComponentMiner.Hit(nullable4.Value.ComponentBody, vector);
+						}
 					}
 				}
 			}

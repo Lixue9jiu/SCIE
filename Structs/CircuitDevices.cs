@@ -157,7 +157,7 @@ namespace Game
 						BlockGeometryGenerator.SetupVertex(vector9.X, vector9.Y, vector9.Z, color9, vector15.X, vector15.Y, ref array[count + 4]);
 						BlockGeometryGenerator.SetupVertex(vector10.X, vector10.Y, vector10.Z, color10, vector16.X, vector16.Y, ref array[count + 5]);
 						int count2 = subset.Indices.Count;
-						subset.Indices.Count += ((connectorDirection == ElectricConnectorDirection.In) ? 15 : 12);
+						subset.Indices.Count += (connectorDirection == ElectricConnectorDirection.In) ? 15 : 12;
 						ushort[] array2 = subset.Indices.Array;
 						array2[count2] = (ushort)count;
 						array2[count2 + 1] = (ushort)(count + 5);

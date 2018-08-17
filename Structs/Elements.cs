@@ -36,7 +36,7 @@ namespace Game
 		Inductor = 524288,
 	}
 	[Serializable]
-	public abstract class Node : IEquatable<Node>
+	public abstract class Node : IComparable, IComparable<Node>, IEquatable<Node>, IFormattable
 	{
 		public readonly ElementType Type;
 		//public ElectricConnectorDirection Direction;
@@ -77,14 +77,29 @@ namespace Game
 		{
 			return Type.ToString();
 		}
+		public int CompareTo(object obj)
+		{
+			return Type.CompareTo(obj);
+		}
+		public int CompareTo(Node other)
+		{
+			return Type.CompareTo(other);
+		}
+		public string ToString(string format, IFormatProvider formatProvider)
+		{
+			return Type.ToString(format);
+		}
 	}
 	[Serializable]
-	public abstract class Element : Node, IEnumerable<Element>, IEnumerable, IEquatable<Element>, IList<Element>
+	public abstract class Element : Node, ICloneable, ICollection, IEnumerable<Element>, IEnumerable, IEquatable<Element>, IList<Element>, IStructuralComparable, IStructuralEquatable
 	{
 		public DynamicArray<Element> Next;
 
 		public int Count => Next.Count;
+		public object SyncRoot => this;
 		public bool IsReadOnly => Next.IsReadOnly;
+		public bool IsFixedSize => true;
+		public bool IsSynchronized => false;
 		public Element this[int index] { get => Next.Array[index]; set => Next.Array[index] = value; }
 		protected Element(ElementType type = ElementType.Device) : base(type)
 		{
@@ -92,6 +107,10 @@ namespace Game
 		protected Element(SerializationInfo info, StreamingContext context) : base(info, context)
 		{
 			Next = (DynamicArray<Element>)info.GetValue("Next", typeof(DynamicArray<Element>));
+		}
+		public object Clone()
+		{
+			return MemberwiseClone();
 		}
 		public virtual void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
 		{
@@ -151,6 +170,10 @@ namespace Game
 		{
 			Next.CopyTo(array, index);
 		}
+		public void CopyTo(Array array, int index)
+		{
+			Next.Array.CopyTo(array, index);
+		}
 		public void Add(Element item)
 		{
 			Next.Add(item);
@@ -179,6 +202,18 @@ namespace Game
 		{
 			Next.RemoveAt(index);
 		}
+		public bool Equals(object other, IEqualityComparer comparer)
+		{
+			return (Next.Array as IStructuralEquatable).Equals(other, comparer);
+		}
+		public int GetHashCode(IEqualityComparer comparer)
+		{
+			return (Next.Array as IStructuralEquatable).GetHashCode(comparer);
+		}
+		public int CompareTo(object other, IComparer comparer)
+		{
+			return (Next.Array as IStructuralComparable).CompareTo(other, comparer);
+		}
 	}
 	[Serializable]
 	public abstract class Device : Element, IEquatable<Device>, IEquatable<Point3>
@@ -202,6 +237,9 @@ namespace Game
 				Value = value,
 				CellFace = raycastResult.CellFace
 			};
+		}
+		public virtual void OnBlockAdded(int value, int oldValue, int x, int y, int z)
+		{
 		}
 		public override bool Equals(object obj)
 		{

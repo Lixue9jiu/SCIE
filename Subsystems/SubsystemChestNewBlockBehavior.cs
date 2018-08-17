@@ -41,7 +41,7 @@ namespace Game
 			ComponentBlockEntity blockEntity = m_subsystemBlockEntities.GetBlockEntity(x, y, z);
 			if (blockEntity != null)
 			{
-				Vector3 position = new Vector3((float)x, (float)y, (float)z) + new Vector3(0.5f);
+				Vector3 position = new Vector3(x, y, z) + new Vector3(0.5f);
 				foreach (IInventory item in blockEntity.Entity.FindComponents<IInventory>())
 				{
 					item.DropAllItems(position);
@@ -71,7 +71,7 @@ namespace Game
 				if (blockEntity != null)
 				{
 					ComponentChestNew inventory = blockEntity.Entity.FindComponent<ComponentChestNew>(true);
-					Pickable pickable = worldItem as Pickable;
+					var pickable = worldItem as Pickable;
 					int num = (pickable == null) ? 1 : pickable.Count;
 					int value = worldItem.Value;
 					int count = num;

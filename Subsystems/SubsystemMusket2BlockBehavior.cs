@@ -32,7 +32,7 @@ namespace Game
 
 		public override bool OnEditInventoryItem(IInventory inventory, int slotIndex, ComponentPlayer componentPlayer)
 		{
-			componentPlayer.ComponentGui.ModalPanelWidget = ((componentPlayer.ComponentGui.ModalPanelWidget == null) ? new Musket2Widget(inventory, slotIndex) : null);
+			componentPlayer.ComponentGui.ModalPanelWidget = (componentPlayer.ComponentGui.ModalPanelWidget == null) ? new Musket2Widget(inventory, slotIndex) : null;
 			return true;
 		}
 

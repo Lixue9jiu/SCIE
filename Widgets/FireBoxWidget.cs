@@ -33,7 +33,7 @@ namespace Game
 		// Token: 0x0600219B RID: 8603 RVA: 0x000E2434 File Offset: 0x000E0634
 		public override void Update()
 		{
-			m_fire.ParticlesPerSecond = (((double)m_componentFurnace.HeatLevel > 0.0) ? 24f : 0f);
+			m_fire.ParticlesPerSecond = ((double)m_componentFurnace.HeatLevel > 0.0) ? 24f : 0f;
 			m_progress.Value = m_componentFurnace.SmeltingProgress;
 			if (m_componentFurnace.IsAddedToProject)
 			{

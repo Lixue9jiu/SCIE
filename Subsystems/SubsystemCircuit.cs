@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 using Engine;
 using TemplatesDatabase;
 
@@ -27,6 +29,13 @@ namespace Game
 	}
 	public class SubsystemCircuit : SubsystemBlockBehavior, IUpdateable
 	{
+		public class Request
+		{
+			public volatile bool IsCompleted;
+			public bool IsInProgress;
+			public Element Element;
+		}
+		public Queue<Request> Requests = new Queue<Request>(1);
 		public SubsystemTime SubsystemTime;
 		//public SubsystemAudio SubsystemAudio;
 		float m_remainingSimulationTime;
@@ -57,6 +66,7 @@ namespace Game
 			Table = new Dictionary<Point3, Element>(count);
 			SubsystemTime = Project.FindSubsystem<SubsystemTime>(true);
 			//SubsystemAudio = Project.FindSubsystem<SubsystemAudio>(true);
+			Task.Run((Action)ThreadFunction);
 		}
 		public override void OnBlockGenerated(int value, int x, int y, int z, bool isLoaded)
 		{
@@ -65,14 +75,17 @@ namespace Game
 		}
 		public override void OnBlockAdded(int value, int oldValue, int x, int y, int z)
 		{
-			var element = GetDevice(x, y, z);
-			if (element == null || (element.Type & ElementType.Supply) == 0 || Table.ContainsKey(element.Point))
+			var device = GetDevice(x, y, z);
+			if (device == null)
+				return;
+			device.OnBlockAdded(value, oldValue, x, y, z);
+			if ((device.Type & ElementType.Supply) == 0 || Table.ContainsKey(device.Point))
 				return;
 			var neighbors = new DynamicArray<Device>();//当前顶点的邻接表
-			GetAllConnectedNeighbors(element, 5, neighbors);
+			GetAllConnectedNeighbors(device, 5, neighbors);
 			if (neighbors.Count < 2)
 				return;
-			Table.Add(element.Point, element);
+			Table.Add(device.Point, device);
 			var stack = new DynamicArray<Device>(1);
 			stack.Push(neighbors.Array[0]); // start
 			var end = neighbors.Array[1];
@@ -81,7 +94,7 @@ namespace Game
 				var current = stack.Array[stack.Count - 1];//当前顶点
 				if (current == end)
 				{
-					Path.Push(element);
+					Path.Push(device);
 					//current.Next = null;
 				}
 				else
@@ -202,31 +215,79 @@ namespace Game
 			{
 				UpdateStep++;
 				m_remainingSimulationTime -= 0.02f;
-				var arr = Path.Array;
 				for (int i = 0; i < Path.Count; i++)
 				{
-					var element = arr[i];
-					if (element == null)
-						continue;
-					int voltage = 0;
-					var stack = new DynamicArray<Element>(1)
+					var element = Path.Array[i];
+					if (element != null)
+						QueueSimulate(element);
+				}
+			}
+		}
+		public override void Dispose()
+		{
+			lock (Requests)
+			{
+				Requests.Clear();
+				Requests.Enqueue(null);
+				Monitor.Pulse(Requests);
+			}
+		}
+		public void ThreadFunction()
+		{
+			while (true)
+			{
+				Request request = null;
+				lock (Requests)
+				{
+					while (Requests.Count == 0)
 					{
-						element
-					};
-					while (stack.Count > 0)
+						Monitor.Wait(Requests);
+					}
+					request = Requests.Dequeue();
+				}
+				if (request == null)
+				{
+					break;
+				}
+				request.IsInProgress = false;
+				request.IsCompleted = true;
+				var element = request.Element;
+				int voltage = 0;
+				var stack = new DynamicArray<Element>(1)
+				{
+					element
+				};
+				while (stack.Count > 0)
+				{
+					if (stack.Count > 10000)
 					{
-						if ((element = stack.Array[--stack.Count]) != null)
+						throw new InvalidOperationException("Stack overflow");
+					}
+					if ((element = stack.Array[--stack.Count]) != null)
+					{
+						element.Simulate(ref voltage);
+						if (voltage != 0 && element.Next != null)
 						{
-							element.Simulate(ref voltage);
-							if (voltage != 0 && element.Next != null)
-							{
-								var array = element.Next.Array;
-								for (int j = 0; j < array.Length; j++)
-									stack.Add(array[j]);
-							}
+							var array = element.Next.Array;
+							for (int j = 0; j < array.Length; j++)
+								stack.Add(array[j]);
 						}
 					}
 				}
+				Task.Delay(20).Wait();
+			}
+		}
+		public void QueueSimulate(Element element)
+		{
+			lock (Requests)
+			{
+				Requests.Enqueue(new Request
+				{
+					IsCompleted = false,
+					IsInProgress = true,
+					Element = element
+				});
+				Monitor.Pulse(Requests);
 			}
 		}
 		public static void QuickSort(Node[] R, int Low, int High, int voltage = 0)
