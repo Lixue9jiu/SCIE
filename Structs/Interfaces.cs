@@ -19,7 +19,6 @@ namespace Game
 		void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData);
 		Vector3 GetIconBlockOffset(int value, DrawBlockEnvironmentData environmentData);
 		Vector3 GetIconViewOffset(int value, DrawBlockEnvironmentData environmentData);
-		float GetIconViewScale(int value, DrawBlockEnvironmentData environmentData);
 	}
 	public interface IAnimatedItem
 	{
@@ -48,7 +47,11 @@ namespace Game
 		float GetMeleeHitProbability(int value);
 		float GetProjectilePower(int value);
 	}
-	public interface IPlaceableItem
+	public interface IScalableItem : IItem
+	{
+		float GetIconViewScale(int value, DrawBlockEnvironmentData environmentData);
+	}
+	public interface IPlaceableItem : IItem
 	{
 		bool IsInteractive(SubsystemTerrain subsystemTerrain, int value);
 		bool IsFaceTransparent(SubsystemTerrain subsystemTerrain, int face, int value);
@@ -61,11 +64,14 @@ namespace Game
 		void GetDropValues(SubsystemTerrain subsystemTerrain, int oldValue, int newValue, int toolLevel, List<BlockDropValue> dropValues, out bool showDebris);
 		float GetHeat(int value);
 		BlockDebrisParticleSystem CreateDebrisParticleSystem(SubsystemTerrain subsystemTerrain, Vector3 position, int value, float strength);
-		BoundingBox[] GetCustomCollisionBoxes(SubsystemTerrain terrain, int value);
-		BoundingBox[] GetCustomInteractionBoxes(SubsystemTerrain terrain, int value);
 		int GetEmittedLightAmount(int value);
 		bool ShouldAvoid(int value);
 		bool IsHeatBlocker(int value);
+	}
+	public interface ICollidableItem : IPlaceableItem
+	{
+		BoundingBox[] GetCustomCollisionBoxes(SubsystemTerrain terrain, int value);
+		BoundingBox[] GetCustomInteractionBoxes(SubsystemTerrain terrain, int value);
 	}
 	public interface IBlockBehavior
 	{

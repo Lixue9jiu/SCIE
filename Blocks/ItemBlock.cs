@@ -6,7 +6,7 @@ using System;
 
 namespace Game
 {
-	public class Item : IItem, IAnimatedItem, IUnstableItem, IFood, IExplosive, IWeapon, IPlaceableItem
+	public class Item : IAnimatedItem, IUnstableItem, IFood, IExplosive, IWeapon, IScalableItem, ICollidableItem
 	{
 		internal static readonly BoundingBox[] m_defaultCollisionBoxes = new BoundingBox[]
 		{
@@ -67,17 +67,19 @@ namespace Game
 		}
 		public virtual BlockPlacementData GetPlacementValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, TerrainRaycastResult raycastResult)
 		{
-			BlockPlacementData result = default(BlockPlacementData);
-			result.Value = value;
-			result.CellFace = raycastResult.CellFace;
-			return result;
+			return new BlockPlacementData
+			{
+				Value = value,
+				CellFace = raycastResult.CellFace
+			};
 		}
 		public virtual BlockPlacementData GetDigValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, int toolValue, TerrainRaycastResult raycastResult)
 		{
-			BlockPlacementData result = default(BlockPlacementData);
-			result.Value = 0;
-			result.CellFace = raycastResult.CellFace;
-			return result;
+			return new BlockPlacementData
+			{
+				Value = 0,
+				CellFace = raycastResult.CellFace
+			};
 		}
 		public virtual void GetDropValues(SubsystemTerrain subsystemTerrain, int oldValue, int newValue, int toolLevel, List<BlockDropValue> dropValues, out bool showDebris)
 		{
@@ -177,8 +179,10 @@ namespace Game
 	}
 	public class ItemBlock : CubeBlock, IItemBlock
 	{
-		public const int Index = 295;
+		public const int Index = 567;
 		public static Item[] Items;
+		//public static DynamicArray<Item> ItemList;
+		public static Dictionary<string, int> IdTable;
 		public static readonly Item DefaultItem;
 		public Item this[int index] => Items[index];
 		public int Count => Items.Length;
@@ -193,12 +197,17 @@ namespace Game
 			}
 			return DefaultItem;
 		}
+		/*public virtual void Add(Item item)
+		{
+		}*/
 		public override void Initialize()
 		{
+			//ItemList = new DynamicArray<Item>();
 			Items = new Item[]
 			{
 
 			};
+			IdTable = new Dictionary<string, int>(Items.Length);
 			base.Initialize();
 		}
 		public override string GetDisplayName(SubsystemTerrain subsystemTerrain, int value)

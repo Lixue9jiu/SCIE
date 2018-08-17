@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using Engine;
-using Engine.Graphics;
 
 namespace Game
 {
@@ -36,7 +35,7 @@ namespace Game
 		Inductor = 524288,
 	}
 	[Serializable]
-	public abstract class Node : ICloneable, IComparable, IComparable<Node>, IEquatable<Node>, IFormattable
+	public abstract class Node : Item, ICloneable, IComparable, IComparable<Node>, IEquatable<Node>, IFormattable, IConvertible
 	{
 		public readonly ElementType Type;
 		//public ElectricConnectorDirection Direction;
@@ -47,6 +46,9 @@ namespace Game
 		protected Node(SerializationInfo info, StreamingContext context)
 		{
 			Type = (ElementType)info.GetInt32("Type");
+		}
+		public virtual void Simulate(ref int value)
+		{
 		}
 		public object Clone()
 		{
@@ -92,12 +94,79 @@ namespace Game
 		{
 			return Type.ToString(format);
 		}
+		public TypeCode GetTypeCode()
+		{
+			return Type.GetTypeCode();
+		}
+		public bool ToBoolean(IFormatProvider provider)
+		{
+			return ((IConvertible)Type).ToBoolean(provider);
+		}
+		public char ToChar(IFormatProvider provider)
+		{
+			return ((IConvertible)Type).ToChar(provider);
+		}
+		public sbyte ToSByte(IFormatProvider provider)
+		{
+			return ((IConvertible)Type).ToSByte(provider);
+		}
+		public byte ToByte(IFormatProvider provider)
+		{
+			return ((IConvertible)Type).ToByte(provider);
+		}
+		public short ToInt16(IFormatProvider provider)
+		{
+			return ((IConvertible)Type).ToInt16(provider);
+		}
+		public ushort ToUInt16(IFormatProvider provider)
+		{
+			return ((IConvertible)Type).ToUInt16(provider);
+		}
+		public int ToInt32(IFormatProvider provider)
+		{
+			return ((IConvertible)Type).ToInt32(provider);
+		}
+		public uint ToUInt32(IFormatProvider provider)
+		{
+			return ((IConvertible)Type).ToUInt32(provider);
+		}
+		public long ToInt64(IFormatProvider provider)
+		{
+			return ((IConvertible)Type).ToInt64(provider);
+		}
+		public ulong ToUInt64(IFormatProvider provider)
+		{
+			return ((IConvertible)Type).ToUInt64(provider);
+		}
+		public float ToSingle(IFormatProvider provider)
+		{
+			return ((IConvertible)Type).ToSingle(provider);
+		}
+		public double ToDouble(IFormatProvider provider)
+		{
+			return ((IConvertible)Type).ToDouble(provider);
+		}
+		public decimal ToDecimal(IFormatProvider provider)
+		{
+			return ((IConvertible)Type).ToDecimal(provider);
+		}
+		public DateTime ToDateTime(IFormatProvider provider)
+		{
+			return ((IConvertible)Type).ToDateTime(provider);
+		}
+		public string ToString(IFormatProvider provider)
+		{
+			return Type.ToString(provider);
+		}
+		public object ToType(Type conversionType, IFormatProvider provider)
+		{
+			return ((IConvertible)Type).ToType(conversionType, provider);
+		}
 	}
 	[Serializable]
-	public abstract class Element : Node, ICollection, ICollection<Element>, IEnumerable<Element>, IEnumerable, IEquatable<Element>, IList, IList<Element>, IReadOnlyList<Element>, IStructuralComparable, IStructuralEquatable
+	public abstract class Element : Node, ICollection, ICollection<Element>, IEquatable<Element>, IList, IList<Element>, IReadOnlyList<Element>, IStructuralComparable, IStructuralEquatable
 	{
 		public DynamicArray<Element> Next;
-
 		public int Count => Next.Count;
 		public object SyncRoot => this;
 		public bool IsReadOnly => Next.IsReadOnly;
@@ -111,25 +180,6 @@ namespace Game
 		protected Element(SerializationInfo info, StreamingContext context) : base(info, context)
 		{
 			Next = (DynamicArray<Element>)info.GetValue("Next", typeof(DynamicArray<Element>));
-		}
-		public virtual void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
-		{
-			BlocksManager.DrawCubeBlock(primitivesRenderer, value, new Vector3(size), ref matrix, color, color, environmentData);
-		}
-		public virtual string GetDisplayName(SubsystemTerrain subsystemTerrain, int value)
-		{
-			throw new NotImplementedException();
-		}
-		public virtual string GetDescription(int value)
-		{
-			return "";
-		}
-		public virtual int GetFaceTextureSlot(int face, int value)
-		{
-			return 245;
-		}
-		public virtual void Simulate(ref int value)
-		{
 		}
 		public override bool Equals(object obj)
 		{
@@ -228,15 +278,15 @@ namespace Game
 		}
 		public int GetHashCode(IEqualityComparer comparer)
 		{
-			return (Next.Array as IStructuralEquatable).GetHashCode(comparer);
+			return ((IStructuralEquatable)Next.Array).GetHashCode(comparer);
 		}
 		public int CompareTo(object other, IComparer comparer)
 		{
-			return (Next.Array as IStructuralComparable).CompareTo(other, comparer);
+			return ((IStructuralComparable)Next.Array).CompareTo(other, comparer);
 		}
 	}
 	[Serializable]
-	public abstract class Device : Element, IEquatable<Device>, IEquatable<Point3>
+	public abstract class Device : Element, IEquatable<Device>
 	{
 		public Point3 Point;
 		protected Device(ElementType type = ElementType.Device) : base(type)
@@ -245,18 +295,6 @@ namespace Game
 		protected Device(SerializationInfo info, StreamingContext context) : base(info, context)
 		{
 			Point = (Point3)info.GetValue("Point", typeof(Point3));
-		}
-		public virtual void GenerateTerrainVertices(Block block, BlockGeometryGenerator generator, TerrainGeometrySubsets geometry, int value, int x, int y, int z)
-		{
-			generator.GenerateCubeVertices(block, value, x, y, z, Color.White, geometry.OpaqueSubsetsByFace);
-		}
-		public virtual BlockPlacementData GetPlacementValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, TerrainRaycastResult raycastResult)
-		{
-			return new BlockPlacementData
-			{
-				Value = value,
-				CellFace = raycastResult.CellFace
-			};
 		}
 		public virtual void OnBlockAdded(int value, int oldValue, int x, int y, int z)
 		{
@@ -278,10 +316,6 @@ namespace Game
 		{
 			base.GetObjectData(info, context);
 			info.AddValue("Point", Point, typeof(Point3));
-		}
-		public bool Equals(Point3 other)
-		{
-			return Point.Equals(other);
 		}
 	}
 	[Serializable]
