@@ -1,5 +1,7 @@
 ﻿using Engine;
 using Engine.Graphics;
+using System;
+
 namespace Game
 {
 	public abstract class Generator : Device
@@ -62,7 +64,7 @@ namespace Game
 		public static void GenerateWireVertices(BlockGeometryGenerator generator, int value, int x, int y, int z, int mountingFace, float centerBoxSize, Vector2 centerOffset, TerrainGeometrySubset subset)
 		{
 			var terrain = generator.Terrain;
-			if (!(SubsystemEnergy.GetElement(terrain.GetCellValueFast(x, y, z)) is Device device)) return;
+			//if (!(SubsystemEnergy.GetElement(terrain.GetCellValueFast(x, y, z)) is Device device)) return;
 			Color color = WireBlock.WireColor;
 			int num = Terrain.ExtractContents(value);
 			if (num == ElementBlock.Index)
@@ -222,13 +224,28 @@ namespace Game
 			}
 		}
 	}
-	public abstract class Battery : Element
+	public abstract class DeviceElement : Element, IComparable<DeviceElement>, IEquatable<DeviceElement>
 	{
 		public int Voltage;
-		public int RemainCount;
-		protected Battery(int voltage) : base(ElementType.Container)
+
+		protected DeviceElement(int voltage) : base(ElementType.Device)
 		{
 			Voltage = voltage;
+		}
+		public int CompareTo(DeviceElement other)
+		{
+			return Voltage.CompareTo(other.Voltage);
+		}
+		public bool Equals(DeviceElement other)
+		{
+			return base.Equals(other) && Voltage == other.Voltage;
+		}
+	}
+	public abstract class Battery : DeviceElement, IEquatable<Battery>
+	{
+		public int RemainCount;
+		protected Battery(int voltage) : base(voltage)
+		{
 		}
 		public override void Simulate(ref int voltage)
 		{
@@ -240,6 +257,10 @@ namespace Game
 			else if(voltage >= Voltage)
 				RemainCount++;
 		}
+		public bool Equals(Battery other)
+		{
+			return base.Equals(other) && RemainCount == other.RemainCount;
+		}
 	}
 	public class Battery12V : Battery
 	{
@@ -247,45 +268,48 @@ namespace Game
 		{
 		}
 	}
-	public class ElectricFurnace : Device
+	public class QCBattery : Battery, IEquatable<QCBattery>
 	{
-        public override int GetFaceTextureSlot(int face, int value)
-        {
-            if (face != 4 && face != 5)
-            {
-                switch (Terrain.ExtractData(value))
-                {
-                    case 0:
-                        if (face == 0)
-                        {
-                            return 106;
-                        }
-                        return 174;
-                    case 1:
-                        if (face == 1)
-                        {
-                            return 106;
-                        }
-                        return 174;
-                    case 2:
-                        if (face == 2)
-                        {
-                            return 106;
-                        }
-                        return 174;
-                    default:
-                        if (face == 3)
-                        {
-                            return 106;
-                        }
-                        return 174;
-                }
-            }
-            return 174;
-        }
-    }
-	public class Fridge : Device
+		public int Factor;
+		protected QCBattery(int voltage) : base(voltage)
+		{
+		}
+		protected QCBattery(int voltage, int factor) : base(voltage)
+		{
+			Factor = factor;
+		}
+		public bool Equals(QCBattery other)
+		{
+			return base.Equals(other) && Factor == other.Factor;
+		}
+		public override void Simulate(ref int voltage)
+		{
+			if (voltage == 0)
+			{
+				voltage = Voltage;
+				RemainCount--;
+			}
+			else if (voltage >= Voltage)
+				RemainCount += Factor;
+		}
+	}
+	public class QCBattery12V : QCBattery
 	{
+		public QCBattery12V() : base(12)
+		{
+		}
+	}
+	public class ElectricFurnace : FixedDevice
+	{
+		public ElectricFurnace() : base(5)
+		{
+		}
+	}
+	public class Fridge : FixedDevice
+	{
+		public Fridge() : base(2000)
+		{
+		}
 		public override int GetFaceTextureSlot(int face, int value)
 		{
 			if (face != 4 && face != 5)

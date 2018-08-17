@@ -39,24 +39,13 @@ namespace Game
 		public SubsystemTime SubsystemTime;
 		//public SubsystemAudio SubsystemAudio;
 		float m_remainingSimulationTime;
+		ElementBlock elementblock;
 		public int UpdateStep;
 		public Terrain Terrain;
 		public DynamicArray<Element> Path;
 		public Dictionary<Point3, Element> Table;
-		public static readonly ElectricConnectionPath[] PathTable =
-		{
-			new ElectricConnectionPath(0, 0, 1, 5, 5, 5),
-			new ElectricConnectionPath(1, 0, 0, 5, 5, 5),
-			new ElectricConnectionPath(0, 0, -1, 5, 5, 5),
-			new ElectricConnectionPath(-1, 0, 0, 5, 5, 5),
-			new ElectricConnectionPath(0, 1, 0, 5, 5, 5),
-			new ElectricConnectionPath(0, -1, 0, 5, 5, 5)
-		};
 		public override int[] HandledBlocks => new int[] { ElementBlock.Index };
-		public int UpdateOrder
-		{
-			get { return 0; }
-		}
+		public int UpdateOrder => 0;
 		public override void Load(ValuesDictionary valuesDictionary)
 		{
 			base.Load(valuesDictionary);
@@ -65,6 +54,7 @@ namespace Game
 			Path = new DynamicArray<Element>(count);
 			Table = new Dictionary<Point3, Element>(count);
 			SubsystemTime = Project.FindSubsystem<SubsystemTime>(true);
+			elementblock = BlocksManager.Blocks[ElementBlock.Index] as ElementBlock;
 			//SubsystemAudio = Project.FindSubsystem<SubsystemAudio>(true);
 			Task.Run((Action)ThreadFunction);
 		}
@@ -75,50 +65,48 @@ namespace Game
 		}
 		public override void OnBlockAdded(int value, int oldValue, int x, int y, int z)
 		{
-			var device = GetDevice(x, y, z);
+			var device = elementblock.GetDevice(Terrain, x, y, z);
 			if (device == null)
 				return;
 			device.OnBlockAdded(value, oldValue, x, y, z);
 			if ((device.Type & ElementType.Supply) == 0 || Table.ContainsKey(device.Point))
 				return;
 			var neighbors = new DynamicArray<Device>();//当前顶点的邻接表
-			GetAllConnectedNeighbors(device, 5, neighbors);
+			elementblock.GetAllConnectedNeighbors(Terrain, device, 5, neighbors);
 			if (neighbors.Count < 2)
 				return;
 			Table.Add(device.Point, device);
 			var stack = new DynamicArray<Device>(1);
 			stack.Push(neighbors.Array[0]); // start
 			var end = neighbors.Array[1];
+			//非递归BFS
 			while (stack.Count > 0)
 			{
 				var current = stack.Array[stack.Count - 1];//当前顶点
-				if (current == end)
-				{
+				if (current == end)//如果电流能回到负极
 					Path.Push(device);
-					//current.Next = null;
-				}
 				else
 				{
 					neighbors.Clear();
-					GetAllConnectedNeighbors(current, 5, neighbors);
+					elementblock.GetAllConnectedNeighbors(Terrain, current, 5, neighbors);
 					if (neighbors.Count > 0)
 					{
 						current.Next = new DynamicArray<Element>(neighbors.Count);
 						QuickSort(neighbors.Array, 0, neighbors.Count - 1);
-						bool flag = false;
+						bool isWire = false;
 						for (int i = 0; i < neighbors.Count; i++)
 						{
 							var cur = neighbors.Array[i];
 							if (Table.TryGetValue(cur.Point, out Element visited))//如果访问过
 							{
-								current.Next.Add(visited);
+								//current.Next.Add(visited);
 								continue;
 							}
 							Table.Add(cur.Point, cur);//将该点添加到表中
-							if (cur.GetWeight() < 2)
-								flag = true;
-							else if (flag)
-								break;
+							if (cur.GetWeight() < 2)//判断是否为导线
+								isWire = true;
+							else if (isWire)
+								break;//元件被短接
 							current.Next.Add(cur);
 							stack.Push(cur);//将该点添加到访问栈中
 						}
@@ -129,7 +117,7 @@ namespace Game
 		}
 		public override void OnBlockRemoved(int value, int newValue, int x, int y, int z)
 		{
-			var element = GetDevice(x, y, z);
+			var element = elementblock.GetDevice(Terrain, x, y, z);
 			if (element != null)
 			{
 				var next = element.Next.Array;
@@ -150,7 +138,7 @@ namespace Game
 		}
 		public override void OnBlockModified(int value, int oldValue, int x, int y, int z)
 		{
-			var element = GetDevice(x, y, z);
+			var element = elementblock.GetDevice(Terrain, x, y, z);
 			if (element != null)
 			{
 				OnBlockAdded(value, oldValue, x, y, z);
@@ -173,40 +161,6 @@ namespace Game
 					}
 				}
 			}
-		}
-		public static Element GetElement(int value)
-		{
-			if (Terrain.ExtractContents(value) == ElementBlock.Index)
-			{
-				switch (Terrain.ExtractData(value))
-				{
-					//case 1: return new SmallGenerator();
-					//case 2: return new WireElement();
-					//case 3: return new ElectricFurnace();
-					case 0: return new Fridge();
-					case 10: return new DiodeDevice();
-					case 12: return new Battery12V();
-				}
-			}
-			return null;
-		}
-		public virtual Device GetDevice(int x, int y, int z)
-		{
-			if (GetElement(Terrain.GetCellValueFast(x, y, z)) is Device device)
-			{
-				device.Point = new Point3(x, y, z);
-				return device;
-			}
-			return null;
-		}
-		public static Device GetDevice(Terrain terrain, int x, int y, int z)
-		{
-			if (GetElement(terrain.GetCellValueFast(x, y, z)) is Device device)
-			{
-				device.Point = new Point3(x, y, z);
-				return device;
-			}
-			return null;
 		}
 		public void Update(float dt)
 		{
@@ -340,74 +294,6 @@ namespace Game
 						}
 					}
 				}
-			}
-		}
-		public void GetAllConnectedNeighbors(Device elem, int mountingFace, ICollection<ElectricConnectionPath> list)
-		{
-			if (mountingFace != 5 || elem == null) return;
-			int x, y, z;
-			var type = elem.Type;
-			var point = elem.Point;
-			x = point.X;
-			y = point.Y;
-			z = point.Z;
-			if ((elem = GetDevice(x, y, z + 1)) != null && (elem.Type & type) != 0)
-			{
-				list.Add(PathTable[0]);
-			}
-			if ((elem = GetDevice(x + 1, y, z)) != null && (elem.Type & type) != 0)
-			{
-				list.Add(PathTable[1]);
-			}
-			if ((elem = GetDevice(x, y, z - 1)) != null && (elem.Type & type) != 0)
-			{
-				list.Add(PathTable[2]);
-			}
-			if ((elem = GetDevice(x - 1, y, z)) != null && (elem.Type & type) != 0)
-			{
-				list.Add(PathTable[3]);
-			}
-			if ((elem = GetDevice(x, y + 1, z)) != null && (elem.Type & type) != 0)
-			{
-				list.Add(PathTable[4]);
-			}
-			if ((elem = GetDevice(x, y - 1, z)) != null && (elem.Type & type) != 0)
-			{
-				list.Add(PathTable[5]);
-			}
-		}
-		public void GetAllConnectedNeighbors(Device elem, int mountingFace, ICollection<Device> list)
-		{
-			if (mountingFace != 5 || elem == null) return;
-			int x, y, z;
-			var type = elem.Type;
-			var point = elem.Point;
-			x = point.X;
-			y = point.Y;
-			z = point.Z;
-			if ((elem = GetDevice(x, y, z + 1)) != null && (elem.Type & type) != 0)
-			{
-				list.Add(elem);
-			}
-			if ((elem = GetDevice(x + 1, y, z)) != null && (elem.Type & type) != 0)
-			{
-				list.Add(elem);
-			}
-			if ((elem = GetDevice(x, y, z - 1)) != null && (elem.Type & type) != 0)
-			{
-				list.Add(elem);
-			}
-			if ((elem = GetDevice(x - 1, y, z)) != null && (elem.Type & type) != 0)
-			{
-				list.Add(elem);
-			}
-			if ((elem = GetDevice(x, y + 1, z)) != null && (elem.Type & type) != 0)
-			{
-				list.Add(elem);
-			}
-			if ((elem = GetDevice(x, y - 1, z)) != null && (elem.Type & type) != 0)
-			{
-				list.Add(elem);
 			}
 		}
 		public void GarbageCollectItems()
