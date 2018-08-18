@@ -181,7 +181,7 @@ namespace Game
 			{
 				return base.GetSlotCapacity(slotIndex, value);
 			}
-			if ((double)BlocksManager.Blocks[Terrain.ExtractContents(value)].FuelHeatLevel > 0.0)
+			if (BlocksManager.Blocks[Terrain.ExtractContents(value)].FuelHeatLevel > 0f)
 			{
 				return base.GetSlotCapacity(slotIndex, value);
 			}
@@ -230,17 +230,17 @@ namespace Game
 				int num2 = Terrain.ExtractData(slotValue);
 				if (GetSlotCount(i) > 0)
 				{
-					Block block = BlocksManager.Blocks[num];
-					m_matchedIngredients[i] = block.CraftingId + ":" + num2.ToString(CultureInfo.InvariantCulture);
-					if (block.CraftingId == "ironingot")
+					var craftingId = BlocksManager.Blocks[num].CraftingId;
+					m_matchedIngredients[i] = craftingId + ":" + num2.ToString(CultureInfo.InvariantCulture);
+					if (craftingId == "ironingot")
 					{
 						text = "ironplate";
 					}
-					if (block.CraftingId == "copperingot")
+					if (craftingId == "copperingot")
 					{
 						text = "copperplate";
 					}
-					if (block.CraftingId == "steelingot")
+					if (craftingId == "steelingot")
 					{
 						text = "steelplate";
 					}

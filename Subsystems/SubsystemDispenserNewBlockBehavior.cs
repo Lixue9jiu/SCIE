@@ -17,7 +17,7 @@ namespace Game
 		{
 			get
 			{
-				return new int[1]
+				return new int[]
 				{
 					502
 				};
@@ -36,7 +36,7 @@ namespace Game
 		public override void OnBlockAdded(int value, int oldValue, int x, int y, int z)
 		{
 			DatabaseObject databaseObject = Project.GameDatabase.Database.FindDatabaseObject("DispenserNew", Project.GameDatabase.EntityTemplateType, true);
-			ValuesDictionary valuesDictionary = new ValuesDictionary();
+			var valuesDictionary = new ValuesDictionary();
 			valuesDictionary.PopulateFromDatabaseObject(databaseObject);
 			valuesDictionary.GetValue<ValuesDictionary>("BlockEntity").SetValue("Coordinates", new Point3(x, y, z));
 			Project.AddEntity(Project.CreateEntity(valuesDictionary));

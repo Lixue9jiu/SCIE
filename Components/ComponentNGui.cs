@@ -1,8 +1,5 @@
 using Engine;
-using Engine.Graphics;
 using GameEntitySystem;
-using System;
-using TemplatesDatabase;
 
 namespace Game
 {

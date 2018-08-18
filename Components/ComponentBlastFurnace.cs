@@ -1,4 +1,3 @@
-using System;
 using Engine;
 using GameEntitySystem;
 using TemplatesDatabase;
@@ -188,22 +187,19 @@ namespace Game
 				}
 			}
 		}
-
-		// Token: 0x0600216E RID: 8558 RVA: 0x00015691 File Offset: 0x00013891
+		
 		public override void AddSlotItems(int slotIndex, int value, int count)
 		{
 			base.AddSlotItems(slotIndex, value, count);
 			m_updateSmeltingRecipe = true;
 		}
-
-		// Token: 0x0600216F RID: 8559 RVA: 0x000156A3 File Offset: 0x000138A3
+		
 		public override int RemoveSlotItems(int slotIndex, int count)
 		{
 			m_updateSmeltingRecipe = true;
 			return base.RemoveSlotItems(slotIndex, count);
 		}
-
-		// Token: 0x06002170 RID: 8560 RVA: 0x000E10C4 File Offset: 0x000DF2C4
+		
 		public override void Load(ValuesDictionary valuesDictionary, IdToEntityMap idToEntityMap)
 		{
 			base.Load(valuesDictionary, idToEntityMap);
@@ -216,16 +212,14 @@ namespace Game
 			HeatLevel = valuesDictionary.GetValue<float>("HeatLevel");
 			m_updateSmeltingRecipe = true;
 		}
-
-		// Token: 0x06002171 RID: 8561 RVA: 0x000156B4 File Offset: 0x000138B4
+		
 		public override void Save(ValuesDictionary valuesDictionary, EntityToIdMap entityToIdMap)
 		{
 			base.Save(valuesDictionary, entityToIdMap);
 			valuesDictionary.SetValue<float>("FireTimeRemaining", m_fireTimeRemaining);
 			valuesDictionary.SetValue<float>("HeatLevel", HeatLevel);
 		}
-
-		// Token: 0x06002173 RID: 8563 RVA: 0x000E1158 File Offset: 0x000DF358
+		
 		private bool FindSmeltingRecipe(float heatLevel)
 		{
 			if ((double)heatLevel <= 0.0)
@@ -400,8 +394,6 @@ namespace Game
 		private int m_time;
 
 		private readonly int[] m_matchedIngredients2 = new int[9];
-
-		private readonly Random m_random = new Random();
 
 		private readonly int[] m_matchedIngredients = new int[10];
 

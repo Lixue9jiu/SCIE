@@ -1,4 +1,3 @@
-using System;
 using Engine;
 
 namespace Game
@@ -43,8 +42,7 @@ namespace Game
 		
 		public override int GetFaceTextureSlot(int face, int value)
 		{
-			int direction = FurnaceNBlock.GetDirection(Terrain.ExtractData(value));
-			if (face == direction)
+			if (face == FurnaceNBlock.GetDirection(Terrain.ExtractData(value)))
 			{
 				return 219;
 			}

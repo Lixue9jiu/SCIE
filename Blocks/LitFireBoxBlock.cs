@@ -1,5 +1,3 @@
-using System;
-
 namespace Game
 {
 	// Token: 0x0200061A RID: 1562

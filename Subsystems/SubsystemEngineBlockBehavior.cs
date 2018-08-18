@@ -77,7 +77,7 @@ namespace Game
 					list.Add(key);
 				}
 			}
-			foreach (Point3 item in list)
+			foreach (var item in list)
 			{
 				RemoveFire(item.X, item.Y, item.Z);
 			}
@@ -105,8 +105,8 @@ namespace Game
 		private void AddFire(int value, int x, int y, int z)
 		{
 			var v = new Vector3(0.5f, 0.2f, 0.5f);
-			float size = 0.15f;
-			FireParticleSystem fireParticleSystem = new FireParticleSystem(new Vector3((float)x, (float)y, (float)z) + v, size, 16f);
+			const float size = 0.15f;
+			var fireParticleSystem = new FireParticleSystem(new Vector3((float)x, (float)y, (float)z) + v, size, 16f);
 			m_subsystemParticles.AddParticleSystem(fireParticleSystem);
 			m_particleSystemsByCell[new Point3(x, y, z)] = fireParticleSystem;
 		}

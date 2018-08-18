@@ -1,4 +1,3 @@
-using System;
 using Engine;
 using GameEntitySystem;
 using TemplatesDatabase;

@@ -1,6 +1,4 @@
-using System;
 using Engine;
-using Engine.Graphics;
 using System.Collections.Generic;
 
 namespace Game
@@ -8,7 +6,7 @@ namespace Game
 	public class ElementBlock : PaintableItemBlock
 	{
 		public static Device[] Devices;
-		public static readonly ElectricConnectionPath[] PathTable =
+		/*public static readonly ElectricConnectionPath[] PathTable =
 		{
 			new ElectricConnectionPath(0, 0, 1, 5, 5, 5),
 			new ElectricConnectionPath(1, 0, 0, 5, 5, 5),
@@ -16,7 +14,7 @@ namespace Game
 			new ElectricConnectionPath(-1, 0, 0, 5, 5, 5),
 			new ElectricConnectionPath(0, 1, 0, 5, 5, 5),
 			new ElectricConnectionPath(0, -1, 0, 5, 5, 5)
-		};
+		};*/
 		public override Item GetItem(ref int value)
 		{
 			if (Terrain.ExtractContents(value) != BlockIndex)
@@ -24,13 +22,13 @@ namespace Game
 			int data = Terrain.ExtractData(value);
 			return data < Devices.Length ? Devices[data] : DefaultItem;
 		}
-		public Element GetElement(int value)
+		/*public Element GetElement(int value)
 		{
 			return GetItem(ref value) as Element;
-		}
+		}*/
 		public Device GetDevice(int x, int y, int z, int value)
 		{
-			if (GetElement(value) is Device device)
+			if (GetItem(ref value) is Device device)
 			{
 				device.Point = new Point3(x, y, z);
 				return device;
@@ -47,7 +45,7 @@ namespace Game
 			}
 			return null;
 		}
-		public void GetAllConnectedNeighbors(Terrain terrain, Device elem, int mountingFace, ICollection<ElectricConnectionPath> list)
+		/*public void GetAllConnectedNeighbors(Terrain terrain, Device elem, int mountingFace, ICollection<ElectricConnectionPath> list)
 		{
 			if (mountingFace != 5 || elem == null) return;
 			int x, y, z;
@@ -80,7 +78,7 @@ namespace Game
 			{
 				list.Add(PathTable[5]);
 			}
-		}
+		}*/
 		public void GetAllConnectedNeighbors(Terrain terrain, Device elem, int mountingFace, ICollection<Device> list)
 		{
 			if (mountingFace != 5 || elem == null) return;
@@ -121,22 +119,11 @@ namespace Game
 			Devices = new Device[]
 			{
 				new Fridge(),
+				new Fridge(),
+				new Fridge(),
+				new Fridge(),
 			};
 			base.Initialize();
-		}
-		public override string GetDisplayName(SubsystemTerrain subsystemTerrain, int value)
-		{
-			var element = GetElement(value);
-			if (element != null)
-			{
-				return SubsystemPalette.GetName(subsystemTerrain, GetPaintColor(value), element.GetDisplayName(subsystemTerrain, value));
-			}
-			return DefaultDisplayName;
-		}
-		public override int GetFaceTextureSlot(int face, int value)
-		{
-			var element = GetElement(value);
-			return element != null ? element.GetFaceTextureSlot(face, value) : DefaultTextureSlot;
 		}
 
 		public override BlockPlacementData GetPlacementValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, TerrainRaycastResult raycastResult)
@@ -148,11 +135,6 @@ namespace Game
 				Value = value,
 				CellFace = cellFace
 			};
-		}
-		public override string GetDescription(int value)
-		{
-			var element = GetElement(value);
-			return element != null ? element.GetDescription(value) : "";
 		}
 	}
 }

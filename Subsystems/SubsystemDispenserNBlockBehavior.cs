@@ -20,7 +20,7 @@ namespace Game
 		{
 			get
 			{
-				return new int[1]
+				return new int[]
 				{
 					503
 				};

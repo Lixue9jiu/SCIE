@@ -213,7 +213,7 @@ namespace Game
 
 		private CraftingRecipe FindSmeltingRecipe(float heatLevel)
 		{
-			if ((double)heatLevel <= 0.0)
+			if (heatLevel <= 0f)
 			{
 				return null;
 			}
@@ -222,20 +222,12 @@ namespace Game
 				int slotValue = GetSlotValue(i);
 				int num = Terrain.ExtractContents(slotValue);
 				int num2 = Terrain.ExtractData(slotValue);
-				if (GetSlotCount(i) > 0)
-				{
-					Block block = BlocksManager.Blocks[num];
-					m_matchedIngredients[i] = block.CraftingId + ":" + num2.ToString(CultureInfo.InvariantCulture);
-				}
-				else
-				{
-					m_matchedIngredients[i] = null;
-				}
+				m_matchedIngredients[i] = GetSlotCount(i) > 0 ? BlocksManager.Blocks[num].CraftingId + ":" + num2.ToString(CultureInfo.InvariantCulture) : null;
 			}
 			CraftingRecipe craftingRecipe = CraftingRecipesManager.FindMatchingRecipe(m_subsystemTerrain, m_matchedIngredients, heatLevel);
 			if (craftingRecipe != null)
 			{
-				if ((double)craftingRecipe.RequiredHeatLevel <= 0.0)
+				if (craftingRecipe.RequiredHeatLevel <= 0f)
 				{
 					craftingRecipe = null;
 				}

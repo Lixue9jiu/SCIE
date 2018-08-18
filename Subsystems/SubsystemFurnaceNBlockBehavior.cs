@@ -27,7 +27,7 @@ namespace Game
 			if (Terrain.ExtractContents(oldValue) != 506 && Terrain.ExtractContents(oldValue) != 507)
 			{
 				DatabaseObject databaseObject = SubsystemTerrain.Project.GameDatabase.Database.FindDatabaseObject("FurnaceN", SubsystemTerrain.Project.GameDatabase.EntityTemplateType, true);
-				ValuesDictionary valuesDictionary = new ValuesDictionary();
+				var valuesDictionary = new ValuesDictionary();
 				valuesDictionary.PopulateFromDatabaseObject(databaseObject);
 				valuesDictionary.GetValue<ValuesDictionary>("BlockEntity").SetValue("Coordinates", new Point3(x, y, z));
 				SubsystemTerrain.Project.AddEntity(SubsystemTerrain.Project.CreateEntity(valuesDictionary));
@@ -77,7 +77,7 @@ namespace Game
 					list.Add(key);
 				}
 			}
-			foreach (Point3 item in list)
+			foreach (var item in list)
 			{
 				RemoveFire(item.X, item.Y, item.Z);
 			}

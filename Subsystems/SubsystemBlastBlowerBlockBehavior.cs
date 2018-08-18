@@ -1,9 +1,8 @@
-using Engine;
 using TemplatesDatabase;
 
 namespace Game
 {
-	public class SubsystemBlastBlowerBlockBehavior : SubsystemBlockBehavior, IUpdateable
+	public class SubsystemBlastBlowerBlockBehavior : SubsystemBlockBehavior//, IUpdateable
 	{
 		public override int[] HandledBlocks
 		{
@@ -16,13 +15,13 @@ namespace Game
 			}
 		}
 		
-		public int UpdateOrder
+		/*public int UpdateOrder
 		{
 			get
 			{
 				return 0;
 			}
-		}
+		}*/
 		
 		public override void Load(ValuesDictionary valuesDictionary)
 		{
@@ -31,9 +30,9 @@ namespace Game
 			m_subsystemProjectiles = Project.FindSubsystem<SubsystemProjectiles>(true);
 			m_subsystemTerrain = Project.FindSubsystem<SubsystemTerrain>(true);
 		}
-		public void Update(float dt)
+		/*public void Update(float dt)
 		{
-		}
+		}*/
 		public override void OnBlockGenerated(int value, int x, int y, int z, bool isLoaded)
 		{
 			int num = 0;
@@ -63,9 +62,9 @@ namespace Game
 			}
 			SubsystemTerrain.ChangeCell(x, y, z, 16924, true);
 		}
-		public void Scanner(int x, int y, int z)
+		/*public void Scanner(int x, int y, int z)
 		{
-		}
+		}*/
 		public override void OnNeighborBlockChanged(int x, int y, int z, int neighborX, int neighborY, int neighborZ)
 		{
 			int num = 0;
@@ -104,8 +103,8 @@ namespace Game
 		
 		private SubsystemTerrain m_subsystemTerrain;
 		
-		private Vector3 coordinate;
+		//private Vector3 coordinate;
 		
-		private bool flag;
+		//private bool flag;
 	}
 }

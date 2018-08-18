@@ -1,10 +1,9 @@
-using System;
 using Engine;
 using Engine.Graphics;
 
 namespace Game
 {
-    public class SteelWheelBlock : CubeBlock
+	public class SteelWheelBlock : CubeBlock
     {
         public SteelWheelBlock()
         {

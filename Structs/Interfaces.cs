@@ -2,11 +2,10 @@
 using Engine.Graphics;
 using System.Collections;
 using System.Collections.Generic;
-using TemplatesDatabase;
 
 namespace Game
 {
-	public interface IItemBlock : IReadOnlyList<Item>, IStructuralComparable, IStructuralEquatable
+	public interface IItemBlock // : IReadOnlyList<Item>, IStructuralComparable, IStructuralEquatable
 	{
 		Item GetItem(ref int value);
 	}
