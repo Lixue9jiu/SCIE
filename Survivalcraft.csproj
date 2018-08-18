@@ -71,7 +71,6 @@
     <Compile Include="Structs\Elements.cs" />
     <Compile Include="Structs\Interfaces.cs" />
     <Compile Include="Structs\Items.cs" />
-    <Compile Include="Subsystems\SubsystemCircuit.cs" />
     <Compile Include="Subsystems\SubsystemSourceOfFireBlockBehavior.cs" />
     <Compile Include="Widgets\SqueezerWidget.cs" />
     <Compile Include="Subsystems\SubsystemSqueezerBlockBehavior.cs" />

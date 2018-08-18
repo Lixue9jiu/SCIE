@@ -292,7 +292,7 @@ namespace Game
 	}
 	public partial class ItemBlock : CubeBlock, IItemBlock
 	{
-		public const int Index = 560;
+		public const int Index = 501;
 		public static Item[] Items;
 		public static Dictionary<string, int> IdTable;
 		public static Item DefaultItem;

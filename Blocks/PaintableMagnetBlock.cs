@@ -65,9 +65,9 @@ public class MagnetBlock : Game.MagnetBlock, IPaintableBlock
 
 	public override IEnumerable<int> GetCreativeValues()
 	{
-		var array = new int[17];
+		var array = new int[16];
 		array[0] = Terrain.MakeBlockValue(Index, 0, DefaultCreativeData);
-		for (int i = 1; i <= 16; i++)
+		for (int i = 1; i < 16; i++)
 		{
 			array[i] = Terrain.MakeBlockValue(Index, 0, SetColor(DefaultCreativeData, i));
 		}
@@ -91,9 +91,9 @@ public class MagnetBlock : Game.MagnetBlock, IPaintableBlock
 
 	public static int? GetColor(int data)
 	{
-		if ((data & 4) != 0)
+		if ((data & 0xF) != 0xF)
 		{
-			return (data >> 3) & 0xF;
+			return data & 0xF;
 		}
 		return null;
 	}
@@ -102,8 +102,8 @@ public class MagnetBlock : Game.MagnetBlock, IPaintableBlock
 	{
 		if (color.HasValue)
 		{
-			return (data & -125) | 4 | (color.Value << 3);
+			return data & -16 | color.Value;
 		}
-		return data & -125;
+		return data | 0xF;
 	}
 }
