@@ -80,7 +80,7 @@ namespace Game
 				if (blockEntity != null && DispenserNewBlock.GetAcceptsDrops(Terrain.ExtractData(m_subsystemTerrain.Terrain.GetCellValue(cellFace.X, cellFace.Y, cellFace.Z))))
 				{
 					ComponentDispenserNew inventory = blockEntity.Entity.FindComponent<ComponentDispenserNew>(true);
-					Pickable pickable = worldItem as Pickable;
+					var pickable = worldItem as Pickable;
 					int num = (pickable == null) ? 1 : pickable.Count;
 					int value = worldItem.Value;
 					int count = num;

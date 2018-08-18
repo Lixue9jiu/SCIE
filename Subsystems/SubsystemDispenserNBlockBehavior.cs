@@ -27,13 +27,13 @@ namespace Game
 			}
 		}
 
-		public int UpdateOrder
+		/*public int UpdateOrder
 		{
 			get
 			{
 				return 0;
 			}
-		}
+		}*/
 
 		public override void Load(ValuesDictionary valuesDictionary)
 		{

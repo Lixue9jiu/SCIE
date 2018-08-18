@@ -44,7 +44,7 @@ namespace Game
 			}
 		}
 
-		public override void OnChunkDiscarding(TerrainChunk chunk)
+		/*public override void OnChunkDiscarding(TerrainChunk chunk)
 		{
 			List<Point3> list = new List<Point3>();
 			foreach (Point3 key in m_particleSystemsByCell.Keys)
@@ -54,7 +54,7 @@ namespace Game
 					list.Add(key);
 				}
 			}
-		}
+		}*/
 
 		public override bool OnInteract(TerrainRaycastResult raycastResult, ComponentMiner componentMiner)
 		{
@@ -69,10 +69,10 @@ namespace Game
 			return true;
 		}
 
-		public override void OnNeighborBlockChanged(int x, int y, int z, int neighborX, int neighborY, int neighborZ)
+		/*public override void OnNeighborBlockChanged(int x, int y, int z, int neighborX, int neighborY, int neighborZ)
 		{
 			base.OnNeighborBlockChanged(x, y, z, neighborX, neighborY, neighborZ);
-		}
+		}*/
 
 		public override void Load(ValuesDictionary valuesDictionary)
 		{

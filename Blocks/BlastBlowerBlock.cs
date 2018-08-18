@@ -20,7 +20,7 @@ namespace Game
 			float x2 = Vector3.Dot(forward, Vector3.UnitY);
 			float x3 = Vector3.Dot(forward, -Vector3.UnitY);
 			float num4 = MathUtils.Min(MathUtils.Min(num, num2, num3), MathUtils.Min(x, x2, x3));
-			if ((double)num != (double)num4 && (double)num2 != (double)num4)
+			if (num != num4 && num2 != num4)
 			{
 				double num5 = (double)num3;
 				double num6 = (double)num4;

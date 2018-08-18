@@ -47,7 +47,7 @@ namespace Game
 			}
 		}
 
-		private new void ItemsScanned(ReadOnlyList<ScannedItemData> items)
+		private new void ItemsScanned(System.Collections.Generic.IList<ScannedItemData> items)
 		{
 			int num = (int)((m_subsystemGameInfo.TotalElapsedGameTime - m_lastRotTime) / 60.0);
 			if (num > 0)

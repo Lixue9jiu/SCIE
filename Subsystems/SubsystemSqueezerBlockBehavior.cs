@@ -44,13 +44,13 @@ namespace Game
 			}
 		}
 
-		public override void OnBlockGenerated(int value, int x, int y, int z, bool isLoaded)
+		/*public override void OnBlockGenerated(int value, int x, int y, int z, bool isLoaded)
 		{
 		}
 
 		public override void OnChunkDiscarding(TerrainChunk chunk)
 		{
-			List<Point3> list = new List<Point3>();
+			var list = new List<Point3>();
 			foreach (Point3 key in m_particleSystemsByCell.Keys)
 			{
 				if (key.X >= chunk.Origin.X && key.X < chunk.Origin.X + 16 && key.Z >= chunk.Origin.Y && key.Z < chunk.Origin.Y + 16)
@@ -58,7 +58,7 @@ namespace Game
 					list.Add(key);
 				}
 			}
-		}
+		}*/
 
 		public override bool OnInteract(TerrainRaycastResult raycastResult, ComponentMiner componentMiner)
 		{
@@ -73,10 +73,10 @@ namespace Game
 			return true;
 		}
 
-		public override void OnNeighborBlockChanged(int x, int y, int z, int neighborX, int neighborY, int neighborZ)
+		/*public override void OnNeighborBlockChanged(int x, int y, int z, int neighborX, int neighborY, int neighborZ)
 		{
 			base.OnNeighborBlockChanged(x, y, z, neighborX, neighborY, neighborZ);
-		}
+		}*/
 
 		public override void Load(ValuesDictionary valuesDictionary)
 		{

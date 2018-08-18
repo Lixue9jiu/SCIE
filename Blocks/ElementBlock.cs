@@ -22,11 +22,7 @@ namespace Game
 			if (Terrain.ExtractContents(value) != BlockIndex)
 				return DefaultItem;
 			int data = Terrain.ExtractData(value);
-			if (data < Devices.Length)
-			{
-				return Devices[data];
-			}
-			return DefaultItem;
+			return data < Devices.Length ? Devices[data] : DefaultItem;
 		}
 		public Element GetElement(int value)
 		{

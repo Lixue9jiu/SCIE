@@ -298,11 +298,7 @@ namespace Game
 			if (Terrain.ExtractContents(value) != BlockIndex)
 				return DefaultItem;
 			int data = Terrain.ExtractData(value);
-			if (data < Items.Length)
-			{
-				return Items[data];
-			}
-			return DefaultItem;
+			return data < Items.Length ? Items[data] : DefaultItem;
 		}
 		public virtual int DecodeResult(string result)
 		{

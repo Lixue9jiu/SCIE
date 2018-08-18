@@ -17,7 +17,7 @@ namespace Game
 				throw new ArgumentOutOfRangeException("resistance", resistance, "EnergyElement has Resistance < 1");
 			Resistance = resistance;
 		}
-		public override int GetWeight(int voltage)
+		public override int GetWeight(int voltage = 0)
 		{
 			return Resistance;
 		}

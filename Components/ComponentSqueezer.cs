@@ -240,8 +240,7 @@ namespace Game
 			if (text != null)
 			{
 				Slot slot = m_slots[ResultSlotIndex];
-				int num3 = GetSlotValue(1);
-				if (slot.Count != 0 && (num3 != CraftingRecipesManager.DecodeResult(text) || 1 + slot.Count > 40))
+				if (slot.Count != 0 && (GetSlotValue(1) != CraftingRecipesManager.DecodeResult(text) || 1 + slot.Count > 40))
 				{
 					text = null;
 				}

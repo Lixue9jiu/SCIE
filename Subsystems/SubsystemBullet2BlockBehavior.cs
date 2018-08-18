@@ -35,8 +35,8 @@ namespace Game
 				}
 				if ((double)obj.Density >= 1.5 && (double)worldItem.Velocity.Length() > 30.0)
 				{
-					float num = 1f;
-					float minDistance = 8f;
+					const float num = 1f;
+					const float minDistance = 8f;
 					if ((double)m_random.UniformFloat(0f, 1f) < (double)num)
 					{
 						m_subsystemAudio.PlayRandomSound("Audio/Ricochets", 1f, m_random.UniformFloat(-0.2f, 0.2f), new Vector3((float)cellFace.Value.X, (float)cellFace.Value.Y, (float)cellFace.Value.Z), minDistance, true);

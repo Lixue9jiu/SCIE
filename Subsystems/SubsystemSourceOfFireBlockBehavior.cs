@@ -34,17 +34,17 @@ namespace Game
 							if (Terrain.ExtractContents(value) == CoalOreBlock.Index)
 							{
 								float pressure = BlocksManager.Blocks[CoalOreBlock.Index].GetExplosionPressure(value);
-								if ((value = terrain.GetCellContentsFast(i + 1, j, k)) != 0)
+								if ((value = terrain.GetCellContentsFast(i + 1, j, k)) == 0)
 									m_subsystemExplosions.AddExplosion(i + 1, j, k, pressure, false, false);
-								if ((value = terrain.GetCellContentsFast(i - 1, j, k)) != 0)
+								if ((value = terrain.GetCellContentsFast(i - 1, j, k)) == 0)
 									m_subsystemExplosions.AddExplosion(i - 1, j, k, pressure, false, false);
-								if ((value = terrain.GetCellContents(i, j + 1, k)) != 0)
+								if ((value = terrain.GetCellContents(i, j + 1, k)) == 0)
 									m_subsystemExplosions.AddExplosion(i, j + 1, k, pressure, false, false);
-								if ((value = terrain.GetCellContents(i, j - 1, k)) != 0)
+								if ((value = terrain.GetCellContents(i, j - 1, k)) == 0)
 									m_subsystemExplosions.AddExplosion(i, j - 1, k, pressure, false, false);
-								if ((value = terrain.GetCellContentsFast(i, j, k + 1)) != 0)
+								if ((value = terrain.GetCellContentsFast(i, j, k + 1)) == 0)
 									m_subsystemExplosions.AddExplosion(i, j, k + 1, pressure, false, false);
-								if ((value = terrain.GetCellContentsFast(i, j, k - 1)) != 0)
+								if ((value = terrain.GetCellContentsFast(i, j, k - 1)) == 0)
 									m_subsystemExplosions.AddExplosion(i, j, k - 1, pressure, false, false);
 							}
 						}

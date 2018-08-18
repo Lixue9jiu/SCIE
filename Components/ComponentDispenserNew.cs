@@ -18,7 +18,7 @@ namespace Game
 
 		private SubsystemTerrain m_subsystemTerrain;
 
-		private SubsystemParticles m_subsystemParticles;
+		//private SubsystemParticles m_subsystemParticles;
 
 		public void Dispense()
 		{

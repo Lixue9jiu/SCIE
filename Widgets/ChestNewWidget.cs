@@ -30,7 +30,7 @@ namespace Game
 			{
 				for (int j = 0; j < m_chestNewGrid.ColumnsCount; j++)
 				{
-					InventorySlotWidget inventorySlotWidget = new InventorySlotWidget();
+					var inventorySlotWidget = new InventorySlotWidget();
 					inventorySlotWidget.AssignInventorySlot(componentChestNew, num++);
 					m_chestNewGrid.Children.Add(inventorySlotWidget);
 					m_chestNewGrid.SetWidgetCell(inventorySlotWidget, new Point2(j, i));
@@ -41,7 +41,7 @@ namespace Game
 			{
 				for (int l = 0; l < m_inventoryGrid.ColumnsCount; l++)
 				{
-					InventorySlotWidget inventorySlotWidget2 = new InventorySlotWidget();
+					var inventorySlotWidget2 = new InventorySlotWidget();
 					inventorySlotWidget2.AssignInventorySlot(inventory, num3++);
 					m_inventoryGrid.Children.Add(inventorySlotWidget2);
 					m_inventoryGrid.SetWidgetCell(inventorySlotWidget2, new Point2(l, k));

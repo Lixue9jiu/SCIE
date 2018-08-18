@@ -9,7 +9,6 @@ namespace Game
 	public interface IItemBlock : IReadOnlyList<Item>, IStructuralComparable, IStructuralEquatable
 	{
 		Item GetItem(ref int value);
-		//void Add(IItem item);
 	}
 	public interface IItem
 	{
@@ -73,7 +72,7 @@ namespace Game
 		BoundingBox[] GetCustomCollisionBoxes(SubsystemTerrain terrain, int value);
 		BoundingBox[] GetCustomInteractionBoxes(SubsystemTerrain terrain, int value);
 	}
-	public interface IBlockBehavior
+	/*public interface IBlockBehavior
 	{
 		void Load(ValuesDictionary valuesDictionary);
 		void OnBlockAdded(int value, int oldValue, int x, int y, int z);
@@ -133,5 +132,5 @@ namespace Game
 	{
 		int GetProcessInventoryItemCapacity(IInventory inventory, int slotIndex, int value);
 		void ProcessInventoryItem(IInventory inventory, int slotIndex, int value, int count, int processCount, out int processedValue, out int processedCount);
-	}
+	}*/
 }

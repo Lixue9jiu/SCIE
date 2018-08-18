@@ -224,7 +224,7 @@ namespace Game
 				{
 					Block block = BlocksManager.Blocks[num];
 					m_matchedIngredients[i] = block.CraftingId + ":" + num2.ToString(CultureInfo.InvariantCulture);
-					if (block.CraftingId.ToString() == "steelrod")
+					if (block.CraftingId == "steelrod")
 					{
 						text = "barrel";
 					}
