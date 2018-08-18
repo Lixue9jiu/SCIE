@@ -3,15 +3,97 @@ using System.Collections;
 using Engine;
 using Engine.Graphics;
 using System;
+using System.Xml.Linq;
+using XmlUtilities;
+using System.Linq;
+using System.Globalization;
 
 namespace Game
 {
+	[PluginLoader("IndustrialMod", "", 0u)]
 	public class Item : IAnimatedItem, IUnstableItem, IFood, IExplosive, IWeapon, IScalableItem, ICollidableItem
 	{
 		internal static readonly BoundingBox[] m_defaultCollisionBoxes = new BoundingBox[]
 		{
 			new BoundingBox(Vector3.Zero, Vector3.One)
 		};
+		static void Initialize()
+		{
+			CraftingRecipesManager.Initialize1 = CRInitialize;
+		}
+		public static void CRInitialize()
+		{
+			CraftingRecipesManager.m_recipes = new List<CraftingRecipe>();
+			foreach (XElement item in ContentManager.ConbineXElements(ContentManager.Get<XElement>("CraftingRecipes"), ModsManager.GetEntries(".cr"), "Description", "Result", "Recipes").Descendants("Recipe"))
+			{
+				CraftingRecipe craftingRecipe = new CraftingRecipe();
+				string attributeValue = XmlUtils.GetAttributeValue<string>(item, "Result");
+				craftingRecipe.ResultValue = CraftingRecipesManager.DecodeResult(attributeValue);
+				craftingRecipe.ResultCount = XmlUtils.GetAttributeValue<int>(item, "ResultCount");
+				string attributeValue2 = XmlUtils.GetAttributeValue(item, "Remains", string.Empty);
+				if (!string.IsNullOrEmpty(attributeValue2))
+				{
+					craftingRecipe.RemainsValue = CraftingRecipesManager.DecodeResult(attributeValue2);
+					craftingRecipe.RemainsCount = XmlUtils.GetAttributeValue<int>(item, "RemainsCount");
+				}
+				craftingRecipe.RequiredHeatLevel = XmlUtils.GetAttributeValue<float>(item, "RequiredHeatLevel");
+				craftingRecipe.Description = XmlUtils.GetAttributeValue<string>(item, "Description");
+				if (craftingRecipe.ResultCount > BlocksManager.Blocks[Terrain.ExtractContents(craftingRecipe.ResultValue)].MaxStacking)
+				{
+					throw new InvalidOperationException(string.Format("In recipe for \"{0}\" ResultCount is larger than max stacking of result block.", new object[1]
+					{
+					attributeValue
+					}));
+				}
+				if (craftingRecipe.RemainsValue != 0 && craftingRecipe.RemainsCount > BlocksManager.Blocks[Terrain.ExtractContents(craftingRecipe.RemainsValue)].MaxStacking)
+				{
+					throw new InvalidOperationException(string.Format("In Recipe for \"{0}\" RemainsCount is larger than max stacking of remains block.", new object[1]
+					{
+					attributeValue2
+					}));
+				}
+				Dictionary<char, string> dictionary = new Dictionary<char, string>();
+				foreach (XAttribute item2 in item.Attributes().Where(CraftingRecipesManager.Initialize_b__0))
+				{
+					CraftingRecipesManager.DecodeIngredient(item2.Value, out string craftingId, out int? data);
+					if (data.HasValue && (data.Value < 0 || data.Value > 262143))
+					{
+						throw new InvalidOperationException(string.Format("Data in recipe ingredient \"{0}\" must be between 0 and 0x3FFFF.", new object[1]
+						{
+						item2.Value
+						}));
+					}
+					dictionary.Add(item2.Name.LocalName[0], item2.Value);
+				}
+				string[] array = item.Value.Trim().Split('\n');
+				for (int i = 0; i < array.Length; i++)
+				{
+					int num = array[i].IndexOf('"');
+					int num2 = array[i].LastIndexOf('"');
+					if (num < 0 || num2 < 0 || num2 <= num)
+					{
+						throw new InvalidOperationException("Invalid recipe line.");
+					}
+					string text = array[i].Substring(num + 1, num2 - num - 1);
+					for (int j = 0; j < text.Length; j++)
+					{
+						char c = text[j];
+						if (char.IsLower(c))
+						{
+							string text2 = dictionary[c];
+							craftingRecipe.Ingredients[j + i * 3] = text2;
+						}
+					}
+				}
+				CraftingRecipesManager.m_recipes.Add(craftingRecipe);
+			}
+			Block[] blocks = BlocksManager.Blocks;
+			for (int i = 0; i < blocks.Length; i++)
+			{
+				CraftingRecipesManager.m_recipes.AddRange(blocks[i].GetProceduralCraftingRecipes());
+			}
+			CraftingRecipesManager.m_recipes.Sort(CraftingRecipesManager.Initialize_b__1);
+		}
 		public virtual string GetDisplayName(SubsystemTerrain subsystemTerrain, int value)
 		{
 			return string.Empty;
@@ -177,38 +259,51 @@ namespace Game
 			return true;
 		}
 	}
-	public class ItemBlock : CubeBlock, IItemBlock
+	public class BlockItem : Item
+	{
+		public string DefaultDisplayName = string.Empty;
+		public string DefaultDescription = string.Empty;
+		public string DefaultCategory = "Items";
+		public override string GetDisplayName(SubsystemTerrain subsystemTerrain, int value)
+		{
+			return DefaultDisplayName;
+		}
+		public override string GetDescription(int value)
+		{
+			return DefaultDescription;
+		}
+		public override string GetCategory(int value)
+		{
+			return DefaultCategory;
+		}
+	}
+	public partial class ItemBlock : CubeBlock, IItemBlock
 	{
 		public const int Index = 567;
 		public static Item[] Items;
-		//public static DynamicArray<Item> ItemList;
 		public static Dictionary<string, int> IdTable;
-		public static readonly Item DefaultItem;
+		public static Item DefaultItem;
 		public Item this[int index] => Items[index];
 		public int Count => Items.Length;
 		public virtual Item GetItem(ref int value)
 		{
 			if (Terrain.ExtractContents(value) != BlockIndex)
 				return DefaultItem;
-			value = Terrain.ExtractData(value);
-			if (value < Items.Length)
+			int data = Terrain.ExtractData(value);
+			if (data < Items.Length)
 			{
-				return Items[value];
+				return Items[data];
 			}
 			return DefaultItem;
 		}
-		/*public virtual void Add(Item item)
+		public virtual int DecodeResult(string result)
 		{
-		}*/
-		public override void Initialize()
-		{
-			//ItemList = new DynamicArray<Item>();
-			Items = new Item[]
+			if (IdTable.TryGetValue(result, out int data))
 			{
-
-			};
-			IdTable = new Dictionary<string, int>(Items.Length);
-			base.Initialize();
+				return Terrain.MakeBlockValue(Index, 0, data);
+			}
+			string[] array = result.Split(':');
+			return Terrain.MakeBlockValue(BlocksManager.FindBlockByTypeName(array[0], true).BlockIndex, 0, array.Length >= 2 ? int.Parse(array[1], CultureInfo.InvariantCulture) : 0);
 		}
 		public override string GetDisplayName(SubsystemTerrain subsystemTerrain, int value)
 		{
@@ -226,15 +321,26 @@ namespace Game
 		{
 			return GetItem(ref value).IsInteractive(subsystemTerrain, value);
 		}
-		public override IEnumerable<CraftingRecipe> GetProceduralCraftingRecipes()
+		/*public override IEnumerable<CraftingRecipe> GetProceduralCraftingRecipes()
 		{
 			return new CraftingRecipe[]
 			{
 
 			};
-		}
+		}*/
 		public override CraftingRecipe GetAdHocCraftingRecipe(SubsystemTerrain subsystemTerrain, string[] ingredients, float heatLevel)
 		{
+			for (int i = 0; i < ingredients.Length; i++)
+			{
+				if (!string.IsNullOrEmpty(ingredients[i]))
+				{
+					CraftingRecipesManager.DecodeIngredient(ingredients[i], out string craftingId, out int? data);
+					if (craftingId == CraftingId)
+					{
+						ingredients[i] = Items[data ?? 0].ToString().Substring(5);
+					}
+				}
+			}
 			return null;
 		}
 		public override bool IsFaceTransparent(SubsystemTerrain subsystemTerrain, int face, int value)
@@ -373,7 +479,7 @@ namespace Game
 				return new int[0];
 			}
 			var list = new List<int>(8);
-			for (int i = 0, value = BlockIndex; GetItem(ref value) != null; value = Terrain.MakeBlockValue(BlockIndex, 0, ++i))
+			for (int i = 0, value = BlockIndex; GetItem(ref value) != DefaultItem; value = Terrain.MakeBlockValue(BlockIndex, 0, ++i))
 			{
 				list.Add(value);
 			}
@@ -400,7 +506,28 @@ namespace Game
 			return Items.GetEnumerator();
 		}
 	}
-	/*public class PaintableItemBlock : Block, IPaintableBlock
+	public abstract class PaintableItemBlock : ItemBlock, IPaintableBlock
 	{
-	}*/
+		public int? GetPaintColor(int value)
+		{
+			return GetColor(Terrain.ExtractData(value));
+		}
+		public int Paint(SubsystemTerrain subsystemTerrain, int value, int? color)
+		{
+			int data = Terrain.ExtractData(value);
+			return Terrain.ReplaceData(value, SetColor(data, color));
+		}
+		public static int? GetColor(int data)
+		{
+			return (data & 0b1000000) != 0 ? data >> 7 & 15 : default(int?);
+		}
+		public static int SetColor(int data, int? color)
+		{
+			if (color.HasValue)
+			{
+				return (data & -0b1111100000111111) | 0b1000000 | (color.Value & 15) << 7;
+			}
+			return data & -0b1111100000111111;
+		}
+	}
 }
