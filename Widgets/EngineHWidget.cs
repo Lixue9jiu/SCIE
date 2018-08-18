@@ -11,15 +11,15 @@ namespace Game
 
 		private readonly InventorySlotWidget m_fuelSlot;
 
-		private readonly GridPanelWidget m_furnaceGrid;
+		//private readonly GridPanelWidget m_furnaceGrid;
 
 		private readonly GridPanelWidget m_inventoryGrid;
 
 		private readonly ValueBarWidget m_progress;
 
-		private readonly InventorySlotWidget m_remainsSlot;
+		//private readonly InventorySlotWidget m_remainsSlot;
 
-		private readonly InventorySlotWidget m_resultSlot;
+		//private readonly InventorySlotWidget m_resultSlot;
 
 		public EngineHWidget(IInventory inventory, ComponentEngineH componentFurnace)
 		{
@@ -34,7 +34,7 @@ namespace Game
 			{
 				for (int j = 0; j < m_inventoryGrid.ColumnsCount; j++)
 				{
-					InventorySlotWidget inventorySlotWidget = new InventorySlotWidget();
+					var inventorySlotWidget = new InventorySlotWidget();
 					inventorySlotWidget.AssignInventorySlot(inventory, num++);
 					m_inventoryGrid.Children.Add(inventorySlotWidget);
 					m_inventoryGrid.SetWidgetCell(inventorySlotWidget, new Point2(j, i));

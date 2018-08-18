@@ -5,11 +5,8 @@ using TemplatesDatabase;
 
 namespace Game
 {
-	// Token: 0x02000613 RID: 1555
 	public class ComponentBlastFurnace : ComponentInventoryBase, IUpdateable
 	{
-		// Token: 0x17000551 RID: 1361
-		// (get) Token: 0x06002166 RID: 8550 RVA: 0x00006A99 File Offset: 0x00004C99
 		public int RemainsSlotIndex
 		{
 			get
@@ -18,8 +15,6 @@ namespace Game
 			}
 		}
 
-		// Token: 0x17000552 RID: 1362
-		// (get) Token: 0x06002167 RID: 8551 RVA: 0x00015665 File Offset: 0x00013865
 		public int ResultSlotIndex
 		{
 			get
@@ -28,18 +23,10 @@ namespace Game
 			}
 		}
 
-		// Token: 0x17000553 RID: 1363
-		// (get) Token: 0x06002168 RID: 8552 RVA: 0x0001566F File Offset: 0x0001386F
-		// (set) Token: 0x06002169 RID: 8553 RVA: 0x00015677 File Offset: 0x00013877
 		public float HeatLevel { get; private set; }
 
-		// Token: 0x17000554 RID: 1364
-		// (get) Token: 0x0600216A RID: 8554 RVA: 0x00015680 File Offset: 0x00013880
-		// (set) Token: 0x0600216B RID: 8555 RVA: 0x00015688 File Offset: 0x00013888
 		public float SmeltingProgress { get; private set; }
 
-		// Token: 0x17000555 RID: 1365
-		// (get) Token: 0x0600216C RID: 8556 RVA: 0x000034CC File Offset: 0x000016CC
 		public int UpdateOrder
 		{
 			get
@@ -48,7 +35,6 @@ namespace Game
 			}
 		}
 
-		// Token: 0x0600216D RID: 8557 RVA: 0x000E0ABC File Offset: 0x000DECBC
 		public void Update(float dt)
 		{
 			Point3 coordinates = m_componentBlockEntity.Coordinates;
@@ -399,46 +385,32 @@ namespace Game
 			return flag;
 		}
 
-		// Token: 0x04001971 RID: 6513
 		private ComponentBlockEntity m_componentBlockEntity;
 
-		// Token: 0x04001972 RID: 6514
 		private float m_fireTimeRemaining;
 
-		// Token: 0x04001973 RID: 6515
 		private int m_furnaceSize;
 
-		// Token: 0x04001974 RID: 6516
 		private SubsystemExplosions m_subsystemExplosions;
 
-		// Token: 0x04001975 RID: 6517
 		private SubsystemTerrain m_subsystemTerrain;
 
-		// Token: 0x04001976 RID: 6518
 		private bool m_updateSmeltingRecipe;
 
-		// Token: 0x04001977 RID: 6519
 		private int m_time;
 
-		// Token: 0x04001978 RID: 6520
 		private readonly int[] m_matchedIngredients2 = new int[9];
 
-		// Token: 0x04001979 RID: 6521
-		private readonly Game.Random m_random = new Game.Random();
+		private readonly Random m_random = new Random();
 
-		// Token: 0x0400197A RID: 6522
 		private readonly int[] m_matchedIngredients = new int[10];
 
-		// Token: 0x0400197B RID: 6523
 		private bool m_smeltingRecipe;
 
-		// Token: 0x0400197C RID: 6524
 		private bool m_smeltingRecipe2;
 
-		// Token: 0x0400197D RID: 6525
 		private SubsystemTime m_subsystemTime;
 
-		// Token: 0x0400197E RID: 6526
 		private readonly int[] result = new int[3];
 	}
 }

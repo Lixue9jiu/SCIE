@@ -12,15 +12,23 @@ namespace Game
 
 		public const int Index = 525;
 
-		private static string[] m_displayNames;
-
-		private static float[] m_sizes;
-
-		private static int[] m_textureSlots;
-
-		private static float[] m_weaponPowers;
-
-		private static float[] m_explosionPressures;
+		private static readonly string[] m_displayNames = new string[1]
+		{
+			"IronFixedBullet"
+		};
+		private static readonly float[] m_sizes = new float[1]
+		{
+			1f
+		};
+		private static readonly int[] m_textureSlots = new int[1]
+		{
+			226
+		};
+		private static readonly float[] m_weaponPowers = new float[1]
+		{
+			10f
+		};
+		//private static readonly float[] m_explosionPressures = new float[3];
 
 		public override void GenerateTerrainVertices(BlockGeometryGenerator generator, TerrainGeometrySubsets geometry, int value, int x, int y, int z)
 		{
@@ -51,27 +59,6 @@ namespace Game
 		public static int SetBulletType(int data, BulletType bulletType)
 		{
 			return (data & -16) | (int)(bulletType & (BulletType)15);
-		}
-
-		static Bullet2Block()
-		{
-			m_displayNames = new string[1]
-			{
-				"IronFixedBullet"
-			};
-			m_sizes = new float[1]
-			{
-				1f
-			};
-			m_textureSlots = new int[1]
-			{
-				226
-			};
-			m_weaponPowers = new float[1]
-			{
-				10f
-			};
-			m_explosionPressures = new float[3];
 		}
 	}
 }

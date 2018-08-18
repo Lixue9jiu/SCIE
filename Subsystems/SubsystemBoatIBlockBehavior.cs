@@ -32,7 +32,7 @@ namespace Game
 				if (nullable.HasValue)
 				{
 					Vector3 vector = nullable.Value.RaycastStart + Vector3.Normalize(nullable.Value.RaycastEnd - nullable.Value.RaycastStart) * nullable.Value.Distance;
-					DynamicArray<ComponentBody> result = new DynamicArray<ComponentBody>();
+					var result = new DynamicArray<ComponentBody>();
 					m_subsystemBodies.FindBodiesInArea(new Vector2(vector.X, vector.Z) - new Vector2(8f), new Vector2(vector.X, vector.Z) + new Vector2(8f), result);
 					Entity entity = DatabaseManager.CreateEntity(Project, "BoatI", true);
 					entity.FindComponent<ComponentFrame>(true).Position = vector;

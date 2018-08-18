@@ -17,7 +17,7 @@ namespace Game
 
 		private readonly ValueBarWidget m_progress;
 
-		private readonly InventorySlotWidget m_remainsSlot;
+		//private readonly InventorySlotWidget m_remainsSlot;
 
 		private readonly InventorySlotWidget m_resultSlot;
 

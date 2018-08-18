@@ -76,10 +76,10 @@ namespace Game
 		public void Update(float dt)
 		{
 			Point3 coordinates = m_componentBlockEntity.Coordinates;
-			if ((double)HeatLevel > 0.0)
+			if (HeatLevel > 0f)
 			{
 				m_fireTimeRemaining = MathUtils.Max(0f, m_fireTimeRemaining - dt);
-				if ((double)m_fireTimeRemaining == 0.0)
+				if (m_fireTimeRemaining == 0f)
 				{
 					HeatLevel = 0f;
 				}
@@ -135,7 +135,7 @@ namespace Game
 				float fireTimeRemaining = m_fireTimeRemaining;
 				m_fireTimeRemaining = 100f;
 			}
-			if ((double)m_fireTimeRemaining <= 0.0)
+			if (m_fireTimeRemaining <= 0f)
 			{
 				m_smeltingRecipe = null;
 				SmeltingProgress = 0f;
@@ -144,7 +144,7 @@ namespace Game
 			if (m_smeltingRecipe != null)
 			{
 				SmeltingProgress = MathUtils.Min(SmeltingProgress + 0.1f * dt, 1f);
-				if ((double)SmeltingProgress >= 1.0)
+				if (SmeltingProgress >= 1f)
 				{
 					for (int l = 0; l < m_furnaceSize; l++)
 					{
@@ -232,15 +232,15 @@ namespace Game
 				{
 					Block block = BlocksManager.Blocks[num];
 					m_matchedIngredients[i] = block.CraftingId + ":" + num2.ToString(CultureInfo.InvariantCulture);
-					if (block.CraftingId.ToString() == "ironingot")
+					if (block.CraftingId == "ironingot")
 					{
 						text = "ironplate";
 					}
-					if (block.CraftingId.ToString() == "copperingot")
+					if (block.CraftingId == "copperingot")
 					{
 						text = "copperplate";
 					}
-					if (block.CraftingId.ToString() == "steelingot")
+					if (block.CraftingId == "steelingot")
 					{
 						text = "steelplate";
 					}

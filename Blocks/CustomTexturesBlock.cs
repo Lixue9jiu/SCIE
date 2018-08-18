@@ -13,9 +13,7 @@ namespace Game
 		public override void Initialize()
 		{
 			base.Initialize();
-			Stream stream = File.Exists(TexturePath) ? File.OpenRead(TexturePath) : GetFileInZip(Storage.GetFileName(TexturePath));
-			if (stream == null)
-				throw new InvalidOperationException(TexturePath + " not found.");
+			Stream stream = GetTargetFile(TexturePath);
 			try
 			{
 				m_texture = Texture2D.Load(stream);
@@ -25,6 +23,13 @@ namespace Game
 				stream.Dispose();
 			}
 			IsEmissive = false;
+		}
+		public static Stream GetTargetFile(string name, bool throwIfNotFound = true)
+		{
+			var stream = File.Exists(name) ? File.OpenRead(name) : GetFileInZip(Storage.GetFileName(name));
+			if (stream == null)
+				throw new InvalidOperationException(name + " not found.");
+			return stream;
 		}
 		public static Stream GetFileInZip(string name)
 		{

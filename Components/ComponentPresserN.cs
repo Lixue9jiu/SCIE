@@ -236,19 +236,19 @@ namespace Game
 				{
 					Block block = BlocksManager.Blocks[num];
 					m_matchedIngredients[i] = block.CraftingId + ":" + num2.ToString(CultureInfo.InvariantCulture);
-					if (block.CraftingId.ToString() == "ironorechunk")
+					if (block.CraftingId == "ironorechunk")
 					{
 						text = "ironorepowder";
 					}
-					if (block.CraftingId.ToString() == "malachitechunk")
+					if (block.CraftingId == "malachitechunk")
 					{
 						text = "copperorepowder";
 					}
-					if (block.CraftingId.ToString() == "germaniumorechunk")
+					if (block.CraftingId == "germaniumorechunk")
 					{
 						text = "gerorepowder";
 					}
-					if (block.CraftingId.ToString() == "coalchunk")
+					if (block.CraftingId == "coalchunk")
 					{
 						text = "coalpowder";
 					}

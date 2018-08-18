@@ -99,7 +99,7 @@ namespace Game
 						float fuelHeatLevel = BlocksManager.Blocks[Terrain.ExtractContents(slot.Value)].FuelHeatLevel;
 					}
 				}
-				string text = "text";
+				const string text = "text";
 				if (text != m_smeltingRecipe)
 				{
 					m_smeltingRecipe = text;
@@ -133,7 +133,7 @@ namespace Game
 					}
 				}
 			}
-			if ((double)m_fireTimeRemaining <= 0.0)
+			if (m_fireTimeRemaining <= 0f)
 			{
 				m_smeltingRecipe = null;
 				SmeltingProgress = 0f;

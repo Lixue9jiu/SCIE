@@ -27,7 +27,7 @@ namespace Game
 
 		public override void OnCollide(CellFace cellFace, float velocity, ComponentBody componentBody)
 		{
-			if (!((double)componentBody.Mass <= 20.0) && !componentBody.IsSneaking)
+			if (!(componentBody.Mass <= 20f) && !componentBody.IsSneaking)
 			{
 				Vector3 velocity2 = componentBody.Velocity;
 				if (!((double)velocity2.Y >= -3.0) || (!((double)velocity2.Y >= 0.0) && !((double)m_random.UniformFloat(0f, 1f) >= 1.5 * (double)m_subsystemTime.GameTimeDelta) && !((double)velocity2.LengthSquared() <= 1.0)))
@@ -103,11 +103,7 @@ namespace Game
 		private bool DegradesSoilIfOnTopOfIt(int value)
 		{
 			Block block = BlocksManager.Blocks[Terrain.ExtractContents(value)];
-			if (!block.IsFaceTransparent(SubsystemTerrain, 5, value))
-			{
-				return block.IsCollidable;
-			}
-			return false;
+			return !block.IsFaceTransparent(SubsystemTerrain, 5, value) && block.IsCollidable;
 		}
 
 		private bool DetermineHydration(int x, int y, int z, int steps)

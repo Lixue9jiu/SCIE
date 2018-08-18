@@ -19,7 +19,6 @@ namespace Game
 	}
 	public abstract class MineralBlock : StoneChunkBlock
 	{
-		//public new const int Index = 79;
 		public override void GetDropValues(SubsystemTerrain subsystemTerrain, int oldValue, int newValue, int toolLevel, List<BlockDropValue> dropValues, out bool showDebris)
 		{
 			showDebris = true;
@@ -139,13 +138,13 @@ namespace Game
 		public override void Save(ValuesDictionary valuesDictionary)
 		{
 			base.Save(valuesDictionary);
-			var values = MinesData.Array;
-			var sb = new StringBuilder(values.Length);
-			sb.Append(values[0].ToString());
-			for (int i = 1; i < values.Length; i++)
+			var array = MinesData.Array;
+			var sb = new StringBuilder(array.Length);
+			sb.Append(array[0].ToString());
+			for (int i = 1; i < array.Length; i++)
 			{
 				sb.Append(',');
-				sb.Append(values[i].ToString());
+				sb.Append(array[i].ToString());
 			}
 			valuesDictionary.SetValue("MinesData", sb.ToString());
 		}

@@ -37,7 +37,7 @@ namespace Game
 			{
 				for (int j = 0; j < m_inventoryGrid.ColumnsCount; j++)
 				{
-					InventorySlotWidget inventorySlotWidget = new InventorySlotWidget();
+					var inventorySlotWidget = new InventorySlotWidget();
 					inventorySlotWidget.AssignInventorySlot(inventory, num++);
 					m_inventoryGrid.Children.Add(inventorySlotWidget);
 					m_inventoryGrid.SetWidgetCell(inventorySlotWidget, new Point2(j, i));
@@ -48,7 +48,7 @@ namespace Game
 			{
 				for (int l = 0; l < m_furnaceGrid.ColumnsCount; l++)
 				{
-					InventorySlotWidget inventorySlotWidget2 = new InventorySlotWidget();
+					var inventorySlotWidget2 = new InventorySlotWidget();
 					inventorySlotWidget2.AssignInventorySlot(componentFurnace, num3++);
 					m_furnaceGrid.Children.Add(inventorySlotWidget2);
 					m_furnaceGrid.SetWidgetCell(inventorySlotWidget2, new Point2(l, k));
@@ -61,7 +61,7 @@ namespace Game
 
 		public override void Update()
 		{
-			m_fire.ParticlesPerSecond = ((double)m_componentFurnace.HeatLevel > 0.0) ? 24f : 0f;
+			m_fire.ParticlesPerSecond = (m_componentFurnace.HeatLevel > 0f) ? 24f : 0f;
 			m_progress.Value = m_componentFurnace.SmeltingProgress;
 			if (!m_componentFurnace.IsAddedToProject)
 			{

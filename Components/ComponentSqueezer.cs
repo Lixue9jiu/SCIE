@@ -76,10 +76,10 @@ namespace Game
 		public void Update(float dt)
 		{
 			Point3 coordinates = m_componentBlockEntity.Coordinates;
-			if ((double)HeatLevel > 0.0)
+			if (HeatLevel > 0f)
 			{
 				m_fireTimeRemaining = MathUtils.Max(0f, m_fireTimeRemaining - dt);
-				if ((double)m_fireTimeRemaining == 0.0)
+				if (m_fireTimeRemaining == 0f)
 				{
 					HeatLevel = 0f;
 				}
@@ -135,7 +135,7 @@ namespace Game
 				float fireTimeRemaining = m_fireTimeRemaining;
 				m_fireTimeRemaining = 100f;
 			}
-			if ((double)m_fireTimeRemaining <= 0.0)
+			if (m_fireTimeRemaining <= 0f)
 			{
 				m_smeltingRecipe = null;
 				SmeltingProgress = 0f;
@@ -144,7 +144,7 @@ namespace Game
 			if (m_smeltingRecipe != null)
 			{
 				SmeltingProgress = MathUtils.Min(SmeltingProgress + 0.06f * dt, 1f);
-				if ((double)SmeltingProgress >= 1.0)
+				if (SmeltingProgress >= 1f)
 				{
 					for (int l = 0; l < m_furnaceSize; l++)
 					{
@@ -153,20 +153,7 @@ namespace Game
 							m_slots[l].Count--;
 						}
 					}
-					int value = 0;
-					if (m_smeltingRecipe == "ironline")
-					{
-						value = 553+16384;
-					}
-                    if (m_smeltingRecipe == "copperline")
-                    {
-                        value = 553 + 16384 * 2;
-                    }
-                    if (m_smeltingRecipe == "steelline")
-                    {
-                        value = 553 + 16384 * 3;
-                    }
-                    m_slots[ResultSlotIndex].Value = value;
+					m_slots[ResultSlotIndex].Value = CraftingRecipesManager.DecodeResult(m_smeltingRecipe);
 					m_slots[ResultSlotIndex].Count++;
 					m_smeltingRecipe = null;
 					SmeltingProgress = 0f;
@@ -181,7 +168,7 @@ namespace Game
 			{
 				return base.GetSlotCapacity(slotIndex, value);
 			}
-			if ((double)BlocksManager.Blocks[Terrain.ExtractContents(value)].FuelHeatLevel > 0.0)
+			if (BlocksManager.Blocks[Terrain.ExtractContents(value)].FuelHeatLevel > 0f)
 			{
 				return base.GetSlotCapacity(slotIndex, value);
 			}
@@ -222,7 +209,6 @@ namespace Game
 
 		private string FindSmeltingRecipe(float heatLevel)
 		{
-            int num4 = 0;
 			string text = null;
 			for (int i = 0; i < m_furnaceSize; i++)
 			{
@@ -235,20 +221,17 @@ namespace Game
 					m_matchedIngredients[i] = block.CraftingId + ":" + num2.ToString(CultureInfo.InvariantCulture);
 					if (block.CraftingId.ToString() == "ironingot")
 					{
-						text = "ironline";
-                        num4 = 553 + 16384;
+						text = "IronLine";
 					}
-                    if (block.CraftingId.ToString() == "copperingot")
+					else if (block.CraftingId.ToString() == "copperingot")
                     {
-                        text = "copperline";
-                        num4 = 553 + 16384*2;
-                    }
-                    if (block.CraftingId.ToString() == "steelingot")
+                        text = "CopperLine";
+					}
+					else if (block.CraftingId.ToString() == "steelingot")
                     {
-                        text = "steelline";
-                        num4 = 553 + 16384*3;
-                    }
-                }
+                        text = "SteelLine";
+					}
+				}
 				else
 				{
 					m_matchedIngredients[i] = null;
@@ -257,8 +240,7 @@ namespace Game
 			if (text != null)
 			{
 				Slot slot = m_slots[ResultSlotIndex];
-				int num3 = GetSlotValue(1);
-				if (slot.Count != 0 && (num3 != num4 || 1 + slot.Count > 40))
+				if (slot.Count != 0 && (GetSlotValue(1) != CraftingRecipesManager.DecodeResult(text) || 1 + slot.Count > 40))
 				{
 					text = null;
 				}

@@ -44,7 +44,7 @@ namespace Game
 			}
 		}
 
-		public override void OnBlockGenerated(int value, int x, int y, int z, bool isLoaded)
+		/*public override void OnBlockGenerated(int value, int x, int y, int z, bool isLoaded)
 		{
 		}
 
@@ -58,7 +58,7 @@ namespace Game
 					list.Add(key);
 				}
 			}
-		}
+		}*/
 
 		public override bool OnInteract(TerrainRaycastResult raycastResult, ComponentMiner componentMiner)
 		{
@@ -73,10 +73,10 @@ namespace Game
 			return true;
 		}
 
-		public override void OnNeighborBlockChanged(int x, int y, int z, int neighborX, int neighborY, int neighborZ)
+		/*public override void OnNeighborBlockChanged(int x, int y, int z, int neighborX, int neighborY, int neighborZ)
 		{
 			base.OnNeighborBlockChanged(x, y, z, neighborX, neighborY, neighborZ);
-		}
+		}*/
 
 		public override void Load(ValuesDictionary valuesDictionary)
 		{

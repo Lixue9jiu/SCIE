@@ -5,11 +5,8 @@ using TemplatesDatabase;
 
 namespace Game
 {
-	// Token: 0x02000618 RID: 1560
 	public class ComponentFireBox : ComponentInventoryBase, IUpdateable
 	{
-		// Token: 0x17000559 RID: 1369
-		// (get) Token: 0x0600218D RID: 8589 RVA: 0x00005DEC File Offset: 0x00003FEC
 		public int FuelSlotIndex
 		{
 			get
@@ -18,18 +15,10 @@ namespace Game
 			}
 		}
 
-		// Token: 0x1700055A RID: 1370
-		// (get) Token: 0x0600218E RID: 8590 RVA: 0x000157D8 File Offset: 0x000139D8
-		// (set) Token: 0x0600218F RID: 8591 RVA: 0x000157E0 File Offset: 0x000139E0
 		public float HeatLevel { get; private set; }
 
-		// Token: 0x1700055B RID: 1371
-		// (get) Token: 0x06002190 RID: 8592 RVA: 0x000157E9 File Offset: 0x000139E9
-		// (set) Token: 0x06002191 RID: 8593 RVA: 0x000157F1 File Offset: 0x000139F1
 		public float SmeltingProgress { get; private set; }
 
-		// Token: 0x1700055C RID: 1372
-		// (get) Token: 0x06002192 RID: 8594 RVA: 0x000034CC File Offset: 0x000016CC
 		public int UpdateOrder
 		{
 			get
@@ -38,7 +27,6 @@ namespace Game
 			}
 		}
 
-		// Token: 0x06002193 RID: 8595 RVA: 0x000E1F90 File Offset: 0x000E0190
 		public void Update(float dt)
 		{
 			Point3 coordinates = m_componentBlockEntity.Coordinates;
@@ -112,7 +100,7 @@ namespace Game
 					m_fireTime = m_fireTimeRemaining;
 				}
 				SmeltingProgress = MathUtils.Min(m_fireTimeRemaining / m_fireTime, 1f);
-				if ((double)SmeltingProgress >= 2.0)
+				if (SmeltingProgress >= 2f)
 				{
 					m_smeltingRecipe = null;
 					SmeltingProgress = 0f;
@@ -126,7 +114,6 @@ namespace Game
 			}
 		}
 
-		// Token: 0x06002194 RID: 8596 RVA: 0x000157FA File Offset: 0x000139FA
 		public override int GetSlotCapacity(int slotIndex, int value)
 		{
 			if (slotIndex != FuelSlotIndex)
@@ -140,21 +127,18 @@ namespace Game
 			return 0;
 		}
 
-		// Token: 0x06002195 RID: 8597 RVA: 0x00015835 File Offset: 0x00013A35
 		public override void AddSlotItems(int slotIndex, int value, int count)
 		{
 			base.AddSlotItems(slotIndex, value, count);
 			m_updateSmeltingRecipe = true;
 		}
 
-		// Token: 0x06002196 RID: 8598 RVA: 0x00015847 File Offset: 0x00013A47
 		public override int RemoveSlotItems(int slotIndex, int count)
 		{
 			m_updateSmeltingRecipe = true;
 			return base.RemoveSlotItems(slotIndex, count);
 		}
 
-		// Token: 0x06002197 RID: 8599 RVA: 0x000E22A0 File Offset: 0x000E04A0
 		public override void Load(ValuesDictionary valuesDictionary, IdToEntityMap idToEntityMap)
 		{
 			base.Load(valuesDictionary, idToEntityMap);
@@ -168,7 +152,6 @@ namespace Game
 			m_updateSmeltingRecipe = true;
 		}
 
-		// Token: 0x06002198 RID: 8600 RVA: 0x00015858 File Offset: 0x00013A58
 		public override void Save(ValuesDictionary valuesDictionary, EntityToIdMap entityToIdMap)
 		{
 			base.Save(valuesDictionary, entityToIdMap);
@@ -176,37 +159,26 @@ namespace Game
 			valuesDictionary.SetValue<float>("HeatLevel", HeatLevel);
 		}
 
-		// Token: 0x04001997 RID: 6551
 		private ComponentBlockEntity m_componentBlockEntity;
 
-		// Token: 0x04001998 RID: 6552
 		private float m_fireTimeRemaining;
 
-		// Token: 0x04001999 RID: 6553
 		private int m_furnaceSize;
 
-		// Token: 0x0400199A RID: 6554
 		private readonly string[] m_matchedIngredients = new string[9];
 
-		// Token: 0x0400199B RID: 6555
 		private SubsystemExplosions m_subsystemExplosions;
 
-		// Token: 0x0400199C RID: 6556
 		private SubsystemTerrain m_subsystemTerrain;
 
-		// Token: 0x0400199D RID: 6557
 		private bool m_updateSmeltingRecipe;
 
-		// Token: 0x0400199E RID: 6558
 		private string m_smeltingRecipe;
 
-		// Token: 0x0400199F RID: 6559
 		private SubsystemAudio m_subsystemAudio;
 
-		// Token: 0x040019A0 RID: 6560
 		private int m_music;
 
-		// Token: 0x040019A1 RID: 6561
 		private float m_fireTime;
 	}
 }

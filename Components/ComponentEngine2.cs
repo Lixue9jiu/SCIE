@@ -71,10 +71,10 @@ namespace Game
 
 		public void Update(float dt)
 		{
-			if ((double)HeatLevel > 0.0)
+			if (HeatLevel > 0f)
 			{
 				m_fireTimeRemaining = MathUtils.Max(0f, m_fireTimeRemaining - dt);
-				if ((double)m_fireTimeRemaining == 0.0)
+				if (m_fireTimeRemaining == 0f)
 				{
 					HeatLevel = 0f;
 				}
@@ -140,7 +140,7 @@ namespace Game
 					}
 				}
 			}
-			if ((double)m_fireTimeRemaining <= 0.0)
+			if (m_fireTimeRemaining <= 0f)
 			{
 				m_smeltingRecipe = null;
 				SmeltingProgress = 0f;
@@ -151,7 +151,7 @@ namespace Game
 				SmeltingProgress = MathUtils.Min(SmeltingProgress + 0.02f * dt, 1f);
 				int num2 = m_music % 360;
 				m_music += 2;
-				if ((double)SmeltingProgress >= 1.0)
+				if (SmeltingProgress >= 1f)
 				{
 					int remainsSlotIndex2 = RemainsSlotIndex;
 					if (m_slots[remainsSlotIndex2].Count > 0)
@@ -173,7 +173,7 @@ namespace Game
 			{
 				return base.GetSlotCapacity(slotIndex, value);
 			}
-			if ((double)BlocksManager.Blocks[Terrain.ExtractContents(value)].FuelHeatLevel > 0.0)
+			if (BlocksManager.Blocks[Terrain.ExtractContents(value)].FuelHeatLevel > 0f)
 			{
 				return base.GetSlotCapacity(slotIndex, value);
 			}
@@ -222,7 +222,7 @@ namespace Game
 			{
 				Block block = BlocksManager.Blocks[num];
 				m_matchedIngredients[remainsSlotIndex] = block.CraftingId + ":" + num2.ToString(CultureInfo.InvariantCulture);
-				if (block.CraftingId.ToString() == "waterbucket")
+				if (block.CraftingId == "waterbucket")
 				{
 					text = "bucket";
 				}
