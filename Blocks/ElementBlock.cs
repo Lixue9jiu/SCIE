@@ -116,12 +116,13 @@ namespace Game
 		public new const int Index = 500;
 		public override void Initialize()
 		{
+			var fridge = new Fridge();
 			Devices = new Device[]
 			{
-				new Fridge(),
-				new Fridge(),
-				new Fridge(),
-				new Fridge(),
+				fridge,
+				fridge,
+				fridge,
+				fridge,
 			};
 			base.Initialize();
 		}

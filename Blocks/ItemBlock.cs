@@ -486,12 +486,16 @@ namespace Game
 			{
 				return base.GetCreativeValues();
 			}
-			var set = new HashSet<int>();
-			for (int i = 0, value = BlockIndex; GetItem(ref value) != DefaultItem; value = Terrain.MakeBlockValue(BlockIndex, 0, ++i))
+			var list = new List<int>(8);
+			var set = new HashSet<Item>()
 			{
-				set.Add(value);
+				DefaultItem
+			};
+			for (int i = 0, value = BlockIndex; set.Add(GetItem(ref value)); value = Terrain.MakeBlockValue(BlockIndex, 0, ++i))
+			{
+				list.Add(value);
 			}
-			return set;
+			return list;
 		}
 		/*public bool Equals(object other, IEqualityComparer comparer)
 		{
