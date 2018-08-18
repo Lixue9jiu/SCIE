@@ -69,7 +69,7 @@ namespace Game
 			int num = Terrain.ExtractContents(value);
 			if (num == ElementBlock.Index)
 			{
-				int? color2 = ElementBlock.GetColor(Terrain.ExtractData(value));
+				int? color2 = PaintableItemBlock.GetColor(Terrain.ExtractData(value));
 				if (color2.HasValue)
 					color = SubsystemPalette.GetColor(generator, color2);
 			}
@@ -100,7 +100,7 @@ namespace Game
 							int cellValue = terrain.GetCellValue(x + tmpConnectionPath.NeighborOffsetX, y + tmpConnectionPath.NeighborOffsetY, z + tmpConnectionPath.NeighborOffsetZ);
 							if (Terrain.ExtractContents(cellValue) == ElementBlock.Index)
 							{
-								int? color4 = ElementBlock.GetColor(Terrain.ExtractData(cellValue));
+								int? color4 = PaintableItemBlock.GetColor(Terrain.ExtractData(cellValue));
 								if (color4.HasValue)
 								{
 									color3 = SubsystemPalette.GetColor(generator, color4);

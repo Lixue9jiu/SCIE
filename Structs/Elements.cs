@@ -35,7 +35,7 @@ namespace Game
 		Inductor = 524288,
 	}
 	[Serializable]
-	public abstract class Node : Item, ICloneable, IComparable, IComparable<Node>, IEquatable<Node>, IFormattable, IConvertible
+	public abstract class Node : Item, IEquatable<Node>//, ICloneable, IComparable, IComparable<Node>, IFormattable, IConvertible
 	{
 		public readonly ElementType Type;
 		//public ElectricConnectorDirection Direction;
@@ -50,10 +50,10 @@ namespace Game
 		public virtual void Simulate(ref int value)
 		{
 		}
-		public object Clone()
+		/*public object Clone()
 		{
 			return MemberwiseClone();
-		}
+		}}*/
 		public bool Equals(Node other)
 		{
 			return other.Type == Type;
@@ -82,7 +82,7 @@ namespace Game
 		{
 			return Type.ToString();
 		}
-		public int CompareTo(object obj)
+		/*public int CompareTo(object obj)
 		{
 			return Type.CompareTo(obj);
 		}
@@ -161,19 +161,19 @@ namespace Game
 		public object ToType(Type conversionType, IFormatProvider provider)
 		{
 			return ((IConvertible)Type).ToType(conversionType, provider);
-		}
+		}*/
 	}
 	[Serializable]
-	public abstract class Element : Node, ICollection, ICollection<Element>, IEquatable<Element>, IList, IList<Element>, IReadOnlyList<Element>, IStructuralComparable, IStructuralEquatable
+	public abstract class Element : Node, IEquatable<Element>//, ICollection, ICollection<Element>, IList, IList<Element>, IReadOnlyList<Element>, IStructuralComparable, IStructuralEquatable
 	{
 		public DynamicArray<Element> Next;
-		public int Count => Next.Count;
+		/*public int Count => Next.Count;
 		public object SyncRoot => this;
 		public bool IsReadOnly => Next.IsReadOnly;
 		public bool IsFixedSize => false;
 		public bool IsSynchronized => false;
 		object IList.this[int index] { get => Next.Array[index]; set => Next.Array[index] = value as Element; }
-		public Element this[int index] { get => Next.Array[index]; set => Next.Array[index] = value; }
+		public Element this[int index] { get => Next.Array[index]; set => Next.Array[index] = value; }*/
 		protected Element(ElementType type = ElementType.Device) : base(type)
 		{
 		}
@@ -190,7 +190,7 @@ namespace Game
 		{
 			return Next == null ? (int)Type : (int)Type + Next.Count;
 		}
-		public DynamicArray<Element>.Enumerator GetEnumerator()
+		/*public DynamicArray<Element>.Enumerator GetEnumerator()
 		{
 			return new DynamicArray<Element>.Enumerator(Next);
 		}
@@ -201,7 +201,7 @@ namespace Game
 		IEnumerator IEnumerable.GetEnumerator()
 		{
 			return new DynamicArray<Element>.Enumerator(Next);
-		}
+		}*/
 		public bool Equals(Element other)
 		{
 			if (!base.Equals(other))
@@ -215,8 +215,7 @@ namespace Game
 			info.AddValue("Type", (int)Type);
 			info.AddValue("Next", Next, typeof(DynamicArray<Element>));
 		}
-
-		public void CopyTo(Element[] array, int index)
+		/*public void CopyTo(Element[] array, int index)
 		{
 			Next.CopyTo(array, index);
 		}
@@ -283,7 +282,7 @@ namespace Game
 		public int CompareTo(object other, IComparer comparer)
 		{
 			return ((IStructuralComparable)Next.Array).CompareTo(other, comparer);
-		}
+		}*/
 	}
 	[Serializable]
 	public abstract class Device : Element, IEquatable<Device>

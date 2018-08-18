@@ -1,10 +1,9 @@
-using System;
 using Engine;
 using Engine.Graphics;
 
 namespace Game
 {
-    public class IPistonBlock : CubeBlock
+	public class IPistonBlock : CubeBlock
     {
         public IPistonBlock()
         {

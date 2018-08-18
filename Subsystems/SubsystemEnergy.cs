@@ -1,8 +1,4 @@
-﻿using System.Collections.Generic;
-using Engine;
-using TemplatesDatabase;
-
-namespace Game
+﻿namespace Game
 {
 	public class SubsystemEnergy : SubsystemCircuit
 	{

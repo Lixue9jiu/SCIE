@@ -23,39 +23,35 @@ namespace Game
 
 		public override void OnBlockAdded(int value, int oldValue, int x, int y, int z)
 		{
-				DatabaseObject databaseObject = base.SubsystemTerrain.Project.GameDatabase.Database.FindDatabaseObject("CastMach", base.SubsystemTerrain.Project.GameDatabase.EntityTemplateType, true);
-				ValuesDictionary valuesDictionary = new ValuesDictionary();
-				valuesDictionary.PopulateFromDatabaseObject(databaseObject);
-				valuesDictionary.GetValue<ValuesDictionary>("BlockEntity").SetValue("Coordinates", new Point3(x, y, z));
-				base.SubsystemTerrain.Project.AddEntity(base.SubsystemTerrain.Project.CreateEntity(valuesDictionary));
+			DatabaseObject databaseObject = SubsystemTerrain.Project.GameDatabase.Database.FindDatabaseObject("CastMach", SubsystemTerrain.Project.GameDatabase.EntityTemplateType, true);
+			ValuesDictionary valuesDictionary = new ValuesDictionary();
+			valuesDictionary.PopulateFromDatabaseObject(databaseObject);
+			valuesDictionary.GetValue<ValuesDictionary>("BlockEntity").SetValue("Coordinates", new Point3(x, y, z));
+			SubsystemTerrain.Project.AddEntity(SubsystemTerrain.Project.CreateEntity(valuesDictionary));
 			
 		}
 
 		public override void OnBlockRemoved(int value, int newValue, int x, int y, int z)
 		{
-			
-				ComponentBlockEntity blockEntity = base.SubsystemTerrain.Project.FindSubsystem<SubsystemBlockEntities>(true).GetBlockEntity(x, y, z);
-				if (blockEntity != null)
+			ComponentBlockEntity blockEntity = SubsystemTerrain.Project.FindSubsystem<SubsystemBlockEntities>(true).GetBlockEntity(x, y, z);
+			if (blockEntity != null)
+			{
+				Vector3 position = new Vector3((float)x, (float)y, (float)z) + new Vector3(0.5f);
+				foreach (IInventory item in blockEntity.Entity.FindComponents<IInventory>())
 				{
-					Vector3 position = new Vector3((float)x, (float)y, (float)z) + new Vector3(0.5f);
-					foreach (IInventory item in blockEntity.Entity.FindComponents<IInventory>())
-					{
-						item.DropAllItems(position);
-					}
-					base.SubsystemTerrain.Project.RemoveEntity(blockEntity.Entity, true);
+					item.DropAllItems(position);
 				}
-			
-			
+			SubsystemTerrain.Project.RemoveEntity(blockEntity.Entity, true);
+			}
 		}
 
-		public override void OnBlockGenerated(int value, int x, int y, int z, bool isLoaded)
+		/*public override void OnBlockGenerated(int value, int x, int y, int z, bool isLoaded)
 		{
-			
-		}
+		}*/
 
 		public override void OnChunkDiscarding(TerrainChunk chunk)
 		{
-			List<Point3> list = new List<Point3>();
+			var list = new List<Point3>();
 			foreach (Point3 key in m_particleSystemsByCell.Keys)
 			{
 				if (key.X >= chunk.Origin.X && key.X < chunk.Origin.X + 16 && key.Z >= chunk.Origin.Y && key.Z < chunk.Origin.Y + 16)
@@ -63,15 +59,16 @@ namespace Game
 					list.Add(key);
 				}
 			}
-			foreach (Point3 item in list)
+			for (int i = 0; i < list.Count; i++)
 			{
+				Point3 item = list[i];
 				RemoveFire(item.X, item.Y, item.Z);
 			}
 		}
 
 		public override bool OnInteract(TerrainRaycastResult raycastResult, ComponentMiner componentMiner)
 		{
-			ComponentBlockEntity blockEntity = base.SubsystemTerrain.Project.FindSubsystem<SubsystemBlockEntities>(true).GetBlockEntity(raycastResult.CellFace.X, raycastResult.CellFace.Y, raycastResult.CellFace.Z);
+			ComponentBlockEntity blockEntity = SubsystemTerrain.Project.FindSubsystem<SubsystemBlockEntities>(true).GetBlockEntity(raycastResult.CellFace.X, raycastResult.CellFace.Y, raycastResult.CellFace.Z);
 			if (blockEntity == null || componentMiner.ComponentPlayer == null)
 			{
 				return false;
@@ -85,12 +82,12 @@ namespace Game
 		public override void Load(ValuesDictionary valuesDictionary)
 		{
 			base.Load(valuesDictionary);
-			m_subsystemParticles = base.Project.FindSubsystem<SubsystemParticles>(true);
+			m_subsystemParticles = Project.FindSubsystem<SubsystemParticles>(true);
 		}
 
 		private void AddFire(int value, int x, int y, int z)
 		{
-			Vector3 v = new Vector3(0.5f, 0.2f, 0.5f);
+			var v = new Vector3(0.5f, 0.2f, 0.5f);
 			float size = 0.15f;
 			var fireParticleSystem = new FireParticleSystem(new Vector3((float)x, (float)y, (float)z) + v, size, 16f);
 			m_subsystemParticles.AddParticleSystem(fireParticleSystem);

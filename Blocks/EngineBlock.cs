@@ -69,19 +69,20 @@ namespace Game
 			float num3 = Vector3.Dot(forward, -Vector3.UnitZ);
 			float num4 = Vector3.Dot(forward, -Vector3.UnitX);
 			int data = 0;
-			if ((double)num == (double)MathUtils.Max(num, num2, num3, num4))
+			float max = MathUtils.Max(num, num2, num3, num4);
+			if (num == max)
 			{
 				data = 2;
 			}
-			else if ((double)num2 == (double)MathUtils.Max(num, num2, num3, num4))
+			else if (num2 == max)
 			{
 				data = 3;
 			}
-			else if ((double)num3 == (double)MathUtils.Max(num, num2, num3, num4))
+			else if (num3 == max)
 			{
 				data = 0;
 			}
-			else if ((double)num4 == (double)MathUtils.Max(num, num2, num3, num4))
+			else if (num4 == max)
 			{
 				data = 1;
 			}

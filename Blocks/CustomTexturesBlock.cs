@@ -27,7 +27,7 @@ namespace Game
 		public static Stream GetTargetFile(string name, bool throwIfNotFound = true)
 		{
 			var stream = File.Exists(name) ? File.OpenRead(name) : GetFileInZip(Storage.GetFileName(name));
-			if (stream == null)
+			if (throwIfNotFound && stream == null)
 				throw new InvalidOperationException(name + " not found.");
 			return stream;
 		}

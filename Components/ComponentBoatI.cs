@@ -18,7 +18,7 @@ namespace Game
 
 		private float m_turnSpeed;
 
-		private readonly ComponentEngine2 m_heatlevel;
+		//private readonly ComponentEngine2 m_heatlevel;
 
 		public float MoveOrder
 		{
@@ -104,7 +104,7 @@ namespace Game
 
 		public void Injure(float amount, ComponentCreature attacker, bool ignoreInvulnerability)
 		{
-			if (!((double)amount <= 0.0))
+			if (amount > 0f)
 			{
 				Health = MathUtils.Max(Health - amount, 0f);
 			}

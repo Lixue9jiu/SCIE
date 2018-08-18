@@ -8,8 +8,6 @@ namespace Game
 	{
 		private ComponentBlockEntity m_componentBlockEntity;
 
-		private readonly Random m_random = new Random();
-
 		private SubsystemAudio m_subsystemAudio;
 
 		private SubsystemPickables m_subsystemPickables;
@@ -18,7 +16,7 @@ namespace Game
 
 		private SubsystemTerrain m_subsystemTerrain;
 
-		private SubsystemParticles m_subsystemParticles;
+		//private SubsystemParticles m_subsystemParticles;
 
 		public void Dispense()
 		{

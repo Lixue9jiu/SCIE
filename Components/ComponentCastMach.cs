@@ -1,6 +1,5 @@
 using Engine;
 using GameEntitySystem;
-using System.Globalization;
 using TemplatesDatabase;
 
 namespace Game
@@ -74,10 +73,10 @@ namespace Game
 		public void Update(float dt)
 		{
 			Point3 coordinates = m_componentBlockEntity.Coordinates;
-			if ((double)HeatLevel > 0.0)
+			if (HeatLevel > 0f)
 			{
 				m_fireTimeRemaining = MathUtils.Max(0f, m_fireTimeRemaining - dt);
-				if ((double)m_fireTimeRemaining == 0.0)
+				if (m_fireTimeRemaining == 0f)
 				{
 					HeatLevel = 0f;
 				}
@@ -86,7 +85,7 @@ namespace Game
 			{
 				m_updateSmeltingRecipe = false;
 				float heatLevel = 0f;
-				if ((double)HeatLevel > 0.0)
+				if (HeatLevel > 0f)
 				{
 					heatLevel = HeatLevel;
 				}
@@ -112,18 +111,18 @@ namespace Game
 				m_fireTimeRemaining = 0f;
 				m_music = -1;
 			}
-			if (m_smeltingRecipe != null && (double)m_fireTimeRemaining <= 0.0)
+			if (m_smeltingRecipe != null && m_fireTimeRemaining <= 0f)
 			{
 				Slot slot2 = m_slots[FuelSlotIndex];
 				if (slot2.Count > 0)
 				{
 					Block block = BlocksManager.Blocks[Terrain.ExtractContents(slot2.Value)];
-					if ((double)block.GetExplosionPressure(slot2.Value) > 0.0)
+					if (block.GetExplosionPressure(slot2.Value) > 0f)
 					{
 						slot2.Count = 0;
 						m_subsystemExplosions.TryExplodeBlock(coordinates.X, coordinates.Y, coordinates.Z, slot2.Value);
 					}
-					else if ((double)block.FuelHeatLevel > 0.0)
+					else if (block.FuelHeatLevel > 0f)
 					{
 						slot2.Count--;
 						m_fireTimeRemaining = block.FuelFireDuration;
@@ -131,7 +130,7 @@ namespace Game
 					}
 				}
 			}
-			if ((double)m_fireTimeRemaining <= 0.0)
+			if (m_fireTimeRemaining <= 0f)
 			{
 				m_smeltingRecipe = null;
 				SmeltingProgress = 0f;
@@ -140,7 +139,7 @@ namespace Game
 			if (m_smeltingRecipe != null)
 			{
 				SmeltingProgress = MathUtils.Min(SmeltingProgress + 0.02f * dt, 1f);
-				if ((double)SmeltingProgress >= 1.0)
+				if (SmeltingProgress >= 1f)
 				{
 					for (int i = 0; i < m_furnaceSize; i++)
 					{
@@ -159,7 +158,6 @@ namespace Game
                         m_slots[ResultSlotIndex].Value = 548;
                         m_slots[ResultSlotIndex].Count++;
                     }
-
                     m_smeltingRecipe = null;
 					SmeltingProgress = 0f;
 					m_updateSmeltingRecipe = true;
@@ -174,7 +172,7 @@ namespace Game
 			{
 				return base.GetSlotCapacity(slotIndex, value);
 			}
-			if ((double)BlocksManager.Blocks[Terrain.ExtractContents(value)].FuelHeatLevel > 1.0)
+			if (BlocksManager.Blocks[Terrain.ExtractContents(value)].FuelHeatLevel > 1f)
 			{
 				return base.GetSlotCapacity(slotIndex, value);
 			}
@@ -196,10 +194,10 @@ namespace Game
 		public override void Load(ValuesDictionary valuesDictionary, IdToEntityMap idToEntityMap)
 		{
 			base.Load(valuesDictionary, idToEntityMap);
-			m_subsystemTerrain = base.Project.FindSubsystem<SubsystemTerrain>(true);
-			m_subsystemExplosions = base.Project.FindSubsystem<SubsystemExplosions>(true);
-			m_componentBlockEntity = base.Entity.FindComponent<ComponentBlockEntity>(true);
-			m_subsystemAudio = base.Project.FindSubsystem<SubsystemAudio>(true);
+			m_subsystemTerrain = Project.FindSubsystem<SubsystemTerrain>(true);
+			m_subsystemExplosions = Project.FindSubsystem<SubsystemExplosions>(true);
+			m_componentBlockEntity = Entity.FindComponent<ComponentBlockEntity>(true);
+			m_subsystemAudio = Project.FindSubsystem<SubsystemAudio>(true);
 			m_furnaceSize = SlotsCount - 3;
 			m_fireTimeRemaining = valuesDictionary.GetValue<float>("FireTimeRemaining");
 			HeatLevel = valuesDictionary.GetValue<float>("HeatLevel");
@@ -223,13 +221,13 @@ namespace Game
 				int num2 = Terrain.ExtractData(slotValue);
 				if (GetSlotCount(i) > 0 && GetSlotValue(1)>0)
 				{
-					Block block = BlocksManager.Blocks[num];
-					Block block2 = BlocksManager.Blocks[Terrain.ExtractContents(GetSlotValue(1))];
-					if (block.CraftingId == "steelingot" && block2.CraftingId == "steelgearmould")
+					var block = BlocksManager.Blocks[num].CraftingId;
+					var block2 = BlocksManager.Blocks[Terrain.ExtractContents(GetSlotValue(1))].CraftingId;
+					if (block == "steelingot" && block2 == "steelgearmould")
 					{
 						text = "steelgear";
 					}
-                    if (block.CraftingId == "steelingot" && block2.CraftingId == "steelwheelmould")
+                    if (block == "steelingot" && block2 == "steelwheelmould")
 					{
 						text = "steelwheel";
 					}

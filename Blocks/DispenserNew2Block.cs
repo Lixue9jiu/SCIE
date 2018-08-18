@@ -73,27 +73,27 @@ namespace Game
 			float num6 = Vector3.Dot(forward, -Vector3.UnitY);
 			float num7 = MathUtils.Min(MathUtils.Min(num, num2, num3), MathUtils.Min(num4, num5, num6));
 			int direction = 0;
-			if ((double)num == (double)num7)
+			if (num == num7)
 			{
 				direction = 0;
 			}
-			else if ((double)num2 == (double)num7)
+			else if (num2 == num7)
 			{
 				direction = 1;
 			}
-			else if ((double)num3 == (double)num7)
+			else if (num3 == num7)
 			{
 				direction = 2;
 			}
-			else if ((double)num4 == (double)num7)
+			else if (num4 == num7)
 			{
 				direction = 3;
 			}
-			else if ((double)num5 == (double)num7)
+			else if (num5 == num7)
 			{
 				direction = 4;
 			}
-			else if ((double)num6 == (double)num7)
+			else if (num6 == num7)
 			{
 				direction = 5;
 			}

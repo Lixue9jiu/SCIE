@@ -34,13 +34,13 @@ namespace Game
 					m_isDispenseAllowed = false;
 					m_lastDispenseTime = SubsystemElectricity.SubsystemTime.GameTime;
 					SubsystemBlockEntities subsystemBlockEntities = m_subsystemBlockEntities;
-					ReadOnlyList<CellFace> cellFaces = base.CellFaces;
+					ReadOnlyList<CellFace> cellFaces = CellFaces;
 					CellFace cellFace = cellFaces[0];
 					int x = cellFace.Point.X;
-					cellFaces = base.CellFaces;
+					cellFaces = CellFaces;
 					cellFace = cellFaces[0];
 					int y = cellFace.Point.Y;
-					cellFaces = base.CellFaces;
+					cellFaces = CellFaces;
 					cellFace = cellFaces[0];
 					int z = cellFace.Point.Z;
 					ComponentBlockEntity blockEntity = subsystemBlockEntities.GetBlockEntity(x, y, z);

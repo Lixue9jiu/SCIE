@@ -1,6 +1,5 @@
 ﻿#region Using directives
 
-using System;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Runtime.CompilerServices;
@@ -22,7 +21,7 @@ using System.Security;
 
 [assembly: RuntimeCompatibility(WrapNonExceptionThrows = true)]
 
-[assembly: SecurityRules(SecurityRuleSet.Level1, SkipVerificationInFullTrust=true)]
+[assembly: SecurityRules(SecurityRuleSet.Level1, SkipVerificationInFullTrust = true)]
 
 // This sets the default COM visibility of types in the assembly to invisible.
 // If you need to expose a type to COM, use [ComVisible(true)] on that type.

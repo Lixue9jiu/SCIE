@@ -287,12 +287,12 @@ namespace Game
 	}
 	public partial class ItemBlock : CubeBlock, IItemBlock
 	{
-		public const int Index = 567;
+		public const int Index = 560;
 		public static Item[] Items;
 		public static Dictionary<string, int> IdTable;
 		public static Item DefaultItem;
-		public Item this[int index] => Items[index];
-		public int Count => Items.Length;
+		//public Item this[int index] => Items[index];
+		//public int Count => Items.Length;
 		public virtual Item GetItem(ref int value)
 		{
 			if (Terrain.ExtractContents(value) != BlockIndex)
@@ -329,7 +329,6 @@ namespace Game
 		{
 			return new CraftingRecipe[]
 			{
-
 			};
 		}*/
 		public override CraftingRecipe GetAdHocCraftingRecipe(SubsystemTerrain subsystemTerrain, string[] ingredients, float heatLevel)
@@ -489,7 +488,7 @@ namespace Game
 			}
 			return list;
 		}
-		public bool Equals(object other, IEqualityComparer comparer)
+		/*public bool Equals(object other, IEqualityComparer comparer)
 		{
 			return ((IStructuralEquatable)Items).Equals(other, comparer);
 		}
@@ -508,10 +507,19 @@ namespace Game
 		IEnumerator IEnumerable.GetEnumerator()
 		{
 			return Items.GetEnumerator();
-		}
+		}*/
 	}
 	public abstract class PaintableItemBlock : ItemBlock, IPaintableBlock
 	{
+		public override string GetDisplayName(SubsystemTerrain subsystemTerrain, int value)
+		{
+			var item = GetItem(ref value);
+			if (item != DefaultItem)
+			{
+				return SubsystemPalette.GetName(subsystemTerrain, GetPaintColor(value), item.GetDisplayName(subsystemTerrain, value));
+			}
+			return DefaultDisplayName;
+		}
 		public int? GetPaintColor(int value)
 		{
 			return GetColor(Terrain.ExtractData(value));

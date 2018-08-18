@@ -10,21 +10,13 @@ namespace Game
 		{
 			get
 			{
-				return new int[1]
+				return new int[]
 				{
 					168
 				};
 			}
 		}
-
-		public int UpdateOrder
-		{
-			get
-			{
-				return 0;
-			}
-		}
-
+		
 		public override void OnCollide(CellFace cellFace, float velocity, ComponentBody componentBody)
 		{
 			if (!(componentBody.Mass <= 20f) && !componentBody.IsSneaking)
@@ -68,7 +60,7 @@ namespace Game
 			m_subsystemTime = Project.FindSubsystem<SubsystemTime>(true);
 		}
 
-		public void Update(float dt)
+		public new void Update(float dt)
 		{
 			if (m_subsystemTime.PeriodicGameTimeEvent(2.5, 0.0))
 			{
@@ -100,13 +92,13 @@ namespace Game
 			}
 		}
 
-		private bool DegradesSoilIfOnTopOfIt(int value)
+		private new bool DegradesSoilIfOnTopOfIt(int value)
 		{
 			Block block = BlocksManager.Blocks[Terrain.ExtractContents(value)];
 			return !block.IsFaceTransparent(SubsystemTerrain, 5, value) && block.IsCollidable;
 		}
 
-		private bool DetermineHydration(int x, int y, int z, int steps)
+		private new bool DetermineHydration(int x, int y, int z, int steps)
 		{
 			if (steps > 0 && y > 0 && y < 126)
 			{
@@ -127,15 +119,14 @@ namespace Game
 			return false;
 		}
 
-		private bool DetermineHydrationHelper(int x, int y, int z, int steps)
+		private new bool DetermineHydrationHelper(int x, int y, int z, int steps)
 		{
 			int cellValueFast = SubsystemTerrain.Terrain.GetCellValueFast(x, y, z);
 			int num = Terrain.ExtractContents(cellValueFast);
-			int data = Terrain.ExtractData(cellValueFast);
 			switch (num)
 			{
 			case 168:
-				if (!SoilBlock.GetHydration(data))
+				if (!SoilBlock.GetHydration(Terrain.ExtractData(cellValueFast)))
 				{
 					goto default;
 				}
@@ -180,28 +171,28 @@ namespace Game
 				switch (worldItem.Value)
 				{
 				case 16557:
-					value = 20 + FlowerBlock.SetIsSmall(0, true) * 16384;
+					value = 20 | FlowerBlock.SetIsSmall(0, true) << 14;
 					break;
 				case 173:
-					value = 19 + TallGrassBlock.SetIsSmall(0, true) * 16384;
+					value = 19 | TallGrassBlock.SetIsSmall(0, true) << 14;
 					break;
 				case 49325:
-					value = 25 + FlowerBlock.SetIsSmall(0, true) * 16384;
+					value = 25 | FlowerBlock.SetIsSmall(0, true) << 14;
 					break;
 				case 32941:
-					value = 24 + FlowerBlock.SetIsSmall(0, true) * 16384;
+					value = 24 | FlowerBlock.SetIsSmall(0, true) << 14;
 					break;
 				case 82093:
-					value = 174 + RyeBlock.SetSize(RyeBlock.SetIsWild(0, false), 0) * 16384;
+					value = 174 | RyeBlock.SetSize(RyeBlock.SetIsWild(0, false), 0) << 14;
 					break;
 				case 65709:
-					value = 174 + RyeBlock.SetSize(RyeBlock.SetIsWild(0, false), 0) * 16384;
+					value = 174 | RyeBlock.SetSize(RyeBlock.SetIsWild(0, false), 0) << 14;
 					break;
 				case 114861:
-					value = 131 + BasePumpkinBlock.SetSize(BasePumpkinBlock.SetIsDead(0, false), 0) * 16384;
+					value = 131 | BasePumpkinBlock.SetSize(BasePumpkinBlock.SetIsDead(0, false), 0) << 14;
 					break;
 				case 98477:
-					value = 204 + CottonBlock.SetSize(CottonBlock.SetIsWild(0, false), 0) * 16384;
+					value = 204 | CottonBlock.SetSize(CottonBlock.SetIsWild(0, false), 0) << 14;
 					break;
 				}
 				SubsystemTerrain.ChangeCell(cellFace.X, cellFace.Y + 1, cellFace.Z, value, true);

@@ -19,10 +19,10 @@ namespace Game
 	}
 	public abstract class MineralBlock : StoneChunkBlock
 	{
-		public override void GetDropValues(SubsystemTerrain subsystemTerrain, int oldValue, int newValue, int toolLevel, List<BlockDropValue> dropValues, out bool showDebris)
+		/*public override void GetDropValues(SubsystemTerrain subsystemTerrain, int oldValue, int newValue, int toolLevel, List<BlockDropValue> dropValues, out bool showDebris)
 		{
 			showDebris = true;
-		}
+		}*/
 		public virtual Mineral OnItemHarvested(SubsystemTerrain subsystemTerrain, int x, int y, int z, int value, ref BlockDropValue dropValue, ref int newValue)
 		{
 			var result = Mineral.None;

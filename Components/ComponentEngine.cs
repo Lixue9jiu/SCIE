@@ -224,9 +224,9 @@ namespace Game
 				int num2 = Terrain.ExtractData(slotValue);
 				if (GetSlotCount(i) > 0)
 				{
-					Block block = BlocksManager.Blocks[num];
-					m_matchedIngredients[i] = block.CraftingId + ":" + num2.ToString(CultureInfo.InvariantCulture);
-					if (block.CraftingId == "waterbucket")
+					var craftingId = BlocksManager.Blocks[num].CraftingId;
+					m_matchedIngredients[i] = craftingId + ":" + num2.ToString(CultureInfo.InvariantCulture);
+					if (craftingId == "waterbucket")
 					{
 						text = "bucket";
 					}
@@ -239,7 +239,7 @@ namespace Game
 			if (text != null)
 			{
 				Slot slot = m_slots[ResultSlotIndex];
-				Terrain.ExtractContents(90);
+				//Terrain.ExtractContents(90);
 				if (slot.Count != 0 && (90 != slot.Value || 1 + slot.Count > 40))
 				{
 					text = null;

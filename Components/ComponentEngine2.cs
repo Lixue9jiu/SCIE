@@ -234,7 +234,7 @@ namespace Game
 			if (text != null)
 			{
 				Slot slot = m_slots[ResultSlotIndex];
-				Terrain.ExtractContents(90);
+				//Terrain.ExtractContents(90);
 				if (slot.Count != 0 && (90 != slot.Value || 1 + slot.Count > 40))
 				{
 					text = null;
