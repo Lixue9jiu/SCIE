@@ -480,7 +480,7 @@ namespace Game
 		{
 			return GetItem(ref value).IsHeatBlocker(value);
 		}
-		public override IEnumerable<int> GetCreativeValues()
+		/*public override IEnumerable<int> GetCreativeValues()
 		{
 			if (DefaultCreativeData < 0)
 			{
@@ -493,7 +493,7 @@ namespace Game
 			}
 			return list;
 		}
-		/*public bool Equals(object other, IEqualityComparer comparer)
+		public bool Equals(object other, IEqualityComparer comparer)
 		{
 			return ((IStructuralEquatable)Items).Equals(other, comparer);
 		}
