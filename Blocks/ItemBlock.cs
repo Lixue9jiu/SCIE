@@ -480,20 +480,20 @@ namespace Game
 		{
 			return GetItem(ref value).IsHeatBlocker(value);
 		}
-		/*public override IEnumerable<int> GetCreativeValues()
+		public override IEnumerable<int> GetCreativeValues()
 		{
 			if (DefaultCreativeData < 0)
 			{
 				return base.GetCreativeValues();
 			}
-			var list = new List<int>(8);
+			var set = new HashSet<int>();
 			for (int i = 0, value = BlockIndex; GetItem(ref value) != DefaultItem; value = Terrain.MakeBlockValue(BlockIndex, 0, ++i))
 			{
-				list.Add(value);
+				set.Add(value);
 			}
-			return list;
+			return set;
 		}
-		public bool Equals(object other, IEqualityComparer comparer)
+		/*public bool Equals(object other, IEqualityComparer comparer)
 		{
 			return ((IStructuralEquatable)Items).Equals(other, comparer);
 		}

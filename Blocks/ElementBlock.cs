@@ -35,7 +35,7 @@ namespace Game
 			}
 			return null;
 		}
-		public virtual Device GetDevice(Terrain terrain, int x, int y, int z)
+		/*public virtual Device GetDevice(Terrain terrain, int x, int y, int z)
 		{
 			int value = terrain.GetCellValueFast(x, y, z);
 			if (GetItem(ref value) is Device device)
@@ -45,7 +45,7 @@ namespace Game
 			}
 			return null;
 		}
-		/*public void GetAllConnectedNeighbors(Terrain terrain, Device elem, int mountingFace, ICollection<ElectricConnectionPath> list)
+		public void GetAllConnectedNeighbors(Terrain terrain, Device elem, int mountingFace, ICollection<ElectricConnectionPath> list)
 		{
 			if (mountingFace != 5 || elem == null) return;
 			int x, y, z;
@@ -78,7 +78,7 @@ namespace Game
 			{
 				list.Add(PathTable[5]);
 			}
-		}*/
+		}
 		public void GetAllConnectedNeighbors(Terrain terrain, Device elem, int mountingFace, ICollection<Device> list)
 		{
 			if (mountingFace != 5 || elem == null) return;
@@ -112,7 +112,7 @@ namespace Game
 			{
 				list.Add(elem);
 			}
-		}
+		}*/
 		public new const int Index = 500;
 		public override void Initialize()
 		{
