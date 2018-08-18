@@ -65,6 +65,7 @@
     <Compile Include="Blocks\MetalLineBlock.cs" />
     <Compile Include="Blocks\SqueezerBlock.cs" />
     <Compile Include="Components\ComponentSqueezer.cs" />
+    <Compile Include="Blocks\OreChunkBlock.cs" />
     <Compile Include="Structs\CircuitDevices.cs" />
     <Compile Include="Structs\CircuitElements.cs" />
     <Compile Include="Structs\Elements.cs" />

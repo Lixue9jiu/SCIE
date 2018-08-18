@@ -12,19 +12,23 @@ namespace Game
 		public override void Initialize()
 		{
 			DefaultItem = new Item();
-			Items = new Item[]
-			{
-				new IronLine(),
-				new CopperLine(),
-				new SteelLine(),
-			};
-			IdTable = new Dictionary<string, int>(Items.Length);
+            Items = new Item[]
+            {
+                new IronLine(),
+                new CopperLine(),
+                new SteelLine(),
+                new GoldOreChunk(),
+                new SliverOreChunk(),
+                new PlatinumOreChunk()
+            };
+            IdTable = new Dictionary<string, int>(Items.Length);
 			int i;
 			for (i = 0; i < Items.Length; i++)
 			{
 				IdTable.Add(Items[i].GetType().ToString().Substring(5), i);
 			}
-			/*var streamReader = new StreamReader(CustomTextureBlock.GetTargetFile("IndustrialMod.icsv"));
+           
+            /*var streamReader = new StreamReader(CustomTextureBlock.GetTargetFile("IndustrialMod.icsv"));
 			try
 			{
 				LoadBlocksData(streamReader.ReadToEnd());
@@ -37,7 +41,7 @@ namespace Game
 			{
 				streamReader.Dispose();
 			}*/
-			CraftingRecipesManager.DecodeResult1 = DecodeResult;
+            CraftingRecipesManager.DecodeResult1 = DecodeResult;
 			base.Initialize();
 		}
 		public static void LoadBlocksData(string data)
