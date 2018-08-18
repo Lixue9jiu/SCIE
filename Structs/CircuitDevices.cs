@@ -1,10 +1,11 @@
 ﻿using Engine;
 using Engine.Graphics;
 using System;
+using System.Collections.Generic;
 
 namespace Game
 {
-	public abstract class Generator : Device
+	/*public abstract class Generator : Device
 	{
 		public int Voltage;
 		public bool State;
@@ -241,6 +242,23 @@ namespace Game
 			return base.Equals(other) && Voltage == other.Voltage;
 		}
 	}
+	public abstract class DeviceBlock : Device, IComparable<DeviceElement>, IEquatable<DeviceElement>
+	{
+		public int Voltage;
+
+		protected DeviceBlock(int voltage) : base(ElementType.Device)
+		{
+			Voltage = voltage;
+		}
+		public int CompareTo(DeviceElement other)
+		{
+			return Voltage.CompareTo(other.Voltage);
+		}
+		public bool Equals(DeviceElement other)
+		{
+			return base.Equals(other) && Voltage == other.Voltage;
+		}
+	}
 	public abstract class Battery : DeviceElement, IEquatable<Battery>
 	{
 		public int RemainCount;
@@ -305,7 +323,7 @@ namespace Game
 		public ElectricFurnace() : base(5)
 		{
 		}
-	}
+	}*/
 	public class Fridge : FixedDevice
 	{
 		public Fridge() : base(2000)
@@ -372,6 +390,15 @@ namespace Game
 			result.CellFace = raycastResult.CellFace;
 			return result;
 		}
+		public override void GetDropValues(SubsystemTerrain subsystemTerrain, int oldValue, int newValue, int toolLevel, List<BlockDropValue> dropValues, out bool showDebris)
+		{
+			showDebris = true;
+			dropValues.Add(new BlockDropValue
+			{
+				Value = ElementBlock.Index,
+				Count = 1
+			});
+		}
 		public override string GetDisplayName(SubsystemTerrain subsystemTerrain, int value)
 		{
 			return "Freezer";
@@ -381,7 +408,7 @@ namespace Game
 			return "A Freezer is a good place to protect food that can delay the decay of it. It will hold up to 16 stacks of items.";
 		}
 	}
-	public abstract class Diode : Element
+	/*public abstract class Diode : Element
 	{
 		public int MaxVoltage;
 		protected Diode() : base(ElementType.Connector)
@@ -397,7 +424,7 @@ namespace Game
 			}
 		}
 	}
-	/*public class DiodeDevice : Diode
+	public class DiodeDevice : Diode
 	{
 	}*/
 }

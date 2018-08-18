@@ -76,10 +76,10 @@ namespace Game
 		public void Update(float dt)
 		{
 			Point3 coordinates = m_componentBlockEntity.Coordinates;
-			if ((double)HeatLevel > 0.0)
+			if (HeatLevel > 0f)
 			{
 				m_fireTimeRemaining = MathUtils.Max(0f, m_fireTimeRemaining - dt * 4f);
-				if ((double)m_fireTimeRemaining == 0.0)
+				if (m_fireTimeRemaining == 0f)
 				{
 					HeatLevel = 0f;
 				}
@@ -87,7 +87,7 @@ namespace Game
 			if (m_updateSmeltingRecipe)
 			{
 				m_updateSmeltingRecipe = false;
-				if ((double)HeatLevel > 0.0)
+				if (HeatLevel > 0f)
 				{
 					float heatLevel = HeatLevel;
 				}
@@ -113,18 +113,18 @@ namespace Game
 				m_fireTimeRemaining = 0f;
 				m_music = -1;
 			}
-			if (m_smeltingRecipe != null && (double)m_fireTimeRemaining <= 0.0)
+			if (m_smeltingRecipe != null && m_fireTimeRemaining <= 0f)
 			{
 				Slot slot2 = m_slots[FuelSlotIndex];
 				if (slot2.Count > 0)
 				{
 					Block block = BlocksManager.Blocks[Terrain.ExtractContents(slot2.Value)];
-					if ((double)block.GetExplosionPressure(slot2.Value) > 0.0)
+					if (block.GetExplosionPressure(slot2.Value) > 0f)
 					{
 						slot2.Count = 0;
 						m_subsystemExplosions.TryExplodeBlock(coordinates.X, coordinates.Y, coordinates.Z, slot2.Value);
 					}
-					else if ((double)block.FuelHeatLevel > 0.0)
+					else if (block.FuelHeatLevel > 0f)
 					{
 						slot2.Count--;
 						m_fireTimeRemaining = block.FuelFireDuration * 3f;
@@ -146,7 +146,7 @@ namespace Game
 					m_fireTime = m_fireTimeRemaining;
 				}
 				SmeltingProgress = MathUtils.Min(m_fireTimeRemaining / m_fireTime, 1f);
-				if ((double)SmeltingProgress >= 2.0)
+				if (SmeltingProgress >= 2f)
 				{
 					m_smeltingRecipe = null;
 					SmeltingProgress = 0f;
@@ -167,7 +167,7 @@ namespace Game
 			{
 				return base.GetSlotCapacity(slotIndex, value);
 			}
-			if ((double)BlocksManager.Blocks[Terrain.ExtractContents(value)].FuelHeatLevel > 0.0)
+			if (BlocksManager.Blocks[Terrain.ExtractContents(value)].FuelHeatLevel > 0f)
 			{
 				return base.GetSlotCapacity(slotIndex, value);
 			}

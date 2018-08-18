@@ -4,55 +4,17 @@ using TemplatesDatabase;
 
 namespace Game
 {
-	public class ComponentBoatI : Component, IUpdateable
+	public class ComponentBoatI : ComponentBoat
 	{
-		private ComponentBody m_componentBody;
-
-		private ComponentDamage m_componentDamage;
-
-		private ComponentMount m_componentMount;
-
-		private SubsystemAudio m_subsystemAudio;
-
-		private SubsystemTime m_subsystemTime;
-
-		private float m_turnSpeed;
-
-		//private readonly ComponentEngine2 m_heatlevel;
-
-		public float MoveOrder
-		{
-			get;
-			set;
-		}
-
-		public float TurnOrder
-		{
-			get;
-			set;
-		}
-
-		public float Health
-		{
-			get;
-			private set;
-		}
-
-		public int UpdateOrder
-		{
-			get
-			{
-				return 0;
-			}
-		}
+		/*private readonly ComponentEngine2 m_heatlevel;
 
 		public float HeatLevel
 		{
 			get;
 			private set;
-		}
+		}*/
 
-		public void Update(float dt)
+		public new void Update(float dt)
 		{
 			if (m_componentDamage.Hitpoints < 0.33f)
 			{
@@ -81,14 +43,14 @@ namespace Game
 			{
 				num4 = componentEngine.HeatLevel;
 			}
-			if (num2 && num4>1f)
+			if (num2 && num4 > 1f)
 			{
 				num3 -= m_turnSpeed * dt;
 			}
 			m_componentBody.Rotation = Quaternion.CreateFromAxisAngle(Vector3.UnitY, num3);
 			if (num2 && MoveOrder != 0f)
 			{
-				m_componentBody.Velocity += dt * num4 /90f * MoveOrder * m_componentBody.Matrix.Forward;
+				m_componentBody.Velocity += dt * num4 / 90f * MoveOrder * m_componentBody.Matrix.Forward;
 			}
 			if (num)
 			{
@@ -100,23 +62,6 @@ namespace Game
 			}
 			MoveOrder = 0f;
 			TurnOrder = 0f;
-		}
-
-		public void Injure(float amount, ComponentCreature attacker, bool ignoreInvulnerability)
-		{
-			if (amount > 0f)
-			{
-				Health = MathUtils.Max(Health - amount, 0f);
-			}
-		}
-
-		public override void Load(ValuesDictionary valuesDictionary, IdToEntityMap idToEntityMap)
-		{
-			m_subsystemTime = Project.FindSubsystem<SubsystemTime>(true);
-			m_subsystemAudio = Project.FindSubsystem<SubsystemAudio>(true);
-			m_componentMount = Entity.FindComponent<ComponentMount>(true);
-			m_componentBody = Entity.FindComponent<ComponentBody>(true);
-			m_componentDamage = Entity.FindComponent<ComponentDamage>(true);
 		}
 	}
 }

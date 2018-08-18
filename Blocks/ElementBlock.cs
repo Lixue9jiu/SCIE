@@ -119,6 +119,9 @@ namespace Game
 			Devices = new Device[]
 			{
 				new Fridge(),
+				new Fridge(),
+				new Fridge(),
+				new Fridge(),
 			};
 			base.Initialize();
 		}

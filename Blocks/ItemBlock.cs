@@ -104,7 +104,7 @@ namespace Game
 		}
 		public virtual string GetCategory(int value)
 		{
-			return string.Empty;
+			return "Items";
 		}
 		public virtual bool IsInteractive(SubsystemTerrain subsystemTerrain, int value)
 		{
@@ -166,6 +166,11 @@ namespace Game
 		public virtual void GetDropValues(SubsystemTerrain subsystemTerrain, int oldValue, int newValue, int toolLevel, List<BlockDropValue> dropValues, out bool showDebris)
 		{
 			showDebris = true;
+			dropValues.Add(new BlockDropValue
+			{
+				Value = oldValue,
+				Count = 1
+			});
 		}
 		public virtual int GetDamage(int value)
 		{
