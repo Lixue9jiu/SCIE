@@ -1,7 +1,6 @@
 using Engine;
 using Engine.Graphics;
 using System;
-using System.Collections.Generic;
 
 namespace Game
 {
@@ -23,7 +22,7 @@ namespace Game
 		{
 		}
 	}
-	public abstract class MetalLineBlock : BlockItem
+	public abstract class MetalLineBlock : FlatItem
 	{
 		[Serializable]
 		public enum MetalType
@@ -35,6 +34,7 @@ namespace Game
 		public readonly MetalType Type;
 		protected MetalLineBlock(MetalType type)
 		{
+			DefaultTextureSlot = 235;
 			Type = type;
 		}
 		public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
@@ -69,10 +69,6 @@ namespace Game
 					return "SteelLine is made of Steel Ingot, it can be used in many place in the industrial era.";
 			}
 			return string.Empty;
-		}
-		public override int GetFaceTextureSlot(int face, int value)
-		{
-			return 235;
 		}
 		public override Vector3 GetIconViewOffset(int value, DrawBlockEnvironmentData environmentData)
 		{

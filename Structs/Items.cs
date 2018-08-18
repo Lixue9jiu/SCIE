@@ -22,7 +22,7 @@ namespace Game
 			int i;
 			for (i = 0; i < Items.Length; i++)
 			{
-				IdTable.Add(Items[i].ToString().Substring(5), i);
+				IdTable.Add(Items[i].GetType().ToString().Substring(5), i);
 			}
 			/*var streamReader = new StreamReader(CustomTextureBlock.GetTargetFile("IndustrialMod.icsv"));
 			try

@@ -277,6 +277,14 @@ namespace Game
 			return DefaultCategory;
 		}
 	}
+	public class FlatItem : BlockItem
+	{
+		public int DefaultTextureSlot;
+		public override int GetFaceTextureSlot(int face, int value)
+		{
+			return DefaultTextureSlot;
+		}
+	}
 	public partial class ItemBlock : CubeBlock, IItemBlock
 	{
 		public const int Index = 567;
@@ -476,7 +484,7 @@ namespace Game
 		{
 			if (DefaultCreativeData < 0)
 			{
-				return new int[0];
+				return base.GetCreativeValues();
 			}
 			var list = new List<int>(8);
 			for (int i = 0, value = BlockIndex; GetItem(ref value) != DefaultItem; value = Terrain.MakeBlockValue(BlockIndex, 0, ++i))
@@ -487,19 +495,19 @@ namespace Game
 		}
 		public bool Equals(object other, IEqualityComparer comparer)
 		{
-			return (Items as IStructuralEquatable).Equals(other, comparer);
+			return ((IStructuralEquatable)Items).Equals(other, comparer);
 		}
 		public int GetHashCode(IEqualityComparer comparer)
 		{
-			return (Items as IStructuralEquatable).GetHashCode(comparer);
+			return ((IStructuralEquatable)Items).GetHashCode(comparer);
 		}
 		public int CompareTo(object other, IComparer comparer)
 		{
-			return (Items as IStructuralComparable).CompareTo(other, comparer);
+			return ((IStructuralComparable)Items).CompareTo(other, comparer);
 		}
 		public IEnumerator<Item> GetEnumerator()
 		{
-			return (Items as IEnumerable<Item>).GetEnumerator();
+			return ((IEnumerable<Item>)Items).GetEnumerator();
 		}
 		IEnumerator IEnumerable.GetEnumerator()
 		{

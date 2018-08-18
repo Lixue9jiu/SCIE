@@ -6,7 +6,7 @@ using TemplatesDatabase;
 
 namespace Game
 {
-	public interface IItemBlock : IEnumerable<Item>, IEnumerable, IReadOnlyList<Item>, IStructuralComparable, IStructuralEquatable
+	public interface IItemBlock : IReadOnlyList<Item>, IStructuralComparable, IStructuralEquatable
 	{
 		Item GetItem(ref int value);
 		//void Add(IItem item);

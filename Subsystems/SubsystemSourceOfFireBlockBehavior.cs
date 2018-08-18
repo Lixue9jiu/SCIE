@@ -22,10 +22,9 @@ namespace Game
 				};
 			}
 		}
-		public bool TryExplode(int x, int y, int z)
+		public void TryExplode(int x, int y, int z)
 		{
 			var terrain = SubsystemTerrain.Terrain;
-			bool flag = false;
 			for (int i = x - 2; i <= x + 2; i++)
 				for (int j = y - 4; j <= y + 1; j++)
 					if (terrain.IsCellValid(i, j, 0))
@@ -34,10 +33,21 @@ namespace Game
 							int value = terrain.GetCellValueFast(i, j, k);
 							if (Terrain.ExtractContents(value) == CoalOreBlock.Index)
 							{
-								flag |= m_subsystemExplosions.TryExplodeBlock(i, j, k, value);
+								float pressure = BlocksManager.Blocks[CoalOreBlock.Index].GetExplosionPressure(value);
+								if ((value = terrain.GetCellContentsFast(i + 1, j, k)) != 0)
+									m_subsystemExplosions.AddExplosion(i + 1, j, k, pressure, false, false);
+								if ((value = terrain.GetCellContentsFast(i - 1, j, k)) != 0)
+									m_subsystemExplosions.AddExplosion(i - 1, j, k, pressure, false, false);
+								if ((value = terrain.GetCellContents(i, j + 1, k)) != 0)
+									m_subsystemExplosions.AddExplosion(i, j + 1, k, pressure, false, false);
+								if ((value = terrain.GetCellContents(i, j - 1, k)) != 0)
+									m_subsystemExplosions.AddExplosion(i, j - 1, k, pressure, false, false);
+								if ((value = terrain.GetCellContentsFast(i, j, k + 1)) != 0)
+									m_subsystemExplosions.AddExplosion(i, j, k + 1, pressure, false, false);
+								if ((value = terrain.GetCellContentsFast(i, j, k - 1)) != 0)
+									m_subsystemExplosions.AddExplosion(i, j, k - 1, pressure, false, false);
 							}
 						}
-			return flag;
 		}
 		public override void OnBlockAdded(int value, int oldValue, int x, int y, int z)
 		{
@@ -65,7 +75,7 @@ namespace Game
 		{
 			int originX = chunk.Origin.X, originY = chunk.Origin.Y;
 			var list = new List<Point3>();
-			foreach (Point3 key in m_particleSystemsByCell.Keys)
+			foreach (var key in m_particleSystemsByCell.Keys)
 			{
 				if (key.X >= originX && key.X < originX + 16 && key.Z >= originY && key.Z < originY + 16)
 				{
