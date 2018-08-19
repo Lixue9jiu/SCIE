@@ -173,7 +173,7 @@ namespace Game
 					}
 					if (m_matchedIngredients[7] >= 1)
 					{
-						m_slots[RemainsSlotIndex].Value = 546;
+						m_slots[RemainsSlotIndex].Value = Terrain.ReplaceData(ItemBlock.Index, 4);
 						m_slots[RemainsSlotIndex].Count += m_matchedIngredients[7];
 					}
 					if (m_matchedIngredients[9] >= 1)
@@ -222,7 +222,7 @@ namespace Game
 		
 		private bool FindSmeltingRecipe(float heatLevel)
 		{
-			if ((double)heatLevel <= 0.0)
+			if (heatLevel <= 0f)
 			{
 				return false;
 			}

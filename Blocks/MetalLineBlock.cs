@@ -35,7 +35,7 @@ namespace Game
 		protected MetalLineBlock(MetalType type)
 		{
 			DefaultTextureSlot = 235;
-			DefaultDisplayName = Type.ToString();
+			DefaultDisplayName = type.ToString();
 			Type = type;
 		}
 		public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)

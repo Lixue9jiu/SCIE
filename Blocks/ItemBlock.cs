@@ -96,7 +96,7 @@ namespace Game
 		}
 		public virtual string GetDisplayName(SubsystemTerrain subsystemTerrain, int value)
 		{
-			return string.Empty;
+			return GetType().ToString();
 		}
 		public virtual string GetDescription(int value)
 		{
@@ -266,9 +266,15 @@ namespace Game
 	}
 	public class BlockItem : Item
 	{
-		public string DefaultDisplayName = string.Empty;
+		public string DefaultDisplayName;
 		public string DefaultDescription = string.Empty;
 		public string DefaultCategory = "Items";
+
+		public BlockItem()
+		{
+			DefaultDisplayName = GetType().ToString().Substring(5);
+		}
+
 		public override string GetDisplayName(SubsystemTerrain subsystemTerrain, int value)
 		{
 			return DefaultDisplayName;

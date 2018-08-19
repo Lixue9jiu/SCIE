@@ -15,7 +15,9 @@ namespace Game
                 new IronLine(),
                 new CopperLine(),
                 new SteelLine(),
-                new GoldOreChunk(),
+				new SteelRod(),
+				new RuIngotBlock(),
+				new GoldOreChunk(),
                 new SliverOreChunk(),
                 new PlatinumOreChunk(),
                 new ZincOreChunk(),
@@ -29,7 +31,6 @@ namespace Game
 			{
 				IdTable.Add(Items[i].GetType().ToString().Substring(5), i);
 			}
-           
             /*var streamReader = new StreamReader(CustomTextureBlock.GetTargetFile("IndustrialMod.icsv"));
 			try
 			{
@@ -46,7 +47,7 @@ namespace Game
             CraftingRecipesManager.DecodeResult1 = DecodeResult;
 			base.Initialize();
 		}
-		public static void LoadBlocksData(string data)
+		/*public static void LoadBlocksData(string data)
 		{
 			string[] array = data.Split(new char[] { '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries);
 			string[] array2 = null;
@@ -129,6 +130,6 @@ namespace Game
 					}
 				}
 			}
-		}
+		}*/
 	}
 }

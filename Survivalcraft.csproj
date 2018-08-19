@@ -61,6 +61,7 @@
     <Compile Include="Blocks\PaintableMagnetBlock.cs" />
     <Compile Include="Blocks\SteelGearBlock.cs" />
     <Compile Include="Blocks\SteelGearMouldBlock.cs" />
+    <Compile Include="Blocks\SteelRod.cs" />
     <Compile Include="Blocks\SteelWheelBlock.cs" />
     <Compile Include="Blocks\SteelWheelMouldBlock.cs" />
     <Compile Include="Blocks\MetalLineBlock.cs" />
@@ -143,7 +144,6 @@
     <Compile Include="Widgets\PresserNNWidget.cs" />
     <Compile Include="Widgets\PresserNWidget.cs" />
     <Compile Include="Widgets\PresserWidget.cs" />
-    <Compile Include="Blocks\Rod2Block.cs" />
     <Compile Include="Blocks\Rod3Block.cs" />
     <Compile Include="Blocks\SteelAxeBlock.cs" />
     <Compile Include="Blocks\SteelBlock.cs" />

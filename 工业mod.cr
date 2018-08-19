@@ -61,7 +61,7 @@
     <Recipe Result="GermaniumChunkBlock" ResultCount="4" RequiredHeatLevel="900" a="germaniumorechunk" Description="Smelt germanium ore to obtain germanium crystals">
       "aaa"
     </Recipe>
-    <Recipe Result="Rod2Block" ResultCount="2" RequiredHeatLevel="1500" a="steelingot" Description="Forge an iron ingot into rods">
+    <Recipe Result="SteelRod" ResultCount="2" RequiredHeatLevel="1500" a="steelingot" Description="Forge an iron ingot into rods">
       "aa"
     </Recipe>
   </Smelting>
@@ -142,7 +142,7 @@
       "aca"
       "aba"
     </Recipe>
-    <Recipe Result="DispenserNewBlock" ResultCount="1" RequiredHeatLevel="0" a="steelgear" b="piston" c="steelblock" d="steelrod" e="diamond" f="dispenser" Description="Make an auto driller to mining">
+    <Recipe Result="DispenserNewBlock" ResultCount="1" RequiredHeatLevel="0" a="steelgear" b="piston" c="steelblock" d="SteelRod" e="diamond" f="dispenser" Description="Make an auto driller to mining">
       "dbf"
       "dcd"
       "aea"
@@ -152,7 +152,7 @@
       "aca"
       "ada"
     </Recipe>
-    <Recipe Result="DispenserNBlock" ResultCount="1" RequiredHeatLevel="0" a="steelgear" b="ipiston" c="steelblock" d="steelrod" e="diamond" Description="Make an auto crusher to crush ore">
+    <Recipe Result="DispenserNBlock" ResultCount="1" RequiredHeatLevel="0" a="steelgear" b="ipiston" c="steelblock" d="SteelRod" e="diamond" Description="Make an auto crusher to crush ore">
       "aba"
       "ded"
       "aca"
@@ -162,12 +162,12 @@
       "aba"
       "aaa"
     </Recipe>
-    <Recipe Result="IPistonBlock" ResultCount="1" RequiredHeatLevel="0" a="ironingot" b="emptybucket" c="steelrod" d="steelingot" Description="Make a industrial piston">
+    <Recipe Result="IPistonBlock" ResultCount="1" RequiredHeatLevel="0" a="ironingot" b="emptybucket" c="SteelRod" d="steelingot" Description="Make a industrial piston">
       "dcd"
       "ada"
       "aba"
     </Recipe>
-    <Recipe Result="EngineBlock" ResultCount="1" RequiredHeatLevel="0" a="steelgear" b="ipiston" c="steelblock" d="furnace" e="steelrod" Description="Make a steam engine to enter the industrial era">
+    <Recipe Result="EngineBlock" ResultCount="1" RequiredHeatLevel="0" a="steelgear" b="ipiston" c="steelblock" d="furnace" e="SteelRod" Description="Make a steam engine to enter the industrial era">
       "aba"
       "ece"
       "ada"
@@ -177,7 +177,7 @@
       "a a"
       "aaa"
     </Recipe>
-    <Recipe Result="EngineHBlock" ResultCount="1" RequiredHeatLevel="0" a="tank" b="ipiston" c="steelblock" d="furnace" e="steelrod" Description="Make a stirling engine">
+    <Recipe Result="EngineHBlock" ResultCount="1" RequiredHeatLevel="0" a="tank" b="ipiston" c="steelblock" d="furnace" e="SteelRod" Description="Make a stirling engine">
       "beb"
       "ece"
       "ada"
@@ -207,7 +207,7 @@
       "dcd"
       "aba"
     </Recipe>
-    <Recipe Result="PresserNNBlock" ResultCount="1" RequiredHeatLevel="0" a="steelrod" b="ipiston" c="steelblock" d="steelingot" e="steelgear" Description="Make a Rifling Machine to create rifle barrel">
+    <Recipe Result="PresserNNBlock" ResultCount="1" RequiredHeatLevel="0" a="SteelRod" b="ipiston" c="steelblock" d="steelingot" e="steelgear" Description="Make a Rifling Machine to create rifle barrel">
       "bad"
       "dcd"
       "eee"

@@ -3,20 +3,16 @@ using Engine.Graphics;
 
 namespace Game
 {
-	public class RuIngotBlock : CubeBlock
+	public class RuIngotBlock : FlatItem
 	{
 		public RuIngotBlock()
 		{
-			m_standaloneBlockMesh = new BlockMesh();
-			m_standaloneMesh = new BlockMesh();
-		}
-
-		public override void Initialize()
-		{
+			DefaultTextureSlot = 196;
+			DefaultDisplayName = "ScrapIron";
+			DefaultDescription = "An chunk of scrap Iron, What can it do?";
 			Model model = ContentManager.Get<Model>("Models/Campfire");
 			Matrix boneAbsoluteTransform2 = BlockMesh.GetBoneAbsoluteTransform(model.FindMesh("Ashes", true).ParentBone);
 			m_standaloneMesh.AppendModelMeshPart(model.FindMesh("Ashes", true).MeshParts[0], boneAbsoluteTransform2 * Matrix.CreateScale(3f) * Matrix.CreateTranslation(0f, 0f, 0f), false, false, true, false, Color.White);
-			base.Initialize();
 		}
 
 		public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
@@ -24,10 +20,8 @@ namespace Game
 			BlocksManager.DrawMeshBlock(primitivesRenderer, m_standaloneMesh, color, size * 2f, ref matrix, environmentData);
 		}
 
-		public const int Index = 546;
+		protected readonly BlockMesh m_standaloneBlockMesh = new BlockMesh();
 
-		private readonly BlockMesh m_standaloneBlockMesh;
-
-		private readonly BlockMesh m_standaloneMesh;
+		protected readonly BlockMesh m_standaloneMesh = new BlockMesh();
 	}
 }
