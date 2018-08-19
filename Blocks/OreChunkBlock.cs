@@ -12,17 +12,41 @@ namespace Game
 	}
 	public class SliverOreChunk : OreChunkBlock
 	{
-		public SliverOreChunk() : base(Matrix.CreateRotationX(5f) * Matrix.CreateRotationZ(2f), Matrix.CreateTranslation(0.9375f, 0.1875f, 0f), new Color(192,192,192), false,ChunkType.SliverOreChunk)
+		public SliverOreChunk() : base(Matrix.CreateRotationX(5f) * Matrix.CreateRotationZ(2f), Matrix.CreateTranslation(0.9375f, 0.1875f, 0f), new Color(212,212,212), false,ChunkType.SliverOreChunk)
 		{
 		}
 	}
         public class PlatinumOreChunk : OreChunkBlock
 	{
-		public PlatinumOreChunk() : base(Matrix.CreateRotationX(6f) * Matrix.CreateRotationZ(2f), Matrix.CreateTranslation(0.9375f, 0.1875f, 0f), new Color(172,172,172), false,ChunkType.PlatinumOreChunk)
+		public PlatinumOreChunk() : base(Matrix.CreateRotationX(6f) * Matrix.CreateRotationZ(2f), Matrix.CreateTranslation(0.9375f, 0.1875f, 0f), new Color(232,232,232), false,ChunkType.PlatinumOreChunk)
 		{
 		}
 	}
-	public abstract class OreChunkBlock : Item
+    public class LeadOreChunk : OreChunkBlock
+    {
+        public LeadOreChunk() : base(Matrix.CreateRotationX(1f) * Matrix.CreateRotationZ(3f), Matrix.CreateTranslation(0.9375f, 0.1875f, 0f), new Color(88, 87, 86), false, ChunkType.LeadOreChunk)
+        {
+        }
+    }
+    public class ZincOreChunk : OreChunkBlock
+    {
+        public ZincOreChunk() : base(Matrix.CreateRotationX(1f) * Matrix.CreateRotationZ(4f), Matrix.CreateTranslation(0.9375f, 0.1875f, 0f), new Color(245, 245, 245), false, ChunkType.ZincOreChunk)
+        {
+        }
+    }
+    public class StannaryChunk : OreChunkBlock
+    {
+        public StannaryChunk() : base(Matrix.CreateRotationX(1f) * Matrix.CreateRotationZ(5f), Matrix.CreateTranslation(0.9375f, 0.1875f, 0f), new Color(225, 225, 225), false, ChunkType.StannaryChunk)
+        {
+        }
+    }
+    public class MercuryOreChunk : OreChunkBlock
+    {
+        public MercuryOreChunk() : base(Matrix.CreateRotationX(1f) * Matrix.CreateRotationZ(6f), Matrix.CreateTranslation(0.9375f, 0.1875f, 0f), new Color(227, 23, 13), false, ChunkType.MercuryOreChunk)
+        {
+        }
+    }
+    public abstract class OreChunkBlock : Item
 	{
 		[Serializable]
 		public enum ChunkType
@@ -32,9 +56,16 @@ namespace Game
 			// Token: 0x040019CA RID: 6602
 			SliverOreChunk,
 			// Token: 0x040019CB RID: 6603
-			PlatinumOreChunk
-			// Token: 0x040019CC RID: 6604
-		}
+			PlatinumOreChunk,
+            LeadOreChunk,
+            // Token: 0x040019CD RID: 6605
+            ZincOreChunk,
+            // Token: 0x040019CE RID: 6606
+            StannaryChunk,
+            // Token: 0x040019CF RID: 6607
+            MercuryOreChunk
+            // Token: 0x040019CC RID: 6604
+        }
 		public readonly ChunkType Type;
 		private readonly Color m_color;
 
@@ -76,7 +107,10 @@ namespace Game
         {
             BlocksManager.DrawMeshBlock(primitivesRenderer, this.m_standaloneBlockMesh, color, 2f * size, ref matrix, environmentData);
         }
-
+        public override string GetCategory(int value)
+        {
+            return "Terrain";
+        }
 
 
         public override string GetDisplayName(SubsystemTerrain subsystemTerrain, int value)
@@ -88,12 +122,20 @@ namespace Game
 			switch (Type)
 			{
 				case ChunkType.GoldOreChunk:
-					return "IronLine is made of Iron Ingot, it can be used in many place in the industrial era like heating wire.";
+					return "A chunk of gold ore. When smelted in the furnace will turn into pure gold.";
 				case ChunkType.SliverOreChunk:
-					return "CopperLine is made of Copper Ingot, it can be used in many place in the industrial era like electric wire.";
+					return "A chunk of sliver ore. When smelted in the furnace will turn into pure sliver.";
 				case ChunkType.PlatinumOreChunk:
-					return "SteelLine is made of Steel Ingot, it can be used in many place in the industrial era.";
-			}
+					return "A chunk of Platinum ore. When smelted in the furnace will turn into pure platinum.";
+                case ChunkType.LeadOreChunk:
+                    return "A chunk of lead ore. When smelted in the furnace will turn into pure lead.";
+                case ChunkType.MercuryOreChunk:
+                    return "A chunk of Mercury oxide ore. When smelted in the furnace will turn into pure liquid mercury.";
+                case ChunkType.StannaryChunk:
+                    return "A chunk of Stannary ore. When smelted in the furnace will turn into pure stannary.";
+                case ChunkType.ZincOreChunk:
+                    return "A chunk of Zinc ore. When smelted in the furnace will turn into pure zinc.";
+            }
 			return string.Empty;
 		}
 		public override Vector3 GetIconViewOffset(int value, DrawBlockEnvironmentData environmentData)

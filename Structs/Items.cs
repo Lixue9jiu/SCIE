@@ -17,7 +17,11 @@ namespace Game
                 new SteelLine(),
                 new GoldOreChunk(),
                 new SliverOreChunk(),
-                new PlatinumOreChunk()
+                new PlatinumOreChunk(),
+                new ZincOreChunk(),
+                new LeadOreChunk(),
+                new MercuryOreChunk(),
+                new StannaryChunk()
             };
             IdTable = new Dictionary<string, int>(Items.Length);
 			int i;
