@@ -91,7 +91,7 @@ namespace Game
 		}
 		public override IEnumerable<int> GetCreativeValues()
 		{
-			var list = new List<int>(8);
+			var list = new List<int>(base.GetCreativeValues());
 			for (int i = 0; i < 8; i++)
 			{
 				list.Add(BlockIndex | i << 15);
@@ -138,6 +138,19 @@ namespace Game
 	public class GermaniumOreBlock : BasaltBlock
 	{
 		public new const int Index = 148;
+		public override void GetDropValues(SubsystemTerrain subsystemTerrain, int oldValue, int newValue, int toolLevel, List<BlockDropValue> dropValues, out bool showDebris)
+		{
+			int data = Terrain.ExtractData(oldValue) >> 1;
+			if (data > 0 && data < 8 && toolLevel > 3)
+			{
+				dropValues.Add(new BlockDropValue
+				{
+					Value = Terrain.ReplaceData(ItemBlock.Index, data + 2),
+					Count = 1
+				});
+			}
+			base.GetDropValues(subsystemTerrain, oldValue, newValue, toolLevel, dropValues, out showDebris);
+		}
 	}
 	public class SubsystemMineral : SubsystemRotBlockBehavior
 	{
