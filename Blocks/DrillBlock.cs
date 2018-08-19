@@ -69,7 +69,7 @@ namespace Game
 				case Type.SteelTubularis:
 					return "Tubularis is the most important part in the liquidpump, you should put it in the machine while using it. Reminding, pumping magma will damage the Tubularis.";
 			}
-			return "";
+			return string.Empty;
 		}
 		public override int GetFaceTextureSlot(int face, int value)
 		{

@@ -67,26 +67,26 @@ namespace Game
             // Token: 0x040019CC RID: 6604
         }
 		public readonly ChunkType Type;
-		private readonly Color m_color;
+		public readonly Color Color;
 
 		// Token: 0x04000216 RID: 534
-		private readonly bool m_smooth;
+		protected readonly bool m_smooth;
 
 		// Token: 0x04000217 RID: 535
-		private readonly BlockMesh m_standaloneBlockMesh = new BlockMesh();
+		protected readonly BlockMesh m_standaloneBlockMesh = new BlockMesh();
 
 		// Token: 0x04000218 RID: 536
-		private readonly Matrix m_tcTransform;
+		protected readonly Matrix m_tcTransform;
 
 		// Token: 0x04000219 RID: 537
-		private readonly Matrix m_transform;
+		protected readonly Matrix m_transform;
 
         protected OreChunkBlock(Matrix transform, Matrix tcTransform, Color color, bool smooth,ChunkType type)
 		{
             Type = type;
 			this.m_transform = transform;
 			this.m_tcTransform = tcTransform;
-			this.m_color = color;
+			this.Color = color;
 			this.m_smooth = smooth;
             Model model = this.m_smooth ? ContentManager.Get<Model>("Models/ChunkSmooth") : ContentManager.Get<Model>("Models/Chunk");
             Matrix matrix = BlockMesh.GetBoneAbsoluteTransform(model.Meshes[0].ParentBone) * this.m_transform;
@@ -97,7 +97,7 @@ namespace Game
             int num2 = 0;
             int num3 = 0;
             int num4 = 0;
-            Color color2 = this.m_color;
+            Color color2 = this.Color;
             standaloneBlockMesh.AppendModelMeshPart(meshPart, matrix2, num != 0, num2 != 0, num3 != 0, num4 != 0, color2);
             this.m_standaloneBlockMesh.TransformTextureCoordinates(this.m_tcTransform, -1);
         }
@@ -111,8 +111,6 @@ namespace Game
         {
             return "Terrain";
         }
-
-
         public override string GetDisplayName(SubsystemTerrain subsystemTerrain, int value)
 		{
 			return Type.ToString();
