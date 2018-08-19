@@ -210,11 +210,10 @@ namespace Game
 				}
 				return base.GetSlotCapacity(slotIndex, value);
 			}
-			if (BlocksManager.Blocks[Terrain.ExtractContents(value)].BlockIndex == 538 || BlocksManager.Blocks[Terrain.ExtractContents(value)].BlockIndex == 539)
-			{
-				return base.GetSlotCapacity(slotIndex, value);
-			}
-			return 0;
+			if (Terrain.ExtractContents(value) != DrillBlock.Index)
+				return 0;
+			DrillBlock.Type type = DrillBlock.GetType(value);
+			return (type == DrillBlock.Type.IronTubularis || type == DrillBlock.Type.SteelTubularis) ? base.GetSlotCapacity(slotIndex, value) : 0;
 		}
 	}
 }

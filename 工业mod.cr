@@ -114,19 +114,19 @@
       "ccb"
       "aaa"
     </Recipe>
-    <Recipe Result="Drill1Block" ResultCount="1" RequiredHeatLevel="0" a="steelingot" Description="Make a steeldrill with steelingots">
+    <Recipe Result="DrillBlock:0" ResultCount="1" RequiredHeatLevel="0" a="steelingot" Description="Make a steeldrill with steelingots">
       "aaa"
       " a "
     </Recipe>
-    <Recipe Result="Drill2Block" ResultCount="1" RequiredHeatLevel="0" a="diamond" Description="Make a diamonddrill with diamond">
+    <Recipe Result="DrillBlock:1" ResultCount="1" RequiredHeatLevel="0" a="diamond" Description="Make a diamonddrill with diamond">
       "aaa"
       " a "
     </Recipe>
-    <Recipe Result="Fan1Block" ResultCount="1" RequiredHeatLevel="0" a="ironplate" Description="Make a Tubularis with iron">
+    <Recipe Result="DrillBlock:2" ResultCount="1" RequiredHeatLevel="0" a="ironplate" Description="Make a Tubularis with iron">
       "a"
       "a"
     </Recipe>
-    <Recipe Result="Fan2Block" ResultCount="1" RequiredHeatLevel="0" a="steelplate" Description="Make a Tubularis with steel">
+    <Recipe Result="DrillBlock:3" ResultCount="1" RequiredHeatLevel="0" a="steelplate" Description="Make a Tubularis with steel">
       "a"
       "a"
     </Recipe>

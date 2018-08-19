@@ -18,14 +18,13 @@ namespace Game
                 new GoldOreChunk(),
                 new SliverOreChunk(),
                 new PlatinumOreChunk()
-            };
+			};
             IdTable = new Dictionary<string, int>(Items.Length);
 			int i;
 			for (i = 0; i < Items.Length; i++)
 			{
 				IdTable.Add(Items[i].GetType().ToString().Substring(5), i);
 			}
-           
             /*var streamReader = new StreamReader(CustomTextureBlock.GetTargetFile("IndustrialMod.icsv"));
 			try
 			{
