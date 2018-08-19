@@ -176,6 +176,9 @@
     <MemberSubsystemTemplate Name="BoatIBlockBehavior" Guid="fff38d3d-e999-452c-959d-47eefb16457a" InheritanceParent="fefb9590-4972-4893-b02a-76063611b745">
       <Parameter Name="Class" Guid="ff8571da-4268-41d7-90a9-9a066f2feea8" Value="Game.SubsystemBoatIBlockBehavior" Type="string" />
     </MemberSubsystemTemplate>
+    <MemberSubsystemTemplate Name="Mineral" Guid="f9f38d3d-e999-452c-959d-47eefb16457a" InheritanceParent="4966d04e-9351-4766-9ee0-c31948e6d9dc">
+      <Parameter Name="Class" Guid="f98571da-4268-41d7-90a9-9a066f2feea8" Value="Game.SubsystemMineral" Type="string" />
+    </MemberSubsystemTemplate>
     <MemberSubsystemTemplate Name="ItemBlockBehavior" Guid="fff39d3d-e999-452c-959d-47eefb16457a" InheritanceParent="a3914c13-7801-46a6-b23a-9e2b36e9defb">
       <Parameter Name="Class" Guid="ff9971da-4268-41d7-90a9-9a066f2feea8" Value="Game.SubsystemItemBlockBehavior" Type="string" />
     </MemberSubsystemTemplate>
