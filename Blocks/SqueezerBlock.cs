@@ -4,7 +4,7 @@ namespace Game
 {
 	public class SqueezerBlock : CubeBlock
 	{
-		public const int Index = 556;
+		public const int Index = 545;
 
 		private readonly BlockMesh[] m_blockMeshesByData = new BlockMesh[4];
 
@@ -70,7 +70,7 @@ namespace Game
 				data = 1;
 			}
 			BlockPlacementData result = default(BlockPlacementData);
-			result.Value = Terrain.ReplaceData(Terrain.ReplaceContents(0, 556), data);
+			result.Value = Terrain.ReplaceData(Index, data);
 			result.CellFace = raycastResult.CellFace;
 			return result;
 		}

@@ -16,7 +16,7 @@ namespace Game
 			{
 				return new int[]
 				{
-					556
+					SqueezerBlock.Index
 				};
 			}
 		}
