@@ -22,8 +22,8 @@ namespace Game
 			{
 				return base.GetCreativeValues();
 			}
-			var list = new List<int>(8);
-			for (int i = 0; i < 8; i++)
+			var list = new List<int>(4);
+			for (int i = 0; i < 4; i++)
 			{
 				list.Add(Terrain.ReplaceData(Index, i));
 			}
