@@ -289,6 +289,17 @@ namespace Game
 		{
 			return DefaultTextureSlot;
 		}
+		public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
+		{
+			BlocksManager.DrawFlatBlock(primitivesRenderer, value, size, ref matrix, null, color, false, environmentData);
+		}
+		public override Vector3 GetIconViewOffset(int value, DrawBlockEnvironmentData environmentData)
+		{
+			return new Vector3
+			{
+				Z = 1
+			};
+		}
 	}
 	public partial class ItemBlock : CubeBlock, IItemBlock
 	{

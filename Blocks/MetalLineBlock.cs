@@ -53,10 +53,6 @@ namespace Game
 			}
 			BlocksManager.DrawFlatBlock(primitivesRenderer, value, size, ref matrix, null, color, false, environmentData);
 		}
-		public override string GetDisplayName(SubsystemTerrain subsystemTerrain, int value)
-		{
-			return Type.ToString();
-		}
 		public override string GetDescription(int value)
 		{
 			switch (Type)
@@ -69,13 +65,6 @@ namespace Game
 					return "SteelLine is made of Steel Ingot, it can be used in many place in the industrial era.";
 			}
 			return string.Empty;
-		}
-		public override Vector3 GetIconViewOffset(int value, DrawBlockEnvironmentData environmentData)
-		{
-			return new Vector3
-			{
-				Z = 1
-			};
 		}
 	}
 }

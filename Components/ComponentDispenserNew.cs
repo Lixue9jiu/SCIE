@@ -182,11 +182,10 @@ namespace Game
 			{
 				return base.GetSlotCapacity(slotIndex, value);
 			}
-			if (BlocksManager.Blocks[Terrain.ExtractContents(value)].BlockIndex == 535 || BlocksManager.Blocks[Terrain.ExtractContents(value)].BlockIndex == 536)
-			{
-				return base.GetSlotCapacity(slotIndex, value);
-			}
-			return 0;
+			if (Terrain.ExtractContents(value) != DrillBlock.Index)
+				return 0;
+			DrillBlock.Type type = DrillBlock.GetType(value);
+			return (type == DrillBlock.Type.DiamondDrill || type == DrillBlock.Type.SteelDrill) ? base.GetSlotCapacity(slotIndex, value) : 0;
 		}
 	}
 }
