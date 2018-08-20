@@ -20,6 +20,7 @@ namespace Game
 		static void Initialize()
 		{
 			CraftingRecipesManager.Initialize1 = CRInitialize;
+			BlocksManager.DamageItem1 = DamageItem;
 		}
 		public static void CRInitialize()
 		{
@@ -93,6 +94,20 @@ namespace Game
 				CraftingRecipesManager.m_recipes.AddRange(blocks[i].GetProceduralCraftingRecipes());
 			}
 			CraftingRecipesManager.m_recipes.Sort(CraftingRecipesManager.Initialize_b__1);
+		}
+		public static int DamageItem(int value, int damageCount)
+		{
+			Block block = BlocksManager.Blocks[Terrain.ExtractContents(value)];
+			if (block.Durability < 0)
+			{
+				return value;
+			}
+			int num = block.GetDamage(value) + damageCount;
+			if (num <= (block is IDurability item ? item.GetDurability(value) : block.Durability))
+			{
+				return block.SetDamage(value, num);
+			}
+			return block.GetDamageDestructionValue(value);
 		}
 		public virtual string GetDisplayName(SubsystemTerrain subsystemTerrain, int value)
 		{
