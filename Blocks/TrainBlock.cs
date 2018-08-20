@@ -8,6 +8,6 @@ namespace Game
 {
     public class TrainBlock : CubeBlock
     {
-        public const int Index = 539;
+        public const int Index = 538;
     }
 }
