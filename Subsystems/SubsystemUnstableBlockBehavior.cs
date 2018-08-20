@@ -14,7 +14,7 @@ namespace Game
 			if (m_subsystemGameInfo.WorldSettings.EnvironmentBehaviorMode != EnvironmentBehaviorMode.Living || y <= 0)
 				return;
 			int value = SubsystemTerrain.Terrain.GetCellValue(x, y - 1, z);
-			if (!IsCollapseSupportBlock(value) || Terrain.ExtractContents(value) == 67)
+			if (!IsCollapseSupportBlock(value))
 			{
 				List<MovingBlock> list = new List<MovingBlock>();
 				for (int i = y; i < 128; i++)
@@ -32,9 +32,9 @@ namespace Game
 				}
 				if (list.Count != 0 && m_subsystemMovingBlocks.AddMovingBlockSet(new Vector3(x, y, z), new Vector3((float)x, (float)(-list.Count - 1), (float)z), 0f, 10f, 0.7f, new Vector2(0f), list, "CollapsingBlock", null, true) != null)
 				{
-					foreach (MovingBlock item in list)
+					for (int i = 0; i < list.Count; i++)
 					{
-						Point3 point = item.Offset;
+						Point3 point = list[i].Offset;
 						SubsystemTerrain.ChangeCell(point.X + x, point.Y + y, point.Z + z, 0, true);
 					}
 				}
