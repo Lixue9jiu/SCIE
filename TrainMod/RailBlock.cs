@@ -7,7 +7,7 @@ namespace Game
 {
     public class RailBlock : Block
     {
-        public const int Index = 500;
+        public const int Index = 538;
 
         BoundingBox[][] boundingBoxes = new BoundingBox[10][];
 

@@ -72,7 +72,7 @@ namespace Game
 		public override void GetDropValues(SubsystemTerrain subsystemTerrain, int oldValue, int newValue, int toolLevel, List<BlockDropValue> dropValues, out bool showDebris)
 		{
 			int data = Terrain.ExtractData(oldValue);
-			if (IsColored(data))
+			if (IsColored(data) || (data & 65536) != 0)
 				base.GetDropValues(subsystemTerrain, oldValue, newValue, toolLevel, dropValues, out showDebris);
 			data >>= 1;
 			if (data > 0 && data < 10 && toolLevel > 2)
@@ -98,6 +98,10 @@ namespace Game
 			int data = Terrain.ExtractData(value);
 			if (IsColored(data))
 				return m_coloredTextureSlot;
+			if ((data & 65536) != 0)
+			{
+				return 15;
+			}
 			data >>= 1;
 			return data > 0 && data < 10 ? 9 : DefaultTextureSlot;
 		}
@@ -408,7 +412,7 @@ namespace Game
 					{
 						chunk.PaintFastSelective(PbBrushes[random.Int() & 15].Cells, ix16 | (random.Int() & 15), random.UniformInt(2, 50), jx16 | (random.Int() & 15), index | (int)BrushType.Pb << 15);
 					}
-					for (k = 4 + (int)(2f * num2 * SimplexNoise.OctavedNoise((float)(i + fa ^ f5 + f1), (float)(j + fc - f9), 0.33f, 1, 1f, 1f)); k-- != 0;)
+					for (k = 5 + (int)(2f * num2 * SimplexNoise.OctavedNoise((float)(i + fa ^ f5 + f1), (float)(j + fc - f9), 0.33f, 1, 1f, 1f)); k-- != 0;)
 					{
 						chunk.PaintMaskSelective(PbBrushes[random.Int() & 15].Cells, ix16 | (random.Int() & 15), random.UniformInt(2, 50), jx16 | (random.Int() & 15), index | 65536 << 14);
 					}
