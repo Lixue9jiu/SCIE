@@ -72,9 +72,9 @@ namespace Game
 		public override void GetDropValues(SubsystemTerrain subsystemTerrain, int oldValue, int newValue, int toolLevel, List<BlockDropValue> dropValues, out bool showDebris)
 		{
 			int data = Terrain.ExtractData(oldValue);
-			if (IsColored(data) || (data & 65536) != 0 || toolLevel < 3)
+			if (IsColored(data) || toolLevel < 3)
 				base.GetDropValues(subsystemTerrain, oldValue, newValue, toolLevel, dropValues, out showDebris);
-			data >>= 1;
+			data = data >> 1 & 16383;
 			if (data > 0 && data < 10)
 			{
 				dropValues.Add(new BlockDropValue
