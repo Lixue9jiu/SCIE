@@ -31,25 +31,17 @@
     <Optimize>true</Optimize>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
-    <OutputPath>D:\游戏文件夹\Mods\</OutputPath>
+    <OutputPath>libs\Survivalcraft\Mods\</OutputPath>
+    <CodeAnalysisRuleSet>GlobalizationRules.ruleset</CodeAnalysisRuleSet>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DocumentationFile>
+    </DocumentationFile>
+    <RegisterForComInterop>false</RegisterForComInterop>
+    <DefineConstants>DEBUG</DefineConstants>
   </PropertyGroup>
-  <ItemGroup>
-    <Reference Include="Engine">
-      <HintPath>D:\游戏文件夹\Engine.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="EntitySystem">
-      <HintPath>D:\游戏文件夹\EntitySystem.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Survivalcraft, Version=2.1.14.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>D:\游戏文件夹\Survivalcraft.exe</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="System, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL" />
-    <Reference Include="System.Xml.Linq" />
-  </ItemGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+  </PropertyGroup>
   <ItemGroup>
     <Compile Include="Blocks\BlastBlowerBlock.cs" />
     <Compile Include="Blocks\BlastFurnaceBlock.cs" />
@@ -174,10 +166,34 @@
     <Compile Include="Subsystems\SubsystemNSoilBlockBehavior.cs" />
     <Compile Include="Blocks\TankBlock.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="工业mod.csv" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="工业mod_Database.xml" />
+    <Content Include="工业mod_合成表.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Engine">
+      <HintPath>libs\Survivalcraft\Engine.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="EntitySystem">
+      <HintPath>libs\Survivalcraft\EntitySystem.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Survivalcraft">
+      <HintPath>libs\Survivalcraft\Survivalcraft.exe</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.XML" />
+    <Reference Include="System.Xml.Linq" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>
-    </PostBuildEvent>
+    <PostBuildEvent>copy /Y ..\..\..\工业mod.csv 工业mod.csv
+copy /Y ..\..\..\工业mod_Database.xml 工业mod.xdb
+copy /Y ..\..\..\工业mod_合成表.xml 工业mod.cr</PostBuildEvent>
   </PropertyGroup>
 </Project>

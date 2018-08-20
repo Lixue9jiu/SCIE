@@ -1,0 +1,2 @@
+cd Survivalcraft
+Survivalcraft.exe

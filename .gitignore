@@ -111,3 +111,11 @@ UpgradeLog*.XML
 /.vs
 /*.dll
 /*.exe
+
+# Survivalcraft
+libs/Survivalcraft/Mods/
+libs/Survivalcraft/Worlds/
+libs/Survivalcraft/Logs/
+libs/Survivalcraft/CharacterSkins/
+libs/Survivalcraft/FurniturePacks/
+libs/Survivalcraft/TexturePacks/
