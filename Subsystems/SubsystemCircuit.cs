@@ -35,7 +35,7 @@ namespace Game
 			public bool IsInProgress;
 			public Element Element;
 		}
-		public Queue<Request> Requests = new Queue<Request>(1);
+		public Queue<Request> Requests = new Queue<Request>();
 		public SubsystemTime SubsystemTime;
 		//public SubsystemAudio SubsystemAudio;
 		float m_remainingSimulationTime;
