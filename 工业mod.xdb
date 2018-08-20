@@ -26,9 +26,9 @@
           <Parameter Name="SlotsCount" Guid="3ddd5623-a4c0-4ad5-85f8-813ef26dae6b" Value="19" Type="int" />
        </MemberComponentTemplate>
       <MemberComponentTemplate Name="SimpleModel2" Guid="459a8ad1-0db8-4604-9ee8-8504dbd3c7b1" InheritanceParent="fc5a4e72-0df9-4acf-a42e-ecb5a2a7baf4">
-        <Parameter Name="ModelName" Guid="fe4ed206-297f-47ca-950a-930ea7d6e881" Value="Models/Boat" Type="string" />
+        <Parameter Name="ModelName" Guid="fe4ed206-297f-47ca-950a-930ea7d6e881" Value="Models/steamboat" Type="string" />
         <Parameter Name="CastsShadow" Guid="fed4af6d-a7de-46d9-8d02-55d0b08a157b" Value="True" Type="bool" />
-        <Parameter Name="TextureOverride" Guid="ffe056e5-037a-4504-a9fe-baf88d835b11" Value="Textures/BoatI" Type="string" />
+        <Parameter Name="TextureOverride" Guid="ffe056e5-037a-4504-a9fe-baf88d835b11" Value="Textures/steamboat" Type="string" />
       </MemberComponentTemplate>
       <MemberComponentTemplate Name="Spawn" Guid="377ab3ff-6fef-4408-b891-a781377a1e77" InheritanceParent="65268743-4076-4ee3-aefe-f02a54d16b36" />
       <MemberComponentTemplate Name="OnFire" Guid="7f7db5a2-2f5a-4c6d-98a8-9b5ad07b32e5" InheritanceParent="93590d78-63b9-4cd6-bc41-e66864cbb050" />

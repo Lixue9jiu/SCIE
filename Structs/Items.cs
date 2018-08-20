@@ -23,7 +23,11 @@ namespace Game
                 new ZincOreChunk(),
                 new LeadOreChunk(),
                 new MercuryOreChunk(),
-                new StannaryChunk()
+                new StannaryChunk(),
+                new TitaniumOreChunk(),
+                new ChromiumOreChunk(),
+                new NickelOreChunk(),
+                new SteelIngot()
             };
             IdTable = new Dictionary<string, int>(Items.Length);
 			int i;

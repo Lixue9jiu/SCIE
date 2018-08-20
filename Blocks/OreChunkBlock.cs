@@ -46,6 +46,24 @@ namespace Game
         {
         }
     }
+    public class ChromiumOreChunk : OreChunkBlock
+    {
+        public ChromiumOreChunk() : base(Matrix.CreateRotationX(1f) * Matrix.CreateRotationZ(7f), Matrix.CreateTranslation(0.9375f, 0.1875f, 0f), new Color(90, 90, 90), false, ChunkType.ChromiumOreChunk)
+        {
+        }
+    }
+    public class TitaniumOreChunk : OreChunkBlock
+    {
+        public TitaniumOreChunk() : base(Matrix.CreateRotationX(2f) * Matrix.CreateRotationZ(-1f), Matrix.CreateTranslation(0.9375f, 0.1875f, 0f), new Color(190, 190, 190), false, ChunkType.ChromiumOreChunk)
+        {
+        }
+    }
+    public class NickelOreChunk : OreChunkBlock
+    {
+        public NickelOreChunk() : base(Matrix.CreateRotationX(3f) * Matrix.CreateRotationZ(-1f), Matrix.CreateTranslation(0.9375f, 0.1875f, 0f), new Color(120, 120, 120), false, ChunkType.NickelOreChunk)
+        {
+        }
+    }
     public abstract class OreChunkBlock : Item
 	{
 		[Serializable]
@@ -63,7 +81,10 @@ namespace Game
             // Token: 0x040019CE RID: 6606
             StannaryChunk,
             // Token: 0x040019CF RID: 6607
-            MercuryOreChunk
+            MercuryOreChunk,
+            ChromiumOreChunk,
+            TitaniumOreChunk,
+            NickelOreChunk
             // Token: 0x040019CC RID: 6604
         }
 		public readonly ChunkType Type;
@@ -133,6 +154,12 @@ namespace Game
                     return "A chunk of Stannary ore. When smelted in the furnace will turn into pure stannary.";
                 case ChunkType.ZincOreChunk:
                     return "A chunk of Zinc ore. When smelted in the furnace will turn into pure zinc.";
+                case ChunkType.ChromiumOreChunk:
+                    return "A chunk of Chromium ore. When smelted in the furnace will turn into pure chromium.";
+                case ChunkType.TitaniumOreChunk:
+                    return "A chunk of Titanium ore. When smelted in the furnace will turn into pure titanium.";
+                case ChunkType.NickelOreChunk:
+                    return "A chunk of Nickel ore. When smelted in the furnace will turn into pure nickel.";
             }
 			return string.Empty;
 		}
