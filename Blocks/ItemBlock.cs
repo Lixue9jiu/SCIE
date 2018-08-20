@@ -139,8 +139,7 @@ namespace Game
 		}
 		public virtual bool ShouldGenerateFace(SubsystemTerrain subsystemTerrain, int face, int value, int neighborValue)
 		{
-			int num = Terrain.ExtractContents(neighborValue);
-			return BlocksManager.Blocks[num].IsFaceTransparent(subsystemTerrain, CellFace.OppositeFace(face), neighborValue);
+			return BlocksManager.Blocks[Terrain.ExtractContents(neighborValue)].IsFaceTransparent(subsystemTerrain, CellFace.OppositeFace(face), neighborValue);
 		}
 		public virtual int GetShadowStrength(int value)
 		{
@@ -322,6 +321,13 @@ namespace Game
 			};
 		}
 	}
+	public class MeshItem : FlatItem
+	{
+		public override Vector3 GetIconViewOffset(int value, DrawBlockEnvironmentData environmentData)
+		{
+			return Vector3.One;
+		}
+	}
 	public partial class ItemBlock : CubeBlock, IItemBlock
 	{
 		public const int Index = 501;
@@ -341,7 +347,7 @@ namespace Game
 		{
 			if (IdTable.TryGetValue(result, out int data))
 			{
-				return Terrain.MakeBlockValue(Index, 0, data);
+				return data;
 			}
 			string[] array = result.Split(':');
 			return Terrain.MakeBlockValue(BlocksManager.FindBlockByTypeName(array[0], true).BlockIndex, 0, array.Length >= 2 ? int.Parse(array[1], CultureInfo.InvariantCulture) : 0);

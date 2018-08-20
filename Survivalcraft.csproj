@@ -53,12 +53,14 @@
   <ItemGroup>
     <Compile Include="Blocks\BlastBlowerBlock.cs" />
     <Compile Include="Blocks\BlastFurnaceBlock.cs" />
+    <Compile Include="Blocks\CarbonItems.cs" />
     <Compile Include="Blocks\CastMachBlock.cs" />
     <Compile Include="Blocks\DrillBlock.cs" />
     <Compile Include="Blocks\ElementBlock.cs" />
     <Compile Include="Blocks\IPistonBlock.cs" />
     <Compile Include="Blocks\ItemBlock.cs" />
     <Compile Include="Blocks\PaintableMagnetBlock.cs" />
+    <Compile Include="Blocks\RifleBarrel.cs" />
     <Compile Include="Blocks\SteelGearBlock.cs" />
     <Compile Include="Blocks\SteelGearMouldBlock.cs" />
     <Compile Include="Blocks\SteelRod.cs" />
@@ -74,10 +76,10 @@
     <Compile Include="Structs\Elements.cs" />
     <Compile Include="Structs\Interfaces.cs" />
     <Compile Include="Structs\Items.cs" />
-    <Compile Include="Subsystems\SubsystemCollapsingWaterBlockBehavior.cs" />
     <Compile Include="Subsystems\SubsystemItemBlockBehavior.cs" />
     <Compile Include="Subsystems\SubsystemMineral.cs" />
     <Compile Include="Subsystems\SubsystemSourceOfFireBlockBehavior.cs" />
+    <Compile Include="Subsystems\SubsystemUnstableBlockBehavior.cs" />
     <Compile Include="Widgets\SqueezerWidget.cs" />
     <Compile Include="Subsystems\SubsystemSqueezerBlockBehavior.cs" />
     <Compile Include="Widgets\CastMachWidget.cs" />
@@ -145,7 +147,6 @@
     <Compile Include="Widgets\PresserNNWidget.cs" />
     <Compile Include="Widgets\PresserNWidget.cs" />
     <Compile Include="Widgets\PresserWidget.cs" />
-    <Compile Include="Blocks\Rod3Block.cs" />
     <Compile Include="Blocks\SteelAxeBlock.cs" />
     <Compile Include="Blocks\SteelBlock.cs" />
     <Compile Include="Blocks\SteelIngotBlock.cs" />

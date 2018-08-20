@@ -28,6 +28,26 @@ namespace Game
 				}
 			}
 		}
+		public static void PaintMaskSelective(this TerrainChunk chunk, Cell[] cells, int x, int y, int z, int mask = BasaltBlock.Index)
+		{
+			x -= chunk.Origin.X;
+			z -= chunk.Origin.Y;
+			for (int i = 0; i < cells.Length; i++)
+			{
+				Cell cell = cells[i];
+				int y2 = cell.Y + y;
+				if (y2 >= 0 && y2 < 128)
+				{
+					int index = TerrainChunk.CalculateCellIndex(cell.X + x & 15, y2, cell.Z + z & 15);
+					y2 = chunk.GetCellValueFast(index);
+					if (Terrain.ExtractContents(mask) == Terrain.ExtractContents(y2))
+					{
+						//SubsystemMineral.StoreItemData(cell.Value);
+						chunk.SetCellValueFast(index, y2 | mask);
+					}
+				}
+			}
+		}
 	}
 	/*[Flags]
 	[Serializable]
@@ -55,11 +75,11 @@ namespace Game
 			if (IsColored(data))
 				base.GetDropValues(subsystemTerrain, oldValue, newValue, toolLevel, dropValues, out showDebris);
 			data >>= 1;
-			if (data > 0 && data < 8 && toolLevel > 2)
+			if (data > 0 && data < 10 && toolLevel > 2)
 			{
 				dropValues.Add(new BlockDropValue
 				{
-					Value = Terrain.ReplaceData(ItemBlock.Index, data + 4),
+					Value = Terrain.ReplaceData(ItemBlock.Index, data + 5),
 					Count = 1
 				});
 				for (int i = (data & 1) + (Random.Int() & 1) + 2; i-- != 0;)
@@ -79,20 +99,20 @@ namespace Game
 			if (IsColored(data))
 				return m_coloredTextureSlot;
 			data >>= 1;
-			return data > 0 && data < 8 ? 9 : DefaultTextureSlot;
+			return data > 0 && data < 10 ? 9 : DefaultTextureSlot;
 		}
 		public override string GetDisplayName(SubsystemTerrain subsystemTerrain, int value)
 		{
 			int data = Terrain.ExtractData(value);
-			if (IsColored(data) || data == 0 || data > 14)
+			if (IsColored(data) || data == 0 || data > 18)
 				return base.GetDisplayName(subsystemTerrain, value);
-			string name = BlocksManager.Blocks[ItemBlock.Index].GetDisplayName(subsystemTerrain, Terrain.ReplaceData(ItemBlock.Index, (data >> 1) + 4));
+			string name = BlocksManager.Blocks[ItemBlock.Index].GetDisplayName(subsystemTerrain, Terrain.ReplaceData(ItemBlock.Index, (data >> 1) + 5));
 			return name.Substring(0, name.Length - 5);
 		}
 		public override IEnumerable<int> GetCreativeValues()
 		{
 			var list = new List<int>(base.GetCreativeValues());
-			for (int i = 0; i < 8; i++)
+			for (int i = 1; i < 10; i++)
 			{
 				list.Add(BlockIndex | i << 15);
 			}
@@ -141,11 +161,11 @@ namespace Game
 		public override void GetDropValues(SubsystemTerrain subsystemTerrain, int oldValue, int newValue, int toolLevel, List<BlockDropValue> dropValues, out bool showDebris)
 		{
 			int data = Terrain.ExtractData(oldValue) >> 1;
-			if (data > 0 && data < 8 && toolLevel > 2)
+			if (data > 0 && data < 10 && toolLevel > 2)
 			{
 				dropValues.Add(new BlockDropValue
 				{
-					Value = Terrain.ReplaceData(ItemBlock.Index, data + 4),
+					Value = Terrain.ReplaceData(ItemBlock.Index, data + 5),
 					Count = 1
 				});
 			}
@@ -358,10 +378,6 @@ namespace Game
 				{
 					var random = new Random(generator.m_seed + i + (f1 ^ f4 ^ f5 ^ f7 ^ fa ^ fc ^ fd) * j);
 					int k, ix16 = i << 4, jx16 = j << 4;
-					for (k = 0; k < (random.Int() & 15) - 5; k++)
-					{
-						random.Int();
-					}
 					float num2 = generator.CalculateMountainRangeFactor((float)ix16, (float)jx16);
 					const int index = BasaltBlock.Index, index2 = GermaniumOreBlock.Index;
 					for (k = 1 + (int)(2f * num2 * SimplexNoise.OctavedNoise((float)(i ^ fe), (float)(j ^ ff), 0.33f, 1, 1f, 1f)); k-- != 0;)
@@ -391,6 +407,10 @@ namespace Game
 					for (k = 3 + (int)(2f * num2 * SimplexNoise.OctavedNoise((float)(i + f6), (float)(j + 131), 0.33f, 1, 1f, 1f)); k-- != 0;)
 					{
 						chunk.PaintFastSelective(PbBrushes[random.Int() & 15].Cells, ix16 | (random.Int() & 15), random.UniformInt(2, 50), jx16 | (random.Int() & 15), index | (int)BrushType.Pb << 15);
+					}
+					for (k = 4 + (int)(2f * num2 * SimplexNoise.OctavedNoise((float)(i + fa ^ f5 + f1), (float)(j + fc - f9), 0.33f, 1, 1f, 1f)); k-- != 0;)
+					{
+						chunk.PaintMaskSelective(PbBrushes[random.Int() & 15].Cells, ix16 | (random.Int() & 15), random.UniformInt(2, 50), jx16 | (random.Int() & 15), index | 65536 << 14);
 					}
 				}
 			}

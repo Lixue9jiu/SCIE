@@ -1,41 +1,37 @@
 ﻿using Engine;
 using System.Collections.Generic;
+using TemplatesDatabase;
 
 namespace Game
 {
-	public class SubsystemCollapsingWaterBlockBehavior : SubsystemCollapsingBlockBehavior
+	public class SubsystemCollapsingWaterBlockBehavior : SubsystemWaterBlockBehavior
 	{
-		public override int[] HandledBlocks => new int[] { 18 };
+		public SubsystemGameInfo m_subsystemGameInfo;
 
+		public override void Load(ValuesDictionary valuesDictionary)
+		{
+			base.Load(valuesDictionary);
+			m_subsystemGameInfo = Project.FindSubsystem<SubsystemGameInfo>(true);
+		}
+		public override void OnBlockAdded(int value, int oldValue, int x, int y, int z)
+		{
+			UpdateIsTop(value, x, y, z);
+		}
 		public override void OnNeighborBlockChanged(int x, int y, int z, int neighborX, int neighborY, int neighborZ)
 		{
+			base.OnNeighborBlockChanged(x, y, z, neighborX, neighborY, neighborZ);
 			WorldSettings worldSettings = m_subsystemGameInfo.WorldSettings;
-			if (worldSettings.EnvironmentBehaviorMode == EnvironmentBehaviorMode.Living && y > 0 && y > worldSettings.TerrainLevel + worldSettings.SeaLevelOffset)
+			if (worldSettings.EnvironmentBehaviorMode == EnvironmentBehaviorMode.Living && y > 0 && y > worldSettings.TerrainLevel + worldSettings.SeaLevelOffset &&(neighborX != x || neighborY != y || neighborZ != z))
 			{
-				if (IsCollapseSupportBlock(SubsystemTerrain.Terrain.GetCellValue(x, y - 1, z)))
+				Terrain terrain = SubsystemTerrain.Terrain;
+				if (BlocksManager.Blocks[terrain.GetCellContents(x, y - 1, z)].IsFluidBlocker || BlocksManager.Blocks[terrain.GetCellContents(x, y - 1, z)].IsFluidBlocker)
 					return;
-				var list = new List<MovingBlock>();
-				for (int i = y; i < 128; i++)
+				int i = y;
+				while (i < 128 && Terrain.ExtractContents(terrain.GetCellValue(x, i, z)) == 18)
 				{
-					int cellValue = SubsystemTerrain.Terrain.GetCellValue(x, i, z);
-					if (Terrain.ExtractContents(cellValue) != 18)
-					{
-						break;
-					}
-					list.Add(new MovingBlock
-					{
-						Value = cellValue,
-						Offset = new Point3(0, i - y, 0)
-					});
+					i++;
 				}
-				if (list.Count != 0 && m_subsystemMovingBlocks.AddMovingBlockSet(new Vector3(x, y, z), new Vector3((float)x, (float)(-list.Count - 1), (float)z), 0f, 10f, 0.7f, new Vector2(0f), list, "CollapsingBlock", null, true) != null)
-				{
-					for (int i = 0; i < list.Count; i++)
-					{
-						Point3 point = list[i].Offset;
-						SubsystemTerrain.ChangeCell(point.X + x, point.Y + y, point.Z + z, 0, true);
-					}
-				}
+				SubsystemTerrain.DestroyCell(0, x, i - 1, z, 0, false, false);
 			}
 		}
 	}

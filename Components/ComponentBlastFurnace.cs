@@ -173,7 +173,7 @@ namespace Game
 					}
 					if (m_matchedIngredients[7] >= 1)
 					{
-						m_slots[RemainsSlotIndex].Value = Terrain.ReplaceData(ItemBlock.Index, 4);
+						m_slots[RemainsSlotIndex].Value = ItemBlock.Index | 5 << 14;
 						m_slots[RemainsSlotIndex].Count += m_matchedIngredients[7];
 					}
 					if (m_matchedIngredients[9] >= 1)
