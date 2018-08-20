@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace Game
 {
-	public class DrillBlock : FlatBlock
+	public class DrillBlock : FlatBlock, IDurability
 	{
 		[Serializable]
 		public enum Type
@@ -81,6 +81,21 @@ namespace Game
 				case Type.IronTubularis:
 				case Type.SteelTubularis:
 					return 112;
+			}
+			return 0;
+		}
+		public int GetDurability(int value)
+		{
+			switch (GetType(value))
+			{
+				case Type.SteelDrill:
+					return 1000;
+				case Type.DiamondDrill:
+					return 2000;
+				case Type.IronTubularis:
+					return 700;
+				case Type.SteelTubularis:
+					return 1100;
 			}
 			return 0;
 		}
