@@ -1,0 +1,79 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{917FF2B8-8CF7-44A7-BBAB-6D13829EB37D}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>SCModingTest</RootNamespace>
+    <AssemblyName>SCModingTest</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Engine, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\Desktop\sc桌面版API_1_1_1\游戏文件夹\Engine.dll</HintPath>
+    </Reference>
+    <Reference Include="EntitySystem, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\Desktop\sc桌面版API_1_1_1\游戏文件夹\EntitySystem.dll</HintPath>
+    </Reference>
+    <Reference Include="Survivalcraft, Version=2.1.14.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\Desktop\sc桌面版API_1_1_1\游戏文件夹\Survivalcraft.exe</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ComponentTrain.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RailBlock.cs" />
+    <Compile Include="SubsystemRailBlockBehavior.cs" />
+    <Compile Include="SubsystemTrainBlockBehavior.cs" />
+    <Compile Include="TrainBlock.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="DatabaseMod.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <None Include="BlocksDataMod.csv" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>copy /Y SCModingTest.dll C:\Users\Jiuru\Desktop\sc桌面版API_1_1_1\游戏文件夹\Mods\SCModingTest.dll
+copy /Y ..\..\DatabaseMod.xml C:\Users\Jiuru\Desktop\sc桌面版API_1_1_1\游戏文件夹\Mods\test.xdb
+copy /Y ..\..\BlocksDataMod.csv C:\Users\Jiuru\Desktop\sc桌面版API_1_1_1\游戏文件夹\Mods\test.csv</PostBuildEvent>
+  </PropertyGroup>
+</Project>
