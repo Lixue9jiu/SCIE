@@ -110,7 +110,7 @@
     </Recipe>
   </SteelTools>
   <Weapons>
-    <Recipe Result="Musket2Block" ResultCount="1" RequiredHeatLevel="0" a="planks" b="steelplate" c="barrel" Description="Make a Rifle from steelplate,barrel and planks">
+    <Recipe Result="Musket2Block" ResultCount="1" RequiredHeatLevel="0" a="planks" b="steelplate" c="RifleBarrel" Description="Make a Rifle from steelplate,barrel and planks">
       "ccb"
       "aaa"
     </Recipe>
