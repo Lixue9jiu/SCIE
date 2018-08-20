@@ -72,10 +72,10 @@ namespace Game
 		public override void GetDropValues(SubsystemTerrain subsystemTerrain, int oldValue, int newValue, int toolLevel, List<BlockDropValue> dropValues, out bool showDebris)
 		{
 			int data = Terrain.ExtractData(oldValue);
-			if (IsColored(data) || (data & 65536) != 0)
+			if (IsColored(data) || (data & 65536) != 0 || toolLevel < 3)
 				base.GetDropValues(subsystemTerrain, oldValue, newValue, toolLevel, dropValues, out showDebris);
 			data >>= 1;
-			if (data > 0 && data < 10 && toolLevel > 2)
+			if (data > 0 && data < 10)
 			{
 				dropValues.Add(new BlockDropValue
 				{
@@ -98,11 +98,7 @@ namespace Game
 			int data = Terrain.ExtractData(value);
 			if (IsColored(data))
 				return m_coloredTextureSlot;
-			if ((data & 65536) != 0)
-			{
-				return 15;
-			}
-			data >>= 1;
+			data = data >> 1 & 16383;
 			return data > 0 && data < 10 ? 9 : DefaultTextureSlot;
 		}
 		public override string GetDisplayName(SubsystemTerrain subsystemTerrain, int value)
@@ -164,7 +160,7 @@ namespace Game
 		public new const int Index = 148;
 		public override void GetDropValues(SubsystemTerrain subsystemTerrain, int oldValue, int newValue, int toolLevel, List<BlockDropValue> dropValues, out bool showDebris)
 		{
-			int data = Terrain.ExtractData(oldValue) >> 1;
+			int data = Terrain.ExtractData(oldValue) >> 1 & 16383;
 			if (data > 0 && data < 10 && toolLevel > 2)
 			{
 				dropValues.Add(new BlockDropValue
@@ -335,6 +331,19 @@ namespace Game
 				}
 				brush.Compile();
 				HgBrushes[i] = SnBrushes[i] = brush;
+				/*brush = new TerrainBrush();
+				for (j = random.UniformInt(10, 20); j-- != 0;)
+				{
+					v = 0.5f * Vector3.Normalize(new Vector3(random.UniformFloat(-1f, 1f), random.UniformFloat(-1f, 1f), random.UniformFloat(-1f, 1f)));
+					vec = Vector3.Zero;
+					for (k = random.UniformInt(6, 10); k-- != 0;)
+					{
+						brush.AddBox((int)MathUtils.Floor(vec.X), (int)MathUtils.Floor(vec.Y), (int)MathUtils.Floor(vec.Z), 1, 1, 1, 67);
+						vec += v;
+					}
+				}
+				brush.Compile();
+				PBrushes[i] = brush;*/
 			}
 		}
 
@@ -412,7 +421,7 @@ namespace Game
 					{
 						chunk.PaintFastSelective(PbBrushes[random.Int() & 15].Cells, ix16 | (random.Int() & 15), random.UniformInt(2, 50), jx16 | (random.Int() & 15), index | (int)BrushType.Pb << 15);
 					}
-					for (k = 5 + (int)(2f * num2 * SimplexNoise.OctavedNoise((float)(i + fa ^ f5 + f1), (float)(j + fc - f9), 0.33f, 1, 1f, 1f)); k-- != 0;)
+					for (k = 20 + (int)(8f * num2 * SimplexNoise.OctavedNoise((float)(i + fa ^ f5 + f1), (float)(j + fc - f9), 0.33f, 1, 1f, 1f)); k-- != 0;)
 					{
 						chunk.PaintMaskSelective(PbBrushes[random.Int() & 15].Cells, ix16 | (random.Int() & 15), random.UniformInt(2, 50), jx16 | (random.Int() & 15), index | 65536 << 14);
 					}
