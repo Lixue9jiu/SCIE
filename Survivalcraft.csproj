@@ -69,6 +69,7 @@
     <Compile Include="Components\ComponentMachine.cs" />
     <Compile Include="Components\ComponentSqueezer.cs" />
     <Compile Include="Blocks\OreChunkBlock.cs" />
+    <Compile Include="Blocks\OrePowderBlock.cs" />
     <Compile Include="Structs\CircuitDevices.cs" />
     <Compile Include="Structs\CircuitElements.cs" />
     <Compile Include="Structs\Elements.cs" />
@@ -111,7 +112,6 @@
     <Compile Include="Components\ComponentPresser.cs" />
     <Compile Include="Components\ComponentPresserN.cs" />
     <Compile Include="Components\ComponentPresserNN.cs" />
-    <Compile Include="Blocks\CopperPlateBlock.cs" />
     <Compile Include="Blocks\DispenBlock.cs" />
     <Compile Include="Blocks\DispenserNBlock.cs" />
     <Compile Include="Blocks\DispenserNew2Block.cs" />
@@ -127,12 +127,11 @@
     <Compile Include="Widgets\EngineWidget.cs" />
     <Compile Include="Blocks\FurnaceNBlock.cs" />
     <Compile Include="Widgets\FurnaceNWidget.cs" />
-    <Compile Include="Blocks\IngotBlock.cs" />
+    <Compile Include="Blocks\MetalIngotBlock.cs" />
     <Compile Include="Blocks\IronOrePowder2Block.cs" />
     <Compile Include="Blocks\IronOrePowder3Block.cs" />
     <Compile Include="Blocks\IronOrePowder4Block.cs" />
     <Compile Include="Blocks\IronOrePowderBlock.cs" />
-    <Compile Include="Blocks\IronPlateBlock.cs" />
     <Compile Include="Blocks\LitEngineBlock.cs" />
     <Compile Include="Blocks\LitEngineHBlock.cs" />
     <Compile Include="Blocks\LitFurnaceNBlock.cs" />
@@ -151,7 +150,6 @@
     <Compile Include="Blocks\SteelIngotBlock.cs" />
     <Compile Include="Blocks\SteelMacheteBlock.cs" />
     <Compile Include="Blocks\SteelPickaxeBlock.cs" />
-    <Compile Include="Blocks\SteelPlateBlock.cs" />
     <Compile Include="Blocks\SteelRakeBlock.cs" />
     <Compile Include="Blocks\SteelShovelBlock.cs" />
     <Compile Include="Blocks\SteelSpearBlock.cs" />

@@ -30,7 +30,7 @@ namespace Game
     }
     public class ZincOreChunk : OreChunkBlock
     {
-        public ZincOreChunk() : base(Matrix.CreateRotationX(1f) * Matrix.CreateRotationZ(4f), Matrix.CreateTranslation(0.9375f, 0.1875f, 0f), new Color(245, 245, 245), false, ChunkType.ZincOreChunk)
+        public ZincOreChunk() : base(Matrix.CreateRotationX(1f) * Matrix.CreateRotationZ(4f), Matrix.CreateTranslation(0.9375f, 0.1875f, 0f), new Color(65, 224, 205), false, ChunkType.ZincOreChunk)
         {
         }
     }
@@ -54,7 +54,7 @@ namespace Game
     }
     public class TitaniumOreChunk : OreChunkBlock
     {
-        public TitaniumOreChunk() : base(Matrix.CreateRotationX(2f) * Matrix.CreateRotationZ(-1f), Matrix.CreateTranslation(0.9375f, 0.1875f, 0f), new Color(190, 190, 190), false, ChunkType.ChromiumOreChunk)
+        public TitaniumOreChunk() : base(Matrix.CreateRotationX(2f) * Matrix.CreateRotationZ(-1f), Matrix.CreateTranslation(0.9375f, 0.1875f, 0f), new Color(190, 190, 190), false, ChunkType.TitaniumOreChunk)
         {
         }
     }
