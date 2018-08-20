@@ -182,8 +182,8 @@
     <MemberSubsystemTemplate Name="ItemBlockBehavior" Guid="fff39d3d-e999-452c-959d-47eefb16457a" InheritanceParent="a3914c13-7801-46a6-b23a-9e2b36e9defb">
       <Parameter Name="Class" Guid="ff9971da-4268-41d7-90a9-9a066f2feea8" Value="Game.SubsystemItemBlockBehavior" Type="string" />
     </MemberSubsystemTemplate>
-    <MemberSubsystemTemplate Name="CollapsingWater" Guid="fff39d38-e999-452c-959d-47eefb16457a" InheritanceParent="a3914c13-7801-46a6-b23a-9e2b36e9defb">
-      <Parameter Name="Class" Guid="ff99718a-4268-41d7-90a9-9a066f2feea8" Value="Game.SubsystemCollapsingWaterBlockBehavior" Type="string" />
+    <MemberSubsystemTemplate Name="UnstableBlockBehavior" Guid="fff39d38-e999-452c-959d-47eefb16457a" InheritanceParent="fefb9590-4972-4893-b02a-76063611b745">
+      <Parameter Name="Class" Guid="ff99718a-4268-41d7-90a9-9a066f2feea8" Value="Game.SubsystemUnstableBlockBehavior" Type="string" />
     </MemberSubsystemTemplate>
   </ToAdd>
   <ToAdd Type="Folder" Name="Gameplay" Guid="d3d4b692-acc9-4128-9b99-a5acf1de1fbb">

@@ -16,6 +16,7 @@ namespace Game
                 new CopperLine(),
                 new SteelLine(),
 				new SteelRod(),
+				new RifleBarrel(),
 				new RuIngotBlock(),
 				new GoldOreChunk(),
                 new SliverOreChunk(),
@@ -28,40 +29,13 @@ namespace Game
                 new ChromiumOreChunk(),
                 new NickelOreChunk(),
                 new SteelIngot(),
-                new GoldIngot(),
-                new SliverIngot(),
-                new LeadIngot(),
-                new NickelIngot(),
-                new AluminumIngot(),
-                new ChromiumIngot(),
-                new ZincIngot(),
-                new StannaryIngot(),
-                new PlatinumIngot(),
-                new IronOrePowder(),
-                new CopperOrePowder(),
-                new GermaniumOrePowder(),
-                new GoldOrePowder(),
-                new SliverOrePowder(),
-                new PlatinumOrePowder(),
-                new LeadOrePowder(),
-                new AluminumOrePowder(),
-                new ChromiumOrePowder(),
-                new StannaryOrePowder(),
-                new ZincOrePowder(),
-                new NickelOrePowder(),
-                new IronPlate(),
-                new CopperPlate(),
-                new LeadPlate(),
-                new SteelPlate(),
-                new ZincPlate(),
-                new PlatinumPlate(),
-                new AluminumPlate()
-            };
+				//new CarbonAerogels()
+			};
             IdTable = new Dictionary<string, int>(Items.Length);
 			int i;
 			for (i = 0; i < Items.Length; i++)
 			{
-				IdTable.Add(Items[i].GetType().ToString().Substring(5), i);
+				IdTable.Add(Items[i].GetType().ToString().Substring(5), BlockIndex | i << 14);
 			}
             /*var streamReader = new StreamReader(CustomTextureBlock.GetTargetFile("IndustrialMod.icsv"));
 			try

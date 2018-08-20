@@ -79,8 +79,12 @@ namespace Game
 			{
 				if (key.X >= originX && key.X < originX + 16 && key.Z >= originY && key.Z < originY + 16)
 				{
-					RemoveTorch(key);
+					list.Add(key);
 				}
+			}
+			for (int i = 0; i < list.Count; i++)
+			{
+				RemoveTorch(list[i]);
 			}
 		}
 		public override void Load(ValuesDictionary valuesDictionary)

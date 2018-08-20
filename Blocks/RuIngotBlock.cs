@@ -3,7 +3,7 @@ using Engine.Graphics;
 
 namespace Game
 {
-	public class RuIngotBlock : FlatItem
+	public class RuIngotBlock : MeshItem
 	{
 		public RuIngotBlock()
 		{
@@ -19,7 +19,6 @@ namespace Game
 		{
 			BlocksManager.DrawMeshBlock(primitivesRenderer, m_standaloneMesh, color, size * 2f, ref matrix, environmentData);
 		}
-
 		protected readonly BlockMesh m_standaloneBlockMesh = new BlockMesh();
 
 		protected readonly BlockMesh m_standaloneMesh = new BlockMesh();

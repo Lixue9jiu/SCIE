@@ -71,7 +71,7 @@
       "a a"
       "aaa"
      </Recipe>
-    <Recipe Result="SteelBlock" ResultCount="1" RequiredHeatLevel="0" a="IronPlate" Description="Combine many steel ingots to get the basic machine case">
+    <Recipe Result="SteelBlock" ResultCount="1" RequiredHeatLevel="0" a="ironplate" Description="Combine many steel ingots to get the basic machine case">
       "aaa"
       "a a"
       "aaa"
@@ -110,7 +110,7 @@
     </Recipe>
   </SteelTools>
   <Weapons>
-    <Recipe Result="Musket2Block" ResultCount="1" RequiredHeatLevel="0" a="planks" b="SteelPlate" c="barrel" Description="Make a Rifle from steelplate,barrel and planks">
+    <Recipe Result="Musket2Block" ResultCount="1" RequiredHeatLevel="0" a="planks" b="steelplate" c="RifleBarrel" Description="Make a Rifle from steelplate,barrel and planks">
       "ccb"
       "aaa"
     </Recipe>
@@ -122,15 +122,15 @@
       "aaa"
       " a "
     </Recipe>
-    <Recipe Result="DrillBlock:2" ResultCount="1" RequiredHeatLevel="0" a="IronPlate" Description="Make a Tubularis with iron">
+    <Recipe Result="DrillBlock:2" ResultCount="1" RequiredHeatLevel="0" a="ironplate" Description="Make a Tubularis with iron">
       "a"
       "a"
     </Recipe>
-    <Recipe Result="DrillBlock:3" ResultCount="1" RequiredHeatLevel="0" a="SteelPlate" Description="Make a Tubularis with steel">
+    <Recipe Result="DrillBlock:3" ResultCount="1" RequiredHeatLevel="0" a="steelplate" Description="Make a Tubularis with steel">
       "a"
       "a"
     </Recipe>
-    <Recipe Result="Bullet2Block:0" ResultCount="6" RequiredHeatLevel="0" a="ironingot" b="CopperPlate" c="gunpowder" d="detonator" Description="Make Iron Fixed Bullet">
+    <Recipe Result="Bullet2Block:0" ResultCount="6" RequiredHeatLevel="0" a="ironingot" b="copperplate" c="gunpowder" d="detonator" Description="Make Iron Fixed Bullet">
       " a "
       "bcb"
       " d "
@@ -172,7 +172,7 @@
       "ece"
       "ada"
     </Recipe>
-    <Recipe Result="TankBlock" ResultCount="1" RequiredHeatLevel="0" a="CopperPlate" Description="Make a empty tank">
+    <Recipe Result="TankBlock" ResultCount="1" RequiredHeatLevel="0" a="copperplate" Description="Make a empty tank">
       "aaa"
       "a a"
       "aaa"
@@ -202,7 +202,7 @@
       "aaa"
       "bab"
      </Recipe>
-    <Recipe Result="PresserNBlock" ResultCount="1" RequiredHeatLevel="0" a="IronPlate" b="ipiston" c="steelblock" d="steelgear" Description="Make a Kinbbler to create ore powder">
+    <Recipe Result="PresserNBlock" ResultCount="1" RequiredHeatLevel="0" a="ironplate" b="ipiston" c="steelblock" d="steelgear" Description="Make a Kinbbler to create ore powder">
       "bab"
       "dcd"
       "aba"
@@ -222,12 +222,12 @@
       "aba"
       "aaa"
     </Recipe>
-    <Recipe Result="FireBoxBlock" ResultCount="1" RequiredHeatLevel="0" a="IronPlate" b="furnace" Description="Make a firebox from stone and iron">
+    <Recipe Result="FireBoxBlock" ResultCount="1" RequiredHeatLevel="0" a="ironplate" b="furnace" Description="Make a firebox from stone and iron">
       "aaa"
       "aba"
       "aaa"
     </Recipe>
-    <Recipe Result="BlastBlowerBlock" ResultCount="1" RequiredHeatLevel="0" a="rod" b="piston" c="steelblock" d="IronPlate" e="steelgear" Description="Make a Blast Furnace Blower">
+    <Recipe Result="BlastBlowerBlock" ResultCount="1" RequiredHeatLevel="0" a="rod" b="piston" c="steelblock" d="ironplate" e="steelgear" Description="Make a Blast Furnace Blower">
       "bad"
       "bad"
       "ece"
@@ -237,7 +237,7 @@
       "aba"
       "aaa"
     </Recipe>
-    <Recipe Result="BoatIBlock" ResultCount="1" RequiredHeatLevel="0" a="IronPlate" b="boat" c="sengine" Description="A Boat with steamengine can let you travel with high speed">
+    <Recipe Result="BoatIBlock" ResultCount="1" RequiredHeatLevel="0" a="ironplate" b="boat" c="sengine" Description="A Boat with steamengine can let you travel with high speed">
       "aaa"
       "aba"
       "aca"

@@ -156,7 +156,7 @@ namespace Game
 					int value = 0;
 					if (m_smeltingRecipe == "barrel")
 					{
-						value = 522;
+						value = ItemBlock.Index | 4 << 14;
 					}
 					m_slots[ResultSlotIndex].Value = value;
 					m_slots[ResultSlotIndex].Count++;
