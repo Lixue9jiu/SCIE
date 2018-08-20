@@ -16,7 +16,7 @@ namespace Game
             Model model = ContentManager.Get<Model>("Models/Gear");
             Matrix boneAbsoluteTransform = BlockMesh.GetBoneAbsoluteTransform(model.FindMesh("Gear", true).ParentBone);
             BlockMesh blockMesh = new BlockMesh();
-            blockMesh.AppendModelMeshPart(model.FindMesh("Gear", true).MeshParts[0], boneAbsoluteTransform * 0.7f * Matrix.CreateTranslation(0f, 0f, 0f), false, false, false, false, Color.LightGray);
+            blockMesh.AppendModelMeshPart(model.FindMesh("Gear", true).MeshParts[0], boneAbsoluteTransform * 2f * Matrix.CreateTranslation(0f, 0f, 0f), false, false, false, false, Color.LightGray);
             blockMesh.TransformTextureCoordinates(Matrix.CreateTranslation(4f, 3.8f, 0f) * Matrix.CreateScale(0.05f), -1);
 			m_standaloneBlockMesh.AppendBlockMesh(blockMesh);
             base.Initialize();
