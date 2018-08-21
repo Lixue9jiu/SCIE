@@ -8,11 +8,7 @@ namespace Game
 		public override bool OnAim(Vector3 start, Vector3 direction, ComponentMiner componentMiner, AimState state)
 		{
 			int value = componentMiner.ActiveBlockValue;
-			if (!(BlocksManager.Blocks[Terrain.ExtractContents(value)] is ItemBlock item))
-				return false;
-			if (item.GetItem(ref value) is OreChunkBlock)
-				return base.OnAim(start, direction, componentMiner, state);
-			return false;
+			return BlocksManager.Blocks[Terrain.ExtractContents(value)] is ItemBlock item && item.GetItem(ref value) is OreChunkBlock && base.OnAim(start, direction, componentMiner, state);
 		}
 	}
 }

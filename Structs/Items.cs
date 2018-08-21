@@ -50,13 +50,13 @@ namespace Game
                 new ChromiumOrePowder(),
                 new NickelOrePowder(),
                 new AluminumOrePowder(),
-                new IronPlate(),
-                new CopperPlate(),
-                new SteelPlate(),
-                new LeadPlate(),
-                new ZincPlate(),
-                new PlatinumPlate(),
-                new AluminumPlate()
+				new SteelPlate(),
+				new IronPlate(),
+				new CopperPlate(),
+				new LeadPlate(),
+				new ZincPlate(),
+				new PlatinumPlate(),
+				new AluminumPlate()
 				//new CarbonAerogels()
 			};
             IdTable = new Dictionary<string, int>(Items.Length);

@@ -60,6 +60,7 @@
     <Compile Include="Blocks\IPistonBlock.cs" />
     <Compile Include="Blocks\ItemBlock.cs" />
     <Compile Include="Blocks\PaintableMagnetBlock.cs" />
+    <Compile Include="Blocks\RailBlock.cs" />
     <Compile Include="Blocks\RifleBarrel.cs" />
     <Compile Include="Blocks\SteelGearBlock.cs" />
     <Compile Include="Blocks\SteelGearMouldBlock.cs" />
@@ -68,10 +69,12 @@
     <Compile Include="Blocks\SteelWheelMouldBlock.cs" />
     <Compile Include="Blocks\MetalLineBlock.cs" />
     <Compile Include="Blocks\SqueezerBlock.cs" />
+    <Compile Include="Blocks\TrainBlock.cs" />
     <Compile Include="Components\ComponentMachine.cs" />
     <Compile Include="Components\ComponentSqueezer.cs" />
     <Compile Include="Blocks\OreChunkBlock.cs" />
     <Compile Include="Blocks\OrePowderBlock.cs" />
+    <Compile Include="Components\ComponentTrain.cs" />
     <Compile Include="Structs\CircuitDevices.cs" />
     <Compile Include="Structs\CircuitElements.cs" />
     <Compile Include="Structs\Elements.cs" />
@@ -79,8 +82,10 @@
     <Compile Include="Structs\Items.cs" />
     <Compile Include="Subsystems\SubsystemItemBlockBehavior.cs" />
     <Compile Include="Subsystems\SubsystemMineral.cs" />
+    <Compile Include="Subsystems\SubsystemRailBlockBehavior.cs" />
     <Compile Include="Subsystems\SubsystemSourceOfFireBlockBehavior.cs" />
-    <Compile Include="Subsystems\SubsystemUnstableBlockBehavior.cs" />
+    <Compile Include="Subsystems\SubsystemTrainBlockBehavior.cs" />
+    <Compile Include="Widgets\NewCraftingRecipeWidget.cs" />
     <Compile Include="Widgets\SqueezerWidget.cs" />
     <Compile Include="Subsystems\SubsystemSqueezerBlockBehavior.cs" />
     <Compile Include="Widgets\CastMachWidget.cs" />
