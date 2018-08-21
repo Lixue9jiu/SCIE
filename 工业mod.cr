@@ -70,10 +70,10 @@
     <Recipe Result="StannaryIngot" ResultCount="1" RequiredHeatLevel="300" a="StannaryOrePowder" Description="Smelt Stannary ore powder to obtain Stannary">
       "a"
      </Recipe>
-    <Recipe Result="StannaryIngot" ResultCount="1" RequiredHeatLevel="300" a="StannaryOreChunk" Description="Smelt Stannary ore chunk to obtain Stannary">
+    <Recipe Result="StannaryIngot" ResultCount="1" RequiredHeatLevel="300" a="StannaryChunk" Description="Smelt Stannary ore chunk to obtain Stannary">
       "a"
      </Recipe>
-    <Recipe Result="StannaryIngot" ResultCount="4" RequiredHeatLevel="300" a="StannaryOreChunk" Description="Smelt Stannary ore to obtain Stannary">
+    <Recipe Result="StannaryIngot" ResultCount="4" RequiredHeatLevel="300" a="StannaryChunk" Description="Smelt Stannary ore to obtain Stannary">
       "aaa"
      </Recipe>
     <Recipe Result="IronIngotBlock" ResultCount="4" RequiredHeatLevel="1500" a="ironorechunk" Description="Smelt iron ore to obtain iron">
@@ -88,7 +88,7 @@
      <Recipe Result="GermaniumChunkBlock" ResultCount="1" RequiredHeatLevel="900" a="germaniumorechunk" Description="Smelt germanium ore to obtain germanium crystals">
       "a"
      </Recipe>
-    <Recipe Result="SteelIngot" ResultCount="1" RequiredHeatLevel="1500" Remains="RnIngotBlock" RemainsCount="1" a="ironingot" Description="Smelt iron ingot to obtain steel and get rid of sulphur">
+    <Recipe Result="SteelIngot" ResultCount="1" RequiredHeatLevel="1500" Remains="RuIngotBlock" RemainsCount="1" a="ironingot" Description="Smelt iron ingot to obtain steel and get rid of sulphur">
       "aaa"
     </Recipe>
     <Recipe Result="CopperIngotBlock" ResultCount="1" RequiredHeatLevel="1000" a="CopperOrePowder" Description="Smelt copper ore powder to obtain copper">
