@@ -325,21 +325,21 @@ namespace Game
 			}
 			return new CraftingRecipe[0];
 		}
-		public override CraftingRecipe GetAdHocCraftingRecipe(SubsystemTerrain subsystemTerrain, string[] ingredients, float heatLevel)
+		/*public override CraftingRecipe GetAdHocCraftingRecipe(SubsystemTerrain subsystemTerrain, string[] ingredients, float heatLevel)
 		{
 			for (int i = 0; i < ingredients.Length; i++)
 			{
 				if (!string.IsNullOrEmpty(ingredients[i]))
 				{
 					CraftingRecipesManager.DecodeIngredient(ingredients[i], out string craftingId, out int? data);
-					if (craftingId == CraftingId)
+					if (craftingId == "item")
 					{
 						ingredients[i] = Items[data ?? 0].ToString().Substring(5);
 					}
 				}
 			}
 			return null;
-		}
+		}*/
 		public override bool IsFaceTransparent(SubsystemTerrain subsystemTerrain, int face, int value)
 		{
 			return GetItem(ref value).IsFaceTransparent(subsystemTerrain, face, value);

@@ -14,8 +14,13 @@ namespace Game
 		{
 			if (componentMiner.ActiveBlockValue == ItemBlock.IdTable["Train"])
 			{
+				var body = componentMiner.PickBody(start, direction);
 				var result = componentMiner.PickTerrainForDigging(start, direction);
-				if (result.HasValue && Terrain.ExtractContents(result.Value.Value) == RailBlock.Index)
+				if (body.HasValue && (!result.HasValue || body.Value.Distance < result.Value.Distance) && body.Value.ComponentBody.Entity.FindComponent<ComponentTrain>() != null)
+				{
+					Project.RemoveEntity(body.Value.ComponentBody.Entity, true);
+				}
+				else if (result.HasValue && Terrain.ExtractContents(result.Value.Value) == RailBlock.Index)
 				{
 					var cell = result.Value.CellFace;
 					var entity = DatabaseManager.CreateEntity(Project, "Train", true);
@@ -23,12 +28,6 @@ namespace Game
 					entity.FindComponent<ComponentFrame>(true).Rotation = componentMiner.ComponentCreature.ComponentBody.Rotation;
 					entity.FindComponent<ComponentSpawn>(true).SpawnDuration = 0f;
 					Project.AddEntity(entity);
-				}
-				else
-				{
-					var body = componentMiner.PickBody(start, direction);
-					if (body.HasValue && body.Value.ComponentBody.Entity.FindComponent<ComponentTrain>() != null)
-						Project.RemoveEntity(body.Value.ComponentBody.Entity, true);
 				}
 			}
 			return false;
