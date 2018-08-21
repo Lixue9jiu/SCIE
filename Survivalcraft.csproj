@@ -134,7 +134,7 @@
     <Compile Include="Blocks\FurnaceNBlock.cs" />
     <Compile Include="Widgets\FurnaceNWidget.cs" />
     <Compile Include="Blocks\MetalIngotBlock.cs" />
-    <Compile Include="Blocks\IronOrePowder4Block.cs" />
+    <Compile Include="Blocks\CoalPowder.cs" />
     <Compile Include="Blocks\LitEngineBlock.cs" />
     <Compile Include="Blocks\LitEngineHBlock.cs" />
     <Compile Include="Blocks\LitFurnaceNBlock.cs" />
@@ -149,7 +149,6 @@
     <Compile Include="Widgets\PresserWidget.cs" />
     <Compile Include="Blocks\SteelAxeBlock.cs" />
     <Compile Include="Blocks\SteelBlock.cs" />
-    <Compile Include="Blocks\SteelIngotBlock.cs" />
     <Compile Include="Blocks\SteelMacheteBlock.cs" />
     <Compile Include="Blocks\SteelPickaxeBlock.cs" />
     <Compile Include="Blocks\SteelRakeBlock.cs" />

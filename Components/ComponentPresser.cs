@@ -146,26 +146,9 @@ namespace Game
 				SmeltingProgress = MathUtils.Min(SmeltingProgress + 0.1f * dt, 1f);
 				if (SmeltingProgress >= 1f)
 				{
-					for (int l = 0; l < m_furnaceSize; l++)
-					{
-						if (m_slots[l].Count > 0)
-						{
-							m_slots[l].Count--;
-						}
-					}
-					int value = 0;
-					if (m_smeltingRecipe == "ironplate")
-					{
-						value = 510;
-					}
-					if (m_smeltingRecipe == "copperplate")
-					{
-						value = 511;
-					}
-					if (m_smeltingRecipe == "steelplate")
-					{
-						value = 520;
-					}
+					
+				    m_slots[0].Count--;
+					int value = ItemBlock.IdTable[m_smeltingRecipe];
 					m_slots[ResultSlotIndex].Value = value;
 					m_slots[ResultSlotIndex].Count++;
 					m_smeltingRecipe = null;
@@ -230,32 +213,45 @@ namespace Game
 				int num2 = Terrain.ExtractData(slotValue);
 				if (GetSlotCount(i) > 0)
 				{
-					var craftingId = BlocksManager.Blocks[num].CraftingId;
-					m_matchedIngredients[i] = craftingId + ":" + num2.ToString(CultureInfo.InvariantCulture);
-					if (craftingId == "ironingot")
+					if (slotValue == IronIngotBlock.Index)
 					{
-						text = "ironplate";
+						text = "IronPlate";
 					}
-					if (craftingId == "copperingot")
+					if (slotValue == CopperIngotBlock.Index)
 					{
-						text = "copperplate";
+						text = "CopperPlate";
 					}
-					if (craftingId == "steelingot")
+					if (slotValue == ItemBlock.IdTable["SteelIngot"])
 					{
-						text = "steelplate";
+						text = "SteelPlate";
 					}
-				}
+                    if (slotValue == ItemBlock.IdTable["LeadIngot"])
+                    {
+                        text = "LeadPlate";
+                    }
+                    if (slotValue == ItemBlock.IdTable["ZincIngot"])
+                    {
+                        text = "ZincPlate";
+                    }
+                    if (slotValue == ItemBlock.IdTable["PlatinumIngot"])
+                    {
+                        text = "PlatinumPlate";
+                    }
+                    if (slotValue == ItemBlock.IdTable["AluminumIngot"])
+                    {
+                        text = "AluminumPlate";
+                    }
+                }
 				else
 				{
-					m_matchedIngredients[i] = null;
+
 				}
 			}
 			if (text != null)
 			{
 				Slot slot = m_slots[ResultSlotIndex];
 				int num3 = Terrain.ExtractContents(GetSlotValue(1));
-				string craftingId = BlocksManager.Blocks[num3].CraftingId;
-				if (slot.Count != 0 && (craftingId != text || 1 + slot.Count > 40))
+				if (slot.Count != 0 && (slot.Value!= ItemBlock.IdTable[text] || 1 + slot.Count > 40))
 				{
 					text = null;
 				}

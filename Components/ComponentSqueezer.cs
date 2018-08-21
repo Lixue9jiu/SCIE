@@ -153,7 +153,7 @@ namespace Game
 							m_slots[l].Count--;
 						}
 					}
-					m_slots[ResultSlotIndex].Value = CraftingRecipesManager.DecodeResult(m_smeltingRecipe);
+					m_slots[ResultSlotIndex].Value = ItemBlock.IdTable[m_smeltingRecipe];
 					m_slots[ResultSlotIndex].Count++;
 					m_smeltingRecipe = null;
 					SmeltingProgress = 0f;
@@ -217,17 +217,16 @@ namespace Game
 				int num2 = Terrain.ExtractData(slotValue);
 				if (GetSlotCount(i) > 0)
 				{
-					Block block = BlocksManager.Blocks[num];
-					m_matchedIngredients[i] = block.CraftingId + ":" + num2.ToString(CultureInfo.InvariantCulture);
-					if (block.CraftingId.ToString() == "ironingot")
+					
+					if (slotValue == IronIngotBlock.Index)
 					{
 						text = "IronLine";
 					}
-					else if (block.CraftingId.ToString() == "copperingot")
+					else if (slotValue == CopperIngotBlock.Index)
                     {
                         text = "CopperLine";
 					}
-					else if (block.CraftingId.ToString() == "steelingot")
+					else if (slotValue == ItemBlock.IdTable["SteelIngot"])
                     {
                         text = "SteelLine";
 					}
@@ -240,7 +239,7 @@ namespace Game
 			if (text != null)
 			{
 				Slot slot = m_slots[ResultSlotIndex];
-				if (slot.Count != 0 && (GetSlotValue(1) != CraftingRecipesManager.DecodeResult(text) || 1 + slot.Count > 40))
+				if (slot.Count != 0 && (GetSlotValue(1) != ItemBlock.IdTable[text] || 1 + slot.Count > 40))
 				{
 					text = null;
 				}
