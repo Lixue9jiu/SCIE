@@ -80,7 +80,7 @@
     <Compile Include="Subsystems\SubsystemItemBlockBehavior.cs" />
     <Compile Include="Subsystems\SubsystemMineral.cs" />
     <Compile Include="Subsystems\SubsystemSourceOfFireBlockBehavior.cs" />
-    <Compile Include="Subsystems\SubsystemUnstableBlockBehavior.cs" />
+    <Compile Include="Widgets\NewCraftingRecipeWidget.cs" />
     <Compile Include="Widgets\SqueezerWidget.cs" />
     <Compile Include="Subsystems\SubsystemSqueezerBlockBehavior.cs" />
     <Compile Include="Widgets\CastMachWidget.cs" />

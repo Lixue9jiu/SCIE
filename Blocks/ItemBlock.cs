@@ -1,10 +1,6 @@
 ﻿using System.Collections.Generic;
-using System.Collections;
 using Engine;
 using Engine.Graphics;
-using System;
-using System.Xml.Linq;
-using XmlUtilities;
 using System.Linq;
 using System.Globalization;
 
@@ -19,81 +15,20 @@ namespace Game
 		};
 		static void Initialize()
 		{
-			CraftingRecipesManager.Initialize1 = CRInitialize;
 			BlocksManager.DamageItem1 = DamageItem;
+			BlocksManager.FindBlocksByCraftingId1 = FindBlocksByCraftingId;
 		}
-		public static void CRInitialize()
+		public static Block[] FindBlocksByCraftingId(string craftingId)
 		{
-			CraftingRecipesManager.m_recipes = new List<CraftingRecipe>();
-			foreach (XElement item in ContentManager.ConbineXElements(ContentManager.Get<XElement>("CraftingRecipes"), ModsManager.GetEntries(".cr"), "Description", "Result", "Recipes").Descendants("Recipe"))
+			if (ItemBlock.IdTable.TryGetValue(craftingId, out int value))
 			{
-				CraftingRecipe craftingRecipe = new CraftingRecipe();
-				string attributeValue = XmlUtils.GetAttributeValue<string>(item, "Result");
-				craftingRecipe.ResultValue = CraftingRecipesManager.DecodeResult(attributeValue);
-				craftingRecipe.ResultCount = XmlUtils.GetAttributeValue<int>(item, "ResultCount");
-				string attributeValue2 = XmlUtils.GetAttributeValue(item, "Remains", string.Empty);
-				if (!string.IsNullOrEmpty(attributeValue2))
-				{
-					craftingRecipe.RemainsValue = CraftingRecipesManager.DecodeResult(attributeValue2);
-					craftingRecipe.RemainsCount = XmlUtils.GetAttributeValue<int>(item, "RemainsCount");
-				}
-				craftingRecipe.RequiredHeatLevel = XmlUtils.GetAttributeValue<float>(item, "RequiredHeatLevel");
-				craftingRecipe.Description = XmlUtils.GetAttributeValue<string>(item, "Description");
-				if (craftingRecipe.ResultCount > BlocksManager.Blocks[Terrain.ExtractContents(craftingRecipe.ResultValue)].MaxStacking)
-				{
-					throw new InvalidOperationException(string.Format("In recipe for \"{0}\" ResultCount is larger than max stacking of result block.", new object[1]
-					{
-					attributeValue
-					}));
-				}
-				if (craftingRecipe.RemainsValue != 0 && craftingRecipe.RemainsCount > BlocksManager.Blocks[Terrain.ExtractContents(craftingRecipe.RemainsValue)].MaxStacking)
-				{
-					throw new InvalidOperationException(string.Format("In Recipe for \"{0}\" RemainsCount is larger than max stacking of remains block.", new object[1]
-					{
-					attributeValue2
-					}));
-				}
-				Dictionary<char, string> dictionary = new Dictionary<char, string>();
-				foreach (XAttribute item2 in item.Attributes().Where(CraftingRecipesManager.Initialize_b__0))
-				{
-					CraftingRecipesManager.DecodeIngredient(item2.Value, out string craftingId, out int? data);
-					if (data.HasValue && (data.Value < 0 || data.Value > 262143))
-					{
-						throw new InvalidOperationException(string.Format("Data in recipe ingredient \"{0}\" must be between 0 and 0x3FFFF.", new object[1]
-						{
-						item2.Value
-						}));
-					}
-					dictionary.Add(item2.Name.LocalName[0], item2.Value);
-				}
-				string[] array = item.Value.Trim().Split('\n');
-				for (int i = 0; i < array.Length; i++)
-				{
-					int num = array[i].IndexOf('"');
-					int num2 = array[i].LastIndexOf('"');
-					if (num < 0 || num2 < 0 || num2 <= num)
-					{
-						throw new InvalidOperationException("Invalid recipe line.");
-					}
-					string text = array[i].Substring(num + 1, num2 - num - 1);
-					for (int j = 0; j < text.Length; j++)
-					{
-						char c = text[j];
-						if (char.IsLower(c))
-						{
-							string text2 = dictionary[c];
-							craftingRecipe.Ingredients[j + i * 3] = text2;
-						}
-					}
-				}
-				CraftingRecipesManager.m_recipes.Add(craftingRecipe);
+				return new Block[] { BlocksManager.Blocks[ItemBlock.Index] };
 			}
-			Block[] blocks = BlocksManager.Blocks;
-			for (int i = 0; i < blocks.Length; i++)
+			var c__DisplayClass = new BlocksManager.c__DisplayClass6
 			{
-				CraftingRecipesManager.m_recipes.AddRange(blocks[i].GetProceduralCraftingRecipes());
-			}
-			CraftingRecipesManager.m_recipes.Sort(CraftingRecipesManager.Initialize_b__1);
+				craftingId = craftingId
+			};
+			return BlocksManager.Blocks.Where(c__DisplayClass.FindBlocksByCraftingId_b__5).ToArray();
 		}
 		public static int DamageItem(int value, int damageCount)
 		{
@@ -345,9 +280,9 @@ namespace Game
 		}
 		public virtual int DecodeResult(string result)
 		{
-			if (IdTable.TryGetValue(result, out int data))
+			if (IdTable.TryGetValue(result, out int value))
 			{
-				return data;
+				return value;
 			}
 			string[] array = result.Split(':');
 			return Terrain.MakeBlockValue(BlocksManager.FindBlockByTypeName(array[0], true).BlockIndex, 0, array.Length >= 2 ? int.Parse(array[1], CultureInfo.InvariantCulture) : 0);

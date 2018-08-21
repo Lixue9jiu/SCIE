@@ -72,6 +72,15 @@ namespace Game
 		public override void GetDropValues(SubsystemTerrain subsystemTerrain, int oldValue, int newValue, int toolLevel, List<BlockDropValue> dropValues, out bool showDebris)
 		{
 			int data = Terrain.ExtractData(oldValue);
+			if ((data & 65536) != 0)
+			{
+				data ^= 65536;
+				dropValues.Add(new BlockDropValue
+				{
+					Value = Terrain.ReplaceData(MagmaBlock.Index, FluidBlock.SetLevel(0, 2)),
+					Count = 1
+				});
+			}
 			if (IsColored(data) || toolLevel < 3)
 				base.GetDropValues(subsystemTerrain, oldValue, newValue, toolLevel, dropValues, out showDebris);
 			data = data >> 1 & 16383;
@@ -161,7 +170,7 @@ namespace Game
 		public override void GetDropValues(SubsystemTerrain subsystemTerrain, int oldValue, int newValue, int toolLevel, List<BlockDropValue> dropValues, out bool showDebris)
 		{
 			int data = Terrain.ExtractData(oldValue) >> 1 & 16383;
-			if (data > 0 && data < 10 && toolLevel > 2)
+			if (data > 0 && data < 10 && toolLevel > 3)
 			{
 				dropValues.Add(new BlockDropValue
 				{
@@ -171,8 +180,15 @@ namespace Game
 			}
 			base.GetDropValues(subsystemTerrain, oldValue, newValue, toolLevel, dropValues, out showDebris);
 		}
+		public override string GetDisplayName(SubsystemTerrain subsystemTerrain, int value)
+		{
+			int data = Terrain.ExtractData(value);
+			if (IsColored(data) || data == 0 || data > 18)
+				return base.GetDisplayName(subsystemTerrain, value);
+			return "Rare " + base.GetDisplayName(subsystemTerrain, value);
+		}
 	}
-	public class SubsystemMineral : SubsystemRotBlockBehavior
+	public class SubsystemMineral : SubsystemCollapsingBlockBehavior
 	{
 		public enum BrushType
 		{
@@ -209,7 +225,10 @@ namespace Game
 		//public static byte[] Used;
 		//public static HashSet<int> Handled;
 
-		public override int[] HandledBlocks => new int[0];/*
+		public override int[] HandledBlocks => new int[]
+		{
+			BasaltBlock.Index
+		};/*
 				{
 					DirtBlock.Index,
 					GraniteBlock.Index,
@@ -363,7 +382,7 @@ namespace Game
 
 		public override void OnChunkInitialized(TerrainChunk chunk)
 		{
-			if (!(SubsystemTerrain.TerrainContentsGenerator is TerrainContentsGenerator generator))
+			if (!(SubsystemTerrain.TerrainContentsGenerator is TerrainContentsGenerator generator) || chunk.ModificationCounter != 0)
 			{
 				return;
 			}
@@ -424,6 +443,37 @@ namespace Game
 					for (k = 20 + (int)(8f * num2 * SimplexNoise.OctavedNoise((float)(i + fa ^ f5 + f1), (float)(j + fc - f9), 0.33f, 1, 1f, 1f)); k-- != 0;)
 					{
 						chunk.PaintMaskSelective(PbBrushes[random.Int() & 15].Cells, ix16 | (random.Int() & 15), random.UniformInt(2, 50), jx16 | (random.Int() & 15), index | 65536 << 14);
+					}
+				}
+			}
+		}
+		public override void OnNeighborBlockChanged(int x, int y, int z, int neighborX, int neighborY, int neighborZ)
+		{
+			if (m_subsystemGameInfo.WorldSettings.EnvironmentBehaviorMode != EnvironmentBehaviorMode.Living || y <= 0)
+				return;
+			int value = SubsystemTerrain.Terrain.GetCellValue(x, y - 1, z);
+			if (!IsCollapseSupportBlock(value))
+			{
+				List<MovingBlock> list = new List<MovingBlock>();
+				for (int i = y; i < 128; i++)
+				{
+					value = SubsystemTerrain.Terrain.GetCellValue(x, i, z);
+					if (Terrain.ExtractContents(value) != 67 || (Terrain.ExtractData(value) & 65536) == 0)
+					{
+						break;
+					}
+					list.Add(new MovingBlock
+					{
+						Value = value,
+						Offset = new Point3(0, i - y, 0)
+					});
+				}
+				if (list.Count != 0 && m_subsystemMovingBlocks.AddMovingBlockSet(new Vector3(x, y, z), new Vector3((float)x, (float)(-list.Count - 1), (float)z), 0f, 10f, 0.7f, new Vector2(0f), list, "CollapsingBlock", null, true) != null)
+				{
+					for (int i = 0; i < list.Count; i++)
+					{
+						Point3 point = list[i].Offset;
+						SubsystemTerrain.ChangeCell(point.X + x, point.Y + y, point.Z + z, 0, true);
 					}
 				}
 			}
