@@ -13,7 +13,7 @@ namespace Game
 
         public override bool OnUse(Vector3 start, Vector3 direction, ComponentMiner componentMiner)
         {
-            if (Terrain.ExtractContents(componentMiner.ActiveBlockValue) == 501)
+            if (Terrain.ExtractContents(componentMiner.ActiveBlockValue) == TrainBlock.Index)
             {
                 var result = componentMiner.PickTerrainForDigging(start, direction);
                 if (result.HasValue && Terrain.ExtractContents(result.Value.Value) == RailBlock.Index)

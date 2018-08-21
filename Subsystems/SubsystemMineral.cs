@@ -72,19 +72,13 @@ namespace Game
 		public override void GetDropValues(SubsystemTerrain subsystemTerrain, int oldValue, int newValue, int toolLevel, List<BlockDropValue> dropValues, out bool showDebris)
 		{
 			int data = Terrain.ExtractData(oldValue);
-			if ((data & 65536) != 0)
-			{
-				data ^= 65536;
-				dropValues.Add(new BlockDropValue
-				{
-					Value = Terrain.ReplaceData(MagmaBlock.Index, FluidBlock.SetLevel(0, 2)),
-					Count = 1
-				});
-			}
 			if (IsColored(data) || toolLevel < 3)
+			{
 				base.GetDropValues(subsystemTerrain, oldValue, newValue, toolLevel, dropValues, out showDebris);
+				return;
+			}
 			data = data >> 1 & 16383;
-			if (data > 0 && data < 10)
+			if (data > 0 && data < 11)
 			{
 				dropValues.Add(new BlockDropValue
 				{
@@ -102,28 +96,48 @@ namespace Game
 			}
 			showDebris = true;
 		}
+		public override BlockPlacementData GetDigValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, int toolValue, TerrainRaycastResult raycastResult)
+		{
+			var cellFace = raycastResult.CellFace;
+			int x = cellFace.X, y = cellFace.Y, z = cellFace.Z;
+			Terrain terrain = subsystemTerrain.Terrain;
+			return new BlockPlacementData
+			{
+				Value = (Terrain.ExtractData(value) & 65536) != 0 ? Terrain.ReplaceData(MagmaBlock.Index
+					, FluidBlock.SetIsTop(FluidBlock.SetLevel(0, 4), toolValue == MagmaBucketBlock.Index)) : 0,
+				CellFace = raycastResult.CellFace
+			};
+		}
 		public override int GetFaceTextureSlot(int face, int value)
 		{
 			int data = Terrain.ExtractData(value);
 			if (IsColored(data))
 				return m_coloredTextureSlot;
 			data = data >> 1 & 16383;
-			return data > 0 && data < 10 ? 9 : DefaultTextureSlot;
+			return data > 0 && data < 11 ? 9 : DefaultTextureSlot;
 		}
 		public override string GetDisplayName(SubsystemTerrain subsystemTerrain, int value)
 		{
 			int data = Terrain.ExtractData(value);
-			if (IsColored(data) || data == 0 || data > 18)
-				return base.GetDisplayName(subsystemTerrain, value);
-			string name = BlocksManager.Blocks[ItemBlock.Index].GetDisplayName(subsystemTerrain, Terrain.ReplaceData(ItemBlock.Index, (data >> 1) + 5));
+			string name = (data & 65536) != 0 ? "Unstable " : string.Empty;
+			data &= 16383;
+			if (IsColored(data) || data == 0 || data > 20)
+				return name + base.GetDisplayName(subsystemTerrain, value);
+			name += BlocksManager.Blocks[ItemBlock.Index].GetDisplayName(subsystemTerrain, Terrain.ReplaceData(ItemBlock.Index, (data >> 1) + 5));
 			return name.Substring(0, name.Length - 5);
 		}
 		public override IEnumerable<int> GetCreativeValues()
 		{
 			var list = new List<int>(base.GetCreativeValues());
-			for (int i = 1; i < 10; i++)
+			int i = 1;
+			for (; i < 11; i++)
 			{
 				list.Add(BlockIndex | i << 15);
+			}
+			i = 0;
+			for (int count = list.Count; i < count; i++)
+			{
+				list.Add(list[i] | 65536 << 14);
 			}
 			return list;
 		}
@@ -170,7 +184,7 @@ namespace Game
 		public override void GetDropValues(SubsystemTerrain subsystemTerrain, int oldValue, int newValue, int toolLevel, List<BlockDropValue> dropValues, out bool showDebris)
 		{
 			int data = Terrain.ExtractData(oldValue) >> 1 & 16383;
-			if (data > 0 && data < 10 && toolLevel > 3)
+			if (data > 0 && data < 11 && toolLevel > 3)
 			{
 				dropValues.Add(new BlockDropValue
 				{
