@@ -53,7 +53,7 @@ namespace Game
                 }
             }
             bool flag = this.m_componentBody.ImmersionFactor > 0.95f;
-            object obj = !flag && this.m_componentBody.ImmersionFactor > 0.01f && this.m_componentBody.StandingOnValue == null && this.m_componentBody.StandingOnBody == null;
+            bool obj = !flag && this.m_componentBody.ImmersionFactor > 0.01f && this.m_componentBody.StandingOnValue == null && this.m_componentBody.StandingOnBody == null;
             this.m_turnSpeed += 2.5f * this.m_subsystemTime.GameTimeDelta * (1f * this.TurnOrder - this.m_turnSpeed);
             Quaternion rotation = this.m_componentBody.Rotation;
             float num = MathUtils.Atan2(2f * rotation.Y * rotation.W - 2f * rotation.X * rotation.Z, 1f - 2f * rotation.Y * rotation.Y - 2f * rotation.Z * rotation.Z);
@@ -63,13 +63,13 @@ namespace Game
             {
                 num2 =  componentEngine.HeatLevel;
             }
-            object obj2 = obj;
-            if (obj2 != null && num2 != 0f)
+            bool obj2 = obj;
+            if (obj2  && num2 != 0f)
             {
                 num -= this.m_turnSpeed * dt;
             }
             this.m_componentBody.Rotation = Quaternion.CreateFromAxisAngle(Vector3.UnitY, num);
-            if (obj2 != null && this.MoveOrder != 0f)
+            if (obj2  && this.MoveOrder != 0f)
             {
                 this.m_componentBody.Velocity += dt * num2/90f * this.MoveOrder * this.m_componentBody.Matrix.Forward;
             }
