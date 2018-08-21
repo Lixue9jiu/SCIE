@@ -53,7 +53,7 @@ namespace Game
 		}
 		public virtual string GetDisplayName(SubsystemTerrain subsystemTerrain, int value)
 		{
-			return GetType().ToString();
+			return GetType().ToString().Substring(5);
 		}
 		public virtual string GetDescription(int value)
 		{
