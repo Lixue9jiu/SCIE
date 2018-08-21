@@ -154,22 +154,13 @@ namespace Game
 						}
 					}
 					int value = 0;
-					if (m_smeltingRecipe == "ironorepowder")
+					if (m_smeltingRecipe != "CoalPowder")
 					{
-						value = 514;
-					}
-					if (m_smeltingRecipe == "copperorepowder")
-					{
-						value = 515;
-					}
-					if (m_smeltingRecipe == "gerorepowder")
-					{
-						value = 516;
-					}
-					if (m_smeltingRecipe == "coalpowder")
-					{
-						value = 517;
-					}
+						value = ItemBlock.IdTable[m_smeltingRecipe];
+					}else
+                    {
+                        value = CoalPowderBlock.Index;
+                    }
 					m_slots[ResultSlotIndex].Value = value;
 					m_slots[ResultSlotIndex].Count += 2;
 					m_smeltingRecipe = null;
@@ -234,25 +225,55 @@ namespace Game
 				int num2 = Terrain.ExtractData(slotValue);
 				if (GetSlotCount(i) > 0)
 				{
-					Block block = BlocksManager.Blocks[num];
-					m_matchedIngredients[i] = block.CraftingId + ":" + num2.ToString(CultureInfo.InvariantCulture);
-					if (block.CraftingId == "ironorechunk")
+                    if (slotValue == IronOreChunkBlock.Index)
 					{
-						text = "ironorepowder";
+						text = "IronOrePowder";
 					}
-					if (block.CraftingId == "malachitechunk")
+					if (slotValue == MalachiteChunkBlock.Index)
 					{
-						text = "copperorepowder";
+						text = "CopperOrePowder";
 					}
-					if (block.CraftingId == "germaniumorechunk")
+					if (slotValue== GermaniumOreChunkBlock.Index)
 					{
-						text = "gerorepowder";
+						text = "GermaniumOrePowder";
 					}
-					if (block.CraftingId == "coalchunk")
+					if (slotValue == CoalChunkBlock.Index)
 					{
-						text = "coalpowder";
+						text = "CoalPowder";
 					}
-				}
+                    if (slotValue == ItemBlock.IdTable["GoldOreChunk"])
+                    {
+                        text = "GoldOrePowder";
+                    }
+                    if (slotValue == ItemBlock.IdTable["SliverOreChunk"])
+                    {
+                        text = "SliverOrePowder";
+                    }
+                    if (slotValue == ItemBlock.IdTable["PlatinumOreChunk"])
+                    {
+                        text = "PlatinumOrePowder";
+                    }
+                    if (slotValue == ItemBlock.IdTable["LeadOreChunk"])
+                    {
+                        text = "LeadOrePowder";
+                    }
+                    if (slotValue == ItemBlock.IdTable["ZincOreChunk"])
+                    {
+                        text = "ZincOrePowder";
+                    }
+                    if (slotValue == ItemBlock.IdTable["StannaryChunk"])
+                    {
+                        text = "StannaryOrePowder";
+                    }
+                    if (slotValue == ItemBlock.IdTable["ChromiumOreChunk"])
+                    {
+                        text = "ChromiumOrePowder";
+                    }
+                    if (slotValue == ItemBlock.IdTable["NickelOreChunk"])
+                    {
+                        text = "NickelOrePowder";
+                    }
+                }
 				else
 				{
 					m_matchedIngredients[i] = null;
@@ -262,11 +283,14 @@ namespace Game
 			{
 				Slot slot = m_slots[ResultSlotIndex];
 				int num3 = Terrain.ExtractContents(GetSlotValue(1));
-				string craftingId = BlocksManager.Blocks[num3].CraftingId;
-				if (slot.Count != 0 && (craftingId != text || 2 + slot.Count > 40))
+				if (slot.Count != 0 && (slot.Value!= ItemBlock.IdTable[text] || 2 + slot.Count > 40) && text != "CoalPowder")
 				{
 					text = null;
 				}
+                if (slot.Count !=0 && text == "CoalPowder" && (slot.Value != CoalPowderBlock.Index || 2 + slot.Count > 40))
+                {
+                    text = null;
+                }
 			}
 			return text;
 		}

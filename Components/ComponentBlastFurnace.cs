@@ -129,24 +129,24 @@ namespace Game
 				SmeltingProgress = MathUtils.Min(SmeltingProgress + 0.1f * dt, 1f);
 				if ((double)SmeltingProgress >= 1.0)
 				{
-					string[] array = new string[]
+					int[] array = new int[]
 					{
-						"ironorechunk",
-						"ironorepowder",
-						"coalchunk",
-						"coalpowder",
-						"sand",
-						"pigment",
-						"ironingot"
-					};
+                        IronOreChunkBlock.Index,
+                        ItemBlock.IdTable["IronOrePowder"],
+                        CoalChunkBlock.Index,
+                        CoalPowderBlock.Index,
+                        SandBlock.Index,
+                        PigmentBlock.Index,
+                        IronIngotBlock.Index
+                    };
 					for (int l = 0; l < 7; l++)
 					{
 						if (m_matchedIngredients[l] > 0)
 						{
-							string b = array[l];
+							int b = array[l];
 							for (int m = 0; m < m_furnaceSize; m++)
 							{
-								if (m_slots[m].Count > 0 && BlocksManager.Blocks[GetSlotValue(m)].CraftingId == b)
+								if (m_slots[m].Count > 0 && GetSlotValue(m) == b)
 								{
 									if (m_slots[m].Count >= m_matchedIngredients[l])
 									{
@@ -168,12 +168,12 @@ namespace Game
 					}
 					if (m_matchedIngredients[8] >= 1)
 					{
-						m_slots[ResultSlotIndex].Value = 508;
+						m_slots[ResultSlotIndex].Value = ItemBlock.IdTable["SteelIngot"];
 						m_slots[ResultSlotIndex].Count += m_matchedIngredients[8];
 					}
 					if (m_matchedIngredients[7] >= 1)
 					{
-						m_slots[RemainsSlotIndex].Value = ItemBlock.Index | 5 << 14;
+						m_slots[RemainsSlotIndex].Value = ItemBlock.IdTable["RnIngotBlock"];
 						m_slots[RemainsSlotIndex].Count += m_matchedIngredients[7];
 					}
 					if (m_matchedIngredients[9] >= 1)
@@ -250,36 +250,34 @@ namespace Game
 			{
 				int slotValue = GetSlotValue(i);
 				int num = Terrain.ExtractContents(slotValue);
-				Terrain.ExtractData(slotValue);
 				int slotCount = GetSlotCount(i);
 				if (GetSlotCount(i) > 0)
 				{
-					Block block = BlocksManager.Blocks[num];
-					if (block.CraftingId == "ironorechunk")
+					if (slotValue==IronOreChunkBlock.Index)
 					{
 						m_matchedIngredients2[0] += slotCount;
 					}
-					else if (block.CraftingId == "ironorepowder")
+					else if (slotValue == ItemBlock.IdTable["IronOrePowder"])
 					{
 						m_matchedIngredients2[1] += slotCount;
 					}
-					else if (block.CraftingId == "coalchunk")
+					else if (slotValue == CoalChunkBlock.Index)
 					{
 						m_matchedIngredients2[2] += slotCount;
 					}
-					else if (block.CraftingId == "coalpowder")
+					else if (slotValue == CoalPowderBlock.Index)
 					{
 						m_matchedIngredients2[3] += slotCount;
 					}
-					else if (block.CraftingId == "sand")
+					else if (slotValue == SandBlock.Index)
 					{
 						m_matchedIngredients2[4] += slotCount;
 					}
-					else if (block.CraftingId == "pigment")
+					else if (slotValue == PigmentBlock.Index)
 					{
 						m_matchedIngredients2[5] += slotCount;
 					}
-					else if (block.CraftingId == "ironingot")
+					else if (slotValue == IronIngotBlock.Index)
 					{
 						m_matchedIngredients2[6] += slotCount;
 					}
@@ -364,15 +362,16 @@ namespace Game
                     flag = true;
                 }
             }
-			if (m_matchedIngredients[8] >= 1 && (BlocksManager.Blocks[m_slots[ResultSlotIndex].Value].CraftingId != "steelingot" || m_slots[ResultSlotIndex].Count + m_matchedIngredients[8] > 40) && m_slots[ResultSlotIndex].Count != 0)
+
+            if (m_matchedIngredients[8] >= 1 && (m_slots[ResultSlotIndex].Value != ItemBlock.IdTable["steelIngot"] || m_slots[ResultSlotIndex].Count + m_matchedIngredients[8] > 40) && m_slots[ResultSlotIndex].Count != 0)
 			{
 				flag = false;
 			}
-			if (m_matchedIngredients[7] >= 1 && (BlocksManager.Blocks[m_slots[RemainsSlotIndex].Value].CraftingId != "scrapIron" || m_slots[RemainsSlotIndex].Count + m_matchedIngredients[7] > 40) && m_slots[RemainsSlotIndex].Count != 0)
+			if (m_matchedIngredients[7] >= 1 && (m_slots[ResultSlotIndex].Value != ItemBlock.IdTable["RnIngotBlock"] || m_slots[RemainsSlotIndex].Count + m_matchedIngredients[7] > 40) && m_slots[RemainsSlotIndex].Count != 0)
 			{
 				flag = false;
 			}
-			if (m_matchedIngredients[9] >= 1 && (BlocksManager.Blocks[m_slots[ResultSlotIndex].Value].CraftingId != "ironingot" || m_slots[ResultSlotIndex].Count + m_matchedIngredients[9] > 40) && m_slots[ResultSlotIndex].Count != 0)
+			if (m_matchedIngredients[9] >= 1 && (m_slots[ResultSlotIndex].Value != IronIngotBlock.Index || m_slots[ResultSlotIndex].Count + m_matchedIngredients[9] > 40) && m_slots[ResultSlotIndex].Count != 0)
 			{
 				flag = false;
 			}

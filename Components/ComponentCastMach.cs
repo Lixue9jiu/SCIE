@@ -221,13 +221,12 @@ namespace Game
 				int num2 = Terrain.ExtractData(slotValue);
 				if (GetSlotCount(i) > 0 && GetSlotValue(1)>0)
 				{
-					var block = BlocksManager.Blocks[num].CraftingId;
 					var block2 = BlocksManager.Blocks[Terrain.ExtractContents(GetSlotValue(1))].CraftingId;
-					if (block == "steelingot" && block2 == "steelgearmould")
+					if (slotValue == ItemBlock.IdTable["SteelIngot"] && block2 == "steelgearmould")
 					{
 						text = "steelgear";
 					}
-                    if (block == "steelingot" && block2 == "steelwheelmould")
+                    if (slotValue == ItemBlock.IdTable["SteelIngot"] && block2 == "steelwheelmould")
 					{
 						text = "steelwheel";
 					}

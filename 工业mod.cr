@@ -34,8 +34,47 @@
     <Recipe Result="IronIngotBlock" ResultCount="1" RequiredHeatLevel="1500" a="IronOrePowder" Description="Smelt iron ore powder to obtain iron">
       "a"
      </Recipe>
-    <Recipe Result="GoldIngot" ResultCount="1" RequiredHeatLevel="1200" a="GoldOrePowder" Description="Smelt gold ore powder to obtain gold">
+    <Recipe Result="GoldIngot" ResultCount="1" RequiredHeatLevel="1100" a="GoldOrePowder" Description="Smelt gold ore powder to obtain gold">
       "a"
+     </Recipe>
+    <Recipe Result="GoldIngot" ResultCount="1" RequiredHeatLevel="1100" a="GoldOreChunk" Description="Smelt gold ore chunk to obtain gold">
+      "a"
+     </Recipe>
+    <Recipe Result="GoldIngot" ResultCount="4" RequiredHeatLevel="1100" a="GoldOreChunk" Description="Smelt Gold ore to obtain gold">
+      "aaa"
+     </Recipe>
+    <Recipe Result="SliverIngot" ResultCount="1" RequiredHeatLevel="900" a="SliverOrePowder" Description="Smelt Sliver ore powder to obtain sliver">
+      "a"
+     </Recipe>
+    <Recipe Result="SliverIngot" ResultCount="1" RequiredHeatLevel="900" a="SliverOreChunk" Description="Smelt sliver ore chunk to obtain sliver">
+      "a"
+     </Recipe>
+    <Recipe Result="SliverIngot" ResultCount="4" RequiredHeatLevel="900" a="SliverOreChunk" Description="Smelt sliver ore to obtain sliver">
+      "aaa"
+     </Recipe>
+    <Recipe Result="PlatinumIngot" ResultCount="1" RequiredHeatLevel="1800" a="PlatinumOrePowder" Description="Smelt Platinum ore powder to obtain Platinum">
+      "a"
+     </Recipe>
+    <Recipe Result="PlatinumIngot" ResultCount="1" RequiredHeatLevel="1800" a="PlatinumOreChunk" Description="Smelt Platinum ore chunk to obtain Platinum">
+      "a"
+     </Recipe>
+    <Recipe Result="PlatinumIngot" ResultCount="4" RequiredHeatLevel="1800" a="PlatinumOreChunk" Description="Smelt Platinum ore to obtain Platinum">
+      "aaa"
+     </Recipe>
+    <Recipe Result="ZincIngot" ResultCount="1" RequiredHeatLevel="800" a="ZincOrePowder" b="coalpowder" Description="Smelt Zinc ore powder to obtain Zinc">
+      "abb"
+     </Recipe>
+    <Recipe Result="NickelIngot" ResultCount="1" RequiredHeatLevel="1200" a="NickelOrePowder" b="coalpowder" c="pigment" Description="Smelt Nickel ore powder to obtain Nickel">
+      "abc"
+     </Recipe>
+    <Recipe Result="StannaryIngot" ResultCount="1" RequiredHeatLevel="300" a="StannaryOrePowder" Description="Smelt Stannary ore powder to obtain Stannary">
+      "a"
+     </Recipe>
+    <Recipe Result="StannaryIngot" ResultCount="1" RequiredHeatLevel="300" a="StannaryOreChunk" Description="Smelt Stannary ore chunk to obtain Stannary">
+      "a"
+     </Recipe>
+    <Recipe Result="StannaryIngot" ResultCount="4" RequiredHeatLevel="300" a="StannaryOreChunk" Description="Smelt Stannary ore to obtain Stannary">
+      "aaa"
      </Recipe>
     <Recipe Result="IronIngotBlock" ResultCount="4" RequiredHeatLevel="1500" a="ironorechunk" Description="Smelt iron ore to obtain iron">
       "aaa"
@@ -49,7 +88,7 @@
      <Recipe Result="GermaniumChunkBlock" ResultCount="1" RequiredHeatLevel="900" a="germaniumorechunk" Description="Smelt germanium ore to obtain germanium crystals">
       "a"
      </Recipe>
-    <Recipe Result="SteelIngotBlock" ResultCount="1" RequiredHeatLevel="1500" Remains="SulphurChunkBlock" RemainsCount="1" a="ironingot" Description="Smelt iron ingot to obtain steel and get rid of sulphur">
+    <Recipe Result="SteelIngot" ResultCount="1" RequiredHeatLevel="1500" Remains="RnIngotBlock" RemainsCount="1" a="ironingot" Description="Smelt iron ingot to obtain steel and get rid of sulphur">
       "aaa"
     </Recipe>
     <Recipe Result="CopperIngotBlock" ResultCount="1" RequiredHeatLevel="1000" a="CopperOrePowder" Description="Smelt copper ore powder to obtain copper">
