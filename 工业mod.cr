@@ -70,10 +70,10 @@
     <Recipe Result="StannaryIngot" ResultCount="1" RequiredHeatLevel="300" a="StannaryOrePowder" Description="Smelt Stannary ore powder to obtain Stannary">
       "a"
      </Recipe>
-    <Recipe Result="StannaryIngot" ResultCount="1" RequiredHeatLevel="300" a="StannaryOreChunk" Description="Smelt Stannary ore chunk to obtain Stannary">
+    <Recipe Result="StannaryIngot" ResultCount="1" RequiredHeatLevel="300" a="StannaryChunk" Description="Smelt Stannary ore chunk to obtain Stannary">
       "a"
      </Recipe>
-    <Recipe Result="StannaryIngot" ResultCount="4" RequiredHeatLevel="300" a="StannaryOreChunk" Description="Smelt Stannary ore to obtain Stannary">
+    <Recipe Result="StannaryIngot" ResultCount="4" RequiredHeatLevel="300" a="StannaryChunk" Description="Smelt Stannary ore to obtain Stannary">
       "aaa"
      </Recipe>
     <Recipe Result="IronIngotBlock" ResultCount="4" RequiredHeatLevel="1500" a="ironorechunk" Description="Smelt iron ore to obtain iron">

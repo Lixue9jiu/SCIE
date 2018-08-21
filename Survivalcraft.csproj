@@ -69,7 +69,7 @@
     <Compile Include="Blocks\SteelWheelMouldBlock.cs" />
     <Compile Include="Blocks\MetalLineBlock.cs" />
     <Compile Include="Blocks\SqueezerBlock.cs" />
-    <Compile Include="Blocks\TrainBlock.cs" />
+    <Compile Include="Blocks\Train.cs" />
     <Compile Include="Components\ComponentMachine.cs" />
     <Compile Include="Components\ComponentSqueezer.cs" />
     <Compile Include="Blocks\OreChunkBlock.cs" />
@@ -84,7 +84,6 @@
     <Compile Include="Subsystems\SubsystemMineral.cs" />
     <Compile Include="Subsystems\SubsystemRailBlockBehavior.cs" />
     <Compile Include="Subsystems\SubsystemSourceOfFireBlockBehavior.cs" />
-    <Compile Include="Subsystems\SubsystemTrainBlockBehavior.cs" />
     <Compile Include="Widgets\SqueezerWidget.cs" />
     <Compile Include="Subsystems\SubsystemSqueezerBlockBehavior.cs" />
     <Compile Include="Widgets\CastMachWidget.cs" />

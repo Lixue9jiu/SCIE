@@ -312,14 +312,14 @@ namespace Game
 		}
 		public override IEnumerable<CraftingRecipe> GetProceduralCraftingRecipes()
 		{
-			foreach (var item in CraftingRecipesManager.Recipes)
+			for (int i = 0; i < CraftingRecipesManager.Recipes.Count; i++)
 			{
-				var ingredients = item.Ingredients;
-				for (int i = 0; i < ingredients.Length; i++)
+				var ingredients = CraftingRecipesManager.Recipes[i].Ingredients;
+				for (int j = 0; j < ingredients.Length; j++)
 				{
-					if (!string.IsNullOrEmpty(ingredients[i]) && IdTable.TryGetValue(ingredients[i], out int value))
+					if (!string.IsNullOrEmpty(ingredients[j]) && IdTable.TryGetValue(ingredients[j], out int value))
 					{
-						ingredients[i] = "item:" + Terrain.ExtractData(value);
+						ingredients[j] = "item:" + Terrain.ExtractData(value);
 					}
 				}
 			}

@@ -56,7 +56,8 @@ namespace Game
 				new LeadPlate(),
 				new ZincPlate(),
 				new PlatinumPlate(),
-				new AluminumPlate()
+				new AluminumPlate(),
+				new Train()
 				//new CarbonAerogels()
 			};
             IdTable = new Dictionary<string, int>(Items.Length);
