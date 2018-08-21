@@ -29,6 +29,27 @@ namespace Game
                 new ChromiumOreChunk(),
                 new NickelOreChunk(),
                 new SteelIngot(),
+                new GoldIngot(),
+                new LeadIngot(),
+                new SliverIngot(),
+                new PlatinumIngot(),
+                new ZincIngot(),
+                new NickelIngot(),
+                new ChromiumIngot(),
+                new AluminumIngot(),
+                new StannaryIngot(),
+                new IronOrePowder(),
+                new CopperOrePowder(),
+                new GermaniumOrePowder(),
+                new GoldOrePowder(),
+                new SliverOrePowder(),
+                new PlatinumOrePowder(),
+                new LeadOrePowder(),
+                new StannaryOrePowder(),
+                new ZincOrePowder(),
+                new ChromiumOrePowder(),
+                new NickelOrePowder(),
+                new AluminumOrePowder()
 				//new CarbonAerogels()
 			};
             IdTable = new Dictionary<string, int>(Items.Length);

@@ -3,7 +3,7 @@ using Engine.Graphics;
 
 namespace Game
 {
-	public class IronOrePowder4Block : FlatBlock
+	public class CoalPowderBlock : FlatBlock
 	{
 		public const int Index = 517;
 

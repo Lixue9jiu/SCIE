@@ -31,7 +31,10 @@
     <Recipe Result="SaltpeterChunkBlock" ResultCount="1" RequiredHeatLevel="700" Remains="EmptyBucketBlock" RemainsCount="1" a="rottenpumpkinsoupbucket" b="dirt" Description="Using bacterium to decompose dirt and rotten food to get Saltpeter">
       "ab"
     </Recipe>
-    <Recipe Result="IronIngotBlock" ResultCount="1" RequiredHeatLevel="1500" a="ironorepowder" Description="Smelt iron ore powder to obtain iron">
+    <Recipe Result="IronIngotBlock" ResultCount="1" RequiredHeatLevel="1500" a="IronOrePowder" Description="Smelt iron ore powder to obtain iron">
+      "a"
+     </Recipe>
+    <Recipe Result="GoldIngot" ResultCount="1" RequiredHeatLevel="1200" a="GoldOrePowder" Description="Smelt gold ore powder to obtain gold">
       "a"
      </Recipe>
     <Recipe Result="IronIngotBlock" ResultCount="4" RequiredHeatLevel="1500" a="ironorechunk" Description="Smelt iron ore to obtain iron">
@@ -49,72 +52,72 @@
     <Recipe Result="SteelIngotBlock" ResultCount="1" RequiredHeatLevel="1500" Remains="SulphurChunkBlock" RemainsCount="1" a="ironingot" Description="Smelt iron ingot to obtain steel and get rid of sulphur">
       "aaa"
     </Recipe>
-    <Recipe Result="CopperIngotBlock" ResultCount="1" RequiredHeatLevel="1000" a="copperorepowder" Description="Smelt copper ore powder to obtain copper">
+    <Recipe Result="CopperIngotBlock" ResultCount="1" RequiredHeatLevel="1000" a="CopperOrePowder" Description="Smelt copper ore powder to obtain copper">
       "a"
     </Recipe>
      <Recipe Result="CopperIngotBlock" ResultCount="4" RequiredHeatLevel="1000" a="malachitechunk" Description="Smelt copper ore to obtain copper">
       "aaa"
     </Recipe>
-    <Recipe Result="GermaniumChunkBlock" ResultCount="1" RequiredHeatLevel="900" a="gerorepowder" Description="Smelt germanium ore powder to obtain germanium crystals">
+    <Recipe Result="GermaniumChunkBlock" ResultCount="1" RequiredHeatLevel="900" a="GermaniumOrePowder" Description="Smelt germanium ore powder to obtain germanium crystals">
       "a"
     </Recipe>
     <Recipe Result="GermaniumChunkBlock" ResultCount="4" RequiredHeatLevel="900" a="germaniumorechunk" Description="Smelt germanium ore to obtain germanium crystals">
       "aaa"
     </Recipe>
-    <Recipe Result="SteelRod" ResultCount="2" RequiredHeatLevel="1500" a="steelingot" Description="Forge an iron ingot into rods">
+    <Recipe Result="SteelRod" ResultCount="2" RequiredHeatLevel="1500" a="SteelIngot" Description="Forge an iron ingot into rods">
       "aa"
     </Recipe>
   </Smelting>
   <Materials>
-    <Recipe Result="SteelBlock" ResultCount="1" RequiredHeatLevel="0" a="steelingot" Description="Combine many steel ingots to get the basic machine case">
+    <Recipe Result="SteelBlock" ResultCount="1" RequiredHeatLevel="0" a="SteelIngot" Description="Combine many steel ingots to get the basic machine case">
       "aaa"
       "a a"
       "aaa"
      </Recipe>
-    <Recipe Result="SteelBlock" ResultCount="1" RequiredHeatLevel="0" a="ironplate" Description="Combine many steel ingots to get the basic machine case">
+    <Recipe Result="SteelBlock" ResultCount="1" RequiredHeatLevel="0" a="IronPlate" Description="Combine many steel ingots to get the basic machine case">
       "aaa"
       "a a"
       "aaa"
     </Recipe>
   </Materials>
   <SteelTools>
-    <Recipe Result="SteelShovelBlock" ResultCount="1" RequiredHeatLevel="0" a="stick" b="steelingot" Description="Make an steel tool">
+    <Recipe Result="SteelShovelBlock" ResultCount="1" RequiredHeatLevel="0" a="stick" b="SteelIngot" Description="Make an steel tool">
       "b"
       "a"
       "a"
     </Recipe>
-    <Recipe Result="SteelPickaxeBlock" ResultCount="1" RequiredHeatLevel="0" a="stick" b="steelingot" Description="Make an steel tool">
+    <Recipe Result="SteelPickaxeBlock" ResultCount="1" RequiredHeatLevel="0" a="stick" b="SteelIngot" Description="Make an steel tool">
       "bbb"
       " a"
       " a"
     </Recipe>
-    <Recipe Result="SteelAxeBlock" ResultCount="1" RequiredHeatLevel="0" a="stick" b="steelingot" Description="Make an steel tool">
+    <Recipe Result="SteelAxeBlock" ResultCount="1" RequiredHeatLevel="0" a="stick" b="SteelIngot" Description="Make an steel tool">
       "bb"
       "ba"
       " a"
     </Recipe>
-    <Recipe Result="SteelRakeBlock" ResultCount="1" RequiredHeatLevel="0" a="stick" b="steelingot" Description="Make an steel tool">
+    <Recipe Result="SteelRakeBlock" ResultCount="1" RequiredHeatLevel="0" a="stick" b="SteelIngot" Description="Make an steel tool">
       "b b"
       " a"
       " a"
     </Recipe>
-    <Recipe Result="SteelSpearBlock" ResultCount="1" RequiredHeatLevel="0" a="stick" b="steelingot" Description="Make an steel weapon">
+    <Recipe Result="SteelSpearBlock" ResultCount="1" RequiredHeatLevel="0" a="stick" b="SteelIngot" Description="Make an steel weapon">
       " b"
       "bab"
       " a"
     </Recipe>
-    <Recipe Result="SteelMacheteBlock" ResultCount="1" RequiredHeatLevel="0" a="stick" b="steelingot" Description="Make an steel weapon">
+    <Recipe Result="SteelMacheteBlock" ResultCount="1" RequiredHeatLevel="0" a="stick" b="SteelIngot" Description="Make an steel weapon">
       "b"
       "b"
       "a"
     </Recipe>
   </SteelTools>
   <Weapons>
-    <Recipe Result="Musket2Block" ResultCount="1" RequiredHeatLevel="0" a="planks" b="steelplate" c="RifleBarrel" Description="Make a Rifle from steelplate,barrel and planks">
+    <Recipe Result="Musket2Block" ResultCount="1" RequiredHeatLevel="0" a="planks" b="SteelPlate" c="RifleBarrel" Description="Make a Rifle from steelplate,barrel and planks">
       "ccb"
       "aaa"
     </Recipe>
-    <Recipe Result="DrillBlock:0" ResultCount="1" RequiredHeatLevel="0" a="steelingot" Description="Make a steeldrill with steelingots">
+    <Recipe Result="DrillBlock:0" ResultCount="1" RequiredHeatLevel="0" a="SteelIngot" Description="Make a steeldrill with SteelIngots">
       "aaa"
       " a "
     </Recipe>
@@ -122,15 +125,15 @@
       "aaa"
       " a "
     </Recipe>
-    <Recipe Result="DrillBlock:2" ResultCount="1" RequiredHeatLevel="0" a="ironplate" Description="Make a Tubularis with iron">
+    <Recipe Result="DrillBlock:2" ResultCount="1" RequiredHeatLevel="0" a="IronPlate" Description="Make a Tubularis with iron">
       "a"
       "a"
     </Recipe>
-    <Recipe Result="DrillBlock:3" ResultCount="1" RequiredHeatLevel="0" a="steelplate" Description="Make a Tubularis with steel">
+    <Recipe Result="DrillBlock:3" ResultCount="1" RequiredHeatLevel="0" a="SteelPlate" Description="Make a Tubularis with steel">
       "a"
       "a"
     </Recipe>
-    <Recipe Result="Bullet2Block:0" ResultCount="6" RequiredHeatLevel="0" a="ironingot" b="copperplate" c="gunpowder" d="detonator" Description="Make Iron Fixed Bullet">
+    <Recipe Result="Bullet2Block:0" ResultCount="6" RequiredHeatLevel="0" a="ironingot" b="CopperPlate" c="gunpowder" d="detonator" Description="Make Iron Fixed Bullet">
       " a "
       "bcb"
       " d "
@@ -162,7 +165,7 @@
       "aba"
       "aaa"
     </Recipe>
-    <Recipe Result="IPistonBlock" ResultCount="1" RequiredHeatLevel="0" a="ironingot" b="emptybucket" c="SteelRod" d="steelingot" Description="Make a industrial piston">
+    <Recipe Result="IPistonBlock" ResultCount="1" RequiredHeatLevel="0" a="ironingot" b="emptybucket" c="SteelRod" d="SteelIngot" Description="Make a industrial piston">
       "dcd"
       "ada"
       "aba"
@@ -172,7 +175,7 @@
       "ece"
       "ada"
     </Recipe>
-    <Recipe Result="TankBlock" ResultCount="1" RequiredHeatLevel="0" a="copperplate" Description="Make a empty tank">
+    <Recipe Result="TankBlock" ResultCount="1" RequiredHeatLevel="0" a="CopperPlate" Description="Make a empty tank">
       "aaa"
       "a a"
       "aaa"
@@ -202,12 +205,12 @@
       "aaa"
       "bab"
      </Recipe>
-    <Recipe Result="PresserNBlock" ResultCount="1" RequiredHeatLevel="0" a="ironplate" b="ipiston" c="steelblock" d="steelgear" Description="Make a Kinbbler to create ore powder">
+    <Recipe Result="PresserNBlock" ResultCount="1" RequiredHeatLevel="0" a="IronPlate" b="ipiston" c="steelblock" d="steelgear" Description="Make a Kinbbler to create ore powder">
       "bab"
       "dcd"
       "aba"
     </Recipe>
-    <Recipe Result="PresserNNBlock" ResultCount="1" RequiredHeatLevel="0" a="SteelRod" b="ipiston" c="steelblock" d="steelingot" e="steelgear" Description="Make a Rifling Machine to create rifle barrel">
+    <Recipe Result="PresserNNBlock" ResultCount="1" RequiredHeatLevel="0" a="SteelRod" b="ipiston" c="steelblock" d="SteelIngot" e="steelgear" Description="Make a Rifling Machine to create rifle barrel">
       "bad"
       "dcd"
       "eee"
@@ -222,12 +225,12 @@
       "aba"
       "aaa"
     </Recipe>
-    <Recipe Result="FireBoxBlock" ResultCount="1" RequiredHeatLevel="0" a="ironplate" b="furnace" Description="Make a firebox from stone and iron">
+    <Recipe Result="FireBoxBlock" ResultCount="1" RequiredHeatLevel="0" a="IronPlate" b="furnace" Description="Make a firebox from stone and iron">
       "aaa"
       "aba"
       "aaa"
     </Recipe>
-    <Recipe Result="BlastBlowerBlock" ResultCount="1" RequiredHeatLevel="0" a="rod" b="piston" c="steelblock" d="ironplate" e="steelgear" Description="Make a Blast Furnace Blower">
+    <Recipe Result="BlastBlowerBlock" ResultCount="1" RequiredHeatLevel="0" a="rod" b="piston" c="steelblock" d="IronPlate" e="steelgear" Description="Make a Blast Furnace Blower">
       "bad"
       "bad"
       "ece"
@@ -237,7 +240,7 @@
       "aba"
       "aaa"
     </Recipe>
-    <Recipe Result="BoatIBlock" ResultCount="1" RequiredHeatLevel="0" a="ironplate" b="boat" c="sengine" Description="A Boat with steamengine can let you travel with high speed">
+    <Recipe Result="BoatIBlock" ResultCount="1" RequiredHeatLevel="0" a="IronPlate" b="boat" c="sengine" Description="A Boat with steamengine can let you travel with high speed">
       "aaa"
       "aba"
       "aca"
