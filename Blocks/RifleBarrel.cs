@@ -3,7 +3,7 @@ using Engine.Graphics;
 
 namespace Game
 {
-	public class RifleBarrel : FlatItem
+	public class RifleBarrel : MeshItem
 	{
 		protected readonly BlockMesh m_standaloneBlockMesh = new BlockMesh();
 
@@ -14,10 +14,6 @@ namespace Game
 			Model model = ContentManager.Get<Model>("Models/Rod");
 			Matrix boneAbsoluteTransform = BlockMesh.GetBoneAbsoluteTransform(model.FindMesh("SteelRod", true).ParentBone);
 			m_standaloneBlockMesh.AppendModelMeshPart(model.FindMesh("SteelRod", true).MeshParts[0], boneAbsoluteTransform * Matrix.CreateTranslation(0f, -0.5f, 0f), false, false, false, false, Color.White);
-		}
-		public override float GetIconViewScale(int value, DrawBlockEnvironmentData environmentData)
-		{
-			return 0.85f;
 		}
 		public override Vector3 GetIconViewOffset(int value, DrawBlockEnvironmentData environmentData)
 		{

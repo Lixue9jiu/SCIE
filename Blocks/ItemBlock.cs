@@ -3,6 +3,7 @@ using Engine;
 using Engine.Graphics;
 using System.Linq;
 using System.Globalization;
+using System.Xml.Linq;
 
 namespace Game
 {
@@ -13,10 +14,12 @@ namespace Game
 		{
 			new BoundingBox(Vector3.Zero, Vector3.One)
 		};
+		public static bool Loaded;
 		static void Initialize()
 		{
 			BlocksManager.DamageItem1 = DamageItem;
 			BlocksManager.FindBlocksByCraftingId1 = FindBlocksByCraftingId;
+			CraftingRecipesManager.Initialize_b__01 = Initialize_b__0;
 		}
 		public static Block[] FindBlocksByCraftingId(string craftingId)
 		{
@@ -43,6 +46,10 @@ namespace Game
 				return block.SetDamage(value, num);
 			}
 			return block.GetDamageDestructionValue(value);
+		}
+		public static bool Initialize_b__0(XAttribute a)
+		{
+			return a.Name.LocalName.Length == 1 && char.IsLower(a.Name.LocalName[0]);
 		}
 		public virtual string GetDisplayName(SubsystemTerrain subsystemTerrain, int value)
 		{
@@ -303,12 +310,21 @@ namespace Game
 		{
 			return GetItem(ref value).IsInteractive(subsystemTerrain, value);
 		}
-		/*public override IEnumerable<CraftingRecipe> GetProceduralCraftingRecipes()
+		public override IEnumerable<CraftingRecipe> GetProceduralCraftingRecipes()
 		{
-			return new CraftingRecipe[]
+			foreach (var item in CraftingRecipesManager.Recipes)
 			{
-			};
-		}*/
+				var ingredients = item.Ingredients;
+				for (int i = 0; i < ingredients.Length; i++)
+				{
+					if (!string.IsNullOrEmpty(ingredients[i]) && IdTable.TryGetValue(ingredients[i], out int value))
+					{
+						ingredients[i] = "item:" + Terrain.ExtractData(value);
+					}
+				}
+			}
+			return new CraftingRecipe[0];
+		}
 		public override CraftingRecipe GetAdHocCraftingRecipe(SubsystemTerrain subsystemTerrain, string[] ingredients, float heatLevel)
 		{
 			for (int i = 0; i < ingredients.Length; i++)
