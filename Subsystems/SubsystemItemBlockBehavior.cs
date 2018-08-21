@@ -20,6 +20,7 @@ namespace Game
 					var cell = result.Value.CellFace;
 					var entity = DatabaseManager.CreateEntity(Project, "Train", true);
 					entity.FindComponent<ComponentBody>(true).Position = new Vector3(cell.X + 0.5f, cell.Y + 1f, cell.Z + 0.5f);
+					entity.FindComponent<ComponentFrame>(true).Rotation = componentMiner.ComponentCreature.ComponentBody.Rotation;
 					entity.FindComponent<ComponentSpawn>(true).SpawnDuration = 0f;
 					Project.AddEntity(entity);
 				}

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using Engine;
+using Engine.Graphics;
 using TemplatesDatabase;
 using static Game.TerrainBrush;
 
@@ -63,7 +64,21 @@ namespace Game
 	}*/
 	public class BasaltBlock : PaintedCubeBlock
 	{
-		public const int Index = 67;
+		public static readonly Color[] Colors = new Color[]
+		{
+			new Color(255, 255, 255),
+			new Color(255, 181, 255),//GoldOre
+			new Color(181, 255, 255),//SliverOre
+			new Color(160, 181, 255),//PlatinumOre
+			new Color(255, 240, 160),//ZincOre
+			new Color(181, 255, 181),//LeadOre
+			new Color(255, 181, 160),//MercuryOre
+			new Color(181, 181, 181),//Stannary
+			new Color(112, 112, 112),//TitaniumOre
+			new Color(32, 112, 112), //ChromiumOre
+			new Color(112, 32, 112) //NickelOre
+		};
+	public const int Index = 67;
 
 		public BasaltBlock()
 			: base(40)
@@ -120,24 +135,67 @@ namespace Game
 		{
 			int data = Terrain.ExtractData(value);
 			string name = (data & 65536) != 0 ? "Unstable " : string.Empty;
+			if ((data & 32768) != 0)
+			{
+				name += "Explosive ";
+			}
 			data &= 16383;
 			if (IsColored(data) || data == 0 || data > 20)
 				return name + base.GetDisplayName(subsystemTerrain, value);
 			name += BlocksManager.Blocks[ItemBlock.Index].GetDisplayName(subsystemTerrain, Terrain.ReplaceData(ItemBlock.Index, (data >> 1) + 5));
 			return name.Substring(0, name.Length - 5);
 		}
+		public override float GetExplosionPressure(int value)
+		{
+			return (Terrain.ExtractData(value) & 32768) != 0 ? 10f : base.GetExplosionPressure(value);
+		}
+		public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
+		{
+			int data = (Terrain.ExtractData(value) & 16383) >> 1;
+			if (data < 11)
+			{
+				color *= Colors[data];
+			}
+			base.DrawBlock(primitivesRenderer, value, color, size, ref matrix, environmentData);
+		}
+		public override void GenerateTerrainVertices(BlockGeometryGenerator generator, TerrainGeometrySubsets geometry, int value, int x, int y, int z)
+		{
+			int data = Terrain.ExtractData(value) & 16383;
+			generator.GenerateCubeVertices(this, value, x, y, z, IsColored(data) ? SubsystemPalette.GetColor(generator, GetColor(Terrain.ExtractData(value))) : data < 22 ? Colors[data >> 1] : Color.White, geometry.OpaqueSubsetsByFace);
+		}
 		public override IEnumerable<int> GetCreativeValues()
 		{
 			var list = new List<int>(base.GetCreativeValues());
-			int i = 1;
-			for (; i < 11; i++)
+			int count = list.Count;
+			int i = 0;
+			for (; i < count; i++)
+			{
+				list.Add(list[i] | 65536 << 14);
+			}
+			for (i = 0; i < count; i++)
+			{
+				list.Add(list[i] | 32768 << 14);
+			}
+			for (i = 0; i < count; i++)
+			{
+				list.Add(list[i] | (65536 | 32768) << 14);
+			}
+			const int M = 11;
+			for (i = 1; i < M; i++)
 			{
 				list.Add(BlockIndex | i << 15);
 			}
-			i = 0;
-			for (int count = list.Count; i < count; i++)
+			for (i = 1; i < M; i++)
 			{
-				list.Add(list[i] | 65536 << 14);
+				list.Add(BlockIndex | i << 15 | 65536 << 14);
+			}
+			for (i = 1; i < M; i++)
+			{
+				list.Add(BlockIndex | i << 15 | 32768 << 14);
+			}
+			for (i = 1; i < M; i++)
+			{
+				list.Add(BlockIndex | i << 15 | (65536 | 32768) << 14);
 			}
 			return list;
 		}
@@ -204,6 +262,7 @@ namespace Game
 	}
 	public class SubsystemMineral : SubsystemCollapsingBlockBehavior
 	{
+		[Serializable]
 		public enum BrushType
 		{
 			Au,

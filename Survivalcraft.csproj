@@ -70,7 +70,6 @@
     <Compile Include="Blocks\MetalLineBlock.cs" />
     <Compile Include="Blocks\SqueezerBlock.cs" />
     <Compile Include="Blocks\Train.cs" />
-    <Compile Include="Components\ComponentMachine.cs" />
     <Compile Include="Components\ComponentSqueezer.cs" />
     <Compile Include="Blocks\OreChunkBlock.cs" />
     <Compile Include="Blocks\OrePowderBlock.cs" />
