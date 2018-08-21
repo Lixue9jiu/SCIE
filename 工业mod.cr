@@ -88,7 +88,7 @@
      <Recipe Result="GermaniumChunkBlock" ResultCount="1" RequiredHeatLevel="900" a="germaniumorechunk" Description="Smelt germanium ore to obtain germanium crystals">
       "a"
      </Recipe>
-    <Recipe Result="SteelIngot" ResultCount="1" RequiredHeatLevel="1500" Remains="RnIngotBlock" RemainsCount="1" a="ironingot" Description="Smelt iron ingot to obtain steel and get rid of sulphur">
+    <Recipe Result="SteelIngot" ResultCount="1" RequiredHeatLevel="1500" Remains="RuIngotBlock" RemainsCount="1" a="ironingot" Description="Smelt iron ingot to obtain steel and get rid of sulphur">
       "aaa"
     </Recipe>
     <Recipe Result="CopperIngotBlock" ResultCount="1" RequiredHeatLevel="1000" a="CopperOrePowder" Description="Smelt copper ore powder to obtain copper">
