@@ -61,6 +61,15 @@
     <Recipe Result="PlatinumIngot" ResultCount="4" RequiredHeatLevel="1800" a="PlatinumOreChunk" Description="Smelt Platinum ore to obtain Platinum">
       "aaa"
      </Recipe>
+    <Recipe Result="LeadIngot" ResultCount="1" RequiredHeatLevel="300" a="LeadOrePowder" Description="Smelt Lead ore powder to obtain Lead">
+      "a"
+     </Recipe>
+    <Recipe Result="LeadIngot" ResultCount="1" RequiredHeatLevel="300" a="LeadOreChunk" Description="Smelt Lead ore chunk to obtain Lead">
+      "a"
+     </Recipe>
+    <Recipe Result="LeadIngot" ResultCount="4" RequiredHeatLevel="300" a="LeadOreChunk" Description="Smelt Lead ore to obtain Lead">
+      "aaa"
+     </Recipe>
     <Recipe Result="ZincIngot" ResultCount="1" RequiredHeatLevel="800" a="ZincOrePowder" b="coalpowder" Description="Smelt Zinc ore powder to obtain Zinc">
       "abb"
      </Recipe>

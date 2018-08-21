@@ -67,16 +67,16 @@ namespace Game
 		public static readonly Color[] Colors = new Color[]
 		{
 			new Color(255, 255, 255),
-			new Color(255, 181, 255),//GoldOre
-			new Color(181, 255, 255),//SliverOre
-			new Color(160, 181, 255),//PlatinumOre
-			new Color(255, 240, 160),//ZincOre
-			new Color(181, 255, 181),//LeadOre
-			new Color(255, 181, 160),//MercuryOre
-			new Color(181, 181, 181),//Stannary
-			new Color(112, 112, 112),//TitaniumOre
-			new Color(32, 112, 112), //ChromiumOre
-			new Color(112, 32, 112) //NickelOre
+			new Color(255, 215, 0),//GoldOre
+			new Color(212, 212, 212),//SliverOre
+			new Color(232, 232, 232),//PlatinumOre
+			new Color(65, 224, 205),//ZincOre
+			new Color(88, 87, 86),//LeadOre
+			new Color(255, 123, 113),//MercuryOre
+			new Color(225, 225, 225),//Stannary
+			new Color(190, 190, 190),//TitaniumOre
+			new Color(90, 90, 90), //ChromiumOre
+			new Color(120, 120, 120) //NickelOre
 		};
 	public const int Index = 67;
 
