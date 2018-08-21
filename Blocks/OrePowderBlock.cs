@@ -149,9 +149,7 @@ namespace Game
 		}
 		public override string GetDescription(int value)
 		{
-			
-					return Type.ToString()+"Powder is Ore powder obtained by crushing "+Type.ToString()+".";
-			
+			return Type.ToString()+"Powder is Ore powder obtained by crushing "+Type.ToString()+".";
 		}
 	}
 }

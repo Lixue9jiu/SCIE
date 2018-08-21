@@ -87,6 +87,14 @@ namespace Game
 		public override void GetDropValues(SubsystemTerrain subsystemTerrain, int oldValue, int newValue, int toolLevel, List<BlockDropValue> dropValues, out bool showDebris)
 		{
 			int data = Terrain.ExtractData(oldValue);
+			if ((data & 65536) != 0 && (Random.Int() & 3) == 0)
+			{
+				dropValues.Add(new BlockDropValue
+				{
+					Value = oldValue,
+					Count = 1
+				});
+			}
 			if (IsColored(data) || toolLevel < 3)
 			{
 				base.GetDropValues(subsystemTerrain, oldValue, newValue, toolLevel, dropValues, out showDebris);
@@ -95,6 +103,14 @@ namespace Game
 			data = data >> 1 & 16383;
 			if (data > 0 && data < 11)
 			{
+				if ((Random.Int() & 7) == 0)
+				{
+					dropValues.Add(new BlockDropValue
+					{
+						Value = ItemBlock.Index | 5 << 14,
+						Count = 1
+					});
+				}
 				dropValues.Add(new BlockDropValue
 				{
 					Value = Terrain.ReplaceData(ItemBlock.Index, data + 5),
@@ -236,13 +252,13 @@ namespace Game
 			return result;
 		}*/
 		}
-	public class GermaniumOreBlock : BasaltBlock
+	/*public class GermaniumOreBlock : BasaltBlock
 	{
 		public new const int Index = 148;
 		public override void GetDropValues(SubsystemTerrain subsystemTerrain, int oldValue, int newValue, int toolLevel, List<BlockDropValue> dropValues, out bool showDebris)
 		{
 			int data = Terrain.ExtractData(oldValue) >> 1 & 16383;
-			if (data > 0 && data < 11 && toolLevel > 3)
+			if (data > 0 && data < 11 && toolLevel > 2)
 			{
 				dropValues.Add(new BlockDropValue
 				{
@@ -259,7 +275,7 @@ namespace Game
 				return base.GetDisplayName(subsystemTerrain, value);
 			return "Rare " + base.GetDisplayName(subsystemTerrain, value);
 		}
-	}
+	}*/
 	public class SubsystemMineral : SubsystemCollapsingBlockBehavior
 	{
 		[Serializable]
@@ -506,19 +522,27 @@ namespace Game
 					{
 						chunk.PaintFastSelective(HgBrushes[random.Int() & 15].Cells, ix16 | (random.Int() & 15), random.UniformInt(2, 15), jx16 | (random.Int() & 15), index | (int)BrushType.Hg << 15);
 					}
+					for (k = 3 + (int)(2f * num2 * SimplexNoise.OctavedNoise((float)(i + 711), (float)(j + fb), 0.33f, 1, 1f, 1f)); k-- != 0;)
+					{
+						chunk.PaintFastSelective(SnBrushes[random.Int() & 15].Cells, ix16 | (random.Int() & 15), random.UniformInt(2, 40), jx16 | (random.Int() & 15), index | (int)BrushType.Sn << 15);
+					}
 					for (k = 2 + (int)(2f * num2 * SimplexNoise.OctavedNoise((float)(i + f8), (float)(j + 272), 0.33f, 1, 1f, 1f)); k-- != 0;)
 					{
 						chunk.PaintFastSelective(TiBrushes[random.Int() & 15].Cells, ix16 | (random.Int() & 15), random.UniformInt(2, 50), jx16 | (random.Int() & 15), index | (int)BrushType.Ti << 15);
 					}
-					for (k = 3 + (int)(2f * num2 * SimplexNoise.OctavedNoise((float)(i + 711), (float)(j + fb), 0.33f, 1, 1f, 1f)); k-- != 0;)
+					for (k = 2 + (int)(2f * num2 * SimplexNoise.OctavedNoise((float)(i + fa), (float)(j + fc), 0.33f, 1, 1f, 1f)); k-- != 0;)
 					{
-						chunk.PaintFastSelective(SnBrushes[random.Int() & 15].Cells, ix16 | (random.Int() & 15), random.UniformInt(2, 40), jx16 | (random.Int() & 15), index | (int)BrushType.Sn << 15);
+						chunk.PaintFastSelective(HgBrushes[random.Int() & 15].Cells, ix16 | (random.Int() & 15), random.UniformInt(2, 50), jx16 | (random.Int() & 15), index | (int)BrushType.Cr << 15);
+					}
+					for (k = 2 + (int)(2f * num2 * SimplexNoise.OctavedNoise((float)(i + f3), (float)(j + f6), 0.33f, 1, 1f, 1f)); k-- != 0;)
+					{
+						chunk.PaintFastSelective(TiBrushes[random.Int() & 15].Cells, ix16 | (random.Int() & 15), random.UniformInt(2, 50), jx16 | (random.Int() & 15), index | (int)BrushType.Ni << 15);
 					}
 					for (k = 20 + (int)(8f * num2 * SimplexNoise.OctavedNoise((float)(i + fa ^ f5 + f1), (float)(j + fc - f9), 0.33f, 1, 1f, 1f)); k-- != 0;)
 					{
 						chunk.PaintMaskSelective(PbBrushes[random.Int() & 15].Cells, ix16 | (random.Int() & 15), random.UniformInt(2, 50), jx16 | (random.Int() & 15), index | 65536 << 14);
 					}
-					for (k = 9 + (int)(8f * num2 * SimplexNoise.OctavedNoise((float)(i + fa ^ f5 + f1), (float)(j + fc - f9), 0.33f, 1, 1f, 1f)); k-- != 0;)
+					for (k = 9 + (int)(8f * num2 * SimplexNoise.OctavedNoise((float)(i + f5 ^ f8 + f1), (float)(j + f9 - fc), 0.33f, 1, 1f, 1f)); k-- != 0;)
 					{
 						chunk.PaintMaskSelective(PbBrushes[random.Int() & 15].Cells, ix16 | (random.Int() & 15), random.UniformInt(2, 50), jx16 | (random.Int() & 15), index | 32768 << 14);
 					}
@@ -536,8 +560,7 @@ namespace Game
 				for (int i = y; i < 128; i++)
 				{
 					value = SubsystemTerrain.Terrain.GetCellValue(x, i, z);
-					int contents = Terrain.ExtractContents(value);
-					if ((contents != 67 && contents != 148) || (Terrain.ExtractData(value) & 65536) == 0)
+					if (Terrain.ExtractContents(value) != 67 || (Terrain.ExtractData(value) & 65536) == 0)
 					{
 						break;
 					}
