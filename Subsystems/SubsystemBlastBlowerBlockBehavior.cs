@@ -10,7 +10,7 @@ namespace Game
 			{
 				return new int[]
 				{
-					540
+					BlastBlowerBlock.Index
 				};
 			}
 		}
@@ -44,11 +44,11 @@ namespace Game
 					for (int k = -1; k < 2; k++)
 					{
 						int cellContents = SubsystemTerrain.Terrain.GetCellContents(x + i, y + j, z + k);
-						if (i * i + j * j + k * k <= 1 && (cellContents == 509 || cellContents == 534))
+						if (i * i + j * j + k * k <= 1 && (cellContents == LitEngineBlock.Index || cellContents == LitEngineHBlock.Index))
 						{
 							num = 1;
 						}
-						if (i * i + j * j + k * k <= 1 && cellContents == 544)
+						if (i * i + j * j + k * k <= 1 && cellContents == LitFireBoxBlock.Index)
 						{
 							num2 = 1;
 						}
@@ -57,7 +57,7 @@ namespace Game
 			}
 			if (num == 0 || num2 == 0)
 			{
-				SubsystemTerrain.ChangeCell(x, y, z, 540, true);
+				SubsystemTerrain.ChangeCell(x, y, z, BlastBlowerBlock.Index, true);
 				return;
 			}
 			SubsystemTerrain.ChangeCell(x, y, z, 16924, true);
@@ -76,11 +76,11 @@ namespace Game
 					for (int k = -1; k < 2; k++)
 					{
 						int cellContents = SubsystemTerrain.Terrain.GetCellContents(x + i, y + j, z + k);
-						if (i * i + j * j + k * k <= 1 && (cellContents == 509 || cellContents == 534))
+						if (i * i + j * j + k * k <= 1 && (cellContents == LitEngineBlock.Index || cellContents == LitEngineHBlock.Index))
 						{
 							num = 1;
 						}
-						if (i * i + j * j + k * k <= 1 && cellContents == 544)
+						if (i * i + j * j + k * k <= 1 && cellContents == LitFireBoxBlock.Index)
 						{
 							num2 = 1;
 						}
@@ -89,7 +89,7 @@ namespace Game
 			}
 			if (num == 0 || num2 == 0)
 			{
-				SubsystemTerrain.ChangeCell(x, y, z, 540, true);
+				SubsystemTerrain.ChangeCell(x, y, z, BlastBlowerBlock.Index, true);
 				return;
 			}
 			SubsystemTerrain.ChangeCell(x, y, z, 16924, true);

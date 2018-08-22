@@ -8,7 +8,6 @@ namespace Game
 		{
 			return false;
 		}
-		
 		public override BlockPlacementData GetPlacementValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, TerrainRaycastResult raycastResult)
 		{
 			Vector3 forward = Matrix.CreateFromQuaternion(componentMiner.ComponentCreature.ComponentCreatureModel.EyeRotation).Forward;
@@ -35,7 +34,7 @@ namespace Game
 			}
 			return new BlockPlacementData
 			{
-				Value = Terrain.ReplaceData(Terrain.ReplaceContents(0, 542), data),
+				Value = Terrain.ReplaceData(Index, data),
 				CellFace = raycastResult.CellFace
 			};
 		}
@@ -59,10 +58,10 @@ namespace Game
 			return (data & -8) | (direction & 7);
 		}
 		
-		public const int Index = 542;
+		public const int Index = 531;
 
-		private readonly BlockMesh[] m_blockMeshesByData = new BlockMesh[4];
+		//private readonly BlockMesh[] m_blockMeshesByData = new BlockMesh[4];
 
-		private readonly BlockMesh m_standaloneBlockMesh = new BlockMesh();
+		//private readonly BlockMesh m_standaloneBlockMesh = new BlockMesh();
 	}
 }

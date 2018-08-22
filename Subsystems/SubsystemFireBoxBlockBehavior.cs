@@ -12,15 +12,15 @@ namespace Game
 			{
 				return new int[]
 				{
-					543,
-					544
+					FireBoxBlock.Index,
+					LitFireBoxBlock.Index
 				};
 			}
 		}
 		
 		public override void OnBlockAdded(int value, int oldValue, int x, int y, int z)
 		{
-			if (Terrain.ExtractContents(oldValue) != 543 && Terrain.ExtractContents(oldValue) != 544)
+			if (Terrain.ExtractContents(oldValue) != FireBoxBlock.Index && Terrain.ExtractContents(oldValue) != LitFireBoxBlock.Index)
 			{
 				DatabaseObject databaseObject = SubsystemTerrain.Project.GameDatabase.Database.FindDatabaseObject("FireBox", SubsystemTerrain.Project.GameDatabase.EntityTemplateType, true);
 				ValuesDictionary valuesDictionary = new ValuesDictionary();
@@ -28,7 +28,7 @@ namespace Game
 				valuesDictionary.GetValue<ValuesDictionary>("BlockEntity").SetValue<Point3>("Coordinates", new Point3(x, y, z));
 				SubsystemTerrain.Project.AddEntity(SubsystemTerrain.Project.CreateEntity(valuesDictionary));
 			}
-			if (Terrain.ExtractContents(value) != 544)
+			if (Terrain.ExtractContents(value) != LitFireBoxBlock.Index)
 			{
 				return;
 			}
@@ -37,7 +37,7 @@ namespace Game
 		
 		public override void OnBlockRemoved(int value, int newValue, int x, int y, int z)
 		{
-			if (Terrain.ExtractContents(newValue) != 543 && Terrain.ExtractContents(newValue) != 544)
+			if (Terrain.ExtractContents(newValue) != FireBoxBlock.Index && Terrain.ExtractContents(newValue) != LitFireBoxBlock.Index)
 			{
 				ComponentBlockEntity blockEntity = SubsystemTerrain.Project.FindSubsystem<SubsystemBlockEntities>(true).GetBlockEntity(x, y, z);
 				if (blockEntity != null)
@@ -50,7 +50,7 @@ namespace Game
 					SubsystemTerrain.Project.RemoveEntity(blockEntity.Entity, true);
 				}
 			}
-			if (Terrain.ExtractContents(value) != 544)
+			if (Terrain.ExtractContents(value) != LitFireBoxBlock.Index)
 			{
 				return;
 			}
@@ -59,7 +59,7 @@ namespace Game
 		
 		public override void OnBlockGenerated(int value, int x, int y, int z, bool isLoaded)
 		{
-			if (Terrain.ExtractContents(value) != 544)
+			if (Terrain.ExtractContents(value) != LitFireBoxBlock.Index)
 			{
 				return;
 			}

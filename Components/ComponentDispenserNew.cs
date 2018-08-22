@@ -95,7 +95,7 @@ namespace Game
 					for (int k = -1; k < 2; k++)
 					{
 						int cellContents = m_subsystemTerrain.Terrain.GetCellContents(point.X + i, point.Y + j, point.Z + k);
-						if (i * i + j * j + k * k <= 1 && (cellContents == 509 || cellContents == 534))
+						if (i * i + j * j + k * k <= 1 && (cellContents == LitEngineBlock.Index || cellContents == LitEngineHBlock.Index))
 						{
 							num = 1;
 							break;

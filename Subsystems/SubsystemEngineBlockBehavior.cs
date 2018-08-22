@@ -16,15 +16,15 @@ namespace Game
 			{
 				return new int[]
 				{
-					504,
-					509
+					EngineBlock.Index,
+					LitEngineBlock.Index
 				};
 			}
 		}
 
 		public override void OnBlockAdded(int value, int oldValue, int x, int y, int z)
 		{
-			if (Terrain.ExtractContents(oldValue) != 504 && Terrain.ExtractContents(oldValue) != 509)
+			if (Terrain.ExtractContents(oldValue) != EngineBlock.Index && Terrain.ExtractContents(oldValue) != LitEngineBlock.Index)
 			{
 				ValuesDictionary valuesDictionary = new ValuesDictionary();
 				try
@@ -37,7 +37,7 @@ namespace Game
 				{
 				}
 			}
-			if (Terrain.ExtractContents(value) == 509)
+			if (Terrain.ExtractContents(value) == LitEngineBlock.Index)
 			{
 				AddFire(value, x, y, z);
 			}
@@ -45,7 +45,7 @@ namespace Game
 
 		public override void OnBlockRemoved(int value, int newValue, int x, int y, int z)
 		{
-			if (Terrain.ExtractContents(newValue) != 504 && Terrain.ExtractContents(newValue) != 509)
+			if (Terrain.ExtractContents(newValue) != EngineBlock.Index && Terrain.ExtractContents(newValue) != LitEngineBlock.Index)
 			{
 				ComponentBlockEntity blockEntity = Project.FindSubsystem<SubsystemBlockEntities>(true).GetBlockEntity(x, y, z);
 				if (blockEntity != null)
@@ -58,7 +58,7 @@ namespace Game
 					Project.RemoveEntity(blockEntity.Entity, true);
 				}
 			}
-			if (Terrain.ExtractContents(value) == 509)
+			if (Terrain.ExtractContents(value) == LitEngineBlock.Index)
 			{
 				RemoveFire(x, y, z);
 			}
@@ -66,7 +66,7 @@ namespace Game
 
 		public override void OnBlockGenerated(int value, int x, int y, int z, bool isLoaded)
 		{
-			if (Terrain.ExtractContents(value) == 509)
+			if (Terrain.ExtractContents(value) == LitEngineBlock.Index)
 			{
 				AddFire(value, x, y, z);
 			}

@@ -16,7 +16,7 @@ namespace Game
 			{
 				return new int[]
 				{
-					547
+					CastMachBlock.Index
 				};
 			}
 		}

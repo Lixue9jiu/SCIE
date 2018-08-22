@@ -22,7 +22,7 @@ namespace Game
 			{
 				return new int[]
 				{
-					503
+					DispenserNBlock.Index
 				};
 			}
 		}
@@ -54,7 +54,7 @@ namespace Game
 					for (int k = -1; k < 2; k++)
 					{
 						int cellContents = SubsystemTerrain.Terrain.GetCellContents(cellFace.X + i, cellFace.Y + j, cellFace.Z + k);
-						if (i * i + j * j + k * k <= 1 && (cellContents == 509 || cellContents == 534))
+						if (i * i + j * j + k * k <= 1 && (cellContents == LitEngineBlock.Index || cellContents == LitEngineHBlock.Index))
 						{
 							num = 1;
 							break;

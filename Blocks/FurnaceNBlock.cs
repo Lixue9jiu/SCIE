@@ -6,9 +6,9 @@ namespace Game
 	{
 		public const int Index = 506;
 
-		private readonly BlockMesh[] m_blockMeshesByData = new BlockMesh[4];
+		//private readonly BlockMesh[] m_blockMeshesByData = new BlockMesh[4];
 
-		private readonly BlockMesh m_standaloneBlockMesh = new BlockMesh();
+		//private readonly BlockMesh m_standaloneBlockMesh = new BlockMesh();
 
 		public override bool IsFaceTransparent(SubsystemTerrain subsystemTerrain, int face, int value)
 		{
@@ -40,7 +40,7 @@ namespace Game
 				data = 1;
 			}
 			BlockPlacementData result = default(BlockPlacementData);
-			result.Value = Terrain.ReplaceData(Terrain.ReplaceContents(0, 506), data);
+			result.Value = Terrain.ReplaceData(Index, data);
 			result.CellFace = raycastResult.CellFace;
 			return result;
 		}

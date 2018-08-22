@@ -12,7 +12,7 @@ namespace Game
 			{
 				return new int[]
 				{
-					542
+					BlastFurnaceBlock.Index
 				};
 			}
 		}

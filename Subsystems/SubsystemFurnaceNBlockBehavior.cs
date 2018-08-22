@@ -16,15 +16,15 @@ namespace Game
 			{
 				return new int[]
 				{
-					506,
-					507
+					FurnaceNBlock.Index,
+					LitFurnaceNBlock.Index
 				};
 			}
 		}
 
 		public override void OnBlockAdded(int value, int oldValue, int x, int y, int z)
 		{
-			if (Terrain.ExtractContents(oldValue) != 506 && Terrain.ExtractContents(oldValue) != 507)
+			if (Terrain.ExtractContents(oldValue) != FurnaceNBlock.Index && Terrain.ExtractContents(oldValue) != LitFurnaceNBlock.Index)
 			{
 				DatabaseObject databaseObject = SubsystemTerrain.Project.GameDatabase.Database.FindDatabaseObject("FurnaceN", SubsystemTerrain.Project.GameDatabase.EntityTemplateType, true);
 				var valuesDictionary = new ValuesDictionary();
@@ -32,7 +32,7 @@ namespace Game
 				valuesDictionary.GetValue<ValuesDictionary>("BlockEntity").SetValue("Coordinates", new Point3(x, y, z));
 				SubsystemTerrain.Project.AddEntity(SubsystemTerrain.Project.CreateEntity(valuesDictionary));
 			}
-			if (Terrain.ExtractContents(value) == 507)
+			if (Terrain.ExtractContents(value) == LitFurnaceNBlock.Index)
 			{
 				AddFire(value, x, y, z);
 			}
@@ -40,7 +40,7 @@ namespace Game
 
 		public override void OnBlockRemoved(int value, int newValue, int x, int y, int z)
 		{
-			if (Terrain.ExtractContents(newValue) != 506 && Terrain.ExtractContents(newValue) != 507)
+			if (Terrain.ExtractContents(newValue) != FurnaceNBlock.Index && Terrain.ExtractContents(newValue) != LitFurnaceNBlock.Index)
 			{
 				ComponentBlockEntity blockEntity = SubsystemTerrain.Project.FindSubsystem<SubsystemBlockEntities>(true).GetBlockEntity(x, y, z);
 				if (blockEntity != null)
@@ -53,7 +53,7 @@ namespace Game
 					SubsystemTerrain.Project.RemoveEntity(blockEntity.Entity, true);
 				}
 			}
-			if (Terrain.ExtractContents(value) == 507)
+			if (Terrain.ExtractContents(value) == LitFurnaceNBlock.Index)
 			{
 				RemoveFire(x, y, z);
 			}
@@ -61,7 +61,7 @@ namespace Game
 
 		public override void OnBlockGenerated(int value, int x, int y, int z, bool isLoaded)
 		{
-			if (Terrain.ExtractContents(value) == 507)
+			if (Terrain.ExtractContents(value) == LitFurnaceNBlock.Index)
 			{
 				AddFire(value, x, y, z);
 			}

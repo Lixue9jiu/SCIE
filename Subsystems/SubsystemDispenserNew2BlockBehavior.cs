@@ -19,7 +19,7 @@ namespace Game
 			{
 				return new int[]
 				{
-					537
+					DispenserNew2Block.Index
 				};
 			}
 		}

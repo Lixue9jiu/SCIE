@@ -10,29 +10,25 @@ namespace Game
 			IronBullet
 		}
 
-		public const int Index = 525;
+		public const int Index = 521;
 
-		private static readonly string[] m_displayNames = new string[1]
+		private static readonly string[] m_displayNames = new string[]
 		{
 			"IronFixedBullet"
 		};
-		private static readonly float[] m_sizes = new float[1]
+		private static readonly float[] m_sizes = new float[]
 		{
 			1f
 		};
-		private static readonly int[] m_textureSlots = new int[1]
+		private static readonly int[] m_textureSlots = new int[]
 		{
 			226
 		};
-		private static readonly float[] m_weaponPowers = new float[1]
+		private static readonly float[] m_weaponPowers = new float[]
 		{
 			10f
 		};
 		//private static readonly float[] m_explosionPressures = new float[3];
-
-		public override void GenerateTerrainVertices(BlockGeometryGenerator generator, TerrainGeometrySubsets geometry, int value, int x, int y, int z)
-		{
-		}
 
 		public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
 		{

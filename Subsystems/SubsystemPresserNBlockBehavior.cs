@@ -16,7 +16,7 @@ namespace Game
 			{
 				return new int[]
 				{
-					518
+					PresserNBlock.Index
 				};
 			}
 		}

@@ -16,15 +16,15 @@ namespace Game
 			{
 				return new int[]
 				{
-					534,
-					533
+					LitEngineHBlock.Index,
+					EngineHBlock.Index
 				};
 			}
 		}
 
 		public override void OnBlockAdded(int value, int oldValue, int x, int y, int z)
 		{
-			if (Terrain.ExtractContents(oldValue) != 533 && Terrain.ExtractContents(oldValue) != 534)
+			if (Terrain.ExtractContents(oldValue) != EngineHBlock.Index && Terrain.ExtractContents(oldValue) != LitEngineHBlock.Index)
 			{
 				DatabaseObject databaseObject = SubsystemTerrain.Project.GameDatabase.Database.FindDatabaseObject("HeatEngine", SubsystemTerrain.Project.GameDatabase.EntityTemplateType, true);
 				var valuesDictionary = new ValuesDictionary();
@@ -32,7 +32,7 @@ namespace Game
 				valuesDictionary.GetValue<ValuesDictionary>("BlockEntity").SetValue("Coordinates", new Point3(x, y, z));
 				SubsystemTerrain.Project.AddEntity(SubsystemTerrain.Project.CreateEntity(valuesDictionary));
 			}
-			if (Terrain.ExtractContents(value) == 534)
+			if (Terrain.ExtractContents(value) == LitEngineHBlock.Index)
 			{
 				AddFire(value, x, y, z);
 			}
@@ -40,7 +40,7 @@ namespace Game
 
 		public override void OnBlockRemoved(int value, int newValue, int x, int y, int z)
 		{
-			if (Terrain.ExtractContents(newValue) != 533 && Terrain.ExtractContents(newValue) != 534)
+			if (Terrain.ExtractContents(newValue) != EngineHBlock.Index && Terrain.ExtractContents(newValue) != LitEngineHBlock.Index)
 			{
 				ComponentBlockEntity blockEntity = SubsystemTerrain.Project.FindSubsystem<SubsystemBlockEntities>(true).GetBlockEntity(x, y, z);
 				if (blockEntity != null)
@@ -53,7 +53,7 @@ namespace Game
 					SubsystemTerrain.Project.RemoveEntity(blockEntity.Entity, true);
 				}
 			}
-			if (Terrain.ExtractContents(value) == 534)
+			if (Terrain.ExtractContents(value) == LitEngineHBlock.Index)
 			{
 				RemoveFire(x, y, z);
 			}
@@ -61,7 +61,7 @@ namespace Game
 
 		public override void OnBlockGenerated(int value, int x, int y, int z, bool isLoaded)
 		{
-			if (Terrain.ExtractContents(value) == 534)
+			if (Terrain.ExtractContents(value) == LitEngineHBlock.Index)
 			{
 				AddFire(value, x, y, z);
 			}

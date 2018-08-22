@@ -4,11 +4,11 @@ namespace Game
 {
 	public class CastMachBlock : CubeBlock
 	{
-		public const int Index = 547;
+		public const int Index = 530;
 
-		private readonly BlockMesh[] m_blockMeshesByData = new BlockMesh[4];
+		//private readonly BlockMesh[] m_blockMeshesByData = new BlockMesh[4];
 
-		private readonly BlockMesh m_standaloneBlockMesh = new BlockMesh();
+		//private readonly BlockMesh m_standaloneBlockMesh = new BlockMesh();
 
 		public override int GetFaceTextureSlot(int face, int value)
 		{
@@ -86,7 +86,7 @@ namespace Game
 				data = 1;
 			}
 			BlockPlacementData result = default(BlockPlacementData);
-			result.Value = Terrain.ReplaceData(Terrain.ReplaceContents(0, 547), data);
+			result.Value = Terrain.ReplaceData(Terrain.ReplaceContents(0, Index), data);
 			result.CellFace = raycastResult.CellFace;
 			return result;
 		}

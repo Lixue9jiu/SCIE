@@ -132,7 +132,7 @@ namespace Game
 			}
 			float num2 = (m_subsystemGameInfo.WorldSettings.GameMode == GameMode.Creative) ? 0.1f : 1.4f;
 			Vector3 viewPosition2 = View.ActiveCamera.ViewPosition;
-			if (block.BlockIndex == 524)
+			if (block.BlockIndex == Musket2Block.Index)
 			{
 				num2 = 0.1f;
 			}

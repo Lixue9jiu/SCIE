@@ -4,25 +4,25 @@ using System;
 
 namespace Game
 {
-	public class IronLine : MetalLineBlock
+	public class IronLine : MetalLine
 	{
 		public IronLine() : base(MetalType.IronLine)
 		{
 		}
 	}
-	public class CopperLine : MetalLineBlock
+	public class CopperLine : MetalLine
 	{
 		public CopperLine() : base(MetalType.CopperLine)
 		{
 		}
 	}
-	public class SteelLine : MetalLineBlock
+	public class SteelLine : MetalLine
 	{
 		public SteelLine() : base(MetalType.SteelLine)
 		{
 		}
 	}
-	public abstract class MetalLineBlock : FlatItem
+	public abstract class MetalLine : FlatItem
 	{
 		[Serializable]
 		public enum MetalType
@@ -32,7 +32,7 @@ namespace Game
 			SteelLine
 		}
 		public readonly MetalType Type;
-		protected MetalLineBlock(MetalType type)
+		protected MetalLine(MetalType type)
 		{
 			DefaultTextureSlot = 235;
 			DefaultDisplayName = type.ToString();

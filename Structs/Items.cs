@@ -94,10 +94,6 @@ namespace Game
 			finally
 			{
 				streamReader.Dispose();
-			}
-			if (BlocksManager.Blocks[300] != null)
-			{
-				throw new InvalidOperationException();
 			}*/
             CraftingRecipesManager.DecodeResult1 = DecodeResult;
 			base.Initialize();

@@ -113,7 +113,7 @@ namespace Game
 				list.Add(elem);
 			}
 		}*/
-		public new const int Index = 500;
+		public new const int Index = 501;
 		public override void Initialize()
 		{
 			var fridge = new Fridge();

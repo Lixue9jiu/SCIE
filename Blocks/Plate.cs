@@ -4,53 +4,53 @@ using System;
 
 namespace Game
 {
-        public class SteelPlate : PlateBlock
-        {
-            public SteelPlate() : base(MetalType.Steel)
-            {
-            }
-        }
-        public class IronPlate : PlateBlock
-        {
-            public IronPlate() : base(MetalType.Iron)
-            {
-            }
-        }
-        public class CopperPlate : PlateBlock
-        {
-            public CopperPlate() : base(MetalType.Copper)
-            {
-            }
-        }
-        public class LeadPlate : PlateBlock
-        {
-            public LeadPlate() : base(MetalType.Lead)
-            {
-            }
-        }
-        public class ZincPlate : PlateBlock
-        {
-            public ZincPlate() : base(MetalType.Zinc)
-            {
-            }
-        }
-        public class PlatinumPlate : PlateBlock
-        {
-            public PlatinumPlate() : base(MetalType.Platinum)
-            {
-            }
-        }
-        public class AluminumPlate : PlateBlock
-        {
-            public AluminumPlate() : base(MetalType.Aluminum)
-            {
-            }
-        }
-    public abstract class PlateBlock : Item
+    public class SteelPlate : Plate
     {
-        private readonly BlockMesh m_standaloneBlockMesh = new BlockMesh();
+        public SteelPlate() : base(MetalType.Steel)
+        {
+        }
+    }
+    public class IronPlate : Plate
+    {
+        public IronPlate() : base(MetalType.Iron)
+        {
+        }
+    }
+    public class CopperPlate : Plate
+    {
+        public CopperPlate() : base(MetalType.Copper)
+        {
+        }
+    }
+    public class LeadPlate : Plate
+    {
+        public LeadPlate() : base(MetalType.Lead)
+        {
+        }
+    }
+    public class ZincPlate : Plate
+    {
+        public ZincPlate() : base(MetalType.Zinc)
+        {
+        }
+    }
+    public class PlatinumPlate : Plate
+    {
+        public PlatinumPlate() : base(MetalType.Platinum)
+        {
+        }
+    }
+    public class AluminumPlate : Plate
+    {
+        public AluminumPlate() : base(MetalType.Aluminum)
+        {
+        }
+    }
+    public abstract class Plate : Item
+    {
+		protected readonly BlockMesh m_standaloneBlockMesh = new BlockMesh();
         public readonly MetalType Type;
-        protected PlateBlock(MetalType type)
+        protected Plate(MetalType type)
 		{
             Type = type;
             Model model = ContentManager.Get<Model>("Models/Ingots");

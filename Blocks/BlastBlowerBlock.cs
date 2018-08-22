@@ -24,7 +24,7 @@ namespace Game
 			}*/
 			return new BlockPlacementData
 			{
-				Value = Terrain.MakeBlockValue(540, 0, 0),
+				Value = Terrain.MakeBlockValue(BlastBlowerBlock.Index, 0, 0),
 				CellFace = raycastResult.CellFace
 			};
 		}
@@ -39,6 +39,6 @@ namespace Game
 			return (data & -100) | (direction & 99);
 		}
 		
-		public const int Index = 540;
+		public const int Index = 529;
 	}
 }

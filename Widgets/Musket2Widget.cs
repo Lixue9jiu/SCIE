@@ -49,7 +49,7 @@ namespace Game
 		{
 			int slotValue = m_inventory.GetSlotValue(m_slotIndex);
 			int slotCount = m_inventory.GetSlotCount(m_slotIndex);
-			if (Terrain.ExtractContents(slotValue) == 524 && slotCount > 0)
+			if (Terrain.ExtractContents(slotValue) == Musket2Block.Index && slotCount > 0)
 			{
 				switch (Musket2Block.GetLoadState(Terrain.ExtractData(slotValue)))
 				{

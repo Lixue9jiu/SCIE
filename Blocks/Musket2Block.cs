@@ -13,7 +13,7 @@ namespace Game
 			Loaded
 		}
 
-		public const int Index = 524;
+		public const int Index = 520;
 
 		private BlockMesh m_standaloneBlockMeshLoaded;
 
@@ -61,7 +61,7 @@ namespace Game
 
 		public override bool IsSwapAnimationNeeded(int oldValue, int newValue)
 		{
-			if (Terrain.ExtractContents(oldValue) != 524)
+			if (Terrain.ExtractContents(oldValue) != Musket2Block.Index)
 			{
 				return true;
 			}

@@ -109,7 +109,7 @@ namespace Game
 			if (m_subsystemTerrain.Terrain.GetCellContents(coordinates.X, coordinates.Y, coordinates.Z) != 0)
 			{
 				int cellValue = m_subsystemTerrain.Terrain.GetCellValue(coordinates.X, coordinates.Y, coordinates.Z);
-				m_subsystemTerrain.ChangeCell(coordinates.X, coordinates.Y, coordinates.Z, Terrain.ReplaceContents(cellValue, (HeatLevel > 0f) ? 544 : 543), true);
+				m_subsystemTerrain.ChangeCell(coordinates.X, coordinates.Y, coordinates.Z, Terrain.ReplaceContents(cellValue, (HeatLevel > 0f) ? LitFireBoxBlock.Index : FireBoxBlock.Index), true);
 			}
 		}
 

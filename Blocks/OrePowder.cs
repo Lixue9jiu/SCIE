@@ -4,79 +4,79 @@ using System;
 
 namespace Game
 {
-	public class IronOrePowder : OrePowderBlock
+	public class IronOrePowder : OrePowder
 	{
 		public IronOrePowder() : base(OreType.IronOre)
 		{
 		}
 	}
-    public class CopperOrePowder : OrePowderBlock
+    public class CopperOrePowder : OrePowder
     {
         public CopperOrePowder() : base(OreType.CopperOre)
         {
         }
     }
-    public class GermaniumOrePowder : OrePowderBlock
+    public class GermaniumOrePowder : OrePowder
     {
         public GermaniumOrePowder() : base(OreType.GermaniumOre)
         {
         }
     }
-    public class GoldOrePowder : OrePowderBlock
+    public class GoldOrePowder : OrePowder
     {
         public GoldOrePowder() : base(OreType.GoldOre)
         {
         }
     }
-    public class SliverOrePowder : OrePowderBlock
+    public class SliverOrePowder : OrePowder
     {
         public SliverOrePowder() : base(OreType.SliverOre)
         {
         }
     }
-    public class PlatinumOrePowder : OrePowderBlock
+    public class PlatinumOrePowder : OrePowder
     {
         public PlatinumOrePowder() : base(OreType.PlatinumOre)
         {
         }
     }
-    public class LeadOrePowder : OrePowderBlock
+    public class LeadOrePowder : OrePowder
     {
         public LeadOrePowder() : base(OreType.LeadOre)
         {
         }
     }
-    public class StannaryOrePowder : OrePowderBlock
+    public class StannaryOrePowder : OrePowder
     {
         public StannaryOrePowder() : base(OreType.StannaryOre)
         {
         }
     }
-    public class ZincOrePowder : OrePowderBlock
+    public class ZincOrePowder : OrePowder
     {
         public ZincOrePowder() : base(OreType.ZincOre)
         {
         }
     }
-    public class ChromiumOrePowder : OrePowderBlock
+    public class ChromiumOrePowder : OrePowder
     {
         public ChromiumOrePowder() : base(OreType.ChromiumOre)
         {
         }
     }
-    public class NickelOrePowder : OrePowderBlock
+    public class NickelOrePowder : OrePowder
     {
         public NickelOrePowder() : base(OreType.NickelOre)
         {
         }
     }
-    public class AluminumOrePowder : OrePowderBlock
+    public class AluminumOrePowder : OrePowder
     {
         public AluminumOrePowder() : base(OreType.AluminumOre)
         {
         }
     }
-    public abstract class OrePowderBlock : FlatItem
+    public abstract class OrePowder : FlatItem
 	{
 		[Serializable]
 		public enum OreType
@@ -95,7 +95,7 @@ namespace Game
             StannaryOre
 		}
 		public readonly OreType Type;
-		protected OrePowderBlock(OreType type)
+		protected OrePowder(OreType type)
 		{
 			DefaultTextureSlot = 198;
 			DefaultDisplayName = type.ToString()+"Powder";

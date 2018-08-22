@@ -50,7 +50,7 @@ namespace Game
 					int data = Terrain.ExtractData(slotValue);
 					int num2 = slotValue;
 					int num3 = 0;
-					if (num == 524 && slotCount > 0)
+					if (num == Musket2Block.Index && slotCount > 0)
 					{
 						double value;
 						if (!m_aimStartTimes.TryGetValue(componentMiner, out value))
@@ -210,11 +210,9 @@ namespace Game
 		}
 		public override int GetProcessInventoryItemCapacity(IInventory inventory, int slotIndex, int value)
 		{
-			if (Terrain.ExtractContents(value) != 525 || Musket2Block.GetLoadState(Terrain.ExtractData(inventory.GetSlotValue(slotIndex))) == Musket2Block.LoadState.Wad)
-			{
-				return 0;
-			}
-			return 1;
+			return Terrain.ExtractContents(value) != Bullet2Block.Index || Musket2Block.GetLoadState(Terrain.ExtractData(inventory.GetSlotValue(slotIndex))) == Musket2Block.LoadState.Wad
+				? 0
+				: 1;
 		}
 
 		public override void ProcessInventoryItem(IInventory inventory, int slotIndex, int value, int count, int processCount, out int processedValue, out int processedCount)
@@ -237,7 +235,7 @@ namespace Game
 				processedValue = 0;
 				processedCount = 0;
 				inventory.RemoveSlotItems(slotIndex, 1);
-				inventory.AddSlotItems(slotIndex, Terrain.MakeBlockValue(524, 0, Musket2Block.SetBulletType(Musket2Block.SetLoadState(data, loadState), null)), 1);
+				inventory.AddSlotItems(slotIndex, Terrain.MakeBlockValue(Musket2Block.Index, 0, Musket2Block.SetBulletType(Musket2Block.SetLoadState(data, loadState), null)), 1);
 			}
 		}
 

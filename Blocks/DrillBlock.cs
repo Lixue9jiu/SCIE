@@ -15,7 +15,7 @@ namespace Game
 			IronTubularis,
 			SteelTubularis
 		}
-		public const int Index = 535;
+		public const int Index = 525;
 		public override IEnumerable<int> GetCreativeValues()
 		{
 			if (DefaultCreativeData < 0)

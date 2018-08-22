@@ -65,7 +65,7 @@ namespace Game
 			}
 			return new BlockPlacementData
 			{
-				Value = Terrain.ReplaceData(Terrain.ReplaceContents(0, 543), data),
+				Value = Terrain.ReplaceData(Index, data),
 				CellFace = raycastResult.CellFace
 			};
 		}
@@ -85,10 +85,10 @@ namespace Game
 			return false;
 		}
 		
-		public const int Index = 543;
+		public const int Index = 532;
 		
-		private readonly BlockMesh[] m_blockMeshesByData = new BlockMesh[4];
+		//private readonly BlockMesh[] m_blockMeshesByData = new BlockMesh[4];
 		
-		private readonly BlockMesh m_standaloneBlockMesh = new BlockMesh();
+		//private readonly BlockMesh m_standaloneBlockMesh = new BlockMesh();
 	}
 }

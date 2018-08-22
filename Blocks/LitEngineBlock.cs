@@ -2,7 +2,7 @@ namespace Game
 {
 	public class LitEngineBlock : EngineBlock
 	{
-		public new const int Index = 509;
+		public new const int Index = 508;
 
 		public override int GetFaceTextureSlot(int face, int value)
 		{

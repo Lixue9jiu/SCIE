@@ -4,11 +4,11 @@ namespace Game
 {
 	public class SqueezerBlock : CubeBlock
 	{
-		public const int Index = 545;
+		public const int Index = 527;
 
-		private readonly BlockMesh[] m_blockMeshesByData = new BlockMesh[4];
+		//private readonly BlockMesh[] m_blockMeshesByData = new BlockMesh[4];
 
-		private readonly BlockMesh m_standaloneBlockMesh = new BlockMesh();
+		//private readonly BlockMesh m_standaloneBlockMesh = new BlockMesh();
 
 		public override int GetFaceTextureSlot(int face, int value)
 		{
