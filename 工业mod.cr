@@ -10,7 +10,7 @@
     <Recipe Result="SaltpeterChunkBlock" ResultCount="1" RequiredHeatLevel="700" a="rottenbread" b="dirt" Description="Using bacterium to decompose dirt and rotten food to get Saltpeter">
       "ab"
     </Recipe>
-    <Recipe Result="SaltpeterChunkBlock" ResultCount="1" RequiredHeatLevel="700" a="rottenegg" b="dirt" Description="Using bacterium to decompose dirt and rotten food to get Saltpeter">
+    <Recipe Result="SaltpeterChunkBlock" ResultCount="1" RequiredHeatLevel="700" a="RottenEgg" b="dirt" Description="Using bacterium to decompose dirt and rotten food to get Saltpeter">
       "ab"
     </Recipe>
     <Recipe Result="SaltpeterChunkBlock" ResultCount="1" RequiredHeatLevel="700" a="rottenbird" b="dirt" Description="Using bacterium to decompose dirt and rotten food to get Saltpeter">
@@ -113,6 +113,30 @@
       "aaa"
     </Recipe>
     <Recipe Result="SteelRod" ResultCount="2" RequiredHeatLevel="1500" a="SteelIngot" Description="Forge an iron ingot into rods">
+      "aa"
+    </Recipe>
+    <Recipe Result="CopperRod" ResultCount="2" RequiredHeatLevel="1000" a="copperingot" Description="Forge an copper ingot into rods">
+      "aa"
+    </Recipe>
+    <Recipe Result="GoldRod" ResultCount="2" RequiredHeatLevel="1100" a="GoldIngot" Description="Forge an gold ingot into rods">
+      "aa"
+     </Recipe>
+    <Recipe Result="SliverRod" ResultCount="2" RequiredHeatLevel="900" a="SliverIngot" Description="Forge an sliver ingot into rods">
+      "aa"
+     </Recipe>
+    <Recipe Result="LeadRod" ResultCount="2" RequiredHeatLevel="300" a="LeadIngot" Description="Forge an lead ingot into rods">
+      "aa"
+     </Recipe>
+    <Recipe Result="PlatinumRod" ResultCount="2" RequiredHeatLevel="1800" a="PlatinumIngot" Description="Forge an platinum ingot into rods">
+      "aa"
+     </Recipe>
+    <Recipe Result="ZincRod" ResultCount="2" RequiredHeatLevel="800" a="ZincIngot" Description="Forge an zinc ingot into rods">
+      "aa"
+     </Recipe>
+    <Recipe Result="StannaryRod" ResultCount="2" RequiredHeatLevel="300" a="StannaryIngot" Description="Forge an stannary ingot into rods">
+      "aa"
+    </Recipe>
+    <Recipe Result="NickelRod" ResultCount="2" RequiredHeatLevel="1200" a="NickelIngot" Description="Forge an nickel ingot into rods">
       "aa"
     </Recipe>
   </Smelting>
@@ -288,7 +312,7 @@
       "aba"
       "aaa"
     </Recipe>
-    <Recipe Result="BoatIBlock" ResultCount="1" RequiredHeatLevel="0" a="IronPlate" b="boat" c="sengine" Description="A Boat with steamengine can let you travel with high speed">
+    <Recipe Result="SteamBoat" ResultCount="1" RequiredHeatLevel="0" a="IronPlate" b="boat" c="sengine" Description="A Boat with steamengine can let you travel with high speed">
       "aaa"
       "aba"
       "aca"

@@ -170,5 +170,9 @@ namespace Game
 				Z = 1
 			};
 		}
+		public override float GetProjectilePower(int value)
+		{
+			return 2f;
+		}
 	}
 }

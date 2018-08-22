@@ -12,10 +12,10 @@ namespace Game
 			DefaultItem = new Item();
             Items = new Item[]
             {
-                new IronLine(),
+				new RottenEgg(),
+				new IronLine(),
                 new CopperLine(),
                 new SteelLine(),
-				new SteelRod(),
 				new RifleBarrel(),
 				new RuIngotBlock(),
 				new GoldOreChunk(),
@@ -59,13 +59,24 @@ namespace Game
 				new AluminumPlate(),
 				new SteamBoat(),
 				new Train(),
+				new SteelRod(),
+				new CopperRod(),
+				new GoldRod(),
+				new SliverRod(),
+				new LeadRod(),
+				new PlatinumRod(),
+				new ZincRod(),
+				new StannaryRod(),
+				new TitaniumRod(),
+				new NickelRod(),
+				new AluminumRod(),
 				//new CarbonAerogels()
 			};
             IdTable = new Dictionary<string, int>(Items.Length);
 			int i;
 			for (i = 0; i < Items.Length; i++)
 			{
-				IdTable.Add(Items[i].GetType().ToString().Substring(5), BlockIndex | i << 14);
+				IdTable.Add(Items[i].GetType().ToString().Substring(5), Index | i << 14);
 			}
             /*var streamReader = new StreamReader(CustomTextureBlock.GetTargetFile("IndustrialMod.icsv"));
 			try

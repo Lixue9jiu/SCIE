@@ -270,9 +270,9 @@ namespace Game
 			return Vector3.One;
 		}
 	}
-	public partial class ItemBlock : CubeBlock, IItemBlock
+	public abstract partial class ItemBlock : CubeBlock, IItemBlock
 	{
-		public const int Index = 501;
+		public const int Index = 246;
 		public static Item[] Items;
 		public static Dictionary<string, int> IdTable;
 		public static Item DefaultItem;
@@ -323,7 +323,7 @@ namespace Game
 					}
 				}
 			}
-			return new CraftingRecipe[0];
+			return base.GetProceduralCraftingRecipes();
 		}
 		/*public override CraftingRecipe GetAdHocCraftingRecipe(SubsystemTerrain subsystemTerrain, string[] ingredients, float heatLevel)
 		{
@@ -539,5 +539,9 @@ namespace Game
 			}
 			return data & -0b1111100000111111;
 		}
+	}
+	public class RottenEggBlock : ItemBlock
+	{
+		public new const int Index = 246;
 	}
 }

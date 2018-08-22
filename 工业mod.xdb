@@ -173,9 +173,6 @@
     <MemberSubsystemTemplate Name="FireBoxBlockBehavior" Guid="d67ffe62-402f-4b96-987a-6050eb7ed2d4" InheritanceParent="fefb9590-4972-4893-b02a-76063611b745">
       <Parameter Name="Class" Guid="9619532e-5607-40f1-8704-4c42f35ec016" Value="Game.SubsystemFireBoxBlockBehavior" Type="string" />
     </MemberSubsystemTemplate>
-    <MemberSubsystemTemplate Name="BoatIBlockBehavior" Guid="fff38d3d-e999-452c-959d-47eefb16457a" InheritanceParent="fefb9590-4972-4893-b02a-76063611b745">
-      <Parameter Name="Class" Guid="ff8571da-4268-41d7-90a9-9a066f2feea8" Value="Game.SubsystemBoatIBlockBehavior" Type="string" />
-    </MemberSubsystemTemplate>
     <MemberSubsystemTemplate Name="Mineral" Guid="f9f38d3d-e999-452c-959d-47eefb16457a" InheritanceParent="fefb9590-4972-4893-b02a-76063611b745">
       <Parameter Name="Class" Guid="f98571da-4268-41d7-90a9-9a066f2feea8" Value="Game.SubsystemMineral" Type="string" />
     </MemberSubsystemTemplate>
