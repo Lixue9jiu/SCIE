@@ -17,7 +17,7 @@ namespace Game
                 new CopperLine(),
                 new SteelLine(),
 				new RifleBarrel(),
-				new RuIngotBlock(),
+				new ScrapIron(),
 				new GoldOreChunk(),
                 new SliverOreChunk(),
                 new PlatinumOreChunk(),
@@ -70,6 +70,11 @@ namespace Game
 				new TitaniumRod(),
 				new NickelRod(),
 				new AluminumRod(),
+				new SteelGear(),
+				new SteelWheel(),
+				new SteelGearMould(),
+				new SteelWheelMould(),
+				new IndustrialPiston(),
 				//new CarbonAerogels()
 			};
             IdTable = new Dictionary<string, int>(Items.Length);
@@ -78,7 +83,7 @@ namespace Game
 			{
 				IdTable.Add(Items[i].GetType().ToString().Substring(5), Index | i << 14);
 			}
-            /*var streamReader = new StreamReader(CustomTextureBlock.GetTargetFile("IndustrialMod.icsv"));
+			/*var streamReader = new StreamReader(CustomTextureBlock.GetTargetFile("IndustrialMod.icsv"));
 			try
 			{
 				LoadBlocksData(streamReader.ReadToEnd());
@@ -90,6 +95,10 @@ namespace Game
 			finally
 			{
 				streamReader.Dispose();
+			}
+			if (BlocksManager.Blocks[300] != null)
+			{
+				throw new InvalidOperationException();
 			}*/
             CraftingRecipesManager.DecodeResult1 = DecodeResult;
 			base.Initialize();

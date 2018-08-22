@@ -5,11 +5,8 @@ namespace Game
 {
 	public class RifleBarrel : MeshItem
 	{
-		protected readonly BlockMesh m_standaloneBlockMesh = new BlockMesh();
-
-		public RifleBarrel()
+		public RifleBarrel() : base("Rifle Barrel are made by Rifling Machine. They are useful for making guns.")
 		{
-			DefaultDescription = "Rifle Barrel are made by Rifling Machine. They are useful for making guns.";
 			DefaultTextureSlot = 227;
 			Model model = ContentManager.Get<Model>("Models/Rod");
 			Matrix boneAbsoluteTransform = BlockMesh.GetBoneAbsoluteTransform(model.FindMesh("SteelRod", true).ParentBone);

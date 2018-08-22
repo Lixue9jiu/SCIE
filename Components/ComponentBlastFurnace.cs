@@ -22,9 +22,9 @@ namespace Game
 			}
 		}
 
-		public float HeatLevel { get; private set; }
+		public float HeatLevel { get => _heatLevel; private set => _heatLevel = value; }
 
-		public float SmeltingProgress { get; private set; }
+		public float SmeltingProgress { get => _smeltingProgress; private set => _smeltingProgress = value; }
 
 		public int UpdateOrder
 		{
@@ -131,14 +131,14 @@ namespace Game
 				{
 					int[] array = new int[]
 					{
-                        IronOreChunkBlock.Index,
-                        ItemBlock.IdTable["IronOrePowder"],
-                        CoalChunkBlock.Index,
-                        CoalPowderBlock.Index,
-                        SandBlock.Index,
-                        PigmentBlock.Index,
-                        IronIngotBlock.Index
-                    };
+						IronOreChunkBlock.Index,
+						ItemBlock.IdTable["IronOrePowder"],
+						CoalChunkBlock.Index,
+						CoalPowderBlock.Index,
+						SandBlock.Index,
+						PigmentBlock.Index,
+						IronIngotBlock.Index
+					};
 					for (int l = 0; l < 7; l++)
 					{
 						if (m_matchedIngredients[l] > 0)
@@ -173,7 +173,7 @@ namespace Game
 					}
 					if (m_matchedIngredients[7] >= 1)
 					{
-						m_slots[RemainsSlotIndex].Value = ItemBlock.IdTable["RnIngotBlock"];
+						m_slots[RemainsSlotIndex].Value = ItemBlock.IdTable["ScrapIron"];
 						m_slots[RemainsSlotIndex].Count += m_matchedIngredients[7];
 					}
 					if (m_matchedIngredients[9] >= 1)
@@ -187,19 +187,19 @@ namespace Game
 				}
 			}
 		}
-		
+
 		public override void AddSlotItems(int slotIndex, int value, int count)
 		{
 			base.AddSlotItems(slotIndex, value, count);
 			m_updateSmeltingRecipe = true;
 		}
-		
+
 		public override int RemoveSlotItems(int slotIndex, int count)
 		{
 			m_updateSmeltingRecipe = true;
 			return base.RemoveSlotItems(slotIndex, count);
 		}
-		
+
 		public override void Load(ValuesDictionary valuesDictionary, IdToEntityMap idToEntityMap)
 		{
 			base.Load(valuesDictionary, idToEntityMap);
@@ -212,14 +212,14 @@ namespace Game
 			HeatLevel = valuesDictionary.GetValue<float>("HeatLevel");
 			m_updateSmeltingRecipe = true;
 		}
-		
+
 		public override void Save(ValuesDictionary valuesDictionary, EntityToIdMap entityToIdMap)
 		{
 			base.Save(valuesDictionary, entityToIdMap);
 			valuesDictionary.SetValue<float>("FireTimeRemaining", m_fireTimeRemaining);
 			valuesDictionary.SetValue<float>("HeatLevel", HeatLevel);
 		}
-		
+
 		private bool FindSmeltingRecipe(float heatLevel)
 		{
 			if (heatLevel <= 0f)
@@ -253,7 +253,7 @@ namespace Game
 				int slotCount = GetSlotCount(i);
 				if (GetSlotCount(i) > 0)
 				{
-					if (slotValue==IronOreChunkBlock.Index)
+					if (slotValue == IronOreChunkBlock.Index)
 					{
 						m_matchedIngredients2[0] += slotCount;
 					}
@@ -352,18 +352,18 @@ namespace Game
 					m_matchedIngredients[7] = 6 - num7;
 					flag = true;
 				}
-                if (m_matchedIngredients2[6] >= 5 && m_matchedIngredients2[3] >= 2 && m_matchedIngredients2[5]>=1 && m_matchedIngredients2[0] + m_matchedIngredients2[1] + m_matchedIngredients2[2] + m_matchedIngredients2[4]  <= 0)
-                {
-                    int num7 = m_random.UniformInt(3, 5);
-                    m_matchedIngredients[6] = 6;
-                    m_matchedIngredients[3] = 2;
-                    m_matchedIngredients[8] = num7;
-                    m_matchedIngredients[7] = 6 - num7;
-                    flag = true;
-                }
-            }
+				if (m_matchedIngredients2[6] >= 5 && m_matchedIngredients2[3] >= 2 && m_matchedIngredients2[5] >= 1 && m_matchedIngredients2[0] + m_matchedIngredients2[1] + m_matchedIngredients2[2] + m_matchedIngredients2[4] <= 0)
+				{
+					int num7 = m_random.UniformInt(3, 5);
+					m_matchedIngredients[6] = 6;
+					m_matchedIngredients[3] = 2;
+					m_matchedIngredients[8] = num7;
+					m_matchedIngredients[7] = 6 - num7;
+					flag = true;
+				}
+			}
 
-            if (m_matchedIngredients[8] >= 1 && (m_slots[ResultSlotIndex].Value != ItemBlock.IdTable["steelIngot"] || m_slots[ResultSlotIndex].Count + m_matchedIngredients[8] > 40) && m_slots[ResultSlotIndex].Count != 0)
+			if (m_matchedIngredients[8] >= 1 && (m_slots[ResultSlotIndex].Value != ItemBlock.IdTable["steelIngot"] || m_slots[ResultSlotIndex].Count + m_matchedIngredients[8] > 40) && m_slots[ResultSlotIndex].Count != 0)
 			{
 				flag = false;
 			}
@@ -401,7 +401,8 @@ namespace Game
 		private bool m_smeltingRecipe2;
 
 		private SubsystemTime m_subsystemTime;
-
+		private float _smeltingProgress;
+		private float _heatLevel;
 		private readonly int[] result = new int[3];
 	}
 }

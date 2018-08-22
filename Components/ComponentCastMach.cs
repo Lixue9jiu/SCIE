@@ -25,6 +25,8 @@ namespace Game
 		private SubsystemAudio m_subsystemAudio;
 
 		private int m_music;
+		private float _heatLevel;
+		private float _smeltingProgress;
 
 		public int RemainsSlotIndex
 		{
@@ -52,14 +54,14 @@ namespace Game
 
 		public float HeatLevel
 		{
-			get;
-			private set;
+			get => _heatLevel;
+			private set => _heatLevel = value;
 		}
 
 		public float SmeltingProgress
 		{
-			get;
-			private set;
+			get => _smeltingProgress;
+			private set => _smeltingProgress = value;
 		}
 
 		public int UpdateOrder
@@ -148,22 +150,22 @@ namespace Game
 							m_slots[i].Count--;
 						}
 					}
-                    if (m_smeltingRecipe == "steelwheel")
-                    {
-                        m_slots[ResultSlotIndex].Value = 552;
-                        m_slots[ResultSlotIndex].Count++;
-                    }
-                    if (m_smeltingRecipe == "steelgear")
-                    {
-                        m_slots[ResultSlotIndex].Value = 548;
-                        m_slots[ResultSlotIndex].Count++;
-                    }
-                    m_smeltingRecipe = null;
+					if (m_smeltingRecipe == "SteelWheel")
+					{
+						m_slots[ResultSlotIndex].Value = ItemBlock.IdTable["SteelWheel"];
+						m_slots[ResultSlotIndex].Count++;
+					}
+					else if (m_smeltingRecipe == "SteelGear")
+					{
+						m_slots[ResultSlotIndex].Value = ItemBlock.IdTable["SteelGear"];
+						m_slots[ResultSlotIndex].Count++;
+					}
+					m_smeltingRecipe = null;
 					SmeltingProgress = 0f;
 					m_updateSmeltingRecipe = true;
 				}
 			}
-			
+
 		}
 
 		public override int GetSlotCapacity(int slotIndex, int value)
@@ -219,16 +221,16 @@ namespace Game
 				int slotValue = GetSlotValue(i);
 				int num = Terrain.ExtractContents(slotValue);
 				int num2 = Terrain.ExtractData(slotValue);
-				if (GetSlotCount(i) > 0 && GetSlotValue(1)>0)
+				if (GetSlotCount(i) > 0 && GetSlotValue(1) > 0)
 				{
-					var block2 = BlocksManager.Blocks[Terrain.ExtractContents(GetSlotValue(1))].CraftingId;
-					if (slotValue == ItemBlock.IdTable["SteelIngot"] && block2 == "steelgearmould")
+					int slotvalue = GetSlotValue(1);
+					if (slotValue == ItemBlock.IdTable["SteelIngot"] && slotvalue == ItemBlock.IdTable["SteelGearMould"])
 					{
-						text = "steelgear";
+						text = "SteelGear";
 					}
-                    if (slotValue == ItemBlock.IdTable["SteelIngot"] && block2 == "steelwheelmould")
+					if (slotValue == ItemBlock.IdTable["SteelIngot"] && slotvalue == ItemBlock.IdTable["SteelWheelMould"])
 					{
-						text = "steelwheel";
+						text = "SteelWheel";
 					}
 				}
 				else
@@ -239,8 +241,8 @@ namespace Game
 			if (text != null)
 			{
 				Slot slot = m_slots[ResultSlotIndex];
-                Block block3 = BlocksManager.Blocks[Terrain.ExtractContents(slot.Value)];
-                if (slot.Count != 0 && (block3.CraftingId !=text || 1 + slot.Count > 40))
+				Block block3 = BlocksManager.Blocks[Terrain.ExtractContents(slot.Value)];
+				if (slot.Count != 0 && (block3.CraftingId != text || 1 + slot.Count > 40))
 				{
 					text = null;
 				}

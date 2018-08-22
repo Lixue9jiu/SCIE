@@ -107,7 +107,7 @@ namespace Game
 		{
 			return new BlockPlacementData
 			{
-				Value = value,
+				Value = 0,
 				CellFace = raycastResult.CellFace
 			};
 		}
@@ -265,14 +265,24 @@ namespace Game
 	}
 	public class MeshItem : FlatItem
 	{
+		public BlockMesh m_standaloneBlockMesh = new BlockMesh();
+		public MeshItem(string description)
+		{
+			DefaultDescription = description;
+		}
 		public override Vector3 GetIconViewOffset(int value, DrawBlockEnvironmentData environmentData)
 		{
 			return Vector3.One;
+		}
+		public override float GetIconViewScale(int value, DrawBlockEnvironmentData environmentData)
+		{
+			return 0.85f;
 		}
 	}
 	public abstract partial class ItemBlock : CubeBlock, IItemBlock
 	{
 		public const int Index = 246;
+		public static bool Loaded;
 		public static Item[] Items;
 		public static Dictionary<string, int> IdTable;
 		public static Item DefaultItem;
@@ -312,16 +322,20 @@ namespace Game
 		}
 		public override IEnumerable<CraftingRecipe> GetProceduralCraftingRecipes()
 		{
-			for (int i = 0; i < CraftingRecipesManager.Recipes.Count; i++)
+			if (!Loaded)
 			{
-				var ingredients = CraftingRecipesManager.Recipes[i].Ingredients;
-				for (int j = 0; j < ingredients.Length; j++)
+				for (int i = 0; i < CraftingRecipesManager.Recipes.Count; i++)
 				{
-					if (!string.IsNullOrEmpty(ingredients[j]) && IdTable.TryGetValue(ingredients[j], out int value))
+					var ingredients = CraftingRecipesManager.Recipes[i].Ingredients;
+					for (int j = 0; j < ingredients.Length; j++)
 					{
-						ingredients[j] = "item:" + Terrain.ExtractData(value);
+						if (!string.IsNullOrEmpty(ingredients[j]) && IdTable.TryGetValue(ingredients[j], out int value))
+						{
+							ingredients[j] = "item:" + Terrain.ExtractData(value);
+						}
 					}
 				}
+				Loaded = true;
 			}
 			return base.GetProceduralCraftingRecipes();
 		}

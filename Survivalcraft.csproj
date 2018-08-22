@@ -62,12 +62,10 @@
     <Compile Include="Blocks\RailBlock.cs" />
     <Compile Include="Blocks\RifleBarrel.cs" />
     <Compile Include="Blocks\RottenEgg.cs" />
+    <Compile Include="Blocks\ScrapIron.cs" />
     <Compile Include="Blocks\SteamBoat.cs" />
-    <Compile Include="Blocks\SteelGearBlock.cs" />
-    <Compile Include="Blocks\SteelGearMouldBlock.cs" />
     <Compile Include="Blocks\Rods.cs" />
-    <Compile Include="Blocks\SteelWheelBlock.cs" />
-    <Compile Include="Blocks\SteelWheelMouldBlock.cs" />
+    <Compile Include="Blocks\Moulds.cs" />
     <Compile Include="Blocks\MetalLineBlock.cs" />
     <Compile Include="Blocks\SqueezerBlock.cs" />
     <Compile Include="Blocks\Train.cs" />
@@ -90,7 +88,6 @@
     <Compile Include="Components\ComponentCastMach.cs" />
     <Compile Include="Subsystems\SubsystemCastMachBlockBehavior.cs" />
     <Compile Include="Widgets\BlastFurnaceWidget.cs" />
-    <Compile Include="Blocks\RuIngotBlock.cs" />
     <Compile Include="Components\ComponentBlastFurnace.cs" />
     <Compile Include="Components\ComponentFireBox.cs" />
     <Compile Include="Blocks\FireBoxBlock.cs" />

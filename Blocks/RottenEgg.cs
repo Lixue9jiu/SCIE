@@ -5,12 +5,10 @@ namespace Game
 {
 	public class RottenEgg : MeshItem
 	{
-		public BlockMesh m_standaloneBlockMesh = new BlockMesh();
-		public RottenEgg()
+		public RottenEgg() : base("Rotten egg. Do not eat.")
 		{
 			DefaultDisplayName = "Rotten Egg";
 			DefaultCategory = "Food";
-			DefaultDescription = "Rotten egg. Do not eat.";
 			DefaultTextureSlot = 15;
 			Model model = ContentManager.Get<Model>("Models/RottenEgg");
 			ReadOnlyList<ModelMesh> meshes = model.Meshes;
@@ -22,6 +20,10 @@ namespace Game
 		public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
 		{
 			BlocksManager.DrawMeshBlock(primitivesRenderer, m_standaloneBlockMesh, color, 2f * size, ref matrix, environmentData);
+		}
+		public override float GetIconViewScale(int value, DrawBlockEnvironmentData environmentData)
+		{
+			return 0.85f;
 		}
 		public override float GetNutritionalValue(int value)
 		{
