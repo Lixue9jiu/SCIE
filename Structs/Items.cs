@@ -75,7 +75,6 @@ namespace Game
 				new SteelGearMould(),
 				new SteelWheelMould(),
 				new IndustrialPiston(),
-				//new CarbonAerogels()
 			};
             IdTable = new Dictionary<string, int>(Items.Length);
 			int i;

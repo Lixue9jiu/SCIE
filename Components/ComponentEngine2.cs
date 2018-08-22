@@ -5,19 +5,13 @@ using TemplatesDatabase;
 
 namespace Game
 {
-	public class ComponentEngine2 : ComponentInventoryBase, IUpdateable
+	public class ComponentEngine2 : ComponentMachine, IUpdateable
 	{
 		private float m_fireTimeRemaining;
 
 		private int m_furnaceSize;
 
 		private readonly string[] m_matchedIngredients = new string[9];
-
-		private SubsystemExplosions m_subsystemExplosions;
-
-		private SubsystemTerrain m_subsystemTerrain;
-
-		private bool m_updateSmeltingRecipe;
 
 		private string m_smeltingRecipe;
 
@@ -41,7 +35,7 @@ namespace Game
 			}
 		}
 
-		public int FuelSlotIndex
+		public override int FuelSlotIndex
 		{
 			get
 			{

@@ -72,18 +72,16 @@ namespace Game
 	public abstract class Rod : FlatItem
 	{
 		protected readonly string Name;
-		protected readonly Color Color;
 		protected readonly BlockMesh m_standaloneBlockMesh = new BlockMesh();
 
 		public Rod(string name, Color color)
 		{
 			Name = name;
-			Color = color;
 			DefaultTextureSlot = 227;
 			DefaultDescription = "Rods are made by forging " + Name + " into shape. They are useful for making many things.";
 			Model model = ContentManager.Get<Model>("Models/Rod");
 			Matrix boneAbsoluteTransform = BlockMesh.GetBoneAbsoluteTransform(model.FindMesh("SteelRod", true).ParentBone);
-			m_standaloneBlockMesh.AppendModelMeshPart(model.FindMesh("SteelRod", true).MeshParts[0], boneAbsoluteTransform * Matrix.CreateTranslation(0f, -0.5f, 0f), false, false, false, false, Color.White);
+			m_standaloneBlockMesh.AppendModelMeshPart(model.FindMesh("SteelRod", true).MeshParts[0], boneAbsoluteTransform * Matrix.CreateTranslation(0f, -0.5f, 0f), false, false, false, false, color);
 		}
 		public override Vector3 GetIconViewOffset(int value, DrawBlockEnvironmentData environmentData)
 		{
@@ -91,7 +89,7 @@ namespace Game
 		}
 		public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
 		{
-			BlocksManager.DrawMeshBlock(primitivesRenderer, m_standaloneBlockMesh, Color, 1.6f * size, ref matrix, environmentData);
+			BlocksManager.DrawMeshBlock(primitivesRenderer, m_standaloneBlockMesh, color, 1.6f * size, ref matrix, environmentData);
 		}
 		public override float GetMeleePower(int value)
 		{

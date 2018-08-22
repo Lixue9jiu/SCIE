@@ -4,7 +4,7 @@ using TemplatesDatabase;
 
 namespace Game
 {
-	public class ComponentBlastFurnace : ComponentInventoryBase, IUpdateable
+	public class ComponentBlastFurnace : ComponentMachine, IUpdateable
 	{
 		public int RemainsSlotIndex
 		{
@@ -378,17 +378,9 @@ namespace Game
 			return flag;
 		}
 
-		private ComponentBlockEntity m_componentBlockEntity;
-
 		private float m_fireTimeRemaining;
 
 		private int m_furnaceSize;
-
-		private SubsystemExplosions m_subsystemExplosions;
-
-		private SubsystemTerrain m_subsystemTerrain;
-
-		private bool m_updateSmeltingRecipe;
 
 		private int m_time;
 
@@ -399,8 +391,7 @@ namespace Game
 		private bool m_smeltingRecipe;
 
 		private bool m_smeltingRecipe2;
-
-		private SubsystemTime m_subsystemTime;
+		
 		private float _smeltingProgress;
 		private float _heatLevel;
 		private readonly int[] result = new int[3];

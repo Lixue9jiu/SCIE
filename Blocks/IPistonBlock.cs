@@ -7,7 +7,6 @@ namespace Game
     {
         public IndustrialPiston() : base("An piston made of iron,copper and steel, the neccessary part of many machine.")
         {
-			DefaultTextureSlot = 196;
 			Model model = ContentManager.Get<Model>("Models/Piston");
             Matrix boneAbsoluteTransform = BlockMesh.GetBoneAbsoluteTransform(model.FindMesh("Piston", true).ParentBone);
             BlockMesh blockMesh = new BlockMesh();

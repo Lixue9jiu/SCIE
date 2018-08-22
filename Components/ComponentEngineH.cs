@@ -118,7 +118,7 @@ namespace Game
 				Slot slot2 = m_slots[FuelSlotIndex];
 				if (slot2.Count > 0)
 				{
-					Block block = BlocksManager.Blocks[Terrain.ExtractContents(slot2.Value)];
+					var block = BlocksManager.Blocks[Terrain.ExtractContents(slot2.Value)];
 					if (block.GetExplosionPressure(slot2.Value) > 0f)
 					{
 						slot2.Count = 0;
@@ -163,11 +163,7 @@ namespace Game
 
 		public override int GetSlotCapacity(int slotIndex, int value)
 		{
-			if (slotIndex != FuelSlotIndex)
-			{
-				return base.GetSlotCapacity(slotIndex, value);
-			}
-			if (BlocksManager.Blocks[Terrain.ExtractContents(value)].FuelHeatLevel > 0f)
+			if (slotIndex != FuelSlotIndex || BlocksManager.Blocks[Terrain.ExtractContents(value)].FuelHeatLevel > 0f)
 			{
 				return base.GetSlotCapacity(slotIndex, value);
 			}
@@ -216,7 +212,7 @@ namespace Game
 				int num2 = Terrain.ExtractData(slotValue);
 				if (GetSlotCount(i) > 0)
 				{
-					Block block = BlocksManager.Blocks[num];
+					var block = BlocksManager.Blocks[num];
 					m_matchedIngredients[i] = block.CraftingId + ":" + num2.ToString(CultureInfo.InvariantCulture);
 					if (block.CraftingId == "waterbucket")
 					{
@@ -231,7 +227,7 @@ namespace Game
 			if (text != null)
 			{
 				Slot slot = m_slots[ResultSlotIndex];
-				Terrain.ExtractContents(90);
+				//Terrain.ExtractContents(90);
 				if (slot.Count != 0 && (90 != slot.Value || 1 + slot.Count > 40))
 				{
 					text = null;

@@ -4,9 +4,9 @@ using TemplatesDatabase;
 
 namespace Game
 {
-	public class ComponentFireBox : ComponentInventoryBase, IUpdateable
+	public class ComponentFireBox : ComponentMachine, IUpdateable
 	{
-		public int FuelSlotIndex
+		public override int FuelSlotIndex
 		{
 			get
 			{
@@ -14,9 +14,9 @@ namespace Game
 			}
 		}
 
-		public float HeatLevel { get; private set; }
+		public float HeatLevel { get => _heatLevel; private set => _heatLevel = value; }
 
-		public float SmeltingProgress { get; private set; }
+		public float SmeltingProgress { get => _smeltingProgress; private set => _smeltingProgress = value; }
 
 		public int UpdateOrder
 		{
@@ -29,10 +29,10 @@ namespace Game
 		public void Update(float dt)
 		{
 			Point3 coordinates = m_componentBlockEntity.Coordinates;
-			if ((double)HeatLevel > 0.0)
+			if (HeatLevel > 0f)
 			{
 				m_fireTimeRemaining = MathUtils.Max(0f, m_fireTimeRemaining - dt);
-				if ((double)m_fireTimeRemaining == 0.0)
+				if (m_fireTimeRemaining == 0f)
 				{
 					HeatLevel = 0f;
 				}
@@ -40,13 +40,13 @@ namespace Game
 			if (m_updateSmeltingRecipe)
 			{
 				m_updateSmeltingRecipe = false;
-				if ((double)HeatLevel > 0.0)
+				if (HeatLevel > 0f)
 				{
 					float heatLevel = HeatLevel;
 				}
 				else
 				{
-					ComponentInventoryBase.Slot slot = m_slots[FuelSlotIndex];
+					Slot slot = m_slots[FuelSlotIndex];
 					if (slot.Count > 0)
 					{
 						float fuelHeatLevel = BlocksManager.Blocks[Terrain.ExtractContents(slot.Value)].FuelHeatLevel;
@@ -66,18 +66,18 @@ namespace Game
 				m_fireTimeRemaining = 0f;
 				m_music = -1;
 			}
-			if (m_smeltingRecipe != null && (double)m_fireTimeRemaining <= 0.0)
+			if (m_smeltingRecipe != null && m_fireTimeRemaining <= 0f)
 			{
-				ComponentInventoryBase.Slot slot2 = m_slots[FuelSlotIndex];
+				Slot slot2 = m_slots[FuelSlotIndex];
 				if (slot2.Count > 0)
 				{
 					Block block = BlocksManager.Blocks[Terrain.ExtractContents(slot2.Value)];
-					if ((double)block.GetExplosionPressure(slot2.Value) > 0.0)
+					if (block.GetExplosionPressure(slot2.Value) > 0f)
 					{
 						slot2.Count = 0;
 						m_subsystemExplosions.TryExplodeBlock(coordinates.X, coordinates.Y, coordinates.Z, slot2.Value);
 					}
-					else if ((double)block.FuelHeatLevel > 0.0)
+					else if (block.FuelHeatLevel > 0f)
 					{
 						slot2.Count--;
 						m_fireTimeRemaining = block.FuelFireDuration;
@@ -86,7 +86,7 @@ namespace Game
 					}
 				}
 			}
-			if ((double)m_fireTimeRemaining <= 0.0)
+			if (m_fireTimeRemaining <= 0f)
 			{
 				m_smeltingRecipe = null;
 				SmeltingProgress = 0f;
@@ -109,17 +109,13 @@ namespace Game
 			if (m_subsystemTerrain.Terrain.GetCellContents(coordinates.X, coordinates.Y, coordinates.Z) != 0)
 			{
 				int cellValue = m_subsystemTerrain.Terrain.GetCellValue(coordinates.X, coordinates.Y, coordinates.Z);
-				m_subsystemTerrain.ChangeCell(coordinates.X, coordinates.Y, coordinates.Z, Terrain.ReplaceContents(cellValue, ((double)HeatLevel > 0.0) ? 544 : 543), true);
+				m_subsystemTerrain.ChangeCell(coordinates.X, coordinates.Y, coordinates.Z, Terrain.ReplaceContents(cellValue, (HeatLevel > 0f) ? 544 : 543), true);
 			}
 		}
 
 		public override int GetSlotCapacity(int slotIndex, int value)
 		{
-			if (slotIndex != FuelSlotIndex)
-			{
-				return base.GetSlotCapacity(slotIndex, value);
-			}
-			if ((double)BlocksManager.Blocks[Terrain.ExtractContents(value)].FuelHeatLevel > 0.0)
+			if (slotIndex != FuelSlotIndex || BlocksManager.Blocks[Terrain.ExtractContents(value)].FuelHeatLevel > 0f)
 			{
 				return base.GetSlotCapacity(slotIndex, value);
 			}
@@ -154,23 +150,15 @@ namespace Game
 		public override void Save(ValuesDictionary valuesDictionary, EntityToIdMap entityToIdMap)
 		{
 			base.Save(valuesDictionary, entityToIdMap);
-			valuesDictionary.SetValue<float>("FireTimeRemaining", m_fireTimeRemaining);
-			valuesDictionary.SetValue<float>("HeatLevel", HeatLevel);
+			valuesDictionary.SetValue("FireTimeRemaining", m_fireTimeRemaining);
+			valuesDictionary.SetValue("HeatLevel", HeatLevel);
 		}
-
-		private ComponentBlockEntity m_componentBlockEntity;
 
 		private float m_fireTimeRemaining;
 
 		private int m_furnaceSize;
 
 		private readonly string[] m_matchedIngredients = new string[9];
-
-		private SubsystemExplosions m_subsystemExplosions;
-
-		private SubsystemTerrain m_subsystemTerrain;
-
-		private bool m_updateSmeltingRecipe;
 
 		private string m_smeltingRecipe;
 
@@ -179,5 +167,7 @@ namespace Game
 		private int m_music;
 
 		private float m_fireTime;
+		private float _heatLevel;
+		private float _smeltingProgress;
 	}
 }

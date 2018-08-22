@@ -5,7 +5,7 @@ namespace Game
 {
 	public class DispenserNew2Widget : CanvasWidget
 	{
-		private readonly CheckboxWidget m_acceptsDropsBox;
+		//private readonly CheckboxWidget m_acceptsDropsBox;
 
 		private readonly ComponentBlockEntity m_componentBlockEntity;
 

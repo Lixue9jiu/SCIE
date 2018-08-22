@@ -5,21 +5,13 @@ using TemplatesDatabase;
 
 namespace Game
 {
-	public class ComponentPresserN : ComponentInventoryBase, IUpdateable
+	public class ComponentPresserN : ComponentMachine, IUpdateable
 	{
-		private ComponentBlockEntity m_componentBlockEntity;
-
 		private float m_fireTimeRemaining;
 
 		private int m_furnaceSize;
 
 		private readonly string[] m_matchedIngredients = new string[9];
-
-		private SubsystemExplosions m_subsystemExplosions;
-
-		private SubsystemTerrain m_subsystemTerrain;
-
-		private bool m_updateSmeltingRecipe;
 
 		private string m_smeltingRecipe;
 
@@ -45,7 +37,7 @@ namespace Game
 			}
 		}
 
-		public int FuelSlotIndex
+		public override int FuelSlotIndex
 		{
 			get
 			{
@@ -76,10 +68,10 @@ namespace Game
 		public void Update(float dt)
 		{
 			Point3 coordinates = m_componentBlockEntity.Coordinates;
-			if ((double)HeatLevel > 0.0)
+			if (HeatLevel > 0f)
 			{
 				m_fireTimeRemaining = MathUtils.Max(0f, m_fireTimeRemaining - dt);
-				if ((double)m_fireTimeRemaining == 0.0)
+				if (m_fireTimeRemaining == 0f)
 				{
 					HeatLevel = 0f;
 				}
@@ -135,7 +127,7 @@ namespace Game
 				float fireTimeRemaining = m_fireTimeRemaining;
 				m_fireTimeRemaining = 100f;
 			}
-			if ((double)m_fireTimeRemaining <= 0.0)
+			if (m_fireTimeRemaining <= 0f)
 			{
 				m_smeltingRecipe = null;
 				SmeltingProgress = 0f;
@@ -144,7 +136,7 @@ namespace Game
 			if (m_smeltingRecipe != null)
 			{
 				SmeltingProgress = MathUtils.Min(SmeltingProgress + 0.1f * dt, 1f);
-				if ((double)SmeltingProgress >= 1.0)
+				if (SmeltingProgress >= 1f)
 				{
 					for (int l = 0; l < m_furnaceSize; l++)
 					{
@@ -157,7 +149,8 @@ namespace Game
 					if (m_smeltingRecipe != "CoalPowder")
 					{
 						value = ItemBlock.IdTable[m_smeltingRecipe];
-					}else
+					}
+					else
                     {
                         value = CoalPowderBlock.Index;
                     }
@@ -172,11 +165,7 @@ namespace Game
 
 		public override int GetSlotCapacity(int slotIndex, int value)
 		{
-			if (slotIndex != FuelSlotIndex)
-			{
-				return base.GetSlotCapacity(slotIndex, value);
-			}
-			if ((double)BlocksManager.Blocks[Terrain.ExtractContents(value)].FuelHeatLevel > 0.0)
+			if (slotIndex != FuelSlotIndex || BlocksManager.Blocks[Terrain.ExtractContents(value)].FuelHeatLevel > 0f)
 			{
 				return base.GetSlotCapacity(slotIndex, value);
 			}
@@ -229,47 +218,47 @@ namespace Game
 					{
 						text = "IronOrePowder";
 					}
-					if (slotValue == MalachiteChunkBlock.Index)
+					else if (slotValue == MalachiteChunkBlock.Index)
 					{
 						text = "CopperOrePowder";
 					}
-					if (slotValue== GermaniumOreChunkBlock.Index)
+					else if (slotValue== GermaniumOreChunkBlock.Index)
 					{
 						text = "GermaniumOrePowder";
 					}
-					if (slotValue == CoalChunkBlock.Index)
+					else if (slotValue == CoalChunkBlock.Index)
 					{
 						text = "CoalPowder";
 					}
-                    if (slotValue == ItemBlock.IdTable["GoldOreChunk"])
+					else if (slotValue == ItemBlock.IdTable["GoldOreChunk"])
                     {
                         text = "GoldOrePowder";
                     }
-                    if (slotValue == ItemBlock.IdTable["SliverOreChunk"])
+					else if (slotValue == ItemBlock.IdTable["SliverOreChunk"])
                     {
                         text = "SliverOrePowder";
                     }
-                    if (slotValue == ItemBlock.IdTable["PlatinumOreChunk"])
+					else if (slotValue == ItemBlock.IdTable["PlatinumOreChunk"])
                     {
                         text = "PlatinumOrePowder";
                     }
-                    if (slotValue == ItemBlock.IdTable["LeadOreChunk"])
+					else if (slotValue == ItemBlock.IdTable["LeadOreChunk"])
                     {
                         text = "LeadOrePowder";
                     }
-                    if (slotValue == ItemBlock.IdTable["ZincOreChunk"])
+					else if (slotValue == ItemBlock.IdTable["ZincOreChunk"])
                     {
                         text = "ZincOrePowder";
                     }
-                    if (slotValue == ItemBlock.IdTable["StannaryChunk"])
+					else if (slotValue == ItemBlock.IdTable["StannaryChunk"])
                     {
                         text = "StannaryOrePowder";
                     }
-                    if (slotValue == ItemBlock.IdTable["ChromiumOreChunk"])
+					else if (slotValue == ItemBlock.IdTable["ChromiumOreChunk"])
                     {
                         text = "ChromiumOrePowder";
                     }
-                    if (slotValue == ItemBlock.IdTable["NickelOreChunk"])
+					else if (slotValue == ItemBlock.IdTable["NickelOreChunk"])
                     {
                         text = "NickelOrePowder";
                     }

@@ -22,9 +22,8 @@ namespace Game
 		{
 			Point3 coordinates = m_componentBlockEntity.Coordinates;
 			int data = Terrain.ExtractData(m_subsystemTerrain.Terrain.GetCellValue(coordinates.X, coordinates.Y, coordinates.Z));
-			int direction = DispenserNew2Block.GetDirection(data);
-			DispenserNew2Block.GetMode(data);
-			Driller(coordinates, direction);
+			//DispenserNew2Block.GetMode(data);
+			Driller(coordinates, DispenserNew2Block.GetDirection(data));
 		}
 
 		public override void Load(ValuesDictionary valuesDictionary, IdToEntityMap idToEntityMap)
@@ -39,13 +38,12 @@ namespace Game
 
 		private void Driller(Point3 point, int face)
 		{
-			Vector3 vector = new Vector3(0f, 1f, 0f);
-			new Vector3(0f, 0f, 0f);
+			Vector3 vector = Vector3.UnitY;
+			//new Vector3(0f, 0f, 0f);
 			int x = point.X;
 			int y = point.Y;
 			int z = point.Z;
 			int num = 0;
-			int slotValue = GetSlotValue(8);
 			for (int i = -1; i < 2; i++)
 			{
 				for (int j = -1; j < 2; j++)
@@ -82,6 +80,7 @@ namespace Game
 					num4 += BlocksManager.Blocks[Terrain.ExtractContents(GetSlotValue(m))].MaxStacking;
 					num3 += GetSlotCount(m);
 				}
+				int slotValue = base.GetSlotValue(8);
 				if (num2 != 0 && num4 > num3 && slotValue != 0 && BlocksManager.Blocks[Terrain.ExtractContents(slotValue)].Durability > 0)
 				{
 					int[] array = new int[25]
@@ -204,15 +203,13 @@ namespace Game
 		{
 			if (slotIndex != 8)
 			{
-				if (slotIndex > 3 && BlocksManager.Blocks[Terrain.ExtractContents(value)].BlockIndex != 90)
-				{
-					return 0;
-				}
-				return base.GetSlotCapacity(slotIndex, value);
+				return slotIndex > 3 && BlocksManager.Blocks[Terrain.ExtractContents(value)].BlockIndex != 90
+					? 0
+					: base.GetSlotCapacity(slotIndex, value);
 			}
 			if (Terrain.ExtractContents(value) != DrillBlock.Index)
 				return 0;
-			DrillBlock.Type type = DrillBlock.GetType(value);
+			var type = DrillBlock.GetType(value);
 			return (type == DrillBlock.Type.IronTubularis || type == DrillBlock.Type.SteelTubularis) ? base.GetSlotCapacity(slotIndex, value) : 0;
 		}
 	}

@@ -4,21 +4,13 @@ using TemplatesDatabase;
 
 namespace Game
 {
-	public class ComponentCastMach : ComponentInventoryBase, IUpdateable
+	public class ComponentCastMach : ComponentMachine, IUpdateable
 	{
-		private ComponentBlockEntity m_componentBlockEntity;
-
 		private float m_fireTimeRemaining;
 
 		private int m_furnaceSize;
 
 		private readonly string[] m_matchedIngredients = new string[9];
-
-		private SubsystemExplosions m_subsystemExplosions;
-
-		private SubsystemTerrain m_subsystemTerrain;
-
-		private bool m_updateSmeltingRecipe;
 
 		private string m_smeltingRecipe;
 
@@ -44,7 +36,7 @@ namespace Game
 			}
 		}
 
-		public int FuelSlotIndex
+		public override int FuelSlotIndex
 		{
 			get
 			{
@@ -150,14 +142,9 @@ namespace Game
 							m_slots[i].Count--;
 						}
 					}
-					if (m_smeltingRecipe == "SteelWheel")
+					if (m_smeltingRecipe == "SteelWheel" || m_smeltingRecipe == "SteelGear")
 					{
-						m_slots[ResultSlotIndex].Value = ItemBlock.IdTable["SteelWheel"];
-						m_slots[ResultSlotIndex].Count++;
-					}
-					else if (m_smeltingRecipe == "SteelGear")
-					{
-						m_slots[ResultSlotIndex].Value = ItemBlock.IdTable["SteelGear"];
+						m_slots[ResultSlotIndex].Value = ItemBlock.IdTable[m_smeltingRecipe];
 						m_slots[ResultSlotIndex].Count++;
 					}
 					m_smeltingRecipe = null;
@@ -170,11 +157,7 @@ namespace Game
 
 		public override int GetSlotCapacity(int slotIndex, int value)
 		{
-			if (slotIndex != FuelSlotIndex)
-			{
-				return base.GetSlotCapacity(slotIndex, value);
-			}
-			if (BlocksManager.Blocks[Terrain.ExtractContents(value)].FuelHeatLevel > 1f)
+			if (slotIndex != FuelSlotIndex || BlocksManager.Blocks[Terrain.ExtractContents(value)].FuelHeatLevel > 1f)
 			{
 				return base.GetSlotCapacity(slotIndex, value);
 			}

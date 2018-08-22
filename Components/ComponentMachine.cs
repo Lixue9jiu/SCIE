@@ -10,7 +10,7 @@ namespace Game
 		protected ComponentBlockEntity m_componentBlockEntity;
 		protected bool m_updateSmeltingRecipe;
 		protected SubsystemTime m_subsystemTime;
-		public int FuelSlotIndex
+		public virtual int FuelSlotIndex
 		{
 			get
 			{
