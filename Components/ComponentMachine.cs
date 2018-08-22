@@ -42,7 +42,7 @@ namespace Game
 			m_subsystemTerrain = Project.FindSubsystem<SubsystemTerrain>(true);
 			m_subsystemTime = Project.FindSubsystem<SubsystemTime>(true);
 			m_subsystemExplosions = Project.FindSubsystem<SubsystemExplosions>(true);
-			m_componentBlockEntity = Entity.FindComponent<ComponentBlockEntity>(true);
+			m_componentBlockEntity = Entity.FindComponent<ComponentBlockEntity>(false);
 			m_updateSmeltingRecipe = true;
 		}
 	}

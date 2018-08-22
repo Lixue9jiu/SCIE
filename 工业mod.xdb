@@ -30,7 +30,9 @@
         <Parameter Name="CastsShadow" Guid="fed4af6d-a7de-46d9-8d02-55d0b08a157b" Value="True" Type="bool" />
         <Parameter Name="TextureOverride" Guid="ffe056e5-037a-4504-a9fe-baf88d835b11" Value="Textures/SteamBoat" Type="string" />
       </MemberComponentTemplate>
-      <MemberComponentTemplate Name="Spawn" Guid="377ab3ff-6fef-4408-b891-a781377a1e77" InheritanceParent="65268743-4076-4ee3-aefe-f02a54d16b36" />
+      <MemberComponentTemplate Name="Spawn" Guid="377ab3ff-6fef-4408-b891-a781377a1e77" InheritanceParent="65268743-4076-4ee3-aefe-f02a54d16b36">
+        <Parameter Name="AutoDespawn" Guid="1daa043d-2b92-4b08-9e97-28ac9cf3e0f6" Value="False" Type="bool" />
+      </MemberComponentTemplate>
       <MemberComponentTemplate Name="OnFire" Guid="7f7db5a2-2f5a-4c6d-98a8-9b5ad07b32e5" InheritanceParent="93590d78-63b9-4cd6-bc41-e66864cbb050" />
       <MemberComponentTemplate Name="Mount" Guid="913f2b6e-c838-4f1f-a130-b2ed5ff96493" InheritanceParent="d0b14127-39ce-4490-af00-fb4111e9c51e">
         <Parameter Name="MountOffset" Guid="36b000ca-89e1-4412-be70-a6b4aae705bc" Value="0,0.85,-0.8" Type="Vector3" />

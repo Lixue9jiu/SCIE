@@ -18,6 +18,8 @@ namespace Game
 		private SubsystemAudio m_subsystemAudio;
 
 		private int m_music;
+		private float _smeltingProgress;
+		private float _heatLevel;
 
 		public int RemainsSlotIndex
 		{
@@ -45,14 +47,14 @@ namespace Game
 
 		public float HeatLevel
 		{
-			get;
-			private set;
+			get => _heatLevel;
+			private set => _heatLevel = value;
 		}
 
 		public float SmeltingProgress
 		{
-			get;
-			private set;
+			get => _smeltingProgress;
+			private set => _smeltingProgress = value;
 		}
 
 		public int UpdateOrder
@@ -163,11 +165,7 @@ namespace Game
 
 		public override int GetSlotCapacity(int slotIndex, int value)
 		{
-			if (slotIndex != FuelSlotIndex)
-			{
-				return base.GetSlotCapacity(slotIndex, value);
-			}
-			if (BlocksManager.Blocks[Terrain.ExtractContents(value)].FuelHeatLevel > 0f)
+			if (slotIndex != FuelSlotIndex || BlocksManager.Blocks[Terrain.ExtractContents(value)].FuelHeatLevel > 0f)
 			{
 				return base.GetSlotCapacity(slotIndex, value);
 			}

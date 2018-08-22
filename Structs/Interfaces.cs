@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace Game
 {
-	internal interface IDurability
+	public interface IDurability
 	{
 		int GetDurability(int value);
 	}
