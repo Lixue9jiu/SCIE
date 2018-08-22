@@ -186,7 +186,7 @@
   <ToAdd Type="Folder" Name="Gameplay" Guid="d3d4b692-acc9-4128-9b99-a5acf1de1fbb">
     <ComponentTemplate Name="BoatI" Description="Takes player inputs and controls a creature with them" Guid="572b36f3-6ee6-442a-900f-b4caba94be39" InheritanceParent="b05700ed-7e4e-4679-98f5-b597f421496b">
       <Parameter Name="FireTimeRemaining" Description="Fire time remaining, in seconds" Guid="2832cd84-3ff3-4165-aad1-19685e751850" Value="0" Type="float" />
-      <Parameter Name="HeatLevel" Description="Fire tim2e remaining, in seconds" Guid="2832cd94-3ff3-4165-aad1-19685e751850" Value="0" Type="float" />
+      <Parameter Name="HeatLevel" Description="Fire time remaining, in seconds" Guid="2832cd94-3ff3-4165-aad1-19685e751850" Value="0" Type="float" />
       <Parameter Name="Class" Guid="5a7229b2-7adc-4d13-8889-d94503c52184" Value="Game.ComponentBoatI" Type="string" />
     </ComponentTemplate>
     <ComponentTemplate Name="ChestNew" Description="A chest that you can store items in" Guid="73a2ec8c-10c7-4133-85b4-4a35bd44c956" InheritanceParent="81a44c6a-c30a-4f53-8d64-0c30aabab8f9">

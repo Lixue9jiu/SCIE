@@ -6,7 +6,8 @@ namespace Game
 {
 	public class SubsystemSourceOfFireBlockBehavior : SubsystemTorchBlockBehavior
 	{
-		SubsystemExplosions m_subsystemExplosions;
+		protected SubsystemExplosions m_subsystemExplosions;
+		protected SubsystemGameInfo m_subsystemGameInfo;
 		public override int[] HandledBlocks
 		{
 			get
@@ -24,6 +25,10 @@ namespace Game
 		}
 		public void TryExplode(int x, int y, int z)
 		{
+			if (m_subsystemGameInfo.WorldSettings.EnvironmentBehaviorMode != EnvironmentBehaviorMode.Living)
+			{
+				return;
+			}
 			var terrain = SubsystemTerrain.Terrain;
 			for (int i = x - 2; i <= x + 2; i++)
 				for (int j = y - 4; j <= y + 1; j++)
@@ -34,17 +39,17 @@ namespace Game
 							if (Terrain.ExtractContents(value) == CoalOreBlock.Index)
 							{
 								float pressure = BlocksManager.Blocks[CoalOreBlock.Index].GetExplosionPressure(value);
-								if ((value = terrain.GetCellContentsFast(i + 1, j, k)) == 0)
+								if (terrain.GetCellContentsFast(i + 1, j, k) == 0)
 									m_subsystemExplosions.AddExplosion(i + 1, j, k, pressure, false, false);
-								if ((value = terrain.GetCellContentsFast(i - 1, j, k)) == 0)
+								if (terrain.GetCellContentsFast(i - 1, j, k) == 0)
 									m_subsystemExplosions.AddExplosion(i - 1, j, k, pressure, false, false);
-								if ((value = terrain.GetCellContents(i, j + 1, k)) == 0)
+								if (terrain.GetCellContents(i, j + 1, k) == 0)
 									m_subsystemExplosions.AddExplosion(i, j + 1, k, pressure, false, false);
-								if ((value = terrain.GetCellContents(i, j - 1, k)) == 0)
+								if (terrain.GetCellContents(i, j - 1, k) == 0)
 									m_subsystemExplosions.AddExplosion(i, j - 1, k, pressure, false, false);
-								if ((value = terrain.GetCellContentsFast(i, j, k + 1)) == 0)
+								if (terrain.GetCellContentsFast(i, j, k + 1) == 0)
 									m_subsystemExplosions.AddExplosion(i, j, k + 1, pressure, false, false);
-								if ((value = terrain.GetCellContentsFast(i, j, k - 1)) == 0)
+								if (terrain.GetCellContentsFast(i, j, k - 1) == 0)
 									m_subsystemExplosions.AddExplosion(i, j, k - 1, pressure, false, false);
 							}
 						}
@@ -91,6 +96,7 @@ namespace Game
 		{
 			base.Load(valuesDictionary);
 			m_subsystemExplosions = Project.FindSubsystem<SubsystemExplosions>(true);
+			m_subsystemGameInfo = Project.FindSubsystem<SubsystemGameInfo>(true);
 		}
 		public void RemoveTorch(Point3 p)
 		{

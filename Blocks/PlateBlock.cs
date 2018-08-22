@@ -115,5 +115,9 @@ namespace Game
             }
             BlocksManager.DrawMeshBlock(primitivesRenderer, m_standaloneBlockMesh, color, size * 1.5f, ref matrix, environmentData);
 		}
+		public override float GetIconViewScale(int value, DrawBlockEnvironmentData environmentData)
+		{
+			return 0.85f;
+		}
 	}
 }

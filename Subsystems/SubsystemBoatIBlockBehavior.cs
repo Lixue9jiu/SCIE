@@ -25,7 +25,6 @@ namespace Game
 
 		public override bool OnUse(Vector3 start, Vector3 direction, ComponentMiner componentMiner)
 		{
-			IInventory inventory = componentMiner.Inventory;
 			if (Terrain.ExtractContents(componentMiner.ActiveBlockValue) == 513)
 			{
 				TerrainRaycastResult? nullable = componentMiner.PickTerrainForDigging(start, direction);
