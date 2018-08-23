@@ -86,7 +86,7 @@ namespace Game
 					}
 				}
 				m_rotStep += num;
-				m_lastRotTime += (double)num * 60.0;
+				m_lastRotTime += num * 60.0;
 			}
 		}
 	}

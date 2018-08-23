@@ -18,8 +18,6 @@ namespace Game
 
 		private SubsystemProjectiles m_subsystemProjectiles;
 
-		private SubsystemTerrain m_subsystemTerrain;
-
 		private SubsystemTime m_subsystemTime;
 
 		public override int[] HandledBlocks
@@ -52,8 +50,7 @@ namespace Game
 					int num3 = 0;
 					if (num == Musket2Block.Index && slotCount > 0)
 					{
-						double value;
-						if (!m_aimStartTimes.TryGetValue(componentMiner, out value))
+						if (!m_aimStartTimes.TryGetValue(componentMiner, out double value))
 						{
 							value = m_subsystemTime.GameTime;
 							m_aimStartTimes[componentMiner] = value;
@@ -71,12 +68,12 @@ namespace Game
 						{
 						case AimState.InProgress:
 						{
-							if ((double)num4 >= 30.0)
+							if (num4 >= 30f)
 							{
 								componentMiner.ComponentCreature.ComponentCreatureSounds.PlayMoanSound();
 								return true;
 							}
-							if ((double)num4 > 0.2 && !Musket2Block.GetHammerState(Terrain.ExtractData(num2)))
+							if (num4 > 0.2f && !Musket2Block.GetHammerState(Terrain.ExtractData(num2)))
 							{
 								num2 = Terrain.MakeBlockValue(num, 0, Musket2Block.SetHammerState(Terrain.ExtractData(num2), true));
 								m_subsystemAudio.PlaySound("Audio/HammerCock", 1f, m_random.UniformFloat(-0.1f, 0.1f), 0f, 0f);
@@ -147,7 +144,7 @@ namespace Game
 							}
 							if (flag)
 							{
-								if ((double)componentMiner.ComponentCreature.ComponentBody.ImmersionFactor > 0.400000005960464)
+								if (componentMiner.ComponentCreature.ComponentBody.ImmersionFactor > 0.4f)
 								{
 									m_subsystemAudio.PlaySound("Audio/MusketMisfire", 1f, m_random.UniformFloat(-0.1f, 0.1f), componentMiner.ComponentCreature.ComponentCreatureModel.EyePosition, 3f, true);
 								}
@@ -171,7 +168,7 @@ namespace Game
 										}
 									}
 									m_subsystemAudio.PlaySound("Audio/MusketFire", 1f, m_random.UniformFloat(-0.1f, 0.1f), componentMiner.ComponentCreature.ComponentCreatureModel.EyePosition, 10f, true);
-									m_subsystemParticles.AddParticleSystem(new GunSmokeParticleSystem(m_subsystemTerrain, vector2 + 0.3f * vector3, vector3));
+									m_subsystemParticles.AddParticleSystem(new GunSmokeParticleSystem(SubsystemTerrain, vector2 + 0.3f * vector3, vector3));
 									m_subsystemNoise.MakeNoise(vector2, 1f, 40f);
 									componentMiner.ComponentCreature.ComponentBody.ApplyImpulse(-1f * vector3);
 								}
@@ -221,8 +218,7 @@ namespace Game
 			processedCount = count;
 			if (processCount == 1)
 			{
-				int data = Terrain.ExtractData(inventory.GetSlotValue(slotIndex));
-				Musket2Block.LoadState loadState = Musket2Block.GetLoadState(data);
+				var loadState = Musket2Block.GetLoadState(Terrain.ExtractData(inventory.GetSlotValue(slotIndex)));
 				switch (loadState)
 				{
 				case Musket2Block.LoadState.Empty:
@@ -235,13 +231,12 @@ namespace Game
 				processedValue = 0;
 				processedCount = 0;
 				inventory.RemoveSlotItems(slotIndex, 1);
-				inventory.AddSlotItems(slotIndex, Terrain.MakeBlockValue(Musket2Block.Index, 0, Musket2Block.SetBulletType(Musket2Block.SetLoadState(data, loadState), null)), 1);
+				inventory.AddSlotItems(slotIndex, Terrain.MakeBlockValue(Musket2Block.Index, 0, Musket2Block.SetBulletType(Musket2Block.SetLoadState(Terrain.ExtractData(inventory.GetSlotValue(slotIndex)), loadState), null)), 1);
 			}
 		}
 
 		public override void Load(ValuesDictionary valuesDictionary)
 		{
-			m_subsystemTerrain = Project.FindSubsystem<SubsystemTerrain>(true);
 			m_subsystemTime = Project.FindSubsystem<SubsystemTime>(true);
 			m_subsystemProjectiles = Project.FindSubsystem<SubsystemProjectiles>(true);
 			m_subsystemParticles = Project.FindSubsystem<SubsystemParticles>(true);

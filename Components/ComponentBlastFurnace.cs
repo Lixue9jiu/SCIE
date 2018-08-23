@@ -61,7 +61,7 @@ namespace Game
 			{
 				int num = 1;
 				int num2 = 0;
-				Vector3 vector = new Vector3(CellFace.FaceToPoint3(BlastFurnaceBlock.GetDirection(Terrain.ExtractData(m_subsystemTerrain.Terrain.GetCellValue(coordinates.X, coordinates.Y, coordinates.Z)))));
+				var vector = new Vector3(CellFace.FaceToPoint3(BlastFurnaceBlock.GetDirection(Terrain.ExtractData(m_subsystemTerrain.Terrain.GetCellValue(coordinates.X, coordinates.Y, coordinates.Z)))));
 				int num3 = coordinates.X - (int)vector.X;
 				int num4 = coordinates.Y - (int)vector.Y;
 				int num5 = coordinates.Z - (int)vector.Z;
@@ -120,14 +120,14 @@ namespace Game
 				m_fireTimeRemaining = 0f;
 				SmeltingProgress = 0f;
 			}
-			if (m_smeltingRecipe && (double)m_fireTimeRemaining <= 0.0)
+			if (m_smeltingRecipe && m_fireTimeRemaining <= 0f)
 			{
 				HeatLevel = 5f;
 			}
 			if (m_smeltingRecipe)
 			{
 				SmeltingProgress = MathUtils.Min(SmeltingProgress + 0.1f * dt, 1f);
-				if ((double)SmeltingProgress >= 1.0)
+				if (SmeltingProgress >= 1f)
 				{
 					int[] array = new int[]
 					{
@@ -311,7 +311,7 @@ namespace Game
 				}
 				if (m_matchedIngredients2[1] >= 6 && (m_matchedIngredients2[2] >= 1 || m_matchedIngredients2[3] >= 1) && m_matchedIngredients2[4] >= 1 && m_matchedIngredients2[0] + m_matchedIngredients2[5] + m_matchedIngredients2[6] <= 0)
 				{
-					int num4 = 11;
+					const int num4 = 11;
 					m_matchedIngredients[9] = num4;
 					m_matchedIngredients[1] = 6;
 					m_matchedIngredients[2] = 1;
@@ -322,7 +322,7 @@ namespace Game
 				}
 				if (m_matchedIngredients2[1] >= 6 && (m_matchedIngredients2[2] >= 1 || m_matchedIngredients2[3] >= 1) && m_matchedIngredients2[5] >= 1 && m_matchedIngredients2[0] + m_matchedIngredients2[4] + m_matchedIngredients2[6] <= 0)
 				{
-					int num5 = 11;
+					const int num5 = 11;
 					m_matchedIngredients[9] = num5;
 					m_matchedIngredients[1] = 6;
 					m_matchedIngredients[2] = 1;
@@ -333,7 +333,7 @@ namespace Game
 				}
 				if (m_matchedIngredients2[1] >= 5 && (m_matchedIngredients2[2] >= 1 || m_matchedIngredients2[3] >= 1) && m_matchedIngredients2[4] >= 1 && m_matchedIngredients2[5] >= 1 && m_matchedIngredients2[0] + m_matchedIngredients2[6] <= 0)
 				{
-					int num6 = 10;
+					const int num6 = 10;
 					m_matchedIngredients[1] = 5;
 					m_matchedIngredients[2] = 1;
 					m_matchedIngredients[3] = 1;

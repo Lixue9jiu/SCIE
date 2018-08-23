@@ -19,10 +19,10 @@ namespace Game
 		
 		public override void OnCollide(CellFace cellFace, float velocity, ComponentBody componentBody)
 		{
-			if (!(componentBody.Mass <= 20f) && !componentBody.IsSneaking)
+			if (componentBody.Mass > 20f && !componentBody.IsSneaking)
 			{
 				Vector3 velocity2 = componentBody.Velocity;
-				if (!((double)velocity2.Y >= -3.0) || (!((double)velocity2.Y >= 0.0) && !((double)m_random.UniformFloat(0f, 1f) >= 1.5 * (double)m_subsystemTime.GameTimeDelta) && !((double)velocity2.LengthSquared() <= 1.0)))
+				if (velocity2.Y < -3f || (velocity2.Y < 0f && m_random.UniformFloat(0f, 1f) < 1.5f * m_subsystemTime.GameTimeDelta && velocity2.LengthSquared() > 1f))
 				{
 					m_toDegrade[cellFace.Point] = true;
 				}
