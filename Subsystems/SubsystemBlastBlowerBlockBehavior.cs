@@ -60,7 +60,7 @@ namespace Game
 				SubsystemTerrain.ChangeCell(x, y, z, BlastBlowerBlock.Index, true);
 				return;
 			}
-			SubsystemTerrain.ChangeCell(x, y, z, 16924, true);
+			SubsystemTerrain.ChangeCell(x, y, z, BlastBlowerBlock.Index | 1 << 14, true);
 		}
 		/*public void Scanner(int x, int y, int z)
 		{
@@ -92,7 +92,7 @@ namespace Game
 				SubsystemTerrain.ChangeCell(x, y, z, BlastBlowerBlock.Index, true);
 				return;
 			}
-			SubsystemTerrain.ChangeCell(x, y, z, 16924, true);
+			SubsystemTerrain.ChangeCell(x, y, z, BlastBlowerBlock.Index | 1 << 14, true);
 		}
 		
 		private readonly Random m_random = new Random();

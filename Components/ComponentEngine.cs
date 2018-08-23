@@ -148,17 +148,13 @@ namespace Game
 			TerrainChunk chunkAtCell = m_subsystemTerrain.Terrain.GetChunkAtCell(coordinates.X, coordinates.Z);
 			if (chunkAtCell != null && chunkAtCell.State == TerrainChunkState.Valid)
 			{
-				int cellValue = m_subsystemTerrain.Terrain.GetCellValue(coordinates.X, coordinates.Y, coordinates.Z);
-				m_subsystemTerrain.ChangeCell(coordinates.X, coordinates.Y, coordinates.Z, Terrain.ReplaceContents(cellValue, (HeatLevel > 0f) ? LitEngineBlock.Index : EngineBlock.Index), true);
+				m_subsystemTerrain.ChangeCell(coordinates.X, coordinates.Y, coordinates.Z, Terrain.ReplaceContents(m_subsystemTerrain.Terrain.GetCellValue(coordinates.X, coordinates.Y, coordinates.Z), (HeatLevel > 0f) ? LitEngineBlock.Index : EngineBlock.Index), true);
 			}
 		}
 
 		public override void Load(ValuesDictionary valuesDictionary, IdToEntityMap idToEntityMap)
 		{
 			base.Load(valuesDictionary, idToEntityMap);
-			m_subsystemTerrain = Project.FindSubsystem<SubsystemTerrain>(true);
-			m_subsystemExplosions = Project.FindSubsystem<SubsystemExplosions>(true);
-			m_componentBlockEntity = Entity.FindComponent<ComponentBlockEntity>(true);
 			m_subsystemAudio = Project.FindSubsystem<SubsystemAudio>(true);
 			m_furnaceSize = SlotsCount - 2;
 			m_fireTimeRemaining = valuesDictionary.GetValue<float>("FireTimeRemaining");

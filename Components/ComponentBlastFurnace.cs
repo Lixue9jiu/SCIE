@@ -6,6 +6,7 @@ namespace Game
 {
 	public class ComponentBlastFurnace : ComponentMachine, IUpdateable
 	{
+		protected SubsystemTime m_subsystemTime;
 		public int RemainsSlotIndex
 		{
 			get
@@ -191,10 +192,7 @@ namespace Game
 		public override void Load(ValuesDictionary valuesDictionary, IdToEntityMap idToEntityMap)
 		{
 			base.Load(valuesDictionary, idToEntityMap);
-			m_subsystemTerrain = Project.FindSubsystem<SubsystemTerrain>(true);
 			m_subsystemTime = Project.FindSubsystem<SubsystemTime>(true);
-			m_subsystemExplosions = Project.FindSubsystem<SubsystemExplosions>(true);
-			m_componentBlockEntity = Entity.FindComponent<ComponentBlockEntity>(true);
 			m_furnaceSize = SlotsCount - 4;
 			m_fireTimeRemaining = valuesDictionary.GetValue<float>("FireTimeRemaining");
 			HeatLevel = valuesDictionary.GetValue<float>("HeatLevel");
