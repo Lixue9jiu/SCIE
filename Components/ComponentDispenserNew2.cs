@@ -148,7 +148,7 @@ namespace Game
 							z = point.Z - (int)vector.Z * n;
 							x = point.X + array[num5];
 							z = point.Z + array2[num5];
-							new Vector3((float)array[num5] / (float)n, 0f, (float)array2[num5] / (float)n);
+							//new Vector3((float)array[num5] / (float)n, 0f, (float)array2[num5] / (float)n);
 							int cellValue = m_subsystemTerrain.Terrain.GetCellValue(x, y, z);
 							Block block = BlocksManager.Blocks[Terrain.ExtractContents(cellValue)];
 							if (block.BlockIndex == 92 || block.BlockIndex == 18)
