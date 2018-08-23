@@ -222,7 +222,27 @@ namespace Game
                     {
                         text = "SteelLine";
 					}
-				}
+                    else if (slotValue == ItemBlock.IdTable["GoldIngot"])
+                    {
+                        text = "GoldLine";
+                    }
+                    else if (slotValue == ItemBlock.IdTable["SliverIngot"])
+                    {
+                        text = "SliverLine";
+                    }
+                    else if (slotValue == ItemBlock.IdTable["PlatinumIngot"])
+                    {
+                        text = "PlatinumLine";
+                    }
+                    else if (slotValue == ItemBlock.IdTable["LeadIngot"])
+                    {
+                        text = "LeadLine";
+                    }
+                    else if (slotValue == ItemBlock.IdTable["StannaryIngot"])
+                    {
+                        text = "StannaryLine";
+                    }
+                }
 				else
 				{
 					m_matchedIngredients[i] = null;
