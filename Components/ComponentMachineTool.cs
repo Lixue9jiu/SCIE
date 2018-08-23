@@ -153,8 +153,68 @@ namespace Game
 			this.m_slots[this.ResultSlotIndex].Count = 0;
 		}
 
-		// Token: 0x0400037A RID: 890
-		private int m_craftingGridSize;
+
+
+        public static bool MatchRecipe(string[] requiredIngredients, string[] actualIngredients)
+        {
+            string[] transformedIngredients = new string[16];
+            for (int index = 0; index < 2; index++)
+            {
+                for (int shiftY = -4; shiftY <= 4; shiftY++)
+                {
+                    for (int shiftX = -4; shiftX <= 4; shiftX++)
+                    {
+                        bool flip = index != 0;
+                        if (TransformRecipe(transformedIngredients, requiredIngredients, shiftX, shiftY, flip))
+                        {
+                            bool flag = true;
+                            for (int index2 = 0; index2 < 16; index2++)
+                            {
+                                if (!CraftingRecipesManager.CompareIngredients(transformedIngredients[index2], actualIngredients[index2]))
+                                {
+                                    flag = false;
+                                    break;
+                                }
+                            }
+                            if (flag)
+                            {
+                                return true;
+                            }
+                        }
+                    }
+                }
+            }
+            return false;
+        }
+
+        public static bool TransformRecipe(string[] transformedIngredients, string[] ingredients, int shiftX, int shiftY, bool flip)
+        {
+            for (int index = 0; index < 16; index++)
+            {
+                transformedIngredients[index] = null;
+            }
+            for (int index2 = 0; index2 < 4; index2++)
+            {
+                for (int index3 = 0; index3 < 4; index3++)
+                {
+                    int num = (flip ? (4 - index3 - 1) : index3) + shiftX;
+                    int num2 = index2 + shiftY;
+                    string ingredient = ingredients[index3 + index2 * 4];
+                    if (num >= 0 && num2 >= 0 && num < 4 && num2 < 4)
+                    {
+                        transformedIngredients[num + num2 * 4] = ingredient;
+                    }
+                    else if (!string.IsNullOrEmpty(ingredient))
+                    {
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }
+
+        // Token: 0x0400037A RID: 890
+        private int m_craftingGridSize;
 
 		// Token: 0x0400037B RID: 891
 		private readonly string[] m_matchedIngredients = new string[16];
