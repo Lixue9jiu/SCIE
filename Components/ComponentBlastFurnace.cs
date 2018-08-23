@@ -178,7 +178,7 @@ namespace Game
 					}
 					if (m_matchedIngredients[9] >= 1)
 					{
-						m_slots[ResultSlotIndex].Value = 40;
+						m_slots[ResultSlotIndex].Value = IronIngotBlock.Index;
 						m_slots[ResultSlotIndex].Count += m_matchedIngredients[9];
 					}
 					m_smeltingRecipe = false;
@@ -351,11 +351,11 @@ namespace Game
 				}
 			}
 
-			if (m_matchedIngredients[8] >= 1 && (m_slots[ResultSlotIndex].Value != ItemBlock.IdTable["steelIngot"] || m_slots[ResultSlotIndex].Count + m_matchedIngredients[8] > 40) && m_slots[ResultSlotIndex].Count != 0)
+			if (m_matchedIngredients[8] >= 1 && (m_slots[ResultSlotIndex].Value != ItemBlock.IdTable["SteelIngot"] || m_slots[ResultSlotIndex].Count + m_matchedIngredients[8] > 40) && m_slots[ResultSlotIndex].Count != 0)
 			{
 				flag = false;
 			}
-			if (m_matchedIngredients[7] >= 1 && (m_slots[ResultSlotIndex].Value != ItemBlock.IdTable["RnIngotBlock"] || m_slots[RemainsSlotIndex].Count + m_matchedIngredients[7] > 40) && m_slots[RemainsSlotIndex].Count != 0)
+			if (m_matchedIngredients[7] >= 1 && (m_slots[ResultSlotIndex].Value != ItemBlock.IdTable["RuIngotBlock"] || m_slots[RemainsSlotIndex].Count + m_matchedIngredients[7] > 40) && m_slots[RemainsSlotIndex].Count != 0)
 			{
 				flag = false;
 			}
