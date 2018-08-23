@@ -45,17 +45,9 @@ namespace Game
 			}
 		}
 
-		public float HeatLevel
-		{
-			get;
-			private set;
-		}
+		public float HeatLevel;
 
-		public float SmeltingProgress
-		{
-			get;
-			private set;
-		}
+		public float SmeltingProgress;
 
 		public int UpdateOrder
 		{
@@ -157,9 +149,6 @@ namespace Game
 		public override void Load(ValuesDictionary valuesDictionary, IdToEntityMap idToEntityMap)
 		{
 			base.Load(valuesDictionary, idToEntityMap);
-			m_subsystemTerrain = Project.FindSubsystem<SubsystemTerrain>(true);
-			m_subsystemExplosions = Project.FindSubsystem<SubsystemExplosions>(true);
-			m_componentBlockEntity = Entity.FindComponent<ComponentBlockEntity>(true);
 			m_subsystemAudio = Project.FindSubsystem<SubsystemAudio>(true);
 			m_furnaceSize = SlotsCount - 1;
 			m_fireTimeRemaining = valuesDictionary.GetValue<float>("FireTimeRemaining");
@@ -184,7 +173,6 @@ namespace Game
 				int num2 = Terrain.ExtractData(slotValue);
 				if (GetSlotCount(i) > 0)
 				{
-					
 					if (slotValue == IronIngotBlock.Index)
 					{
 						text = "IronLine";

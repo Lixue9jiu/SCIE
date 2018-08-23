@@ -4,73 +4,52 @@
 <ToRemove Type="Recipe" Description="Smelt germanium ore to obtain germanium crystals" />
 <ToAdd>
   <Smelting>
-    <Recipe Result="SaltpeterChunkBlock" ResultCount="1" RequiredHeatLevel="300" a="rottendough" b="dirt" Description="Using bacterium to decompose dirt and rotten food to get Saltpeter">
-      "ab"
-    </Recipe>
-    <Recipe Result="SaltpeterChunkBlock" ResultCount="1" RequiredHeatLevel="300" a="rottenbread" b="dirt" Description="Using bacterium to decompose dirt and rotten food to get Saltpeter">
-      "ab"
-    </Recipe>
-    <Recipe Result="SaltpeterChunkBlock" ResultCount="1" RequiredHeatLevel="300" a="RottenEgg" b="dirt" Description="Using bacterium to decompose dirt and rotten food to get Saltpeter">
-      "ab"
-    </Recipe>
-    <Recipe Result="SaltpeterChunkBlock" ResultCount="1" RequiredHeatLevel="300" a="rottenbird" b="dirt" Description="Using bacterium to decompose dirt and rotten food to get Saltpeter">
-      "ab"
-    </Recipe>
-    <Recipe Result="SaltpeterChunkBlock" ResultCount="1" RequiredHeatLevel="300" a="rottenmeat" b="dirt" Description="Using bacterium to decompose dirt and rotten food to get Saltpeter">
-      "ab"
-    </Recipe>
-    <Recipe Result="SaltpeterChunkBlock" ResultCount="1" RequiredHeatLevel="300" a="rottenfish" b="dirt" Description="Using bacterium to decompose dirt and rotten food to get Saltpeter">
-      "ab"
-    </Recipe>
-    <Recipe Result="SaltpeterChunkBlock" ResultCount="1" RequiredHeatLevel="300" a="rottenpumpkin" b="dirt" Description="Using bacterium to decompose dirt and rotten food to get Saltpeter">
-      "ab"
-    </Recipe>
     <Recipe Result="SaltpeterChunkBlock" ResultCount="1" RequiredHeatLevel="300" Remains="EmptyBucketBlock" RemainsCount="1" a="rottenmilkbucket" b="dirt" Description="Using bacterium to decompose dirt and rotten food to get Saltpeter">
       "ab"
     </Recipe>
     <Recipe Result="SaltpeterChunkBlock" ResultCount="1" RequiredHeatLevel="300" Remains="EmptyBucketBlock" RemainsCount="1" a="rottenpumpkinsoupbucket" b="dirt" Description="Using bacterium to decompose dirt and rotten food to get Saltpeter">
       "ab"
     </Recipe>
-    <Recipe Result="SaltpeterChunkBlock" ResultCount="2" RequiredHeatLevel="300" a="rottendough" b="dirt" Description="Using bacterium to decompose dirt and rotten food to get Saltpeter">
+    <Recipe Result="SaltpeterChunkBlock" ResultCount="1" RequiredHeatLevel="300" a="rottendough" b="dirt" Description="Using bacterium to decompose dirt and rotten food to get Saltpeter">
       "aba"
     </Recipe>
-    <Recipe Result="SaltpeterChunkBlock" ResultCount="2" RequiredHeatLevel="300" a="rottenbread" b="dirt" Description="Using bacterium to decompose dirt and rotten food to get Saltpeter">
+    <Recipe Result="SaltpeterChunkBlock" ResultCount="1" RequiredHeatLevel="300" a="rottenbread" b="dirt" Description="Using bacterium to decompose dirt and rotten food to get Saltpeter">
       "aba"
     </Recipe>
-    <Recipe Result="SaltpeterChunkBlock" ResultCount="2" RequiredHeatLevel="300" a="RottenEgg" b="dirt" Description="Using bacterium to decompose dirt and rotten food to get Saltpeter">
+    <Recipe Result="SaltpeterChunkBlock" ResultCount="1" RequiredHeatLevel="300" a="RottenEgg" b="dirt" Description="Using bacterium to decompose dirt and rotten food to get Saltpeter">
       "aba"
     </Recipe>
-    <Recipe Result="SaltpeterChunkBlock" ResultCount="2" RequiredHeatLevel="300" a="rottenbird" b="dirt" Description="Using bacterium to decompose dirt and rotten food to get Saltpeter">
+    <Recipe Result="SaltpeterChunkBlock" ResultCount="1" RequiredHeatLevel="300" a="rottenbird" b="dirt" Description="Using bacterium to decompose dirt and rotten food to get Saltpeter">
       "aba"
     </Recipe>
-    <Recipe Result="SaltpeterChunkBlock" ResultCount="2" RequiredHeatLevel="300" a="rottenmeat" b="dirt" Description="Using bacterium to decompose dirt and rotten food to get Saltpeter">
+    <Recipe Result="SaltpeterChunkBlock" ResultCount="1" RequiredHeatLevel="300" a="rottenmeat" b="dirt" Description="Using bacterium to decompose dirt and rotten food to get Saltpeter">
       "aba"
     </Recipe>
-    <Recipe Result="SaltpeterChunkBlock" ResultCount="2" RequiredHeatLevel="300" a="rottenfish" b="dirt" Description="Using bacterium to decompose dirt and rotten food to get Saltpeter">
+    <Recipe Result="SaltpeterChunkBlock" ResultCount="1" RequiredHeatLevel="300" a="rottenfish" b="dirt" Description="Using bacterium to decompose dirt and rotten food to get Saltpeter">
       "aba"
     </Recipe>
-    <Recipe Result="SaltpeterChunkBlock" ResultCount="2" RequiredHeatLevel="300" a="rottenpumpkin" b="dirt" Description="Using bacterium to decompose dirt and rotten food to get Saltpeter">
+    <Recipe Result="SaltpeterChunkBlock" ResultCount="1" RequiredHeatLevel="300" a="rottenpumpkin" b="dirt" Description="Using bacterium to decompose dirt and rotten food to get Saltpeter">
       "aba"
     </Recipe>
-    <Recipe Result="SaltpeterChunkBlock" ResultCount="2" RequiredHeatLevel="300" a="rottendough" b="dirt" Description="Using bacterium to decompose dirt and rotten food to get Saltpeter">
+    <Recipe Result="SaltpeterChunkBlock" ResultCount="1" RequiredHeatLevel="300" a="rottendough" b="dirt" Description="Using bacterium to decompose dirt and rotten food to get Saltpeter">
       "aab"
     </Recipe>
-    <Recipe Result="SaltpeterChunkBlock" ResultCount="2" RequiredHeatLevel="300" a="rottenbread" b="dirt" Description="Using bacterium to decompose dirt and rotten food to get Saltpeter">
+    <Recipe Result="SaltpeterChunkBlock" ResultCount="1" RequiredHeatLevel="300" a="rottenbread" b="dirt" Description="Using bacterium to decompose dirt and rotten food to get Saltpeter">
       "aab"
     </Recipe>
-    <Recipe Result="SaltpeterChunkBlock" ResultCount="2" RequiredHeatLevel="300" a="RottenEgg" b="dirt" Description="Using bacterium to decompose dirt and rotten food to get Saltpeter">
+    <Recipe Result="SaltpeterChunkBlock" ResultCount="1" RequiredHeatLevel="300" a="RottenEgg" b="dirt" Description="Using bacterium to decompose dirt and rotten food to get Saltpeter">
       "aab"
     </Recipe>
-    <Recipe Result="SaltpeterChunkBlock" ResultCount="2" RequiredHeatLevel="300" a="rottenbird" b="dirt" Description="Using bacterium to decompose dirt and rotten food to get Saltpeter">
+    <Recipe Result="SaltpeterChunkBlock" ResultCount="1" RequiredHeatLevel="300" a="rottenbird" b="dirt" Description="Using bacterium to decompose dirt and rotten food to get Saltpeter">
       "aab"
     </Recipe>
-    <Recipe Result="SaltpeterChunkBlock" ResultCount="2" RequiredHeatLevel="300" a="rottenmeat" b="dirt" Description="Using bacterium to decompose dirt and rotten food to get Saltpeter">
+    <Recipe Result="SaltpeterChunkBlock" ResultCount="1" RequiredHeatLevel="300" a="rottenmeat" b="dirt" Description="Using bacterium to decompose dirt and rotten food to get Saltpeter">
       "aab"
     </Recipe>
-    <Recipe Result="SaltpeterChunkBlock" ResultCount="2" RequiredHeatLevel="300" a="rottenfish" b="dirt" Description="Using bacterium to decompose dirt and rotten food to get Saltpeter">
+    <Recipe Result="SaltpeterChunkBlock" ResultCount="1" RequiredHeatLevel="300" a="rottenfish" b="dirt" Description="Using bacterium to decompose dirt and rotten food to get Saltpeter">
       "aab"
     </Recipe>
-    <Recipe Result="SaltpeterChunkBlock" ResultCount="2" RequiredHeatLevel="300" a="rottenpumpkin" b="dirt" Description="Using bacterium to decompose dirt and rotten food to get Saltpeter">
+    <Recipe Result="SaltpeterChunkBlock" ResultCount="1" RequiredHeatLevel="300" a="rottenpumpkin" b="dirt" Description="Using bacterium to decompose dirt and rotten food to get Saltpeter">
       "aab"
     </Recipe>
     <Recipe Result="IronIngotBlock" ResultCount="1" RequiredHeatLevel="1500" a="IronOrePowder" Description="Smelt iron ore powder to obtain iron">

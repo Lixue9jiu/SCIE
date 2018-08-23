@@ -9,7 +9,6 @@ namespace Game
 		protected SubsystemTerrain m_subsystemTerrain;
 		protected ComponentBlockEntity m_componentBlockEntity;
 		protected bool m_updateSmeltingRecipe;
-		protected SubsystemTime m_subsystemTime;
 		public virtual int FuelSlotIndex
 		{
 			get
@@ -38,7 +37,6 @@ namespace Game
 		{
 			base.Load(valuesDictionary, idToEntityMap);
 			m_subsystemTerrain = Project.FindSubsystem<SubsystemTerrain>(true);
-			m_subsystemTime = Project.FindSubsystem<SubsystemTime>(true);
 			m_subsystemExplosions = Project.FindSubsystem<SubsystemExplosions>(true);
 			m_componentBlockEntity = Entity.FindComponent<ComponentBlockEntity>(false);
 			m_updateSmeltingRecipe = true;
