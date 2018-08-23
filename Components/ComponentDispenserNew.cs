@@ -182,7 +182,7 @@ namespace Game
 			}
 			if (Terrain.ExtractContents(value) != DrillBlock.Index)
 				return 0;
-			DrillBlock.Type type = DrillBlock.GetType(value);
+			var type = DrillBlock.GetType(value);
 			return (type == DrillBlock.Type.DiamondDrill || type == DrillBlock.Type.SteelDrill) ? base.GetSlotCapacity(slotIndex, value) : 0;
 		}
 	}

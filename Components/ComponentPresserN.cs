@@ -45,17 +45,9 @@ namespace Game
 			}
 		}
 
-		public float HeatLevel
-		{
-			get;
-			private set;
-		}
+		public float HeatLevel;
 
-		public float SmeltingProgress
-		{
-			get;
-			private set;
-		}
+		public float SmeltingProgress;
 
 		public int UpdateOrder
 		{
