@@ -15,7 +15,7 @@ namespace Game
 		{
 			get
 			{
-				return this.SlotsCount - 1;
+				return SlotsCount - 1;
 			}
 		}
 
@@ -25,14 +25,14 @@ namespace Game
 		{
 			get
 			{
-				return this.SlotsCount - 2;
+				return SlotsCount - 2;
 			}
 		}
 
 		// Token: 0x0600051C RID: 1308 RVA: 0x00005E00 File Offset: 0x00004000
 		public override int GetSlotCapacity(int slotIndex, int value)
 		{
-			if (slotIndex < this.SlotsCount - 2)
+			if (slotIndex < SlotsCount - 2)
 			{
 				return base.GetSlotCapacity(slotIndex, value);
 			}
@@ -43,45 +43,45 @@ namespace Game
 		public override void AddSlotItems(int slotIndex, int value, int count)
 		{
 			base.AddSlotItems(slotIndex, value, count);
-			this.UpdateCraftingResult();
+			UpdateCraftingResult();
 		}
 
 		// Token: 0x0600051E RID: 1310 RVA: 0x00033314 File Offset: 0x00031514
 		public override int RemoveSlotItems(int slotIndex, int count)
 		{
 			int num = 0;
-			if (slotIndex == this.ResultSlotIndex)
+			if (slotIndex == ResultSlotIndex)
 			{
-				if (this.m_matchedRecipe != null)
+				if (m_matchedRecipe != null)
 				{
-					if (this.m_matchedRecipe.RemainsValue != 0 && this.m_matchedRecipe.RemainsCount > 0)
+					if (m_matchedRecipe.RemainsValue != 0 && m_matchedRecipe.RemainsCount > 0)
 					{
-						if (this.m_slots[this.RemainsSlotIndex].Count == 0 || this.m_slots[this.RemainsSlotIndex].Value == this.m_matchedRecipe.RemainsValue)
+						if (m_slots[RemainsSlotIndex].Count == 0 || m_slots[RemainsSlotIndex].Value == m_matchedRecipe.RemainsValue)
 						{
-							int num2 = BlocksManager.Blocks[Terrain.ExtractContents(this.m_matchedRecipe.RemainsValue)].MaxStacking - this.m_slots[this.RemainsSlotIndex].Count;
-							count = MathUtils.Min(count, num2 / this.m_matchedRecipe.RemainsCount);
+							int num2 = BlocksManager.Blocks[Terrain.ExtractContents(m_matchedRecipe.RemainsValue)].MaxStacking - m_slots[RemainsSlotIndex].Count;
+							count = MathUtils.Min(count, num2 / m_matchedRecipe.RemainsCount);
 						}
 						else
 						{
 							count = 0;
 						}
 					}
-					count = count / this.m_matchedRecipe.ResultCount * this.m_matchedRecipe.ResultCount;
+					count = count / m_matchedRecipe.ResultCount * m_matchedRecipe.ResultCount;
 					num = base.RemoveSlotItems(slotIndex, count);
 					if (num > 0)
 					{
 						for (int index = 0; index < 16; index++)
 						{
-							if (!string.IsNullOrEmpty(this.m_matchedIngredients[index]))
+							if (!string.IsNullOrEmpty(m_matchedIngredients[index]))
 							{
-								int index2 = index % 4 + this.m_craftingGridSize * (index / 4);
-								this.m_slots[index2].Count = MathUtils.Max(this.m_slots[index2].Count - num / this.m_matchedRecipe.ResultCount, 0);
+								int index2 = index % 4 + m_craftingGridSize * (index / 4);
+								m_slots[index2].Count = MathUtils.Max(m_slots[index2].Count - num / m_matchedRecipe.ResultCount, 0);
 							}
 						}
-						if (this.m_matchedRecipe.RemainsValue != 0 && this.m_matchedRecipe.RemainsCount > 0)
+						if (m_matchedRecipe.RemainsValue != 0 && m_matchedRecipe.RemainsCount > 0)
 						{
-							this.m_slots[this.RemainsSlotIndex].Value = this.m_matchedRecipe.RemainsValue;
-							this.m_slots[this.RemainsSlotIndex].Count += num / this.m_matchedRecipe.ResultCount * this.m_matchedRecipe.RemainsCount;
+							m_slots[RemainsSlotIndex].Value = m_matchedRecipe.RemainsValue;
+							m_slots[RemainsSlotIndex].Count += num / m_matchedRecipe.ResultCount * m_matchedRecipe.RemainsCount;
 						}
 						ComponentPlayer componentPlayer = base.Entity.FindComponent<ComponentPlayer>();
 						if (componentPlayer == null)
@@ -103,7 +103,7 @@ namespace Game
 			{
 				num = base.RemoveSlotItems(slotIndex, count);
 			}
-			this.UpdateCraftingResult();
+			UpdateCraftingResult();
 			return num;
 		}
 
@@ -111,115 +111,52 @@ namespace Game
 		public override void Load(ValuesDictionary valuesDictionary, IdToEntityMap idToEntityMap)
 		{
 			base.Load(valuesDictionary, idToEntityMap);
-			this.m_craftingGridSize = (int)MathUtils.Sqrt((float)(this.SlotsCount - 2));
+			m_craftingGridSize = (int)MathUtils.Sqrt((float)(SlotsCount - 2));
 		}
 
 		// Token: 0x06000520 RID: 1312 RVA: 0x00033554 File Offset: 0x00031754
 		private void UpdateCraftingResult()
 		{
 			int x = int.MaxValue;
-			for (int index = 0; index < this.m_craftingGridSize; index++)
+			for (int index = 0; index < m_craftingGridSize; index++)
 			{
-				for (int index2 = 0; index2 < this.m_craftingGridSize; index2++)
+				for (int index2 = 0; index2 < m_craftingGridSize; index2++)
 				{
 					int index3 = index + index2 * 4;
-					int slotIndex = index + index2 * this.m_craftingGridSize;
-					int slotValue = this.GetSlotValue(slotIndex);
+					int slotIndex = index + index2 * m_craftingGridSize;
+					int slotValue = GetSlotValue(slotIndex);
 					int contents = Terrain.ExtractContents(slotValue);
 					int data = Terrain.ExtractData(slotValue);
-					int slotCount = this.GetSlotCount(slotIndex);
+					int slotCount = GetSlotCount(slotIndex);
 					if (slotCount > 0)
 					{
 						Block block = BlocksManager.Blocks[contents];
-						this.m_matchedIngredients[index3] = block.CraftingId + ":" + data.ToString(CultureInfo.InvariantCulture);
+						m_matchedIngredients[index3] = block.CraftingId + ":" + data.ToString(CultureInfo.InvariantCulture);
 						x = MathUtils.Min(x, slotCount);
 					}
 					else
 					{
-						this.m_matchedIngredients[index3] = null;
+						m_matchedIngredients[index3] = null;
 					}
 				}
 			}
-			CraftingRecipe matchingRecipe = CraftingRecipesManager.FindMatchingRecipe(base.Project.FindSubsystem<SubsystemTerrain>(true), this.m_matchedIngredients, 0f);
+			CraftingRecipe matchingRecipe = CraftingRecipesManager.FindMatchingRecipe(base.Project.FindSubsystem<SubsystemTerrain>(true), m_matchedIngredients, 0f);
 			if (matchingRecipe != null)
 			{
-				this.m_matchedRecipe = matchingRecipe;
-				this.m_slots[this.ResultSlotIndex].Value = matchingRecipe.ResultValue;
-				this.m_slots[this.ResultSlotIndex].Count = matchingRecipe.ResultCount * x;
+				m_matchedRecipe = matchingRecipe;
+				m_slots[ResultSlotIndex].Value = matchingRecipe.ResultValue;
+				m_slots[ResultSlotIndex].Count = matchingRecipe.ResultCount * x;
 				return;
 			}
-			this.m_matchedRecipe = null;
-			this.m_slots[this.ResultSlotIndex].Value = 0;
-			this.m_slots[this.ResultSlotIndex].Count = 0;
+			m_matchedRecipe = null;
+			m_slots[ResultSlotIndex].Value = 0;
+			m_slots[ResultSlotIndex].Count = 0;
 		}
-
-
-
-        public static bool MatchRecipe(string[] requiredIngredients, string[] actualIngredients)
-        {
-            string[] transformedIngredients = new string[16];
-            for (int index = 0; index < 2; index++)
-            {
-                for (int shiftY = -4; shiftY <= 4; shiftY++)
-                {
-                    for (int shiftX = -4; shiftX <= 4; shiftX++)
-                    {
-                        bool flip = index != 0;
-                        if (TransformRecipe(transformedIngredients, requiredIngredients, shiftX, shiftY, flip))
-                        {
-                            bool flag = true;
-                            for (int index2 = 0; index2 < 16; index2++)
-                            {
-                                if (!CraftingRecipesManager.CompareIngredients(transformedIngredients[index2], actualIngredients[index2]))
-                                {
-                                    flag = false;
-                                    break;
-                                }
-                            }
-                            if (flag)
-                            {
-                                return true;
-                            }
-                        }
-                    }
-                }
-            }
-            return false;
-        }
-
-        public static bool TransformRecipe(string[] transformedIngredients, string[] ingredients, int shiftX, int shiftY, bool flip)
-        {
-            for (int index = 0; index < 16; index++)
-            {
-                transformedIngredients[index] = null;
-            }
-            for (int index2 = 0; index2 < 4; index2++)
-            {
-                for (int index3 = 0; index3 < 4; index3++)
-                {
-                    int num = (flip ? (4 - index3 - 1) : index3) + shiftX;
-                    int num2 = index2 + shiftY;
-                    string ingredient = ingredients[index3 + index2 * 4];
-                    if (num >= 0 && num2 >= 0 && num < 4 && num2 < 4)
-                    {
-                        transformedIngredients[num + num2 * 4] = ingredient;
-                    }
-                    else if (!string.IsNullOrEmpty(ingredient))
-                    {
-                        return false;
-                    }
-                }
-            }
-            return true;
-        }
-
-        // Token: 0x0400037A RID: 890
+		
         private int m_craftingGridSize;
-
-		// Token: 0x0400037B RID: 891
+		
 		private readonly string[] m_matchedIngredients = new string[16];
-
-		// Token: 0x0400037C RID: 892
+		
 		private CraftingRecipe m_matchedRecipe;
 	}
 }

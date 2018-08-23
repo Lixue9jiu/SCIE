@@ -19,13 +19,13 @@ namespace Game
 		{
 			BlocksManager.DamageItem1 = DamageItem;
 			BlocksManager.FindBlocksByCraftingId1 = FindBlocksByCraftingId;
-			CraftingRecipesManager.Initialize_b__01 = Initialize_b__0;
+			CraftingRecipesManager.MatchRecipe1 = MatchRecipe;
 		}
 		public static Block[] FindBlocksByCraftingId(string craftingId)
 		{
 			if (ItemBlock.IdTable.TryGetValue(craftingId, out int value))
 			{
-				return new Block[] { BlocksManager.Blocks[ItemBlock.Index] };
+				return new Block[1];// { BlocksManager.Blocks[ItemBlock.Index] };
 			}
 			var c__DisplayClass = new BlocksManager.c__DisplayClass6
 			{
@@ -40,16 +40,66 @@ namespace Game
 			{
 				return value;
 			}
-			int num = block.GetDamage(value) + damageCount;
-			if (num <= (block is IDurability item ? item.GetDurability(value) : block.Durability))
-			{
-				return block.SetDamage(value, num);
-			}
-			return block.GetDamageDestructionValue(value);
+			damageCount += block.GetDamage(value);
+			return damageCount <= (block is IDurability item ? item.GetDurability(value) : block.Durability)
+				? block.SetDamage(value, damageCount)
+				: block.GetDamageDestructionValue(value);
 		}
-		public static bool Initialize_b__0(XAttribute a)
+		public static bool MatchRecipe(string[] requiredIngredients, string[] actualIngredients)
 		{
-			return a.Name.LocalName.Length == 1 && char.IsLower(a.Name.LocalName[0]);
+			string[] transformedIngredients = new string[16];
+			for (int index = 0; index < 2; index++)
+			{
+				for (int shiftY = -4; shiftY <= 4; shiftY++)
+				{
+					for (int shiftX = -4; shiftX <= 4; shiftX++)
+					{
+						bool flip = index != 0;
+						if (TransformRecipe(transformedIngredients, requiredIngredients, shiftX, shiftY, flip))
+						{
+							bool flag = true;
+							for (int index2 = 0; index2 < 16; index2++)
+							{
+								if (!CraftingRecipesManager.CompareIngredients(transformedIngredients[index2], actualIngredients[index2]))
+								{
+									flag = false;
+									break;
+								}
+							}
+							if (flag)
+							{
+								return true;
+							}
+						}
+					}
+				}
+			}
+			return false;
+		}
+		public static bool TransformRecipe(string[] transformedIngredients, string[] ingredients, int shiftX, int shiftY, bool flip)
+		{
+			for (int index = 0; index < 16; index++)
+			{
+				transformedIngredients[index] = null;
+			}
+			for (int index2 = 0; index2 < 4; index2++)
+			{
+				for (int index3 = 0; index3 < 4; index3++)
+				{
+					int num = (flip ? (4 - index3 - 1) : index3) + shiftX;
+					int num2 = index2 + shiftY;
+					string ingredient = ingredients[index3 + index2 * 4];
+					if (num >= 0 && num2 >= 0 && num < 4 && num2 < 4)
+					{
+						transformedIngredients[num + num2 * 4] = ingredient;
+					}
+					else if (!string.IsNullOrEmpty(ingredient))
+					{
+						return false;
+					}
+				}
+			}
+			return true;
 		}
 		public virtual string GetDisplayName(SubsystemTerrain subsystemTerrain, int value)
 		{
