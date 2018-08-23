@@ -10,11 +10,8 @@ namespace Game
 			DefaultDisplayName = "Rotten Egg";
 			DefaultCategory = "Food";
 			DefaultTextureSlot = 15;
-			Model model = ContentManager.Get<Model>("Models/RottenEgg");
-			ReadOnlyList<ModelMesh> meshes = model.Meshes;
-			Matrix boneAbsoluteTransform = BlockMesh.GetBoneAbsoluteTransform(meshes[0].ParentBone);
-			meshes = model.Meshes;
-			m_standaloneBlockMesh.AppendModelMeshPart(meshes[0].MeshParts[0], boneAbsoluteTransform, false, false, false, false, Color.White);
+			ReadOnlyList<ModelMesh> meshes = ContentManager.Get<Model>("Models/RottenEgg").Meshes;
+			m_standaloneBlockMesh.AppendModelMeshPart(meshes[0].MeshParts[0], BlockMesh.GetBoneAbsoluteTransform(meshes[0].ParentBone), false, false, false, false, Color.White);
 			m_standaloneBlockMesh.TransformTextureCoordinates(Matrix.Identity, -1);
 		}
 		public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)

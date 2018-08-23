@@ -7,7 +7,6 @@ namespace Game
 {
 	public class ComponentPresser : ComponentMachine, IUpdateable
 	{
-
 		private float m_fireTimeRemaining;
 
 		private int m_furnaceSize;
@@ -46,17 +45,9 @@ namespace Game
 			}
 		}
 
-		public float HeatLevel
-		{
-			get;
-			private set;
-		}
+		public float HeatLevel;
 
-		public float SmeltingProgress
-		{
-			get;
-			private set;
-		}
+		public float SmeltingProgress;
 
 		public int UpdateOrder
 		{

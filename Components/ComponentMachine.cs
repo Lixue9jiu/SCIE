@@ -19,11 +19,9 @@ namespace Game
 		}
 		public override int GetSlotCapacity(int slotIndex, int value)
 		{
-			if (slotIndex != FuelSlotIndex || BlocksManager.Blocks[Terrain.ExtractContents(value)].FuelHeatLevel > 1f)
-			{
-				return base.GetSlotCapacity(slotIndex, value);
-			}
-			return 0;
+			return slotIndex != FuelSlotIndex || BlocksManager.Blocks[Terrain.ExtractContents(value)].FuelHeatLevel > 1f
+				? base.GetSlotCapacity(slotIndex, value)
+				: 0;
 		}
 		public override void AddSlotItems(int slotIndex, int value, int count)
 		{

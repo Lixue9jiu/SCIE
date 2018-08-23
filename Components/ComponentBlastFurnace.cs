@@ -22,9 +22,9 @@ namespace Game
 			}
 		}
 
-		public float HeatLevel { get => _heatLevel; private set => _heatLevel = value; }
+		public float HeatLevel;
 
-		public float SmeltingProgress { get => _smeltingProgress; private set => _smeltingProgress = value; }
+		public float SmeltingProgress;
 
 		public int UpdateOrder
 		{
@@ -186,18 +186,6 @@ namespace Game
 					m_updateSmeltingRecipe = true;
 				}
 			}
-		}
-
-		public override void AddSlotItems(int slotIndex, int value, int count)
-		{
-			base.AddSlotItems(slotIndex, value, count);
-			m_updateSmeltingRecipe = true;
-		}
-
-		public override int RemoveSlotItems(int slotIndex, int count)
-		{
-			m_updateSmeltingRecipe = true;
-			return base.RemoveSlotItems(slotIndex, count);
 		}
 
 		public override void Load(ValuesDictionary valuesDictionary, IdToEntityMap idToEntityMap)
@@ -391,9 +379,6 @@ namespace Game
 		private bool m_smeltingRecipe;
 
 		private bool m_smeltingRecipe2;
-		
-		private float _smeltingProgress;
-		private float _heatLevel;
 		private readonly int[] result = new int[3];
 	}
 }

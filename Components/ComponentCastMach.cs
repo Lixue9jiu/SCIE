@@ -17,8 +17,6 @@ namespace Game
 		private SubsystemAudio m_subsystemAudio;
 
 		private int m_music;
-		private float _heatLevel;
-		private float _smeltingProgress;
 
 		public int RemainsSlotIndex
 		{
@@ -44,17 +42,9 @@ namespace Game
 			}
 		}
 
-		public float HeatLevel
-		{
-			get => _heatLevel;
-			private set => _heatLevel = value;
-		}
+		public float HeatLevel;
 
-		public float SmeltingProgress
-		{
-			get => _smeltingProgress;
-			private set => _smeltingProgress = value;
-		}
+		public float SmeltingProgress;
 
 		public int UpdateOrder
 		{
@@ -110,7 +100,7 @@ namespace Game
 				Slot slot2 = m_slots[FuelSlotIndex];
 				if (slot2.Count > 0)
 				{
-					Block block = BlocksManager.Blocks[Terrain.ExtractContents(slot2.Value)];
+					var block = BlocksManager.Blocks[Terrain.ExtractContents(slot2.Value)];
 					if (block.GetExplosionPressure(slot2.Value) > 0f)
 					{
 						slot2.Count = 0;
@@ -153,27 +143,6 @@ namespace Game
 				}
 			}
 
-		}
-
-		public override int GetSlotCapacity(int slotIndex, int value)
-		{
-			if (slotIndex != FuelSlotIndex || BlocksManager.Blocks[Terrain.ExtractContents(value)].FuelHeatLevel > 1f)
-			{
-				return base.GetSlotCapacity(slotIndex, value);
-			}
-			return 0;
-		}
-
-		public override void AddSlotItems(int slotIndex, int value, int count)
-		{
-			base.AddSlotItems(slotIndex, value, count);
-			m_updateSmeltingRecipe = true;
-		}
-
-		public override int RemoveSlotItems(int slotIndex, int count)
-		{
-			m_updateSmeltingRecipe = true;
-			return base.RemoveSlotItems(slotIndex, count);
 		}
 
 		public override void Load(ValuesDictionary valuesDictionary, IdToEntityMap idToEntityMap)
