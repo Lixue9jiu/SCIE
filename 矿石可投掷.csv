@@ -1,2 +1,2 @@
 ;CraftingId;IsPlaceable;MaxStacking;ProjectileSpeed;ProjectileDamping;ProjectileTipOffset
-RottenEggBlock;TRUE;item;40;15;0.9;0.1
+RottenEggBlock;item;TRUE;40;15;0.9;0.1
