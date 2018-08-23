@@ -140,7 +140,7 @@ namespace Game
 					}
 				}
 			}
-			CraftingRecipe matchingRecipe = CraftingRecipesManager.FindMatchingRecipe(base.Project.FindSubsystem<SubsystemTerrain>(true), this.m_matchedIngredients, 0f);
+			CraftingRecipe matchingRecipe = FindMatchingRecipe(base.Project.FindSubsystem<SubsystemTerrain>(true), this.m_matchedIngredients, 0f);
 			if (matchingRecipe != null)
 			{
 				this.m_matchedRecipe = matchingRecipe;
@@ -186,7 +186,26 @@ namespace Game
             }
             return false;
         }
-
+        public static CraftingRecipe FindMatchingRecipe(SubsystemTerrain terrain, string[] ingredients, float heatLevel)
+        {
+            Block[] blocks = BlocksManager.Blocks;
+            for (int i = 0; i < blocks.Length; i++)
+            {
+                CraftingRecipe hocCraftingRecipe = blocks[i].GetAdHocCraftingRecipe(terrain, ingredients, heatLevel);
+                if (hocCraftingRecipe != null && (double)heatLevel >= (double)hocCraftingRecipe.RequiredHeatLevel && MatchRecipe(hocCraftingRecipe.Ingredients, ingredients))
+                {
+                    return hocCraftingRecipe;
+                }
+            }
+            foreach (CraftingRecipe recipe in CraftingRecipesManager.Recipes)
+            {
+                if ((double)heatLevel >= (double)recipe.RequiredHeatLevel && MatchRecipe(recipe.Ingredients, ingredients))
+                {
+                    return recipe;
+                }
+            }
+            return null;
+        }
         public static bool TransformRecipe(string[] transformedIngredients, string[] ingredients, int shiftX, int shiftY, bool flip)
         {
             for (int index = 0; index < 16; index++)
