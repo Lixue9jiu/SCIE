@@ -76,6 +76,8 @@
     <Compile Include="Blocks\OreChunk.cs" />
     <Compile Include="Blocks\OrePowder.cs" />
     <Compile Include="Components\ComponentTrain.cs" />
+    <Compile Include="Components\Craft55.cs" />
+    <Compile Include="Components\Craft55a2.cs" />
     <Compile Include="Structs\CircuitDevices.cs" />
     <Compile Include="Structs\CircuitElements.cs" />
     <Compile Include="Structs\Elements.cs" />
