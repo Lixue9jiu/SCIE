@@ -148,11 +148,91 @@ namespace Game
 				m_slots[ResultSlotIndex].Count = matchingRecipe.ResultCount * x;
 				return;
 			}
-			m_matchedRecipe = null;
-			m_slots[ResultSlotIndex].Value = 0;
-			m_slots[ResultSlotIndex].Count = 0;
+			this.m_matchedRecipe = null;
+			this.m_slots[this.ResultSlotIndex].Value = 0;
+			this.m_slots[this.ResultSlotIndex].Count = 0;
 		}
-		
+
+
+
+        public static bool MatchRecipe(string[] requiredIngredients, string[] actualIngredients)
+        {
+            string[] transformedIngredients = new string[16];
+            for (int index = 0; index < 2; index++)
+            {
+                for (int shiftY = -4; shiftY <= 4; shiftY++)
+                {
+                    for (int shiftX = -4; shiftX <= 4; shiftX++)
+                    {
+                        bool flip = index != 0;
+                        if (TransformRecipe(transformedIngredients, requiredIngredients, shiftX, shiftY, flip))
+                        {
+                            bool flag = true;
+                            for (int index2 = 0; index2 < 16; index2++)
+                            {
+                                if (!CraftingRecipesManager.CompareIngredients(transformedIngredients[index2], actualIngredients[index2]))
+                                {
+                                    flag = false;
+                                    break;
+                                }
+                            }
+                            if (flag)
+                            {
+                                return true;
+                            }
+                        }
+                    }
+                }
+            }
+            return false;
+        }
+        public static CraftingRecipe FindMatchingRecipe(SubsystemTerrain terrain, string[] ingredients, float heatLevel)
+        {
+            Block[] blocks = BlocksManager.Blocks;
+            for (int i = 0; i < blocks.Length; i++)
+            {
+                CraftingRecipe hocCraftingRecipe = blocks[i].GetAdHocCraftingRecipe(terrain, ingredients, heatLevel);
+                if (hocCraftingRecipe != null && (double)heatLevel >= (double)hocCraftingRecipe.RequiredHeatLevel && MatchRecipe(hocCraftingRecipe.Ingredients, ingredients))
+                {
+                    return hocCraftingRecipe;
+                }
+            }
+            foreach (CraftingRecipe recipe in CraftingRecipesManager.Recipes)
+            {
+                if ((double)heatLevel >= (double)recipe.RequiredHeatLevel && MatchRecipe(recipe.Ingredients, ingredients))
+                {
+                    return recipe;
+                }
+            }
+            return null;
+        }
+        public static bool TransformRecipe(string[] transformedIngredients, string[] ingredients, int shiftX, int shiftY, bool flip)
+        {
+            for (int index = 0; index < 16; index++)
+            {
+                transformedIngredients[index] = null;
+            }
+            for (int index2 = 0; index2 < 4; index2++)
+            {
+                for (int index3 = 0; index3 < 4; index3++)
+                {
+                    int num = (flip ? (4 - index3 - 1) : index3) + shiftX;
+                    int num2 = index2 + shiftY;
+                    string ingredient = ingredients[index3 + index2 * 4];
+                    if (num >= 0 && num2 >= 0 && num < 4 && num2 < 4)
+                    {
+                        transformedIngredients[num + num2 * 4] = ingredient;
+                    }
+                    else if (!string.IsNullOrEmpty(ingredient))
+                    {
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }
+
+        // Token: 0x0400037A RID: 890
         private int m_craftingGridSize;
 		
 		private readonly string[] m_matchedIngredients = new string[16];
