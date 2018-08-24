@@ -16,7 +16,7 @@ namespace Game
 
 		public const int Index = 214;
 
-		private static readonly string[] m_displayNames = new string[4]
+		protected static readonly string[] m_displayNames = new string[4]
 		{
 			"Musket Ball",
 			"Buckshot",
@@ -24,7 +24,7 @@ namespace Game
 			"ironBullet"
 		};
 
-		private static readonly float[] m_sizes = new float[4]
+		protected static readonly float[] m_sizes = new float[4]
 		{
 			1f,
 			1f,
@@ -32,7 +32,7 @@ namespace Game
 			1f
 		};
 
-		private static readonly int[] m_textureSlots = new int[4]
+		protected static readonly int[] m_textureSlots = new int[4]
 		{
 			229,
 			231,
@@ -40,7 +40,7 @@ namespace Game
 			229
 		};
 
-		private static readonly float[] m_weaponPowers = new float[4]
+		protected static readonly float[] m_weaponPowers = new float[4]
 		{
 			60f,
 			0f,
@@ -48,7 +48,7 @@ namespace Game
 			90f
 		};
 
-		private static readonly float[] m_explosionPressures = new float[3];
+		protected static readonly float[] m_explosionPressures = new float[3];
 
 		public override void GenerateTerrainVertices(BlockGeometryGenerator generator, TerrainGeometrySubsets geometry, int value, int x, int y, int z)
 		{

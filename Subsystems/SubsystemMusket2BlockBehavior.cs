@@ -6,19 +6,19 @@ namespace Game
 {
 	public class SubsystemMusket2BlockBehavior : SubsystemBlockBehavior
 	{
-		private readonly Dictionary<ComponentMiner, double> m_aimStartTimes = new Dictionary<ComponentMiner, double>();
+		protected readonly Dictionary<ComponentMiner, double> m_aimStartTimes = new Dictionary<ComponentMiner, double>();
 
-		private readonly Random m_random = new Random();
+		protected readonly Random m_random = new Random();
 
-		private SubsystemAudio m_subsystemAudio;
+		protected SubsystemAudio m_subsystemAudio;
 
-		private SubsystemNoise m_subsystemNoise;
+		protected SubsystemNoise m_subsystemNoise;
 
-		private SubsystemParticles m_subsystemParticles;
+		protected SubsystemParticles m_subsystemParticles;
 
-		private SubsystemProjectiles m_subsystemProjectiles;
+		protected SubsystemProjectiles m_subsystemProjectiles;
 
-		private SubsystemTime m_subsystemTime;
+		protected SubsystemTime m_subsystemTime;
 
 		public override int[] HandledBlocks
 		{

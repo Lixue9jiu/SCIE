@@ -5,21 +5,21 @@ namespace Game
 {
 	public class PresserWidget : CanvasWidget
 	{
-		private readonly ComponentPresser m_componentFurnace;
+		protected readonly ComponentPresser m_componentFurnace;
 
-		private readonly FireWidget m_fire;
+		protected readonly FireWidget m_fire;
 
-		private readonly InventorySlotWidget m_fuelSlot;
+		protected readonly InventorySlotWidget m_fuelSlot;
 
-		private readonly GridPanelWidget m_furnaceGrid;
+		protected readonly GridPanelWidget m_furnaceGrid;
 
-		private readonly GridPanelWidget m_inventoryGrid;
+		protected readonly GridPanelWidget m_inventoryGrid;
 
-		private readonly ValueBarWidget m_progress;
+		protected readonly ValueBarWidget m_progress;
 
-		//private readonly InventorySlotWidget m_remainsSlot;
+		//protected readonly InventorySlotWidget m_remainsSlot;
 
-		private readonly InventorySlotWidget m_resultSlot;
+		protected readonly InventorySlotWidget m_resultSlot;
 
 		public PresserWidget(IInventory inventory, ComponentPresser componentFurnace)
 		{

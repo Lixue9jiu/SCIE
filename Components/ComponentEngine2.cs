@@ -7,17 +7,17 @@ namespace Game
 {
 	public class ComponentEngine2 : ComponentMachine, IUpdateable
 	{
-		private float m_fireTimeRemaining;
+		protected float m_fireTimeRemaining;
 
-		private int m_furnaceSize;
+		protected int m_furnaceSize;
 
-		private readonly string[] m_matchedIngredients = new string[9];
+		protected readonly string[] m_matchedIngredients = new string[9];
 
-		private string m_smeltingRecipe;
+		protected string m_smeltingRecipe;
 
-		private SubsystemAudio m_subsystemAudio;
+		protected SubsystemAudio m_subsystemAudio;
 
-		private int m_music;
+		protected int m_music;
 
 		public int RemainsSlotIndex
 		{
@@ -170,7 +170,7 @@ namespace Game
 			valuesDictionary.SetValue("HeatLevel", HeatLevel);
 		}
 
-		private string FindSmeltingRecipe(float heatLevel)
+		protected string FindSmeltingRecipe(float heatLevel)
 		{
 			string text = null;
 			int remainsSlotIndex = RemainsSlotIndex;

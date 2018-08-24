@@ -14,12 +14,25 @@ public class MagnetBlock : Game.MagnetBlock, IPaintableBlock
 
 	public override void GenerateTerrainVertices(BlockGeometryGenerator generator, TerrainGeometrySubsets geometry, int value, int x, int y, int z)
 	{
-		generator.GenerateMeshVertices(this, x, y, z, m_meshesByData[Terrain.ExtractData(value) & 1], SubsystemPalette.GetColor(generator, GetPaintColor(value)), null, geometry.SubsetOpaque);
+		int data = Terrain.ExtractData(value);
+		if (GetIsCross(data))
+		{
+			generator.GenerateMeshVertices(this, x, y, z, m_meshesByData[(data ^ 1) & 1], SubsystemPalette.GetColor(generator, GetPaintColor(value)), null, geometry.SubsetOpaque);
+		}
+		generator.GenerateMeshVertices(this, x, y, z, m_meshesByData[data & 1], SubsystemPalette.GetColor(generator, GetPaintColor(value)), null, geometry.SubsetOpaque);
 	}
 
 	public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
 	{
-		BlocksManager.DrawMeshBlock(primitivesRenderer, m_standaloneMesh, color * SubsystemPalette.GetColor(environmentData, GetPaintColor(value)), size, ref matrix, environmentData);
+		color *= SubsystemPalette.GetColor(environmentData, GetPaintColor(value));
+		int data = Terrain.ExtractData(value);
+		if (GetIsCross(data))
+		{
+			BlocksManager.DrawMeshBlock(primitivesRenderer, m_meshesByData[0], color, size, ref matrix, environmentData);
+			BlocksManager.DrawMeshBlock(primitivesRenderer, m_meshesByData[1], color, size, ref matrix, environmentData);
+			return;
+		}
+		BlocksManager.DrawMeshBlock(primitivesRenderer, m_standaloneMesh, color, size, ref matrix, environmentData);
 	}
 
 	public override BlockPlacementData GetPlacementValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, TerrainRaycastResult raycastResult)
@@ -30,7 +43,7 @@ public class MagnetBlock : Game.MagnetBlock, IPaintableBlock
 			Vector3 forward = Matrix.CreateFromQuaternion(componentMiner.ComponentCreature.ComponentCreatureModel.EyeRotation).Forward;
 			result = default(BlockPlacementData);
 			result.CellFace = raycastResult.CellFace;
-			result.Value = Terrain.ReplaceData(value, SetColor((MathUtils.Abs(forward.X) <= MathUtils.Abs(forward.Z)) ? 1 : 0, GetPaintColor(value)));
+			result.Value = Terrain.ReplaceData(value, SetColor(SetIsCross(MathUtils.Abs(forward.X) <= MathUtils.Abs(forward.Z) ? 1 : 0, GetIsCross(Terrain.ExtractData(value))), GetPaintColor(value)));
 			return result;
 		}
 		var componentPlayer = componentMiner.ComponentPlayer;
@@ -55,25 +68,33 @@ public class MagnetBlock : Game.MagnetBlock, IPaintableBlock
 		{
 			dropValues.Add(new BlockDropValue
 			{
-				Value = Terrain.MakeBlockValue(DefaultDropContent, 0, data),
+				Value = Terrain.MakeBlockValue(DefaultDropContent, 0, data & -2),
 				Count = (int)DefaultDropCount
 			});
 		}
 	}
+	public override Vector3 GetIconBlockOffset(int value, DrawBlockEnvironmentData environmentData)
+	{
+		return GetIsCross(Terrain.ExtractData(value)) ? new Vector3(-1.2f, -0.3f, -0.5f) : DefaultIconBlockOffset;
+	}
+	public override float GetIconViewScale(int value, DrawBlockEnvironmentData environmentData)
+	{
+		return GetIsCross(Terrain.ExtractData(value)) ? 1.8f : DefaultIconViewScale;
+	}
 
 	public override IEnumerable<int> GetCreativeValues()
 	{
-		var array = new int[16];
-		for (int i = 0; i < 16; i++)
+		var array = new int[32];
+		for (int i = 0; i < 32; i++)
 		{
-			array[i] = Terrain.MakeBlockValue(Index, 0, SetColor(DefaultCreativeData, i));
+			array[i] = Terrain.MakeBlockValue(Index, 0, i << 1);
 		}
 		return array;
 	}
 
 	public override string GetDisplayName(SubsystemTerrain subsystemTerrain, int value)
 	{
-		return SubsystemPalette.GetName(subsystemTerrain, GetPaintColor(value), base.GetDisplayName(subsystemTerrain, value));
+		return SubsystemPalette.GetName(subsystemTerrain, GetPaintColor(value), GetIsCross(Terrain.ExtractData(value)) ? "Cross " + DefaultDisplayName : DefaultDisplayName);
 	}
 
 	public int? GetPaintColor(int value)
@@ -99,5 +120,18 @@ public class MagnetBlock : Game.MagnetBlock, IPaintableBlock
 	{
 		data &= -31;
 		return color.HasValue ? color == 0 ? data : data | color.Value << 1 : data;
+	}
+	public static bool GetIsCross(int data)
+	{
+		return (data & 0x20) != 0;
+	}
+
+	public static int SetIsCross(int data, bool isCross)
+	{
+		if (!isCross)
+		{
+			return data & 0x1F;
+		}
+		return data | 0x20;
 	}
 }

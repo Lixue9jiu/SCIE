@@ -50,14 +50,14 @@ namespace Game
 			}
 		}
 		
-		private readonly ComponentLargeCraftingTable m_componentCraftingTable;
+		protected readonly ComponentLargeCraftingTable m_componentCraftingTable;
 		
-		private readonly GridPanelWidget m_craftingGrid;
+		protected readonly GridPanelWidget m_craftingGrid;
 		
-		private readonly InventorySlotWidget m_craftingRemainsSlot;
+		protected readonly InventorySlotWidget m_craftingRemainsSlot;
 		
-		private readonly InventorySlotWidget m_craftingResultSlot;
+		protected readonly InventorySlotWidget m_craftingResultSlot;
 		
-		private readonly GridPanelWidget m_inventoryGrid;
+		protected readonly GridPanelWidget m_inventoryGrid;
 	}
 }

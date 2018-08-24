@@ -5,11 +5,11 @@ namespace Game
 {
 	public class DispenserNewElectricElement : ElectricElement
 	{
-		private bool m_isDispenseAllowed = true;
+		protected bool m_isDispenseAllowed = true;
 
-		private double? m_lastDispenseTime;
+		protected double? m_lastDispenseTime;
 
-		private readonly SubsystemBlockEntities m_subsystemBlockEntities;
+		protected readonly SubsystemBlockEntities m_subsystemBlockEntities;
 
 		public DispenserNewElectricElement(SubsystemElectricity subsystemElectricity, Point3 point)
 			: base(subsystemElectricity, new List<CellFace>

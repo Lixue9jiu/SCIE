@@ -15,9 +15,9 @@ namespace Game
 
 		public const int Index = 520;
 
-		private BlockMesh m_standaloneBlockMeshLoaded;
+		protected BlockMesh m_standaloneBlockMeshLoaded;
 
-		private BlockMesh m_standaloneBlockMeshUnloaded;
+		protected BlockMesh m_standaloneBlockMeshUnloaded;
 
 		public int[] bullet = new int[2];
 

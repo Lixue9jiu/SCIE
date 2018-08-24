@@ -6,17 +6,17 @@ namespace Game
 {
 	public class ComponentDispenserNew : ComponentInventoryBase
 	{
-		private ComponentBlockEntity m_componentBlockEntity;
+		protected ComponentBlockEntity m_componentBlockEntity;
 
-		private SubsystemAudio m_subsystemAudio;
+		protected SubsystemAudio m_subsystemAudio;
 
-		private SubsystemPickables m_subsystemPickables;
+		protected SubsystemPickables m_subsystemPickables;
 
-		private SubsystemProjectiles m_subsystemProjectiles;
+		protected SubsystemProjectiles m_subsystemProjectiles;
 
-		private SubsystemTerrain m_subsystemTerrain;
+		protected SubsystemTerrain m_subsystemTerrain;
 
-		//private SubsystemParticles m_subsystemParticles;
+		//protected SubsystemParticles m_subsystemParticles;
 
 		public void Dispense()
 		{
@@ -61,7 +61,7 @@ namespace Game
 			m_componentBlockEntity = Entity.FindComponent<ComponentBlockEntity>(true);
 		}
 
-		private void DispenseItem(Point3 point, int face, int value, DispenserNewBlock.Mode mode)
+		protected void DispenseItem(Point3 point, int face, int value, DispenserNewBlock.Mode mode)
 		{
 			Vector3 vector = CellFace.FaceToVector3(face);
 			Vector3 vector2 = new Vector3((float)point.X + 0.5f, (float)point.Y + 0.5f, (float)point.Z + 0.5f) + 0.6f * vector;
@@ -79,7 +79,7 @@ namespace Game
 			}
 		}
 
-		private void Driller(Point3 point, int face)
+		protected void Driller(Point3 point, int face)
 		{
 			Vector3 vector = CellFace.FaceToVector3(face);
 			Vector3 v = new Vector3(0f, 0f, 0f);

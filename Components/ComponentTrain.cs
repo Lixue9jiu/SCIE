@@ -67,7 +67,7 @@ namespace Game
             Direction = 0;
         }
 
-        private void CollidedWithBody(ComponentBody obj)
+        protected void CollidedWithBody(ComponentBody obj)
         {
             var health = obj.Entity.FindComponent<ComponentHealth>();
             if (health != null)

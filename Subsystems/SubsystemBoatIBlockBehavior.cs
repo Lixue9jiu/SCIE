@@ -6,11 +6,11 @@ namespace Game
 {
 	public class SubsystemBoatIBlockBehavior : SubsystemBlockBehavior
 	{
-		private readonly Random m_random = new Random();
+		protected readonly Random m_random = new Random();
 
-		private SubsystemAudio m_subsystemAudio;
+		protected SubsystemAudio m_subsystemAudio;
 
-		private SubsystemBodies m_subsystemBodies;
+		protected SubsystemBodies m_subsystemBodies;
 
 		public override int[] HandledBlocks
 		{

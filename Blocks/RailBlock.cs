@@ -197,18 +197,10 @@ namespace Game
         public override BlockPlacementData GetPlacementValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, TerrainRaycastResult raycastResult)
         {
             Vector3 forward = componentMiner.ComponentCreature.ComponentCreatureModel.EyeRotation.ToForwardVector();
-            if (MathUtils.Abs(forward.X) < MathUtils.Abs(forward.Z))
-            {
-                return new BlockPlacementData
-                {
-                    CellFace = raycastResult.CellFace,
-                    Value = Terrain.MakeBlockValue(Index, 0, SetRailType(0, 4))
-                };
-            }
             return new BlockPlacementData
             {
                 CellFace = raycastResult.CellFace,
-                Value = Terrain.MakeBlockValue(Index, 0, SetRailType(0, 5))
+                Value = Terrain.MakeBlockValue(Index, 0, SetRailType(0, MathUtils.Abs(forward.X) < MathUtils.Abs(forward.Z) ? 4 : 5))
             };
         }
 

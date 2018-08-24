@@ -5,11 +5,11 @@ namespace Game
 {
 	public class ChestNewWidget : CanvasWidget
 	{
-		private readonly GridPanelWidget m_inventoryGrid;
+		protected readonly GridPanelWidget m_inventoryGrid;
 
-		private readonly ComponentChestNew m_componentChestNew;
+		protected readonly ComponentChestNew m_componentChestNew;
 
-		private readonly GridPanelWidget m_chestNewGrid;
+		protected readonly GridPanelWidget m_chestNewGrid;
 
 		public override void Update()
 		{

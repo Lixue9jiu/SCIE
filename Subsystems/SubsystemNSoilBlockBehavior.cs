@@ -92,13 +92,13 @@ namespace Game
 			}
 		}
 
-		private new bool DegradesSoilIfOnTopOfIt(int value)
+		protected new bool DegradesSoilIfOnTopOfIt(int value)
 		{
 			Block block = BlocksManager.Blocks[Terrain.ExtractContents(value)];
 			return !block.IsFaceTransparent(SubsystemTerrain, 5, value) && block.IsCollidable;
 		}
 
-		private new bool DetermineHydration(int x, int y, int z, int steps)
+		protected new bool DetermineHydration(int x, int y, int z, int steps)
 		{
 			if (steps > 0 && y > 0 && y < 126)
 			{
@@ -119,7 +119,7 @@ namespace Game
 			return false;
 		}
 
-		private new bool DetermineHydrationHelper(int x, int y, int z, int steps)
+		protected new bool DetermineHydrationHelper(int x, int y, int z, int steps)
 		{
 			int cellValueFast = SubsystemTerrain.Terrain.GetCellValueFast(x, y, z);
 			int num = Terrain.ExtractContents(cellValueFast);

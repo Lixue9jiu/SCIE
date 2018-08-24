@@ -106,7 +106,7 @@ namespace Game
 			m_subsystemParticles = Project.FindSubsystem<SubsystemParticles>(true);
 		}
 
-		private void AddFire(int value, int x, int y, int z)
+		protected void AddFire(int value, int x, int y, int z)
 		{
 			Vector3 v = new Vector3(0.5f, 0.2f, 0.5f);
 			float size = 0.15f;
@@ -115,15 +115,15 @@ namespace Game
 			m_particleSystemsByCell[new Point3(x, y, z)] = fireParticleSystem;
 		}
 
-		private void RemoveFire(int x, int y, int z)
+		protected void RemoveFire(int x, int y, int z)
 		{
 			Point3 key = new Point3(x, y, z);
 			m_subsystemParticles.RemoveParticleSystem(m_particleSystemsByCell[key]);
 			m_particleSystemsByCell.Remove(key);
 		}
 
-		private readonly Dictionary<Point3, FireParticleSystem> m_particleSystemsByCell = new Dictionary<Point3, FireParticleSystem>();
+		protected readonly Dictionary<Point3, FireParticleSystem> m_particleSystemsByCell = new Dictionary<Point3, FireParticleSystem>();
 
-		private SubsystemParticles m_subsystemParticles;
+		protected SubsystemParticles m_subsystemParticles;
 	}
 }

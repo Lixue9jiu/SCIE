@@ -6,15 +6,15 @@ namespace Game
 {
 	public class SubsystemDispenserNBlockBehavior : SubsystemBlockBehavior
 	{
-		private readonly Random m_random = new Random();
+		protected readonly Random m_random = new Random();
 
-		private SubsystemTime m_subsystemTime;
+		protected SubsystemTime m_subsystemTime;
 
-		private readonly Dictionary<Point3, bool> m_toDegrade = new Dictionary<Point3, bool>();
+		protected readonly Dictionary<Point3, bool> m_toDegrade = new Dictionary<Point3, bool>();
 
-		private readonly Dictionary<Point3, bool> m_toHydrate = new Dictionary<Point3, bool>();
+		protected readonly Dictionary<Point3, bool> m_toHydrate = new Dictionary<Point3, bool>();
 
-		private SubsystemProjectiles m_subsystemProjectiles;
+		protected SubsystemProjectiles m_subsystemProjectiles;
 
 		public override int[] HandledBlocks
 		{

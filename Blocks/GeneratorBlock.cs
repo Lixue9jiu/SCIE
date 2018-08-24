@@ -6,9 +6,9 @@ namespace Game
 	{
 		public const int Index = 535;
 
-		//private readonly BlockMesh[] m_blockMeshesByData = new BlockMesh[4];
+		//protected readonly BlockMesh[] m_blockMeshesByData = new BlockMesh[4];
 
-		//private readonly BlockMesh m_standaloneBlockMesh = new BlockMesh();
+		//protected readonly BlockMesh m_standaloneBlockMesh = new BlockMesh();
 
 		public override int GetFaceTextureSlot(int face, int value)
 		{

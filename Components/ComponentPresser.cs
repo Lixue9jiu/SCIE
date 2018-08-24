@@ -7,19 +7,19 @@ namespace Game
 {
 	public class ComponentPresser : ComponentMachine, IUpdateable
 	{
-		private float m_fireTimeRemaining;
+		protected float m_fireTimeRemaining;
 
-		private int m_furnaceSize;
+		protected int m_furnaceSize;
 
-		private readonly string[] m_matchedIngredients = new string[9];
+		protected readonly string[] m_matchedIngredients = new string[9];
 
-		private string m_smeltingRecipe;
+		protected string m_smeltingRecipe;
 
-		private SubsystemAudio m_subsystemAudio;
+		protected SubsystemAudio m_subsystemAudio;
 
-		private int m_music;
+		//protected int m_music;
 
-		private string m_smeltingRecipe2;
+		protected string m_smeltingRecipe2;
 
 		public int RemainsSlotIndex
 		{
@@ -77,7 +77,7 @@ namespace Game
 					m_smeltingRecipe = text;
 					m_smeltingRecipe2 = text;
 					SmeltingProgress = 0f;
-					m_music = 0;
+					//m_music = 0;
 				}
 			}
 			if (m_smeltingRecipe2 != null)
@@ -111,7 +111,7 @@ namespace Game
 			{
 				HeatLevel = 0f;
 				m_fireTimeRemaining = 0f;
-				m_music = -1;
+				//m_music = -1;
 			}
 			if (m_smeltingRecipe != null)
 			{
@@ -123,7 +123,7 @@ namespace Game
 			{
 				m_smeltingRecipe = null;
 				SmeltingProgress = 0f;
-				m_music = -1;
+				//m_music = -1;
 			}
 			if (m_smeltingRecipe != null)
 			{
@@ -184,7 +184,7 @@ namespace Game
 			valuesDictionary.SetValue("HeatLevel", HeatLevel);
 		}
 
-		private string FindSmeltingRecipe(float heatLevel)
+		protected string FindSmeltingRecipe(float heatLevel)
 		{
 			string text = null;
 			for (int i = 0; i < m_furnaceSize; i++)

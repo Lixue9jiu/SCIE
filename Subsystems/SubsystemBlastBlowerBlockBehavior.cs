@@ -95,16 +95,16 @@ namespace Game
 			SubsystemTerrain.ChangeCell(x, y, z, BlastBlowerBlock.Index | 1 << 14, true);
 		}
 		
-		private readonly Random m_random = new Random();
+		protected readonly Random m_random = new Random();
 		
-		private SubsystemTime m_subsystemTime;
+		protected SubsystemTime m_subsystemTime;
 		
-		private SubsystemProjectiles m_subsystemProjectiles;
+		protected SubsystemProjectiles m_subsystemProjectiles;
 		
-		private SubsystemTerrain m_subsystemTerrain;
+		protected SubsystemTerrain m_subsystemTerrain;
 		
-		//private Vector3 coordinate;
+		//protected Vector3 coordinate;
 		
-		//private bool flag;
+		//protected bool flag;
 	}
 }

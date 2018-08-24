@@ -5,23 +5,23 @@ namespace Game
 {
 	public class DispenserNewWidget : CanvasWidget
 	{
-		private readonly CheckboxWidget m_acceptsDropsBox;
+		protected readonly CheckboxWidget m_acceptsDropsBox;
 
-		private readonly ComponentBlockEntity m_componentBlockEntity;
+		protected readonly ComponentBlockEntity m_componentBlockEntity;
 
-		private readonly ComponentDispenserNew m_componentDispenser;
+		protected readonly ComponentDispenserNew m_componentDispenser;
 
-		private readonly ButtonWidget m_dispenseButton;
+		protected readonly ButtonWidget m_dispenseButton;
 
-		private readonly GridPanelWidget m_dispenserGrid;
+		protected readonly GridPanelWidget m_dispenserGrid;
 
-		private readonly GridPanelWidget m_inventoryGrid;
+		protected readonly GridPanelWidget m_inventoryGrid;
 
-		private readonly ButtonWidget m_shootButton;
+		protected readonly ButtonWidget m_shootButton;
 
-		private readonly SubsystemTerrain m_subsystemTerrain;
+		protected readonly SubsystemTerrain m_subsystemTerrain;
 
-		private readonly InventorySlotWidget m_drillSlot;
+		protected readonly InventorySlotWidget m_drillSlot;
 
 		public DispenserNewWidget(IInventory inventory, ComponentDispenserNew componentDispenser)
 		{

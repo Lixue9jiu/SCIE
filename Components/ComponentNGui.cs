@@ -11,7 +11,7 @@ namespace Game
 			UpdateWidgets();
 		}
 
-		private new void HandleInput()
+		protected new void HandleInput()
 		{
 			WidgetInput input = m_componentPlayer.View.Input;
 			PlayerInput playerInput = m_componentPlayer.ComponentInput.PlayerInput;

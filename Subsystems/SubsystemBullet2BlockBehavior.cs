@@ -5,11 +5,11 @@ namespace Game
 {
 	public class SubsystemBullet2BlockBehavior : SubsystemBlockBehavior
 	{
-		private readonly Random m_random = new Random();
+		protected readonly Random m_random = new Random();
 
-		private SubsystemAudio m_subsystemAudio;
+		protected SubsystemAudio m_subsystemAudio;
 
-		private SubsystemExplosions m_subsystemExplosions;
+		protected SubsystemExplosions m_subsystemExplosions;
 
 		public override int[] HandledBlocks
 		{

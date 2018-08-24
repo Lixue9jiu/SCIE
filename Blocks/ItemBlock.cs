@@ -153,7 +153,7 @@ namespace Game
 			return Terrain.MakeBlockValue(BlocksManager.FindBlockByTypeName(array[0], true).BlockIndex, 0, array.Length >= 2 ? int.Parse(array[1], CultureInfo.InvariantCulture) : 0);
 		}
 
-		private static bool MatchRecipe(string[] requiredIngredients, string[] actualIngredients)
+		protected static bool MatchRecipe(string[] requiredIngredients, string[] actualIngredients)
 		{
 			string[] array = new string[36];
 			for (int i = 0; i < 2; i++)
@@ -185,7 +185,7 @@ namespace Game
 			return false;
 		}
 
-		private static bool TransformRecipe(string[] transformedIngredients, string[] ingredients, int shiftX, int shiftY, bool flip)
+		protected static bool TransformRecipe(string[] transformedIngredients, string[] ingredients, int shiftX, int shiftY, bool flip)
 		{
 			for (int i = 0; i < 36; i++)
 			{

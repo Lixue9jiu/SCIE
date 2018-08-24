@@ -12,23 +12,23 @@ namespace Game
 
 		public const int Index = 521;
 
-		private static readonly string[] m_displayNames = new string[]
+		protected static readonly string[] m_displayNames = new string[]
 		{
 			"IronFixedBullet"
 		};
-		private static readonly float[] m_sizes = new float[]
+		protected static readonly float[] m_sizes = new float[]
 		{
 			1f
 		};
-		private static readonly int[] m_textureSlots = new int[]
+		protected static readonly int[] m_textureSlots = new int[]
 		{
 			226
 		};
-		private static readonly float[] m_weaponPowers = new float[]
+		protected static readonly float[] m_weaponPowers = new float[]
 		{
 			10f
 		};
-		//private static readonly float[] m_explosionPressures = new float[3];
+		//protected static readonly float[] m_explosionPressures = new float[3];
 
 		public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
 		{

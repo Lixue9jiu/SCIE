@@ -78,7 +78,6 @@
     <Compile Include="Blocks\OrePowder.cs" />
     <Compile Include="Components\ComponentTrain.cs" />
     <Compile Include="Structs\CircuitDevices.cs" />
-    <Compile Include="Structs\CircuitElements.cs" />
     <Compile Include="Structs\Elements.cs" />
     <Compile Include="Structs\Interfaces.cs" />
     <Compile Include="Structs\Items.cs" />

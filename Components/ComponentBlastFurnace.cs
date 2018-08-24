@@ -206,7 +206,7 @@ namespace Game
 			valuesDictionary.SetValue<float>("HeatLevel", HeatLevel);
 		}
 
-		private bool FindSmeltingRecipe(float heatLevel)
+		protected bool FindSmeltingRecipe(float heatLevel)
 		{
 			if (heatLevel <= 0f)
 			{
@@ -364,19 +364,19 @@ namespace Game
 			return flag;
 		}
 
-		private float m_fireTimeRemaining;
+		protected float m_fireTimeRemaining;
 
-		private int m_furnaceSize;
+		protected int m_furnaceSize;
 
-		private int m_time;
+		protected int m_time;
 
-		private readonly int[] m_matchedIngredients2 = new int[9];
+		protected readonly int[] m_matchedIngredients2 = new int[9];
 
-		private readonly int[] m_matchedIngredients = new int[10];
+		protected readonly int[] m_matchedIngredients = new int[10];
 
-		private bool m_smeltingRecipe;
+		protected bool m_smeltingRecipe;
 
-		private bool m_smeltingRecipe2;
-		private readonly int[] result = new int[3];
+		protected bool m_smeltingRecipe2;
+		protected readonly int[] result = new int[3];
 	}
 }

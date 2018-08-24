@@ -5,9 +5,9 @@ namespace Game
 {
 	public class SubsystemChestNewBlockBehavior : SubsystemBlockBehavior
 	{
-		private SubsystemAudio m_subsystemAudio;
+		protected SubsystemAudio m_subsystemAudio;
 
-		private SubsystemBlockEntities m_subsystemBlockEntities;
+		protected SubsystemBlockEntities m_subsystemBlockEntities;
 
 		public override int[] HandledBlocks
 		{
@@ -29,7 +29,7 @@ namespace Game
 
 		public override void OnBlockAdded(int value, int oldValue, int x, int y, int z)
 		{
-			if ((Terrain.ExtractData(value) >> 2) != 0)
+			if ((Terrain.ExtractData(value) & 32767) != 0)
 			{
 				return;
 			}
@@ -41,7 +41,7 @@ namespace Game
 
 		public override void OnBlockRemoved(int value, int newValue, int x, int y, int z)
 		{
-			if ((Terrain.ExtractData(value) >> 2) != 0)
+			if ((Terrain.ExtractData(value) & 32767) != 0)
 			{
 				return;
 			}
@@ -59,7 +59,7 @@ namespace Game
 
 		public override bool OnInteract(TerrainRaycastResult raycastResult, ComponentMiner componentMiner)
 		{
-			if ((Terrain.ExtractData(raycastResult.Value) >> 2) != 0)
+			if ((Terrain.ExtractData(raycastResult.Value) & 32767) != 0)
 			{
 				return false;
 			}
@@ -76,7 +76,7 @@ namespace Game
 
 		public override void OnHitByProjectile(CellFace cellFace, WorldItem worldItem)
 		{
-			if ((Terrain.ExtractData(SubsystemTerrain.Terrain.GetCellValue(cellFace.X, cellFace.Y, cellFace.Z)) >> 2) != 0)
+			if ((Terrain.ExtractData(SubsystemTerrain.Terrain.GetCellValue(cellFace.X, cellFace.Y, cellFace.Z)) & 32767) != 0)
 			{
 				return;
 			}

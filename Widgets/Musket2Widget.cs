@@ -5,15 +5,15 @@ namespace Game
 {
 	public class Musket2Widget : CanvasWidget
 	{
-		private readonly LabelWidget m_instructionsLabel;
+		protected readonly LabelWidget m_instructionsLabel;
 
-		private readonly IInventory m_inventory;
+		protected readonly IInventory m_inventory;
 
-		private readonly GridPanelWidget m_inventoryGrid;
+		protected readonly GridPanelWidget m_inventoryGrid;
 
-		private readonly InventorySlotWidget m_inventorySlotWidget;
+		protected readonly InventorySlotWidget m_inventorySlotWidget;
 
-		private readonly int m_slotIndex;
+		protected readonly int m_slotIndex;
 
 		public Musket2Widget(IInventory inventory, int slotIndex)
 		{

@@ -6,9 +6,9 @@ namespace Game
 {
 	public class SubsystemPresserNBlockBehavior : SubsystemBlockBehavior
 	{
-		private readonly Dictionary<Point3, FireParticleSystem> m_particleSystemsByCell = new Dictionary<Point3, FireParticleSystem>();
+		protected readonly Dictionary<Point3, FireParticleSystem> m_particleSystemsByCell = new Dictionary<Point3, FireParticleSystem>();
 
-		private SubsystemParticles m_subsystemParticles;
+		protected SubsystemParticles m_subsystemParticles;
 
 		public override int[] HandledBlocks
 		{

@@ -56,24 +56,24 @@ namespace Game
 			ParentWidget.Children.Remove(this);
 		}
 
-		private readonly ComponentBlastFurnace m_componentFurnace;
+		protected readonly ComponentBlastFurnace m_componentFurnace;
 
-		private readonly FireWidget m_fire;
+		protected readonly FireWidget m_fire;
 
-		private readonly GridPanelWidget m_furnaceGrid;
+		protected readonly GridPanelWidget m_furnaceGrid;
 
-		private readonly GridPanelWidget m_inventoryGrid;
+		protected readonly GridPanelWidget m_inventoryGrid;
 
-		private readonly ValueBarWidget m_progress;
+		protected readonly ValueBarWidget m_progress;
 
-		private readonly InventorySlotWidget m_remainsSlot;
+		protected readonly InventorySlotWidget m_remainsSlot;
 
-		private readonly InventorySlotWidget m_resultSlot;
+		protected readonly InventorySlotWidget m_resultSlot;
 
-		//private readonly GridPanelWidget m_fuelGrid;
+		//protected readonly GridPanelWidget m_fuelGrid;
 
-		private readonly InventorySlotWidget m_remainsSlot2;
+		protected readonly InventorySlotWidget m_remainsSlot2;
 
-		private readonly InventorySlotWidget m_remainsSlot3;
+		protected readonly InventorySlotWidget m_remainsSlot3;
 	}
 }

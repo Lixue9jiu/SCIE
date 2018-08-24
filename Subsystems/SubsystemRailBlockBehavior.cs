@@ -6,9 +6,9 @@ namespace Game
 {
     public class SubsystemRailBlockBehavior : SubsystemBlockBehavior
     {
-        private SubsystemTerrain subsystemTerrain;
+        protected SubsystemTerrain subsystemTerrain;
 
-        private Point3[][] m_pointsToUpdate = new Point3[][]
+        protected Point3[][] m_pointsToUpdate = new Point3[][]
         {
             new Point3[]
             {

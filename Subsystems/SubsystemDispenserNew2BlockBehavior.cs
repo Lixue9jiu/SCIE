@@ -5,13 +5,13 @@ namespace Game
 {
 	public class SubsystemDispenserNew2BlockBehavior : SubsystemBlockBehavior
 	{
-		private SubsystemAudio m_subsystemAudio;
+		protected SubsystemAudio m_subsystemAudio;
 
-		private SubsystemBlockEntities m_subsystemBlockEntities;
+		protected SubsystemBlockEntities m_subsystemBlockEntities;
 
-		private SubsystemGameInfo m_subsystemGameInfo;
+		protected SubsystemGameInfo m_subsystemGameInfo;
 
-		private SubsystemTerrain m_subsystemTerrain;
+		protected SubsystemTerrain m_subsystemTerrain;
 
 		public override int[] HandledBlocks
 		{

@@ -7,27 +7,27 @@ namespace Game
 {
 	public class ComponentEngineH : ComponentInventoryBase, IUpdateable
 	{
-		private ComponentBlockEntity m_componentBlockEntity;
+		protected ComponentBlockEntity m_componentBlockEntity;
 
-		private float m_fireTimeRemaining;
+		protected float m_fireTimeRemaining;
 
-		private int m_furnaceSize;
+		protected int m_furnaceSize;
 
-		private readonly string[] m_matchedIngredients = new string[9];
+		protected readonly string[] m_matchedIngredients = new string[9];
 
-		private SubsystemExplosions m_subsystemExplosions;
+		protected SubsystemExplosions m_subsystemExplosions;
 
-		private SubsystemTerrain m_subsystemTerrain;
+		protected SubsystemTerrain m_subsystemTerrain;
 
-		private bool m_updateSmeltingRecipe;
+		protected bool m_updateSmeltingRecipe;
 
-		private string m_smeltingRecipe;
+		protected string m_smeltingRecipe;
 
-		private SubsystemAudio m_subsystemAudio;
+		protected SubsystemAudio m_subsystemAudio;
 
-		private int m_music;
+		//protected int m_music;
 
-		private float m_fireTime;
+		protected float m_fireTime;
 
 		public int RemainsSlotIndex
 		{
@@ -96,14 +96,14 @@ namespace Game
 				{
 					m_smeltingRecipe = text;
 					SmeltingProgress = 0f;
-					m_music = 0;
+					//m_music = 0;
 				}
 			}
 			if (m_smeltingRecipe == null)
 			{
 				HeatLevel = 0f;
 				m_fireTimeRemaining = 0f;
-				m_music = -1;
+				//m_music = -1;
 			}
 			if (m_smeltingRecipe != null && m_fireTimeRemaining <= 0f)
 			{
@@ -129,7 +129,7 @@ namespace Game
 			{
 				m_smeltingRecipe = null;
 				SmeltingProgress = 0f;
-				m_music = -1;
+				//m_music = -1;
 			}
 			if (m_smeltingRecipe != null)
 			{
@@ -194,7 +194,7 @@ namespace Game
 			valuesDictionary.SetValue("HeatLevel", HeatLevel);
 		}
 
-		private string FindSmeltingRecipe(float heatLevel)
+		protected string FindSmeltingRecipe(float heatLevel)
 		{
 			string text = null;
 			for (int i = 0; i < m_furnaceSize; i++)

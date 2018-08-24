@@ -67,7 +67,7 @@ namespace Game
 	public abstract class MetalIngot : Item
 	{
 
-		private BlockMesh m_standaloneBlockMesh = new BlockMesh();
+		protected BlockMesh m_standaloneBlockMesh = new BlockMesh();
 
 		protected MetalIngot(MetalType type)
 		{
