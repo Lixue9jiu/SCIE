@@ -126,7 +126,7 @@
       <EntityTemplate Name="MachineTool" Guid="a4c43456-d37d-455f-9a43-803260a915a9">
         <MemberComponentTemplate Name="BlockEntity" Guid="f2d455cf-8233-4bee-ad3e-bde77df10654" InheritanceParent="09a85cba-d94e-41b8-9497-f20ed942c17e" />
         <MemberComponentTemplate Name="CraftingTable" Guid="a7a43847-dfe9-4331-900e-4c5f3ce25348" InheritanceParent="48fdc8bb-8ca8-4d0f-af8d-25bfe9b56a19">
-          <Parameter Name="SlotsCount" Guid="3dfd5624-a4c3-4ad5-85f8-813ef26dae6b" Value="38" Type="int" />
+          <Parameter Name="SlotsCount" Guid="3dfd5624-a4c3-4ad5-85f8-813ef26dae6b" Value="18" Type="int" />
         </MemberComponentTemplate>
       </EntityTemplate>
   </ToAdd>
