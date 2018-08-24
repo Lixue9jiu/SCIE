@@ -51,6 +51,12 @@ namespace Game
 		{
 		}
 	}
+	public class ChromiumRod : Rod
+	{
+		public ChromiumRod() : base("chromium", new Color(90, 90, 90))
+		{
+		}
+	}
 	public class TitaniumRod : Rod
 	{
 		public TitaniumRod() : base("titanium", new Color(253, 253, 253))

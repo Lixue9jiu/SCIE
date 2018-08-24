@@ -54,7 +54,7 @@ namespace Game
 			{
 				return false;
 			}
-			ComponentMachineTool component = blockEntity.Entity.FindComponent<ComponentMachineTool>(true);
+			ComponentLargeCraftingTable component = blockEntity.Entity.FindComponent<ComponentLargeCraftingTable>(true);
 			componentMiner.ComponentPlayer.ComponentGui.ModalPanelWidget = new MachineToolWidget(componentMiner.Inventory, component);
 			AudioManager.PlaySound("Audio/UI/ButtonClick", 1f, 0f, 0f);
 			return true;
