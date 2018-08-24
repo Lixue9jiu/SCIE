@@ -524,7 +524,11 @@
       "abba"
       "aaaa"
     </Recipe>
-    <Recipe Result="Generator" ResultCount="1" RequiredHeatLevel="0" a="CopperWire" b="steelblock" c="magnet" d="SteelGear" e="SteelRod" Description="Make a Direct Current Dynamo to enter the electricity era.">
+    <Recipe Result="MagnetBlock:32" ResultCount="1" RequiredHeatLevel="0" a="magnet:0" Description="Make a Cross Magnet from magnet">
+      "aa"
+      "aa"
+    </Recipe>
+    <Recipe Result="Generator" ResultCount="1" RequiredHeatLevel="0" a="CopperWire" b="steelblock" c="magnet:32" d="SteelGear" e="SteelRod" Description="Make a Direct Current Dynamo to enter the electricity era.">
       "caac"
       "adda"
       "aeba"
