@@ -29,28 +29,28 @@ namespace Game
 						{
 							return 145;
 						}
-						return 144;
+						return 107;
 					case 1:
 						if (face == 1)
 						{
 							return 145;
 						}
-						return 144;
+						return 107;
 					case 2:
 						if (face == 2)
 						{
 							return 145;
 						}
-						return 144;
+						return 107;
 					default:
 						if (face == 3)
 						{
 							return 145;
 						}
-						return 144;
+						return 107;
 				}
 			}
-			return 144;
+			return 107;
 		}
 		public override string GetDisplayName(SubsystemTerrain subsystemTerrain, int value)
 		{
