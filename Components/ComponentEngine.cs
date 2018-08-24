@@ -101,7 +101,7 @@ namespace Game
 				Slot slot2 = m_slots[FuelSlotIndex];
 				if (slot2.Count > 0)
 				{
-					Block block = BlocksManager.Blocks[Terrain.ExtractContents(slot2.Value)];
+					var block = BlocksManager.Blocks[Terrain.ExtractContents(slot2.Value)];
 					if (block.GetExplosionPressure(slot2.Value) > 0f)
 					{
 						slot2.Count = 0;
@@ -171,6 +171,10 @@ namespace Game
 
 		private string FindSmeltingRecipe(float heatLevel)
 		{
+			if (heatLevel < 100f)
+			{
+				return null;
+			}
 			string text = null;
 			for (int i = 0; i < m_furnaceSize; i++)
 			{

@@ -49,6 +49,23 @@ namespace Game
 				}
 			}
 		}
+		/*public static void Push<T>(this DynamicArray<T> array, T item)
+		{
+			if (array.m_count >= array.Capacity)
+			{
+				int value = MathUtils.Max(array.Capacity << 1, 4);
+				if (value != array.Capacity)
+				{
+					T[] arr = new T[value];
+					if (array.Array != null)
+					{
+						Array.Copy(array.Array, 0, arr, 0, array.m_count);
+					}
+					array.Array = arr;
+				}
+			}
+			array.Array[array.m_count++] = item;
+		}*/
 	}
 	/*[Flags]
 	[Serializable]

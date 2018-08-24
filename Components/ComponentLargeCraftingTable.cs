@@ -68,14 +68,14 @@ namespace Game
 							m_slots[RemainsSlotIndex].Value = m_matchedRecipe.RemainsValue;
 							m_slots[RemainsSlotIndex].Count += num / m_matchedRecipe.ResultCount * m_matchedRecipe.RemainsCount;
 						}
-						ComponentPlayer componentPlayer = base.Entity.FindComponent<ComponentPlayer>();
+						ComponentPlayer componentPlayer = Entity.FindComponent<ComponentPlayer>();
 						if (componentPlayer == null)
 						{
-							ComponentBlockEntity componentBlockEntity = base.Entity.FindComponent<ComponentBlockEntity>();
+							ComponentBlockEntity componentBlockEntity = Entity.FindComponent<ComponentBlockEntity>();
 							if (componentBlockEntity != null)
 							{
 								Vector3 position = new Vector3(componentBlockEntity.Coordinates);
-								componentPlayer = base.Project.FindSubsystem<SubsystemPlayers>(true).FindNearestPlayer(position);
+								componentPlayer = Project.FindSubsystem<SubsystemPlayers>(true).FindNearestPlayer(position);
 							}
 						}
 						if (componentPlayer != null && componentPlayer.PlayerStats != null)

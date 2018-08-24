@@ -10,9 +10,9 @@ namespace Game
 
 		private SubsystemTime m_subsystemTime;
 
-		private readonly Dictionary<Point3, bool> m_toDegrade = new Dictionary<Point3, bool>();
+		//private readonly Dictionary<Point3, bool> m_toDegrade = new Dictionary<Point3, bool>();
 
-		private readonly Dictionary<Point3, bool> m_toHydrate = new Dictionary<Point3, bool>();
+		//private readonly Dictionary<Point3, bool> m_toHydrate = new Dictionary<Point3, bool>();
 
 		private SubsystemProjectiles m_subsystemProjectiles;
 

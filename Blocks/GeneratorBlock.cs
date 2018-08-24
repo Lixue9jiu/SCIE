@@ -56,19 +56,19 @@ namespace Game
 			float max = MathUtils.Max(num, num2, num3, num4);
 			if (num == max)
 			{
-				data = 2;
+				data = 2 + 4;
 			}
 			else if (num2 == max)
 			{
-				data = 3;
+				data = 3 + 4;
 			}
 			else if (num3 == max)
 			{
-				data = 0;
+				data = 0 + 4;
 			}
 			else if (num4 == max)
 			{
-				data = 1;
+				data = 1 + 4;
 			}
 			BlockPlacementData result = default(BlockPlacementData);
 			result.Value = Terrain.ReplaceData(Index, data);

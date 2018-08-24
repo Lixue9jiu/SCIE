@@ -26,11 +26,11 @@ namespace Game
 		{
 			if (Terrain.ExtractContents(oldValue) != FurnaceNBlock.Index && Terrain.ExtractContents(oldValue) != LitFurnaceNBlock.Index)
 			{
-				DatabaseObject databaseObject = SubsystemTerrain.Project.GameDatabase.Database.FindDatabaseObject("FurnaceN", SubsystemTerrain.Project.GameDatabase.EntityTemplateType, true);
+				DatabaseObject databaseObject = Project.GameDatabase.Database.FindDatabaseObject("FurnaceN", Project.GameDatabase.EntityTemplateType, true);
 				var valuesDictionary = new ValuesDictionary();
 				valuesDictionary.PopulateFromDatabaseObject(databaseObject);
 				valuesDictionary.GetValue<ValuesDictionary>("BlockEntity").SetValue("Coordinates", new Point3(x, y, z));
-				SubsystemTerrain.Project.AddEntity(SubsystemTerrain.Project.CreateEntity(valuesDictionary));
+				Project.AddEntity(Project.CreateEntity(valuesDictionary));
 			}
 			if (Terrain.ExtractContents(value) == LitFurnaceNBlock.Index)
 			{
@@ -42,7 +42,7 @@ namespace Game
 		{
 			if (Terrain.ExtractContents(newValue) != FurnaceNBlock.Index && Terrain.ExtractContents(newValue) != LitFurnaceNBlock.Index)
 			{
-				ComponentBlockEntity blockEntity = SubsystemTerrain.Project.FindSubsystem<SubsystemBlockEntities>(true).GetBlockEntity(x, y, z);
+				ComponentBlockEntity blockEntity = Project.FindSubsystem<SubsystemBlockEntities>(true).GetBlockEntity(x, y, z);
 				if (blockEntity != null)
 				{
 					Vector3 position = new Vector3((float)x, (float)y, (float)z) + new Vector3(0.5f);
@@ -50,7 +50,7 @@ namespace Game
 					{
 						item.DropAllItems(position);
 					}
-					SubsystemTerrain.Project.RemoveEntity(blockEntity.Entity, true);
+					Project.RemoveEntity(blockEntity.Entity, true);
 				}
 			}
 			if (Terrain.ExtractContents(value) == LitFurnaceNBlock.Index)
@@ -85,7 +85,7 @@ namespace Game
 
 		public override bool OnInteract(TerrainRaycastResult raycastResult, ComponentMiner componentMiner)
 		{
-			ComponentBlockEntity blockEntity = SubsystemTerrain.Project.FindSubsystem<SubsystemBlockEntities>(true).GetBlockEntity(raycastResult.CellFace.X, raycastResult.CellFace.Y, raycastResult.CellFace.Z);
+			ComponentBlockEntity blockEntity = Project.FindSubsystem<SubsystemBlockEntities>(true).GetBlockEntity(raycastResult.CellFace.X, raycastResult.CellFace.Y, raycastResult.CellFace.Z);
 			if (blockEntity == null || componentMiner.ComponentPlayer == null)
 			{
 				return false;

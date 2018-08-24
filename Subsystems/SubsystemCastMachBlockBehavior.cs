@@ -23,17 +23,16 @@ namespace Game
 
 		public override void OnBlockAdded(int value, int oldValue, int x, int y, int z)
 		{
-			DatabaseObject databaseObject = SubsystemTerrain.Project.GameDatabase.Database.FindDatabaseObject("CastMach", SubsystemTerrain.Project.GameDatabase.EntityTemplateType, true);
-			ValuesDictionary valuesDictionary = new ValuesDictionary();
-			valuesDictionary.PopulateFromDatabaseObject(databaseObject);
+			var valuesDictionary = new ValuesDictionary();
+			valuesDictionary.PopulateFromDatabaseObject(Project.GameDatabase.Database.FindDatabaseObject("CastMach", Project.GameDatabase.EntityTemplateType, true));
 			valuesDictionary.GetValue<ValuesDictionary>("BlockEntity").SetValue("Coordinates", new Point3(x, y, z));
-			SubsystemTerrain.Project.AddEntity(SubsystemTerrain.Project.CreateEntity(valuesDictionary));
+			Project.AddEntity(Project.CreateEntity(valuesDictionary));
 			
 		}
 
 		public override void OnBlockRemoved(int value, int newValue, int x, int y, int z)
 		{
-			ComponentBlockEntity blockEntity = SubsystemTerrain.Project.FindSubsystem<SubsystemBlockEntities>(true).GetBlockEntity(x, y, z);
+			ComponentBlockEntity blockEntity = Project.FindSubsystem<SubsystemBlockEntities>(true).GetBlockEntity(x, y, z);
 			if (blockEntity != null)
 			{
 				Vector3 position = new Vector3((float)x, (float)y, (float)z) + new Vector3(0.5f);
@@ -41,7 +40,7 @@ namespace Game
 				{
 					item.DropAllItems(position);
 				}
-			SubsystemTerrain.Project.RemoveEntity(blockEntity.Entity, true);
+				Project.RemoveEntity(blockEntity.Entity, true);
 			}
 		}
 
@@ -68,7 +67,7 @@ namespace Game
 
 		public override bool OnInteract(TerrainRaycastResult raycastResult, ComponentMiner componentMiner)
 		{
-			ComponentBlockEntity blockEntity = SubsystemTerrain.Project.FindSubsystem<SubsystemBlockEntities>(true).GetBlockEntity(raycastResult.CellFace.X, raycastResult.CellFace.Y, raycastResult.CellFace.Z);
+			ComponentBlockEntity blockEntity = Project.FindSubsystem<SubsystemBlockEntities>(true).GetBlockEntity(raycastResult.CellFace.X, raycastResult.CellFace.Y, raycastResult.CellFace.Z);
 			if (blockEntity == null || componentMiner.ComponentPlayer == null)
 			{
 				return false;
@@ -88,7 +87,7 @@ namespace Game
 		private void AddFire(int value, int x, int y, int z)
 		{
 			var v = new Vector3(0.5f, 0.2f, 0.5f);
-			float size = 0.15f;
+			const float size = 0.15f;
 			var fireParticleSystem = new FireParticleSystem(new Vector3((float)x, (float)y, (float)z) + v, size, 16f);
 			m_subsystemParticles.AddParticleSystem(fireParticleSystem);
 			m_particleSystemsByCell[new Point3(x, y, z)] = fireParticleSystem;

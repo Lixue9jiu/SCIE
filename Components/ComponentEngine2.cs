@@ -135,7 +135,7 @@ namespace Game
 			if (m_smeltingRecipe != null)
 			{
 				SmeltingProgress = MathUtils.Min(SmeltingProgress + 0.02f * dt, 1f);
-				int num2 = m_music % 360;
+				//int num2 = m_music % 360;
 				m_music += 2;
 				if (SmeltingProgress >= 1f)
 				{

@@ -19,9 +19,8 @@ namespace Game
 		
 		public override void OnBlockAdded(int value, int oldValue, int x, int y, int z)
 		{
-			DatabaseObject databaseObject = Project.GameDatabase.Database.FindDatabaseObject("BlastFurnace", Project.GameDatabase.EntityTemplateType, true);
-			ValuesDictionary valuesDictionary = new ValuesDictionary();
-			valuesDictionary.PopulateFromDatabaseObject(databaseObject);
+			var valuesDictionary = new ValuesDictionary();
+			valuesDictionary.PopulateFromDatabaseObject(Project.GameDatabase.Database.FindDatabaseObject("BlastFurnace", Project.GameDatabase.EntityTemplateType, true));
 			valuesDictionary.GetValue<ValuesDictionary>("BlockEntity").SetValue<Point3>("Coordinates", new Point3(x, y, z));
 			Project.AddEntity(Project.CreateEntity(valuesDictionary));
 		}
@@ -40,13 +39,13 @@ namespace Game
 			}
 		}
 		
-		public override void OnBlockGenerated(int value, int x, int y, int z, bool isLoaded)
+		/*public override void OnBlockGenerated(int value, int x, int y, int z, bool isLoaded)
 		{
 		}
 		
 		public override void OnChunkDiscarding(TerrainChunk chunk)
 		{
-			List<Point3> list = new List<Point3>();
+			var list = new List<Point3>();
 			foreach (Point3 point in m_particleSystemsByCell.Keys)
 			{
 				if (point.X >= chunk.Origin.X && point.X < chunk.Origin.X + 16 && point.Z >= chunk.Origin.Y && point.Z < chunk.Origin.Y + 16)
@@ -54,7 +53,7 @@ namespace Game
 					list.Add(point);
 				}
 			}
-		}
+		}*/
 		
 		public override bool OnInteract(TerrainRaycastResult raycastResult, ComponentMiner componentMiner)
 		{
@@ -69,10 +68,10 @@ namespace Game
 			return true;
 		}
 		
-		public override void OnNeighborBlockChanged(int x, int y, int z, int neighborX, int neighborY, int neighborZ)
+		/*public override void OnNeighborBlockChanged(int x, int y, int z, int neighborX, int neighborY, int neighborZ)
 		{
 			base.OnNeighborBlockChanged(x, y, z, neighborX, neighborY, neighborZ);
-		}
+		}*/
 		
 		public override void Load(ValuesDictionary valuesDictionary)
 		{

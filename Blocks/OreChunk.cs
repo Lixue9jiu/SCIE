@@ -94,27 +94,27 @@ namespace Game
 		protected OreChunk(Matrix transform, Matrix tcTransform, Color color, bool smooth,ChunkType type)
 		{
 			Type = type;
-			this.m_transform = transform;
-			this.m_tcTransform = tcTransform;
-			this.Color = color;
-			this.m_smooth = smooth;
-			Model model = this.m_smooth ? ContentManager.Get<Model>("Models/ChunkSmooth") : ContentManager.Get<Model>("Models/Chunk");
-			Matrix matrix = BlockMesh.GetBoneAbsoluteTransform(model.Meshes[0].ParentBone) * this.m_transform;
-			BlockMesh standaloneBlockMesh = this.m_standaloneBlockMesh;
+			m_transform = transform;
+			m_tcTransform = tcTransform;
+			Color = color;
+			m_smooth = smooth;
+			Model model = m_smooth ? ContentManager.Get<Model>("Models/ChunkSmooth") : ContentManager.Get<Model>("Models/Chunk");
+			Matrix matrix = BlockMesh.GetBoneAbsoluteTransform(model.Meshes[0].ParentBone) * m_transform;
+			BlockMesh standaloneBlockMesh = m_standaloneBlockMesh;
 			ModelMeshPart meshPart = model.Meshes[0].MeshParts[0];
 			Matrix matrix2 = matrix;
 			int num = 0;
 			int num2 = 0;
 			int num3 = 0;
 			int num4 = 0;
-			Color color2 = this.Color;
+			Color color2 = Color;
 			standaloneBlockMesh.AppendModelMeshPart(meshPart, matrix2, num != 0, num2 != 0, num3 != 0, num4 != 0, color2);
-			this.m_standaloneBlockMesh.TransformTextureCoordinates(this.m_tcTransform, -1);
+			m_standaloneBlockMesh.TransformTextureCoordinates(m_tcTransform, -1);
 		}
 
 		public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
 		{
-			BlocksManager.DrawMeshBlock(primitivesRenderer, this.m_standaloneBlockMesh, color, 2f * size, ref matrix, environmentData);
+			BlocksManager.DrawMeshBlock(primitivesRenderer, m_standaloneBlockMesh, color, 2f * size, ref matrix, environmentData);
 		}
 		public override string GetCategory(int value)
 		{

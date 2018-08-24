@@ -70,7 +70,7 @@ namespace Game
 		protected MetalLine(MetalType type)
 		{
 			DefaultTextureSlot = 235;
-			DefaultDisplayName = type.ToString()+"Line";
+			DefaultDisplayName = type.ToString() + "Line";
 			Type = type;
 		}
 		public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
@@ -100,9 +100,7 @@ namespace Game
 		}
 		public override string GetDescription(int value)
 		{
-			
-			return Type.ToString()+"Line is made of "+ Type.ToString()+" Ingot, it can be used in many place in the industrial era.";
-			
+			return Type.ToString() + "Line is made of " + Type.ToString() + " Ingot, it can be used in many place in the industrial era.";
 		}
 	}
 }

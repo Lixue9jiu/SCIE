@@ -172,14 +172,24 @@ namespace Game
 				int num2 = Terrain.ExtractData(slotValue);
 				if (GetSlotCount(i) > 0 && GetSlotValue(1) > 0)
 				{
-					int slotvalue = GetSlotValue(1);
-					if (slotValue == ItemBlock.IdTable["SteelIngot"] && slotvalue == ItemBlock.IdTable["SteelGearMould"])
+					if (slotValue == ItemBlock.IdTable["SteelIngot"])
 					{
-						text = "SteelGear";
-					}
-					if (slotValue == ItemBlock.IdTable["SteelIngot"] && slotvalue == ItemBlock.IdTable["SteelWheelMould"])
-					{
-						text = "SteelWheel";
+						if (heatLevel < 1500f)
+						{
+							text = "SteelIngot";
+						}
+						else
+						{
+							int slotvalue = base.GetSlotValue(1);
+							if (slotvalue == ItemBlock.IdTable["SteelGearMould"])
+							{
+								text = "SteelGear";
+							}
+							else if (slotvalue == ItemBlock.IdTable["SteelWheelMould"])
+							{
+								text = "SteelWheel";
+							}
+						}
 					}
 				}
 				else

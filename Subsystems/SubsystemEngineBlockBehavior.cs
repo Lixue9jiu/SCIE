@@ -26,7 +26,7 @@ namespace Game
 		{
 			if (Terrain.ExtractContents(oldValue) != EngineBlock.Index && Terrain.ExtractContents(oldValue) != LitEngineBlock.Index)
 			{
-				ValuesDictionary valuesDictionary = new ValuesDictionary();
+				var valuesDictionary = new ValuesDictionary();
 				valuesDictionary.PopulateFromDatabaseObject(Project.GameDatabase.Database.FindDatabaseObject("SteamEngine", Project.GameDatabase.EntityTemplateType, true));
 				valuesDictionary.GetValue<ValuesDictionary>("BlockEntity").SetValue("Coordinates", new Point3(x, y, z));
 				Project.AddEntity(Project.CreateEntity(valuesDictionary));

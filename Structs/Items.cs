@@ -7,104 +7,106 @@ namespace Game
 {
 	public partial class ItemBlock : CubeBlock, IItemBlock
 	{
-		public override void Initialize()
+		public static Item DefaultItem = new Item();
+		public static Item[] Items = new Item[]
+        {
+			new RottenEgg(),
+			new IronLine(),
+            new CopperLine(),
+            new SteelLine(),
+            new GoldLine(),
+            new SliverLine(),
+            new PlatinumLine(),
+            new LeadLine(),
+            new StannaryLine(),
+			new RifleBarrel(),
+			new ScrapIron(),
+			new GoldOreChunk(),
+            new SliverOreChunk(),
+            new PlatinumOreChunk(),
+            new ZincOreChunk(),
+            new LeadOreChunk(),
+            new MercuryOreChunk(),
+            new StannaryChunk(),
+            new TitaniumOreChunk(),
+            new ChromiumOreChunk(),
+            new NickelOreChunk(),
+            new SteelIngot(),
+            new GoldIngot(),
+            new LeadIngot(),
+            new SliverIngot(),
+            new PlatinumIngot(),
+            new ZincIngot(),
+            new NickelIngot(),
+            new ChromiumIngot(),
+            new AluminumIngot(),
+            new StannaryIngot(),
+            new IronOrePowder(),
+            new CopperOrePowder(),
+            new GermaniumOrePowder(),
+            new GoldOrePowder(),
+            new SliverOrePowder(),
+            new PlatinumOrePowder(),
+            new LeadOrePowder(),
+            new StannaryOrePowder(),
+            new ZincOrePowder(),
+            new ChromiumOrePowder(),
+            new NickelOrePowder(),
+            new AluminumOrePowder(),
+			new SteelPlate(),
+			new IronPlate(),
+			new CopperPlate(),
+			new LeadPlate(),
+			new ZincPlate(),
+			new PlatinumPlate(),
+			new AluminumPlate(),
+			new SteamBoat(),
+			new Train(),
+			new SteelRod(),
+			new CopperRod(),
+			new GoldRod(),
+			new SliverRod(),
+			new LeadRod(),
+			new PlatinumRod(),
+			new ZincRod(),
+			new StannaryRod(),
+			new ChromiumRod(),
+			new TitaniumRod(),
+			new NickelRod(),
+			new AluminumRod(),
+			new SteelGear(),
+			new SteelWheel(),
+			new SteelGearMould(),
+			new SteelWheelMould(),
+			new IndustrialPiston(),
+            new CopperWire()
+		};
+		public static Dictionary<string, int> IdTable;
+		static ItemBlock()
 		{
-			DefaultItem = new Item();
-            Items = new Item[]
-            {
-				new RottenEgg(),
-				new IronLine(),
-                new CopperLine(),
-                new SteelLine(),
-                new GoldLine(),
-                new SliverLine(),
-                new PlatinumLine(),
-                new LeadLine(),
-                new StannaryLine(),
-				new RifleBarrel(),
-				new ScrapIron(),
-				new GoldOreChunk(),
-                new SliverOreChunk(),
-                new PlatinumOreChunk(),
-                new ZincOreChunk(),
-                new LeadOreChunk(),
-                new MercuryOreChunk(),
-                new StannaryChunk(),
-                new TitaniumOreChunk(),
-                new ChromiumOreChunk(),
-                new NickelOreChunk(),
-                new SteelIngot(),
-                new GoldIngot(),
-                new LeadIngot(),
-                new SliverIngot(),
-                new PlatinumIngot(),
-                new ZincIngot(),
-                new NickelIngot(),
-                new ChromiumIngot(),
-                new AluminumIngot(),
-                new StannaryIngot(),
-                new IronOrePowder(),
-                new CopperOrePowder(),
-                new GermaniumOrePowder(),
-                new GoldOrePowder(),
-                new SliverOrePowder(),
-                new PlatinumOrePowder(),
-                new LeadOrePowder(),
-                new StannaryOrePowder(),
-                new ZincOrePowder(),
-                new ChromiumOrePowder(),
-                new NickelOrePowder(),
-                new AluminumOrePowder(),
-				new SteelPlate(),
-				new IronPlate(),
-				new CopperPlate(),
-				new LeadPlate(),
-				new ZincPlate(),
-				new PlatinumPlate(),
-				new AluminumPlate(),
-				new SteamBoat(),
-				new Train(),
-				new SteelRod(),
-				new CopperRod(),
-				new GoldRod(),
-				new SliverRod(),
-				new LeadRod(),
-				new PlatinumRod(),
-				new ZincRod(),
-				new StannaryRod(),
-				new ChromiumRod(),
-				new TitaniumRod(),
-				new NickelRod(),
-				new AluminumRod(),
-				new SteelGear(),
-				new SteelWheel(),
-				new SteelGearMould(),
-				new SteelWheelMould(),
-				new IndustrialPiston(),
-                new CopperWire()
-			};
             IdTable = new Dictionary<string, int>(Items.Length);
-			int i;
-			for (i = 0; i < Items.Length; i++)
+			for (int i = 0; i < Items.Length; i++)
 			{
 				IdTable.Add(Items[i].GetType().ToString().Substring(5), Index | i << 14);
 			}
-			/*var streamReader = new StreamReader(CustomTextureBlock.GetTargetFile("IndustrialMod.icsv"));
+		}
+		/*public override void Initialize()
+		{
+			var streamReader = new StreamReader(CustomTextureBlock.GetTargetFile("IndustrialMod.icsv"));
 			try
 			{
 				LoadBlocksData(streamReader.ReadToEnd());
 			}
 			catch (Exception e)
 			{
-				Log.Warning(string.Format("\"IndustrialMod.icsv\": {0}", e));
+				Log.Warning("\"IndustrialMod.icsv\": " + e);
 			}
 			finally
 			{
 				streamReader.Dispose();
-			}*/
-            CraftingRecipesManager.DecodeResult1 = DecodeResult;
+			}
 			base.Initialize();
-		}
+		}*/
 		/*public static void LoadBlocksData(string data)
 		{
 			string[] array = data.Split(new char[] { '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries);

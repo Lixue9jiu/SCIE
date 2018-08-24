@@ -98,7 +98,7 @@ namespace Game
 		public readonly MetalType Type;
 		public override string GetDisplayName(SubsystemTerrain subsystemTerrain, int value)
 		{
-			return Type.ToString()+"Ingot";
+			return Type.ToString() + "Ingot";
 		}
 
 		public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)

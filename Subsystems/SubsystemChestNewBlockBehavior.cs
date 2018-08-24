@@ -29,15 +29,22 @@ namespace Game
 
 		public override void OnBlockAdded(int value, int oldValue, int x, int y, int z)
 		{
-			DatabaseObject databaseObject = Project.GameDatabase.Database.FindDatabaseObject("ChestNew", Project.GameDatabase.EntityTemplateType, true);
+			if ((Terrain.ExtractData(value) >> 2) != 0)
+			{
+				return;
+			}
 			var valuesDictionary = new ValuesDictionary();
-			valuesDictionary.PopulateFromDatabaseObject(databaseObject);
+			valuesDictionary.PopulateFromDatabaseObject(Project.GameDatabase.Database.FindDatabaseObject("ChestNew", Project.GameDatabase.EntityTemplateType, true));
 			valuesDictionary.GetValue<ValuesDictionary>("BlockEntity").SetValue("Coordinates", new Point3(x, y, z));
 			Project.AddEntity(Project.CreateEntity(valuesDictionary));
 		}
 
 		public override void OnBlockRemoved(int value, int newValue, int x, int y, int z)
 		{
+			if ((Terrain.ExtractData(value) >> 2) != 0)
+			{
+				return;
+			}
 			ComponentBlockEntity blockEntity = m_subsystemBlockEntities.GetBlockEntity(x, y, z);
 			if (blockEntity != null)
 			{
@@ -52,6 +59,10 @@ namespace Game
 
 		public override bool OnInteract(TerrainRaycastResult raycastResult, ComponentMiner componentMiner)
 		{
+			if ((Terrain.ExtractData(raycastResult.Value) >> 2) != 0)
+			{
+				return false;
+			}
 			ComponentBlockEntity blockEntity = m_subsystemBlockEntities.GetBlockEntity(raycastResult.CellFace.X, raycastResult.CellFace.Y, raycastResult.CellFace.Z);
 			if (blockEntity == null || componentMiner.ComponentPlayer == null)
 			{
@@ -65,6 +76,10 @@ namespace Game
 
 		public override void OnHitByProjectile(CellFace cellFace, WorldItem worldItem)
 		{
+			if ((Terrain.ExtractData(SubsystemTerrain.Terrain.GetCellValue(cellFace.X, cellFace.Y, cellFace.Z)) >> 2) != 0)
+			{
+				return;
+			}
 			if (!worldItem.ToRemove)
 			{
 				ComponentBlockEntity blockEntity = m_subsystemBlockEntities.GetBlockEntity(cellFace.X, cellFace.Y, cellFace.Z);

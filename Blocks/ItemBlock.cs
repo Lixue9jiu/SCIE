@@ -22,6 +22,7 @@ namespace Game
 			BlocksManager.DamageItem1 = DamageItem;
 			BlocksManager.FindBlocksByCraftingId1 = FindBlocksByCraftingId;
 			CraftingRecipesManager.Initialize1 = CRInitialize;
+			CraftingRecipesManager.DecodeResult1 = DecodeResult;
 			CraftingRecipesManager.MatchRecipe1 = MatchRecipe;
 			CraftingRecipesManager.TransformRecipe1 = TransformRecipe;
 		}
@@ -141,6 +142,15 @@ namespace Game
 				}
 			}
 			CraftingRecipesManager.m_recipes.Sort(CraftingRecipesManager.Initialize_b__1);
+		}
+		public static int DecodeResult(string result)
+		{
+			if (ItemBlock.IdTable.TryGetValue(result, out int value))
+			{
+				return value;
+			}
+			string[] array = result.Split(':');
+			return Terrain.MakeBlockValue(BlocksManager.FindBlockByTypeName(array[0], true).BlockIndex, 0, array.Length >= 2 ? int.Parse(array[1], CultureInfo.InvariantCulture) : 0);
 		}
 
 		private static bool MatchRecipe(string[] requiredIngredients, string[] actualIngredients)
@@ -431,10 +441,6 @@ namespace Game
 	public abstract partial class ItemBlock : CubeBlock, IItemBlock
 	{
 		public const int Index = 246;
-		//public static bool Loaded;
-		public static Item[] Items;
-		public static Dictionary<string, int> IdTable;
-		public static Item DefaultItem;
 		//public Item this[int index] => Items[index];
 		//public int Count => Items.Length;
 		public virtual Item GetItem(ref int value)
@@ -443,15 +449,6 @@ namespace Game
 				return DefaultItem;
 			int data = Terrain.ExtractData(value);
 			return data < Items.Length ? Items[data] : DefaultItem;
-		}
-		public virtual int DecodeResult(string result)
-		{
-			if (IdTable.TryGetValue(result, out int value))
-			{
-				return value;
-			}
-			string[] array = result.Split(':');
-			return Terrain.MakeBlockValue(BlocksManager.FindBlockByTypeName(array[0], true).BlockIndex, 0, array.Length >= 2 ? int.Parse(array[1], CultureInfo.InvariantCulture) : 0);
 		}
 		public override string GetDisplayName(SubsystemTerrain subsystemTerrain, int value)
 		{
@@ -469,26 +466,11 @@ namespace Game
 		{
 			return GetItem(ref value).IsInteractive(subsystemTerrain, value);
 		}
-		public override IEnumerable<CraftingRecipe> GetProceduralCraftingRecipes()
+		/*public override IEnumerable<CraftingRecipe> GetProceduralCraftingRecipes()
 		{
-			/*if (!Loaded)
-			{
-				for (int i = 0; i < CraftingRecipesManager.Recipes.Count; i++)
-				{
-					var ingredients = CraftingRecipesManager.Recipes[i].Ingredients;
-					for (int j = 0; j < ingredients.Length; j++)
-					{
-						if (!string.IsNullOrEmpty(ingredients[j]) && IdTable.TryGetValue(ingredients[j], out int value))
-						{
-							ingredients[j] = "item:" + Terrain.ExtractData(value);
-						}
-					}
-				}
-				Loaded = true;
-			}*/
 			return base.GetProceduralCraftingRecipes();
 		}
-		/*public override CraftingRecipe GetAdHocCraftingRecipe(SubsystemTerrain subsystemTerrain, string[] ingredients, float heatLevel)
+		public override CraftingRecipe GetAdHocCraftingRecipe(SubsystemTerrain subsystemTerrain, string[] ingredients, float heatLevel)
 		{
 			for (int i = 0; i < ingredients.Length; i++)
 			{
@@ -634,16 +616,12 @@ namespace Game
 		}
 		public override IEnumerable<int> GetCreativeValues()
 		{
-			if (DefaultCreativeData < 0)
-			{
-				return base.GetCreativeValues();
-			}
-			var list = new List<int>(8);
+			var list = new List<int>(Items.Length + 1);
 			var set = new HashSet<Item>()
 			{
 				DefaultItem
 			};
-			for (int i = 0, value = BlockIndex; set.Add(GetItem(ref value)); value = Terrain.MakeBlockValue(BlockIndex, 0, ++i))
+			for (int value = Index; set.Add(GetItem(ref value)); value += 1 << 14)//value = Terrain.MakeBlockValue(Index, 0, ++i)
 			{
 				list.Add(value);
 			}

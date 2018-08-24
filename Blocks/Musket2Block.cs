@@ -3,7 +3,7 @@ using Engine.Graphics;
 
 namespace Game
 {
-	public class Musket2Block : Block
+	public class Musket2Block : FlatBlock
 	{
 		public enum LoadState
 		{
@@ -43,25 +43,14 @@ namespace Game
 			base.Initialize();
 		}
 
-		public override void GenerateTerrainVertices(BlockGeometryGenerator generator, TerrainGeometrySubsets geometry, int value, int x, int y, int z)
-		{
-		}
-
 		public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
 		{
-			if (GetHammerState(Terrain.ExtractData(value)))
-			{
-				BlocksManager.DrawMeshBlock(primitivesRenderer, m_standaloneBlockMeshLoaded, color, 2f * size, ref matrix, environmentData);
-			}
-			else
-			{
-				BlocksManager.DrawMeshBlock(primitivesRenderer, m_standaloneBlockMeshUnloaded, color, 2f * size, ref matrix, environmentData);
-			}
+			BlocksManager.DrawMeshBlock(primitivesRenderer, GetHammerState(Terrain.ExtractData(value)) ? m_standaloneBlockMeshLoaded : m_standaloneBlockMeshUnloaded, color, 2f * size, ref matrix, environmentData);
 		}
 
 		public override bool IsSwapAnimationNeeded(int oldValue, int newValue)
 		{
-			if (Terrain.ExtractContents(oldValue) != Musket2Block.Index)
+			if (Terrain.ExtractContents(oldValue) != Index)
 			{
 				return true;
 			}

@@ -17,7 +17,7 @@ namespace Game
 		};*/
 		public override Item GetItem(ref int value)
 		{
-			if (Terrain.ExtractContents(value) != BlockIndex)
+			if (Terrain.ExtractContents(value) != Index)
 				return DefaultItem;
 			int data = Terrain.ExtractData(value);
 			return data < Devices.Length ? Devices[data] : DefaultItem;
@@ -114,17 +114,42 @@ namespace Game
 			}
 		}*/
 		public new const int Index = 501;
-		public override void Initialize()
+		static ElementBlock()
 		{
-			var fridge = new Fridge();
+			Device fridge = new Fridge(), generator = new Generator();
 			Devices = new Device[]
 			{
 				fridge,
 				fridge,
 				fridge,
 				fridge,
+				generator,
+				generator,
+				generator,
+				generator,
 			};
-			base.Initialize();
+			for (int i = 0; i < Devices.Length; i += 4)
+			{
+				IdTable.Add(Devices[i].GetType().ToString().Substring(5), Index | i << 14);
+			}
+		}
+		public override IEnumerable<int> GetCreativeValues()
+		{
+			var list = new List<int>(Devices.Length + 1);
+			var set = new HashSet<Item>()
+			{
+				DefaultItem
+			};
+			for (int value = Index; set.Add(GetItem(ref value)); value += 4 << 14)//value = Terrain.MakeBlockValue(Index, 0, i += 4)
+			{
+				list.Add(value);
+			}
+			return list;
+		}
+		public override void GetDropValues(SubsystemTerrain subsystemTerrain, int oldValue, int newValue, int toolLevel, List<BlockDropValue> dropValues, out bool showDebris)
+		{
+			oldValue = Terrain.ReplaceData(oldValue, Terrain.ExtractData(oldValue) >> 2);
+			GetItem(ref oldValue).GetDropValues(subsystemTerrain, oldValue, newValue, toolLevel, dropValues, out showDebris);
 		}
 
 		public override BlockPlacementData GetPlacementValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, TerrainRaycastResult raycastResult)

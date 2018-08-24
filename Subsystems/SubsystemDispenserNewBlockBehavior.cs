@@ -35,9 +35,8 @@ namespace Game
 
 		public override void OnBlockAdded(int value, int oldValue, int x, int y, int z)
 		{
-			DatabaseObject databaseObject = Project.GameDatabase.Database.FindDatabaseObject("DispenserNew", Project.GameDatabase.EntityTemplateType, true);
 			var valuesDictionary = new ValuesDictionary();
-			valuesDictionary.PopulateFromDatabaseObject(databaseObject);
+			valuesDictionary.PopulateFromDatabaseObject(Project.GameDatabase.Database.FindDatabaseObject("DispenserNew", Project.GameDatabase.EntityTemplateType, true));
 			valuesDictionary.GetValue<ValuesDictionary>("BlockEntity").SetValue("Coordinates", new Point3(x, y, z));
 			Project.AddEntity(Project.CreateEntity(valuesDictionary));
 		}
@@ -47,7 +46,7 @@ namespace Game
 			ComponentBlockEntity blockEntity = m_subsystemBlockEntities.GetBlockEntity(x, y, z);
 			if (blockEntity != null)
 			{
-				Vector3 position = new Vector3((float)x, (float)y, (float)z) + new Vector3(0.5f);
+				var position = new Vector3((float)x, (float)y, (float)z) + new Vector3(0.5f);
 				foreach (IInventory item in blockEntity.Entity.FindComponents<IInventory>())
 				{
 					item.DropAllItems(position);
