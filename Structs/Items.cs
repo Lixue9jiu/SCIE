@@ -72,6 +72,7 @@ namespace Game
 				new PlatinumRod(),
 				new ZincRod(),
 				new StannaryRod(),
+				new ChromiumRod(),
 				new TitaniumRod(),
 				new NickelRod(),
 				new AluminumRod(),

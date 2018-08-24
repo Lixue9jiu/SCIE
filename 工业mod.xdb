@@ -7,6 +7,10 @@
   <ToAdd Type="ComponentTemplate" Name="Gui" Guid="12fc0405-dbcc-417c-8ec8-005de26e670d">
     <Parameter Name="Class" Guid="8b3d07dc-6498-4691-9686-cf4edabb8f3f" Value="Game.ComponentNGui" Type="string" />
   </ToAdd>
+  <ToRemove Type="Parameter" Name="Class" Guid="566663a5-0480-45c8-9266-18c8060a236c" />
+  <ToAdd Type="ComponentTemplate" Name="CraftingTable" Guid="48fdc8bb-8ca8-4d0f-af8d-25bfe9b56a19">
+    <Parameter Name="Class" Guid="566663a5-0480-45c8-9266-18c8060a236c" Value="Game.ComponentLargeCraftingTable" Type="string" />
+  </ToAdd>
   <ToRemove Type="Parameter" Name="Class" Guid="9ef8d250-edd0-4fe5-8979-49f7dd023cdb" />
   <ToAdd Type="SubsystemTemplate" Name="SoilBlockBehavior" Guid="59d44a4c-bc6a-499f-944e-39390092696e">
     <Parameter Name="Class" Guid="9ef8d250-edd0-4fe5-8979-49f7dd023cdb" Value="Game.SubsystemNSoilBlockBehavior" Type="string" />
@@ -121,10 +125,10 @@
        </EntityTemplate>
       <EntityTemplate Name="MachineTool" Guid="a4c43456-d37d-455f-9a43-803260a915a9">
         <MemberComponentTemplate Name="BlockEntity" Guid="f2d455cf-8233-4bee-ad3e-bde77df10654" InheritanceParent="09a85cba-d94e-41b8-9497-f20ed942c17e" />
-        <MemberComponentTemplate Name="MachineTool" Guid="a7a43847-dfe9-4331-900e-4c5f3ce25348" InheritanceParent="f91f7947-de35-4e94-ba6e-90cd55cd19d4">
-          <Parameter Name="SlotsCount" Guid="3dfd5624-a4c3-4ad5-85f8-813ef26dae6b" Value="18" Type="int" />
+        <MemberComponentTemplate Name="CraftingTable" Guid="a7a43847-dfe9-4331-900e-4c5f3ce25348" InheritanceParent="48fdc8bb-8ca8-4d0f-af8d-25bfe9b56a19">
+          <Parameter Name="SlotsCount" Guid="3dfd5624-a4c3-4ad5-85f8-813ef26dae6b" Value="38" Type="int" />
         </MemberComponentTemplate>
-       </EntityTemplate>
+      </EntityTemplate>
   </ToAdd>
   <ToAdd Type="ProjectTemplate" Name="Project" Guid="85023bf8-1c90-4dd1-9442-e6c13691d078">
     <MemberSubsystemTemplate Name="DispenserNBehavior" Guid="f9d44a4c-bc6a-499f-944e-39390092696e" InheritanceParent="fefb9590-4972-4893-b02a-76063611b745">
@@ -263,10 +267,7 @@
       <Parameter Name="FireTimeRemaining" Description="Fire time remaining, in seconds" Guid="3831cd84-3ff3-4165-aad1-19685e751850" Value="0" Type="float" />
       <Parameter Name="HeatLevel" Description="Current heat level in furnace" Guid="c4667184-79c4-409e-b043-f9d3010d7e95" Value="0" Type="float" />
       <Parameter Name="Class" Guid="fa4c53fe-1d3c-467e-81bc-1796f686be51" Value="Game.ComponentBlastFurnace" Type="string" />
-       </ComponentTemplate>
-      <ComponentTemplate Name="MachineTool" Description="A blastfurnace" Guid="f91f7947-de35-4e94-ba6e-90cd55cd19d4" InheritanceParent="81a44c6a-c30a-4f53-8d64-0c30aabab8f9">
-      <Parameter Name="Class" Guid="fa4d53fe-1d3c-467e-81bc-1796f686be51" Value="Game.ComponentMachineTool" Type="string" />
-       </ComponentTemplate>
+    </ComponentTemplate>
   </ToAdd>
   <ToAdd Type="Folder" Name="Models" Guid="dec469ce-9b77-465f-a2a8-36d2640424db">
     <ComponentTemplate Name="SimpleModel2" Description="Model that takes it's root bone transformation from attached frame" Guid="fc5a4e72-0df9-4acf-a42e-ecb5a2a7baf4" InheritanceParent="79f776b5-94f4-4bce-b119-971a9cf6255c">

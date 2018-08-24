@@ -4,6 +4,8 @@ using Engine.Graphics;
 using System.Linq;
 using System.Globalization;
 using System.Xml.Linq;
+using XmlUtilities;
+using System;
 
 namespace Game
 {
@@ -19,7 +21,9 @@ namespace Game
 		{
 			BlocksManager.DamageItem1 = DamageItem;
 			BlocksManager.FindBlocksByCraftingId1 = FindBlocksByCraftingId;
+			CraftingRecipesManager.Initialize1 = CRInitialize;
 			CraftingRecipesManager.MatchRecipe1 = MatchRecipe;
+			CraftingRecipesManager.TransformRecipe1 = TransformRecipe;
 		}
 		public static Block[] FindBlocksByCraftingId(string craftingId)
 		{
@@ -45,22 +49,112 @@ namespace Game
 				? block.SetDamage(value, damageCount)
 				: block.GetDamageDestructionValue(value);
 		}
-		public static bool MatchRecipe(string[] requiredIngredients, string[] actualIngredients)
+		public static void CRInitialize()
 		{
-			string[] transformedIngredients = new string[16];
-			for (int index = 0; index < 2; index++)
+			CraftingRecipesManager.m_recipes = new List<CraftingRecipe>();
+			foreach (XElement xelement in ContentManager.Get<XElement>("CraftingRecipes").Descendants("Recipe"))
 			{
-				for (int shiftY = -4; shiftY <= 4; shiftY++)
+				CraftingRecipe craftingRecipe = new CraftingRecipe
 				{
-					for (int shiftX = -4; shiftX <= 4; shiftX++)
+					Ingredients = new string[36]
+				};
+				string attributeValue = XmlUtils.GetAttributeValue<string>(xelement, "Result");
+				craftingRecipe.ResultValue = CraftingRecipesManager.DecodeResult(attributeValue);
+				craftingRecipe.ResultCount = XmlUtils.GetAttributeValue<int>(xelement, "ResultCount");
+				string attributeValue2 = XmlUtils.GetAttributeValue<string>(xelement, "Remains", string.Empty);
+				if (!string.IsNullOrEmpty(attributeValue2))
+				{
+					craftingRecipe.RemainsValue = CraftingRecipesManager.DecodeResult(attributeValue2);
+					craftingRecipe.RemainsCount = XmlUtils.GetAttributeValue<int>(xelement, "RemainsCount");
+				}
+				craftingRecipe.RequiredHeatLevel = XmlUtils.GetAttributeValue<float>(xelement, "RequiredHeatLevel");
+				craftingRecipe.Description = XmlUtils.GetAttributeValue<string>(xelement, "Description");
+				if (craftingRecipe.ResultCount > BlocksManager.Blocks[Terrain.ExtractContents(craftingRecipe.ResultValue)].MaxStacking)
+				{
+					throw new InvalidOperationException(string.Format("In recipe for \"{0}\" ResultCount is larger than max stacking of result block.", attributeValue));
+				}
+				if (craftingRecipe.RemainsValue != 0 && craftingRecipe.RemainsCount > BlocksManager.Blocks[Terrain.ExtractContents(craftingRecipe.RemainsValue)].MaxStacking)
+				{
+					throw new InvalidOperationException(string.Format("In Recipe for \"{0}\" RemainsCount is larger than max stacking of remains block.", attributeValue2));
+				}
+				Dictionary<char, string> dictionary = new Dictionary<char, string>();
+				foreach (XAttribute xattribute in xelement.Attributes().Where(CraftingRecipesManager.Initialize_b__0))
+				{
+					CraftingRecipesManager.DecodeIngredient(xattribute.Value, out string craftingId, out int? num);
+					if (BlocksManager.FindBlocksByCraftingId(craftingId).Length == 0)
 					{
-						bool flip = index != 0;
-						if (TransformRecipe(transformedIngredients, requiredIngredients, shiftX, shiftY, flip))
+						throw new InvalidOperationException(string.Format("Block with craftingId \"{0}\" not found.", xattribute.Value));
+					}
+					if (num != null && (num.Value < 0 || num.Value > 262143))
+					{
+						throw new InvalidOperationException(string.Format("Data in recipe ingredient \"{0}\" must be between 0 and 0x3FFFF.", xattribute.Value));
+					}
+					dictionary.Add(xattribute.Name.LocalName[0], xattribute.Value);
+				}
+				string[] array = xelement.Value.Trim().Split('\n');
+				for (int i = 0; i < array.Length; i++)
+				{
+					int num2 = array[i].IndexOf('"');
+					int num3 = array[i].LastIndexOf('"');
+					if (num2 < 0 || num3 < 0 || num3 <= num2)
+					{
+						throw new InvalidOperationException("Invalid recipe line.");
+					}
+					string text = array[i].Substring(num2 + 1, num3 - num2 - 1);
+					for (int j = 0; j < text.Length; j++)
+					{
+						char c = text[j];
+						if (char.IsLower(c))
+						{
+							string text2 = dictionary[c];
+							craftingRecipe.Ingredients[j + i * 6] = text2;
+						}
+					}
+				}
+				CraftingRecipesManager.m_recipes.Add(craftingRecipe);
+			}
+			var blocks = BlocksManager.Blocks;
+			for (int i = 0; i < blocks.Length; i++)
+			{
+				using (var enumerator2 = blocks[i].GetProceduralCraftingRecipes().GetEnumerator())
+				{
+					while (enumerator2.MoveNext())
+					{
+						var old = enumerator2.Current.Ingredients;
+						var ingredients = new string[36];
+						ingredients[0] = old[0];
+						ingredients[1] = old[1];
+						ingredients[2] = old[2];
+						ingredients[6] = old[3];
+						ingredients[7] = old[4];
+						ingredients[8] = old[5];
+						ingredients[12] = old[6];
+						ingredients[13] = old[7];
+						ingredients[14] = old[8];
+						enumerator2.Current.Ingredients = ingredients;
+						CraftingRecipesManager.m_recipes.Add(enumerator2.Current);
+					}
+				}
+			}
+			CraftingRecipesManager.m_recipes.Sort(CraftingRecipesManager.Initialize_b__1);
+		}
+
+		private static bool MatchRecipe(string[] requiredIngredients, string[] actualIngredients)
+		{
+			string[] array = new string[36];
+			for (int i = 0; i < 2; i++)
+			{
+				for (int j = 0; j <= 6; j++)
+				{
+					for (int k = 0; k <= 6; k++)
+					{
+						bool flip = i != 0;
+						if (CraftingRecipesManager.TransformRecipe(array, requiredIngredients, k, j, flip))
 						{
 							bool flag = true;
-							for (int index2 = 0; index2 < 16; index2++)
+							for (int l = 0; l < 36; l++)
 							{
-								if (!CraftingRecipesManager.CompareIngredients(transformedIngredients[index2], actualIngredients[index2]))
+								if (!CraftingRecipesManager.CompareIngredients(array[l], actualIngredients[l]))
 								{
 									flag = false;
 									break;
@@ -76,24 +170,25 @@ namespace Game
 			}
 			return false;
 		}
-		public static bool TransformRecipe(string[] transformedIngredients, string[] ingredients, int shiftX, int shiftY, bool flip)
+
+		private static bool TransformRecipe(string[] transformedIngredients, string[] ingredients, int shiftX, int shiftY, bool flip)
 		{
-			for (int index = 0; index < 16; index++)
+			for (int i = 0; i < 36; i++)
 			{
-				transformedIngredients[index] = null;
+				transformedIngredients[i] = null;
 			}
-			for (int index2 = 0; index2 < 4; index2++)
+			for (int j = 0; j < 6; j++)
 			{
-				for (int index3 = 0; index3 < 4; index3++)
+				for (int k = 0; k < 6; k++)
 				{
-					int num = (flip ? (4 - index3 - 1) : index3) + shiftX;
-					int num2 = index2 + shiftY;
-					string ingredient = ingredients[index3 + index2 * 4];
-					if (num >= 0 && num2 >= 0 && num < 4 && num2 < 4)
+					int num = (flip ? (6 - k - 1) : k) + shiftX;
+					int num2 = j + shiftY;
+					string text = ingredients[k + j * 6];
+					if (num >= 0 && num2 >= 0 && num < 6 && num2 < 6)
 					{
-						transformedIngredients[num + num2 * 4] = ingredient;
+						transformedIngredients[num + num2 * 6] = text;
 					}
-					else if (!string.IsNullOrEmpty(ingredient))
+					else if (!string.IsNullOrEmpty(text))
 					{
 						return false;
 					}
