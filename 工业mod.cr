@@ -383,6 +383,29 @@
       "aba"
       "aca"
     </Recipe>
+    <Recipe Result="ClothingBlock:38" ResultCount="1" RequiredHeatLevel="0" a="SteelPlate" Description="Make armored helmet from steel">
+      " a"
+      "a a"
+    </Recipe>
+    <Recipe Result="ClothingBlock:39" ResultCount="1" RequiredHeatLevel="0" a="SteelPlate" b="SteelLine" Description="Make armored chest plate from steel">
+      " a"
+      "aba"
+      " a"
+    </Recipe>
+    <Recipe Result="ClothingBlock:40" ResultCount="1" RequiredHeatLevel="0" a="SteelPlate" b="SteelLine" Description="Make armored leggings from steel">
+      "aa"
+      "bb"
+      "aa"
+    </Recipe>
+    <Recipe Result="ClothingBlock:41" ResultCount="1" RequiredHeatLevel="0" a="SteelPlate" b="clothing:8" Description="Make armored boots from steel and leather boots">
+      " a"
+      "aba"
+    </Recipe>
+    <Recipe Result="ClothingBlock:42" ResultCount="1" RequiredHeatLevel="0" a="SteelLine" Description="Make steel chain mail from steel">
+      "a a"
+      " a"
+      "a a"
+    </Recipe>
   </Items>
 </ToAdd>
 </IndustrialMod>
