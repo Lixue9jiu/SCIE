@@ -239,6 +239,9 @@
     <Recipe Result="ZincRod" ResultCount="2" RequiredHeatLevel="800" a="ZincIngot" Description="Forge an zinc ingot into rods">
       "aa"
      </Recipe>
+    <Recipe Result="ChromiumRod" ResultCount="2" RequiredHeatLevel="1850" a="ChromiumIngot" Description="Forge an chromium ingot into rods">
+      "aa"
+    </Recipe>
     <Recipe Result="StannaryRod" ResultCount="2" RequiredHeatLevel="300" a="StannaryIngot" Description="Forge an stannary ingot into rods">
       "aa"
     </Recipe>
@@ -290,13 +293,7 @@
     <Recipe Result="PlatinumIngot" ResultCount="2" RequiredHeatLevel="1800" a="PlatinumLine" Description="Forge an platinum ingot into rods">
       "aa"
      </Recipe>
-    <Recipe Result="ZincIngot" ResultCount="2" RequiredHeatLevel="800" a="ZincLine" Description="Forge an zinc ingot into rods">
-      "aa"
-     </Recipe>
     <Recipe Result="StannaryIngot" ResultCount="2" RequiredHeatLevel="300" a="StannaryLine" Description="Forge an stannary ingot into rods">
-      "aa"
-    </Recipe>
-    <Recipe Result="NickelIngot" ResultCount="2" RequiredHeatLevel="1200" a="NickelLine" Description="Forge an nickel ingot into rods">
       "aa"
     </Recipe>
     <Recipe Result="SteelLine" ResultCount="2" RequiredHeatLevel="1" a="SteelLine" Description="Forge an steel ingot into rods">
@@ -317,13 +314,7 @@
     <Recipe Result="PlatinumLine" ResultCount="2" RequiredHeatLevel="1" a="PlatinumLine" Description="Forge an platinum ingot into rods">
       "aa"
      </Recipe>
-    <Recipe Result="ZincLine" ResultCount="2" RequiredHeatLevel="1" a="ZincLine" Description="Forge an zinc ingot into rods">
-      "aa"
-     </Recipe>
     <Recipe Result="StannaryLine" ResultCount="2" RequiredHeatLevel="1" a="StannaryLine" Description="Forge an stannary ingot into rods">
-      "aa"
-    </Recipe>
-    <Recipe Result="NickelLine" ResultCount="2" RequiredHeatLevel="1" a="NickelLine" Description="Forge an nickel ingot into rods">
       "aa"
     </Recipe>
   </Smelting>

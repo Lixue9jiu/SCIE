@@ -29,7 +29,7 @@ namespace Game
 		{
 			if (ItemBlock.IdTable.TryGetValue(craftingId, out int value))
 			{
-				return new Block[1];// { BlocksManager.Blocks[ItemBlock.Index] };
+				return new Block[]{ BlocksManager.Blocks[ItemBlock.Index] };
 			}
 			var c__DisplayClass = new BlocksManager.c__DisplayClass6
 			{
@@ -52,7 +52,7 @@ namespace Game
 		public static void CRInitialize()
 		{
 			CraftingRecipesManager.m_recipes = new List<CraftingRecipe>();
-			foreach (XElement xelement in ContentManager.Get<XElement>("CraftingRecipes").Descendants("Recipe"))
+			foreach (XElement xelement in ContentManager.ConbineXElements(ContentManager.Get<XElement>("CraftingRecipes"), ModsManager.GetEntries(".cr"), "Description", "Result", "Recipes").Descendants("Recipe"))
 			{
 				CraftingRecipe craftingRecipe = new CraftingRecipe
 				{
@@ -107,6 +107,10 @@ namespace Game
 						if (char.IsLower(c))
 						{
 							string text2 = dictionary[c];
+							if (ItemBlock.IdTable.TryGetValue(text2, out int value))
+							{
+								text2 = "item:" + Terrain.ExtractData(value);
+							}
 							craftingRecipe.Ingredients[j + i * 6] = text2;
 						}
 					}
@@ -427,7 +431,7 @@ namespace Game
 	public abstract partial class ItemBlock : CubeBlock, IItemBlock
 	{
 		public const int Index = 246;
-		public static bool Loaded;
+		//public static bool Loaded;
 		public static Item[] Items;
 		public static Dictionary<string, int> IdTable;
 		public static Item DefaultItem;
@@ -467,7 +471,7 @@ namespace Game
 		}
 		public override IEnumerable<CraftingRecipe> GetProceduralCraftingRecipes()
 		{
-			if (!Loaded)
+			/*if (!Loaded)
 			{
 				for (int i = 0; i < CraftingRecipesManager.Recipes.Count; i++)
 				{
@@ -481,7 +485,7 @@ namespace Game
 					}
 				}
 				Loaded = true;
-			}
+			}*/
 			return base.GetProceduralCraftingRecipes();
 		}
 		/*public override CraftingRecipe GetAdHocCraftingRecipe(SubsystemTerrain subsystemTerrain, string[] ingredients, float heatLevel)

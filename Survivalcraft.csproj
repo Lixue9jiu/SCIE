@@ -87,6 +87,7 @@
     <Compile Include="Subsystems\SubsystemRailBlockBehavior.cs" />
     <Compile Include="Subsystems\SubsystemSourceOfFireBlockBehavior.cs" />
     <Compile Include="Widgets\MachineToolWidget.cs" />
+    <Compile Include="Widgets\NewCraftingRecipeWidget.cs" />
     <Compile Include="Widgets\SqueezerWidget.cs" />
     <Compile Include="Subsystems\SubsystemSqueezerBlockBehavior.cs" />
     <Compile Include="Widgets\CastMachWidget.cs" />
