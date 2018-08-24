@@ -508,10 +508,21 @@
       "aba"
       "aaa"
     </Recipe>
+    <Recipe Result="MachineToolBlock" ResultCount="1" RequiredHeatLevel="0" a="SteelGear" b="SteelRod" c="drill:0" d="steelmachete" e="steelblock" Description="Make a MachineTool to craft more industrial items">
+      "aca"
+      "beb"
+      "ada"
+    </Recipe>
     <Recipe Result="SteamBoat" ResultCount="1" RequiredHeatLevel="0" a="IronPlate" b="boat" c="sengine" Description="A Boat with steamengine can let you travel with high speed">
       "aaa"
       "aba"
       "aca"
+    </Recipe>
+    <Recipe Result="CopperWire" ResultCount="2" RequiredHeatLevel="0" a="CopperLine" b="SteelRod" Description="Make a wire from copperline and steelrod">
+      "aaaa"
+      "abba"
+      "abba"
+      "aaaa"
     </Recipe>
     <Recipe Result="ClothingBlock:38" ResultCount="1" RequiredHeatLevel="0" a="SteelPlate" Description="Make armored helmet from steel">
       " a"

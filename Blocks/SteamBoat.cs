@@ -10,7 +10,7 @@ namespace Game
 
 		public SteamBoat()
 		{
-			DefaultDescription = "SteamBoat allows you to cross large areas of water more safely and quickly as if you have enough fuel, a powerful.";
+			DefaultDescription = "SteamBoat allows you to cross large areas of water more safely and quickly as if you have enough fuel, a powerful vehicle during the initial industrial era.";
 			var model = ContentManager.Get<Model>("Models/SteamBoat");
 			const string Name = "Cylinder_001";
 			Matrix boneAbsoluteTransform = BlockMesh.GetBoneAbsoluteTransform(model.FindMesh(Name, true).ParentBone);

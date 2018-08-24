@@ -56,6 +56,7 @@
     <Compile Include="Blocks\CastMachBlock.cs" />
     <Compile Include="Blocks\DrillBlock.cs" />
     <Compile Include="Blocks\ElementBlock.cs" />
+    <Compile Include="Blocks\GeneratorBlock.cs" />
     <Compile Include="Blocks\IndustrialPiston.cs" />
     <Compile Include="Blocks\ItemBlock.cs" />
     <Compile Include="Blocks\MachineToolBlock.cs" />
@@ -70,6 +71,7 @@
     <Compile Include="Blocks\MetalLine.cs" />
     <Compile Include="Blocks\SqueezerBlock.cs" />
     <Compile Include="Blocks\Train.cs" />
+    <Compile Include="Blocks\Wire.cs" />
     <Compile Include="Components\ComponentLargeCraftingTable.cs" />
     <Compile Include="Components\ComponentMachine.cs" />
     <Compile Include="Components\ComponentSqueezer.cs" />

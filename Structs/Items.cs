@@ -81,6 +81,7 @@ namespace Game
 				new SteelGearMould(),
 				new SteelWheelMould(),
 				new IndustrialPiston(),
+                new CopperWire()
 			};
             IdTable = new Dictionary<string, int>(Items.Length);
 			int i;
