@@ -121,7 +121,7 @@ namespace Game
 				new Fridge(),
 				new Generator(),
 			};
-			for (int i = 0; i < Devices.Length; i += 4)
+			for (int i = 0; i < Devices.Length; i++)
 			{
 				IdTable.Add(Devices[i].GetType().ToString().Substring(5), Index | i << 14);
 			}
