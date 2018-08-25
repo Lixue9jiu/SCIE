@@ -24,6 +24,10 @@
       <MemberComponentTemplate Name="ChestNew" Guid="0f193a00-ac7d-4b4c-97c7-df652ca11b51" InheritanceParent="73a2ec8c-10c7-4133-85b4-4a35bd44c956" />
       <MemberComponentTemplate Name="BlockEntity" Guid="a1d7dc3e-980d-461e-87ac-4358ed7d41b5" InheritanceParent="09a85cba-d94e-41b8-9497-f20ed942c17e" />
     </EntityTemplate>
+    <EntityTemplate Name="Magnetizer" Guid="0855a277-af17-4955-81fa-aafaf97b92bd">
+      <MemberComponentTemplate Name="Magnetizer" Guid="0f193a13-ac7d-4b4c-97c7-df652ca11b51" InheritanceParent="73a2ec9e-10c7-4133-85b4-4a35bd44c956" />
+      <MemberComponentTemplate Name="BlockEntity" Guid="a1e8dc3e-980d-461e-87ac-4358ed7d41b5" InheritanceParent="09a85cba-d94e-41b8-9497-f20ed942c17e" />
+    </EntityTemplate>
     <EntityTemplate Name="BoatI" Guid="3f3abb7e-1ce4-43fa-9612-47d69bf788ba">
       <MemberComponentTemplate Name="BoatI" Guid="a372d5da-5307-4df6-929e-a51abcd70387" InheritanceParent="572b36f3-6ee6-442a-900f-b4caba94be39" />
       <MemberComponentTemplate Name="BoatITable" Guid="e82420a9-10c6-4a2c-9ea5-725fffee2229" InheritanceParent="98fdc8bb-8ca8-4d0f-af8d-25bfe9b56a19">
@@ -244,6 +248,12 @@
     <ComponentTemplate Name="ChestNew" Description="A chest that you can store items in" Guid="73a2ec8c-10c7-4133-85b4-4a35bd44c956" InheritanceParent="81a44c6a-c30a-4f53-8d64-0c30aabab8f9">
       <Parameter Name="SlotsCount" Guid="0b8d464d-f972-431b-9828-d30e0fbf33f1" Value="16" Type="int" />
       <Parameter Name="Class" Guid="1c8a89de-22f9-45aa-aae3-039ba73b12b6" Value="Game.ComponentChestNew" Type="string" />
+     </ComponentTemplate>
+    <ComponentTemplate Name="Magnetizer" Description="A chest that you can store items in" Guid="73a2ec9e-10c7-4133-85b4-4a35bd44c956" InheritanceParent="81a44c6a-c30a-4f53-8d64-0c30aabab8f9">
+      <Parameter Name="SlotsCount" Guid="0b8d574d-f972-431b-9828-d30e0fbf33f1" Value="3" Type="int" />
+      <Parameter Name="FireTimeRemaining" Description="Fire time remaining, in seconds" Guid="3841cd84-3ff3-4165-aad1-19685e751850" Value="0" Type="float" />
+      <Parameter Name="HeatLevel" Description="Current heat level in furnace" Guid="c4678084-79c4-409e-b043-f9d3010d7e95" Value="0" Type="float" />
+      <Parameter Name="Class" Guid="1c8a89ff-22f9-45aa-aae3-039ba73b12b6" Value="Game.ComponentMagnetizer" Type="string" />
     </ComponentTemplate>
     <ComponentTemplate Name="SteamEngine" Description="A steamengine" Guid="c93f7906-de35-4e94-ba6e-90cd55cd19d4" InheritanceParent="81a44c6a-c30a-4f53-8d64-0c30aabab8f9">
       <Parameter Name="FireTimeRemaining" Description="Fire time remaining, in seconds" Guid="4830cd84-3ff3-4165-aad1-19685e751850" Value="0" Type="float" />

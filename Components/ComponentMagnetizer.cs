@@ -148,7 +148,7 @@ namespace Game
 			{
 				return base.GetSlotCapacity(slotIndex, value);
 			}
-			if (BlocksManager.Blocks[Terrain.ExtractContents(value)].FuelHeatLevel > 0f)
+			if (BlocksManager.Blocks[Terrain.ExtractContents(value)].FuelHeatLevel > 1400f)
 			{
 				return base.GetSlotCapacity(slotIndex, value);
 			}
@@ -187,12 +187,12 @@ namespace Game
 		protected string FindSmeltingRecipe(float heatLevel)
 		{
 			string text = null;
-			for (int i = 0; i < m_furnaceSize; i++)
+			for (int i = 0; i < 1; i++)
 			{
 				int slotValue = GetSlotValue(i);
 				int num = Terrain.ExtractContents(slotValue);
 				int num2 = Terrain.ExtractData(slotValue);
-				if (GetSlotCount(i) > 0)
+				if (GetSlotCount(i) > 0 && GetSlotValue(i)== ItemBlock.IdTable["SteelIngot"])
 				{
 					
                 }

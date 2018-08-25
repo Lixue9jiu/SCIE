@@ -34,7 +34,7 @@ namespace Game
             m_result2 = Children.Find<InventorySlotWidget>("ResultSlot2", true);
             m_result3 = Children.Find<InventorySlotWidget>("ResultSlot3", true);
             m_progress = Children.Find<ValueBarWidget>("Progress", true);
-			int num = 6;
+            int num = 6;
 			for (int i = 0; i < m_inventoryGrid.RowsCount; i++)
 			{
 				for (int j = 0; j < m_inventoryGrid.ColumnsCount; j++)

@@ -62,6 +62,7 @@ namespace Game
 			{
 				return false;
 			}
+            
 			ComponentCReactor componentFurnace = blockEntity.Entity.FindComponent<ComponentCReactor>(true);
 			componentMiner.ComponentPlayer.ComponentGui.ModalPanelWidget = new CReactorWidget(componentMiner.Inventory, componentFurnace);
 			AudioManager.PlaySound("Audio/UI/ButtonClick", 1f, 0f, 0f);

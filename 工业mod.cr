@@ -597,10 +597,9 @@
       "aca"
     </Recipe>
     <Recipe Result="CopperWire" ResultCount="1" RequiredHeatLevel="0" a="CopperLine" b="SteelRod" Description="Make a wire from copperline and steelrod">
-      "aaaa"
-      "abba"
-      "abba"
-      "aaaa"
+      "aaa"
+      "aba"
+      "aaa"
     </Recipe>
     <Recipe Result="MagnetBlock:32" ResultCount="1" RequiredHeatLevel="0" a="magnet:0" Description="Make a Cross Magnet from magnet">
       "a   "
@@ -652,6 +651,16 @@
       "adda"
       "aeba"
       "caac"
+    </Recipe>
+    <Recipe Result="CReactorBlock" ResultCount="1" RequiredHeatLevel="0" a="tank" b="SteelPlate" c="CopperRod" d="steelblock" Description="Make a Chemical Reactor to get chemical product.">
+      "bbb"
+      "cdc"
+      "aaa"
+    </Recipe>
+    <Recipe Result="Magnetizer" ResultCount="1" RequiredHeatLevel="0" a="steelblock" b="CopperWire" c="SteelRod" d="furnace" Description="Make a Magnetizer to creat industrial magnet.">
+      "bbb"
+      "bab"
+      "cdc"
     </Recipe>
     <Recipe Result="ClothingBlock:38" ResultCount="1" RequiredHeatLevel="0" a="SteelPlate" Description="Make armored helmet from steel">
       " a"

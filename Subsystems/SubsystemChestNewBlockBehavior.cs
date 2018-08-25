@@ -33,7 +33,7 @@ namespace Game
 			switch (Terrain.ExtractData(value) & 32767)
 			{
 				case 0: name = "ChestNew"; break;
-				case 2: name = "CReactor"; break;
+				case 2: name = "Magnetizer"; break;
 				default: return;
 			}
 			var valuesDictionary = new ValuesDictionary();
@@ -44,7 +44,7 @@ namespace Game
 
 		public override void OnBlockRemoved(int value, int newValue, int x, int y, int z)
 		{
-			if ((Terrain.ExtractData(value) & 32767) != 0)
+			if ((Terrain.ExtractData(value) & 32767) != 0 || (Terrain.ExtractData(value) & 32767) != 2)
 			{
 				return;
 			}
@@ -62,20 +62,30 @@ namespace Game
 
 		public override bool OnInteract(TerrainRaycastResult raycastResult, ComponentMiner componentMiner)
 		{
-			if ((Terrain.ExtractData(raycastResult.Value) & 32767) != 0)
+			if ((Terrain.ExtractData(raycastResult.Value) & 32767) == 0)
 			{
-				return false;
-			}
-			ComponentBlockEntity blockEntity = m_subsystemBlockEntities.GetBlockEntity(raycastResult.CellFace.X, raycastResult.CellFace.Y, raycastResult.CellFace.Z);
-			if (blockEntity == null || componentMiner.ComponentPlayer == null)
-			{
-				return false;
-			}
-			ComponentChestNew componentChestNew = blockEntity.Entity.FindComponent<ComponentChestNew>(true);
-			componentMiner.ComponentPlayer.ComponentGui.ModalPanelWidget = new ChestNewWidget(componentMiner.Inventory, componentChestNew);
-			AudioManager.PlaySound("Audio/UI/ButtonClick", 1f, 0f, 0f);
-			return true;
-		}
+                ComponentBlockEntity blockEntity = m_subsystemBlockEntities.GetBlockEntity(raycastResult.CellFace.X, raycastResult.CellFace.Y, raycastResult.CellFace.Z);
+                if (blockEntity == null || componentMiner.ComponentPlayer == null)
+                {
+                    return false;
+                }
+                ComponentChestNew componentChestNew = blockEntity.Entity.FindComponent<ComponentChestNew>(true);
+                componentMiner.ComponentPlayer.ComponentGui.ModalPanelWidget = new ChestNewWidget(componentMiner.Inventory, componentChestNew);
+                AudioManager.PlaySound("Audio/UI/ButtonClick", 1f, 0f, 0f);
+            }
+            if ((Terrain.ExtractData(raycastResult.Value) & 32767) == 2)
+            {
+                ComponentBlockEntity blockEntity = m_subsystemBlockEntities.GetBlockEntity(raycastResult.CellFace.X, raycastResult.CellFace.Y, raycastResult.CellFace.Z);
+                if (blockEntity == null || componentMiner.ComponentPlayer == null)
+                {
+                    return false;
+                }
+                ComponentMagnetizer componentChestNew = blockEntity.Entity.FindComponent<ComponentMagnetizer>(true);
+                componentMiner.ComponentPlayer.ComponentGui.ModalPanelWidget = new MagnetizerWidget(componentMiner.Inventory, componentChestNew);
+                AudioManager.PlaySound("Audio/UI/ButtonClick", 1f, 0f, 0f);
+            }
+            return true;
+        }
 
 		public override void OnHitByProjectile(CellFace cellFace, WorldItem worldItem)
 		{
@@ -83,7 +93,11 @@ namespace Game
 			{
 				return;
 			}
-			if (!worldItem.ToRemove)
+            if ((Terrain.ExtractData(SubsystemTerrain.Terrain.GetCellValue(cellFace.X, cellFace.Y, cellFace.Z)) & 32767) == 2)
+            {
+                return;
+            }
+            if (!worldItem.ToRemove)
 			{
 				ComponentBlockEntity blockEntity = m_subsystemBlockEntities.GetBlockEntity(cellFace.X, cellFace.Y, cellFace.Z);
 				if (blockEntity != null)
