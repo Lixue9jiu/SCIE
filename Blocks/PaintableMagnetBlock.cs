@@ -6,30 +6,68 @@ using Game;
 public class MagnetBlock : Game.MagnetBlock, IPaintableBlock
 {
 	public new const int Index = 167;
+	public override void Initialize()
+	{
+		m_meshesByData = new BlockMesh[4];
+		m_collisionBoxesByData = new BoundingBox[4][];
+		Model model = ContentManager.Get<Model>("Models/Magnet");
+		Matrix boneAbsoluteTransform = BlockMesh.GetBoneAbsoluteTransform(model.FindMesh("Magnet", true).ParentBone);
+		ReadOnlyList<ModelMeshPart> meshParts;
+		for (int i = 0; i < 4; i++)
+		{
+			m_meshesByData[i] = new BlockMesh();
+			BlockMesh obj = m_meshesByData[i];
+			meshParts = model.FindMesh("Magnet", true).MeshParts;
+			obj.AppendModelMeshPart(meshParts[0], boneAbsoluteTransform * Matrix.CreateRotationY((3.14159274f / 4f) * (float)i) * Matrix.CreateTranslation(0.5f, 0f, 0.5f), false, false, true, false, Color.White);
+			m_collisionBoxesByData[i] = new BoundingBox[]
+			{
+				m_meshesByData[i].CalculateBoundingBox()
+			};
+		}
+		BlockMesh standaloneMesh = m_standaloneMesh;
+		meshParts = model.FindMesh("Magnet", true).MeshParts;
+		standaloneMesh.AppendModelMeshPart(meshParts[0], boneAbsoluteTransform * Matrix.CreateScale(1.5f) * Matrix.CreateTranslation(0f, -0.25f, 0f), false, false, true, false, Color.White);
+	}
 
 	public override BoundingBox[] GetCustomCollisionBoxes(SubsystemTerrain terrain, int value)
 	{
-		return m_collisionBoxesByData[Terrain.ExtractData(value) & 1];
+		return m_collisionBoxesByData[GetType(Terrain.ExtractData(value)) & 3];
 	}
 
 	public override void GenerateTerrainVertices(BlockGeometryGenerator generator, TerrainGeometrySubsets geometry, int value, int x, int y, int z)
 	{
 		int data = Terrain.ExtractData(value);
-		if (GetIsCross(data))
+		value = GetType(data);
+		if (value != 0)
 		{
-			generator.GenerateMeshVertices(this, x, y, z, m_meshesByData[(data ^ 1) & 1], SubsystemPalette.GetColor(generator, GetPaintColor(value)), null, geometry.SubsetOpaque);
+			if ((value & 1) != 0)
+				generator.GenerateMeshVertices(this, x, y, z, m_meshesByData[0], SubsystemPalette.GetColor(generator, GetColor(data)), null, geometry.SubsetOpaque);
+			if ((value & 2) != 0)
+				generator.GenerateMeshVertices(this, x, y, z, m_meshesByData[1], SubsystemPalette.GetColor(generator, GetColor(data)), null, geometry.SubsetOpaque);
+			if ((value & 4) != 0)
+				generator.GenerateMeshVertices(this, x, y, z, m_meshesByData[2], SubsystemPalette.GetColor(generator, GetColor(data)), null, geometry.SubsetOpaque);
+			if ((value & 8) != 0)
+				generator.GenerateMeshVertices(this, x, y, z, m_meshesByData[3], SubsystemPalette.GetColor(generator, GetColor(data)), null, geometry.SubsetOpaque);
+			return;
 		}
-		generator.GenerateMeshVertices(this, x, y, z, m_meshesByData[data & 1], SubsystemPalette.GetColor(generator, GetPaintColor(value)), null, geometry.SubsetOpaque);
+		generator.GenerateMeshVertices(this, x, y, z, m_meshesByData[value >> 1 & 1], SubsystemPalette.GetColor(generator, GetColor(data)), null, geometry.SubsetOpaque);
 	}
 
 	public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
 	{
-		color *= SubsystemPalette.GetColor(environmentData, GetPaintColor(value));
-		int data = Terrain.ExtractData(value);
-		if (GetIsCross(data))
+		value = Terrain.ExtractData(value);
+		color *= SubsystemPalette.GetColor(environmentData, GetColor(value));
+		int type = GetType(value);
+		if (type != 0)
 		{
-			BlocksManager.DrawMeshBlock(primitivesRenderer, m_meshesByData[0], color, size, ref matrix, environmentData);
-			BlocksManager.DrawMeshBlock(primitivesRenderer, m_meshesByData[1], color, size, ref matrix, environmentData);
+			if((type & 1) != 0)
+				BlocksManager.DrawMeshBlock(primitivesRenderer, m_meshesByData[0], color, size, ref matrix, environmentData);
+			if ((type & 2) != 0)
+				BlocksManager.DrawMeshBlock(primitivesRenderer, m_meshesByData[1], color, size, ref matrix, environmentData);
+			if ((type & 4) != 0)
+				BlocksManager.DrawMeshBlock(primitivesRenderer, m_meshesByData[2], color, size, ref matrix, environmentData);
+			if ((type & 8) != 0)
+				BlocksManager.DrawMeshBlock(primitivesRenderer, m_meshesByData[3], color, size, ref matrix, environmentData);
 			return;
 		}
 		BlocksManager.DrawMeshBlock(primitivesRenderer, m_standaloneMesh, color, size, ref matrix, environmentData);
@@ -43,7 +81,7 @@ public class MagnetBlock : Game.MagnetBlock, IPaintableBlock
 			Vector3 forward = Matrix.CreateFromQuaternion(componentMiner.ComponentCreature.ComponentCreatureModel.EyeRotation).Forward;
 			result = default(BlockPlacementData);
 			result.CellFace = raycastResult.CellFace;
-			result.Value = Terrain.ReplaceData(value, SetColor(SetIsCross(MathUtils.Abs(forward.X) <= MathUtils.Abs(forward.Z) ? 1 : 0, GetIsCross(Terrain.ExtractData(value))), GetPaintColor(value)));
+			result.Value = Terrain.ReplaceData(value, SetColor(SetType(MathUtils.Abs(forward.X) <= MathUtils.Abs(forward.Z) ? 1 : 0, GetType(Terrain.ExtractData(value))), GetPaintColor(value)));
 			return result;
 		}
 		var componentPlayer = componentMiner.ComponentPlayer;
@@ -57,35 +95,33 @@ public class MagnetBlock : Game.MagnetBlock, IPaintableBlock
 
 	public override void GetDropValues(SubsystemTerrain subsystemTerrain, int oldValue, int newValue, int toolLevel, List<BlockDropValue> dropValues, out bool showDebris)
 	{
-		int data = Terrain.ExtractData(oldValue);
-		if (!GetColor(data).HasValue)
-		{
-			base.GetDropValues(subsystemTerrain, oldValue, newValue, toolLevel, dropValues, out showDebris);
-			return;
-		}
 		showDebris = true;
 		if (toolLevel >= RequiredToolLevel)
 		{
 			dropValues.Add(new BlockDropValue
 			{
-				Value = Terrain.MakeBlockValue(DefaultDropContent, 0, data & -2),
+				Value = Terrain.MakeBlockValue(DefaultDropContent, 0, Terrain.ExtractData(oldValue) & -2),
 				Count = (int)DefaultDropCount
 			});
 		}
 	}
 	public override Vector3 GetIconBlockOffset(int value, DrawBlockEnvironmentData environmentData)
 	{
-		return GetIsCross(Terrain.ExtractData(value)) ? new Vector3(-1.2f, -0.3f, -0.5f) : DefaultIconBlockOffset;
+		return GetType(Terrain.ExtractData(value)) != 0 ? new Vector3(-1.2f, -0.3f, -0.5f) : DefaultIconBlockOffset;
 	}
 	public override float GetIconViewScale(int value, DrawBlockEnvironmentData environmentData)
 	{
-		return GetIsCross(Terrain.ExtractData(value)) ? 1.8f : DefaultIconViewScale;
+		return GetType(Terrain.ExtractData(value)) != 0 ? 1.8f : DefaultIconViewScale;
+	}
+	public override string GetCategory(int value)
+	{
+		return GetPaintColor(value).HasValue ? "Painted" : base.GetCategory(value);
 	}
 
 	public override IEnumerable<int> GetCreativeValues()
 	{
-		var array = new int[32];
-		for (int i = 0; i < 32; i++)
+		var array = new int[256];
+		for (int i = 0; i < 256; i++)
 		{
 			array[i] = Terrain.MakeBlockValue(Index, 0, i << 1);
 		}
@@ -94,7 +130,7 @@ public class MagnetBlock : Game.MagnetBlock, IPaintableBlock
 
 	public override string GetDisplayName(SubsystemTerrain subsystemTerrain, int value)
 	{
-		return SubsystemPalette.GetName(subsystemTerrain, GetPaintColor(value), GetIsCross(Terrain.ExtractData(value)) ? "Cross " + DefaultDisplayName : DefaultDisplayName);
+		return SubsystemPalette.GetName(subsystemTerrain, GetPaintColor(value), GetType(Terrain.ExtractData(value)) != 0 ? "Cross " + DefaultDisplayName : DefaultDisplayName);
 	}
 
 	public int? GetPaintColor(int value)
@@ -121,17 +157,13 @@ public class MagnetBlock : Game.MagnetBlock, IPaintableBlock
 		data &= -31;
 		return color.HasValue ? color == 0 ? data : data | color.Value << 1 : data;
 	}
-	public static bool GetIsCross(int data)
+	public static int GetType(int data)
 	{
-		return (data & 0x20) != 0;
+		return data >> 5 & 15;
 	}
 
-	public static int SetIsCross(int data, bool isCross)
+	public static int SetType(int data, int type)
 	{
-		if (!isCross)
-		{
-			return data & 0x1F;
-		}
-		return data | 0x20;
+		return data | (type & 15) << 5;
 	}
 }
