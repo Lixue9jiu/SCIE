@@ -18,8 +18,8 @@ namespace Game
 		public Queue<Request> Requests = new Queue<Request>();
 		public SubsystemTime SubsystemTime;
 		//public SubsystemAudio SubsystemAudio;
-		float m_remainingSimulationTime;
-		ElementBlock elementblock;
+		protected float m_remainingSimulationTime;
+		protected ElementBlock elementblock;
 		public int UpdateStep;
 		public Terrain Terrain;
 		public DynamicArray<Element> Path;
@@ -132,7 +132,7 @@ namespace Game
 			for (var i = Table.GetEnumerator(); i.MoveNext();)
 			{
 				var key = i.Current.Key;
-				if (key.X >= startX && key.X < chunk.Origin.X + 16 && key.Z >= startY && key.Z < startY + 16)
+				if (key.X >= startX && key.X < startX + 16 && key.Z >= startY && key.Z < startY + 16)
 				{
 					int index = Path.IndexOf(i.Current.Value);
 					if (index >= 0)

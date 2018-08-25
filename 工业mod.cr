@@ -408,7 +408,7 @@
     </Recipe>
   </Weapons>
   <Items>
-    <Recipe Result="ElementBlock:0" ResultCount="1" RequiredHeatLevel="0" a="ironingot" b="piston" c="battery" Description="Make a storage freezer to protect food">
+    <Recipe Result="Fridge" ResultCount="1" RequiredHeatLevel="0" a="ironingot" b="piston" c="battery" Description="Make a storage freezer to protect food">
       "aba"
       "aca"
       "aba"
@@ -418,7 +418,7 @@
       "dcd"
       "aea"
     </Recipe>
-    <Recipe Result="DispenserNew2Block" ResultCount="1" RequiredHeatLevel="0" a="tank" b="IndustrialPiston" c="steelblock" d="SteelGear"  Description="Make a liquid pump to pump liquid">
+    <Recipe Result="DispenserNew2Block" ResultCount="1" RequiredHeatLevel="0" a="tank" b="IndustrialPiston" c="steelblock" d="SteelGear" Description="Make a liquid pump to pump liquid">
       "dbd"
       "aca"
       "ada"
@@ -524,8 +524,49 @@
       "aaa"
     </Recipe>
     <Recipe Result="MagnetBlock:32" ResultCount="1" RequiredHeatLevel="0" a="magnet:0" Description="Make a Cross Magnet from magnet">
-      "aa"
-      "aa"
+      "a   "
+    </Recipe>
+    <Recipe Result="MagnetBlock:64" ResultCount="1" RequiredHeatLevel="0" a="magnet:0" Description="Make a Cross Magnet from magnet">
+      " a  "
+    </Recipe>
+    <Recipe Result="MagnetBlock:96" ResultCount="1" RequiredHeatLevel="0" a="magnet:0" Description="Make a Cross Magnet from magnet">
+      "aa  "
+    </Recipe>
+    <Recipe Result="MagnetBlock:128" ResultCount="1" RequiredHeatLevel="0" a="magnet:0" Description="Make a Cross Magnet from magnet">
+      "  a "
+    </Recipe>
+    <Recipe Result="MagnetBlock:160" ResultCount="1" RequiredHeatLevel="0" a="magnet:0" Description="Make a Cross Magnet from magnet">
+      "a a "
+    </Recipe>
+    <Recipe Result="MagnetBlock:192" ResultCount="1" RequiredHeatLevel="0" a="magnet:0" Description="Make a Cross Magnet from magnet">
+      " aa "
+    </Recipe>
+    <Recipe Result="MagnetBlock:224" ResultCount="1" RequiredHeatLevel="0" a="magnet:0" Description="Make a Cross Magnet from magnet">
+      "aaa "
+    </Recipe>
+    <Recipe Result="MagnetBlock:256" ResultCount="1" RequiredHeatLevel="0" a="magnet:0" Description="Make a Cross Magnet from magnet">
+      "   a"
+    </Recipe>
+    <Recipe Result="MagnetBlock:288" ResultCount="1" RequiredHeatLevel="0" a="magnet:0" Description="Make a Cross Magnet from magnet">
+      "a  a"
+    </Recipe>
+    <Recipe Result="MagnetBlock:320" ResultCount="1" RequiredHeatLevel="0" a="magnet:0" Description="Make a Cross Magnet from magnet">
+      " a a"
+    </Recipe>
+    <Recipe Result="MagnetBlock:352" ResultCount="1" RequiredHeatLevel="0" a="magnet:0" Description="Make a Cross Magnet from magnet">
+      "aa a"
+    </Recipe>
+    <Recipe Result="MagnetBlock:384" ResultCount="1" RequiredHeatLevel="0" a="magnet:0" Description="Make a Cross Magnet from magnet">
+      "  aa"
+    </Recipe>
+    <Recipe Result="MagnetBlock:416" ResultCount="1" RequiredHeatLevel="0" a="magnet:0" Description="Make a Cross Magnet from magnet">
+      "a aa"
+    </Recipe>
+    <Recipe Result="MagnetBlock:448" ResultCount="1" RequiredHeatLevel="0" a="magnet:0" Description="Make a Cross Magnet from magnet">
+      " aaa"
+    </Recipe>
+    <Recipe Result="MagnetBlock:480" ResultCount="1" RequiredHeatLevel="0" a="magnet:0" Description="Make a Cross Magnet from magnet">
+      "aaaa"
     </Recipe>
     <Recipe Result="Generator" ResultCount="1" RequiredHeatLevel="0" a="CopperWire" b="steelblock" c="magnet:32" d="SteelGear" e="SteelRod" Description="Make a Direct Current Dynamo to enter the electricity era.">
       "daad"
