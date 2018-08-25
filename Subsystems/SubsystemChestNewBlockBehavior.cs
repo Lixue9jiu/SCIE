@@ -29,12 +29,15 @@ namespace Game
 
 		public override void OnBlockAdded(int value, int oldValue, int x, int y, int z)
 		{
-			if ((Terrain.ExtractData(value) & 32767) != 0)
+			string name;
+			switch (Terrain.ExtractData(value) & 32767)
 			{
-				return;
+				case 0: name = "ChestNew"; break;
+				case 2: name = "CReactor"; break;
+				default: return;
 			}
 			var valuesDictionary = new ValuesDictionary();
-			valuesDictionary.PopulateFromDatabaseObject(Project.GameDatabase.Database.FindDatabaseObject("ChestNew", Project.GameDatabase.EntityTemplateType, true));
+			valuesDictionary.PopulateFromDatabaseObject(Project.GameDatabase.Database.FindDatabaseObject(name, Project.GameDatabase.EntityTemplateType, true));
 			valuesDictionary.GetValue<ValuesDictionary>("BlockEntity").SetValue("Coordinates", new Point3(x, y, z));
 			Project.AddEntity(Project.CreateEntity(valuesDictionary));
 		}

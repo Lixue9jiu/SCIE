@@ -3,91 +3,24 @@ using Engine.Graphics;
 
 namespace Game
 {
-	public class SteelRod : Rod
-	{
-		public SteelRod() : base("steel", Color.LightGray)
-		{
-		}
-	}
-	public class CopperRod : Rod
-	{
-		public CopperRod() : base("copper", new Color(255, 127, 80))
-		{
-		}
-	}
-	public class GoldRod : Rod
-	{
-		public GoldRod() : base("gold", new Color(255, 215, 0))
-		{
-		}
-	}
-	public class SliverRod : Rod
-	{
-		public SliverRod() : base("sliver", new Color(253, 253, 253))
-		{
-		}
-	}
-	public class LeadRod : Rod
-	{
-		public LeadRod() : base("lead", new Color(88, 87, 86))
-		{
-		}
-	}
-	public class PlatinumRod : Rod
-	{
-		public PlatinumRod() : base("platinum", new Color(253, 253, 253))
-		{
-		}
-	}
-	public class ZincRod : Rod
-	{
-		public ZincRod() : base("zinc", new Color(232, 232, 232))
-		{
-		}
-	}
-	public class StannaryRod : Rod
-	{
-		public StannaryRod() : base("stannary", new Color(232, 232, 232))
-		{
-		}
-	}
-	public class ChromiumRod : Rod
-	{
-		public ChromiumRod() : base("chromium", new Color(90, 90, 90))
-		{
-		}
-	}
-	public class TitaniumRod : Rod
-	{
-		public TitaniumRod() : base("titanium", new Color(253, 253, 253))
-		{
-		}
-	}
-	public class NickelRod : Rod
-	{
-		public NickelRod() : base("nickel", new Color(253, 253, 253))
-		{
-		}
-	}
-	public class AluminumRod : Rod
-	{
-		public AluminumRod() : base("aluminum", new Color(232, 232, 232))
-		{
-		}
-	}
-	public abstract class Rod : FlatItem
+	public class Rod : FlatItem
 	{
 		protected readonly string Name;
 		protected readonly BlockMesh m_standaloneBlockMesh = new BlockMesh();
 
 		public Rod(string name, Color color)
 		{
-			Name = name;
-			DefaultTextureSlot = 227;
-			DefaultDescription = "Rods are made by forging " + Name + " into shape. They are useful for making many things.";
 			Model model = ContentManager.Get<Model>("Models/Rod");
 			Matrix boneAbsoluteTransform = BlockMesh.GetBoneAbsoluteTransform(model.FindMesh("SteelRod", true).ParentBone);
 			m_standaloneBlockMesh.AppendModelMeshPart(model.FindMesh("SteelRod", true).MeshParts[0], boneAbsoluteTransform * Matrix.CreateTranslation(0f, -0.5f, 0f), false, false, false, false, color);
+			Name = name;
+			if (string.IsNullOrEmpty(name))
+			{
+				return;
+			}
+			DefaultDisplayName = char.ToUpper(name[0]) + name.Substring(1) + "Rod";
+			DefaultTextureSlot = 227;
+			DefaultDescription = "Rods are made by forging " + name + " into shape. They are useful for making many things.";
 		}
 		public override Vector3 GetIconViewOffset(int value, DrawBlockEnvironmentData environmentData)
 		{

@@ -8,7 +8,6 @@ namespace Game
 		public RottenEgg() : base("Rotten egg. Do not eat.")
 		{
 			DefaultDisplayName = "Rotten Egg";
-			DefaultCategory = "Food";
 			DefaultTextureSlot = 15;
 			ReadOnlyList<ModelMesh> meshes = ContentManager.Get<Model>("Models/RottenEgg").Meshes;
 			m_standaloneBlockMesh.AppendModelMeshPart(meshes[0].MeshParts[0], BlockMesh.GetBoneAbsoluteTransform(meshes[0].ParentBone), false, false, false, false, Color.White);
@@ -21,6 +20,14 @@ namespace Game
 		public override float GetIconViewScale(int value, DrawBlockEnvironmentData environmentData)
 		{
 			return 0.85f;
+		}
+		public override string GetCraftingId()
+		{
+			return "RottenEgg";
+		}
+		public override string GetCategory(int value)
+		{
+			return "Food";
 		}
 		public override float GetNutritionalValue(int value)
 		{

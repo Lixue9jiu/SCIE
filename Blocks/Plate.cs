@@ -4,86 +4,50 @@ using System;
 
 namespace Game
 {
-    public class SteelPlate : Plate
-    {
-        public SteelPlate() : base(MetalType.Steel)
-        {
-        }
-    }
-    public class IronPlate : Plate
-    {
-        public IronPlate() : base(MetalType.Iron)
-        {
-        }
-    }
-    public class CopperPlate : Plate
-    {
-        public CopperPlate() : base(MetalType.Copper)
-        {
-        }
-    }
-    public class LeadPlate : Plate
-    {
-        public LeadPlate() : base(MetalType.Lead)
-        {
-        }
-    }
-    public class ZincPlate : Plate
-    {
-        public ZincPlate() : base(MetalType.Zinc)
-        {
-        }
-    }
-    public class PlatinumPlate : Plate
-    {
-        public PlatinumPlate() : base(MetalType.Platinum)
-        {
-        }
-    }
-    public class AluminumPlate : Plate
-    {
-        public AluminumPlate() : base(MetalType.Aluminum)
-        {
-        }
-    }
-    public abstract class Plate : Item
+	[Serializable]
+	public enum MetalType
+	{
+		Steel,
+		Gold,
+		Sliver,
+		Lead,
+		Platinum,
+		Zinc,
+		Stannary,
+		Chromium,
+		Titanium,
+		Nickel,
+		Aluminum,
+		Iron,
+		Copper,
+		Mercury,
+		Germanium
+	}
+	public class Sheet : Plate
+	{
+		public Sheet(MetalType type) : base(type)
+		{
+			DefaultDisplayName = Type.ToString() + "Sheet";
+			DefaultDescription = "A sheet of pure " + Type.ToString() + ". Can be crafted into very durable and strong " + Type.ToString() + " items. Very important in the industrial Era.";
+		}
+		public override float GetIconViewScale(int value, DrawBlockEnvironmentData environmentData)
+		{
+			return 0.5f;
+		}
+	}
+	public class Plate : BlockItem
     {
 		protected readonly BlockMesh m_standaloneBlockMesh = new BlockMesh();
         public readonly MetalType Type;
-        protected Plate(MetalType type)
+        public Plate(MetalType type)
 		{
             Type = type;
+			DefaultDisplayName = Type.ToString() + "Plate";
+			DefaultDescription = "A plate of pure " + Type.ToString() + ". Can be crafted into very durable and strong " + Type.ToString() + " items. Very important in the industrial Era.";
             Model model = ContentManager.Get<Model>("Models/Ingots");
             Matrix boneAbsoluteTransform = BlockMesh.GetBoneAbsoluteTransform(model.FindMesh("IronPlate", true).ParentBone);
             m_standaloneBlockMesh.AppendModelMeshPart(model.FindMesh("IronPlate", true).MeshParts[0], boneAbsoluteTransform * Matrix.CreateTranslation(0f, -0.1f, 0f), false, false, false, false, Color.White);
         }
-        [Serializable]
-        public enum MetalType
-        {
-            Steel,
-            Gold,
-            Sliver,
-            Lead,
-            Platinum,
-            Zinc,
-            Stannary,
-            Chronmium,
-            Titanium,
-            Nickel,
-            Aluminum,
-            Iron,
-            Copper
-        }
-
-        public override string GetDisplayName(SubsystemTerrain subsystemTerrain, int value)
-        {
-            return Type.ToString() + "Plate";
-        }
-        public override string GetDescription(int value)
-        {
-            return "An plate of pure " + Type.ToString() + ". Can be crafted into very durable and strong " + Type.ToString() + " items. Very important in the industrial Era.";
-        }
-
         public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
 		{
             switch (Type)
@@ -100,7 +64,7 @@ namespace Game
                 case MetalType.Lead:
                     color = new Color(88, 87, 86);
                     break;
-                case MetalType.Chronmium:
+                case MetalType.Chromium:
                     color = new Color(58, 57, 56);
                     break;
                 case MetalType.Platinum:

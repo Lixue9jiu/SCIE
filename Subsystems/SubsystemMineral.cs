@@ -104,7 +104,7 @@ namespace Game
 		public override void GetDropValues(SubsystemTerrain subsystemTerrain, int oldValue, int newValue, int toolLevel, List<BlockDropValue> dropValues, out bool showDebris)
 		{
 			int data = Terrain.ExtractData(oldValue);
-			if ((data & 65536) != 0 && (Random.Int() & 3) == 0)
+			if ((data & 98304) == 32768 && (Random.Int() & 3) == 0)
 			{
 				dropValues.Add(new BlockDropValue
 				{
@@ -112,7 +112,7 @@ namespace Game
 					Count = 1
 				});
 			}
-			if (IsColored(data) || toolLevel < 3)
+			else if (IsColored(data) || toolLevel < 3)
 			{
 				base.GetDropValues(subsystemTerrain, oldValue, newValue, toolLevel, dropValues, out showDebris);
 				return;
@@ -124,7 +124,7 @@ namespace Game
 				{
 					dropValues.Add(new BlockDropValue
 					{
-						Value = ItemBlock.Index | 10 << 14,
+						Value = ItemBlock.IdTable["ScrapIron"],
 						Count = 1
 					});
 				}

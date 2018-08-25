@@ -7,6 +7,7 @@ namespace Game
 	{
 		public RifleBarrel() : base(string.Empty, Color.Gray)
 		{
+			DefaultDisplayName = "RifleBarrel";
 			DefaultDescription = "Rifle Barrel are made by Rifling Machine. They are useful for making guns.";
 		}
 		public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)

@@ -16,7 +16,6 @@ namespace Game
 		{
 			new BoundingBox(Vector3.Zero, Vector3.One)
 		};
-		public static bool Loaded;
 		static void Initialize()
 		{
 			BlocksManager.DamageItem1 = DamageItem;
@@ -214,6 +213,10 @@ namespace Game
 		{
 			return GetType().ToString().Substring(5);
 		}
+		public virtual string GetCraftingId()
+		{
+			return GetType().ToString().Substring(5);
+		}
 		public virtual string GetDescription(int value)
 		{
 			return string.Empty;
@@ -383,13 +386,15 @@ namespace Game
 	{
 		public string DefaultDisplayName;
 		public string DefaultDescription = string.Empty;
-		public string DefaultCategory = "Items";
 
 		public BlockItem()
 		{
 			DefaultDisplayName = GetType().ToString().Substring(5);
 		}
-
+		public override string GetCraftingId()
+		{
+			return DefaultDisplayName;
+		}
 		public override string GetDisplayName(SubsystemTerrain subsystemTerrain, int value)
 		{
 			return DefaultDisplayName;
@@ -397,10 +402,6 @@ namespace Game
 		public override string GetDescription(int value)
 		{
 			return DefaultDescription;
-		}
-		public override string GetCategory(int value)
-		{
-			return DefaultCategory;
 		}
 	}
 	public class FlatItem : BlockItem
