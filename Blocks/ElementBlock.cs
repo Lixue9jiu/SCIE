@@ -120,6 +120,7 @@ namespace Game
 			{
 				new Fridge(),
 				new Generator(),
+                new Magnetizer()
 			};
 			for (int i = 0; i < Devices.Length; i++)
 			{

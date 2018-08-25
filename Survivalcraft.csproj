@@ -54,6 +54,7 @@
     <Compile Include="Blocks\BlastBlowerBlock.cs" />
     <Compile Include="Blocks\BlastFurnaceBlock.cs" />
     <Compile Include="Blocks\CastMachBlock.cs" />
+    <Compile Include="Blocks\ChemicalReactor.cs" />
     <Compile Include="Blocks\DrillBlock.cs" />
     <Compile Include="Blocks\ElementBlock.cs" />
     <Compile Include="Blocks\IndustrialPiston.cs" />
@@ -71,8 +72,10 @@
     <Compile Include="Blocks\SqueezerBlock.cs" />
     <Compile Include="Blocks\Train.cs" />
     <Compile Include="Blocks\Wire.cs" />
+    <Compile Include="Components\ComponentCReactor.cs" />
     <Compile Include="Components\ComponentLargeCraftingTable.cs" />
     <Compile Include="Components\ComponentMachine.cs" />
+    <Compile Include="Components\ComponentMagnetizer.cs" />
     <Compile Include="Components\ComponentSqueezer.cs" />
     <Compile Include="Blocks\OreChunk.cs" />
     <Compile Include="Blocks\OrePowder.cs" />
@@ -81,11 +84,13 @@
     <Compile Include="Structs\Elements.cs" />
     <Compile Include="Structs\Interfaces.cs" />
     <Compile Include="Structs\Items.cs" />
+    <Compile Include="Subsystems\SubsystemCReactorBlockBehavior.cs" />
     <Compile Include="Subsystems\SubsystemItemBlockBehavior.cs" />
     <Compile Include="Subsystems\SubsystemMachineToolBlockbehavior.cs" />
     <Compile Include="Subsystems\SubsystemMineral.cs" />
     <Compile Include="Subsystems\SubsystemRailBlockBehavior.cs" />
     <Compile Include="Subsystems\SubsystemSourceOfFireBlockBehavior.cs" />
+    <Compile Include="Widgets\CReactorWidget.cs" />
     <Compile Include="Widgets\MachineToolWidget.cs" />
     <Compile Include="Widgets\NewCraftingRecipeWidget.cs" />
     <Compile Include="Widgets\SqueezerWidget.cs" />

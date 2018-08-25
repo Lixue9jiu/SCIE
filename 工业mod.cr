@@ -519,20 +519,19 @@
       "aca"
     </Recipe>
     <Recipe Result="CopperWire" ResultCount="1" RequiredHeatLevel="0" a="CopperLine" b="SteelRod" Description="Make a wire from copperline and steelrod">
-      "aaaa"
-      "abba"
-      "abba"
-      "aaaa"
+      "aaa"
+      "aba"
+      "aaa"
     </Recipe>
     <Recipe Result="MagnetBlock:32" ResultCount="1" RequiredHeatLevel="0" a="magnet:0" Description="Make a Cross Magnet from magnet">
       "aa"
       "aa"
     </Recipe>
     <Recipe Result="Generator" ResultCount="1" RequiredHeatLevel="0" a="CopperWire" b="steelblock" c="magnet:32" d="SteelGear" e="SteelRod" Description="Make a Direct Current Dynamo to enter the electricity era.">
-      "caac"
-      "adda"
+      "daad"
+      "acca"
       "aeba"
-      "caac"
+      "daad"
     </Recipe>
     <Recipe Result="ClothingBlock:38" ResultCount="1" RequiredHeatLevel="0" a="SteelPlate" Description="Make armored helmet from steel">
       " a"
