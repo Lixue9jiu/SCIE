@@ -57,7 +57,8 @@ namespace Game
 
             return new BlockPlacementData
             {
-                Value = GetType(value) == Type.SteelBlock ? Terrain.ReplaceData(Index, 1) : 0,
+                //Value = GetType(value) == Type.SteelBlock ? Terrain.ReplaceData(Index, 1) : 0,
+                Value = Terrain.ReplaceData(Index, Terrain.ExtractData(value) & 0xF),
                 CellFace = raycastResult.CellFace
             };
         }
@@ -76,6 +77,9 @@ namespace Game
                     break;
                 case Type.SteelBlock:
                     color = Color.LightGray;
+                    break;
+                case Type.FireBrickWall:
+                    color = new Color(255, 153, 18);
                     break;
             }
             generator.GenerateCubeVertices(this, value, x, y, z, color, geometry.OpaqueSubsetsByFace);
@@ -106,6 +110,13 @@ namespace Game
                     return "Fire Brick wall can be made by combining several fire bricks together and binding them with mortar. It is a versatile, strong and good looking industrial material.";
             }
             return string.Empty;
+        }
+        public override void GetDropValues(SubsystemTerrain subsystemTerrain, int oldValue, int newValue, int toolLevel, List<BlockDropValue> dropValues, out bool showDebris)
+        {
+            int data = Terrain.ExtractData(oldValue);
+            oldValue = Terrain.ReplaceData(Index, Terrain.ExtractData(oldValue) & 0xF);
+            base.GetDropValues(subsystemTerrain, oldValue, newValue, toolLevel, dropValues, out showDebris);
+            //oldValue = Terrain.ReplaceData(oldValue, Terrain.ExtractData(oldValue) & 32767);
         }
         public override int GetFaceTextureSlot(int face, int value)
         {
