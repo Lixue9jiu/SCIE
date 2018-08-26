@@ -12,15 +12,14 @@ namespace Game
 			{
 				return new []
 				{
-					FireBoxBlock.Index,
-					LitFireBoxBlock.Index
+					FireBoxBlock.Index
 				};
 			}
 		}
 		
 		public override void OnBlockAdded(int value, int oldValue, int x, int y, int z)
 		{
-			if (Terrain.ExtractContents(oldValue) != FireBoxBlock.Index && Terrain.ExtractContents(oldValue) != LitFireBoxBlock.Index)
+			if (Terrain.ExtractContents(oldValue) != FireBoxBlock.Index)
 			{
 				DatabaseObject databaseObject = Project.GameDatabase.Database.FindDatabaseObject("FireBox", Project.GameDatabase.EntityTemplateType, true);
 				ValuesDictionary valuesDictionary = new ValuesDictionary();
@@ -28,21 +27,20 @@ namespace Game
 				valuesDictionary.GetValue<ValuesDictionary>("BlockEntity").SetValue<Point3>("Coordinates", new Point3(x, y, z));
 				Project.AddEntity(Project.CreateEntity(valuesDictionary));
 			}
-			if (Terrain.ExtractContents(value) != LitFireBoxBlock.Index)
+			if (FurnaceNBlock.GetHeatLevel(value) != 0)
 			{
-				return;
+				AddFire(value, x, y, z);
 			}
-			AddFire(value, x, y, z);
 		}
 		
 		public override void OnBlockRemoved(int value, int newValue, int x, int y, int z)
 		{
-			if (Terrain.ExtractContents(newValue) != FireBoxBlock.Index && Terrain.ExtractContents(newValue) != LitFireBoxBlock.Index)
+			if (Terrain.ExtractContents(newValue) != FireBoxBlock.Index)
 			{
 				ComponentBlockEntity blockEntity = Project.FindSubsystem<SubsystemBlockEntities>(true).GetBlockEntity(x, y, z);
 				if (blockEntity != null)
 				{
-					Vector3 position = new Vector3((float)x, (float)y, (float)z) + new Vector3(0.5f);
+					var position = new Vector3((float)x, (float)y, (float)z) + new Vector3(0.5f);
 					foreach (IInventory inventory in blockEntity.Entity.FindComponents<IInventory>())
 					{
 						inventory.DropAllItems(position);
@@ -50,34 +48,46 @@ namespace Game
 					Project.RemoveEntity(blockEntity.Entity, true);
 				}
 			}
-			if (Terrain.ExtractContents(value) != LitFireBoxBlock.Index)
+			if (FurnaceNBlock.GetHeatLevel(value) != 0)
 			{
-				return;
+				RemoveFire(x, y, z);
 			}
-			RemoveFire(x, y, z);
 		}
-		
+
+		public override void OnBlockModified(int value, int oldValue, int x, int y, int z)
+		{
+			if (FurnaceNBlock.GetHeatLevel(value) != 0)
+			{
+				AddFire(value, x, y, z);
+			}
+			else
+			{
+				RemoveFire(x, y, z);
+			}
+		}
+
 		public override void OnBlockGenerated(int value, int x, int y, int z, bool isLoaded)
 		{
-			if (Terrain.ExtractContents(value) != LitFireBoxBlock.Index)
+			if (FurnaceNBlock.GetHeatLevel(value) != 0)
 			{
-				return;
+				AddFire(value, x, y, z);
 			}
-			AddFire(value, x, y, z);
 		}
 		
 		public override void OnChunkDiscarding(TerrainChunk chunk)
 		{
-			List<Point3> list = new List<Point3>();
-			foreach (Point3 point in m_particleSystemsByCell.Keys)
+			int originX = chunk.Origin.X, originY = chunk.Origin.Y;
+			var list = new List<Point3>();
+			foreach (var key in m_particleSystemsByCell.Keys)
 			{
-				if (point.X >= chunk.Origin.X && point.X < chunk.Origin.X + 16 && point.Z >= chunk.Origin.Y && point.Z < chunk.Origin.Y + 16)
+				if (key.X >= originX && key.X < originX + 16 && key.Z >= originY && key.Z < originY + 16)
 				{
-					list.Add(point);
+					list.Add(key);
 				}
 			}
-			foreach (Point3 point2 in list)
+			for (int i = 0; i < list.Count; i++)
 			{
+				Point3 point2 = list[i];
 				RemoveFire(point2.X, point2.Y, point2.Z);
 			}
 		}
@@ -95,10 +105,10 @@ namespace Game
 			return true;
 		}
 		
-		public override void OnNeighborBlockChanged(int x, int y, int z, int neighborX, int neighborY, int neighborZ)
+		/*public override void OnNeighborBlockChanged(int x, int y, int z, int neighborX, int neighborY, int neighborZ)
 		{
 			base.OnNeighborBlockChanged(x, y, z, neighborX, neighborY, neighborZ);
-		}
+		}*/
 
 		public override void Load(ValuesDictionary valuesDictionary)
 		{

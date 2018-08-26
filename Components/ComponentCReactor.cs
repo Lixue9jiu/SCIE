@@ -89,8 +89,8 @@ namespace Game
 					{
 						for (int k = -1; k < 2; k++)
 						{
-							int cellContents = m_subsystemTerrain.Terrain.GetCellContents(coordinates.X + i, coordinates.Y + j, coordinates.Z + k);
-							if (i * i + j * j + k * k <= 1 && (cellContents == LitFireBoxBlock.Index))
+							int cellValue = m_subsystemTerrain.Terrain.GetCellValue(coordinates.X + i, coordinates.Y + j, coordinates.Z + k);
+							if (i * i + j * j + k * k <= 1 && (Terrain.ExtractContents(cellValue) == FireBoxBlock.Index) && FurnaceNBlock.GetHeatLevel(cellValue) != 0)
 							{
 								num = 1;
 								break;

@@ -43,24 +43,26 @@ namespace Game
 				{
 					for (int k = -1; k < 2; k++)
 					{
-						int cellContents = SubsystemTerrain.Terrain.GetCellContents(x + i, y + j, z + k);
-						if (i * i + j * j + k * k <= 1 && (cellContents == LitEngineBlock.Index || cellContents == LitEngineHBlock.Index))
+						if (i * i + j * j + k * k <= 1)
 						{
-							num = 1;
-						}
-						if (i * i + j * j + k * k <= 1 && cellContents == LitFireBoxBlock.Index)
-						{
-							num2 = 1;
+							int cellvalue = SubsystemTerrain.Terrain.GetCellValue(x + i, y + j, z + k);
+							if (FurnaceNBlock.GetHeatLevel(cellvalue) != 0)
+							{
+								cellvalue = Terrain.ExtractContents(cellvalue);
+								if (cellvalue == EngineBlock.Index || cellvalue == EngineHBlock.Index)
+								{
+									num = 1;
+								}
+								else if (cellvalue == FireBoxBlock.Index)
+								{
+									num2 = 1;
+								}
+							}
 						}
 					}
 				}
 			}
-			if (num == 0 || num2 == 0)
-			{
-				SubsystemTerrain.ChangeCell(x, y, z, BlastBlowerBlock.Index, true);
-				return;
-			}
-			SubsystemTerrain.ChangeCell(x, y, z, BlastBlowerBlock.Index | 1 << 14, true);
+			SubsystemTerrain.ChangeCell(x, y, z, (num == 0 || num2 == 0) ? BlastBlowerBlock.Index : BlastBlowerBlock.Index | 1 << 14, true);
 		}
 		/*public void Scanner(int x, int y, int z)
 		{
@@ -75,24 +77,26 @@ namespace Game
 				{
 					for (int k = -1; k < 2; k++)
 					{
-						int cellContents = SubsystemTerrain.Terrain.GetCellContents(x + i, y + j, z + k);
-						if (i * i + j * j + k * k <= 1 && (cellContents == LitEngineBlock.Index || cellContents == LitEngineHBlock.Index))
+						if (i * i + j * j + k * k <= 1)
 						{
-							num = 1;
-						}
-						if (i * i + j * j + k * k <= 1 && cellContents == LitFireBoxBlock.Index)
-						{
-							num2 = 1;
+							int cellvalue = SubsystemTerrain.Terrain.GetCellValue(x + i, y + j, z + k);
+							if (FurnaceNBlock.GetHeatLevel(cellvalue) != 0)
+							{
+								cellvalue = Terrain.ExtractContents(cellvalue);
+								if (cellvalue == EngineBlock.Index || cellvalue == EngineHBlock.Index)
+								{
+									num = 1;
+								}
+								else if (cellvalue == FireBoxBlock.Index)
+								{
+									num2 = 1;
+								}
+							}
 						}
 					}
 				}
 			}
-			if (num == 0 || num2 == 0)
-			{
-				SubsystemTerrain.ChangeCell(x, y, z, BlastBlowerBlock.Index, true);
-				return;
-			}
-			SubsystemTerrain.ChangeCell(x, y, z, BlastBlowerBlock.Index | 1 << 14, true);
+			SubsystemTerrain.ChangeCell(x, y, z, (num == 0 || num2 == 0) ? BlastBlowerBlock.Index : BlastBlowerBlock.Index | 1 << 14, true);
 		}
 		
 		protected readonly Random m_random = new Random();

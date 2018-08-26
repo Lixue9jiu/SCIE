@@ -50,11 +50,15 @@ namespace Game
 				{
 					for (int k = -1; k < 2; k++)
 					{
-						int cellContents = m_subsystemTerrain.Terrain.GetCellContents(point.X + i, point.Y + j, point.Z + k);
-						if (i * i + j * j + k * k <= 1 && (cellContents == LitEngineBlock.Index || cellContents == LitEngineHBlock.Index))
+						int cellValue = m_subsystemTerrain.Terrain.GetCellValue(x + i, y + j, z + k);
+						if (i * i + j * j + k * k <= 1 && FurnaceNBlock.GetHeatLevel(cellValue) != 0)
 						{
-							num = 1;
-							break;
+							cellValue = Terrain.ExtractContents(cellValue);
+							if (cellValue == EngineBlock.Index || cellValue == EngineHBlock.Index)
+							{
+								num = 1;
+								break;
+							}
 						}
 					}
 				}

@@ -96,12 +96,12 @@ namespace Game
 			new Sheet(MetalType.Stannary),
 			new Sheet(MetalType.Platinum),
 			new Sheet(MetalType.Aluminum),
-			new Mould("Models/Battery", "Battery", Matrix.CreateRotationX(MathUtils.PI / 2) * Matrix.CreateTranslation(0.5f, 0.5f, 0f), Matrix.CreateTranslation(0.8f, 0.8f, 0f) * Matrix.CreateScale(20f), "IndustrialMagnet", "IndustrialMagnet"),
-			new Mould("Models/Battery", "Battery", Matrix.CreateTranslation(0f, -0.5f, 0f), Matrix.CreateTranslation(0.5f, 0.8f, 0f) * Matrix.CreateScale(20f), "CuZnBattery", "CuZnBattery"),
-			new Mould("Models/Battery", "Battery", Matrix.CreateTranslation(0f, -0.5f, 0f), Matrix.CreateTranslation(0.6f, 0.8f, 0f) * Matrix.CreateScale(20f), "AgZnBattery", "AgZnBattery"),
-			new Mould("Models/Battery", "Battery", Matrix.CreateTranslation(0f, -0.5f, 0f), Matrix.CreateTranslation(0.7f, 0.8f, 0f) * Matrix.CreateScale(20f), "AuZnBattery", "AuZnBattery"),
-			new Mould("Models/Battery", "Battery", Matrix.CreateTranslation(0f, -0.5f, 0f), Matrix.CreateTranslation(0.8f, 0.8f, 0f) * Matrix.CreateScale(20f), "VoltaicBattery", "VoltaicBattery"),
-            new FireBrick()
+			new Mould("Models/Battery", "Battery", Matrix.CreateRotationX(MathUtils.PI / 2) * Matrix.CreateTranslation(0.5f, 0.5f, 0f), Matrix.CreateTranslation(9f / 16f, -7f / 16f, 0f) * Matrix.CreateScale(20f), "IndustrialMagnet", "IndustrialMagnet"),
+			new Mould("Models/Battery", "Battery", Matrix.CreateTranslation(0f, -0.5f, 0f), Matrix.CreateTranslation(11f / 16f, 4f / 256f, 0f) * Matrix.CreateScale(20f), "CuZnBattery", "CuZnBattery"),
+			new Mould("Models/Battery", "Battery", Matrix.CreateTranslation(0f, -0.5f, 0f), Matrix.CreateTranslation(11f / 16f, 4f / 256f, 0f) * Matrix.CreateScale(20f), "AgZnBattery", "AgZnBattery"),
+			new Mould("Models/Battery", "Battery", Matrix.CreateTranslation(0f, -0.5f, 0f), Matrix.CreateTranslation(11f / 16f, 4f / 256f, 0f) * Matrix.CreateScale(20f), "AuZnBattery", "AuZnBattery"),
+			new Mould("Models/Battery", "Battery", Matrix.CreateTranslation(0f, -0.5f, 0f), Matrix.CreateTranslation(-2f / 16f, 4f / 16f, 0f) * Matrix.CreateScale(20f), "VoltaicBattery", "VoltaicBattery"),
+            new RefractoryBrick()
 		};
 		public static Dictionary<string, int> IdTable;
 		static ItemBlock()

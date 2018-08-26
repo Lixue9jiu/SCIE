@@ -58,6 +58,18 @@ namespace Game
 			}
 		}
 
+		public override void OnBlockModified(int value, int oldValue, int x, int y, int z)
+		{
+			if (FurnaceNBlock.GetHeatLevel(value) != 0)
+			{
+				AddFire(value, x, y, z);
+			}
+			else
+			{
+				RemoveFire(x, y, z);
+			}
+		}
+
 		public override void OnBlockGenerated(int value, int x, int y, int z, bool isLoaded)
 		{
 			if (FurnaceNBlock.GetHeatLevel(value) != 0)
@@ -68,16 +80,18 @@ namespace Game
 
 		public override void OnChunkDiscarding(TerrainChunk chunk)
 		{
+			int originX = chunk.Origin.X, originY = chunk.Origin.Y;
 			var list = new List<Point3>();
-			foreach (Point3 key in m_particleSystemsByCell.Keys)
+			foreach (var key in m_particleSystemsByCell.Keys)
 			{
-				if (key.X >= chunk.Origin.X && key.X < chunk.Origin.X + 16 && key.Z >= chunk.Origin.Y && key.Z < chunk.Origin.Y + 16)
+				if (key.X >= originX && key.X < originX + 16 && key.Z >= originY && key.Z < originY + 16)
 				{
 					list.Add(key);
 				}
 			}
-			foreach (var item in list)
+			for (int i = 0; i < list.Count; i++)
 			{
+				Point3 item = list[i];
 				RemoveFire(item.X, item.Y, item.Z);
 			}
 		}

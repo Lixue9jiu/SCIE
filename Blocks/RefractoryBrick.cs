@@ -4,11 +4,9 @@ using Engine.Graphics;
 
 namespace Game
 {
-	// Token: 0x02000061 RID: 97
-	public class FireBrick : MeshItem
+	public class RefractoryBrick : MeshItem
 	{
-       
-        public FireBrick() : base("A fire brick,or refractory brick is a block of refractory ceramic material used in lining furnaces,kilns,advanced firebox, and fireplaces. It is bulit to withstand high temperature, but also have a low thermal conductivity for great energy efficiency.")
+        public RefractoryBrick() : base("A refractory brick is a block of refractory ceramic material used in lining furnaces,kilns,advanced firebox, and fireplaces. It is bulit to withstand high temperature, but also have a low thermal conductivity for great energy efficiency.")
         {
             Model model = ContentManager.Get<Model>("Models/Brick");
             Matrix boneAbsoluteTransform = BlockMesh.GetBoneAbsoluteTransform(model.FindMesh("Brick", true).ParentBone);
@@ -22,6 +20,5 @@ namespace Game
             color = new Color(255,153,18);
             BlocksManager.DrawMeshBlock(primitivesRenderer, m_standaloneBlockMesh, color, 2f * size, ref matrix, environmentData);
         }
-     
 	}
 }

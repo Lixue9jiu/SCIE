@@ -57,12 +57,12 @@
     <Compile Include="Blocks\ChemicalReactor.cs" />
     <Compile Include="Blocks\DrillBlock.cs" />
     <Compile Include="Blocks\ElementBlock.cs" />
-    <Compile Include="Blocks\FireBrick.cs" />
     <Compile Include="Blocks\FourDirectionalBlock.cs" />
     <Compile Include="Blocks\ItemBlock.cs" />
     <Compile Include="Blocks\MachineToolBlock.cs" />
     <Compile Include="Blocks\PaintableMagnetBlock.cs" />
     <Compile Include="Blocks\RailBlock.cs" />
+    <Compile Include="Blocks\RefractoryBrick.cs" />
     <Compile Include="Blocks\RottenEgg.cs" />
     <Compile Include="Blocks\ScrapIron.cs" />
     <Compile Include="Blocks\SteamBoat.cs" />
@@ -106,7 +106,6 @@
     <Compile Include="Components\ComponentFireBox.cs" />
     <Compile Include="Blocks\FireBoxBlock.cs" />
     <Compile Include="Widgets\FireBoxWidget.cs" />
-    <Compile Include="Blocks\LitFireBoxBlock.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Blocks\Bullet2Block.cs" />
     <Compile Include="Blocks\BulletBlock.cs" />
@@ -144,8 +143,6 @@
     <Compile Include="Widgets\FurnaceNWidget.cs" />
     <Compile Include="Blocks\MetalIngot.cs" />
     <Compile Include="Blocks\CoalPowder.cs" />
-    <Compile Include="Blocks\LitEngineBlock.cs" />
-    <Compile Include="Blocks\LitEngineHBlock.cs" />
     <Compile Include="Blocks\Musket2Block.cs" />
     <Compile Include="Widgets\Musket2Widget.cs" />
     <Compile Include="Blocks\Plate.cs" />
