@@ -146,7 +146,6 @@
     <Compile Include="Blocks\CoalPowder.cs" />
     <Compile Include="Blocks\LitEngineBlock.cs" />
     <Compile Include="Blocks\LitEngineHBlock.cs" />
-    <Compile Include="Blocks\LitFurnaceNBlock.cs" />
     <Compile Include="Blocks\Musket2Block.cs" />
     <Compile Include="Widgets\Musket2Widget.cs" />
     <Compile Include="Blocks\Plate.cs" />

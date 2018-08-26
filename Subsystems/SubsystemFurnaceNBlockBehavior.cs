@@ -16,15 +16,14 @@ namespace Game
 			{
 				return new []
 				{
-					FurnaceNBlock.Index,
-					LitFurnaceNBlock.Index
+					FurnaceNBlock.Index
 				};
 			}
 		}
 
 		public override void OnBlockAdded(int value, int oldValue, int x, int y, int z)
 		{
-			if (Terrain.ExtractContents(oldValue) != FurnaceNBlock.Index && Terrain.ExtractContents(oldValue) != LitFurnaceNBlock.Index)
+			if (Terrain.ExtractContents(oldValue) != FurnaceNBlock.Index)
 			{
 				DatabaseObject databaseObject = Project.GameDatabase.Database.FindDatabaseObject("FurnaceN", Project.GameDatabase.EntityTemplateType, true);
 				var valuesDictionary = new ValuesDictionary();
@@ -32,7 +31,7 @@ namespace Game
 				valuesDictionary.GetValue<ValuesDictionary>("BlockEntity").SetValue("Coordinates", new Point3(x, y, z));
 				Project.AddEntity(Project.CreateEntity(valuesDictionary));
 			}
-			if (Terrain.ExtractContents(value) == LitFurnaceNBlock.Index)
+			if (FurnaceNBlock.GetHeatLevel(value) != 0)
 			{
 				AddFire(value, x, y, z);
 			}
@@ -40,7 +39,7 @@ namespace Game
 
 		public override void OnBlockRemoved(int value, int newValue, int x, int y, int z)
 		{
-			if (Terrain.ExtractContents(newValue) != FurnaceNBlock.Index && Terrain.ExtractContents(newValue) != LitFurnaceNBlock.Index)
+			if (Terrain.ExtractContents(newValue) != FurnaceNBlock.Index)
 			{
 				ComponentBlockEntity blockEntity = Project.FindSubsystem<SubsystemBlockEntities>(true).GetBlockEntity(x, y, z);
 				if (blockEntity != null)
@@ -53,7 +52,7 @@ namespace Game
 					Project.RemoveEntity(blockEntity.Entity, true);
 				}
 			}
-			if (Terrain.ExtractContents(value) == LitFurnaceNBlock.Index)
+			if (FurnaceNBlock.GetHeatLevel(value) != 0)
 			{
 				RemoveFire(x, y, z);
 			}
@@ -61,7 +60,7 @@ namespace Game
 
 		public override void OnBlockGenerated(int value, int x, int y, int z, bool isLoaded)
 		{
-			if (Terrain.ExtractContents(value) == LitFurnaceNBlock.Index)
+			if (FurnaceNBlock.GetHeatLevel(value) != 0)
 			{
 				AddFire(value, x, y, z);
 			}

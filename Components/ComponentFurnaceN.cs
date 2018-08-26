@@ -143,7 +143,7 @@ namespace Game
 			if (chunkAtCell != null && chunkAtCell.State == TerrainChunkState.Valid)
 			{
 				int cellValue = m_subsystemTerrain.Terrain.GetCellValue(coordinates.X, coordinates.Y, coordinates.Z);
-				m_subsystemTerrain.ChangeCell(coordinates.X, coordinates.Y, coordinates.Z, Terrain.ReplaceContents(cellValue, (HeatLevel > 0f) ? LitFurnaceNBlock.Index : FurnaceNBlock.Index), true);
+				m_subsystemTerrain.ChangeCell(coordinates.X, coordinates.Y, coordinates.Z, Terrain.ReplaceData(cellValue, FurnaceNBlock.SetHeatLevel(Terrain.ExtractData(cellValue), (HeatLevel > 0f) ? 1 : 0)), true);
 			}
 		}
 
