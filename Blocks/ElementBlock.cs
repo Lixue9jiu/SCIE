@@ -120,8 +120,9 @@ namespace Game
 			{
 				new Fridge(),
 				new Generator(),
-                new Magnetizer()
-			};
+                new Magnetizer(),
+                new Separator()
+            };
 			for (int i = 0; i < Devices.Length; i++)
 			{
 				IdTable.Add(Devices[i].GetType().ToString().Substring(5), Index | i << 14);
@@ -142,7 +143,7 @@ namespace Game
 		}
 		public override void GetDropValues(SubsystemTerrain subsystemTerrain, int oldValue, int newValue, int toolLevel, List<BlockDropValue> dropValues, out bool showDebris)
 		{
-			oldValue = Terrain.ReplaceData(oldValue, Terrain.ExtractData(oldValue) & -4);
+			oldValue = Terrain.ReplaceData(oldValue, Terrain.ExtractData(oldValue) & 32767);
 			GetItem(ref oldValue).GetDropValues(subsystemTerrain, oldValue, newValue, toolLevel, dropValues, out showDebris);
 		}
 
