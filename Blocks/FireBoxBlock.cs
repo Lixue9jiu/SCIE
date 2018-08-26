@@ -1,5 +1,3 @@
-using Engine;
-
 namespace Game
 {
 	public class FireBoxBlock : FourDirectionalBlock
@@ -38,25 +36,7 @@ namespace Game
 				return 221;
 			}
 		}
-
-		public override BlockPlacementData GetPlacementValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, TerrainRaycastResult raycastResult)
-		{
-			return new BlockPlacementData
-			{
-				Value = Terrain.ReplaceData(Index, Utils.GetDirectionXZ(componentMiner)),
-				CellFace = raycastResult.CellFace
-			};
-		}
-		
-		public override bool IsFaceTransparent(SubsystemTerrain subsystemTerrain, int face, int value)
-		{
-			return false;
-		}
 		
 		public const int Index = 532;
-		
-		//protected readonly BlockMesh[] m_blockMeshesByData = new BlockMesh[4];
-		
-		//protected readonly BlockMesh m_standaloneBlockMesh = new BlockMesh();
 	}
 }

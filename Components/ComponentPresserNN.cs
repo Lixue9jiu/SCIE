@@ -160,18 +160,6 @@ namespace Game
 			return 0;
 		}
 
-		public override void AddSlotItems(int slotIndex, int value, int count)
-		{
-			base.AddSlotItems(slotIndex, value, count);
-			m_updateSmeltingRecipe = true;
-		}
-
-		public override int RemoveSlotItems(int slotIndex, int count)
-		{
-			m_updateSmeltingRecipe = true;
-			return base.RemoveSlotItems(slotIndex, count);
-		}
-
 		public override void Load(ValuesDictionary valuesDictionary, IdToEntityMap idToEntityMap)
 		{
 			base.Load(valuesDictionary, idToEntityMap);
