@@ -164,18 +164,6 @@ namespace Game
 			return 0;
 		}
 
-		public override void AddSlotItems(int slotIndex, int value, int count)
-		{
-			base.AddSlotItems(slotIndex, value, count);
-			m_updateSmeltingRecipe = true;
-		}
-
-		public override int RemoveSlotItems(int slotIndex, int count)
-		{
-			m_updateSmeltingRecipe = true;
-			return base.RemoveSlotItems(slotIndex, count);
-		}
-
 		public override void Load(ValuesDictionary valuesDictionary, IdToEntityMap idToEntityMap)
 		{
 			base.Load(valuesDictionary, idToEntityMap);
@@ -203,54 +191,54 @@ namespace Game
 				int num2 = Terrain.ExtractData(slotValue);
 				if (GetSlotCount(i) > 0)
 				{
-                    if (slotValue == IronOreChunkBlock.Index)
-					{
-						text = "IronOrePowder";
+					switch (slotValue) {
+						case IronOreChunkBlock.Index:
+							text = "IronOrePowder";
+							break;
+						case MalachiteChunkBlock.Index:
+							text = "CopperOrePowder";
+							break;
+						case GermaniumOreChunkBlock.Index:
+							text = "GermaniumOrePowder";
+							break;
+						case CoalChunkBlock.Index:
+							text = "CoalPowder";
+							break;
+						default:
+						if (slotValue == ItemBlock.IdTable["GoldOreChunk"])
+	                    {
+	                        text = "GoldOrePowder";
+	                    }
+						else if (slotValue == ItemBlock.IdTable["SliverOreChunk"])
+	                    {
+	                        text = "SliverOrePowder";
+	                    }
+						else if (slotValue == ItemBlock.IdTable["PlatinumOreChunk"])
+	                    {
+	                        text = "PlatinumOrePowder";
+	                    }
+						else if (slotValue == ItemBlock.IdTable["LeadOreChunk"])
+	                    {
+	                        text = "LeadOrePowder";
+	                    }
+						else if (slotValue == ItemBlock.IdTable["ZincOreChunk"])
+	                    {
+	                        text = "ZincOrePowder";
+	                    }
+						else if (slotValue == ItemBlock.IdTable["StannaryChunk"])
+	                    {
+	                        text = "StannaryOrePowder";
+	                    }
+						else if (slotValue == ItemBlock.IdTable["ChromiumOreChunk"])
+	                    {
+	                        text = "ChromiumOrePowder";
+	                    }
+						else if (slotValue == ItemBlock.IdTable["NickelOreChunk"])
+	                    {
+	                        text = "NickelOrePowder";
+	                    }
+						break;
 					}
-					else if (slotValue == MalachiteChunkBlock.Index)
-					{
-						text = "CopperOrePowder";
-					}
-					else if (slotValue== GermaniumOreChunkBlock.Index)
-					{
-						text = "GermaniumOrePowder";
-					}
-					else if (slotValue == CoalChunkBlock.Index)
-					{
-						text = "CoalPowder";
-					}
-					else if (slotValue == ItemBlock.IdTable["GoldOreChunk"])
-                    {
-                        text = "GoldOrePowder";
-                    }
-					else if (slotValue == ItemBlock.IdTable["SliverOreChunk"])
-                    {
-                        text = "SliverOrePowder";
-                    }
-					else if (slotValue == ItemBlock.IdTable["PlatinumOreChunk"])
-                    {
-                        text = "PlatinumOrePowder";
-                    }
-					else if (slotValue == ItemBlock.IdTable["LeadOreChunk"])
-                    {
-                        text = "LeadOrePowder";
-                    }
-					else if (slotValue == ItemBlock.IdTable["ZincOreChunk"])
-                    {
-                        text = "ZincOrePowder";
-                    }
-					else if (slotValue == ItemBlock.IdTable["StannaryChunk"])
-                    {
-                        text = "StannaryOrePowder";
-                    }
-					else if (slotValue == ItemBlock.IdTable["ChromiumOreChunk"])
-                    {
-                        text = "ChromiumOrePowder";
-                    }
-					else if (slotValue == ItemBlock.IdTable["NickelOreChunk"])
-                    {
-                        text = "NickelOrePowder";
-                    }
                 }
 				else
 				{
