@@ -97,7 +97,7 @@ namespace Game
 			new Sheet(MetalType.Platinum),
 			new Sheet(MetalType.Aluminum),
 			new Mould("Models/Battery", "Battery", Matrix.CreateRotationX(MathUtils.PI / 2) * Matrix.CreateTranslation(0.5f, 0f, 0f), Matrix.CreateTranslation(0.8f, 0.8f, 0f) * Matrix.CreateScale(20f), "IndustrialMagnet", "IndustrialMagnet"),
-            new FireBrick()
+            new FireBrick(),
 			new Mould("Models/Battery", "Battery", Matrix.CreateRotationX(MathUtils.PI / 2) * Matrix.CreateTranslation(0.5f, 0.5f, 0f), Matrix.CreateTranslation(0.8f, 0.8f, 0f) * Matrix.CreateScale(20f), "IndustrialMagnet", "IndustrialMagnet"),
 			new Mould("Models/Battery", "Battery", Matrix.CreateTranslation(0f, -0.5f, 0f), Matrix.CreateTranslation(0.5f, 0.8f, 0f) * Matrix.CreateScale(20f), "CuZnBattery", "CuZnBattery"),
 			new Mould("Models/Battery", "Battery", Matrix.CreateTranslation(0f, -0.5f, 0f), Matrix.CreateTranslation(0.6f, 0.8f, 0f) * Matrix.CreateScale(20f), "AgZnBattery", "AgZnBattery"),
