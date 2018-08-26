@@ -1,6 +1,6 @@
 namespace Game
 {
-	public class FireBoxBlock : FourDirectionalBlock
+	public class FireBoxBlock : FurnaceNBlock
 	{
 		public override int GetFaceTextureSlot(int face, int value)
 		{
@@ -8,36 +8,36 @@ namespace Game
 			{
 				return 221;
 			}
-			int offset = value;
+			int offset = GetHeatLevel(value);
 			switch (Terrain.ExtractData(value))
 			{
 			case 0:
 				if (face == 0)
 				{
-					return 222;
+					return 222 + offset;
 				}
 				return 221;
 			case 1:
 				if (face == 1)
 				{
-					return 222;
+					return 222 + offset;
 				}
 				return 221;
 			case 2:
 				if (face == 2)
 				{
-					return 222;
+					return 222 + offset;
 				}
 				return 221;
 			default:
 				if (face == 3)
 				{
-					return 222;
+					return 222 + offset;
 				}
 				return 221;
 			}
 		}
 		
-		public const int Index = 532;
+		public new const int Index = 532;
 	}
 }

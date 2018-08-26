@@ -22,7 +22,7 @@ namespace Game
 		}
 		public static int GetHeatLevel(int value)
 		{
-			return Terrain.ExtractData(value) & 8;
+			return (Terrain.ExtractData(value) & 8) >> 3;
 		}
 
 		public static int SetHeatLevel(int data, int level)
