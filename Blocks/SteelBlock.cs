@@ -14,7 +14,8 @@ namespace Game
         {
             BasicMachineCase,
             SteelBlock,
-            SecondryMachineCase
+            SecondryMachineCase,
+            FireBrickWall
         }
         public override IEnumerable<int> GetCreativeValues()
         {
@@ -23,7 +24,7 @@ namespace Game
                 return base.GetCreativeValues();
             }
             var list = new List<int>(4);
-            for (int i = 0; i < 3; i++)
+            for (int i = 0; i < list.Capacity; i++)
             {
                 list.Add(Terrain.ReplaceData(Index, i));
             }
@@ -43,6 +44,9 @@ namespace Game
                     break;
                 case Type.SteelBlock:
                     color = Color.LightGray;
+                    break;
+                case Type.FireBrickWall:
+                    color = new Color(255,153,18);
                     break;
             }
             BlocksManager.DrawCubeBlock(primitivesRenderer, value, new Vector3(size), ref matrix, color, color, environmentData);
@@ -98,6 +102,8 @@ namespace Game
                     return "The Secondry case of some machine or device. Very heavy and durable. Extremely resilient to digging and explosions. Can be crafted from multiple steelplate.";
                 case Type.SteelBlock:
                     return "The block of steel. Very heavy and durable. Extremely resilient to digging and explosions. Can be crafted from multiple steel ingots.";
+                case Type.FireBrickWall:
+                    return "Fire Brick wall can be made by combining several fire bricks together and binding them with mortar. It is a versatile, strong and good looking industrial material.";
             }
             return string.Empty;
         }
@@ -111,6 +117,8 @@ namespace Game
                     return 107;
                 case Type.SteelBlock:
                     return 180;
+                case Type.FireBrickWall:
+                    return 39;
             }
             return 0;
         }

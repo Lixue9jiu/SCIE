@@ -206,6 +206,9 @@
     <Recipe Result="ScrapIron" ResultCount="3" RequiredHeatLevel="1" a="ironingot" Description="Smelt iron ingot to obtain steel and get rid of sulphur">
       "aaa"
     </Recipe>
+    <Recipe Result="FireBrick" ResultCount="6" RequiredHeatLevel="1500" a="clay" b="IronOrePowder" c="AluminumOrePowder" Description="Smelt clay,iron ore powder and aluminum ore powder to obtain fire brick">
+      "abc"
+    </Recipe>
     <Recipe Result="CopperIngotBlock" ResultCount="1" RequiredHeatLevel="1000" a="CopperOrePowder" Description="Smelt copper ore powder to obtain copper">
       "a"
     </Recipe>
@@ -393,6 +396,11 @@
       "abba"
       "abba"
       "aaaa"
+    </Recipe>
+    <Recipe Result="SteelBlock:3" ResultCount="1" RequiredHeatLevel="0" a="FireBrick" Description="Combine many fire brick to get fire brick wall">
+      "aaa"
+      "aaa"
+      "aaa"
     </Recipe>
   </Materials>
   <SteelTools>
