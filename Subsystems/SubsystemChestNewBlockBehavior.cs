@@ -34,7 +34,8 @@ namespace Game
 			{
 				case 0: name = "ChestNew"; break;
 				case 2: name = "Magnetizer"; break;
-				default: return;
+                case 3: name = "Seperator"; break;
+                default: return;
 			}
 			var valuesDictionary = new ValuesDictionary();
 			valuesDictionary.PopulateFromDatabaseObject(Project.GameDatabase.Database.FindDatabaseObject(name, Project.GameDatabase.EntityTemplateType, true));
@@ -44,7 +45,7 @@ namespace Game
 
 		public override void OnBlockRemoved(int value, int newValue, int x, int y, int z)
 		{
-			if ((Terrain.ExtractData(value) & 32767) != 0 || (Terrain.ExtractData(value) & 32767) != 2)
+			if ((Terrain.ExtractData(value) & 32767) != 0 || (Terrain.ExtractData(value) & 32767) != 2 || (Terrain.ExtractData(value) & 32767) != 3)
 			{
 				return;
 			}
@@ -84,6 +85,17 @@ namespace Game
                 componentMiner.ComponentPlayer.ComponentGui.ModalPanelWidget = new MagnetizerWidget(componentMiner.Inventory, componentChestNew);
                 AudioManager.PlaySound("Audio/UI/ButtonClick", 1f, 0f, 0f);
             }
+            if ((Terrain.ExtractData(raycastResult.Value) & 32767) == 3)
+            {
+                ComponentBlockEntity blockEntity = m_subsystemBlockEntities.GetBlockEntity(raycastResult.CellFace.X, raycastResult.CellFace.Y, raycastResult.CellFace.Z);
+                if (blockEntity == null || componentMiner.ComponentPlayer == null)
+                {
+                    return false;
+                }
+                ComponentSeperator componentChestNew = blockEntity.Entity.FindComponent<ComponentSeperator>(true);
+                componentMiner.ComponentPlayer.ComponentGui.ModalPanelWidget = new SeperatorWidget(componentMiner.Inventory, componentChestNew);
+                AudioManager.PlaySound("Audio/UI/ButtonClick", 1f, 0f, 0f);
+            }
             return true;
         }
 
@@ -94,6 +106,10 @@ namespace Game
 				return;
 			}
             if ((Terrain.ExtractData(SubsystemTerrain.Terrain.GetCellValue(cellFace.X, cellFace.Y, cellFace.Z)) & 32767) == 2)
+            {
+                return;
+            }
+            if ((Terrain.ExtractData(SubsystemTerrain.Terrain.GetCellValue(cellFace.X, cellFace.Y, cellFace.Z)) & 32767) == 3)
             {
                 return;
             }

@@ -77,6 +77,7 @@
     <Compile Include="Components\ComponentLargeCraftingTable.cs" />
     <Compile Include="Components\ComponentMachine.cs" />
     <Compile Include="Components\ComponentMagnetizer.cs" />
+    <Compile Include="Components\ComponentSeperator.cs" />
     <Compile Include="Components\ComponentSqueezer.cs" />
     <Compile Include="Blocks\OreChunk.cs" />
     <Compile Include="Blocks\OrePowder.cs" />
@@ -95,6 +96,7 @@
     <Compile Include="Widgets\MachineToolWidget.cs" />
     <Compile Include="Widgets\MagnetizerWidget.cs" />
     <Compile Include="Widgets\NewCraftingRecipeWidget.cs" />
+    <Compile Include="Widgets\SeperatorWidget.cs" />
     <Compile Include="Widgets\SqueezerWidget.cs" />
     <Compile Include="Subsystems\SubsystemSqueezerBlockBehavior.cs" />
     <Compile Include="Widgets\CastMachWidget.cs" />

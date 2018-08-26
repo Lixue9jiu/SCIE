@@ -5,15 +5,17 @@ using TemplatesDatabase;
 
 namespace Game
 {
-	public class ComponentPresserNN : ComponentMachine, IUpdateable
+	public class ComponentSeperator : ComponentMachine, IUpdateable
 	{
 		protected float m_fireTimeRemaining;
 
 		protected int m_furnaceSize;
 
-		protected readonly string[] m_matchedIngredients = new string[9];
+		protected readonly int[] m_matchedIngredients = new int[9];
 
-		protected string m_smeltingRecipe;
+        protected readonly int[] result = new int[3];
+
+        protected string m_smeltingRecipe;
 
 		protected SubsystemAudio m_subsystemAudio;
 
@@ -80,33 +82,6 @@ namespace Game
 					//m_music = 0;
 				}
 			}
-			if (m_smeltingRecipe2 != null)
-			{
-				int num = 0;
-				for (int i = -1; i < 2; i++)
-				{
-					for (int j = -1; j < 2; j++)
-					{
-						for (int k = -1; k < 2; k++)
-						{
-							int cellContents = m_subsystemTerrain.Terrain.GetCellContents(coordinates.X + i, coordinates.Y + j, coordinates.Z + k);
-							if (i * i + j * j + k * k <= 1 && (cellContents == LitEngineBlock.Index || cellContents == LitEngineHBlock.Index))
-							{
-								num = 1;
-								break;
-							}
-						}
-					}
-				}
-				if (num == 0)
-				{
-					m_smeltingRecipe = null;
-				}
-				if (num == 1 && m_smeltingRecipe == null)
-				{
-					m_smeltingRecipe = m_smeltingRecipe2;
-				}
-			}
 			if (m_smeltingRecipe == null)
 			{
 				HeatLevel = 0f;
@@ -127,29 +102,37 @@ namespace Game
 			}
 			if (m_smeltingRecipe != null)
 			{
-				SmeltingProgress = MathUtils.Min(SmeltingProgress + 0.01f * dt, 1f);
+				SmeltingProgress = MathUtils.Min(SmeltingProgress + 0.1f * dt, 1f);
 				if (SmeltingProgress >= 1f)
 				{
-					for (int l = 0; l < m_furnaceSize; l++)
-					{
-						if (m_slots[l].Count > 0)
-						{
-							m_slots[l].Count--;
-						}
-					}
-					int value = 0;
-					m_slots[ResultSlotIndex].Value = ItemBlock.IdTable[m_smeltingRecipe];
-					m_slots[ResultSlotIndex].Count++;
-					m_smeltingRecipe = null;
-					SmeltingProgress = 0f;
-					m_updateSmeltingRecipe = true;
+                   
+                        if (m_slots[0].Count > 0)
+                        {
+                            m_slots[0].Count--;
+                        }
+                    for (int jk = 0; jk < 3; jk++)
+                    {
+                        if (result[jk] != 0)
+                        {
+                            int value = result[jk];
+                            m_slots[1 + jk].Value = value;
+                            m_slots[1 + jk].Count++;
+                            m_smeltingRecipe = null;
+                            SmeltingProgress = 0f;
+                            m_updateSmeltingRecipe = true;
+                        }
+                    }
 				}
 			}
 		}
 
 		public override int GetSlotCapacity(int slotIndex, int value)
 		{
-			if (slotIndex != FuelSlotIndex || BlocksManager.Blocks[Terrain.ExtractContents(value)].FuelHeatLevel > 0f)
+			if (slotIndex != FuelSlotIndex)
+			{
+				return base.GetSlotCapacity(slotIndex, value);
+			}
+			if (BlocksManager.Blocks[Terrain.ExtractContents(value)].FuelHeatLevel > 0f)
 			{
 				return base.GetSlotCapacity(slotIndex, value);
 			}
@@ -187,31 +170,49 @@ namespace Game
 
 		protected string FindSmeltingRecipe(float heatLevel)
 		{
-			string text = null;
-			for (int i = 0; i < m_furnaceSize; i++)
+            string text = null;
+            result[0] = 0;
+            result[1] = 0;
+            result[2] = 0;
+            for (int i = 0; i < m_furnaceSize; i++)
 			{
 				int slotValue = GetSlotValue(i);
 				int num = Terrain.ExtractContents(slotValue);
 				int num2 = Terrain.ExtractData(slotValue);
 				if (GetSlotCount(i) > 0)
 				{
-					if (slotValue == ItemBlock.IdTable["SteelRod"])
-					{
-						text = "RifleBarrel";
-					}
-				}
+                    if (slotValue == DirtBlock.Index)
+                    {
+                        text = "success";
+                        result[0] = SandBlock.Index;
+                        result[1] = StoneChunkBlock.Index;
+                        int num3 = m_random.UniformInt(0,4);
+                        if (num3==0)
+                        {
+                            result[2] = SaltpeterChunkBlock.Index;
+                        }
+                        if (num3==1)
+                        {
+                            result[2] = ItemBlock.IdTable["AluminumOrePowder"];
+                        }
+
+                    }
+                }
 				else
 				{
-					m_matchedIngredients[i] = null;
+
 				}
 			}
-			if (text != null)
-			{
-				Slot slot = m_slots[ResultSlotIndex];
-				if (slot.Count != 0 && (slot.Value != ItemBlock.IdTable[text] || 1 + slot.Count > 40))
-				{
-					text = null;
-				}
+            if (text != null)
+            {
+                for (int ik = 0; ik < 3; ik++)
+                { 
+                Slot slot = m_slots[1 + ik];
+                if (slot.Count != 0 && result[ik] != 0 && (slot.Value != result[ik] || 1 + slot.Count > 40))
+                {
+                    text = null;
+                }
+               }
 			}
 			return text;
 		}
