@@ -78,7 +78,6 @@ namespace Game
 				}
 				else
 				{
-					Log.Information(BlocksManager.Blocks[Terrain.ExtractContents(worldItem.Value)].DefaultDropContent.ToString());
 					if (worldItem.Velocity.Length() >= 20f && BlocksManager.Blocks[Terrain.ExtractContents(worldItem.Value)].DefaultDropContent == 5)
 					{
 						m_subsystemProjectiles.FireProjectile(BlocksManager.Blocks[Terrain.ExtractContents(worldItem.Value)].DefaultDropContent, position, -20f * v, Vector3.Zero, null);

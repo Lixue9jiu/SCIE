@@ -41,7 +41,7 @@ namespace Game
 		{
 			get
 			{
-				return SlotsCount;
+				return SlotsCount-2;
 			}
 		}
 
@@ -198,7 +198,7 @@ namespace Game
 				int num2 = Terrain.ExtractData(slotValue);
 				if (GetSlotCount(i) > 0 && GetSlotValue(i)== ItemBlock.IdTable["SteelIngot"])
 				{
-					
+                    text = "IndustrialMagnet";
                 }
 				else
 				{
@@ -208,7 +208,6 @@ namespace Game
 			if (text != null)
 			{
 				Slot slot = m_slots[ResultSlotIndex];
-				int num3 = Terrain.ExtractContents(GetSlotValue(1));
 				if (slot.Count != 0 && (slot.Value!= ItemBlock.IdTable[text] || 1 + slot.Count > 40))
 				{
 					text = null;

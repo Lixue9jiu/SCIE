@@ -121,7 +121,8 @@ namespace Game
 				new Fridge(),
 				new Generator(),
                 new Magnetizer(),
-                new Separator()
+                new Separator(),
+                new AirBlower()
             };
 			for (int i = 0; i < Devices.Length; i++)
 			{

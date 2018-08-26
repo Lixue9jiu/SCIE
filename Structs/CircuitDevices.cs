@@ -640,6 +640,62 @@ namespace Game
             return "A Separator is a device to separate matarial by high frequency rotation, it is a shrinking version of centrifuge.";
         }
     }
+
+    public class AirBlower : FixedDevice
+    {
+        public AirBlower() : base(3000)
+        {
+        }
+        public override int GetFaceTextureSlot(int face, int value)
+        {
+            if (face == 4 || face == 5)
+            { 
+                return 107;
+            
+            }else
+            {
+                return 220;
+            }
+        }
+        public override BlockPlacementData GetPlacementValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, TerrainRaycastResult raycastResult)
+        {
+            Vector3 forward = Matrix.CreateFromQuaternion(componentMiner.ComponentCreature.ComponentCreatureModel.EyeRotation).Forward;
+            float num = Vector3.Dot(forward, Vector3.UnitZ);
+            float num2 = Vector3.Dot(forward, Vector3.UnitX);
+            float num3 = Vector3.Dot(forward, -Vector3.UnitZ);
+            float num4 = Vector3.Dot(forward, -Vector3.UnitX);
+            int data = 0;
+            float max = MathUtils.Max(num, num2, num3, num4);
+            if (num == max)
+            {
+                data = 2;
+            }
+            else if (num2 == max)
+            {
+                data = 3;
+            }
+            else if (num3 == max)
+            {
+                data = 0;
+            }
+            else if (num4 == max)
+            {
+                data = 1;
+            }
+            BlockPlacementData result = default(BlockPlacementData);
+            result.Value = Terrain.ReplaceData(ElementBlock.Index, data << 15 | 4);
+            result.CellFace = raycastResult.CellFace;
+            return result;
+        }
+        public override string GetDisplayName(SubsystemTerrain subsystemTerrain, int value)
+        {
+            return "AirBlower";
+        }
+        public override string GetDescription(int value)
+        {
+            return "AirBlower is a device to transfer air into some big machine that need a large amount of hot air.";
+        }
+    }
     /*public abstract class Diode : Element
 	{
 		public int MaxVoltage;
