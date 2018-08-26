@@ -373,16 +373,27 @@
     </Recipe>
   </Smelting>
   <Materials>
-    <Recipe Result="SteelBlock" ResultCount="1" RequiredHeatLevel="0" a="SteelIngot" Description="Combine many steel ingots to get the basic machine case">
+    <Recipe Result="SteelBlock:0" ResultCount="1" RequiredHeatLevel="0" a="SteelIngot" Description="Combine many steel ingots to get the basic machine case">
       "aaa"
       "a a"
       "aaa"
      </Recipe>
-    <Recipe Result="SteelBlock" ResultCount="1" RequiredHeatLevel="0" a="IronPlate" Description="Combine many steel ingots to get the basic machine case">
+    <Recipe Result="SteelBlock:0" ResultCount="1" RequiredHeatLevel="0" a="IronPlate" Description="Combine many IronPlate to get the basic machine case">
       "aaa"
       "a a"
       "aaa"
+     </Recipe>
+    <Recipe Result="SteelBlock:1" ResultCount="1" RequiredHeatLevel="0" a="SteelIngot" Description="Combine many steel ingots to get the basic machine case">
+      "aaa"
+      "aaa"
+      "aaa"
     </Recipe>
+    <Recipe Result="SteelBlock:2" ResultCount="1" RequiredHeatLevel="0" a="SteelPlate" b="CopperPlate" Description="Combine many SteelPlate to get the Secondery machine case">
+      "aaaa"
+      "abba"
+      "abba"
+      "aaaa"
+     </Recipe>
   </Materials>
   <SteelTools>
     <Recipe Result="SteelShovelBlock" ResultCount="1" RequiredHeatLevel="0" a="stick" b="SteelIngot" Description="Make an steel tool">
@@ -491,17 +502,17 @@
       "aca"
       "aba"
     </Recipe>
-    <Recipe Result="DispenserNewBlock" ResultCount="1" RequiredHeatLevel="0" a="SteelGear" b="piston" c="steelblock" d="SteelRod" e="diamond" f="dispenser" Description="Make an auto driller to mining">
+    <Recipe Result="DispenserNewBlock" ResultCount="1" RequiredHeatLevel="0" a="SteelGear" b="piston" c="steelblock:0" d="SteelRod" e="diamond" f="dispenser" Description="Make an auto driller to mining">
       "dbf"
       "dcd"
       "aea"
     </Recipe>
-    <Recipe Result="DispenserNew2Block" ResultCount="1" RequiredHeatLevel="0" a="tank" b="IndustrialPiston" c="steelblock" d="SteelGear"  Description="Make a liquid pump to pump liquid">
+    <Recipe Result="DispenserNew2Block" ResultCount="1" RequiredHeatLevel="0" a="tank" b="IndustrialPiston" c="steelblock:0" d="SteelGear"  Description="Make a liquid pump to pump liquid">
       "dbd"
       "aca"
       "ada"
     </Recipe>
-    <Recipe Result="DispenserNBlock" ResultCount="1" RequiredHeatLevel="0" a="SteelGear" b="IndustrialPiston" c="steelblock" d="SteelRod" e="diamond" Description="Make an auto crusher to crush ore">
+    <Recipe Result="DispenserNBlock" ResultCount="1" RequiredHeatLevel="0" a="SteelGear" b="IndustrialPiston" c="steelblock:0" d="SteelRod" e="diamond" Description="Make an auto crusher to crush ore">
       "aba"
       "ded"
       "aca"
@@ -516,7 +527,7 @@
       "ada"
       "aba"
     </Recipe>
-    <Recipe Result="EngineBlock" ResultCount="1" RequiredHeatLevel="0" a="SteelGear" b="IndustrialPiston" c="steelblock" d="furnace" e="SteelRod" Description="Make a steam engine to enter the industrial era">
+    <Recipe Result="EngineBlock" ResultCount="1" RequiredHeatLevel="0" a="SteelGear" b="IndustrialPiston" c="steelblock:0" d="furnace" e="SteelRod" Description="Make a steam engine to enter the industrial era">
       "aba"
       "ece"
       "ada"
@@ -526,17 +537,17 @@
       "a a"
       "aaa"
     </Recipe>
-    <Recipe Result="EngineHBlock" ResultCount="1" RequiredHeatLevel="0" a="tank" b="IndustrialPiston" c="steelblock" d="furnace" e="SteelRod" Description="Make a stirling engine">
+    <Recipe Result="EngineHBlock" ResultCount="1" RequiredHeatLevel="0" a="tank" b="IndustrialPiston" c="steelblock:0" d="furnace" e="SteelRod" Description="Make a stirling engine">
       "beb"
       "ece"
       "ada"
     </Recipe>
-    <Recipe Result="PresserBlock" ResultCount="1" RequiredHeatLevel="0" a="SteelGear" b="IndustrialPiston" c="steelblock" Description="Make a Presser to create metal plate">
+    <Recipe Result="PresserBlock" ResultCount="1" RequiredHeatLevel="0" a="SteelGear" b="IndustrialPiston" c="steelblock:0" Description="Make a Presser to create metal plate">
       "aba"
       "aca"
       "aba"
      </Recipe>
-     <Recipe Result="SqueezerBlock" ResultCount="1" RequiredHeatLevel="0" a="SteelGear" b="IndustrialPiston" c="steelblock" Description="Make a Squeezer to create metal line">
+     <Recipe Result="SqueezerBlock" ResultCount="1" RequiredHeatLevel="0" a="SteelGear" b="IndustrialPiston" c="steelblock:0" Description="Make a Squeezer to create metal line">
       "aba"
       "bcb"
       "aba"
@@ -551,12 +562,12 @@
       "aaa"
       "bab"
      </Recipe>
-    <Recipe Result="PresserNBlock" ResultCount="1" RequiredHeatLevel="0" a="IronPlate" b="IndustrialPiston" c="steelblock" d="SteelGear" Description="Make a Kinbbler to create ore powder">
+    <Recipe Result="PresserNBlock" ResultCount="1" RequiredHeatLevel="0" a="IronPlate" b="IndustrialPiston" c="steelblock:0" d="SteelGear" Description="Make a Kinbbler to create ore powder">
       "bab"
       "dcd"
       "aba"
     </Recipe>
-    <Recipe Result="PresserNNBlock" ResultCount="1" RequiredHeatLevel="0" a="SteelRod" b="IndustrialPiston" c="steelblock" d="SteelIngot" e="SteelGear" Description="Make a Rifling Machine to create rifle barrel">
+    <Recipe Result="PresserNNBlock" ResultCount="1" RequiredHeatLevel="0" a="SteelRod" b="IndustrialPiston" c="steelblock:0" d="SteelIngot" e="SteelGear" Description="Make a Rifling Machine to create rifle barrel">
       "bad"
       "dcd"
       "eee"
@@ -576,7 +587,7 @@
       "aba"
       "aaa"
     </Recipe>
-    <Recipe Result="BlastBlowerBlock" ResultCount="1" RequiredHeatLevel="0" a="rod" b="piston" c="steelblock" d="IronPlate" e="SteelGear" Description="Make a Blast Furnace Blower">
+    <Recipe Result="BlastBlowerBlock" ResultCount="1" RequiredHeatLevel="0" a="rod" b="piston" c="steelblock:0" d="IronPlate" e="SteelGear" Description="Make a Blast Furnace Blower">
       "bad"
       "bad"
       "ece"
@@ -586,7 +597,7 @@
       "aba"
       "aaa"
     </Recipe>
-    <Recipe Result="MachineToolBlock" ResultCount="1" RequiredHeatLevel="0" a="SteelGear" b="SteelRod" c="drill:0" d="steelmachete" e="steelblock" Description="Make a MachineTool to craft more industrial items">
+    <Recipe Result="MachineToolBlock" ResultCount="1" RequiredHeatLevel="0" a="SteelGear" b="SteelRod" c="drill:0" d="steelmachete" e="steelblock:0" Description="Make a MachineTool to craft more industrial items">
       "aca"
       "beb"
       "ada"
@@ -646,18 +657,24 @@
     <Recipe Result="MagnetBlock:480" ResultCount="1" RequiredHeatLevel="0" a="magnet:0" Description="Make a Cross Magnet from magnet">
       "aaaa"
     </Recipe>
-    <Recipe Result="Generator" ResultCount="1" RequiredHeatLevel="0" a="CopperWire" b="magnet:480" c="SteelPlate" d="SteelGear" e="steelblock" Description="Make a Direct Current Dynamo to enter the electricity era.">
+    <Recipe Result="Generator" ResultCount="1" RequiredHeatLevel="0" a="CopperWire" b="magnet:480" c="SteelPlate" d="SteelGear" e="steelblock:0" Description="Make a Direct Current Dynamo to enter the electricity era.">
       "caac"
       "adda"
       "aeba"
       "caac"
     </Recipe>
-    <Recipe Result="CReactorBlock" ResultCount="1" RequiredHeatLevel="0" a="tank" b="SteelPlate" c="CopperRod" d="steelblock" Description="Make a Chemical Reactor to get chemical product.">
+    <Recipe Result="Separator" ResultCount="1" RequiredHeatLevel="0" a="CopperWire" b="SteelRod" c="SteelPlate" d="SteelGear" e="steelblock:2" f="Generator" g="tank" Description="Make a Direct Current Dynamo to enter the electricity era.">
+      "cggc"
+      "cbbc"
+      "ceac"
+      "cafa"
+    </Recipe>
+    <Recipe Result="CReactorBlock" ResultCount="1" RequiredHeatLevel="0" a="tank" b="SteelPlate" c="CopperRod" d="steelblock:0" Description="Make a Chemical Reactor to get chemical product.">
       "bbb"
       "cdc"
       "aaa"
     </Recipe>
-    <Recipe Result="Magnetizer" ResultCount="1" RequiredHeatLevel="0" a="steelblock" b="CopperWire" c="SteelRod" d="furnace" Description="Make a Magnetizer to creat industrial magnet.">
+    <Recipe Result="Magnetizer" ResultCount="1" RequiredHeatLevel="0" a="steelblock:0" b="CopperWire" c="SteelRod" d="furnace" Description="Make a Magnetizer to creat industrial magnet.">
       "bbb"
       "bab"
       "cdc"
