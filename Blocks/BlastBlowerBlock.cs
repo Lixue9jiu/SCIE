@@ -24,7 +24,7 @@ namespace Game
 			}*/
 			return new BlockPlacementData
 			{
-				Value = Terrain.MakeBlockValue(Index, 0, 0),
+				Value = Terrain.MakeBlockValue(Index),
 				CellFace = raycastResult.CellFace
 			};
 		}

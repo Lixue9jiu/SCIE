@@ -13,7 +13,7 @@ namespace Game
 		{
 			get
 			{
-				return new int[1]
+				return new []
 				{
 					ElementBlock.Index
 				};

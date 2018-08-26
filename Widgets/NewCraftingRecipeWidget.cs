@@ -53,7 +53,7 @@ namespace Game
 					m_resultWidget.SetResult(0, 0);
 				}
 			}
-			Vector2 vector = Vector2.Zero;
+			var vector = Vector2.Zero;
 			if (Size.X >= 0f)
 			{
 				parentAvailableSize.X = MathUtils.Min(parentAvailableSize.X, Size.X);

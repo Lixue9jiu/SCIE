@@ -20,9 +20,9 @@ namespace Game
 		{
 			get
 			{
-				return new int[]
+				return new []
 				{
-					505
+					DispenBlock.Index
 				};
 			}
 		}

@@ -49,6 +49,32 @@ namespace Game
 				}
 			}
 		}
+		public static int GetDirectionXZ(ComponentMiner componentMiner)
+		{
+			Vector3 forward = Matrix.CreateFromQuaternion(componentMiner.ComponentCreature.ComponentCreatureModel.EyeRotation).Forward;
+			float num = Vector3.Dot(forward, Vector3.UnitZ);
+			float num2 = Vector3.Dot(forward, Vector3.UnitX);
+			float num3 = Vector3.Dot(forward, -Vector3.UnitZ);
+			float num4 = Vector3.Dot(forward, -Vector3.UnitX);
+			float max = MathUtils.Max(num, num2, num3, num4);
+			if (num == max)
+			{
+				return 2;
+			}
+			else if (num2 == max)
+			{
+				return 3;
+			}
+			else if (num3 == max)
+			{
+				return 0;
+			}
+			else if (num4 == max)
+			{
+				return 1;
+			}
+			return 0;
+		}
 		/*public static void Push<T>(this DynamicArray<T> array, T item)
 		{
 			if (array.m_count >= array.Capacity)

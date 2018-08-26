@@ -12,7 +12,7 @@ namespace Game
 		{
 			get
 			{
-				return new int[]
+				return new []
 				{
 					17,
 					31,

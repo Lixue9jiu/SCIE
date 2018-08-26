@@ -33,7 +33,7 @@
       <MemberComponentTemplate Name="BoatITable" Guid="e82420a9-10c6-4a2c-9ea5-725fffee2229" InheritanceParent="98fdc8bb-8ca8-4d0f-af8d-25bfe9b56a19">
           <Parameter Name="SlotsCount" Guid="3ddd5623-a4c0-4ad5-85f8-813ef26dae6b" Value="19" Type="int" />
        </MemberComponentTemplate>
-      <MemberComponentTemplate Name="SimpleModel2" Guid="459a8ad1-0db8-4604-9ee8-8504dbd3c7b1" InheritanceParent="fc5a4e72-0df9-4acf-a42e-ecb5a2a7baf4">
+      <MemberComponentTemplate Name="SimpleModel" Guid="459a8ad1-0db8-4604-9ee8-8504dbd3c7b1" InheritanceParent="cc5a4e72-0df9-4acf-a42e-ecb5a2a7baf4">
         <Parameter Name="ModelName" Guid="fe4ed206-297f-47ca-950a-930ea7d6e881" Value="Models/SteamBoat" Type="string" />
         <Parameter Name="CastsShadow" Guid="fed4af6d-a7de-46d9-8d02-55d0b08a157b" Value="True" Type="bool" />
         <Parameter Name="TextureOverride" Guid="ffe056e5-037a-4504-a9fe-baf88d835b11" Value="Textures/SteamBoat" Type="string" />

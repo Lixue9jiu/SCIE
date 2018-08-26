@@ -39,7 +39,7 @@ namespace Game
 		}
 		public static int DamageItem(int value, int damageCount)
 		{
-			Block block = BlocksManager.Blocks[Terrain.ExtractContents(value)];
+			var block = BlocksManager.Blocks[Terrain.ExtractContents(value)];
 			if (block.Durability < 0)
 			{
 				return value;
@@ -154,7 +154,7 @@ namespace Game
 
 		protected static bool MatchRecipe(string[] requiredIngredients, string[] actualIngredients)
 		{
-			string[] array = new string[36];
+			var array = new string[36];
 			for (int i = 0; i < 2; i++)
 			{
 				for (int j = 0; j <= 6; j++)

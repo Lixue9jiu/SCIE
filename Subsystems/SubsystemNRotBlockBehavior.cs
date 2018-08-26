@@ -9,7 +9,7 @@ namespace Game
 		{
 			get
 			{
-				return new int[]{ BasaltBlock.Index };
+				return new []{ BasaltBlock.Index };
 			}
 		}
 

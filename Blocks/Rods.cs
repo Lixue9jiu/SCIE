@@ -1,5 +1,6 @@
 using Engine;
 using Engine.Graphics;
+using System.Globalization;
 
 namespace Game
 {
@@ -18,7 +19,7 @@ namespace Game
 			{
 				return;
 			}
-			DefaultDisplayName = char.ToUpper(name[0]) + name.Substring(1) + "Rod";
+			DefaultDisplayName = char.ToUpper(name[0], CultureInfo.CurrentCulture) + name.Substring(1) + "Rod";
 			DefaultTextureSlot = 227;
 			DefaultDescription = "Rods are made by forging " + name + " into shape. They are useful for making many things.";
 		}

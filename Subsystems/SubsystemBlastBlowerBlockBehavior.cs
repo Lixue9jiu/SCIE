@@ -8,7 +8,7 @@ namespace Game
 		{
 			get
 			{
-				return new int[]
+				return new []
 				{
 					BlastBlowerBlock.Index
 				};

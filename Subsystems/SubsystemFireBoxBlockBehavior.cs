@@ -10,7 +10,7 @@ namespace Game
 		{
 			get
 			{
-				return new int[]
+				return new []
 				{
 					FireBoxBlock.Index,
 					LitFireBoxBlock.Index

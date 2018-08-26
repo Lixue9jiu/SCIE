@@ -17,7 +17,7 @@ namespace Game
 		{
 			get
 			{
-				return new int[]
+				return new []
 				{
 					DispenserNewBlock.Index
 				};

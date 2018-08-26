@@ -14,7 +14,7 @@ namespace Game
 		{
 			get
 			{
-				return new int[]
+				return new []
 				{
 					LitEngineHBlock.Index,
 					EngineHBlock.Index

@@ -10,9 +10,9 @@ namespace Game
 		{
 			get
 			{
-				return new int[]
+				return new []
 				{
-					534
+					MachineToolBlock.Index
 				};
 			}
 		}
