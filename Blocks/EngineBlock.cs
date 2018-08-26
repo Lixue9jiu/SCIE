@@ -1,8 +1,8 @@
 namespace Game
 {
-	public class EngineBlock : FourDirectionalBlock
+	public class EngineBlock : FurnaceNBlock
 	{
-		public const int Index = 504;
+		public new const int Index = 504;
 
 		public override int GetFaceTextureSlot(int face, int value)
 		{
