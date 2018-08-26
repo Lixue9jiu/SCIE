@@ -487,8 +487,7 @@ namespace Game
 		}
 	}
 
-
-    public class  Magnetizer : FixedDevice
+    public class Magnetizer : FixedDevice
     {
         public Magnetizer() : base(1000)
         {

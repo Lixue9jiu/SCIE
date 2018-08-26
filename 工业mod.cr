@@ -79,124 +79,124 @@
     </Recipe>
     <Recipe Result="IronIngotBlock" ResultCount="1" RequiredHeatLevel="1500" a="IronOrePowder" Description="Smelt iron ore powder to obtain iron">
       "a"
-     </Recipe>
+    </Recipe>
     <Recipe Result="GoldIngot" ResultCount="1" RequiredHeatLevel="1100" a="GoldOrePowder" Description="Smelt gold ore powder to obtain gold">
       "a"
-     </Recipe>
+    </Recipe>
     <Recipe Result="GoldIngot" ResultCount="1" RequiredHeatLevel="1100" a="GoldRod" Description="Smelt gold rod to obtain gold">
       "a"
-     </Recipe>
+    </Recipe>
     <Recipe Result="GoldIngot" ResultCount="1" RequiredHeatLevel="1100" a="GoldOreChunk" Description="Smelt gold ore chunk to obtain gold">
       "a"
-     </Recipe>
+    </Recipe>
     <Recipe Result="GoldIngot" ResultCount="4" RequiredHeatLevel="1100" a="GoldOreChunk" Description="Smelt Gold ore to obtain gold">
       "aaa"
-     </Recipe>
+    </Recipe>
     <Recipe Result="GoldOreChunk" ResultCount="1" RequiredHeatLevel="1" a="GoldOreChunk" Description="Smelt gold ore chunk to obtain gold">
       "a"
-     </Recipe>
+    </Recipe>
     <Recipe Result="GoldOreChunk" ResultCount="3" RequiredHeatLevel="1" a="GoldOreChunk" Description="Smelt Gold ore to obtain gold">
       "aaa"
-     </Recipe>
+    </Recipe>
     <Recipe Result="SliverIngot" ResultCount="1" RequiredHeatLevel="900" a="SliverOrePowder" Description="Smelt Sliver ore powder to obtain sliver">
       "a"
-     </Recipe>
+    </Recipe>
     <Recipe Result="SliverIngot" ResultCount="1" RequiredHeatLevel="900" a="SliverRod" Description="Smelt Sliver rod to obtain sliver">
       "a"
-     </Recipe>
+    </Recipe>
     <Recipe Result="SliverIngot" ResultCount="1" RequiredHeatLevel="900" a="SliverOreChunk" Description="Smelt sliver ore chunk to obtain sliver">
       "a"
-     </Recipe>
+    </Recipe>
     <Recipe Result="SliverIngot" ResultCount="4" RequiredHeatLevel="900" a="SliverOreChunk" Description="Smelt sliver ore to obtain sliver">
       "aaa"
-     </Recipe>
+    </Recipe>
     <Recipe Result="SliverOreChunk" ResultCount="1" RequiredHeatLevel="1" a="SliverOreChunk" Description="Smelt sliver ore chunk to obtain sliver">
       "a"
-     </Recipe>
+    </Recipe>
     <Recipe Result="SliverOreChunk" ResultCount="3" RequiredHeatLevel="1" a="SliverOreChunk" Description="Smelt sliver ore to obtain sliver">
       "aaa"
-     </Recipe>
+    </Recipe>
     <Recipe Result="PlatinumIngot" ResultCount="1" RequiredHeatLevel="1800" a="PlatinumOrePowder" Description="Smelt Platinum ore powder to obtain Platinum">
       "a"
-     </Recipe>
+    </Recipe>
     <Recipe Result="PlatinumIngot" ResultCount="1" RequiredHeatLevel="1800" a="PlatinumRod" Description="Smelt Platinum rod to obtain Platinum">
       "a"
-     </Recipe>
+    </Recipe>
     <Recipe Result="PlatinumIngot" ResultCount="1" RequiredHeatLevel="1800" a="PlatinumOreChunk" Description="Smelt Platinum ore chunk to obtain Platinum">
       "a"
-     </Recipe>
+    </Recipe>
     <Recipe Result="PlatinumIngot" ResultCount="4" RequiredHeatLevel="1800" a="PlatinumOreChunk" Description="Smelt Platinum ore to obtain Platinum">
       "aaa"
-     </Recipe>
+    </Recipe>
     <Recipe Result="PlatinumOreChunk" ResultCount="1" RequiredHeatLevel="1" a="PlatinumOreChunk" Description="Smelt Platinum ore chunk to obtain Platinum">
       "a"
-     </Recipe>
+    </Recipe>
     <Recipe Result="PlatinumOreChunk" ResultCount="3" RequiredHeatLevel="1" a="PlatinumOreChunk" Description="Smelt Platinum ore to obtain Platinum">
       "aaa"
-     </Recipe>
+    </Recipe>
     <Recipe Result="LeadIngot" ResultCount="1" RequiredHeatLevel="300" a="LeadOrePowder" Description="Smelt Lead ore powder to obtain Lead">
       "a"
-     </Recipe>
+    </Recipe>
     <Recipe Result="LeadIngot" ResultCount="1" RequiredHeatLevel="300" a="LeadRod" Description="Smelt Lead rod to obtain Lead">
       "a"
-     </Recipe>
+    </Recipe>
     <Recipe Result="LeadIngot" ResultCount="1" RequiredHeatLevel="300" a="LeadOreChunk" Description="Smelt Lead ore chunk to obtain Lead">
       "a"
-     </Recipe>
+    </Recipe>
     <Recipe Result="LeadIngot" ResultCount="4" RequiredHeatLevel="300" a="LeadOreChunk" Description="Smelt Lead ore to obtain Lead">
       "aaa"
-     </Recipe>
+    </Recipe>
     <Recipe Result="LeadOreChunk" ResultCount="1" RequiredHeatLevel="1" a="LeadOreChunk" Description="Smelt Lead ore chunk to obtain Lead">
       "a"
-     </Recipe>
+    </Recipe>
     <Recipe Result="LeadOreChunk" ResultCount="3" RequiredHeatLevel="1" a="LeadOreChunk" Description="Smelt Lead ore to obtain Lead">
       "aaa"
-     </Recipe>
+    </Recipe>
     <Recipe Result="ZincIngot" ResultCount="1" RequiredHeatLevel="800" a="ZincOrePowder" b="coalpowder" Description="Smelt Zinc ore powder to obtain Zinc">
       "abb"
-     </Recipe>
+    </Recipe>
     <Recipe Result="ZincOrePowder" ResultCount="1" RequiredHeatLevel="1" a="ZincOrePowder" b="coalpowder" Description="Smelt Zinc ore powder to obtain Zinc">
       "abb"
-     </Recipe>
+    </Recipe>
     <Recipe Result="NickelIngot" ResultCount="1" RequiredHeatLevel="1200" a="NickelOrePowder" b="coalpowder" c="pigment" Description="Smelt Nickel ore powder to obtain Nickel">
       "abc"
-     </Recipe>
+    </Recipe>
     <Recipe Result="StannaryIngot" ResultCount="1" RequiredHeatLevel="300" a="StannaryOrePowder" Description="Smelt Stannary ore powder to obtain Stannary">
       "a"
-     </Recipe>
+    </Recipe>
     <Recipe Result="StannaryIngot" ResultCount="1" RequiredHeatLevel="300" a="StannaryRod" Description="Smelt Stannary rod chunk to obtain Stannary">
       "a"
-     </Recipe>
+    </Recipe>
     <Recipe Result="StannaryIngot" ResultCount="1" RequiredHeatLevel="300" a="StannaryOreChunk" Description="Smelt Stannary ore chunk to obtain Stannary">
       "a"
-     </Recipe>
+    </Recipe>
     <Recipe Result="StannaryIngot" ResultCount="4" RequiredHeatLevel="300" a="StannaryOreChunk" Description="Smelt Stannary ore to obtain Stannary">
       "aaa"
-     </Recipe>
+    </Recipe>
     <Recipe Result="StannaryOreChunk" ResultCount="1" RequiredHeatLevel="1" a="StannaryOreChunk" Description="Smelt Stannary ore chunk to obtain Stannary">
       "a"
-     </Recipe>
+    </Recipe>
     <Recipe Result="StannaryOreChunk" ResultCount="3" RequiredHeatLevel="1" a="StannaryOreChunk" Description="Smelt Stannary ore to obtain Stannary">
       "aaa"
-     </Recipe>
+    </Recipe>
     <Recipe Result="IronIngotBlock" ResultCount="1" RequiredHeatLevel="1500" a="rod" Description="Smelt rod ore to obtain iron">
       "a"
-     </Recipe>
+    </Recipe>
     <Recipe Result="ScrapIron" ResultCount="1" RequiredHeatLevel="1" a="rod" Description="Smelt rod ore to scrap iron">
       "a"
-     </Recipe>
+    </Recipe>
     <Recipe Result="IronIngotBlock" ResultCount="1" RequiredHeatLevel="1500" a="ironorechunk" Description="Smelt iron ore to obtain iron">
       "a"
-     </Recipe>
+    </Recipe>
     <Recipe Result="IronIngotBlock" ResultCount="4" RequiredHeatLevel="1500" a="ironorechunk" Description="Smelt iron ore to obtain iron">
       "aaa"
-     </Recipe>
-     <Recipe Result="CopperIngotBlock" ResultCount="1" RequiredHeatLevel="1000" a="malachitechunk" Description="Smelt Copper ore to obtain copper">
+    </Recipe>
+    <Recipe Result="CopperIngotBlock" ResultCount="1" RequiredHeatLevel="1000" a="malachitechunk" Description="Smelt Copper ore to obtain copper">
       "a"
-     </Recipe>
-     <Recipe Result="GermaniumChunkBlock" ResultCount="1" RequiredHeatLevel="900" a="germaniumorechunk" Description="Smelt germanium ore to obtain germanium crystals">
+    </Recipe>
+    <Recipe Result="GermaniumChunkBlock" ResultCount="1" RequiredHeatLevel="900" a="germaniumorechunk" Description="Smelt germanium ore to obtain germanium crystals">
       "a"
-     </Recipe>
+    </Recipe>
     <Recipe Result="SteelIngot" ResultCount="1" RequiredHeatLevel="1500" Remains="ScrapIron" RemainsCount="2" a="ironingot" Description="Smelt iron ingot to obtain steel and get rid of sulphur">
       "aaa"
     </Recipe>
@@ -209,7 +209,7 @@
     <Recipe Result="CopperIngotBlock" ResultCount="1" RequiredHeatLevel="1000" a="CopperOrePowder" Description="Smelt copper ore powder to obtain copper">
       "a"
     </Recipe>
-     <Recipe Result="CopperIngotBlock" ResultCount="4" RequiredHeatLevel="1000" a="malachitechunk" Description="Smelt copper ore to obtain copper">
+    <Recipe Result="CopperIngotBlock" ResultCount="4" RequiredHeatLevel="1000" a="malachitechunk" Description="Smelt copper ore to obtain copper">
       "aaa"
     </Recipe>
     <Recipe Result="GermaniumChunkBlock" ResultCount="1" RequiredHeatLevel="900" a="GermaniumOrePowder" Description="Smelt germanium ore powder to obtain germanium crystals">
@@ -226,19 +226,19 @@
     </Recipe>
     <Recipe Result="GoldRod" ResultCount="2" RequiredHeatLevel="1100" a="GoldIngot" Description="Forge an gold ingot into rods">
       "aa"
-     </Recipe>
+    </Recipe>
     <Recipe Result="SliverRod" ResultCount="2" RequiredHeatLevel="900" a="SliverIngot" Description="Forge an sliver ingot into rods">
       "aa"
-     </Recipe>
+    </Recipe>
     <Recipe Result="LeadRod" ResultCount="2" RequiredHeatLevel="300" a="LeadIngot" Description="Forge an lead ingot into rods">
       "aa"
-     </Recipe>
+    </Recipe>
     <Recipe Result="PlatinumRod" ResultCount="2" RequiredHeatLevel="1800" a="PlatinumIngot" Description="Forge an platinum ingot into rods">
       "aa"
-     </Recipe>
+    </Recipe>
     <Recipe Result="ZincRod" ResultCount="2" RequiredHeatLevel="800" a="ZincIngot" Description="Forge an zinc ingot into rods">
       "aa"
-     </Recipe>
+    </Recipe>
     <Recipe Result="ChromiumRod" ResultCount="2" RequiredHeatLevel="1850" a="ChromiumIngot" Description="Forge an chromium ingot into rods">
       "aa"
     </Recipe>
@@ -256,19 +256,19 @@
     </Recipe>
     <Recipe Result="GoldIngot" ResultCount="2" RequiredHeatLevel="1" a="GoldIngot" Description="Forge an gold ingot into rods">
       "aa"
-     </Recipe>
+    </Recipe>
     <Recipe Result="SliverIngot" ResultCount="2" RequiredHeatLevel="1" a="SliverIngot" Description="Forge an sliver ingot into rods">
       "aa"
-     </Recipe>
+    </Recipe>
     <Recipe Result="LeadIngot" ResultCount="2" RequiredHeatLevel="1" a="LeadIngot" Description="Forge an lead ingot into rods">
       "aa"
-     </Recipe>
+    </Recipe>
     <Recipe Result="PlatinumIngot" ResultCount="2" RequiredHeatLevel="1" a="PlatinumIngot" Description="Forge an platinum ingot into rods">
       "aa"
-     </Recipe>
+    </Recipe>
     <Recipe Result="ZincIngot" ResultCount="2" RequiredHeatLevel="1" a="ZincIngot" Description="Forge an zinc ingot into rods">
       "aa"
-     </Recipe>
+    </Recipe>
     <Recipe Result="StannaryIngot" ResultCount="2" RequiredHeatLevel="1" a="StannaryIngot" Description="Forge an stannary ingot into rods">
       "aa"
     </Recipe>
@@ -286,16 +286,16 @@
     </Recipe>
     <Recipe Result="GoldIngot" ResultCount="2" RequiredHeatLevel="1100" a="GoldPlate" Description="Forge an gold plate into ingots">
       "aaa"
-     </Recipe>
+    </Recipe>
     <Recipe Result="SliverIngot" ResultCount="2" RequiredHeatLevel="900" a="SliverPlate" Description="Forge an sliver plate into ingots">
       "aaa"
-     </Recipe>
+    </Recipe>
     <Recipe Result="LeadIngot" ResultCount="2" RequiredHeatLevel="300" a="LeadPlate" Description="Forge an lead plate into ingots">
       "aaa"
-     </Recipe>
+    </Recipe>
     <Recipe Result="PlatinumIngot" ResultCount="2" RequiredHeatLevel="1800" a="PlatinumPlate" Description="Forge an platinum plate into ingots">
       "aaa"
-     </Recipe>
+    </Recipe>
     <Recipe Result="StannaryIngot" ResultCount="2" RequiredHeatLevel="300" a="StannaryPlate" Description="Forge an stannary plate into ingots">
       "aaa"
     </Recipe>
@@ -310,16 +310,16 @@
     </Recipe>
     <Recipe Result="GoldPlate" ResultCount="3" RequiredHeatLevel="1" a="GoldPlate" Description="Forge an gold plate into ingots">
       "aaa"
-     </Recipe>
+    </Recipe>
     <Recipe Result="SliverPlate" ResultCount="3" RequiredHeatLevel="1" a="SliverPlate" Description="Forge an sliver plate into ingots">
       "aaa"
-     </Recipe>
+    </Recipe>
     <Recipe Result="LeadPlate" ResultCount="3" RequiredHeatLevel="1" a="LeadPlate" Description="Forge an lead plate into ingots">
       "aaa"
-     </Recipe>
+    </Recipe>
     <Recipe Result="PlatinumPlate" ResultCount="3" RequiredHeatLevel="1" a="PlatinumPlate" Description="Forge an platinum plate into ingots">
       "aaa"
-     </Recipe>
+    </Recipe>
     <Recipe Result="StannaryPlate" ResultCount="3" RequiredHeatLevel="1" a="StannaryPlate" Description="Forge an stannary plate into ingots">
       "aaa"
     </Recipe>
@@ -334,16 +334,16 @@
     </Recipe>
     <Recipe Result="GoldIngot" ResultCount="2" RequiredHeatLevel="1100" a="GoldLine" Description="Forge an gold line into ingots">
       "aa"
-     </Recipe>
+    </Recipe>
     <Recipe Result="SliverIngot" ResultCount="2" RequiredHeatLevel="900" a="SliverLine" Description="Forge an sliver line into ingots">
       "aa"
-     </Recipe>
+    </Recipe>
     <Recipe Result="LeadIngot" ResultCount="2" RequiredHeatLevel="300" a="LeadLine" Description="Forge an lead line into ingots">
       "aa"
-     </Recipe>
+    </Recipe>
     <Recipe Result="PlatinumIngot" ResultCount="2" RequiredHeatLevel="1800" a="PlatinumLine" Description="Forge an platinum line into ingots">
       "aa"
-     </Recipe>
+    </Recipe>
     <Recipe Result="StannaryIngot" ResultCount="2" RequiredHeatLevel="300" a="StannaryLine" Description="Forge an stannary line into ingots">
       "aa"
     </Recipe>
@@ -358,26 +358,26 @@
     </Recipe>
     <Recipe Result="GoldLine" ResultCount="2" RequiredHeatLevel="1" a="GoldLine" Description="Forge an gold line into ingots">
       "aa"
-     </Recipe>
+    </Recipe>
     <Recipe Result="SliverLine" ResultCount="2" RequiredHeatLevel="1" a="SliverLine" Description="Forge an sliver line into ingots">
       "aa"
-     </Recipe>
+    </Recipe>
     <Recipe Result="LeadLine" ResultCount="2" RequiredHeatLevel="1" a="LeadLine" Description="Forge an lead line into ingots">
       "aa"
-     </Recipe>
+    </Recipe>
     <Recipe Result="PlatinumLine" ResultCount="2" RequiredHeatLevel="1" a="PlatinumLine" Description="Forge an platinum line into ingots">
       "aa"
-     </Recipe>
+    </Recipe>
     <Recipe Result="StannaryLine" ResultCount="2" RequiredHeatLevel="1" a="StannaryLine" Description="Forge an stannary line into ingots">
       "aa"
     </Recipe>
   </Smelting>
   <Materials>
-    <Recipe Result="SteelBlock:0" ResultCount="1" RequiredHeatLevel="0" a="SteelIngot" Description="Combine many steel ingots to get the basic machine case">
+    <Recipe Result="SteelBlock" ResultCount="1" RequiredHeatLevel="0" a="SteelIngot" Description="Combine many steel ingots to get the basic machine case">
       "aaa"
       "a a"
       "aaa"
-     </Recipe>
+    </Recipe>
     <Recipe Result="SteelBlock:0" ResultCount="1" RequiredHeatLevel="0" a="IronPlate" Description="Combine many IronPlate to get the basic machine case">
       "aaa"
       "a a"
@@ -393,7 +393,7 @@
       "abba"
       "abba"
       "aaaa"
-     </Recipe>
+    </Recipe>
   </Materials>
   <SteelTools>
     <Recipe Result="SteelShovelBlock" ResultCount="1" RequiredHeatLevel="0" a="stick" b="SteelIngot" Description="Make an steel tool">
@@ -484,16 +484,16 @@
     </Recipe>
     <Recipe Result="GoldSheet" ResultCount="36" RequiredHeatLevel="0" a="GoldPlate" Description="Cut a gold plate into sheets">
       "a"
-     </Recipe>
+    </Recipe>
     <Recipe Result="SliverSheet" ResultCount="36" RequiredHeatLevel="0" a="SliverPlate" Description="Cut a sliver plate into sheets">
       "a"
-     </Recipe>
+    </Recipe>
     <Recipe Result="LeadSheet" ResultCount="36" RequiredHeatLevel="0" a="LeadPlate" Description="Cut a lead plate into sheets">
       "a"
-     </Recipe>
+    </Recipe>
     <Recipe Result="PlatinumSheet" ResultCount="36" RequiredHeatLevel="0" a="PlatinumPlate" Description="Cut a platinum plate into sheets">
       "a"
-     </Recipe>
+    </Recipe>
     <Recipe Result="StannarySheet" ResultCount="36" RequiredHeatLevel="0" a="StannaryPlate" Description="Cut a stannary plate into sheets">
       "a"
     </Recipe>
@@ -546,22 +546,22 @@
       "aba"
       "aca"
       "aba"
-     </Recipe>
+    </Recipe>
      <Recipe Result="SqueezerBlock" ResultCount="1" RequiredHeatLevel="0" a="SteelGear" b="IndustrialPiston" c="steelblock:0" Description="Make a Squeezer to create metal line">
       "aba"
       "bcb"
       "aba"
-     </Recipe>
-     <Recipe Result="SteelWheelMould" ResultCount="1" RequiredHeatLevel="0" a="dirt" b="sand" Description="Make a WheelMould to create wheel">
+    </Recipe>
+    <Recipe Result="SteelWheelMould" ResultCount="1" RequiredHeatLevel="0" a="dirt" b="sand" Description="Make a WheelMould to create wheel">
       "aba"
       "bbb"
       "aba"
-     </Recipe>
-     <Recipe Result="SteelGearMould" ResultCount="1" RequiredHeatLevel="0" a="dirt" b="sand" Description="Make a GearMould to create gear">
+    </Recipe>
+    <Recipe Result="SteelGearMould" ResultCount="1" RequiredHeatLevel="0" a="dirt" b="sand" Description="Make a GearMould to create gear">
       "bab"
       "aaa"
       "bab"
-     </Recipe>
+    </Recipe>
     <Recipe Result="PresserNBlock" ResultCount="1" RequiredHeatLevel="0" a="IronPlate" b="IndustrialPiston" c="steelblock:0" d="SteelGear" Description="Make a Kinbbler to create ore powder">
       "bab"
       "dcd"
@@ -657,7 +657,7 @@
     <Recipe Result="MagnetBlock:480" ResultCount="1" RequiredHeatLevel="0" a="magnet:0" Description="Make a Cross Magnet from magnet">
       "aaaa"
     </Recipe>
-    <Recipe Result="Generator" ResultCount="1" RequiredHeatLevel="0" a="CopperWire" b="magnet:480" c="SteelPlate" d="SteelGear" e="steelblock:0" Description="Make a Direct Current Dynamo to enter the electricity era.">
+    <Recipe Result="Generator" ResultCount="1" RequiredHeatLevel="0" a="CopperWire" b="IndustrialMagnet" c="SteelPlate" d="SteelGear" e="steelblock:0" Description="Make a Direct Current Dynamo to enter the electricity era.">
       "caac"
       "adda"
       "aeba"

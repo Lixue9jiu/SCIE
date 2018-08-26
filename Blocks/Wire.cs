@@ -4,7 +4,6 @@ using System;
 
 namespace Game
 {
-	
     public class CopperWire : Wire
     {
 		public override string GetCraftingId()
