@@ -8,6 +8,7 @@ namespace Game
 			{
 				return 221;
 			}
+			int offset = value;
 			switch (Terrain.ExtractData(value))
 			{
 			case 0:

@@ -6,22 +6,23 @@ namespace Game
 {
 	public class Rod : FlatItem
 	{
-		protected readonly string Name;
 		protected readonly BlockMesh m_standaloneBlockMesh = new BlockMesh();
 
-		public Rod(string name, Color color)
+		public Rod(string name, Color color, string description = null)
 		{
 			Model model = ContentManager.Get<Model>("Models/Rod");
 			Matrix boneAbsoluteTransform = BlockMesh.GetBoneAbsoluteTransform(model.FindMesh("SteelRod", true).ParentBone);
 			m_standaloneBlockMesh.AppendModelMeshPart(model.FindMesh("SteelRod", true).MeshParts[0], boneAbsoluteTransform * Matrix.CreateTranslation(0f, -0.5f, 0f), false, false, false, false, color);
-			Name = name;
-			if (string.IsNullOrEmpty(name))
+			if (string.IsNullOrEmpty(description))
 			{
-				return;
+				DefaultDisplayName = char.ToUpper(name[0], CultureInfo.CurrentCulture) + name.Substring(1) + "Rod";
+				DefaultDescription = "Rods are made by forging " + name + " into shape. They are useful for making many things.";
 			}
-			DefaultDisplayName = char.ToUpper(name[0], CultureInfo.CurrentCulture) + name.Substring(1) + "Rod";
-			DefaultTextureSlot = 227;
-			DefaultDescription = "Rods are made by forging " + name + " into shape. They are useful for making many things.";
+			else
+			{
+				DefaultDisplayName = name;
+				DefaultDescription = description;
+			}
 		}
 		public override Vector3 GetIconViewOffset(int value, DrawBlockEnvironmentData environmentData)
 		{

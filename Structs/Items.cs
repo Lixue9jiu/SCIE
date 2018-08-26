@@ -22,7 +22,7 @@ namespace Game
 			new MetalLine(MetalType.Stannary),
 			new MetalLine(MetalType.Chromium),
 			new MetalLine(MetalType.Aluminum),
-			new RifleBarrel(),
+			new Rod("RifleBarrel", Color.Gray, "Rifle Barrel are made by Rifling Machine. They are useful for making guns."),
 			new ScrapIron(),
 			new OreChunk(Matrix.CreateRotationX(4f) * Matrix.CreateRotationZ(2f), Matrix.CreateTranslation(0.9375f, 0.1875f, 0f), new Color(255,215,0), false, MetalType.Gold),
 			new OreChunk(Matrix.CreateRotationX(5f) * Matrix.CreateRotationZ(2f), Matrix.CreateTranslation(0.9375f, 0.1875f, 0f), new Color(212,212,212), false, MetalType.Sliver),
@@ -80,12 +80,12 @@ namespace Game
 			new Rod("titanium", new Color(253, 253, 253)),
 			new Rod("nickel", new Color(253, 253, 253)),
 			new Rod("aluminum", new Color(232, 232, 232)),
-			new Mould("Models/Gear", "Gear", Matrix.CreateTranslation(0f, 0f, 0f) * 2f, Matrix.CreateTranslation(4f, 3.8f, 0f), "An Gear made of steel, the neccessary part of all the machine during the initial industrial era.", "SteelGear"),
-			new Mould("Models/Wheel", "Wheel", Matrix.CreateTranslation(0f, 0f, 0f) * 1.2f, Matrix.CreateTranslation(4f, 3.8f, 0f), "An wheel made of steel, the neccessary part of the steam engine train.", "SteelWheel", 2f),
-			new Mould("Models/WheelMould", "WheelMould", Matrix.CreateTranslation(0f, -0.02f, 0f), Matrix.CreateTranslation(2.6f, 1.4f, 0f), "An wheel Mould made of dirt and sand, the neccessary part in making steel wheel.", "SteelWheelMould", 1.6f),
-			new Mould("Models/GearMould", "GearMould", Matrix.CreateTranslation(0f, -0.02f, 0f) * 1.6f, Matrix.CreateTranslation(2.6f, 1.4f, 0f), "An Gear Mould made of dirt and sand, the neccessary part in making steel gear.", "SteelGearMould"),
-			new IndustrialPiston(),
-            new CopperWire(),
+			new Mould("Models/Gear", "Gear", Matrix.CreateTranslation(0f, 0f, 0f) * 2f, Matrix.CreateTranslation(4f, 3.8f, 0f), "A Gear made of steel, the neccessary part of all the machine during the initial industrial era.", "SteelGear"),
+			new Mould("Models/Wheel", "Wheel", Matrix.CreateTranslation(0f, 0f, 0f) * 1.2f, Matrix.CreateTranslation(4f, 3.8f, 0f), "A wheel made of steel, the neccessary part of the steam engine train.", "SteelWheel", 2f),
+			new Mould("Models/WheelMould", "WheelMould", Matrix.CreateTranslation(0f, -0.02f, 0f), Matrix.CreateTranslation(2.6f, 1.4f, 0f), "A wheel Mould made of dirt and sand, the neccessary part in making steel wheel.", "SteelWheelMould", 1.6f),
+			new Mould("Models/GearMould", "GearMould", Matrix.CreateTranslation(0f, -0.02f, 0f) * 1.6f, Matrix.CreateTranslation(2.6f, 1.4f, 0f), "A Gear Mould made of dirt and sand, the neccessary part in making steel gear.", "SteelGearMould"),
+			new Mould("Models/Piston", "Piston", Matrix.CreateTranslation(0f, -0.02f, 0f) * 1.2f, Matrix.CreateTranslation(4f, 3.8f, 0f), "A piston made of iron, copper and steel, the neccessary part of many machine.", "IndustrialPiston", 1.6f),
+			new Wire("CopperWire"),
 			new Sheet(MetalType.Steel),
 			new Sheet(MetalType.Iron),
 			new Sheet(MetalType.Copper),
@@ -96,7 +96,11 @@ namespace Game
 			new Sheet(MetalType.Stannary),
 			new Sheet(MetalType.Platinum),
 			new Sheet(MetalType.Aluminum),
-			new Mould("Models/Battery", "Battery", Matrix.CreateRotationX(MathUtils.PI / 2) * Matrix.CreateTranslation(0.5f, 0f, 0f), Matrix.CreateTranslation(0.8f, 0.8f, 0f) * Matrix.CreateScale(20f), "IndustrialMagnet", "IndustrialMagnet"),
+			new Mould("Models/Battery", "Battery", Matrix.CreateRotationX(MathUtils.PI / 2) * Matrix.CreateTranslation(0.5f, 0.5f, 0f), Matrix.CreateTranslation(0.8f, 0.8f, 0f) * Matrix.CreateScale(20f), "IndustrialMagnet", "IndustrialMagnet"),
+			new Mould("Models/Battery", "Battery", Matrix.CreateTranslation(0f, -0.5f, 0f), Matrix.CreateTranslation(0.5f, 0.8f, 0f) * Matrix.CreateScale(20f), "CuZnBattery", "CuZnBattery"),
+			new Mould("Models/Battery", "Battery", Matrix.CreateTranslation(0f, -0.5f, 0f), Matrix.CreateTranslation(0.6f, 0.8f, 0f) * Matrix.CreateScale(20f), "AgZnBattery", "AgZnBattery"),
+			new Mould("Models/Battery", "Battery", Matrix.CreateTranslation(0f, -0.5f, 0f), Matrix.CreateTranslation(0.7f, 0.8f, 0f) * Matrix.CreateScale(20f), "AuZnBattery", "AuZnBattery"),
+			new Mould("Models/Battery", "Battery", Matrix.CreateTranslation(0f, -0.5f, 0f), Matrix.CreateTranslation(0.8f, 0.8f, 0f) * Matrix.CreateScale(20f), "VoltaicBattery", "VoltaicBattery"),
 		};
 		public static Dictionary<string, int> IdTable;
 		static ItemBlock()
@@ -123,8 +127,8 @@ namespace Game
 				streamReader.Dispose();
 			}
 			base.Initialize();
-		}*/
-		/*public static void LoadBlocksData(string data)
+		}
+		public static void LoadBlocksData(string data)
 		{
 			string[] array = data.Split(new char[] { '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries);
 			string[] array2 = null;

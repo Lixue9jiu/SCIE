@@ -12,5 +12,22 @@ namespace Game
 			}
 			return 107;
 		}
+		public override int GetEmittedLightAmount(int value)
+		{
+			return GetHeatLevel(value) != 0 ? 13 : 0;
+		}
+		public override float GetHeat(int value)
+		{
+			return GetHeatLevel(value) != 0 ? 1f : 0f;
+		}
+		public static int GetHeatLevel(int value)
+		{
+			return Terrain.ExtractData(value) & 8;
+		}
+
+		public static int SetHeatLevel(int data, int level)
+		{
+			return (data & -9) | (level & 1) << 3;
+		}
 	}
 }

@@ -3,14 +3,12 @@ using Engine.Graphics;
 
 namespace Game
 {
-	public class SteamBoat : BlockItem
+	public class SteamBoat : MeshItem
 	{
-		protected readonly BlockMesh m_standaloneBlockMesh = new BlockMesh();
 		protected readonly Texture2D m_texture = ContentManager.Get<Texture2D>("Textures/SteamBoat");
 
-		public SteamBoat()
+		public SteamBoat() : base("SteamBoat allows you to cross large areas of water more safely and quickly as if you have enough fuel, a powerful vehicle during the initial industrial era.")
 		{
-			DefaultDescription = "SteamBoat allows you to cross large areas of water more safely and quickly as if you have enough fuel, a powerful vehicle during the initial industrial era.";
 			var model = ContentManager.Get<Model>("Models/SteamBoat");
 			const string Name = "Cylinder_001";
 			Matrix boneAbsoluteTransform = BlockMesh.GetBoneAbsoluteTransform(model.FindMesh(Name, true).ParentBone);
