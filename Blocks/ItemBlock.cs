@@ -109,7 +109,7 @@ namespace Game
 							string text2 = dictionary[c];
 							if (ItemBlock.IdTable.TryGetValue(text2, out int value))
 							{
-								text2 = "item:" + Terrain.ExtractData(value);
+								text2 = BlocksManager.Blocks[Terrain.ExtractContents(value)].CraftingId + ":" + Terrain.ExtractData(value);
 							}
 							craftingRecipe.Ingredients[j + i * 6] = text2;
 						}

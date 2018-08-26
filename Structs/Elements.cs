@@ -183,8 +183,7 @@ namespace Game
 		}
 		public override bool Equals(object obj)
 		{
-			var node = obj as Element;
-			return node != null ? Equals(node) : base.Equals(node);
+			return obj is Element node ? Equals(node) : base.Equals(obj);
 		}
 		public override int GetHashCode()
 		{
@@ -295,13 +294,9 @@ namespace Game
 		{
 			Point = (Point3)info.GetValue("Point", typeof(Point3));
 		}
-		public virtual void OnBlockAdded(int value, int oldValue, int x, int y, int z)
-		{
-		}
 		public override bool Equals(object obj)
 		{
-			var node = obj as Device;
-			return node != null ? Equals(node) : base.Equals(node);
+			return obj is Device node ? Equals(node) : base.Equals(obj);
 		}
 		public bool Equals(Device other)
 		{
@@ -324,7 +319,7 @@ namespace Game
 		protected FixedDevice(int resistance)
 		{
 			if (resistance < 1)
-				throw new ArgumentOutOfRangeException("resistance", resistance, "EnergyElement has Resistance < 1");
+				throw new ArgumentOutOfRangeException("resistance", resistance, "Device has Resistance < 1");
 			Resistance = resistance;
 		}
 		protected FixedDevice(SerializationInfo info, StreamingContext context) : base(info, context)
@@ -339,14 +334,13 @@ namespace Game
 		{
 			if (other.Type == Type)
 			{
-				return other.Resistance == Resistance;
+				return other.Resistance == Resistance && other.GetCraftingId() == GetCraftingId();
 			}
 			return false;
 		}
 		public override bool Equals(object obj)
 		{
-			var node = obj as FixedDevice;
-			return node != null ? Equals(node) : base.Equals(node);
+			return obj is FixedDevice node ? Equals(node) : base.Equals(obj);
 		}
 		public override int GetHashCode()
 		{

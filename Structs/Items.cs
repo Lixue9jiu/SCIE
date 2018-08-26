@@ -80,10 +80,10 @@ namespace Game
 			new Rod("titanium", new Color(253, 253, 253)),
 			new Rod("nickel", new Color(253, 253, 253)),
 			new Rod("aluminum", new Color(232, 232, 232)),
-			new Mould("Models/Gear", "Gear", Matrix.CreateTranslation(0f, 0f, 0f) * 2f, Matrix.CreateTranslation(4f, 3.8f, 0f), "An Gear made of steel, the neccessary part of all the machine during the initial industrial era."),
-			new Mould("Models/Wheel", "Wheel", Matrix.CreateTranslation(0f, 0f, 0f) * 1.2f, Matrix.CreateTranslation(4f, 3.8f, 0f), "An wheel made of steel, the neccessary part of the steam engine train.", 2f),
-			new Mould("Models/WheelMould", "WheelMould", Matrix.CreateTranslation(0f, -0.02f, 0f), Matrix.CreateTranslation(2.6f, 1.4f, 0f), "An wheel Mould made of dirt and sand, the neccessary part in making steel wheel.", 1.6f),
-			new Mould("Models/GearMould", "GearMould", Matrix.CreateTranslation(0f, -0.02f, 0f) * 1.6f, Matrix.CreateTranslation(2.6f, 1.4f, 0f), "An Gear Mould made of dirt and sand, the neccessary part in making steel gear."),
+			new Mould("Models/Gear", "Gear", Matrix.CreateTranslation(0f, 0f, 0f) * 2f, Matrix.CreateTranslation(4f, 3.8f, 0f), "An Gear made of steel, the neccessary part of all the machine during the initial industrial era.", "SteelGear"),
+			new Mould("Models/Wheel", "Wheel", Matrix.CreateTranslation(0f, 0f, 0f) * 1.2f, Matrix.CreateTranslation(4f, 3.8f, 0f), "An wheel made of steel, the neccessary part of the steam engine train.", "SteelWheel", 2f),
+			new Mould("Models/WheelMould", "WheelMould", Matrix.CreateTranslation(0f, -0.02f, 0f), Matrix.CreateTranslation(2.6f, 1.4f, 0f), "An wheel Mould made of dirt and sand, the neccessary part in making steel wheel.", "SteelWheelMould", 1.6f),
+			new Mould("Models/GearMould", "GearMould", Matrix.CreateTranslation(0f, -0.02f, 0f) * 1.6f, Matrix.CreateTranslation(2.6f, 1.4f, 0f), "An Gear Mould made of dirt and sand, the neccessary part in making steel gear.", "SteelGearMould"),
 			new IndustrialPiston(),
             new CopperWire(),
 			new Sheet(MetalType.Steel),
@@ -96,6 +96,7 @@ namespace Game
 			new Sheet(MetalType.Stannary),
 			new Sheet(MetalType.Platinum),
 			new Sheet(MetalType.Aluminum),
+			new Mould("Models/Battery", "Battery", Matrix.CreateRotationX(MathUtils.PI / 2) * Matrix.CreateTranslation(0.5f, 0f, 0f), Matrix.CreateTranslation(0.8f, 0.8f, 0f) * Matrix.CreateScale(20f), "IndustrialMagnet", "IndustrialMagnet"),
 		};
 		public static Dictionary<string, int> IdTable;
 		static ItemBlock()
