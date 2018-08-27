@@ -11,11 +11,16 @@ namespace Game
 		public override bool OnAim(Vector3 start, Vector3 direction, ComponentMiner componentMiner, AimState state)
 		{
 			int value = componentMiner.ActiveBlockValue;
-			return BlocksManager.Blocks[Terrain.ExtractContents(value)] is ItemBlock item && item.GetItem(ref value) is OreChunk && base.OnAim(start, direction, componentMiner, state);
+			if (BlocksManager.Blocks[Terrain.ExtractContents(value)] is ItemBlock itemblock)
+			{
+				Item item = itemblock.GetItem(ref value);
+				return (item is OreChunk || item is Mould || value == ItemBlock.IdTable["RefractoryBrick"] || value == ItemBlock.IdTable["ScrapIron"]) && base.OnAim(start, direction, componentMiner, state);
+			}
+			return false;
 		}
 		public override bool OnUse(Vector3 start, Vector3 direction, ComponentMiner componentMiner)
 		{
-			if (componentMiner.ActiveBlockValue == ItemBlock.IdTable["Train"])
+			if (componentMiner.ActiveBlockValue == ItemBlock.IdTable["Steam Locomotive"])
 			{
 				var body = componentMiner.PickBody(start, direction);
 				var result = componentMiner.PickTerrainForDigging(start, direction);

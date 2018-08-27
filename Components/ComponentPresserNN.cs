@@ -141,7 +141,7 @@ namespace Game
 							m_slots[l].Count--;
 						}
 					}
-					int value = 0;
+					//int value = 0;
 					m_slots[ResultSlotIndex].Value = ItemBlock.IdTable[m_smeltingRecipe];
 					m_slots[ResultSlotIndex].Count++;
 					m_smeltingRecipe = null;

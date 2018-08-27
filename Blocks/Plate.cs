@@ -38,16 +38,20 @@ namespace Game
 	public class Plate : BlockItem
     {
 		protected readonly BlockMesh m_standaloneBlockMesh = new BlockMesh();
-        public readonly MetalType Type;
+		protected BoundingBox[] m_collisionBoxes;
+		public readonly MetalType Type;
         public Plate(MetalType type)
 		{
             Type = type;
 			DefaultDisplayName = Type.ToString() + "Plate";
 			DefaultDescription = "A plate of pure " + Type.ToString() + ". Can be crafted into very durable and strong " + Type.ToString() + " items. Very important in the industrial Era.";
             Model model = ContentManager.Get<Model>("Models/Ingots");
-            Matrix boneAbsoluteTransform = BlockMesh.GetBoneAbsoluteTransform(model.FindMesh("IronPlate", true).ParentBone);
-            m_standaloneBlockMesh.AppendModelMeshPart(model.FindMesh("IronPlate", true).MeshParts[0], boneAbsoluteTransform * Matrix.CreateTranslation(0f, -0.1f, 0f), false, false, false, false, Color.White);
-        }
+			m_standaloneBlockMesh.AppendModelMeshPart(model.FindMesh("IronPlate", true).MeshParts[0], BlockMesh.GetBoneAbsoluteTransform(model.FindMesh("IronPlate", true).ParentBone) * Matrix.CreateTranslation(0.5f, 0f, 0.5f), false, false, false, false, Color.White);
+			m_collisionBoxes = new BoundingBox[]
+			{
+				m_standaloneBlockMesh.CalculateBoundingBox()
+			};
+		}
         public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
 		{
             switch (Type)
@@ -79,9 +83,29 @@ namespace Game
             }
             BlocksManager.DrawMeshBlock(primitivesRenderer, m_standaloneBlockMesh, color, size * 1.5f, ref matrix, environmentData);
 		}
+		public override void GenerateTerrainVertices(Block block,BlockGeometryGenerator generator, TerrainGeometrySubsets geometry, int value, int x, int y, int z)
+		{
+			generator.GenerateMeshVertices(block, x, y, z, m_standaloneBlockMesh, Color.White, null, geometry.SubsetOpaque);
+		}
+		public override BlockPlacementData GetPlacementValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, TerrainRaycastResult raycastResult)
+		{
+			return new BlockPlacementData
+			{
+				Value = value,
+				CellFace = raycastResult.CellFace
+			};
+		}
 		public override float GetIconViewScale(int value, DrawBlockEnvironmentData environmentData)
 		{
 			return 0.85f;
+		}
+		public override bool IsFaceTransparent(SubsystemTerrain subsystemTerrain, int face, int value)
+		{
+			return true;
+		}
+		public override BoundingBox[] GetCustomCollisionBoxes(SubsystemTerrain terrain, int value)
+		{
+			return m_collisionBoxes;
 		}
 	}
 }

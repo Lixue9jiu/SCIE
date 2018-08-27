@@ -112,12 +112,14 @@ namespace Game
             return string.Empty;
         }
         public override void GetDropValues(SubsystemTerrain subsystemTerrain, int oldValue, int newValue, int toolLevel, List<BlockDropValue> dropValues, out bool showDebris)
-        {
-            int data = Terrain.ExtractData(oldValue);
-            oldValue = Terrain.ReplaceData(Index, Terrain.ExtractData(oldValue) & 0xF);
-            base.GetDropValues(subsystemTerrain, oldValue, newValue, toolLevel, dropValues, out showDebris);
-            //oldValue = Terrain.ReplaceData(oldValue, Terrain.ExtractData(oldValue) & 32767);
-        }
+		{
+			showDebris = true;
+			dropValues.Add(new BlockDropValue
+			{
+				Value = oldValue,
+				Count = 1
+			});
+		}
         public override int GetFaceTextureSlot(int face, int value)
         {
             switch (GetType(value))

@@ -438,6 +438,10 @@ namespace Game
 		{
 			return 0.85f;
 		}
+		public override bool IsFaceTransparent(SubsystemTerrain subsystemTerrain, int face, int value)
+		{
+			return true;
+		}
 	}
 	public abstract partial class ItemBlock : CubeBlock, IItemBlock
 	{

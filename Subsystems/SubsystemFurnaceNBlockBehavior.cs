@@ -39,18 +39,15 @@ namespace Game
 
 		public override void OnBlockRemoved(int value, int newValue, int x, int y, int z)
 		{
-			if (Terrain.ExtractContents(newValue) != FurnaceNBlock.Index)
+			ComponentBlockEntity blockEntity = Project.FindSubsystem<SubsystemBlockEntities>(true).GetBlockEntity(x, y, z);
+			if (blockEntity != null)
 			{
-				ComponentBlockEntity blockEntity = Project.FindSubsystem<SubsystemBlockEntities>(true).GetBlockEntity(x, y, z);
-				if (blockEntity != null)
+				var position = new Vector3((float)x, (float)y, (float)z) + new Vector3(0.5f);
+				for (var i = blockEntity.Entity.FindComponents<IInventory>().GetEnumerator(); i.MoveNext();)
 				{
-					Vector3 position = new Vector3((float)x, (float)y, (float)z) + new Vector3(0.5f);
-					foreach (IInventory item in blockEntity.Entity.FindComponents<IInventory>())
-					{
-						item.DropAllItems(position);
-					}
-					Project.RemoveEntity(blockEntity.Entity, true);
+					i.Current.DropAllItems(position);
 				}
+				Project.RemoveEntity(blockEntity.Entity, true);
 			}
 			if (FurnaceNBlock.GetHeatLevel(value) != 0)
 			{
@@ -60,13 +57,14 @@ namespace Game
 
 		public override void OnBlockModified(int value, int oldValue, int x, int y, int z)
 		{
-			if (FurnaceNBlock.GetHeatLevel(value) != 0)
+			switch (FurnaceNBlock.GetHeatLevel(oldValue).CompareTo(FurnaceNBlock.GetHeatLevel(value)))
 			{
-				AddFire(value, x, y, z);
-			}
-			else
-			{
-				RemoveFire(x, y, z);
+				case -1:
+					AddFire(value, x, y, z);
+					break;
+				case 1:
+					RemoveFire(x, y, z);
+					break;
 			}
 		}
 

@@ -19,6 +19,14 @@ namespace Game
         {
             color = new Color(255,153,18);
             BlocksManager.DrawMeshBlock(primitivesRenderer, m_standaloneBlockMesh, color, 2f * size, ref matrix, environmentData);
-        }
+		}
+		public override float GetMeleePower(int value)
+		{
+			return 2f;
+		}
+		public override float GetProjectilePower(int value)
+		{
+			return 2f;
+		}
 	}
 }
