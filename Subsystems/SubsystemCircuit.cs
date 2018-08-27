@@ -48,7 +48,7 @@ namespace Game
 			var device = elementblock.GetDevice(Terrain, x, y, z);
 			if (device == null)
 				return;
-			device.OnBlockAdded(value, oldValue, x, y, z);
+			//device.OnBlockAdded(value, oldValue, x, y, z);
 			if ((device.Type & ElementType.Supply) == 0 || Table.ContainsKey(device.Point))
 				return;
 			var neighbors = new DynamicArray<Device>();//当前顶点的邻接表
@@ -59,7 +59,6 @@ namespace Game
 			var stack = new DynamicArray<Device>(1);
 			stack.Push(neighbors.Array[0]); // start
 			var end = neighbors.Array[1];
-			//非递归BFS
 			while (stack.Count > 0)
 			{
 				var current = stack.Array[stack.Count - 1];//当前顶点

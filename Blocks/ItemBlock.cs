@@ -12,6 +12,7 @@ namespace Game
 	[PluginLoader("IndustrialMod", "", 0u)]
 	public class Item : IAnimatedItem, IUnstableItem, IFood, IExplosive, IWeapon, IScalableItem, ICollidableItem
 	{
+		public ItemBlock ItemBlock;
 		internal static readonly BoundingBox[] m_defaultCollisionBoxes = new BoundingBox[]
 		{
 			new BoundingBox(Vector3.Zero, Vector3.One)
@@ -229,14 +230,14 @@ namespace Game
 		{
 			return false;
 		}
-		public virtual IEnumerable<CraftingRecipe> GetProceduralCraftingRecipes()
+		/*public virtual IEnumerable<CraftingRecipe> GetProceduralCraftingRecipes()
 		{
 			yield break;
 		}
 		public virtual CraftingRecipe GetAdHocCraftingRecipe(SubsystemTerrain subsystemTerrain, string[] ingredients, float heatLevel)
 		{
 			return null;
-		}
+		}*/
 		public virtual bool IsFaceTransparent(SubsystemTerrain subsystemTerrain, int face, int value)
 		{
 			return false;
@@ -259,7 +260,7 @@ namespace Game
 		}
 		public virtual void GenerateTerrainVertices(Block block, BlockGeometryGenerator generator, TerrainGeometrySubsets geometry, int value, int x, int y, int z)
 		{
-			generator.GenerateCubeVertices(block, value, x, y, z, Color.White, geometry.OpaqueSubsetsByFace);
+			generator.GenerateCubeVertices(ItemBlock, value, x, y, z, Color.White, geometry.OpaqueSubsetsByFace);
 		}
 		public virtual void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
 		{
@@ -286,7 +287,7 @@ namespace Game
 			showDebris = true;
 			dropValues.Add(new BlockDropValue
 			{
-				Value = oldValue,
+				Value = Terrain.ReplaceLight(oldValue, 0),
 				Count = 1
 			});
 		}
@@ -450,10 +451,7 @@ namespace Game
 		//public int Count => Items.Length;
 		public virtual Item GetItem(ref int value)
 		{
-			if (Terrain.ExtractContents(value) != BlockIndex)
-				return DefaultItem;
-			int data = Terrain.ExtractData(value);
-			return data < Items.Length ? Items[data] : DefaultItem;
+			return Terrain.ExtractContents(value) != BlockIndex ? DefaultItem : Items[Terrain.ExtractData(value)];
 		}
 		public override string GetDisplayName(SubsystemTerrain subsystemTerrain, int value)
 		{
@@ -626,9 +624,18 @@ namespace Game
 			{
 				DefaultItem
 			};
-			for (int value = Index; set.Add(GetItem(ref value)); value += 1 << 14)//value = Terrain.MakeBlockValue(Index, 0, ++i)
+			int value = Index;
+			Item item = GetItem(ref value);
+			var itemBlock =
+			item.ItemBlock = new RottenEggBlock
+			{
+				BlockIndex = -1
+			};
+			while (set.Add(item))
 			{
 				list.Add(value);
+				value += 1 << 14;
+				(item = GetItem(ref value)).ItemBlock = itemBlock;
 			}
 			return list;
 		}

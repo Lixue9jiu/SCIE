@@ -5,16 +5,24 @@ namespace Game
 {
 	public class ElementBlock : PaintableItemBlock
 	{
+		public static ElementBlock Block;
+		public static WireBlock WireBlock;
 		public static Device[] Devices;
-		/*public static readonly ElectricConnectionPath[] PathTable =
+		public static readonly ElectricConnectionPath[] PathTable =
 		{
-			new ElectricConnectionPath(0, 0, 1, 5, 5, 5),
-			new ElectricConnectionPath(1, 0, 0, 5, 5, 5),
-			new ElectricConnectionPath(0, 0, -1, 5, 5, 5),
-			new ElectricConnectionPath(-1, 0, 0, 5, 5, 5),
-			new ElectricConnectionPath(0, 1, 0, 5, 5, 5),
-			new ElectricConnectionPath(0, -1, 0, 5, 5, 5)
-		};*/
+			new ElectricConnectionPath(0, 0, 1, 4, 0, 4),
+			new ElectricConnectionPath(1, 0, 0, 4, 1, 4),
+			new ElectricConnectionPath(0, 0, -1, 4, 2, 4),
+			new ElectricConnectionPath(-1, 0, 0, 4, 3, 4),
+			new ElectricConnectionPath(0, 1, 0, 4, 4, 4),
+			new ElectricConnectionPath(0, -1, 0, 4, 5, 4)
+		};
+		public override void Initialize()
+		{
+			Block = (ElementBlock)BlocksManager.Blocks[Index];
+			WireBlock = (WireBlock)BlocksManager.Blocks[WireBlock.Index];
+			base.Initialize();
+		}
 		public override Item GetItem(ref int value)
 		{
 			if (Terrain.ExtractContents(value) != Index)
@@ -35,7 +43,7 @@ namespace Game
 			}
 			return null;
 		}
-		/*public virtual Device GetDevice(Terrain terrain, int x, int y, int z)
+		public virtual Device GetDevice(Terrain terrain, int x, int y, int z)
 		{
 			int value = terrain.GetCellValueFast(x, y, z);
 			if (GetItem(ref value) is Device device)
@@ -47,7 +55,7 @@ namespace Game
 		}
 		public void GetAllConnectedNeighbors(Terrain terrain, Device elem, int mountingFace, ICollection<ElectricConnectionPath> list)
 		{
-			if (mountingFace != 5 || elem == null) return;
+			if (mountingFace != 4 || elem == null) return;
 			int x, y, z;
 			var type = elem.Type;
 			var point = elem.Point;
@@ -112,7 +120,7 @@ namespace Game
 			{
 				list.Add(elem);
 			}
-		}*/
+		}
 		public new const int Index = 501;
 		static ElementBlock()
 		{
@@ -122,29 +130,43 @@ namespace Game
 				new Generator(),
                 new Magnetizer(),
                 new Separator(),
-                new AirBlower()
-            };
+                new AirBlower(),
+				new WireDevice(),
+				new Battery(12, "Models/Battery", "Battery", Matrix.CreateTranslation(0f, -0.5f, 0f) * Matrix.CreateTranslation(0.5f, 0.5f, 0.5f), Matrix.CreateTranslation(11f / 16f, 4f / 256f, 0f) * Matrix.CreateScale(20f), "CuZnBattery", "CuZnBattery"),
+				new Battery(12, "Models/Battery", "Battery", Matrix.CreateTranslation(0f, -0.5f, 0f) * Matrix.CreateTranslation(0.5f, 0.5f, 0.5f), Matrix.CreateTranslation(11f / 16f, 4f / 256f, 0f) * Matrix.CreateScale(20f), "AgZnBattery", "AgZnBattery"),
+				new Battery(12, "Models/Battery", "Battery", Matrix.CreateTranslation(0f, -0.5f, 0f) * Matrix.CreateTranslation(0.5f, 0.5f, 0.5f), Matrix.CreateTranslation(11f / 16f, 4f / 256f, 0f) * Matrix.CreateScale(20f), "AuZnBattery", "AuZnBattery"),
+				new Battery(12, "Models/Battery", "Battery", Matrix.CreateTranslation(0f, -0.5f, 0f) * Matrix.CreateTranslation(0.5f, 0.5f, 0.5f), Matrix.CreateTranslation(-2f / 16f, 4f / 16f, 0f) * Matrix.CreateScale(20f), "VoltaicBattery", "VoltaicBattery"),
+			};
 			for (int i = 0; i < Devices.Length; i++)
 			{
-				IdTable.Add(Devices[i].GetType().ToString().Substring(5), Index | i << 14);
+				IdTable.Add(Devices[i].GetCraftingId(), Index | i << 14);
 			}
 		}
 		public override IEnumerable<int> GetCreativeValues()
 		{
-			var list = new List<int>(Devices.Length + 1);
+			var list = new List<int>(Items.Length + 1);
 			var set = new HashSet<Item>()
 			{
 				DefaultItem
 			};
-			for (int value = Index; set.Add(GetItem(ref value)); value += 1 << 14)//value = Terrain.MakeBlockValue(Index, 0, ++i)
+			int value = Index;
+			Item item = GetItem(ref value);
+			var itemBlock =
+			item.ItemBlock = new ElementBlock
+			{
+				BlockIndex = -1
+			};
+			while (set.Add(item))
 			{
 				list.Add(value);
+				value += 1 << 14;
+				(item = GetItem(ref value)).ItemBlock = itemBlock;
 			}
 			return list;
 		}
 		public override void GetDropValues(SubsystemTerrain subsystemTerrain, int oldValue, int newValue, int toolLevel, List<BlockDropValue> dropValues, out bool showDebris)
 		{
-			oldValue = Terrain.ReplaceData(oldValue, Terrain.ExtractData(oldValue) & 32767);
+			oldValue = Terrain.ReplaceData(Index, Terrain.ExtractData(oldValue) & 32767);
 			GetItem(ref oldValue).GetDropValues(subsystemTerrain, oldValue, newValue, toolLevel, dropValues, out showDebris);
 		}
 

@@ -63,40 +63,48 @@ namespace Game
 
 		public override bool OnInteract(TerrainRaycastResult raycastResult, ComponentMiner componentMiner)
 		{
-			if ((Terrain.ExtractData(raycastResult.Value) & 32767) == 0)
+			switch ((Terrain.ExtractData(raycastResult.Value) & 32767))
 			{
-                ComponentBlockEntity blockEntity = m_subsystemBlockEntities.GetBlockEntity(raycastResult.CellFace.X, raycastResult.CellFace.Y, raycastResult.CellFace.Z);
-                if (blockEntity == null || componentMiner.ComponentPlayer == null)
-                {
-                    return false;
-                }
-                ComponentChestNew componentChestNew = blockEntity.Entity.FindComponent<ComponentChestNew>(true);
-                componentMiner.ComponentPlayer.ComponentGui.ModalPanelWidget = new ChestNewWidget(componentMiner.Inventory, componentChestNew);
-                AudioManager.PlaySound("Audio/UI/ButtonClick", 1f, 0f, 0f);
-            }
-            if ((Terrain.ExtractData(raycastResult.Value) & 32767) == 2)
-            {
-                ComponentBlockEntity blockEntity = m_subsystemBlockEntities.GetBlockEntity(raycastResult.CellFace.X, raycastResult.CellFace.Y, raycastResult.CellFace.Z);
-                if (blockEntity == null || componentMiner.ComponentPlayer == null)
-                {
-                    return false;
-                }
-                ComponentMagnetizer componentChestNew = blockEntity.Entity.FindComponent<ComponentMagnetizer>(true);
-                componentMiner.ComponentPlayer.ComponentGui.ModalPanelWidget = new MagnetizerWidget(componentMiner.Inventory, componentChestNew);
-                AudioManager.PlaySound("Audio/UI/ButtonClick", 1f, 0f, 0f);
-            }
-            if ((Terrain.ExtractData(raycastResult.Value) & 32767) == 3)
-            {
-                ComponentBlockEntity blockEntity = m_subsystemBlockEntities.GetBlockEntity(raycastResult.CellFace.X, raycastResult.CellFace.Y, raycastResult.CellFace.Z);
-                if (blockEntity == null || componentMiner.ComponentPlayer == null)
-                {
-                    return false;
-                }
-                ComponentSeperator componentChestNew = blockEntity.Entity.FindComponent<ComponentSeperator>(true);
-                componentMiner.ComponentPlayer.ComponentGui.ModalPanelWidget = new SeperatorWidget(componentMiner.Inventory, componentChestNew);
-                AudioManager.PlaySound("Audio/UI/ButtonClick", 1f, 0f, 0f);
-            }
-            return true;
+				case 0:
+					{
+						ComponentBlockEntity blockEntity = m_subsystemBlockEntities.GetBlockEntity(raycastResult.CellFace.X, raycastResult.CellFace.Y, raycastResult.CellFace.Z);
+						if (blockEntity == null || componentMiner.ComponentPlayer == null)
+						{
+							return false;
+						}
+						ComponentChestNew componentChestNew = blockEntity.Entity.FindComponent<ComponentChestNew>(true);
+						componentMiner.ComponentPlayer.ComponentGui.ModalPanelWidget = new ChestNewWidget(componentMiner.Inventory, componentChestNew);
+						AudioManager.PlaySound("Audio/UI/ButtonClick", 1f, 0f, 0f);
+						return true;
+					}
+
+				case 2:
+					{
+						ComponentBlockEntity blockEntity = m_subsystemBlockEntities.GetBlockEntity(raycastResult.CellFace.X, raycastResult.CellFace.Y, raycastResult.CellFace.Z);
+						if (blockEntity == null || componentMiner.ComponentPlayer == null)
+						{
+							return false;
+						}
+						ComponentMagnetizer componentChestNew = blockEntity.Entity.FindComponent<ComponentMagnetizer>(true);
+						componentMiner.ComponentPlayer.ComponentGui.ModalPanelWidget = new MagnetizerWidget(componentMiner.Inventory, componentChestNew);
+						AudioManager.PlaySound("Audio/UI/ButtonClick", 1f, 0f, 0f);
+						return true;
+					}
+
+				case 3:
+					{
+						ComponentBlockEntity blockEntity = m_subsystemBlockEntities.GetBlockEntity(raycastResult.CellFace.X, raycastResult.CellFace.Y, raycastResult.CellFace.Z);
+						if (blockEntity == null || componentMiner.ComponentPlayer == null)
+						{
+							return false;
+						}
+						ComponentSeperator componentChestNew = blockEntity.Entity.FindComponent<ComponentSeperator>(true);
+						componentMiner.ComponentPlayer.ComponentGui.ModalPanelWidget = new SeperatorWidget(componentMiner.Inventory, componentChestNew);
+						AudioManager.PlaySound("Audio/UI/ButtonClick", 1f, 0f, 0f);
+						return true;
+					}
+			}
+			return false;
         }
 
 		public override void OnHitByProjectile(CellFace cellFace, WorldItem worldItem)

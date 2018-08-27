@@ -75,7 +75,7 @@ namespace Game
 			}
 			return 0;
 		}
-		/*public static void Push<T>(this DynamicArray<T> array, T item)
+		public static void Push<T>(this DynamicArray<T> array, T item)
 		{
 			if (array.m_count >= array.Capacity)
 			{
@@ -91,7 +91,7 @@ namespace Game
 				}
 			}
 			array.Array[array.m_count++] = item;
-		}*/
+		}
 	}
 	/*[Flags]
 	[Serializable]

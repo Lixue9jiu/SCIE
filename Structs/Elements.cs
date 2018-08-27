@@ -287,8 +287,12 @@ namespace Game
 	public abstract class Device : Element, IEquatable<Device>
 	{
 		public Point3 Point;
-		protected Device(ElementType type = ElementType.Device) : base(type)
+		protected Device(ElementType type = ElementType.Device | ElementType.Connector) : base(type)
 		{
+			ItemBlock = new ElementBlock
+			{
+				BlockIndex = -1
+			};
 		}
 		protected Device(SerializationInfo info, StreamingContext context) : base(info, context)
 		{
@@ -300,7 +304,7 @@ namespace Game
 		}
 		public bool Equals(Device other)
 		{
-			return base.Equals(other) && Point.Equals(other.Point);
+			return base.Equals(other) && Point.Equals(other.Point) && GetCraftingId().Equals(other.GetCraftingId());
 		}
 		public override int GetHashCode()
 		{
@@ -310,6 +314,10 @@ namespace Game
 		{
 			base.GetObjectData(info, context);
 			info.AddValue("Point", Point, typeof(Point3));
+		}
+		public override bool IsInteractive(SubsystemTerrain subsystemTerrain, int value)
+		{
+			return false;
 		}
 	}
 	[Serializable]

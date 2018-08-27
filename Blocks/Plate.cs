@@ -95,6 +95,13 @@ namespace Game
 				CellFace = raycastResult.CellFace
 			};
 		}
+		public override Vector3 GetIconBlockOffset(int value, DrawBlockEnvironmentData environmentData)
+		{
+			return new Vector3
+			{
+				Y = 0.45f
+			};
+		}
 		public override float GetIconViewScale(int value, DrawBlockEnvironmentData environmentData)
 		{
 			return 0.85f;
