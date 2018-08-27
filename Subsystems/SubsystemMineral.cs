@@ -156,7 +156,7 @@ namespace Game
 				}
 				dropValues.Add(new BlockDropValue
 				{
-					Value = Terrain.ReplaceData(ItemBlock.Index, data + 13),
+					Value = Terrain.ReplaceData(ItemBlock.Index, data + 12),
 					Count = 1
 				});
 				for (int i = (data & 1) + (Random.Int() & 1) + 2; i-- != 0;)
@@ -201,7 +201,7 @@ namespace Game
 			data &= 16383;
 			if (IsColored(data) || data == 0 || data > 20)
 				return name + base.GetDisplayName(subsystemTerrain, value);
-			name += BlocksManager.Blocks[ItemBlock.Index].GetDisplayName(subsystemTerrain, Terrain.ReplaceData(ItemBlock.Index, (data >> 1) + 13));
+			name += BlocksManager.Blocks[ItemBlock.Index].GetDisplayName(subsystemTerrain, Terrain.ReplaceData(ItemBlock.Index, (data >> 1) + 12));
 			return name.Substring(0, name.Length - 5);
 		}
 		public override float GetExplosionPressure(int value)
