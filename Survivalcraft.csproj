@@ -83,6 +83,7 @@
     <Compile Include="Components\ComponentTrain.cs" />
     <Compile Include="Structs\CircuitDevices.cs" />
     <Compile Include="Structs\Elements.cs" />
+    <Compile Include="Structs\Generator.cs" />
     <Compile Include="Structs\Interfaces.cs" />
     <Compile Include="Structs\Items.cs" />
     <Compile Include="Structs\WireDevice.cs" />

@@ -23,7 +23,7 @@ namespace Game
 		public int UpdateStep;
 		public Terrain Terrain;
 		public DynamicArray<Element> Path;
-		public Dictionary<Point3, Element> Table;
+		public static Dictionary<Point3, Element> Table;
 		public override int[] HandledBlocks => new int[] { ElementBlock.Index };
 		public int UpdateOrder => 0;
 		public override void Load(ValuesDictionary valuesDictionary)
@@ -48,7 +48,8 @@ namespace Game
 			var device = elementblock.GetDevice(Terrain, x, y, z);
 			if (device == null)
 				return;
-			//device.OnBlockAdded(value, oldValue, x, y, z);
+			if (device is IBlockBehavior behavior)
+				behavior.OnBlockAdded(Terrain, value, oldValue);
 			if ((device.Type & ElementType.Supply) == 0 || Table.ContainsKey(device.Point))
 				return;
 			var neighbors = new DynamicArray<Device>();//当前顶点的邻接表
@@ -96,32 +97,34 @@ namespace Game
 		}
 		public override void OnBlockRemoved(int value, int newValue, int x, int y, int z)
 		{
-			var element = elementblock.GetDevice(Terrain, x, y, z);
-			if (element != null)
+			var device = elementblock.GetDevice(Terrain, x, y, z);
+			if (device != null)
 			{
-				var next = element.Next.Array;
+				if (device is IBlockBehavior behavior)
+					behavior.OnBlockRemoved(Terrain, value, newValue);
+				var next = device.Next.Array;
 				for (int i = 0; i < next.Length; i++)
 				{
-					next[i].Next.Remove(element);
+					next[i].Next.Remove(device);
 				}
-				if ((element.Type & ElementType.Supply) != 0)
+				if ((device.Type & ElementType.Supply) != 0)
 				{
-					int index = Path.IndexOf(element);
+					int index = Path.IndexOf(device);
 					if (index >= 0)
 					{
 						Path.Array[index] = null;
 					}
 				}
-				Table.Remove(element.Point);
+				Table.Remove(device.Point);
 			}
 		}
 		public override void OnBlockModified(int value, int oldValue, int x, int y, int z)
 		{
-			var element = elementblock.GetDevice(Terrain, x, y, z);
-			if (element != null)
+			var device = elementblock.GetDevice(Terrain, x, y, z);
+			if (device != null)
 			{
-				OnBlockAdded(value, oldValue, x, y, z);
 				OnBlockRemoved(oldValue, value, x, y, z);
+				OnBlockAdded(value, oldValue, x, y, z);
 			}
 		}
 		public override void OnChunkDiscarding(TerrainChunk chunk)
@@ -139,6 +142,14 @@ namespace Game
 						Path.Array[index] = null;
 					}
 				}
+			}
+		}
+		public override void OnNeighborBlockChanged(int x, int y, int z, int neighborX, int neighborY, int neighborZ)
+		{
+			var device = elementblock.GetDevice(Terrain, x, y, z);
+			if (device != null && device is IUnstableBehavior behavior)
+			{
+				behavior.OnNeighborBlockChanged(Terrain, neighborX, neighborY, neighborZ);
 			}
 		}
 		public void Update(float dt)

@@ -289,10 +289,6 @@ namespace Game
 		public Point3 Point;
 		protected Device(ElementType type = ElementType.Device | ElementType.Connector) : base(type)
 		{
-			ItemBlock = new ElementBlock
-			{
-				BlockIndex = -1
-			};
 		}
 		protected Device(SerializationInfo info, StreamingContext context) : base(info, context)
 		{

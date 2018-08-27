@@ -43,26 +43,7 @@ namespace Game
 			int x = point.X;
 			int y = point.Y;
 			int z = point.Z;
-			int num = 0;
-			for (int i = -1; i < 2; i++)
-			{
-				for (int j = -1; j < 2; j++)
-				{
-					for (int k = -1; k < 2; k++)
-					{
-						int cellValue = m_subsystemTerrain.Terrain.GetCellValue(x + i, y + j, z + k);
-						if (i * i + j * j + k * k <= 1 && FurnaceNBlock.GetHeatLevel(cellValue) != 0)
-						{
-							cellValue = Terrain.ExtractContents(cellValue);
-							if (cellValue == EngineBlock.Index || cellValue == EngineHBlock.Index)
-							{
-								num = 1;
-								break;
-							}
-						}
-					}
-				}
-			}
+			int num = ComponentEngine.IsPowered(m_subsystemTerrain.Terrain, x, y, z) ? 1 : 0;
 			if (num != 0)
 			{
 				int num2 = 0;

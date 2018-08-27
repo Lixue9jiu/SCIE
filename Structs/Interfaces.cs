@@ -75,12 +75,14 @@ namespace Game
 		BoundingBox[] GetCustomCollisionBoxes(SubsystemTerrain terrain, int value);
 		BoundingBox[] GetCustomInteractionBoxes(SubsystemTerrain terrain, int value);
 	}
-	/*public interface IBlockBehavior
+	public interface IBlockBehavior
 	{
-		void Load(ValuesDictionary valuesDictionary);
-		void OnBlockAdded(int value, int oldValue, int x, int y, int z);
-		void OnBlockModified(int value, int oldValue, int x, int y, int z);
-		void OnBlockRemoved(int value, int newValue, int x, int y, int z);
+		void OnBlockAdded(Terrain terrain, int value, int oldValue);
+		//void OnBlockModified(int value, int oldValue, int x, int y, int z);
+		void OnBlockRemoved(Terrain terrain, int value, int newValue);
+	}
+	/*public interface IChunkAction
+	{
 		void OnChunkDiscarding(TerrainChunk chunk);
 		void OnChunkInitialized(TerrainChunk chunk);
 	}
@@ -117,12 +119,12 @@ namespace Game
 	public interface ICollidableBehavior
 	{
 		void OnCollide(CellFace cellFace, float velocity, ComponentBody componentBody);
-	}
+	}*/
 	public interface IUnstableBehavior
 	{
-		void OnNeighborBlockChanged(int x, int y, int z, int neighborX, int neighborY, int neighborZ);
+		void OnNeighborBlockChanged(Terrain terrain, int neighborX, int neighborY, int neighborZ);
 	}
-	public interface IEditableBehavior
+	/*public interface IEditableBehavior
 	{
 		bool OnEditBlock(int x, int y, int z, int value, ComponentPlayer componentPlayer);
 		bool OnEditInventoryItem(IInventory inventory, int slotIndex, ComponentPlayer componentPlayer);

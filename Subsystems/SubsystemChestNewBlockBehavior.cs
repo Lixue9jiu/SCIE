@@ -42,12 +42,20 @@ namespace Game
 			valuesDictionary.GetValue<ValuesDictionary>("BlockEntity").SetValue("Coordinates", new Point3(x, y, z));
 			Project.AddEntity(Project.CreateEntity(valuesDictionary));
 		}
+		public override void OnBlockGenerated(int value, int x, int y, int z, bool isLoaded)
+		{
+			base.OnBlockGenerated(value, x, y, z, isLoaded);
+		}
 
 		public override void OnBlockRemoved(int value, int newValue, int x, int y, int z)
 		{
-			if ((Terrain.ExtractData(value) & 32767) != 0 || (Terrain.ExtractData(value) & 32767) != 2 || (Terrain.ExtractData(value) & 32767) != 3)
+			switch (Terrain.ExtractData(value) & 32767)
 			{
-				return;
+				case 0: break;
+				case 1: return;
+				case 2:
+				case 3: break;
+				default: return;
 			}
 			ComponentBlockEntity blockEntity = m_subsystemBlockEntities.GetBlockEntity(x, y, z);
 			if (blockEntity != null)
@@ -109,18 +117,10 @@ namespace Game
 
 		public override void OnHitByProjectile(CellFace cellFace, WorldItem worldItem)
 		{
-			if ((Terrain.ExtractData(SubsystemTerrain.Terrain.GetCellValue(cellFace.X, cellFace.Y, cellFace.Z)) & 32767) != 0)
+			if ((Terrain.ExtractData(SubsystemTerrain.Terrain.GetCellValue(cellFace.X, cellFace.Y, cellFace.Z)) & 32767) != 1)
 			{
 				return;
 			}
-            if ((Terrain.ExtractData(SubsystemTerrain.Terrain.GetCellValue(cellFace.X, cellFace.Y, cellFace.Z)) & 32767) == 2)
-            {
-                return;
-            }
-            if ((Terrain.ExtractData(SubsystemTerrain.Terrain.GetCellValue(cellFace.X, cellFace.Y, cellFace.Z)) & 32767) == 3)
-            {
-                return;
-            }
             if (!worldItem.ToRemove)
 			{
 				ComponentBlockEntity blockEntity = m_subsystemBlockEntities.GetBlockEntity(cellFace.X, cellFace.Y, cellFace.Z);

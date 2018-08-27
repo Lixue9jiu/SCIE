@@ -207,5 +207,63 @@ namespace Game
 			}
 			return text;
 		}
+		public static bool IsPowered(Terrain terrain, int x, int y, int z)
+		{
+			int cellValue = terrain.GetCellValue(x + 1, y, z);
+			if (FurnaceNBlock.GetHeatLevel(cellValue) != 0)
+			{
+				cellValue = Terrain.ExtractContents(cellValue);
+				if (cellValue == EngineBlock.Index || cellValue == EngineHBlock.Index)
+				{
+					return true;
+				}
+			}
+			cellValue = terrain.GetCellValue(x - 1, y, z);
+			if (FurnaceNBlock.GetHeatLevel(cellValue) != 0)
+			{
+				cellValue = Terrain.ExtractContents(cellValue);
+				if (cellValue == EngineBlock.Index || cellValue == EngineHBlock.Index)
+				{
+					return true;
+				}
+			}
+			cellValue = terrain.GetCellValue(x, y + 1, z);
+			if (FurnaceNBlock.GetHeatLevel(cellValue) != 0)
+			{
+				cellValue = Terrain.ExtractContents(cellValue);
+				if (cellValue == EngineBlock.Index || cellValue == EngineHBlock.Index)
+				{
+					return true;
+				}
+			}
+			cellValue = terrain.GetCellValue(x, y - 1, z);
+			if (FurnaceNBlock.GetHeatLevel(cellValue) != 0)
+			{
+				cellValue = Terrain.ExtractContents(cellValue);
+				if (cellValue == EngineBlock.Index || cellValue == EngineHBlock.Index)
+				{
+					return true;
+				}
+			}
+			cellValue = terrain.GetCellValue(x, y, z + 1);
+			if (FurnaceNBlock.GetHeatLevel(cellValue) != 0)
+			{
+				cellValue = Terrain.ExtractContents(cellValue);
+				if (cellValue == EngineBlock.Index || cellValue == EngineHBlock.Index)
+				{
+					return true;
+				}
+			}
+			cellValue = terrain.GetCellValue(x, y, z - 1);
+			if (FurnaceNBlock.GetHeatLevel(cellValue) != 0)
+			{
+				cellValue = Terrain.ExtractContents(cellValue);
+				if (cellValue == EngineBlock.Index || cellValue == EngineHBlock.Index)
+				{
+					return true;
+				}
+			}
+			return false;
+		}
 	}
 }

@@ -82,26 +82,7 @@ namespace Game
 			}
 			if (m_smeltingRecipe2 != null)
 			{
-				int num = 0;
-				for (int i = -1; i < 2; i++)
-				{
-					for (int j = -1; j < 2; j++)
-					{
-						for (int k = -1; k < 2; k++)
-						{
-							int cellValue = m_subsystemTerrain.Terrain.GetCellValue(coordinates.X + i, coordinates.Y + j, coordinates.Z + k);
-							if (i * i + j * j + k * k <= 1 && FurnaceNBlock.GetHeatLevel(cellValue) != 0)
-							{
-								cellValue = Terrain.ExtractContents(cellValue);
-								if (cellValue == EngineBlock.Index || cellValue == EngineHBlock.Index)
-								{
-									num = 1;
-									break;
-								}
-							}
-						}
-					}
-				}
+				int num = ComponentEngine.IsPowered(m_subsystemTerrain.Terrain, coordinates.X, coordinates.Y, coordinates.Z) ? 1 : 0;
 				if (num == 0)
 				{
 					m_smeltingRecipe = null;
