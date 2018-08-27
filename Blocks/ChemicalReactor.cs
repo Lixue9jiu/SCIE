@@ -2,7 +2,7 @@ namespace Game
 {
 	public class CReactorBlock : CubeBlock
 	{
-		public const int Index = 535;
+		public const int Index = 524;
 
 		public override int GetFaceTextureSlot(int face, int value)
 		{
