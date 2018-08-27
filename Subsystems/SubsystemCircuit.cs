@@ -41,7 +41,7 @@ namespace Game
 		public override void OnBlockGenerated(int value, int x, int y, int z, bool isLoaded)
 		{
 			if (isLoaded)
-				OnBlockAdded(value, 0, x, y, z);
+				OnBlockAdded(value, -1, x, y, z);
 		}
 		public override void OnBlockAdded(int value, int oldValue, int x, int y, int z)
 		{
@@ -49,14 +49,14 @@ namespace Game
 			if (device == null)
 				return;
 			if (device is IBlockBehavior behavior)
-				behavior.OnBlockAdded(Terrain, value, oldValue);
+				behavior.OnBlockAdded(SubsystemTerrain, value, oldValue);
 			if ((device.Type & ElementType.Supply) == 0 || Table.ContainsKey(device.Point))
 				return;
 			var neighbors = new DynamicArray<Device>();//当前顶点的邻接表
 			elementblock.GetAllConnectedNeighbors(Terrain, device, 5, neighbors);
 			if (neighbors.Count < 2)
 				return;
-			Table.Add(device.Point, device);
+			Table[device.Point] = device;
 			var stack = new DynamicArray<Device>(1);
 			stack.Push(neighbors.Array[0]); // start
 			var end = neighbors.Array[1];
@@ -101,7 +101,7 @@ namespace Game
 			if (device != null)
 			{
 				if (device is IBlockBehavior behavior)
-					behavior.OnBlockRemoved(Terrain, value, newValue);
+					behavior.OnBlockRemoved(SubsystemTerrain, value, newValue);
 				var next = device.Next.Array;
 				for (int i = 0; i < next.Length; i++)
 				{
@@ -115,8 +115,8 @@ namespace Game
 						Path.Array[index] = null;
 					}
 				}
-				Table.Remove(device.Point);
 			}
+			Table.Remove(new Point3(x, y, z));
 		}
 		public override void OnBlockModified(int value, int oldValue, int x, int y, int z)
 		{
@@ -149,7 +149,7 @@ namespace Game
 			var device = elementblock.GetDevice(Terrain, x, y, z);
 			if (device != null && device is IUnstableBehavior behavior)
 			{
-				behavior.OnNeighborBlockChanged(Terrain, neighborX, neighborY, neighborZ);
+				behavior.OnNeighborBlockChanged(SubsystemTerrain, neighborX, neighborY, neighborZ);
 			}
 		}
 		public void Update(float dt)

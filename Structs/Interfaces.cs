@@ -77,20 +77,20 @@ namespace Game
 	}
 	public interface IBlockBehavior
 	{
-		void OnBlockAdded(Terrain terrain, int value, int oldValue);
+		void OnBlockAdded(SubsystemTerrain terrain, int value, int oldValue);
 		//void OnBlockModified(int value, int oldValue, int x, int y, int z);
-		void OnBlockRemoved(Terrain terrain, int value, int newValue);
+		void OnBlockRemoved(SubsystemTerrain terrain, int value, int newValue);
 	}
 	/*public interface IChunkAction
 	{
 		void OnChunkDiscarding(TerrainChunk chunk);
 		void OnChunkInitialized(TerrainChunk chunk);
-	}
+	}*/
 	public interface IGeneratedBehavior
 	{
 		void OnBlockGenerated(int value, int x, int y, int z, bool isLoaded);
 	}
-	public interface IAimableItemBehavior
+	/*public interface IAimableItemBehavior
 	{
 		bool OnAim(Vector3 start, Vector3 direction, ComponentMiner componentMiner, AimState state);
 	}
@@ -122,7 +122,7 @@ namespace Game
 	}*/
 	public interface IUnstableBehavior
 	{
-		void OnNeighborBlockChanged(Terrain terrain, int neighborX, int neighborY, int neighborZ);
+		void OnNeighborBlockChanged(SubsystemTerrain terrain, int neighborX, int neighborY, int neighborZ);
 	}
 	/*public interface IEditableBehavior
 	{

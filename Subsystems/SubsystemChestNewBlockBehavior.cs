@@ -32,7 +32,6 @@ namespace Game
 			string name;
 			switch (Terrain.ExtractData(value) & 32767)
 			{
-				case 0: name = "ChestNew"; break;
 				case 2: name = "Magnetizer"; break;
                 case 3: name = "Seperator"; break;
                 default: return;
@@ -42,16 +41,16 @@ namespace Game
 			valuesDictionary.GetValue<ValuesDictionary>("BlockEntity").SetValue("Coordinates", new Point3(x, y, z));
 			Project.AddEntity(Project.CreateEntity(valuesDictionary));
 		}
-		public override void OnBlockGenerated(int value, int x, int y, int z, bool isLoaded)
+		/*public override void OnBlockGenerated(int value, int x, int y, int z, bool isLoaded)
 		{
 			base.OnBlockGenerated(value, x, y, z, isLoaded);
-		}
+		}*/
 
 		public override void OnBlockRemoved(int value, int newValue, int x, int y, int z)
 		{
 			switch (Terrain.ExtractData(value) & 32767)
 			{
-				case 0: break;
+				case 0:
 				case 1: return;
 				case 2:
 				case 3: break;

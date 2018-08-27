@@ -104,16 +104,16 @@ namespace Game
 		{
 			return false;
 		}
-		public void OnBlockAdded(Terrain terrain, int value, int oldValue)
+		public void OnBlockAdded(SubsystemTerrain subsystemTerrain, int value, int oldValue)
 		{
-			Powered = ComponentEngine.IsPowered(terrain, Point.X, Point.Y, Point.Z);
+			Powered = ComponentEngine.IsPowered(subsystemTerrain.Terrain, Point.X, Point.Y, Point.Z);
 		}
-		public void OnBlockRemoved(Terrain terrain, int value, int newValue)
+		public void OnBlockRemoved(SubsystemTerrain subsystemTerrain, int value, int newValue)
 		{
 		}
-		public void OnNeighborBlockChanged(Terrain terrain, int neighborX, int neighborY, int neighborZ)
+		public void OnNeighborBlockChanged(SubsystemTerrain subsystemTerrain, int neighborX, int neighborY, int neighborZ)
 		{
-			Powered = ComponentEngine.IsPowered(terrain, Point.X, Point.Y, Point.Z);
+			Powered = ComponentEngine.IsPowered(subsystemTerrain.Terrain, Point.X, Point.Y, Point.Z);
 		}
 	}
     /*public abstract class Diode : Element

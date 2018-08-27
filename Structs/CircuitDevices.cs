@@ -1,7 +1,9 @@
 ﻿using Engine;
 using Engine.Graphics;
+using GameEntitySystem;
 using System;
 using System.Collections.Generic;
+using TemplatesDatabase;
 
 namespace Game
 {
@@ -137,15 +139,51 @@ namespace Game
 		{
 		}
 	}*/
-	public class Fridge : FixedDevice
+	public class EntityDevice<T> : FixedDevice, IBlockBehavior where T : Component
 	{
+		public T Component;
+		public string Name;
+		public EntityDevice(string name, int resistance) : base(resistance)
+		{
+			Name = name;
+		}
+		public void OnBlockAdded(SubsystemTerrain subsystemTerrain, int value, int oldValue)
+		{
+			if (oldValue == -1)
+			{
+				return;
+			}
+			var valuesDictionary = new ValuesDictionary();
+			valuesDictionary.PopulateFromDatabaseObject(subsystemTerrain.Project.GameDatabase.Database.FindDatabaseObject(Name, subsystemTerrain.Project.GameDatabase.EntityTemplateType, true));
+			valuesDictionary.GetValue<ValuesDictionary>("BlockEntity").SetValue("Coordinates", Point);
+			Entity entity = subsystemTerrain.Project.CreateEntity(valuesDictionary);
+			Component = entity.FindComponent<T>(true);
+			subsystemTerrain.Project.AddEntity(entity);
+		}
+		public void OnBlockRemoved(SubsystemTerrain subsystemTerrain, int value, int newValue)
+		{
+			ComponentBlockEntity blockEntity = subsystemTerrain.Project.FindSubsystem<SubsystemBlockEntities>(true).GetBlockEntity(Point.X, Point.Y, Point.Z);
+			if (blockEntity != null)
+			{
+				Vector3 position = new Vector3(Point) + new Vector3(0.5f);
+				foreach (IInventory item in blockEntity.Entity.FindComponents<IInventory>())
+				{
+					item.DropAllItems(position);
+				}
+				subsystemTerrain.Project.RemoveEntity(blockEntity.Entity, true);
+			}
+		}
+	}
+	public class Fridge : EntityDevice<ComponentChestNew>
+	{
+		public ComponentChestNew ComponentChestNew;
 		public bool Powered;
-		public Fridge() : base(2000)
+		public Fridge() : base("ChestNew", 2000)
 		{
 		}
 		public override void Simulate(ref int voltage)
 		{
-			Powered = voltage > 110;
+			ComponentChestNew.Powered = voltage > 110;
 		}
 		public override int GetFaceTextureSlot(int face, int value)
 		{
@@ -181,6 +219,7 @@ namespace Game
 		}
 		public override BlockPlacementData GetPlacementValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, TerrainRaycastResult raycastResult)
 		{
+			CellFace cellFace = raycastResult.CellFace;
 			Vector3 forward = Matrix.CreateFromQuaternion(componentMiner.ComponentCreature.ComponentCreatureModel.EyeRotation).Forward;
 			float num = Vector3.Dot(forward, Vector3.UnitZ);
 			float num2 = Vector3.Dot(forward, Vector3.UnitX);
