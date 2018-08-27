@@ -8,7 +8,6 @@ namespace Game
 {
 	public partial class ItemBlock : CubeBlock, IItemBlock
 	{
-		public static Item DefaultItem = new Item();
 		public static Item[] Items = new Item[]
         {
 			new RottenEgg(),
@@ -98,7 +97,6 @@ namespace Game
 			new Sheet(MetalType.Aluminum),
 			new Mould("Models/Battery", "Battery", Matrix.CreateRotationX(MathUtils.PI / 2) * Matrix.CreateTranslation(0.5f, 0.5f, 0f), Matrix.CreateTranslation(9f / 16f, -7f / 16f, 0f) * Matrix.CreateScale(20f), "IndustrialMagnet", "IndustrialMagnet"),
             new RefractoryBrick(),
-			DefaultItem
 		};
 		public static Dictionary<string, int> IdTable;
 		static ItemBlock()

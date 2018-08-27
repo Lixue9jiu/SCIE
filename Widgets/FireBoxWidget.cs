@@ -31,11 +31,10 @@ namespace Game
 		{
 			m_fire.ParticlesPerSecond = (m_componentFurnace.HeatLevel > 0f) ? 24f : 0f;
 			m_progress.Value = m_componentFurnace.SmeltingProgress;
-			if (m_componentFurnace.IsAddedToProject)
+			if (!m_componentFurnace.IsAddedToProject)
 			{
-				return;
+				ParentWidget.Children.Remove(this);
 			}
-			ParentWidget.Children.Remove(this);
 		}
 
 		protected readonly ComponentFireBox m_componentFurnace;

@@ -29,7 +29,7 @@ namespace Game
 			}
 		}
 
-		public int ResultSlotIndex
+		public override int ResultSlotIndex
 		{
 			get
 			{
@@ -41,13 +41,9 @@ namespace Game
 		{
 			get
 			{
-				return SlotsCount-2;
+				return SlotsCount - 2;
 			}
 		}
-
-		public float HeatLevel;
-
-		public float SmeltingProgress;
 
 		public int UpdateOrder
 		{
@@ -177,7 +173,7 @@ namespace Game
 				int slotValue = GetSlotValue(i);
 				int num = Terrain.ExtractContents(slotValue);
 				int num2 = Terrain.ExtractData(slotValue);
-				if (GetSlotCount(i) > 0 && GetSlotValue(i)== ItemBlock.IdTable["SteelIngot"])
+				if (GetSlotCount(i) > 0 && GetSlotValue(i) == ItemBlock.IdTable["SteelIngot"])
 				{
                     text = "IndustrialMagnet";
                 }

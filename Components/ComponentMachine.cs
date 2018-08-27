@@ -16,6 +16,13 @@ namespace Game
 				return SlotsCount - 2;
 			}
 		}
+
+		public virtual int ResultSlotIndex { get; }
+
+		public float HeatLevel;
+
+		public float SmeltingProgress;
+
 		public override int GetSlotCapacity(int slotIndex, int value)
 		{
 			return slotIndex != FuelSlotIndex || BlocksManager.Blocks[Terrain.ExtractContents(value)].FuelHeatLevel > 1f

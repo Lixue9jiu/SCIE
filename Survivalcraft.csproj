@@ -152,8 +152,6 @@
     <Compile Include="Blocks\PresserBlock.cs" />
     <Compile Include="Blocks\PresserNBlock.cs" />
     <Compile Include="Blocks\PresserNNBlock.cs" />
-    <Compile Include="Widgets\PresserNNWidget.cs" />
-    <Compile Include="Widgets\PresserNWidget.cs" />
     <Compile Include="Widgets\PresserWidget.cs" />
     <Compile Include="Blocks\SteelAxeBlock.cs" />
     <Compile Include="Blocks\SteelBlock.cs" />

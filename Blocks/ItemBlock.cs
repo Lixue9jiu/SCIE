@@ -451,7 +451,7 @@ namespace Game
 		//public int Count => Items.Length;
 		public virtual Item GetItem(ref int value)
 		{
-			return Terrain.ExtractContents(value) != BlockIndex ? DefaultItem : Items[Terrain.ExtractData(value)];
+			return Terrain.ExtractContents(value) != Index ? null : Items[Terrain.ExtractData(value)];
 		}
 		public override string GetDisplayName(SubsystemTerrain subsystemTerrain, int value)
 		{
@@ -611,7 +611,7 @@ namespace Game
 		}
 		public override bool IsSwapAnimationNeeded(int oldValue, int newValue)
 		{
-			return GetItem(ref oldValue).IsSwapAnimationNeeded(oldValue, newValue);
+			return GetItem(ref newValue).IsSwapAnimationNeeded(oldValue, newValue);
 		}
 		public override bool IsHeatBlocker(int value)
 		{
@@ -619,23 +619,17 @@ namespace Game
 		}
 		public override IEnumerable<int> GetCreativeValues()
 		{
-			var list = new List<int>(Items.Length + 1);
-			var set = new HashSet<Item>()
-			{
-				DefaultItem
-			};
+			var list = new List<int>(Items.Length);
 			int value = Index;
-			Item item = GetItem(ref value);
-			var itemBlock =
-			item.ItemBlock = new RottenEggBlock
+			var itemBlock = new RottenEggBlock
 			{
 				BlockIndex = -1
 			};
-			while (set.Add(item))
+			for (int i = 0; i < Items.Length; i++)
 			{
+				GetItem(ref value).ItemBlock = itemBlock;
 				list.Add(value);
 				value += 1 << 14;
-				(item = GetItem(ref value)).ItemBlock = itemBlock;
 			}
 			return list;
 		}
@@ -665,11 +659,9 @@ namespace Game
 		public override string GetDisplayName(SubsystemTerrain subsystemTerrain, int value)
 		{
 			var item = GetItem(ref value);
-			if (item != DefaultItem)
-			{
-				return SubsystemPalette.GetName(subsystemTerrain, GetPaintColor(value), item.GetDisplayName(subsystemTerrain, value));
-			}
-			return DefaultDisplayName;
+			return item != null
+				? SubsystemPalette.GetName(subsystemTerrain, GetPaintColor(value), item.GetDisplayName(subsystemTerrain, value))
+				: DefaultDisplayName;
 		}
 		public int? GetPaintColor(int value)
 		{

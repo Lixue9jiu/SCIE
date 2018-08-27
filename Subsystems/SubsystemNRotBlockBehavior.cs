@@ -5,13 +5,13 @@ namespace Game
 {
 	public class SubsystemNRotBlockBehavior : SubsystemRotBlockBehavior
 	{
-		public override int[] HandledBlocks
+		/*public override int[] HandledBlocks
 		{
 			get
 			{
 				return new []{ BasaltBlock.Index };
 			}
-		}
+		}*/
 
 		public override void Load(ValuesDictionary valuesDictionary)
 		{
