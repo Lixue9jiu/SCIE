@@ -61,7 +61,7 @@ namespace Game
 						int rotPeriod = block.GetRotPeriod(item.Value);
 						if (rotPeriod > 0)
 						{
-							int num2 = item.Container is ComponentChestNew ? 4 : 1;
+							int num2 = item.Container is ComponentChestNew chestNew ? chestNew.Period : 1;
 							int num3 = block.GetDamage(item.Value);
 							for (int j = 0; j < num; j++)
 							{
