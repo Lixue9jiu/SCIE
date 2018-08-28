@@ -9,7 +9,12 @@ namespace Game
 	{
 		int GetDurability(int value);
 	}
-	public interface IItemBlock // : IReadOnlyList<Item>, IStructuralComparable, IStructuralEquatable
+    public interface IFuel
+    {
+        float GetFuelLevel(int value);
+        float GetFuelFireDuration(int value);
+    }
+    public interface IItemBlock // : IReadOnlyList<Item>, IStructuralComparable, IStructuralEquatable
 	{
 		Item GetItem(ref int value);
 	}
