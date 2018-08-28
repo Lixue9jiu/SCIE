@@ -21,9 +21,8 @@ namespace Game
 		public void Dispense()
 		{
 			Point3 coordinates = m_componentBlockEntity.Coordinates;
-			int data = Terrain.ExtractData(m_subsystemTerrain.Terrain.GetCellValue(coordinates.X, coordinates.Y, coordinates.Z));
 			//DispenserNew2Block.GetMode(data);
-			Driller(coordinates, DispenserNew2Block.GetDirection(data));
+			Driller(coordinates, FourDirectionalBlock.GetDirection(m_subsystemTerrain.Terrain.GetCellValue(coordinates.X, coordinates.Y, coordinates.Z)));
 		}
 
 		public override void Load(ValuesDictionary valuesDictionary, IdToEntityMap idToEntityMap)

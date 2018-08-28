@@ -9,7 +9,7 @@ namespace Game
 				return 221;
 			}
 			int offset = GetHeatLevel(value);
-			switch (Terrain.ExtractData(value))
+			switch (GetDirection(value))
 			{
 			case 0:
 				if (face == 0)

@@ -10,7 +10,7 @@ namespace Game
 		{
 			if (face != 4 && face != 5)
 			{
-				switch (Terrain.ExtractData(value))
+				switch (GetDirection(value))
 				{
 				case 0:
 					switch (face)

@@ -6,7 +6,7 @@ namespace Game
 	{
 		public int Voltage;
 		public bool Powered;
-		public Generator(int voltage = 380) : base(ElementType.Container | ElementType.Connector)
+		public Generator(int voltage = 310) : base(ElementType.Container | ElementType.Connector)
 		{
 			Voltage = voltage;
 		}

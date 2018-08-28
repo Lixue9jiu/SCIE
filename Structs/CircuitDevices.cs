@@ -172,12 +172,12 @@ namespace Game
 			}
 		}
 	}
-	public abstract class InteractiveEntityDevice<C, T> : EntityDevice<C>, IInteractiveBlock where T : CanvasWidget where C : Component
+	public abstract class InteractiveEntityDevice<C, T> : EntityDevice<C> where T : CanvasWidget where C : Component
 	{
 		public InteractiveEntityDevice(string name, int resistance) : base(name, resistance)
 		{
 		}
-		public bool OnInteract(TerrainRaycastResult raycastResult, ComponentMiner componentMiner)
+		/*public bool OnInteract(TerrainRaycastResult raycastResult, ComponentMiner componentMiner)
 		{
 			ComponentBlockEntity blockEntity = m_subsystemBlockEntities.GetBlockEntity(raycastResult.CellFace.X, raycastResult.CellFace.Y, raycastResult.CellFace.Z);
 			if (blockEntity == null || componentMiner.ComponentPlayer == null)
@@ -187,10 +187,10 @@ namespace Game
 			componentMiner.ComponentPlayer.ComponentGui.ModalPanelWidget = GetWidget(componentMiner.Inventory, blockEntity.Entity.FindComponent<C>(true));
 			AudioManager.PlaySound("Audio/UI/ButtonClick", 1f, 0f, 0f);
 			return true;
-		}
+		}*/
 		public abstract T GetWidget(IInventory inventory, C component);
 	}
-	public class Fridge : InteractiveEntityDevice<ComponentChestNew, ChestNewWidget>
+	public class Fridge : InteractiveEntityDevice<ComponentChestNew, ChestNewWidget>, IItemAcceptableBlock
 	{
 		public Fridge() : base("ChestNew", 2000)
 		{
@@ -279,6 +279,34 @@ namespace Game
 		{
 			return new ChestNewWidget(inventory, component);
 		}
+		public void OnHitByProjectile(CellFace cellFace, WorldItem worldItem)
+		{
+            /*if (!worldItem.ToRemove)
+			{
+				ComponentBlockEntity blockEntity = m_subsystemBlockEntities.GetBlockEntity(cellFace.X, cellFace.Y, cellFace.Z);
+				if (blockEntity != null)
+				{
+					ComponentChestNew inventory = blockEntity.Entity.FindComponent<ComponentChestNew>(true);
+					var pickable = worldItem as Pickable;
+					int num = (pickable == null) ? 1 : pickable.Count;
+					int value = worldItem.Value;
+					int count = num;
+					int num2 = ComponentInventoryBase.AcquireItems(inventory, value, count);
+					if (num2 < num)
+					{
+						m_subsystemBlockEntities.Project.FindSubsystem<SubsystemAudio>(true).PlaySound("Audio/PickableCollected", 1f, 0f, worldItem.Position, 3f, true);
+					}
+					if (num2 <= 0)
+					{
+						worldItem.ToRemove = true;
+					}
+					else if (pickable != null)
+					{
+						pickable.Count = num2;
+					}
+				}
+			}*/
+		}
 	}
 
     public class Magnetizer : InteractiveEntityDevice<ComponentMagnetizer, MagnetizerWidget>
@@ -288,7 +316,11 @@ namespace Game
 		}
 		public override void Simulate(ref int voltage)
 		{
-			Component.Powered = (voltage -= 12) >= 0;
+			if (voltage >= 12)
+			{
+				voltage -= 12;
+				Component.Powered = true;
+			}
 		}
 		public override void OnBlockAdded(SubsystemTerrain subsystemTerrain, int value, int oldValue)
 		{
@@ -425,9 +457,9 @@ namespace Game
             return true;
         }
         public override void GenerateTerrainVertices(Block block, BlockGeometryGenerator generator, TerrainGeometrySubsets geometry, int value, int x, int y, int z)
-        {
-            generator.GenerateCubeVertices(block, value, x, y, z, Color.LightGray, geometry.OpaqueSubsetsByFace);
-        }
+		{
+			generator.GenerateCubeVertices(ItemBlock, value, x, y, z, Color.LightGray, geometry.OpaqueSubsetsByFace);
+		}
         public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
         {
             BlocksManager.DrawCubeBlock(primitivesRenderer, value, new Vector3(size), ref matrix, Color.LightGray, Color.LightGray, environmentData);
@@ -529,9 +561,9 @@ namespace Game
             return "AirBlower is a device to transfer air into some big machine that need a large amount of hot air.";
         }
         public override void GenerateTerrainVertices(Block block, BlockGeometryGenerator generator, TerrainGeometrySubsets geometry, int value, int x, int y, int z)
-        {
-            generator.GenerateCubeVertices(block, value, x, y, z, Color.LightGray, geometry.OpaqueSubsetsByFace);
-        }
+		{
+			generator.GenerateCubeVertices(ItemBlock, value, x, y, z, Color.LightGray, geometry.OpaqueSubsetsByFace);
+		}
         public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
         {
             BlocksManager.DrawCubeBlock(primitivesRenderer, value, new Vector3(size), ref matrix, Color.LightGray, Color.LightGray, environmentData);
@@ -585,9 +617,9 @@ namespace Game
             return true;
         }
         public override void GenerateTerrainVertices(Block block, BlockGeometryGenerator generator, TerrainGeometrySubsets geometry, int value, int x, int y, int z)
-        {
-            generator.GenerateCubeVertices(block, value, x, y, z, Color.LightGray, geometry.OpaqueSubsetsByFace);
-        }
+		{
+			generator.GenerateCubeVertices(ItemBlock, value, x, y, z, Color.LightGray, geometry.OpaqueSubsetsByFace);
+		}
         public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
         {
             BlocksManager.DrawCubeBlock(primitivesRenderer, value, new Vector3(size), ref matrix, Color.LightGray, Color.LightGray, environmentData);

@@ -45,13 +45,13 @@ namespace Game
 		}
 		public override void OnBlockAdded(int value, int oldValue, int x, int y, int z)
 		{
-			var device = elementblock.GetDevice(Terrain, x, y, z);
+			var device = elementblock.GetDevice(x, y, z, value);
 			if (device == null)
 				return;
 			if (device is IBlockBehavior behavior)
 				behavior.OnBlockAdded(SubsystemTerrain, value, oldValue);
-			//if (oldValue == -1 && (device.Type & ElementType.Supply) == 0)
-				//return;
+			if (oldValue == -1 && (device.Type & ElementType.Supply) == 0)
+				return;
 			var v = device;
 			var visited = new HashSet<Element>();
 			var neighbors = new DynamicArray<Device>();
@@ -104,8 +104,7 @@ namespace Game
 		}
 		public override void OnBlockModified(int value, int oldValue, int x, int y, int z)
 		{
-			var device = elementblock.GetDevice(Terrain, x, y, z);
-			if (device != null)
+			if (elementblock.GetDevice(x, y, z, oldValue) != null)
 			{
 				OnBlockRemoved(oldValue, value, x, y, z);
 				OnBlockAdded(value, oldValue, x, y, z);

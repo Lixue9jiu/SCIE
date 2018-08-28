@@ -22,9 +22,9 @@ namespace Game
 			return false;
 		}
 
-		public static int GetDirection(int data)
+		public static int GetDirection(int value)
 		{
-			return data & 7;
+			return Terrain.ExtractData(value) & 7;
 		}
 
 		public static int SetDirection(int data, int direction)

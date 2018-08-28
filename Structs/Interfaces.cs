@@ -115,11 +115,11 @@ namespace Game
 	{
 		bool OnInteract(TerrainRaycastResult raycastResult, ComponentMiner componentMiner);
 	}
-	/*public interface IItemAcceptableBlock
+	public interface IItemAcceptableBlock
 	{
 		void OnHitByProjectile(CellFace cellFace, WorldItem worldItem);
 	}
-	public interface IProjectile
+	/*public interface IProjectile
 	{
 		void OnFiredAsProjectile(Projectile projectile);
 		bool OnHitAsProjectile(CellFace? cellFace, ComponentBody componentBody, WorldItem worldItem);

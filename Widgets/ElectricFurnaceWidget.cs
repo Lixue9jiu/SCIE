@@ -59,7 +59,7 @@ namespace Game
 			{
 				return;
 			}
-			base.ParentWidget.Children.Remove(this);
+			ParentWidget.Children.Remove(this);
 		}
 
 		// Token: 0x040009D5 RID: 2517

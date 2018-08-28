@@ -22,7 +22,7 @@ namespace Game
 		{
 			Point3 coordinates = m_componentBlockEntity.Coordinates;
 			int data = Terrain.ExtractData(m_subsystemTerrain.Terrain.GetCellValue(coordinates.X, coordinates.Y, coordinates.Z));
-			int direction = DispenserNewBlock.GetDirection(data);
+			int direction = FourDirectionalBlock.GetDirection(m_subsystemTerrain.Terrain.GetCellValue(coordinates.X, coordinates.Y, coordinates.Z));
 			DispenserNewBlock.Mode mode = DispenserNewBlock.GetMode(data);
 			Driller(coordinates, direction);
 			int num = 0;

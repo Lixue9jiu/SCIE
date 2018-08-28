@@ -221,157 +221,157 @@
     <Recipe Result="GermaniumChunkBlock" ResultCount="4" RequiredHeatLevel="900" a="germaniumorechunk" Description="Smelt germanium ore to obtain germanium crystals">
       "aaa"
     </Recipe>
-    <Recipe Result="SteelRod" ResultCount="2" RequiredHeatLevel="1500" a="SteelIngot" Description="Forge an steel ingot into rods">
+    <Recipe Result="SteelRod" ResultCount="2" RequiredHeatLevel="1500" a="SteelIngot" Description="Forge a steel ingot into rods">
       "aa"
     </Recipe>
-    <Recipe Result="CopperRod" ResultCount="2" RequiredHeatLevel="1000" a="copperingot" Description="Forge an copper ingot into rods">
+    <Recipe Result="CopperRod" ResultCount="2" RequiredHeatLevel="1000" a="copperingot" Description="Forge a copper ingot into rods">
       "aa"
     </Recipe>
-    <Recipe Result="GoldRod" ResultCount="2" RequiredHeatLevel="1100" a="GoldIngot" Description="Forge an gold ingot into rods">
+    <Recipe Result="GoldRod" ResultCount="2" RequiredHeatLevel="1100" a="GoldIngot" Description="Forge a gold ingot into rods">
       "aa"
     </Recipe>
-    <Recipe Result="SilverRod" ResultCount="2" RequiredHeatLevel="900" a="SilverIngot" Description="Forge an Silver ingot into rods">
+    <Recipe Result="SilverRod" ResultCount="2" RequiredHeatLevel="900" a="SilverIngot" Description="Forge a silver ingot into rods">
       "aa"
     </Recipe>
-    <Recipe Result="LeadRod" ResultCount="2" RequiredHeatLevel="300" a="LeadIngot" Description="Forge an lead ingot into rods">
+    <Recipe Result="LeadRod" ResultCount="2" RequiredHeatLevel="300" a="LeadIngot" Description="Forge a lead ingot into rods">
       "aa"
     </Recipe>
-    <Recipe Result="PlatinumRod" ResultCount="2" RequiredHeatLevel="1800" a="PlatinumIngot" Description="Forge an platinum ingot into rods">
+    <Recipe Result="PlatinumRod" ResultCount="2" RequiredHeatLevel="1800" a="PlatinumIngot" Description="Forge a platinum ingot into rods">
       "aa"
     </Recipe>
-    <Recipe Result="ZincRod" ResultCount="2" RequiredHeatLevel="800" a="ZincIngot" Description="Forge an zinc ingot into rods">
+    <Recipe Result="ZincRod" ResultCount="2" RequiredHeatLevel="800" a="ZincIngot" Description="Forge a zinc ingot into rods">
       "aa"
     </Recipe>
-    <Recipe Result="ChromiumRod" ResultCount="2" RequiredHeatLevel="1850" a="ChromiumIngot" Description="Forge an chromium ingot into rods">
+    <Recipe Result="ChromiumRod" ResultCount="2" RequiredHeatLevel="1850" a="ChromiumIngot" Description="Forge a chromium ingot into rods">
       "aa"
     </Recipe>
-    <Recipe Result="StannaryRod" ResultCount="2" RequiredHeatLevel="300" a="StannaryIngot" Description="Forge an stannary ingot into rods">
+    <Recipe Result="StannaryRod" ResultCount="2" RequiredHeatLevel="300" a="StannaryIngot" Description="Forge a stannary ingot into rods">
       "aa"
     </Recipe>
-    <Recipe Result="NickelRod" ResultCount="2" RequiredHeatLevel="1200" a="NickelIngot" Description="Forge an nickel ingot into rods">
+    <Recipe Result="NickelRod" ResultCount="2" RequiredHeatLevel="1200" a="NickelIngot" Description="Forge a nickel ingot into rods">
       "aa"
     </Recipe>
-    <Recipe Result="SteelIngot" ResultCount="2" RequiredHeatLevel="1" a="SteelIngot" Description="Forge an steel ingot into rods">
+    <Recipe Result="SteelIngot" ResultCount="2" RequiredHeatLevel="1" a="SteelIngot" Description="Forge a steel ingot into rods">
       "aa"
     </Recipe>
-    <Recipe Result="CopperIngotBlock" ResultCount="2" RequiredHeatLevel="1" a="copperingot" Description="Forge an copper ingot into rods">
+    <Recipe Result="CopperIngotBlock" ResultCount="2" RequiredHeatLevel="1" a="copperingot" Description="Forge a copper ingot into rods">
       "aa"
     </Recipe>
-    <Recipe Result="GoldIngot" ResultCount="2" RequiredHeatLevel="1" a="GoldIngot" Description="Forge an gold ingot into rods">
+    <Recipe Result="GoldIngot" ResultCount="2" RequiredHeatLevel="1" a="GoldIngot" Description="Forge a gold ingot into rods">
       "aa"
     </Recipe>
-    <Recipe Result="SilverIngot" ResultCount="2" RequiredHeatLevel="1" a="SilverIngot" Description="Forge an Silver ingot into rods">
+    <Recipe Result="SilverIngot" ResultCount="2" RequiredHeatLevel="1" a="SilverIngot" Description="Forge a silver ingot into rods">
       "aa"
     </Recipe>
-    <Recipe Result="LeadIngot" ResultCount="2" RequiredHeatLevel="1" a="LeadIngot" Description="Forge an lead ingot into rods">
+    <Recipe Result="LeadIngot" ResultCount="2" RequiredHeatLevel="1" a="LeadIngot" Description="Forge a lead ingot into rods">
       "aa"
     </Recipe>
-    <Recipe Result="PlatinumIngot" ResultCount="2" RequiredHeatLevel="1" a="PlatinumIngot" Description="Forge an platinum ingot into rods">
+    <Recipe Result="PlatinumIngot" ResultCount="2" RequiredHeatLevel="1" a="PlatinumIngot" Description="Forge a platinum ingot into rods">
       "aa"
     </Recipe>
-    <Recipe Result="ZincIngot" ResultCount="2" RequiredHeatLevel="1" a="ZincIngot" Description="Forge an zinc ingot into rods">
+    <Recipe Result="ZincIngot" ResultCount="2" RequiredHeatLevel="1" a="ZincIngot" Description="Forge a zinc ingot into rods">
       "aa"
     </Recipe>
-    <Recipe Result="StannaryIngot" ResultCount="2" RequiredHeatLevel="1" a="StannaryIngot" Description="Forge an stannary ingot into rods">
+    <Recipe Result="StannaryIngot" ResultCount="2" RequiredHeatLevel="1" a="StannaryIngot" Description="Forge a stannary ingot into rods">
       "aa"
     </Recipe>
-    <Recipe Result="NickelIngot" ResultCount="2" RequiredHeatLevel="1" a="NickelIngot" Description="Forge an nickel ingot into rods">
+    <Recipe Result="NickelIngot" ResultCount="2" RequiredHeatLevel="1" a="NickelIngot" Description="Forge a nickel ingot into rods">
       "aa"
     </Recipe>
-    <Recipe Result="SteelIngot" ResultCount="2" RequiredHeatLevel="1500" a="SteelPlate" Description="Forge an steel plate into ingots">
+    <Recipe Result="SteelIngot" ResultCount="2" RequiredHeatLevel="1500" a="SteelPlate" Description="Forge a steel plate into ingots">
       "aaa"
     </Recipe>
     <Recipe Result="IronIngotBlock" ResultCount="2" RequiredHeatLevel="1500" a="IronPlate" Description="Forge an iron plate into ingots">
       "aaa"
     </Recipe>
-    <Recipe Result="CopperIngotBlock" ResultCount="2" RequiredHeatLevel="1000" a="CopperPlate" Description="Forge an copper plate into ingots">
+    <Recipe Result="CopperIngotBlock" ResultCount="2" RequiredHeatLevel="1000" a="CopperPlate" Description="Forge a copper plate into ingots">
       "aaa"
     </Recipe>
-    <Recipe Result="GoldIngot" ResultCount="2" RequiredHeatLevel="1100" a="GoldPlate" Description="Forge an gold plate into ingots">
+    <Recipe Result="GoldIngot" ResultCount="2" RequiredHeatLevel="1100" a="GoldPlate" Description="Forge a gold plate into ingots">
       "aaa"
     </Recipe>
-    <Recipe Result="SilverIngot" ResultCount="2" RequiredHeatLevel="900" a="SilverPlate" Description="Forge an Silver plate into ingots">
+    <Recipe Result="SilverIngot" ResultCount="2" RequiredHeatLevel="900" a="SilverPlate" Description="Forge a silver plate into ingots">
       "aaa"
     </Recipe>
-    <Recipe Result="LeadIngot" ResultCount="2" RequiredHeatLevel="300" a="LeadPlate" Description="Forge an lead plate into ingots">
+    <Recipe Result="LeadIngot" ResultCount="2" RequiredHeatLevel="300" a="LeadPlate" Description="Forge a lead plate into ingots">
       "aaa"
     </Recipe>
-    <Recipe Result="PlatinumIngot" ResultCount="2" RequiredHeatLevel="1800" a="PlatinumPlate" Description="Forge an platinum plate into ingots">
+    <Recipe Result="PlatinumIngot" ResultCount="2" RequiredHeatLevel="1800" a="PlatinumPlate" Description="Forge a platinum plate into ingots">
       "aaa"
     </Recipe>
-    <Recipe Result="StannaryIngot" ResultCount="2" RequiredHeatLevel="300" a="StannaryPlate" Description="Forge an stannary plate into ingots">
+    <Recipe Result="StannaryIngot" ResultCount="2" RequiredHeatLevel="300" a="StannaryPlate" Description="Forge a stannary plate into ingots">
       "aaa"
     </Recipe>
-    <Recipe Result="SteelPlate" ResultCount="3" RequiredHeatLevel="1" a="SteelPlate" Description="Forge an steel plate into ingots">
+    <Recipe Result="SteelPlate" ResultCount="3" RequiredHeatLevel="1" a="SteelPlate" Description="Forge a steel plate into ingots">
       "aaa"
     </Recipe>
     <Recipe Result="IronPlate" ResultCount="3" RequiredHeatLevel="1" a="IronPlate" Description="Forge an iron plate into ingots">
       "aaa"
     </Recipe>
-    <Recipe Result="CopperPlate" ResultCount="3" RequiredHeatLevel="1" a="CopperPlate" Description="Forge an copper plate into ingots">
+    <Recipe Result="CopperPlate" ResultCount="3" RequiredHeatLevel="1" a="CopperPlate" Description="Forge a copper plate into ingots">
       "aaa"
     </Recipe>
-    <Recipe Result="GoldPlate" ResultCount="3" RequiredHeatLevel="1" a="GoldPlate" Description="Forge an gold plate into ingots">
+    <Recipe Result="GoldPlate" ResultCount="3" RequiredHeatLevel="1" a="GoldPlate" Description="Forge a gold plate into ingots">
       "aaa"
     </Recipe>
-    <Recipe Result="SilverPlate" ResultCount="3" RequiredHeatLevel="1" a="SilverPlate" Description="Forge an Silver plate into ingots">
+    <Recipe Result="SilverPlate" ResultCount="3" RequiredHeatLevel="1" a="SilverPlate" Description="Forge a silver plate into ingots">
       "aaa"
     </Recipe>
-    <Recipe Result="LeadPlate" ResultCount="3" RequiredHeatLevel="1" a="LeadPlate" Description="Forge an lead plate into ingots">
+    <Recipe Result="LeadPlate" ResultCount="3" RequiredHeatLevel="1" a="LeadPlate" Description="Forge a lead plate into ingots">
       "aaa"
     </Recipe>
-    <Recipe Result="PlatinumPlate" ResultCount="3" RequiredHeatLevel="1" a="PlatinumPlate" Description="Forge an platinum plate into ingots">
+    <Recipe Result="PlatinumPlate" ResultCount="3" RequiredHeatLevel="1" a="PlatinumPlate" Description="Forge a platinum plate into ingots">
       "aaa"
     </Recipe>
-    <Recipe Result="StannaryPlate" ResultCount="3" RequiredHeatLevel="1" a="StannaryPlate" Description="Forge an stannary plate into ingots">
+    <Recipe Result="StannaryPlate" ResultCount="3" RequiredHeatLevel="1" a="StannaryPlate" Description="Forge a stannary plate into ingots">
       "aaa"
     </Recipe>
-    <Recipe Result="SteelIngot" ResultCount="2" RequiredHeatLevel="1500" a="SteelLine" Description="Forge an steel line into ingots">
+    <Recipe Result="SteelIngot" ResultCount="2" RequiredHeatLevel="1500" a="SteelLine" Description="Forge a steel line into ingots">
       "aa"
     </Recipe>
     <Recipe Result="IronIngotBlock" ResultCount="2" RequiredHeatLevel="1500" a="IronLine" Description="Forge an iron line into ingots">
       "aa"
     </Recipe>
-    <Recipe Result="CopperIngotBlock" ResultCount="2" RequiredHeatLevel="1000" a="CopperLine" Description="Forge an copper line into ingots">
+    <Recipe Result="CopperIngotBlock" ResultCount="2" RequiredHeatLevel="1000" a="CopperLine" Description="Forge a copper line into ingots">
       "aa"
     </Recipe>
-    <Recipe Result="GoldIngot" ResultCount="2" RequiredHeatLevel="1100" a="GoldLine" Description="Forge an gold line into ingots">
+    <Recipe Result="GoldIngot" ResultCount="2" RequiredHeatLevel="1100" a="GoldLine" Description="Forge a gold line into ingots">
       "aa"
     </Recipe>
-    <Recipe Result="SilverIngot" ResultCount="2" RequiredHeatLevel="900" a="SilverLine" Description="Forge an Silver line into ingots">
+    <Recipe Result="SilverIngot" ResultCount="2" RequiredHeatLevel="900" a="SilverLine" Description="Forge a silver line into ingots">
       "aa"
     </Recipe>
-    <Recipe Result="LeadIngot" ResultCount="2" RequiredHeatLevel="300" a="LeadLine" Description="Forge an lead line into ingots">
+    <Recipe Result="LeadIngot" ResultCount="2" RequiredHeatLevel="300" a="LeadLine" Description="Forge a lead line into ingots">
       "aa"
     </Recipe>
-    <Recipe Result="PlatinumIngot" ResultCount="2" RequiredHeatLevel="1800" a="PlatinumLine" Description="Forge an platinum line into ingots">
+    <Recipe Result="PlatinumIngot" ResultCount="2" RequiredHeatLevel="1800" a="PlatinumLine" Description="Forge a platinum line into ingots">
       "aa"
     </Recipe>
-    <Recipe Result="StannaryIngot" ResultCount="2" RequiredHeatLevel="300" a="StannaryLine" Description="Forge an stannary line into ingots">
+    <Recipe Result="StannaryIngot" ResultCount="2" RequiredHeatLevel="300" a="StannaryLine" Description="Forge a stannary line into ingots">
       "aa"
     </Recipe>
-    <Recipe Result="SteelLine" ResultCount="2" RequiredHeatLevel="1" a="SteelLine" Description="Forge an steel line into ingots">
+    <Recipe Result="SteelLine" ResultCount="2" RequiredHeatLevel="1" a="SteelLine" Description="Forge a steel line into ingots">
       "aa"
     </Recipe>
     <Recipe Result="IronLine" ResultCount="2" RequiredHeatLevel="1" a="IronLine" Description="Forge an iron line into ingots">
       "aa"
     </Recipe>
-    <Recipe Result="CopperLine" ResultCount="2" RequiredHeatLevel="1" a="CopperLine" Description="Forge an copper line into ingots">
+    <Recipe Result="CopperLine" ResultCount="2" RequiredHeatLevel="1" a="CopperLine" Description="Forge a copper line into ingots">
       "aa"
     </Recipe>
-    <Recipe Result="GoldLine" ResultCount="2" RequiredHeatLevel="1" a="GoldLine" Description="Forge an gold line into ingots">
+    <Recipe Result="GoldLine" ResultCount="2" RequiredHeatLevel="1" a="GoldLine" Description="Forge a gold line into ingots">
       "aa"
     </Recipe>
-    <Recipe Result="SilverLine" ResultCount="2" RequiredHeatLevel="1" a="SilverLine" Description="Forge an Silver line into ingots">
+    <Recipe Result="SilverLine" ResultCount="2" RequiredHeatLevel="1" a="SilverLine" Description="Forge a Silver line into ingots">
       "aa"
     </Recipe>
-    <Recipe Result="LeadLine" ResultCount="2" RequiredHeatLevel="1" a="LeadLine" Description="Forge an lead line into ingots">
+    <Recipe Result="LeadLine" ResultCount="2" RequiredHeatLevel="1" a="LeadLine" Description="Forge a lead line into ingots">
       "aa"
     </Recipe>
-    <Recipe Result="PlatinumLine" ResultCount="2" RequiredHeatLevel="1" a="PlatinumLine" Description="Forge an platinum line into ingots">
+    <Recipe Result="PlatinumLine" ResultCount="2" RequiredHeatLevel="1" a="PlatinumLine" Description="Forge a platinum line into ingots">
       "aa"
     </Recipe>
-    <Recipe Result="StannaryLine" ResultCount="2" RequiredHeatLevel="1" a="StannaryLine" Description="Forge an stannary line into ingots">
+    <Recipe Result="StannaryLine" ResultCount="2" RequiredHeatLevel="1" a="StannaryLine" Description="Forge a stannary line into ingots">
       "aa"
     </Recipe>
   </Smelting>
@@ -481,52 +481,52 @@
     </Recipe>
   </Dismantling>
   <SteelTools>
-    <Recipe Result="SteelShovelBlock" ResultCount="1" RequiredHeatLevel="0" a="stick" b="SteelIngot" Description="Make an steel tool">
+    <Recipe Result="SteelShovelBlock" ResultCount="1" RequiredHeatLevel="0" a="stick" b="SteelIngot" Description="Make a steel tool">
       "b"
       "a"
       "a"
     </Recipe>
-    <Recipe Result="SteelPickaxeBlock" ResultCount="1" RequiredHeatLevel="0" a="stick" b="SteelIngot" Description="Make an steel tool">
+    <Recipe Result="SteelPickaxeBlock" ResultCount="1" RequiredHeatLevel="0" a="stick" b="SteelIngot" Description="Make a steel tool">
       "bbb"
       " a"
       " a"
     </Recipe>
-    <Recipe Result="SteelAxeBlock" ResultCount="1" RequiredHeatLevel="0" a="stick" b="SteelIngot" Description="Make an steel tool">
+    <Recipe Result="SteelAxeBlock" ResultCount="1" RequiredHeatLevel="0" a="stick" b="SteelIngot" Description="Make a steel tool">
       "bb"
       "ba"
       " a"
     </Recipe>
-    <Recipe Result="SteelRakeBlock" ResultCount="1" RequiredHeatLevel="0" a="stick" b="SteelIngot" Description="Make an steel tool">
+    <Recipe Result="SteelRakeBlock" ResultCount="1" RequiredHeatLevel="0" a="stick" b="SteelIngot" Description="Make a steel tool">
       "b b"
       " a"
       " a"
     </Recipe>
-    <Recipe Result="SteelSpearBlock" ResultCount="1" RequiredHeatLevel="0" a="stick" b="SteelIngot" Description="Make an steel weapon">
+    <Recipe Result="SteelSpearBlock" ResultCount="1" RequiredHeatLevel="0" a="stick" b="SteelIngot" Description="Make a steel weapon">
       " b"
       "bab"
       " a"
     </Recipe>
-    <Recipe Result="SteelMacheteBlock" ResultCount="1" RequiredHeatLevel="0" a="stick" b="SteelIngot" Description="Make an steel weapon">
+    <Recipe Result="SteelMacheteBlock" ResultCount="1" RequiredHeatLevel="0" a="stick" b="SteelIngot" Description="Make a steel weapon">
       "b"
       "b"
       "a"
     </Recipe>
-    <Recipe Result="ScrapIron" ResultCount="1" RequiredHeatLevel="1500" a="steelshovel" Description="Dismantle an steel tool">
+    <Recipe Result="ScrapIron" ResultCount="1" RequiredHeatLevel="1500" a="steelshovel" Description="Dismantle a steel tool">
       "a"
     </Recipe>
-    <Recipe Result="ScrapIron" ResultCount="3" RequiredHeatLevel="1500" a="steelpickaxe" Description="Dismantle an steel tool">
+    <Recipe Result="ScrapIron" ResultCount="3" RequiredHeatLevel="1500" a="steelpickaxe" Description="Dismantle a steel tool">
       "a"
     </Recipe>
-    <Recipe Result="ScrapIron" ResultCount="3" RequiredHeatLevel="1500" a="steelaxe" Description="Dismantle an steel tool">
+    <Recipe Result="ScrapIron" ResultCount="3" RequiredHeatLevel="1500" a="steelaxe" Description="Dismantle a steel tool">
       "a"
     </Recipe>
-    <Recipe Result="ScrapIron" ResultCount="2" RequiredHeatLevel="1500" a="steelrake" Description="Dismantle an steel tool">
+    <Recipe Result="ScrapIron" ResultCount="2" RequiredHeatLevel="1500" a="steelrake" Description="Dismantle a steel tool">
       "a"
     </Recipe>
-    <Recipe Result="ScrapIron" ResultCount="3" RequiredHeatLevel="1500" a="steelspear" Description="Dismantle an steel weapon">
+    <Recipe Result="ScrapIron" ResultCount="3" RequiredHeatLevel="1500" a="steelspear" Description="Dismantle a steel weapon">
       "a"
     </Recipe>
-    <Recipe Result="ScrapIron" ResultCount="2" RequiredHeatLevel="1500" a="steelmachete" Description="Dismantle an steel weapon">
+    <Recipe Result="ScrapIron" ResultCount="2" RequiredHeatLevel="1500" a="steelmachete" Description="Dismantle a steel weapon">
       "a"
     </Recipe>
   </SteelTools>
@@ -607,7 +607,7 @@
       "aba"
       "aaa"
     </Recipe>
-    <Recipe Result="IndustrialPiston" ResultCount="1" RequiredHeatLevel="0" a="ironingot" b="emptybucket" c="SteelRod" d="SteelIngot" Description="Make a industrial piston">
+    <Recipe Result="IndustrialPiston" ResultCount="1" RequiredHeatLevel="0" a="ironingot" b="emptybucket" c="SteelRod" d="SteelIngot" Description="Make an industrial piston">
       "dcd"
       "ada"
       "aba"
@@ -759,10 +759,10 @@
       "cdc"
       "aaa"
     </Recipe>
-    <Recipe Result="WireDevice" ResultCount="10" RequiredHeatLevel="0" a="CopperLine" Description="Make a IndustrialWire.">
+    <Recipe Result="WireDevice" ResultCount="10" RequiredHeatLevel="0" a="CopperLine" Description="Make an industrial wire.">
       "a"
     </Recipe>
-    <Recipe Result="Magnetizer" ResultCount="1" RequiredHeatLevel="0" a="metalblock:0" b="CopperWire" c="SteelRod" d="furnace" Description="Make a Magnetizer to creat industrial magnet.">
+    <Recipe Result="Magnetizer" ResultCount="1" RequiredHeatLevel="0" a="metalblock:0" b="CopperWire" c="SteelRod" d="furnace" Description="Make a Magnetizer to make industrial magnet.">
       "bbb"
       "bab"
       "cdc"

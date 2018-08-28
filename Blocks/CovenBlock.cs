@@ -7,7 +7,7 @@ namespace Game
 	{
 		public override int GetFaceTextureSlot(int face, int value)
 		{
-			if (face == GetDirection(Terrain.ExtractData(value)))
+			if (face == GetDirection(value))
 			{
 				return 242;
 			}
