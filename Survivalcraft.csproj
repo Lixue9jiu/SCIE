@@ -74,7 +74,10 @@
     <Compile Include="Blocks\SqueezerBlock.cs" />
     <Compile Include="Blocks\Train.cs" />
     <Compile Include="Blocks\Wire.cs" />
+    <Compile Include="Components\ComponentCoven.cs" />
     <Compile Include="Components\ComponentCReactor.cs" />
+    <Compile Include="Components\ComponentElectricFurnace.cs" />
+    <Compile Include="Components\ComponentHearthFurnace.cs" />
     <Compile Include="Components\ComponentLargeCraftingTable.cs" />
     <Compile Include="Components\ComponentMachine.cs" />
     <Compile Include="Components\ComponentMagnetizer.cs" />
@@ -96,7 +99,10 @@
     <Compile Include="Subsystems\SubsystemMineral.cs" />
     <Compile Include="Subsystems\SubsystemRailBlockBehavior.cs" />
     <Compile Include="Subsystems\SubsystemSourceOfFireBlockBehavior.cs" />
+    <Compile Include="Widgets\CovenWidget.cs" />
     <Compile Include="Widgets\CReactorWidget.cs" />
+    <Compile Include="Widgets\ElectricFurnaceWidget.cs" />
+    <Compile Include="Widgets\HearthFurnaceWidget.cs" />
     <Compile Include="Widgets\MachineToolWidget.cs" />
     <Compile Include="Widgets\MagnetizerWidget.cs" />
     <Compile Include="Widgets\NewCraftingRecipeWidget.cs" />

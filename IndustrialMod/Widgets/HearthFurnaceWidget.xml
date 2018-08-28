@@ -1,7 +1,7 @@
 <FurnaceWidget xmlns="runtime-namespace:Game">
   <BevelledRectangleWidget Size="612, 382" BevelSize="3" />
   <CanvasWidget CanvasWidget.Position="18, 52" Size="216, 144">
-    <LabelWidget Text="Raw Material" Font="{Fonts/Pericles24}" FontSpacing="8, 0" Color="0, 0, 0, 64" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+    <LabelWidget Text="Iron" Font="{Fonts/Pericles24}" FontSpacing="8, 0" Color="0, 0, 0, 64" HorizontalAlignment="Center" VerticalAlignment="Center"/>
   </CanvasWidget>
   <GridPanelWidget Name="InventoryGrid" CanvasWidget.Position="304, 52" ColumnsCount="4" RowsCount="4"/>
   <GridPanelWidget Name="FurnaceGrid" CanvasWidget.Position="18, 52" ColumnsCount="3" RowsCount="2"/>
@@ -23,7 +23,7 @@
   <InventorySlotWidget Name="RemainsSlot" CanvasWidget.Position="146, 268" >
     <LabelWidget Text="..." Font="{Fonts/Pericles24}" Color="0, 0, 0, 64" HorizontalAlignment="Center" VerticalAlignment="Center"/>
   </InventorySlotWidget>
-  <LabelWidget CanvasWidget.Position="28, 14" Text="CokeOven" Font="{Fonts/Pericles24}" Color="255, 255, 255, 192"/>
+  <LabelWidget CanvasWidget.Position="28, 14" Text="OpenHearthFurnace" Font="{Fonts/Pericles24}" Color="255, 255, 255, 192"/>
   <LabelWidget CanvasWidget.Position="294, 14" Text="Inventory" Font="{Fonts/Pericles24}" Color="255, 255, 255, 192"/>
   <ArrowLineWidget Color="0, 0, 0, 96" Width="8" ArrowWidth="0" PointsString="240, 88; 264, 88; 264, 118" AbsoluteCoordinates="true"/>
   <ArrowLineWidget Color="0, 0, 0, 96" Width="8" ArrowWidth="24" PointsString="264, 218; 264, 248" AbsoluteCoordinates="true"/>

@@ -28,6 +28,10 @@
       <MemberComponentTemplate Name="Magnetizer" Guid="0f193a13-ac7d-4b4c-97c7-df652ca11b51" InheritanceParent="73a2ec9e-10c7-4133-85b4-4a35bd44c956" />
       <MemberComponentTemplate Name="BlockEntity" Guid="a1e8dc3e-980d-461e-87ac-4358ed7d41b5" InheritanceParent="09a85cba-d94e-41b8-9497-f20ed942c17e" />
     </EntityTemplate>
+     <EntityTemplate Name="ElectricFurnace" Guid="0855a288-af17-4955-81fa-aafaf97b92bd">
+      <MemberComponentTemplate Name="ElectricFurnace" Guid="0f193a24-ac7d-4b4c-97c7-df652ca11b51" InheritanceParent="73a2ecbf-10c7-4133-85b4-4a35bd44c956" />
+      <MemberComponentTemplate Name="BlockEntity" Guid="a1e8dd4e-980d-461e-87ac-4358ed7d41b5" InheritanceParent="09a85cba-d94e-41b8-9497-f20ed942c17e" />
+    </EntityTemplate>
      <EntityTemplate Name="Seperator" Guid="0855a387-af17-4955-81fa-aafaf97b92bd">
       <MemberComponentTemplate Name="Seperator" Guid="0f193a26-ac7d-4b4c-97c7-df652ca11b51" InheritanceParent="73a2ecaf-10c7-4133-85b4-4a35bd44c956" />
       <MemberComponentTemplate Name="BlockEntity" Guid="a1e9dc3e-980d-461e-87ac-4358ed7d41b5" InheritanceParent="09a85cba-d94e-41b8-9497-f20ed942c17e" />
@@ -135,6 +139,18 @@
       <MemberComponentTemplate Name="BlockEntity" Guid="f2d455cd-8233-4bee-ad3e-bde77df10654" InheritanceParent="09a85cba-d94e-41b8-9497-f20ed942c17e" />
       <MemberComponentTemplate Name="BlastFurnace" Guid="a7a43844-dfe9-4331-900e-4c5f3ce25348" InheritanceParent="f91f7946-de35-4e94-ba6e-90cd55cd19d4">
         <Parameter Name="SlotsCount" Guid="3dfd5624-a4c0-4ad5-85f8-813ef26dae6b" Value="12" Type="int" />
+      </MemberComponentTemplate>
+    </EntityTemplate>
+    <EntityTemplate Name="CokeOven" Guid="a4a43467-d37d-455f-9a43-803260a915a9">
+      <MemberComponentTemplate Name="BlockEntity" Guid="f2d466cd-8233-4bee-ad3e-bde77df10654" InheritanceParent="09a85cba-d94e-41b8-9497-f20ed942c17e" />
+      <MemberComponentTemplate Name="BlastFurnace" Guid="a7a43855-dfe9-4331-900e-4c5f3ce25348" InheritanceParent="f91f7957-de35-4e94-ba6e-90cd55cd19d4">
+        <Parameter Name="SlotsCount" Guid="3dfd5635-a4c0-4ad5-85f8-813ef26dae6b" Value="8" Type="int" />
+      </MemberComponentTemplate>
+    </EntityTemplate>
+      <EntityTemplate Name="HearthFurnace" Guid="a4a43478-d37d-455f-9a43-803260a915a9">
+      <MemberComponentTemplate Name="BlockEntity" Guid="f2d477cd-8233-4bee-ad3e-bde77df10654" InheritanceParent="09a85cba-d94e-41b8-9497-f20ed942c17e" />
+      <MemberComponentTemplate Name="BlastFurnace" Guid="a7a43866-dfe9-4331-900e-4c5f3ce25348" InheritanceParent="f91f7968-de35-4e94-ba6e-90cd55cd19d4">
+        <Parameter Name="SlotsCount" Guid="3dfd5646-a4c0-4ad5-85f8-813ef26dae6b" Value="8" Type="int" />
       </MemberComponentTemplate>
     </EntityTemplate>
     <EntityTemplate Name="MachineTool" Guid="a4c43456-d37d-455f-9a43-803260a915a9">
@@ -262,6 +278,12 @@
       <Parameter Name="HeatLevel" Description="Current heat level in furnace" Guid="c4678084-79c4-409e-b043-f9d3010d7e95" Value="0" Type="float" />
       <Parameter Name="Class" Guid="1c8a89ff-22f9-45aa-aae3-039ba73b12b6" Value="Game.ComponentMagnetizer" Type="string" />
     </ComponentTemplate>
+     <ComponentTemplate Name="ElectricFurnace" Description="A chest that you can store items in" Guid="73a2ecbf-10c7-4133-85b4-4a35bd44c956" InheritanceParent="81a44c6a-c30a-4f53-8d64-0c30aabab8f9">
+      <Parameter Name="SlotsCount" Guid="0b8d684d-f972-431b-9828-d30e0fbf33f1" Value="9" Type="int" />
+      <Parameter Name="FireTimeRemaining" Description="Fire time remaining, in seconds" Guid="3852cd84-3ff3-4165-aad1-19685e751850" Value="0" Type="float" />
+      <Parameter Name="HeatLevel" Description="Current heat level in furnace" Guid="c4679184-79c4-409e-b043-f9d3010d7e95" Value="0" Type="float" />
+      <Parameter Name="Class" Guid="1c8a9aff-22f9-45aa-aae3-039ba73b12b6" Value="Game.ComponentElectricFurnace" Type="string" />
+    </ComponentTemplate>
      <ComponentTemplate Name="Seperator" Description="A chest that you can store items in" Guid="73a2ecaf-10c7-4133-85b4-4a35bd44c956" InheritanceParent="81a44c6a-c30a-4f53-8d64-0c30aabab8f9">
       <Parameter Name="SlotsCount" Guid="1c8d574d-f972-431b-9828-d30e0fbf33f1" Value="6" Type="int" />
       <Parameter Name="FireTimeRemaining" Description="Fire time remaining, in seconds" Guid="3942cd84-3ff3-4165-aad1-19685e751850" Value="0" Type="float" />
@@ -335,6 +357,16 @@
       <Parameter Name="FireTimeRemaining" Description="Fire time remaining, in seconds" Guid="3831cd84-3ff3-4165-aad1-19685e751850" Value="0" Type="float" />
       <Parameter Name="HeatLevel" Description="Current heat level in furnace" Guid="c4667184-79c4-409e-b043-f9d3010d7e95" Value="0" Type="float" />
       <Parameter Name="Class" Guid="fa4c53fe-1d3c-467e-81bc-1796f686be51" Value="Game.ComponentBlastFurnace" Type="string" />
+    </ComponentTemplate>
+    <ComponentTemplate Name="CokeOven" Description="A blastfurnace" Guid="f91f7957-de35-4e94-ba6e-90cd55cd19d4" InheritanceParent="81a44c6a-c30a-4f53-8d64-0c30aabab8f9">
+      <Parameter Name="FireTimeRemaining" Description="Fire time remaining, in seconds" Guid="3842cd84-3ff3-4165-aad1-19685e751850" Value="0" Type="float" />
+      <Parameter Name="HeatLevel" Description="Current heat level in furnace" Guid="c4667196-79c4-409e-b043-f9d3010d7e95" Value="0" Type="float" />
+      <Parameter Name="Class" Guid="fa4c65fe-1d3c-467e-81bc-1796f686be51" Value="Game.ComponentCoven" Type="string" />
+    </ComponentTemplate>
+    <ComponentTemplate Name="HearthFurnace" Description="A blastfurnace" Guid="f91f7968-de35-4e94-ba6e-90cd55cd19d4" InheritanceParent="81a44c6a-c30a-4f53-8d64-0c30aabab8f9">
+      <Parameter Name="FireTimeRemaining" Description="Fire time remaining, in seconds" Guid="5942cd84-3ff3-4165-aad1-19685e751850" Value="0" Type="float" />
+      <Parameter Name="HeatLevel" Description="Current heat level in furnace" Guid="c4777196-79c4-409e-b043-f9d3010d7e95" Value="0" Type="float" />
+      <Parameter Name="Class" Guid="fa4c666e-1d3c-467e-81bc-1796f686be51" Value="Game.ComponentHearthFurnace" Type="string" />
     </ComponentTemplate>
   </ToAdd>
 </IndustrialMod>

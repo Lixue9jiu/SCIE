@@ -1,10 +1,10 @@
 <FurnaceWidget xmlns="runtime-namespace:Game">
-  <BevelledRectangleWidget Size="614, 382" BevelSize="3" />
+  <BevelledRectangleWidget Size="686, 382" BevelSize="3" />
   <CanvasWidget CanvasWidget.Position="28, 52" Size="216, 72">
     <LabelWidget Text="Batch" Font="{Fonts/Pericles24}" FontSpacing="8, 0" Color="0, 0, 0, 64" HorizontalAlignment="Center" VerticalAlignment="Center"/>
   </CanvasWidget>
-  <GridPanelWidget Name="InventoryGrid" CanvasWidget.Position="286, 52" ColumnsCount="4" RowsCount="4"/>
-  <GridPanelWidget Name="FurnaceGrid" CanvasWidget.Position="28, 52" ColumnsCount="3" RowsCount="1"/>
+  <GridPanelWidget Name="InventoryGrid" CanvasWidget.Position="358, 52" ColumnsCount="4" RowsCount="4"/>
+  <GridPanelWidget Name="FurnaceGrid" CanvasWidget.Position="28, 52" ColumnsCount="4" RowsCount="1"/>
   <CanvasWidget CanvasWidget.Position="64, 130" >
     <FireWidget Name="Fire" Size="68, 40" HorizontalAlignment="Center" VerticalAlignment="Center"/>
     <StackPanelWidget Direction="Horizontal">
@@ -30,6 +30,6 @@
     <LabelWidget Text="Circuit" Font="{Fonts/Pericles24}" Color="0, 0, 0, 64" HorizontalAlignment="Center" VerticalAlignment="Center"/>
   </InventorySlotWidget>
   <LabelWidget CanvasWidget.Position="28, 14" Text="ElectricFurnace" Font="{Fonts/Pericles24}" Color="255, 255, 255, 192"/>
-  <LabelWidget CanvasWidget.Position="286, 14" Text="Inventory" Font="{Fonts/Pericles24}" Color="255, 255, 255, 192"/>
+  <LabelWidget CanvasWidget.Position="358, 14" Text="Inventory" Font="{Fonts/Pericles24}" Color="255, 255, 255, 192"/>
   <ArrowLineWidget Color="0, 0, 0, 96" Width="8" ArrowWidth="24" PointsString="216, 218; 216, 248" AbsoluteCoordinates="true"/>
 </FurnaceWidget>

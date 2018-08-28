@@ -12,15 +12,25 @@ namespace Game
 			{
 				return new []
 				{
-					BlastFurnaceBlock.Index
+					BlastFurnaceBlock.Index,
+                    CovenBlock.Index,
+                    HearthFurnaceBlock.Index
 				};
 			}
 		}
 		
 		public override void OnBlockAdded(int value, int oldValue, int x, int y, int z)
 		{
-			var valuesDictionary = new ValuesDictionary();
-			valuesDictionary.PopulateFromDatabaseObject(Project.GameDatabase.Database.FindDatabaseObject("BlastFurnace", Project.GameDatabase.EntityTemplateType, true));
+            string name;
+            switch (Terrain.ExtractContents(value))
+            {
+                case BlastFurnaceBlock.Index: name = "BlastFurnace"; break;
+                case CovenBlock.Index: name = "CokeOven"; break;
+                case HearthFurnaceBlock.Index: name = "HearthFurnace"; break;
+                default: return;
+            }
+            var valuesDictionary = new ValuesDictionary();
+			valuesDictionary.PopulateFromDatabaseObject(Project.GameDatabase.Database.FindDatabaseObject(name, Project.GameDatabase.EntityTemplateType, true));
 			valuesDictionary.GetValue<ValuesDictionary>("BlockEntity").SetValue<Point3>("Coordinates", new Point3(x, y, z));
 			Project.AddEntity(Project.CreateEntity(valuesDictionary));
 		}
@@ -62,10 +72,27 @@ namespace Game
 			{
 				return false;
 			}
-			ComponentBlastFurnace componentFurnace = blockEntity.Entity.FindComponent<ComponentBlastFurnace>(true);
-			componentMiner.ComponentPlayer.ComponentGui.ModalPanelWidget = new BlastFurnaceWidget(componentMiner.Inventory, componentFurnace);
-			AudioManager.PlaySound("Audio/UI/ButtonClick", 1f, 0f, 0f);
-			return true;
+            switch (Terrain.ExtractContents(raycastResult.Value))
+            {
+                case BlastFurnaceBlock.Index:
+                    ComponentBlastFurnace componentFurnace = blockEntity.Entity.FindComponent<ComponentBlastFurnace>(true);
+                    componentMiner.ComponentPlayer.ComponentGui.ModalPanelWidget = new BlastFurnaceWidget(componentMiner.Inventory, componentFurnace);
+                    AudioManager.PlaySound("Audio/UI/ButtonClick", 1f, 0f, 0f);
+                    return true;
+                   
+                case CovenBlock.Index:
+                    ComponentCoven componentFurnace2 = blockEntity.Entity.FindComponent<ComponentCoven>(true);
+                    componentMiner.ComponentPlayer.ComponentGui.ModalPanelWidget = new CovenWidget(componentMiner.Inventory, componentFurnace2);
+                    AudioManager.PlaySound("Audio/UI/ButtonClick", 1f, 0f, 0f);
+                    return true;
+
+                case HearthFurnaceBlock.Index:
+                    ComponentHearthFurnace componentFurnace3 = blockEntity.Entity.FindComponent<ComponentHearthFurnace>(true);
+                    componentMiner.ComponentPlayer.ComponentGui.ModalPanelWidget = new HearthFurnaceWidget(componentMiner.Inventory, componentFurnace3);
+                    AudioManager.PlaySound("Audio/UI/ButtonClick", 1f, 0f, 0f);
+                    return true;
+                default: return false;
+            }
 		}
 		
 		/*public override void OnNeighborBlockChanged(int x, int y, int z, int neighborX, int neighborY, int neighborZ)
