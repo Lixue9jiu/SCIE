@@ -105,6 +105,12 @@ namespace Game
 		Ba = 1<<21, W = 1<<22, Pt = 1<<23, Au = 1<<24, Hg = 1<<25, Pb = 1<<26,
 		U = 1<<31
 	}*/
+	[Flags]
+	[Serializable]
+	public enum Metal : ushort
+	{
+		Used
+	}
 	public class BasaltBlock : PaintedCubeBlock
 	{
 		public static readonly Color[] Colors = new Color[]
@@ -335,8 +341,8 @@ namespace Game
 			Cr,
 			Ni,
 			P,
-			Oil,
-			NaruralGas
+			//Oil,
+			//NaruralGas
 		}
 		public static TerrainBrush[] AuBrushes;
 		public static TerrainBrush[] AgBrushes;
@@ -349,18 +355,19 @@ namespace Game
 		public static TerrainBrush[] CoBrushes;
 		public static TerrainBrush[] NiBrushes;
 		public static TerrainBrush[] PBrushes;
-		public static TerrainBrush[] OilPocketBrushes;
-		public static TerrainBrush[] NaruralGasBrushes;
+		//public static TerrainBrush[] OilPocketBrushes;
+		//public static TerrainBrush[] NaruralGasBrushes;
 		public static TerrainBrush[,] Brushes;
 		//public SubsystemTime SubsystemTime;
+		protected SubsystemItemsScanner m_subsystemItemsScanner;
 		//public static Dictionary<long, int> MinesData;
-		//public static byte[] Used;
+		public static DynamicArray<Metal> AlloysData;
 		//public static HashSet<int> Handled;
 
 		public override int[] HandledBlocks => new int[]
 		{
 			BasaltBlock.Index,
-			GermaniumOreBlock.Index
+			//GermaniumOreBlock.Index
 		};/*
 				{
 					DirtBlock.Index,
@@ -382,34 +389,43 @@ namespace Game
 					CoalBlock.Index
 				};*/
 
-		/*public static void StoreItemData(long key)
+		public static int StoreItemData(Metal key)
 		{
-			MinesData.TryGetValue(key, out int count);
-			MinesData[key] = count + 1;
-		}*/
+			int i;
+			var array = AlloysData.Array;
+			for (i = 1; i < AlloysData.Count; i++)
+				if (array[i] == 0)
+				{
+					array[i] = key;
+					return i;
+				}
+				else if (array[i] == key || (array[i] & Metal.Used) == 0)
+					return i;
+			if (i == 262144)
+				return 0;
+			AlloysData.Add(key);
+			return i;
+			//MinesData.TryGetValue(key, out int count);
+			//MinesData[key] = count + 1;
+		}
 
 		public override void Load(ValuesDictionary valuesDictionary)
 		{
 			base.Load(valuesDictionary);
 			int i;
-			//m_subsystemItemsScanner.ItemsScanned += GarbageCollectItems;
+			(m_subsystemItemsScanner = Project.FindSubsystem<SubsystemItemsScanner>(true)).ItemsScanned += GarbageCollectItems;
 			//SubsystemTime = Project.FindSubsystem<SubsystemTime>(true);
-			/*var arr = valuesDictionary.GetValue<string>("MinesData", "0").Split(',');
-			MinesData = new Dictionary<long, int>(arr.Length + 1);
+			var arr = valuesDictionary.GetValue<string>("AlloysData", "0").Split(',');
+			AlloysData = new DynamicArray<Metal>(arr.Length);
 			for (i = 0; i < arr.Length; i++)
 			{
-				if (arr[i].Length > 3)
-				{
-					int p = arr[i].IndexOf('=');
-					if (p > 0 && long.TryParse(arr[i].Substring(0, p), out long key) && int.TryParse(arr[i].Substring(p + 1), out int value))
-							MinesData[key] = value;
-				}
+				if (ushort.TryParse(arr[i], out ushort value))
+					AlloysData.Add((Metal)value);
 			}
-			Used = new byte[262144];
+			/*Used = new byte[262144];
 			Handled = new HashSet<int>();
-			var handledBlocks = HandledBlocks;
-			for (i = 0; i < handledBlocks.Length; i++)
-				Handled.Add(handledBlocks[i]);*/
+			for (i = 0; i < HandledBlocks.Length; i++)
+				Handled.Add(HandledBlocks[i]);*/
 			AuBrushes = new TerrainBrush[16];
 			AgBrushes = new TerrainBrush[16];
 			PtBrushes = new TerrainBrush[16];
@@ -421,8 +437,8 @@ namespace Game
 			//CoBrushes = new TerrainBrush[16];
 			//NiBrushes = new TerrainBrush[16];
 			PBrushes = new TerrainBrush[16];
-			NaruralGasBrushes = new TerrainBrush[16];
-			OilPocketBrushes = new TerrainBrush[16];
+			//NaruralGasBrushes = new TerrainBrush[16];
+			//OilPocketBrushes = new TerrainBrush[16];
 			//Brushes = new TerrainBrush[12, 16];
 			//MinCounts = new TerrainBrush[12, 16];
 			var random = new Random(17034);
@@ -499,19 +515,31 @@ namespace Game
 			}
 		}
 
-		/*public override void Save(ValuesDictionary valuesDictionary)
+		public override void Save(ValuesDictionary valuesDictionary)
 		{
 			base.Save(valuesDictionary);
-			var sb = new StringBuilder(MinesData.Count * 3);
+			/*var sb = new StringBuilder(MinesData.Count * 3);
 			foreach (var data in MinesData)
 			{
 				sb.Append(',');
 				sb.Append(data.Key.ToString());
 				sb.Append('=');
 				sb.Append(data.Value.ToString());
+			}*/
+			var sb = new StringBuilder(AlloysData.Count);
+			var values = AlloysData.Array;
+			if (values.Length == 0)
+			{
+				return;
 			}
-			valuesDictionary.SetValue("MinesData", sb.ToString(1, sb.Length));
-		}*/
+			sb.Append(values[0].ToString());
+			for (int i = 1; i < AlloysData.Count; i++)
+			{
+				sb.Append(',');
+				sb.Append(values[i].ToString());
+			}
+			valuesDictionary.SetValue("AlloysData", sb.ToString());
+		}
 
 		public override void OnChunkInitialized(TerrainChunk chunk)
 		{
@@ -626,21 +654,18 @@ namespace Game
 
 		public override void OnItemPlaced(int x, int y, int z, ref BlockPlacementData placementData, int itemValue)
 		{
+			AlloysData.Array[Terrain.ExtractData(itemValue)] |= Metal.Used;
 			placementData.Value = itemValue;
 		}
 
-		/*public void GarbageCollectItems(ReadOnlyList<ScannedItemData> allExistingItems)
+		public void GarbageCollectItems(ReadOnlyList<ScannedItemData> allExistingItems)
 		{
-			int i;
-			for (i = 1; i < MinesData.Count; i++)
-				if (Used[i] == 1)
-					Used[i] = 0;
-			for (i = 0; i < allExistingItems.Count; i++)
+			for (int i = 0; i < allExistingItems.Count; i++)
 			{
 				int value = allExistingItems[i].Value;
-				if (Handled.Contains(Terrain.ExtractContents(value)))
-					Used[Terrain.ExtractData(value)] = 1;
+				if (Terrain.ExtractContents(value) == BasaltBlock.Index)
+					AlloysData.Array[Terrain.ExtractData(value)] |= Metal.Used;
 			}
-		}*/
+		}
 	}
 }

@@ -11,6 +11,10 @@
   <ToAdd Type="ComponentTemplate" Name="CraftingTable" Guid="48fdc8bb-8ca8-4d0f-af8d-25bfe9b56a19">
     <Parameter Name="Class" Guid="566663a5-0480-45c8-9266-18c8060a236c" Value="Game.ComponentLargeCraftingTable" Type="string" />
   </ToAdd>
+  <ToRemove Type="Parameter" Name="Class" Guid="f04c23fe-1d3c-467e-81bc-1796f686be51" />
+  <ToAdd Type="ComponentTemplate" Name="Furnace" Guid="c91f7906-de35-4e94-ba6e-90cd55cd19d4">
+    <Parameter Name="Class" Guid="f04c23fe-1d3c-467e-81bc-1796f686be51" Value="Game.ComponentFurnaceN" Type="string" />
+  </ToAdd>
   <ToRemove Type="Parameter" Name="Class" Guid="9ef8d250-edd0-4fe5-8979-49f7dd023cdb" />
   <ToAdd Type="SubsystemTemplate" Name="SoilBlockBehavior" Guid="59d44a4c-bc6a-499f-944e-39390092696e">
     <Parameter Name="Class" Guid="9ef8d250-edd0-4fe5-8979-49f7dd023cdb" Value="Game.SubsystemNSoilBlockBehavior" Type="string" />

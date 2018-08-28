@@ -22,8 +22,8 @@ namespace Game
 		protected ElementBlock elementblock;
 		public int UpdateStep;
 		public Terrain Terrain;
-		public ICollection<Element> Path;
-		public static Dictionary<Point3, Element> Table;
+		public ICollection<Device> Path;
+		public static Dictionary<Point3, Device> Table;
 		public override int[] HandledBlocks => new int[] { ElementBlock.Index };
 		public int UpdateOrder => 0;
 		public override void Load(ValuesDictionary valuesDictionary)
@@ -31,8 +31,8 @@ namespace Game
 			base.Load(valuesDictionary);
 			Terrain = SubsystemTerrain.Terrain;
 			int count = valuesDictionary.GetValue<int>("Count", 0);
-			Path = new HashSet<Element>();
-			Table = new Dictionary<Point3, Element>(count);
+			Path = new HashSet<Device>();
+			Table = new Dictionary<Point3, Device>(count);
 			SubsystemTime = Project.FindSubsystem<SubsystemTime>(true);
 			elementblock = BlocksManager.Blocks[ElementBlock.Index] as ElementBlock;
 			//SubsystemAudio = Project.FindSubsystem<SubsystemAudio>(true);
@@ -50,8 +50,8 @@ namespace Game
 				return;
 			if (device is IBlockBehavior behavior)
 				behavior.OnBlockAdded(SubsystemTerrain, value, oldValue);
-			if (oldValue == -1 && (device.Type & ElementType.Supply) == 0)
-				return;
+			//if (oldValue == -1 && (device.Type & ElementType.Supply) == 0)
+				//return;
 			var v = device;
 			var visited = new HashSet<Element>();
 			var neighbors = new DynamicArray<Device>();
@@ -74,7 +74,7 @@ namespace Game
 					}
 				}
 			}
-			Table.Add(device.Point, device);
+			Table[device.Point] = device;
 			if ((device.Type & ElementType.Supply) != 0)
 				Path.Add(device);
 		}
@@ -87,10 +87,12 @@ namespace Game
 					behavior.OnBlockRemoved(SubsystemTerrain, value, newValue);
 				if (device.Next != null)
 				{
-					var next = device.Next.Array;
-					for (int i = 0; i < next.Length; i++)
+					var next = device.Next;
+					for (int i = 0; i < next.Count; i++)
 					{
-						next[i]?.Next?.Remove(device);
+						var element = next.Array[i];
+						QueueSimulate(element);
+						element.Next.Remove(device);
 					}
 					if ((device.Type & ElementType.Supply) != 0)
 					{
@@ -113,13 +115,18 @@ namespace Game
 		{
 			int startX = chunk.Origin.X;
 			int startY = chunk.Origin.Y;
-			for (var i = Table.GetEnumerator(); i.MoveNext();)
+			var list = new List<Device>();
+			for (var i = Path.GetEnumerator(); i.MoveNext();)
 			{
-				var key = i.Current.Key;
+				var key = i.Current.Point;
 				if (key.X >= startX && key.X < startX + 16 && key.Z >= startY && key.Z < startY + 16)
 				{
-					Path.Remove(i.Current.Value);
+					list.Add(i.Current);
 				}
+			}
+			for (startX = 0; startX < list.Count; startX++)
+			{
+				Path.Remove(list[startX]);
 			}
 		}
 		public override void OnNeighborBlockChanged(int x, int y, int z, int neighborX, int neighborY, int neighborZ)
@@ -142,11 +149,9 @@ namespace Game
 			{
 				UpdateStep++;
 				m_remainingSimulationTime -= 0.02f;
-				var enumerator = Path.GetEnumerator();
-				while (enumerator.MoveNext())
+				for (var enumerator = Path.GetEnumerator(); enumerator.MoveNext();)
 				{
-					if (enumerator.Current != null)
-						QueueSimulate(enumerator.Current);
+					QueueSimulate(enumerator.Current);
 				}
 			}
 		}
@@ -193,7 +198,7 @@ namespace Game
 					if ((element = stack.Array[--stack.Count]) != null)
 					{
 						element.Simulate(ref voltage);
-						if (voltage != 0 && element.Next != null)
+						if (voltage != 0)
 						{
 							var array = element.Next.Array;
 							for (int j = 0; j < array.Length; j++)
@@ -201,7 +206,7 @@ namespace Game
 						}
 					}
 				}
-				Task.Delay(20).Wait();
+				Task.Delay(10).Wait();
 			}
 		}
 		public void QueueSimulate(Element element)

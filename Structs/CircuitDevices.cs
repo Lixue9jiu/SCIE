@@ -144,7 +144,7 @@ namespace Game
 		{
 			Name = name;
 		}
-		public void OnBlockAdded(SubsystemTerrain subsystemTerrain, int value, int oldValue)
+		public virtual void OnBlockAdded(SubsystemTerrain subsystemTerrain, int value, int oldValue)
 		{
 			if (oldValue == -1)
 			{
@@ -158,7 +158,7 @@ namespace Game
 			Component = entity.FindComponent<T>(true);
 			subsystemTerrain.Project.AddEntity(entity);
 		}
-		public void OnBlockRemoved(SubsystemTerrain subsystemTerrain, int value, int newValue)
+		public virtual void OnBlockRemoved(SubsystemTerrain subsystemTerrain, int value, int newValue)
 		{
 			ComponentBlockEntity blockEntity = m_subsystemBlockEntities.GetBlockEntity(Point.X, Point.Y, Point.Z);
 			if (blockEntity != null)
@@ -197,7 +197,12 @@ namespace Game
 		}
 		public override void Simulate(ref int voltage)
 		{
-			Component.Powered = voltage > 110;
+			Component.Powered = voltage >= 110;
+		}
+		public override void OnBlockAdded(SubsystemTerrain subsystemTerrain, int value, int oldValue)
+		{
+			base.OnBlockAdded(subsystemTerrain, value, oldValue);
+			Component.Powered = false;
 		}
 		public override int GetFaceTextureSlot(int face, int value)
 		{
@@ -276,12 +281,21 @@ namespace Game
 		}
 	}
 
-    public class Magnetizer : FixedDevice
-    {
-        public Magnetizer() : base(1000)
+    public class Magnetizer : InteractiveEntityDevice<ComponentMagnetizer, MagnetizerWidget>
+	{
+        public Magnetizer() : base("Magnetizer", 1000)
         {
-        }
-        public override int GetFaceTextureSlot(int face, int value)
+		}
+		public override void Simulate(ref int voltage)
+		{
+			Component.Powered = (voltage -= 12) >= 0;
+		}
+		public override void OnBlockAdded(SubsystemTerrain subsystemTerrain, int value, int oldValue)
+		{
+			base.OnBlockAdded(subsystemTerrain, value, oldValue);
+			Component.Powered = false;
+		}
+		public override int GetFaceTextureSlot(int face, int value)
         {
             if (face == 4 || face == 5)
                 return 107;
@@ -315,11 +329,11 @@ namespace Game
         }
         public override bool IsFaceTransparent(SubsystemTerrain subsystemTerrain, int face, int value)
         {
-            return false;
+            return face < 4;
         }
         public override void GenerateTerrainVertices(Block block, BlockGeometryGenerator generator, TerrainGeometrySubsets geometry, int value, int x, int y, int z)
         {
-            generator.GenerateCubeVertices(block, value, x, y, z, Color.LightGray, geometry.OpaqueSubsetsByFace);
+            generator.GenerateCubeVertices(ItemBlock, value, x, y, z, Color.LightGray, geometry.OpaqueSubsetsByFace);
         }
         public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
         {
@@ -363,7 +377,11 @@ namespace Game
         {
             return "A Magnetizer is a device to create industrial magnet by melting steel ingot in a stronge magnetic field provided by wire.";
         }
-    }
+		public override MagnetizerWidget GetWidget(IInventory inventory, ComponentMagnetizer component)
+		{
+			return new MagnetizerWidget(inventory, component);
+		}
+	}
 
     public class Separator : FixedDevice
     {

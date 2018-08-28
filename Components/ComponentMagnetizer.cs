@@ -7,6 +7,7 @@ namespace Game
 {
 	public class ComponentMagnetizer : ComponentMachine, IUpdateable
 	{
+		public bool Powered;
 		protected float m_fireTimeRemaining;
 
 		protected int m_furnaceSize;
@@ -78,7 +79,7 @@ namespace Game
 			}
 			if (m_smeltingRecipe2 != null)
 			{
-				int num = ComponentEngine.IsPowered(m_subsystemTerrain.Terrain, coordinates.X, coordinates.Y, coordinates.Z) ? 1 : 0;
+				int num = Powered ? 1 : 0;
 				if (num == 0)
 				{
 					m_smeltingRecipe = null;
@@ -150,6 +151,7 @@ namespace Game
 
 		public override void Load(ValuesDictionary valuesDictionary, IdToEntityMap idToEntityMap)
 		{
+			Powered = false;
 			base.Load(valuesDictionary, idToEntityMap);
 			m_subsystemAudio = Project.FindSubsystem<SubsystemAudio>(true);
 			m_furnaceSize = SlotsCount - 1;
