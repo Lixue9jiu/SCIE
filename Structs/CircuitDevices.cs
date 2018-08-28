@@ -144,6 +144,7 @@ namespace Game
 	}*/
 	public class EntityDevice<T> : FixedDevice, IBlockBehavior where T : Component
 	{
+		protected SubsystemBlockEntities m_subsystemBlockEntities;
 		public T Component;
 		public string Name;
 		public EntityDevice(string name, int resistance) : base(resistance)
@@ -154,6 +155,7 @@ namespace Game
 		{
 			if (oldValue == -1)
 			{
+				m_subsystemBlockEntities = subsystemTerrain.Project.FindSubsystem<SubsystemBlockEntities>(true);
 				return;
 			}
 			var valuesDictionary = new ValuesDictionary();
@@ -165,7 +167,7 @@ namespace Game
 		}
 		public void OnBlockRemoved(SubsystemTerrain subsystemTerrain, int value, int newValue)
 		{
-			ComponentBlockEntity blockEntity = subsystemTerrain.Project.FindSubsystem<SubsystemBlockEntities>(true).GetBlockEntity(Point.X, Point.Y, Point.Z);
+			ComponentBlockEntity blockEntity = m_subsystemBlockEntities.GetBlockEntity(Point.X, Point.Y, Point.Z);
 			if (blockEntity != null)
 			{
 				Vector3 position = new Vector3(Point) + new Vector3(0.5f);
@@ -177,7 +179,25 @@ namespace Game
 			}
 		}
 	}
-	public class Fridge : EntityDevice<ComponentChestNew>
+	public abstract class InteractiveEntityDevice<C, T> : EntityDevice<C>, IInteractiveBlock where T : CanvasWidget where C : Component
+	{
+		public InteractiveEntityDevice(string name, int resistance) : base(name, resistance)
+		{
+		}
+		public bool OnInteract(TerrainRaycastResult raycastResult, ComponentMiner componentMiner)
+		{
+			ComponentBlockEntity blockEntity = m_subsystemBlockEntities.GetBlockEntity(raycastResult.CellFace.X, raycastResult.CellFace.Y, raycastResult.CellFace.Z);
+			if (blockEntity == null || componentMiner.ComponentPlayer == null)
+			{
+				return false;
+			}
+			componentMiner.ComponentPlayer.ComponentGui.ModalPanelWidget = GetWidget(componentMiner.Inventory, blockEntity.Entity.FindComponent<C>(true));
+			AudioManager.PlaySound("Audio/UI/ButtonClick", 1f, 0f, 0f);
+			return true;
+		}
+		public abstract T GetWidget(IInventory inventory, C component);
+	}
+	public class Fridge : InteractiveEntityDevice<ComponentChestNew, ChestNewWidget>
 	{
 		public Fridge() : base("ChestNew", 2000)
 		{
@@ -257,6 +277,10 @@ namespace Game
 		{
 			return "A Freezer is a good place to protect food that can delay the decay of it. It will hold up to 16 stacks of items.";
 		}
+		public override ChestNewWidget GetWidget(IInventory inventory, ComponentChestNew component)
+		{
+			return new ChestNewWidget(inventory, component);
+		}
 	}
 
     public class Magnetizer : FixedDevice
@@ -300,9 +324,7 @@ namespace Game
         {
             return false;
         }
-    
-
-        public override void GenerateTerrainVertices(Block block,BlockGeometryGenerator generator, TerrainGeometrySubsets geometry, int value, int x, int y, int z)
+        public override void GenerateTerrainVertices(Block block, BlockGeometryGenerator generator, TerrainGeometrySubsets geometry, int value, int x, int y, int z)
         {
             generator.GenerateCubeVertices(block, value, x, y, z, Color.LightGray, geometry.OpaqueSubsetsByFace);
         }

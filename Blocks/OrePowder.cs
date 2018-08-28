@@ -29,7 +29,7 @@ namespace Game
                 case MetalType.Gold:
                     color = new Color(255, 215, 0);
                     break;
-                case MetalType.Sliver:
+                case MetalType.Silver:
                     color = new Color(212, 212, 212);
                     break;
                 case MetalType.Platinum:

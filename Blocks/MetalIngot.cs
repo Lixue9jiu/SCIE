@@ -25,7 +25,7 @@ namespace Game
 					color = Color.LightGray;
 					break;
 				case MetalType.Gold:
-					color = new Color(255,215,0);
+					color = new Color(255, 215, 0);
 					break;
 				case MetalType.Lead:
 					color = new Color(88, 87, 86);
@@ -37,7 +37,7 @@ namespace Game
 					color = new Color(253, 253, 253);
 					break;
 				default:
-					color = new Color(232,232,232);
+					color = new Color(232, 232, 232);
 					break;
 			}
 			BlocksManager.DrawMeshBlock(primitivesRenderer, m_standaloneBlockMesh, color, 2f * size, ref matrix, environmentData);

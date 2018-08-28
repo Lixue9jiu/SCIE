@@ -2,7 +2,7 @@
 
 namespace Game
 {
-	public class Generator : Device, IBlockBehavior, IUnstableBehavior
+	public class Generator : Device, IBlockBehavior, IUnstableBlock
 	{
 		public int Voltage;
 		public bool Powered;
