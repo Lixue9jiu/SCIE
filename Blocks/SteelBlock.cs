@@ -6,33 +6,54 @@ using System.Collections.Generic;
 
 namespace Game
 {
-	public class SteelBlock : CubeBlock
+	public class IronBlock : PaintedCubeBlock
+	{
+		public const int Index = 46;
+		public IronBlock() : base(180)
+		{
+		}
+	}
+	public class CopperBlock : PaintedCubeBlock
+	{
+		public const int Index = 47;
+		public CopperBlock() : base(181)
+		{
+		}
+	}
+	public class SteelBlock : PaintedCubeBlock
 	{
 		public const int Index = 510;
-        [Serializable]
+		[Serializable]
         public enum Type
         {
             BasicMachineCase,
-            SteelBlock,
             SecondryMachineCase,
             FireBrickWall
         }
+		public SteelBlock() : base(0)
+		{
+		}
         public override IEnumerable<int> GetCreativeValues()
         {
             if (DefaultCreativeData < 0)
             {
                 return base.GetCreativeValues();
             }
-            var list = new List<int>(4);
-            for (int i = 0; i < list.Capacity; i++)
+            var list = new List<int>(14);
+			int i;
+            for (i = 0; i < list.Capacity; i++)
             {
-                list.Add(Terrain.ReplaceData(Index, i));
+                list.Add(Terrain.ReplaceData(Index, i << 5));
             }
-            return list;
+			for (i = 0; i < 14 * 16; i++)
+			{
+				list.Add(Terrain.ReplaceData(Index, i << 1 | 1));
+			}
+			return list;
         }
         public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
-        {
-            switch (GetType(value))
+		{
+			switch (GetType(value))
             {
                 //case Type.SteelDrill:
                 //break;
@@ -42,19 +63,39 @@ namespace Game
                 case Type.SecondryMachineCase:
                     color = Color.LightGray;
                     break;
-                case Type.SteelBlock:
-                    color = Color.LightGray;
-                    break;
                 case Type.FireBrickWall:
                     color = new Color(255,153,18);
                     break;
+				default:
+					switch ((MetalType)(GetType(value) - 3))
+					{
+						case MetalType.Steel:
+							color = Color.LightGray;
+							break;
+						case MetalType.Gold:
+							color = new Color(255, 215, 0);
+							break;
+						case MetalType.Lead:
+							color = new Color(88, 87, 86);
+							break;
+						case MetalType.Chromium:
+							color = new Color(58, 57, 56);
+							break;
+						case MetalType.Platinum:
+							color = new Color(253, 253, 253);
+							break;
+						default:
+							color = new Color(232, 232, 232);
+							break;
+					}
+					break;
             }
+			color *= SubsystemPalette.GetColor(environmentData, GetPaintColor(value));
             BlocksManager.DrawCubeBlock(primitivesRenderer, value, new Vector3(size), ref matrix, color, color, environmentData);
         }
 
         public override BlockPlacementData GetPlacementValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, TerrainRaycastResult raycastResult)
         {
-
             return new BlockPlacementData
             {
                 //Value = GetType(value) == Type.SteelBlock ? Terrain.ReplaceData(Index, 1) : 0,
@@ -64,7 +105,7 @@ namespace Game
         }
         public override void GenerateTerrainVertices(BlockGeometryGenerator generator, TerrainGeometrySubsets geometry, int value, int x, int y, int z)
         {
-            Color color = Color.White;
+            Color color;
             switch (GetType(value))
             {
                 //case Type.SteelDrill:
@@ -75,26 +116,47 @@ namespace Game
                 case Type.SecondryMachineCase:
                     color = Color.LightGray;
                     break;
-                case Type.SteelBlock:
-                    color = Color.LightGray;
-                    break;
                 case Type.FireBrickWall:
                     color = new Color(255, 153, 18);
                     break;
-            }
-            generator.GenerateCubeVertices(this, value, x, y, z, color, geometry.OpaqueSubsetsByFace);
+				default:
+					switch ((MetalType)(GetType(value) - 3))
+					{
+						case MetalType.Steel:
+							color = Color.LightGray;
+							break;
+						case MetalType.Gold:
+							color = new Color(255, 215, 0);
+							break;
+						case MetalType.Lead:
+							color = new Color(88, 87, 86);
+							break;
+						case MetalType.Chromium:
+							color = new Color(58, 57, 56);
+							break;
+						case MetalType.Platinum:
+							color = new Color(253, 253, 253);
+							break;
+						default:
+							color = new Color(232, 232, 232);
+							break;
+					}
+					break;
+			}
+			generator.GenerateCubeVertices(this, value, x, y, z, color * SubsystemPalette.GetColor(generator, GetPaintColor(value)), geometry.OpaqueSubsetsByFace);
         }
         public static Type GetType(int value)
         {
-            return (Type)(Terrain.ExtractData(value) & 0xF);
+            return (Type)(Terrain.ExtractData(value) >> 5 & 0xF);
         }
-        public static int SetType(int value, Type type)
+        /*public static int SetType(int value, Type type)
         {
-            return Terrain.ReplaceData(value, (Terrain.ExtractData(value) & -16) | ((int)type & 0xF));
-        }
+            return Terrain.ReplaceData(value, (Terrain.ExtractData(value) & -481) | ((int)type & 0xF) << 5);
+        }*/
         public override string GetDisplayName(SubsystemTerrain subsystemTerrain, int value)
         {
-            return GetType(value).ToString();
+			Type type = GetType(value);
+			return type < (Type)3 ? type.ToString() : "Soild " + ((MetalType)(type - 3)).ToString() + " Block";
         }
         public override string GetDescription(int value)
         {
@@ -104,12 +166,14 @@ namespace Game
                     return "The basic case of some machine. Very heavy and durable. Extremely resilient to digging and explosions. Can be crafted from multiple ironplate or steel ingots.";
                 case Type.SecondryMachineCase:
                     return "The Secondry case of some machine or device. Very heavy and durable. Extremely resilient to digging and explosions. Can be crafted from multiple steelplate.";
-                case Type.SteelBlock:
-                    return "The block of steel. Very heavy and durable. Extremely resilient to digging and explosions. Can be crafted from multiple steel ingots.";
                 case Type.FireBrickWall:
                     return "Fire Brick wall can be made by combining several fire bricks together and binding them with mortar. It is a versatile, strong and good looking industrial material.";
-            }
-            return string.Empty;
+				default:
+					MetalType metalType = (MetalType)(GetType(value) - 3);
+					return metalType == MetalType.Steel
+						? "The block of steel. Very heavy and durable. Extremely resilient to digging and explosions. Can be crafted from multiple steel ingots."
+						: "The block of pure " + metalType.ToString() + " Can be crafted from multiple " + metalType.ToString() + " ingots.";
+			}
         }
         public override void GetDropValues(SubsystemTerrain subsystemTerrain, int oldValue, int newValue, int toolLevel, List<BlockDropValue> dropValues, out bool showDebris)
 		{
@@ -128,12 +192,10 @@ namespace Game
                     return 107;
                 case Type.SecondryMachineCase:
                     return 107;
-                case Type.SteelBlock:
-                    return 180;
                 case Type.FireBrickWall:
                     return 39;
-            }
-            return 0;
+			}
+            return 180;
         }
 	}
 }

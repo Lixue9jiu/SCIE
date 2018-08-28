@@ -22,7 +22,7 @@ namespace Game
 		protected ElementBlock elementblock;
 		public int UpdateStep;
 		public Terrain Terrain;
-		public DynamicArray<Element> Path;
+		public ICollection<Element> Path;
 		public static Dictionary<Point3, Element> Table;
 		public override int[] HandledBlocks => new int[] { ElementBlock.Index };
 		public int UpdateOrder => 0;
@@ -31,7 +31,7 @@ namespace Game
 			base.Load(valuesDictionary);
 			Terrain = SubsystemTerrain.Terrain;
 			int count = valuesDictionary.GetValue<int>("Count", 0);
-			Path = new DynamicArray<Element>(count);
+			Path = new HashSet<Element>();
 			Table = new Dictionary<Point3, Element>(count);
 			SubsystemTime = Project.FindSubsystem<SubsystemTime>(true);
 			elementblock = BlocksManager.Blocks[ElementBlock.Index] as ElementBlock;
@@ -46,10 +46,12 @@ namespace Game
 		public override void OnBlockAdded(int value, int oldValue, int x, int y, int z)
 		{
 			var device = elementblock.GetDevice(Terrain, x, y, z);
-			if (device == null || (oldValue == -1 && (device.Type & ElementType.Supply) == 0))
+			if (device == null)
 				return;
 			if (device is IBlockBehavior behavior)
 				behavior.OnBlockAdded(SubsystemTerrain, value, oldValue);
+			if (oldValue == -1 && (device.Type & ElementType.Supply) == 0)
+				return;
 			var neighbors = new DynamicArray<Device>();//当前顶点的邻接表
 			Table[device.Point] = device;
 			var stack = new DynamicArray<Device>(1);
@@ -82,7 +84,7 @@ namespace Game
 				//Table.Remove(current.Point);
 			}
 			if ((device.Type & ElementType.Supply) != 0)
-				Path.Push(device);
+				Path.Add(device);
 		}
 		public override void OnBlockRemoved(int value, int newValue, int x, int y, int z)
 		{
@@ -100,11 +102,7 @@ namespace Game
 					}
 					if ((device.Type & ElementType.Supply) != 0)
 					{
-						int index = Path.IndexOf(device);
-						if (index >= 0)
-						{
-							Path.Array[index] = null;
-						}
+						Path.Remove(device);
 					}
 				}
 				Table.Remove(device.Point);
@@ -128,21 +126,22 @@ namespace Game
 				var key = i.Current.Key;
 				if (key.X >= startX && key.X < startX + 16 && key.Z >= startY && key.Z < startY + 16)
 				{
-					int index = Path.IndexOf(i.Current.Value);
-					if (index >= 0)
-					{
-						Path.Array[index] = null;
-					}
+					Path.Remove(i.Current.Value);
 				}
 			}
 		}
 		public override void OnNeighborBlockChanged(int x, int y, int z, int neighborX, int neighborY, int neighborZ)
 		{
 			var device = elementblock.GetDevice(Terrain, x, y, z);
-			if (device != null && device is IUnstableBehavior behavior)
+			if (device != null && device is IUnstableBlock behavior)
 			{
 				behavior.OnNeighborBlockChanged(SubsystemTerrain, neighborX, neighborY, neighborZ);
 			}
+		}
+		public override bool OnInteract(TerrainRaycastResult raycastResult, ComponentMiner componentMiner)
+		{
+			var item = elementblock.GetItem(ref raycastResult.Value);
+			return item != null && item is IInteractiveBlock block && block.OnInteract(raycastResult, componentMiner);
 		}
 		public void Update(float dt)
 		{
@@ -151,11 +150,11 @@ namespace Game
 			{
 				UpdateStep++;
 				m_remainingSimulationTime -= 0.02f;
-				for (int i = 0; i < Path.Count; i++)
+				var enumerator = Path.GetEnumerator();
+				while (enumerator.MoveNext())
 				{
-					var element = Path.Array[i];
-					if (element != null)
-						QueueSimulate(element);
+					if (enumerator.Current != null)
+						QueueSimulate(enumerator.Current);
 				}
 			}
 		}
@@ -195,7 +194,7 @@ namespace Game
 				};
 				while (stack.Count > 0)
 				{
-					if (stack.Count > 10000)
+					if (stack.Count > 20000)
 					{
 						throw new InvalidOperationException("Stack overflow");
 					}
@@ -278,14 +277,5 @@ namespace Game
 				}
 			}
 		}*/
-		public void GarbageCollectItems()
-		{
-			var path = new DynamicArray<Element>(Path.Count >> 1);
-			var arr = Path.Array;
-			for (int i = 0; i < arr.Length; i++)
-				if (arr[i] != null)
-					path.Add(arr[i]);
-			Path = path;
-		}
 	}
 }

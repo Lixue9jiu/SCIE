@@ -72,21 +72,8 @@ namespace Game
 
 		public override bool OnInteract(TerrainRaycastResult raycastResult, ComponentMiner componentMiner)
 		{
-			switch ((Terrain.ExtractData(raycastResult.Value) & 32767))
+			switch (Terrain.ExtractData(raycastResult.Value) & 32767)
 			{
-				case 0:
-					{
-						ComponentBlockEntity blockEntity = m_subsystemBlockEntities.GetBlockEntity(raycastResult.CellFace.X, raycastResult.CellFace.Y, raycastResult.CellFace.Z);
-						if (blockEntity == null || componentMiner.ComponentPlayer == null)
-						{
-							return false;
-						}
-						ComponentChestNew componentChestNew = blockEntity.Entity.FindComponent<ComponentChestNew>(true);
-						componentMiner.ComponentPlayer.ComponentGui.ModalPanelWidget = new ChestNewWidget(componentMiner.Inventory, componentChestNew);
-						AudioManager.PlaySound("Audio/UI/ButtonClick", 1f, 0f, 0f);
-						return true;
-					}
-
 				case 2:
 					{
 						ComponentBlockEntity blockEntity = m_subsystemBlockEntities.GetBlockEntity(raycastResult.CellFace.X, raycastResult.CellFace.Y, raycastResult.CellFace.Z);

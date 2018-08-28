@@ -98,22 +98,22 @@
     <Recipe Result="GoldOreChunk" ResultCount="3" RequiredHeatLevel="1" a="GoldOreChunk" Description="Smelt Gold ore to obtain gold">
       "aaa"
     </Recipe>
-    <Recipe Result="SliverIngot" ResultCount="1" RequiredHeatLevel="900" a="SliverOrePowder" Description="Smelt Sliver ore powder to obtain sliver">
+    <Recipe Result="SilverIngot" ResultCount="1" RequiredHeatLevel="900" a="SilverOrePowder" Description="Smelt Silver ore powder to obtain Silver">
       "a"
     </Recipe>
-    <Recipe Result="SliverIngot" ResultCount="1" RequiredHeatLevel="900" a="SliverRod" Description="Smelt Sliver rod to obtain sliver">
+    <Recipe Result="SilverIngot" ResultCount="1" RequiredHeatLevel="900" a="SilverRod" Description="Smelt Silver rod to obtain Silver">
       "a"
     </Recipe>
-    <Recipe Result="SliverIngot" ResultCount="1" RequiredHeatLevel="900" a="SliverOreChunk" Description="Smelt sliver ore chunk to obtain sliver">
+    <Recipe Result="SilverIngot" ResultCount="1" RequiredHeatLevel="900" a="SilverOreChunk" Description="Smelt Silver ore chunk to obtain Silver">
       "a"
     </Recipe>
-    <Recipe Result="SliverIngot" ResultCount="4" RequiredHeatLevel="900" a="SliverOreChunk" Description="Smelt sliver ore to obtain sliver">
+    <Recipe Result="SilverIngot" ResultCount="4" RequiredHeatLevel="900" a="SilverOreChunk" Description="Smelt Silver ore to obtain Silver">
       "aaa"
     </Recipe>
-    <Recipe Result="SliverOreChunk" ResultCount="1" RequiredHeatLevel="1" a="SliverOreChunk" Description="Smelt sliver ore chunk to obtain sliver">
+    <Recipe Result="SilverOreChunk" ResultCount="1" RequiredHeatLevel="1" a="SilverOreChunk" Description="Smelt Silver ore chunk to obtain Silver">
       "a"
     </Recipe>
-    <Recipe Result="SliverOreChunk" ResultCount="3" RequiredHeatLevel="1" a="SliverOreChunk" Description="Smelt sliver ore to obtain sliver">
+    <Recipe Result="SilverOreChunk" ResultCount="3" RequiredHeatLevel="1" a="SilverOreChunk" Description="Smelt Silver ore to obtain Silver">
       "aaa"
     </Recipe>
     <Recipe Result="PlatinumIngot" ResultCount="1" RequiredHeatLevel="1800" a="PlatinumOrePowder" Description="Smelt Platinum ore powder to obtain Platinum">
@@ -230,7 +230,7 @@
     <Recipe Result="GoldRod" ResultCount="2" RequiredHeatLevel="1100" a="GoldIngot" Description="Forge an gold ingot into rods">
       "aa"
     </Recipe>
-    <Recipe Result="SliverRod" ResultCount="2" RequiredHeatLevel="900" a="SliverIngot" Description="Forge an sliver ingot into rods">
+    <Recipe Result="SilverRod" ResultCount="2" RequiredHeatLevel="900" a="SilverIngot" Description="Forge an Silver ingot into rods">
       "aa"
     </Recipe>
     <Recipe Result="LeadRod" ResultCount="2" RequiredHeatLevel="300" a="LeadIngot" Description="Forge an lead ingot into rods">
@@ -260,7 +260,7 @@
     <Recipe Result="GoldIngot" ResultCount="2" RequiredHeatLevel="1" a="GoldIngot" Description="Forge an gold ingot into rods">
       "aa"
     </Recipe>
-    <Recipe Result="SliverIngot" ResultCount="2" RequiredHeatLevel="1" a="SliverIngot" Description="Forge an sliver ingot into rods">
+    <Recipe Result="SilverIngot" ResultCount="2" RequiredHeatLevel="1" a="SilverIngot" Description="Forge an Silver ingot into rods">
       "aa"
     </Recipe>
     <Recipe Result="LeadIngot" ResultCount="2" RequiredHeatLevel="1" a="LeadIngot" Description="Forge an lead ingot into rods">
@@ -290,7 +290,7 @@
     <Recipe Result="GoldIngot" ResultCount="2" RequiredHeatLevel="1100" a="GoldPlate" Description="Forge an gold plate into ingots">
       "aaa"
     </Recipe>
-    <Recipe Result="SliverIngot" ResultCount="2" RequiredHeatLevel="900" a="SliverPlate" Description="Forge an sliver plate into ingots">
+    <Recipe Result="SilverIngot" ResultCount="2" RequiredHeatLevel="900" a="SilverPlate" Description="Forge an Silver plate into ingots">
       "aaa"
     </Recipe>
     <Recipe Result="LeadIngot" ResultCount="2" RequiredHeatLevel="300" a="LeadPlate" Description="Forge an lead plate into ingots">
@@ -314,7 +314,7 @@
     <Recipe Result="GoldPlate" ResultCount="3" RequiredHeatLevel="1" a="GoldPlate" Description="Forge an gold plate into ingots">
       "aaa"
     </Recipe>
-    <Recipe Result="SliverPlate" ResultCount="3" RequiredHeatLevel="1" a="SliverPlate" Description="Forge an sliver plate into ingots">
+    <Recipe Result="SilverPlate" ResultCount="3" RequiredHeatLevel="1" a="SilverPlate" Description="Forge an Silver plate into ingots">
       "aaa"
     </Recipe>
     <Recipe Result="LeadPlate" ResultCount="3" RequiredHeatLevel="1" a="LeadPlate" Description="Forge an lead plate into ingots">
@@ -338,7 +338,7 @@
     <Recipe Result="GoldIngot" ResultCount="2" RequiredHeatLevel="1100" a="GoldLine" Description="Forge an gold line into ingots">
       "aa"
     </Recipe>
-    <Recipe Result="SliverIngot" ResultCount="2" RequiredHeatLevel="900" a="SliverLine" Description="Forge an sliver line into ingots">
+    <Recipe Result="SilverIngot" ResultCount="2" RequiredHeatLevel="900" a="SilverLine" Description="Forge an Silver line into ingots">
       "aa"
     </Recipe>
     <Recipe Result="LeadIngot" ResultCount="2" RequiredHeatLevel="300" a="LeadLine" Description="Forge an lead line into ingots">
@@ -362,7 +362,7 @@
     <Recipe Result="GoldLine" ResultCount="2" RequiredHeatLevel="1" a="GoldLine" Description="Forge an gold line into ingots">
       "aa"
     </Recipe>
-    <Recipe Result="SliverLine" ResultCount="2" RequiredHeatLevel="1" a="SliverLine" Description="Forge an sliver line into ingots">
+    <Recipe Result="SilverLine" ResultCount="2" RequiredHeatLevel="1" a="SilverLine" Description="Forge an Silver line into ingots">
       "aa"
     </Recipe>
     <Recipe Result="LeadLine" ResultCount="2" RequiredHeatLevel="1" a="LeadLine" Description="Forge an lead line into ingots">
@@ -376,7 +376,7 @@
     </Recipe>
   </Smelting>
   <Materials>
-    <Recipe Result="SteelBlock" ResultCount="1" RequiredHeatLevel="0" a="SteelIngot" Description="Combine many steel ingots to get the basic machine case">
+    <Recipe Result="SteelBlock:0" ResultCount="1" RequiredHeatLevel="0" a="SteelIngot" Description="Combine many steel ingots to get the basic machine case">
       "aaa"
       "a a"
       "aaa"
@@ -386,23 +386,97 @@
       "a a"
       "aaa"
      </Recipe>
-    <Recipe Result="SteelBlock:1" ResultCount="1" RequiredHeatLevel="0" a="SteelIngot" Description="Combine many steel ingots to get the basic machine case">
+    <Recipe Result="SteelBlock:96" ResultCount="1" RequiredHeatLevel="0" a="SteelIngot" Description="Combine many steel ingots to get the basic machine case">
       "aaa"
       "aaa"
       "aaa"
     </Recipe>
-    <Recipe Result="SteelBlock:2" ResultCount="1" RequiredHeatLevel="0" a="SteelPlate" b="CopperPlate" Description="Combine many SteelPlate to get the Secondery machine case">
+    <Recipe Result="SteelBlock:32" ResultCount="1" RequiredHeatLevel="0" a="SteelPlate" b="CopperPlate" Description="Combine many SteelPlate to get the Secondery machine case">
       "aaaa"
       "abba"
       "abba"
       "aaaa"
     </Recipe>
-    <Recipe Result="SteelBlock:3" ResultCount="1" RequiredHeatLevel="0" a="RefractoryBrick" Description="Combine many fire brick to get fire brick wall">
+    <Recipe Result="SteelBlock:64" ResultCount="1" RequiredHeatLevel="0" a="RefractoryBrick" Description="Combine many fire brick to get fire brick wall">
+      "aaa"
+      "aaa"
+      "aaa"
+    </Recipe>
+    <Recipe Result="SteelBlock:128" ResultCount="1" RequiredHeatLevel="0" a="GoldIngot" Description="Combine many gold ingots into a large block">
+      "aaa"
+      "aaa"
+      "aaa"
+    </Recipe>
+    <Recipe Result="SteelBlock:160" ResultCount="1" RequiredHeatLevel="0" a="SilverIngot" Description="Combine many silver ingots into a large block">
+      "aaa"
+      "aaa"
+      "aaa"
+    </Recipe>
+    <Recipe Result="SteelBlock:192" ResultCount="1" RequiredHeatLevel="0" a="LeadIngot" Description="Combine many lead ingots into a large block">
+      "aaa"
+      "aaa"
+      "aaa"
+    </Recipe>
+    <Recipe Result="SteelBlock:224" ResultCount="1" RequiredHeatLevel="0" a="PlatinumIngot" Description="Combine many platinum ingots into a large block">
+      "aaa"
+      "aaa"
+      "aaa"
+    </Recipe>
+    <Recipe Result="SteelBlock:256" ResultCount="1" RequiredHeatLevel="0" a="ZincIngot" Description="Combine many zinc ingots into a large block">
+      "aaa"
+      "aaa"
+      "aaa"
+    </Recipe>
+    <Recipe Result="SteelBlock:288" ResultCount="1" RequiredHeatLevel="0" a="StannaryIngot" Description="Combine many stannary ingots into a large block">
+      "aaa"
+      "aaa"
+      "aaa"
+    </Recipe>
+    <Recipe Result="SteelBlock:320" ResultCount="1" RequiredHeatLevel="0" a="ChromiumIngot" Description="Combine many chromium ingots into a large block">
+      "aaa"
+      "aaa"
+      "aaa"
+    </Recipe>
+    <Recipe Result="SteelBlock:384" ResultCount="1" RequiredHeatLevel="0" a="NickelIngot" Description="Combine many nickel ingots into a large block">
+      "aaa"
+      "aaa"
+      "aaa"
+    </Recipe>
+    <Recipe Result="SteelBlock:416" ResultCount="1" RequiredHeatLevel="0" a="AluminumIngot" Description="Combine many aluminum ingots into a large block">
       "aaa"
       "aaa"
       "aaa"
     </Recipe>
   </Materials>
+  <Dismantling>
+    <Recipe Result="GoldIngot" ResultCount="9" RequiredHeatLevel="0" a="steelblock:128" Description="Dismantle gold block into ingots">
+      "a"
+    </Recipe>
+    <Recipe Result="SilverIngot" ResultCount="9" RequiredHeatLevel="0" a="steelblock:160" Description="Dismantle silver block into ingots">
+      "a"
+    </Recipe>
+    <Recipe Result="LeadIngot" ResultCount="9" RequiredHeatLevel="0" a="steelblock:192" Description="Dismantle lead block into ingots">
+      "a"
+    </Recipe>
+    <Recipe Result="PlatinumIngot" ResultCount="9" RequiredHeatLevel="0" a="steelblock:224" Description="Dismantle platinum block into ingots">
+      "a"
+    </Recipe>
+    <Recipe Result="ZincIngot" ResultCount="9" RequiredHeatLevel="0" a="steelblock:256" Description="Dismantle zinc block into ingots">
+      "a"
+    </Recipe>
+    <Recipe Result="StannaryIngot" ResultCount="9" RequiredHeatLevel="0" a="steelblock:288" Description="Dismantle stannary block into ingots">
+      "a"
+    </Recipe>
+    <Recipe Result="ChromiumIngot" ResultCount="9" RequiredHeatLevel="0" a="steelblock:320" Description="Dismantle chromium block into ingots">
+      "a"
+    </Recipe>
+    <Recipe Result="NickelIngot" ResultCount="9" RequiredHeatLevel="0" a="steelblock:384" Description="Dismantle nickel block into ingots">
+      "a"
+    </Recipe>
+    <Recipe Result="AluminumIngot" ResultCount="9" RequiredHeatLevel="0" a="steelblock:416" Description="Dismantle aluminum block into ingots">
+      "a"
+    </Recipe>
+  </Dismantling>
   <SteelTools>
     <Recipe Result="SteelShovelBlock" ResultCount="1" RequiredHeatLevel="0" a="stick" b="SteelIngot" Description="Make an steel tool">
       "b"
@@ -493,7 +567,7 @@
     <Recipe Result="GoldSheet" ResultCount="36" RequiredHeatLevel="0" a="GoldPlate" Description="Cut a gold plate into sheets">
       "a"
     </Recipe>
-    <Recipe Result="SliverSheet" ResultCount="36" RequiredHeatLevel="0" a="SliverPlate" Description="Cut a sliver plate into sheets">
+    <Recipe Result="SilverSheet" ResultCount="36" RequiredHeatLevel="0" a="SilverPlate" Description="Cut a Silver plate into sheets">
       "a"
     </Recipe>
     <Recipe Result="LeadSheet" ResultCount="36" RequiredHeatLevel="0" a="LeadPlate" Description="Cut a lead plate into sheets">

@@ -54,7 +54,7 @@ namespace Game
 			{
 				case MetalType.Gold:
 					return "A chunk of gold ore. When smelted in the furnace will turn into pure gold.";
-				case MetalType.Sliver:
+				case MetalType.Silver:
 					return "A chunk of sliver ore. When smelted in the furnace will turn into pure sliver.";
 				case MetalType.Platinum:
 					return "A chunk of Platinum ore. When smelted in the furnace will turn into pure platinum.";

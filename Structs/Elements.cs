@@ -187,7 +187,7 @@ namespace Game
 		}
 		public override int GetHashCode()
 		{
-			return Next == null ? (int)Type : (int)Type + Next.Count;
+			return Next == null ? (int)Type : (int)Type + Next.GetHashCode();
 		}
 		/*public DynamicArray<Element>.Enumerator GetEnumerator()
 		{

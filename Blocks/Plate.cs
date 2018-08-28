@@ -9,7 +9,7 @@ namespace Game
 	{
 		Steel,
 		Gold,
-		Sliver,
+		Silver,
 		Lead,
 		Platinum,
 		Zinc,

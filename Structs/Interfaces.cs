@@ -85,51 +85,57 @@ namespace Game
 	{
 		void OnChunkDiscarding(TerrainChunk chunk);
 		void OnChunkInitialized(TerrainChunk chunk);
-	}*/
-	public interface IGeneratedBehavior
+	}
+	public interface IGeneratedBlock
 	{
 		void OnBlockGenerated(int value, int x, int y, int z, bool isLoaded);
 	}
-	/*public interface IAimableItemBehavior
+	public interface IAimableItem
 	{
 		bool OnAim(Vector3 start, Vector3 direction, ComponentMiner componentMiner, AimState state);
 	}
-	public interface IUseableItemBehavior
+	public interface IUseableItem
 	{
 		bool OnUse(Vector3 start, Vector3 direction, ComponentMiner componentMiner);
 	}
-	public interface IPlaceableItemBehavior
+	public interface IPlaceableItem
 	{
 		void OnItemPlaced(int x, int y, int z, ref BlockPlacementData placementData, int itemValue);
 	}
-	public interface IHarvestingItemBehavior
+	public interface IHarvestingItem
 	{
 		void OnItemHarvested(int x, int y, int z, int blockValue, ref BlockDropValue dropValue, ref int newBlockValue);
-	}
-	public interface IInteractiveBlockBehavior
+	}*/
+	public interface IInteractiveBlock
 	{
 		bool OnInteract(TerrainRaycastResult raycastResult, ComponentMiner componentMiner);
 	}
-	public interface IProjectingBlockBehavior
+	/*public interface IItemAcceptableBlock
+	{
+		void OnHitByProjectile(CellFace cellFace, WorldItem worldItem);
+	}
+	public interface IProjectile
 	{
 		void OnFiredAsProjectile(Projectile projectile);
 		bool OnHitAsProjectile(CellFace? cellFace, ComponentBody componentBody, WorldItem worldItem);
-		void OnHitByProjectile(CellFace cellFace, WorldItem worldItem);
 	}
-	public interface ICollidableBehavior
+	public interface ICollidableBlock
 	{
 		void OnCollide(CellFace cellFace, float velocity, ComponentBody componentBody);
 	}*/
-	public interface IUnstableBehavior
+	public interface IUnstableBlock
 	{
 		void OnNeighborBlockChanged(SubsystemTerrain terrain, int neighborX, int neighborY, int neighborZ);
 	}
-	/*public interface IEditableBehavior
+	/*public interface IEditableBlock
 	{
 		bool OnEditBlock(int x, int y, int z, int value, ComponentPlayer componentPlayer);
+	}
+	public interface IEditableItem
+	{
 		bool OnEditInventoryItem(IInventory inventory, int slotIndex, ComponentPlayer componentPlayer);
 	}
-	public interface IExplosiveBehavior
+	public interface IExplosiveBlock
 	{
 		void OnExplosion(int value, int x, int y, int z, float damage);
 	}
