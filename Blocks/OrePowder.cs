@@ -6,6 +6,24 @@ namespace Game
 {
     public class OrePowder : FlatItem
 	{
+		public readonly Color[] Colors = new Color[]
+		{
+			Color.White,
+			new Color(255, 215, 0),
+			new Color(212, 212, 212),
+			new Color(87, 86, 85),
+			new Color(232, 232, 232),
+			new Color(64, 224, 205),
+			new Color(225, 225, 225),
+			new Color(60, 60, 60),
+			Color.White,
+			new Color(120, 120, 120),
+			new Color(199, 97, 20),
+			new Color(139, 69, 19),
+			new Color(34, 139, 34),
+			Color.White,
+			new Color(205, 190, 112),
+		};
 		public readonly MetalType Type;
 		public OrePowder(MetalType type)
 		{
@@ -15,49 +33,7 @@ namespace Game
 		}
 		public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
 		{
-			switch (Type)
-			{
-				case MetalType.Iron:
-					color = new Color(139, 69, 19);
-					break;
-                case MetalType.Copper:
-                    color = new Color(34, 139, 34);
-                    break;
-                case MetalType.Germanium:
-                    color = new Color(205, 190, 112);
-                    break;
-                case MetalType.Gold:
-                    color = new Color(255, 215, 0);
-                    break;
-                case MetalType.Silver:
-                    color = new Color(212, 212, 212);
-                    break;
-                case MetalType.Platinum:
-                    color = new Color(232, 232, 232);
-                    break;
-                case MetalType.Lead:
-                    color = new Color(87, 86, 85);
-                    break;
-                case MetalType.Zinc:
-                    color = new Color(64, 224, 205);
-                    break;
-                case MetalType.Stannary:
-                    color = new Color(225, 225, 225);
-                    break;
-                case MetalType.Chromium:
-                    color = new Color(60, 60, 60);
-                    break;
-                case MetalType.Nickel:
-                    color = new Color(120, 120, 120);
-                    break;
-                case MetalType.Aluminum:
-                    color = new Color(199, 97, 20);
-                    break;
-                default:
-					color = Color.White;
-					break;
-			}
-			BlocksManager.DrawFlatBlock(primitivesRenderer, value, size, ref matrix, null, color, false, environmentData);
+			BlocksManager.DrawFlatBlock(primitivesRenderer, value, size, ref matrix, null, Colors[(int)Type], false, environmentData);
 		}
 		public override string GetDescription(int value)
 		{

@@ -15,28 +15,7 @@ namespace Game
 		}
 		public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
 		{
-			switch (Type)
-			{
-				case MetalType.Copper:
-					color = new Color(255, 127, 80);
-					break;
-				case MetalType.Steel:
-					color = new Color(192, 192, 192);
-					break;
-                case MetalType.Gold:
-                    color = new Color(255, 215, 0);
-                    break;
-                case MetalType.Lead:
-                    color = new Color(88, 87, 86);
-                    break;
-                case MetalType.Platinum:
-                    color = new Color(253, 253, 253);
-                    break;
-                default:
-					color = Color.White;
-					break;
-			}
-			BlocksManager.DrawFlatBlock(primitivesRenderer, value, size, ref matrix, null, color, false, environmentData);
+			BlocksManager.DrawFlatBlock(primitivesRenderer, value, size, ref matrix, null, MetalBlock.GetColor(Type), false, environmentData);
 		}
 	}
 }

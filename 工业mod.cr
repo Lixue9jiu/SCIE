@@ -376,104 +376,107 @@
     </Recipe>
   </Smelting>
   <Materials>
-    <Recipe Result="SteelBlock:0" ResultCount="1" RequiredHeatLevel="0" a="SteelIngot" Description="Combine many steel ingots to get the basic machine case">
+    <Recipe Result="MetalBlock:0" ResultCount="1" RequiredHeatLevel="0" a="SteelIngot" Description="Combine many steel ingots to get the basic machine case">
       "aaa"
       "a a"
       "aaa"
     </Recipe>
-    <Recipe Result="SteelBlock:0" ResultCount="1" RequiredHeatLevel="0" a="IronPlate" Description="Combine many IronPlate to get the basic machine case">
+    <Recipe Result="MetalBlock:0" ResultCount="1" RequiredHeatLevel="0" a="IronPlate" Description="Combine many IronPlate to get the basic machine case">
       "aaa"
       "a a"
       "aaa"
      </Recipe>
-    <Recipe Result="SteelBlock:96" ResultCount="1" RequiredHeatLevel="0" a="SteelIngot" Description="Combine many steel ingots to get the basic machine case">
+    <Recipe Result="MetalBlock:96" ResultCount="1" RequiredHeatLevel="0" a="SteelIngot" Description="Combine many steel ingots to get the basic machine case">
       "aaa"
       "aaa"
       "aaa"
     </Recipe>
-    <Recipe Result="SteelBlock:32" ResultCount="1" RequiredHeatLevel="0" a="SteelPlate" b="CopperPlate" Description="Combine many SteelPlate to get the Secondery machine case">
+    <Recipe Result="MetalBlock:32" ResultCount="1" RequiredHeatLevel="0" a="SteelPlate" b="CopperPlate" Description="Combine many SteelPlate to get the Secondery machine case">
       "aaaa"
       "abba"
       "abba"
       "aaaa"
     </Recipe>
-    <Recipe Result="SteelBlock:64" ResultCount="1" RequiredHeatLevel="0" a="RefractoryBrick" Description="Combine many fire brick to get fire brick wall">
+    <Recipe Result="MetalBlock:64" ResultCount="1" RequiredHeatLevel="0" a="RefractoryBrick" Description="Combine many fire brick to get fire brick wall">
       "aaa"
       "aaa"
       "aaa"
     </Recipe>
-    <Recipe Result="SteelBlock:128" ResultCount="1" RequiredHeatLevel="0" a="GoldIngot" Description="Combine many gold ingots into a large block">
+    <Recipe Result="MetalBlock:128" ResultCount="1" RequiredHeatLevel="0" a="GoldIngot" Description="Combine many gold ingots into a large block">
       "aaa"
       "aaa"
       "aaa"
     </Recipe>
-    <Recipe Result="SteelBlock:160" ResultCount="1" RequiredHeatLevel="0" a="SilverIngot" Description="Combine many silver ingots into a large block">
+    <Recipe Result="MetalBlock:160" ResultCount="1" RequiredHeatLevel="0" a="SilverIngot" Description="Combine many silver ingots into a large block">
       "aaa"
       "aaa"
       "aaa"
     </Recipe>
-    <Recipe Result="SteelBlock:192" ResultCount="1" RequiredHeatLevel="0" a="LeadIngot" Description="Combine many lead ingots into a large block">
+    <Recipe Result="MetalBlock:192" ResultCount="1" RequiredHeatLevel="0" a="LeadIngot" Description="Combine many lead ingots into a large block">
       "aaa"
       "aaa"
       "aaa"
     </Recipe>
-    <Recipe Result="SteelBlock:224" ResultCount="1" RequiredHeatLevel="0" a="PlatinumIngot" Description="Combine many platinum ingots into a large block">
+    <Recipe Result="MetalBlock:224" ResultCount="1" RequiredHeatLevel="0" a="PlatinumIngot" Description="Combine many platinum ingots into a large block">
       "aaa"
       "aaa"
       "aaa"
     </Recipe>
-    <Recipe Result="SteelBlock:256" ResultCount="1" RequiredHeatLevel="0" a="ZincIngot" Description="Combine many zinc ingots into a large block">
+    <Recipe Result="MetalBlock:256" ResultCount="1" RequiredHeatLevel="0" a="ZincIngot" Description="Combine many zinc ingots into a large block">
       "aaa"
       "aaa"
       "aaa"
     </Recipe>
-    <Recipe Result="SteelBlock:288" ResultCount="1" RequiredHeatLevel="0" a="StannaryIngot" Description="Combine many stannary ingots into a large block">
+    <Recipe Result="MetalBlock:288" ResultCount="1" RequiredHeatLevel="0" a="StannaryIngot" Description="Combine many stannary ingots into a large block">
       "aaa"
       "aaa"
       "aaa"
     </Recipe>
-    <Recipe Result="SteelBlock:320" ResultCount="1" RequiredHeatLevel="0" a="ChromiumIngot" Description="Combine many chromium ingots into a large block">
+    <Recipe Result="MetalBlock:320" ResultCount="1" RequiredHeatLevel="0" a="ChromiumIngot" Description="Combine many chromium ingots into a large block">
       "aaa"
       "aaa"
       "aaa"
     </Recipe>
-    <Recipe Result="SteelBlock:384" ResultCount="1" RequiredHeatLevel="0" a="NickelIngot" Description="Combine many nickel ingots into a large block">
+    <Recipe Result="MetalBlock:384" ResultCount="1" RequiredHeatLevel="0" a="NickelIngot" Description="Combine many nickel ingots into a large block">
       "aaa"
       "aaa"
       "aaa"
     </Recipe>
-    <Recipe Result="SteelBlock:416" ResultCount="1" RequiredHeatLevel="0" a="AluminumIngot" Description="Combine many aluminum ingots into a large block">
+    <Recipe Result="MetalBlock:416" ResultCount="1" RequiredHeatLevel="0" a="AluminumIngot" Description="Combine many aluminum ingots into a large block">
       "aaa"
       "aaa"
       "aaa"
     </Recipe>
   </Materials>
   <Dismantling>
-    <Recipe Result="GoldIngot" ResultCount="9" RequiredHeatLevel="0" a="steelblock:128" Description="Dismantle gold block into ingots">
+    <Recipe Result="GoldIngot" ResultCount="9" RequiredHeatLevel="0" a="metalblock:128" Description="Dismantle gold block into ingots">
       "a"
     </Recipe>
-    <Recipe Result="SilverIngot" ResultCount="9" RequiredHeatLevel="0" a="steelblock:160" Description="Dismantle silver block into ingots">
+    <Recipe Result="SilverIngot" ResultCount="9" RequiredHeatLevel="0" a="metalblock:160" Description="Dismantle silver block into ingots">
       "a"
     </Recipe>
-    <Recipe Result="LeadIngot" ResultCount="9" RequiredHeatLevel="0" a="steelblock:192" Description="Dismantle lead block into ingots">
+    <Recipe Result="LeadIngot" ResultCount="9" RequiredHeatLevel="0" a="metalblock:192" Description="Dismantle lead block into ingots">
       "a"
     </Recipe>
-    <Recipe Result="PlatinumIngot" ResultCount="9" RequiredHeatLevel="0" a="steelblock:224" Description="Dismantle platinum block into ingots">
+    <Recipe Result="PlatinumIngot" ResultCount="9" RequiredHeatLevel="0" a="metalblock:224" Description="Dismantle platinum block into ingots">
       "a"
     </Recipe>
-    <Recipe Result="ZincIngot" ResultCount="9" RequiredHeatLevel="0" a="steelblock:256" Description="Dismantle zinc block into ingots">
+    <Recipe Result="ZincIngot" ResultCount="9" RequiredHeatLevel="0" a="metalblock:256" Description="Dismantle zinc block into ingots">
       "a"
     </Recipe>
-    <Recipe Result="StannaryIngot" ResultCount="9" RequiredHeatLevel="0" a="steelblock:288" Description="Dismantle stannary block into ingots">
+    <Recipe Result="StannaryIngot" ResultCount="9" RequiredHeatLevel="0" a="metalblock:288" Description="Dismantle stannary block into ingots">
       "a"
     </Recipe>
-    <Recipe Result="ChromiumIngot" ResultCount="9" RequiredHeatLevel="0" a="steelblock:320" Description="Dismantle chromium block into ingots">
+    <Recipe Result="ChromiumIngot" ResultCount="9" RequiredHeatLevel="0" a="metalblock:320" Description="Dismantle chromium block into ingots">
       "a"
     </Recipe>
-    <Recipe Result="NickelIngot" ResultCount="9" RequiredHeatLevel="0" a="steelblock:384" Description="Dismantle nickel block into ingots">
+    <Recipe Result="NickelIngot" ResultCount="9" RequiredHeatLevel="0" a="metalblock:384" Description="Dismantle nickel block into ingots">
       "a"
     </Recipe>
-    <Recipe Result="AluminumIngot" ResultCount="9" RequiredHeatLevel="0" a="steelblock:416" Description="Dismantle aluminum block into ingots">
+    <Recipe Result="AluminumIngot" ResultCount="9" RequiredHeatLevel="0" a="metalblock:416" Description="Dismantle aluminum block into ingots">
+      "a"
+    </Recipe>
+    <Recipe Result="RefractoryBrick" ResultCount="9" RequiredHeatLevel="0" a="metalblock:64" Description="Recycle bricks from a fire brick wall">
       "a"
     </Recipe>
   </Dismantling>
@@ -584,17 +587,17 @@
       "aca"
       "aba"
     </Recipe>
-    <Recipe Result="DispenserNewBlock" ResultCount="1" RequiredHeatLevel="0" a="SteelGear" b="piston" c="steelblock:0" d="SteelRod" e="diamond" f="dispenser" Description="Make an auto driller to mining">
+    <Recipe Result="DispenserNewBlock" ResultCount="1" RequiredHeatLevel="0" a="SteelGear" b="piston" c="metalblock:0" d="SteelRod" e="diamond" f="dispenser" Description="Make an auto driller to mining">
       "dbf"
       "dcd"
       "aea"
     </Recipe>
-    <Recipe Result="DispenserNew2Block" ResultCount="1" RequiredHeatLevel="0" a="tank" b="IndustrialPiston" c="steelblock:0" d="SteelGear"  Description="Make a liquid pump to pump liquid">
+    <Recipe Result="DispenserNew2Block" ResultCount="1" RequiredHeatLevel="0" a="tank" b="IndustrialPiston" c="metalblock:0" d="SteelGear"  Description="Make a liquid pump to pump liquid">
       "dbd"
       "aca"
       "ada"
     </Recipe>
-    <Recipe Result="DispenserNBlock" ResultCount="1" RequiredHeatLevel="0" a="SteelGear" b="IndustrialPiston" c="steelblock:0" d="SteelRod" e="diamond" Description="Make an auto crusher to crush ore">
+    <Recipe Result="DispenserNBlock" ResultCount="1" RequiredHeatLevel="0" a="SteelGear" b="IndustrialPiston" c="metalblock:0" d="SteelRod" e="diamond" Description="Make an auto crusher to crush ore">
       "aba"
       "ded"
       "aca"
@@ -609,7 +612,7 @@
       "ada"
       "aba"
     </Recipe>
-    <Recipe Result="EngineBlock" ResultCount="1" RequiredHeatLevel="0" a="SteelGear" b="IndustrialPiston" c="steelblock:0" d="furnace" e="SteelRod" Description="Make a steam engine to enter the industrial era">
+    <Recipe Result="EngineBlock" ResultCount="1" RequiredHeatLevel="0" a="SteelGear" b="IndustrialPiston" c="metalblock:0" d="furnace" e="SteelRod" Description="Make a steam engine to enter the industrial era">
       "aba"
       "ece"
       "ada"
@@ -619,17 +622,17 @@
       "a a"
       "aaa"
     </Recipe>
-    <Recipe Result="EngineHBlock" ResultCount="1" RequiredHeatLevel="0" a="tank" b="IndustrialPiston" c="steelblock:0" d="furnace" e="SteelRod" Description="Make a stirling engine">
+    <Recipe Result="EngineHBlock" ResultCount="1" RequiredHeatLevel="0" a="tank" b="IndustrialPiston" c="metalblock:0" d="furnace" e="SteelRod" Description="Make a stirling engine">
       "beb"
       "ece"
       "ada"
     </Recipe>
-    <Recipe Result="PresserBlock" ResultCount="1" RequiredHeatLevel="0" a="SteelGear" b="IndustrialPiston" c="steelblock:0" Description="Make a Presser to create metal plate">
+    <Recipe Result="PresserBlock" ResultCount="1" RequiredHeatLevel="0" a="SteelGear" b="IndustrialPiston" c="metalblock:0" Description="Make a Presser to create metal plate">
       "aba"
       "aca"
       "aba"
     </Recipe>
-     <Recipe Result="SqueezerBlock" ResultCount="1" RequiredHeatLevel="0" a="SteelGear" b="IndustrialPiston" c="steelblock:0" Description="Make a Squeezer to create metal line">
+     <Recipe Result="SqueezerBlock" ResultCount="1" RequiredHeatLevel="0" a="SteelGear" b="IndustrialPiston" c="metalblock:0" Description="Make a Squeezer to create metal line">
       "aba"
       "bcb"
       "aba"
@@ -644,12 +647,12 @@
       "aaa"
       "bab"
     </Recipe>
-    <Recipe Result="PresserNBlock" ResultCount="1" RequiredHeatLevel="0" a="IronPlate" b="IndustrialPiston" c="steelblock:0" d="SteelGear" Description="Make a Kinbbler to create ore powder">
+    <Recipe Result="KibblerBlock" ResultCount="1" RequiredHeatLevel="0" a="IronPlate" b="IndustrialPiston" c="metalblock:0" d="SteelGear" Description="Make a Kinbbler to create ore powder">
       "bab"
       "dcd"
       "aba"
     </Recipe>
-    <Recipe Result="PresserNNBlock" ResultCount="1" RequiredHeatLevel="0" a="SteelRod" b="IndustrialPiston" c="steelblock:0" d="SteelIngot" e="SteelGear" Description="Make a Rifling Machine to create rifle barrel">
+    <Recipe Result="PresserNNBlock" ResultCount="1" RequiredHeatLevel="0" a="SteelRod" b="IndustrialPiston" c="metalblock:0" d="SteelIngot" e="SteelGear" Description="Make a Rifling Machine to create rifle barrel">
       "bad"
       "dcd"
       "eee"
@@ -669,7 +672,7 @@
       "aba"
       "aaa"
     </Recipe>
-    <Recipe Result="BlastBlowerBlock" ResultCount="1" RequiredHeatLevel="0" a="rod" b="piston" c="steelblock:0" d="IronPlate" e="SteelGear" Description="Make a Blast Furnace Blower">
+    <Recipe Result="BlastBlowerBlock" ResultCount="1" RequiredHeatLevel="0" a="rod" b="piston" c="metalblock:0" d="IronPlate" e="SteelGear" Description="Make a Blast Furnace Blower">
       "bad"
       "bad"
       "ece"
@@ -679,7 +682,7 @@
       "aba"
       "aaa"
     </Recipe>
-    <Recipe Result="MachineToolBlock" ResultCount="1" RequiredHeatLevel="0" a="SteelGear" b="SteelRod" c="drill:0" d="steelmachete" e="steelblock:0" Description="Make a MachineTool to craft more industrial items">
+    <Recipe Result="MachineToolBlock" ResultCount="1" RequiredHeatLevel="0" a="SteelGear" b="SteelRod" c="drill:0" d="steelmachete" e="metalblock:0" Description="Make a MachineTool to craft more industrial items">
       "aca"
       "beb"
       "ada"
@@ -739,19 +742,19 @@
     <Recipe Result="MagnetBlock:480" ResultCount="1" RequiredHeatLevel="0" a="magnet:0" Description="Make a Cross Magnet from magnet">
       "aaaa"
     </Recipe>
-    <Recipe Result="Generator" ResultCount="1" RequiredHeatLevel="0" a="CopperWire" b="IndustrialMagnet" c="SteelPlate" d="SteelGear" e="steelblock:0" Description="Make a Direct Current Dynamo to enter the electricity era.">
+    <Recipe Result="Generator" ResultCount="1" RequiredHeatLevel="0" a="CopperWire" b="IndustrialMagnet" c="SteelPlate" d="SteelGear" e="metalblock:0" Description="Make a Direct Current Dynamo to enter the electricity era.">
       "caac"
       "adda"
       "aeba"
       "caac"
     </Recipe>
-    <Recipe Result="Separator" ResultCount="1" RequiredHeatLevel="0" a="CopperWire" b="SteelRod" c="SteelPlate" d="SteelGear" e="steelblock:2" f="Generator" g="tank" Description="Make a Direct Current Dynamo to enter the electricity era.">
+    <Recipe Result="Separator" ResultCount="1" RequiredHeatLevel="0" a="CopperWire" b="SteelRod" c="SteelPlate" d="SteelGear" e="metalblock:2" f="Generator" g="tank" Description="Make a Direct Current Dynamo to enter the electricity era.">
       "cggc"
       "cbbc"
       "ceac"
       "cafa"
     </Recipe>
-    <Recipe Result="CReactorBlock" ResultCount="1" RequiredHeatLevel="0" a="tank" b="SteelPlate" c="CopperRod" d="steelblock:0" Description="Make a Chemical Reactor to get chemical product.">
+    <Recipe Result="CReactorBlock" ResultCount="1" RequiredHeatLevel="0" a="tank" b="SteelPlate" c="CopperRod" d="metalblock:0" Description="Make a Chemical Reactor to get chemical product.">
       "bbb"
       "cdc"
       "aaa"
@@ -759,7 +762,7 @@
     <Recipe Result="WireDevice" ResultCount="10" RequiredHeatLevel="0" a="CopperLine" Description="Make a IndustrialWire.">
       "a"
     </Recipe>
-    <Recipe Result="Magnetizer" ResultCount="1" RequiredHeatLevel="0" a="steelblock:0" b="CopperWire" c="SteelRod" d="furnace" Description="Make a Magnetizer to creat industrial magnet.">
+    <Recipe Result="Magnetizer" ResultCount="1" RequiredHeatLevel="0" a="metalblock:0" b="CopperWire" c="SteelRod" d="furnace" Description="Make a Magnetizer to creat industrial magnet.">
       "bbb"
       "bab"
       "cdc"

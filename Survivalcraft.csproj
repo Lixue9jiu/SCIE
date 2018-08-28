@@ -61,6 +61,7 @@
     <Compile Include="Blocks\FourDirectionalBlock.cs" />
     <Compile Include="Blocks\HearthFurnaceBlock.cs" />
     <Compile Include="Blocks\ItemBlock.cs" />
+    <Compile Include="Blocks\KibblerBlock.cs" />
     <Compile Include="Blocks\MachineToolBlock.cs" />
     <Compile Include="Blocks\PaintableMagnetBlock.cs" />
     <Compile Include="Blocks\RailBlock.cs" />
@@ -158,11 +159,10 @@
     <Compile Include="Widgets\Musket2Widget.cs" />
     <Compile Include="Blocks\Plate.cs" />
     <Compile Include="Blocks\PresserBlock.cs" />
-    <Compile Include="Blocks\PresserNBlock.cs" />
     <Compile Include="Blocks\PresserNNBlock.cs" />
     <Compile Include="Widgets\PresserWidget.cs" />
     <Compile Include="Blocks\SteelAxeBlock.cs" />
-    <Compile Include="Blocks\SteelBlock.cs" />
+    <Compile Include="Blocks\MetalBlock.cs" />
     <Compile Include="Blocks\SteelMacheteBlock.cs" />
     <Compile Include="Blocks\SteelPickaxeBlock.cs" />
     <Compile Include="Blocks\SteelRakeBlock.cs" />

@@ -19,28 +19,7 @@ namespace Game
 		public readonly MetalType Type;
 		public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
 		{
-			switch (Type)
-			{
-				case MetalType.Steel:
-					color = Color.LightGray;
-					break;
-				case MetalType.Gold:
-					color = new Color(255, 215, 0);
-					break;
-				case MetalType.Lead:
-					color = new Color(88, 87, 86);
-					break;
-				case MetalType.Chromium:
-					color = new Color(58, 57, 56);
-					break;
-				case MetalType.Platinum:
-					color = new Color(253, 253, 253);
-					break;
-				default:
-					color = new Color(232, 232, 232);
-					break;
-			}
-			BlocksManager.DrawMeshBlock(primitivesRenderer, m_standaloneBlockMesh, color, 2f * size, ref matrix, environmentData);
+			BlocksManager.DrawMeshBlock(primitivesRenderer, m_standaloneBlockMesh, MetalBlock.GetColor(Type), 2f * size, ref matrix, environmentData);
 		}
 		public override float GetIconViewScale(int value, DrawBlockEnvironmentData environmentData)
 		{

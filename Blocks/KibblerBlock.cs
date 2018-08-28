@@ -1,6 +1,6 @@
 namespace Game
 {
-	public class PresserNBlock : FourDirectionalBlock
+	public class KibblerBlock : FourDirectionalBlock
 	{
 		public const int Index = 518;
 

@@ -7,7 +7,7 @@ using TemplatesDatabase;
 
 namespace Game
 {
-	public abstract class DeviceBlock : Device, IComparable<DeviceBlock>, IEquatable<DeviceBlock>
+	public abstract class DeviceBlock : Device, IEquatable<DeviceBlock>//, IComparable<DeviceBlock>
 	{
 		public string DefaultDisplayName;
 		public string DefaultDescription;
@@ -29,11 +29,10 @@ namespace Game
 		{
 			return DefaultDescription;
 		}
-
-		public int CompareTo(DeviceBlock other)
+		/*public int CompareTo(DeviceBlock other)
 		{
 			return Voltage.CompareTo(other.Voltage);
-		}
+		}*/
 		public bool Equals(DeviceBlock other)
 		{
 			return base.Equals(other) && Voltage == other.Voltage;
@@ -135,12 +134,6 @@ namespace Game
 		public QCBattery12V() : base(12)
 		{
 		}
-	}
-	public class ElectricFurnace : FixedDevice
-	{
-		public ElectricFurnace() : base(5)
-		{
-		}
 	}*/
 	public class EntityDevice<T> : FixedDevice, IBlockBehavior where T : Component
 	{
@@ -155,7 +148,7 @@ namespace Game
 		{
 			if (oldValue == -1)
 			{
-				m_subsystemBlockEntities = subsystemTerrain.Project.FindSubsystem<SubsystemBlockEntities>(true);
+				Component = (m_subsystemBlockEntities = subsystemTerrain.Project.FindSubsystem<SubsystemBlockEntities>(true)).GetBlockEntity(Point.X, Point.Y, Point.Z).Entity.FindComponent<T>(true);
 				return;
 			}
 			var valuesDictionary = new ValuesDictionary();
@@ -462,10 +455,7 @@ namespace Game
        
     }
 
-
-    
-
-
+	
     public class AirBlower : FixedDevice
     {
         public AirBlower() : base(3000)
@@ -534,8 +524,7 @@ namespace Game
         }
 
     }
-
-
+	
     public class EFurnace : FixedDevice
     {
         public EFurnace() : base(8000)

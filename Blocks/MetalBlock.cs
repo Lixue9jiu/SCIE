@@ -20,7 +20,7 @@ namespace Game
 		{
 		}
 	}
-	public class SteelBlock : PaintedCubeBlock
+	public class MetalBlock : PaintedCubeBlock
 	{
 		public const int Index = 510;
 		[Serializable]
@@ -30,7 +30,7 @@ namespace Game
             SecondryMachineCase,
             FireBrickWall
         }
-		public SteelBlock() : base(0)
+		public MetalBlock() : base(0)
 		{
 		}
         public override IEnumerable<int> GetCreativeValues()
@@ -67,27 +67,7 @@ namespace Game
                     color = new Color(255,153,18);
                     break;
 				default:
-					switch ((MetalType)(GetType(value) - 3))
-					{
-						case MetalType.Steel:
-							color = Color.LightGray;
-							break;
-						case MetalType.Gold:
-							color = new Color(255, 215, 0);
-							break;
-						case MetalType.Lead:
-							color = new Color(88, 87, 86);
-							break;
-						case MetalType.Chromium:
-							color = new Color(58, 57, 56);
-							break;
-						case MetalType.Platinum:
-							color = new Color(253, 253, 253);
-							break;
-						default:
-							color = new Color(232, 232, 232);
-							break;
-					}
+					color = GetColor((MetalType)(GetType(value) - 3));
 					break;
             }
 			color *= SubsystemPalette.GetColor(environmentData, GetPaintColor(value));
@@ -98,8 +78,7 @@ namespace Game
         {
             return new BlockPlacementData
             {
-                //Value = GetType(value) == Type.SteelBlock ? Terrain.ReplaceData(Index, 1) : 0,
-                Value = Terrain.ReplaceData(Index, Terrain.ExtractData(value) & 0xF),
+                Value = value,
                 CellFace = raycastResult.CellFace
             };
         }
@@ -120,27 +99,7 @@ namespace Game
                     color = new Color(255, 153, 18);
                     break;
 				default:
-					switch ((MetalType)(GetType(value) - 3))
-					{
-						case MetalType.Steel:
-							color = Color.LightGray;
-							break;
-						case MetalType.Gold:
-							color = new Color(255, 215, 0);
-							break;
-						case MetalType.Lead:
-							color = new Color(88, 87, 86);
-							break;
-						case MetalType.Chromium:
-							color = new Color(58, 57, 56);
-							break;
-						case MetalType.Platinum:
-							color = new Color(253, 253, 253);
-							break;
-						default:
-							color = new Color(232, 232, 232);
-							break;
-					}
+					color = GetColor((MetalType)(GetType(value) - 3));
 					break;
 			}
 			generator.GenerateCubeVertices(this, value, x, y, z, color * SubsystemPalette.GetColor(generator, GetPaintColor(value)), geometry.OpaqueSubsetsByFace);
@@ -149,11 +108,33 @@ namespace Game
         {
             return (Type)(Terrain.ExtractData(value) >> 5 & 0xF);
         }
-        /*public static int SetType(int value, Type type)
+		/*public static int SetType(int value, Type type)
         {
             return Terrain.ReplaceData(value, (Terrain.ExtractData(value) & -481) | ((int)type & 0xF) << 5);
         }*/
-        public override string GetDisplayName(SubsystemTerrain subsystemTerrain, int value)
+		public static Color GetColor(MetalType type)
+		{
+			switch (type)
+			{
+				case MetalType.Steel:
+					return Color.LightGray;
+				case MetalType.Gold:
+					return new Color(255, 215, 0);
+				case MetalType.Lead:
+					return new Color(88, 87, 86);
+				case MetalType.Platinum:
+					return new Color(253, 253, 253);
+				case MetalType.Chromium:
+					return new Color(58, 57, 56);
+				case MetalType.Iron:
+					return Color.White;
+				case MetalType.Copper:
+					return new Color(255, 127, 80);
+				default:
+					return new Color(232, 232, 232);
+			}
+		}
+		public override string GetDisplayName(SubsystemTerrain subsystemTerrain, int value)
         {
 			Type type = GetType(value);
 			return type < (Type)3 ? type.ToString() : "Soild " + ((MetalType)(type - 3)).ToString() + " Block";

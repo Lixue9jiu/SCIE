@@ -54,38 +54,12 @@ namespace Game
 		}
         public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
 		{
-            switch (Type)
-            {
-                case MetalType.Steel:
-                    color = Color.LightGray;
-                    break;
-                case MetalType.Iron:
-                    color = Color.White;
-                    break;
-                case MetalType.Gold:
-                    color = new Color(255, 215, 0);
-                    break;
-                case MetalType.Lead:
-                    color = new Color(88, 87, 86);
-                    break;
-                case MetalType.Chromium:
-                    color = new Color(58, 57, 56);
-                    break;
-                case MetalType.Platinum:
-                    color = new Color(253, 253, 253);
-                    break;
-                case MetalType.Copper:
-                    color = new Color(255, 127, 80);
-                    break;
-                default:
-                    color = new Color(232, 232, 232);
-                    break;
-            }
-            BlocksManager.DrawMeshBlock(primitivesRenderer, m_standaloneBlockMesh, color, size * 1.5f, ref matrix, environmentData);
+			BlocksManager.DrawMeshBlock(primitivesRenderer, m_standaloneBlockMesh, MetalBlock.GetColor(Type), size * 1.5f, ref matrix, environmentData);
 		}
+
 		public override void GenerateTerrainVertices(Block block,BlockGeometryGenerator generator, TerrainGeometrySubsets geometry, int value, int x, int y, int z)
 		{
-			generator.GenerateMeshVertices(block, x, y, z, m_standaloneBlockMesh, Color.White, null, geometry.SubsetOpaque);
+			generator.GenerateMeshVertices(block, x, y, z, m_standaloneBlockMesh, MetalBlock.GetColor(Type), null, geometry.SubsetOpaque);
 		}
 		public override BlockPlacementData GetPlacementValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, TerrainRaycastResult raycastResult)
 		{

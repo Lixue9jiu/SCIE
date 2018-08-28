@@ -11,8 +11,8 @@ namespace Game
 	{
 		public class Request
 		{
-			public volatile bool IsCompleted;
-			public bool IsInProgress;
+			//public volatile bool IsCompleted;
+			//public bool IsInProgress;
 			public Element Element;
 		}
 		public Queue<Request> Requests = new Queue<Request>();
@@ -52,37 +52,29 @@ namespace Game
 				behavior.OnBlockAdded(SubsystemTerrain, value, oldValue);
 			if (oldValue == -1 && (device.Type & ElementType.Supply) == 0)
 				return;
-			var neighbors = new DynamicArray<Device>();//当前顶点的邻接表
-			Table[device.Point] = device;
-			var stack = new DynamicArray<Device>(1);
-			stack.Push(device);
-			while (stack.Count > 0)
+			var v = device;
+			var visited = new HashSet<Element>();
+			var neighbors = new DynamicArray<Device>();
+			visited.Add(v);
+			var Q = new Queue<Device>();
+			Q.Enqueue(v);
+			while (Q.Count > 0)
 			{
-				var current = stack.Array[stack.Count - 1];//当前顶点
+				v = Q.Dequeue();
 				neighbors.Clear();
-				elementblock.GetAllConnectedNeighbors(Terrain, current, 4, neighbors);
-				if (neighbors.Count > 0)
+				elementblock.GetAllConnectedNeighbors(Terrain, v, 4, neighbors);
+				v.Next = new DynamicArray<Element>(neighbors.Count);
+				for (int i = 0; i < neighbors.Count; i++)
 				{
-					current.Next = new DynamicArray<Element>(neighbors.Count);
-					var set = new HashSet<Element>();
-					//QuickSort(neighbors.Array, 0, neighbors.Count - 1);
-					for (int i = 0; i < neighbors.Count; i++)
+					var w = neighbors.Array[i];
+					if (visited.Add(w))
 					{
-						var cur = neighbors.Array[i];
-						if (Table.TryGetValue(cur.Point, out Element visited))//如果访问过
-						{
-							continue;
-						}
-						set.Add(cur);
-						Table.Add(cur.Point, cur);//将该点添加到表中
-						stack.Push(cur);//将该点添加到访问栈中
+						v.Next.Add(w);
+						Q.Enqueue(w);
 					}
-					current.Next.Count = set.Count;
-					set.CopyTo(current.Next.Array);
 				}
-				stack.RemoveAtEnd();
-				//Table.Remove(current.Point);
 			}
+			Table.Add(device.Point, device);
 			if ((device.Type & ElementType.Supply) != 0)
 				Path.Add(device);
 		}
@@ -182,10 +174,10 @@ namespace Game
 				}
 				if (request == null)
 				{
-					break;
+					return;
 				}
-				request.IsInProgress = false;
-				request.IsCompleted = true;
+				//request.IsInProgress = false;
+				//request.IsCompleted = true;
 				var element = request.Element;
 				int voltage = 0;
 				var stack = new DynamicArray<Element>(1)
@@ -218,8 +210,8 @@ namespace Game
 			{
 				Requests.Enqueue(new Request
 				{
-					IsCompleted = false,
-					IsInProgress = true,
+					//IsCompleted = false,
+					//IsInProgress = true,
 					Element = element
 				});
 				Monitor.Pulse(Requests);

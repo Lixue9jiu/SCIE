@@ -16,7 +16,7 @@ namespace Game
 			{
 				return new []
 				{
-					PresserNBlock.Index
+					KibblerBlock.Index
 				};
 			}
 		}
