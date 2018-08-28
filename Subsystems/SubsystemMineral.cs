@@ -413,7 +413,7 @@ namespace Game
 		{
 			base.Load(valuesDictionary);
 			int i;
-			(m_subsystemItemsScanner = Project.FindSubsystem<SubsystemItemsScanner>(true)).ItemsScanned += GarbageCollectItems;
+			//(m_subsystemItemsScanner = Project.FindSubsystem<SubsystemItemsScanner>(true)).ItemsScanned += GarbageCollectItems;
 			//SubsystemTime = Project.FindSubsystem<SubsystemTime>(true);
 			var arr = valuesDictionary.GetValue<string>("AlloysData", "0").Split(',');
 			AlloysData = new DynamicArray<Metal>(arr.Length);
@@ -654,7 +654,7 @@ namespace Game
 
 		public override void OnItemPlaced(int x, int y, int z, ref BlockPlacementData placementData, int itemValue)
 		{
-			AlloysData.Array[Terrain.ExtractData(itemValue)] |= Metal.Used;
+			//AlloysData.Array[Terrain.ExtractData(itemValue)] |= Metal.Used;
 			placementData.Value = itemValue;
 		}
 

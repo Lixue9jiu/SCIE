@@ -68,7 +68,20 @@ namespace Game
 			if (m_updateSmeltingRecipe)
 			{
 				m_updateSmeltingRecipe = false;
-				string text = m_smeltingRecipe2 = FindSmeltingRecipe(1f);
+				float heatLevel = 0f;
+				if (HeatLevel > 0f)
+				{
+					heatLevel = HeatLevel;
+				}
+				else
+				{
+					Slot slot = m_slots[FuelSlotIndex];
+					if (slot.Count > 0)
+					{
+						heatLevel = BlocksManager.Blocks[Terrain.ExtractContents(slot.Value)].FuelHeatLevel;
+					}
+				}
+				string text = m_smeltingRecipe2 = FindSmeltingRecipe(heatLevel);
 				if (text != m_smeltingRecipe)
 				{
 					m_smeltingRecipe = text;
@@ -95,17 +108,24 @@ namespace Game
 				m_fireTimeRemaining = 0f;
 				//m_music = -1;
 			}
-			if (m_smeltingRecipe != null)
+			if (m_smeltingRecipe != null && m_fireTimeRemaining <= 0f)
 			{
-				m_fireTimeRemaining = 0f;
-				float fireTimeRemaining = m_fireTimeRemaining;
-				m_fireTimeRemaining = 100f;
-			}
-			if (m_fireTimeRemaining <= 0f)
-			{
-				m_smeltingRecipe = null;
-				SmeltingProgress = 0f;
-				//m_music = -1;
+				Slot slot2 = m_slots[FuelSlotIndex];
+				if (slot2.Count > 0)
+				{
+					var block = BlocksManager.Blocks[Terrain.ExtractContents(slot2.Value)];
+					if (block.GetExplosionPressure(slot2.Value) > 0f)
+					{
+						slot2.Count = 0;
+						m_subsystemExplosions.TryExplodeBlock(coordinates.X, coordinates.Y, coordinates.Z, slot2.Value);
+					}
+					else if (block.FuelHeatLevel > 0f)
+					{
+						slot2.Count--;
+						m_fireTimeRemaining = block is IFuel fuel ? fuel.GetFuelFireDuration(slot2.Value) : block.FuelFireDuration;
+						HeatLevel = block.FuelHeatLevel;
+					}
+				}
 			}
 			if (m_smeltingRecipe != null)
 			{
@@ -169,20 +189,24 @@ namespace Game
 
 		protected string FindSmeltingRecipe(float heatLevel)
 		{
+			if (heatLevel < 1500f)
+			{
+				return null;
+			}
 			string text = null;
 			for (int i = 0; i < 1; i++)
 			{
 				int slotValue = GetSlotValue(i);
 				int num = Terrain.ExtractContents(slotValue);
 				int num2 = Terrain.ExtractData(slotValue);
-				if (GetSlotCount(i) > 0 && GetSlotValue(i) == ItemBlock.IdTable["SteelIngot"])
+				if (GetSlotCount(FuelSlotIndex) > 0 && GetSlotValue(i) == ItemBlock.IdTable["SteelIngot"])
 				{
                     text = "IndustrialMagnet";
                 }
-				else
+				/*else
 				{
 
-				}
+				}*/
 			}
 			if (text != null)
 			{
