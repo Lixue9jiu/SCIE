@@ -7,7 +7,7 @@ namespace Game
 	public class CokeCoalBlock : ChunkBlock
 	{
 		// Token: 0x060003D3 RID: 979 RVA: 0x000299E0 File Offset: 0x00027BE0
-		public CokeCoalBlock() : base(Matrix.CreateRotationX(1f) * Matrix.CreateRotationZ(2f), Matrix.CreateTranslation(0.875f, 0.1875f, 0f), new Color(215, 215, 215), false)
+		public CokeCoalBlock() : base(Matrix.CreateRotationX(1f) * Matrix.CreateRotationZ(2f), Matrix.CreateTranslation(0.0625f, 0.4375f, 0f), new Color(175, 175, 175), false)
 		{
 		}
 

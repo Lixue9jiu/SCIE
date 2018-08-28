@@ -11,7 +11,7 @@ namespace Game
 	}
     public interface IFuel
     {
-        float GetFuelLevel(int value);
+        float GetHeatLevel(int value);
         float GetFuelFireDuration(int value);
     }
     public interface IItemBlock // : IReadOnlyList<Item>, IStructuralComparable, IStructuralEquatable
