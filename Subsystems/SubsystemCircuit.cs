@@ -46,77 +46,69 @@ namespace Game
 		public override void OnBlockAdded(int value, int oldValue, int x, int y, int z)
 		{
 			var device = elementblock.GetDevice(Terrain, x, y, z);
-			if (device == null)
+			if (device == null || (oldValue == -1 && (device.Type & ElementType.Supply) == 0))
 				return;
 			if (device is IBlockBehavior behavior)
 				behavior.OnBlockAdded(SubsystemTerrain, value, oldValue);
-			if ((device.Type & ElementType.Supply) == 0 || Table.ContainsKey(device.Point))
-				return;
 			var neighbors = new DynamicArray<Device>();//当前顶点的邻接表
-			elementblock.GetAllConnectedNeighbors(Terrain, device, 5, neighbors);
-			if (neighbors.Count < 2)
-				return;
 			Table[device.Point] = device;
 			var stack = new DynamicArray<Device>(1);
-			stack.Push(neighbors.Array[0]); // start
-			var end = neighbors.Array[1];
+			stack.Push(device);
 			while (stack.Count > 0)
 			{
 				var current = stack.Array[stack.Count - 1];//当前顶点
-				if (current == end)//如果电流能回到负极
-					Path.Push(device);
-				else
+				neighbors.Clear();
+				elementblock.GetAllConnectedNeighbors(Terrain, current, 4, neighbors);
+				if (neighbors.Count > 0)
 				{
-					neighbors.Clear();
-					elementblock.GetAllConnectedNeighbors(Terrain, current, 5, neighbors);
-					if (neighbors.Count > 0)
+					current.Next = new DynamicArray<Element>(neighbors.Count);
+					var set = new HashSet<Element>();
+					//QuickSort(neighbors.Array, 0, neighbors.Count - 1);
+					for (int i = 0; i < neighbors.Count; i++)
 					{
-						current.Next = new DynamicArray<Element>(neighbors.Count);
-						QuickSort(neighbors.Array, 0, neighbors.Count - 1);
-						bool isWire = false;
-						for (int i = 0; i < neighbors.Count; i++)
+						var cur = neighbors.Array[i];
+						if (Table.TryGetValue(cur.Point, out Element visited))//如果访问过
 						{
-							var cur = neighbors.Array[i];
-							if (Table.TryGetValue(cur.Point, out Element visited))//如果访问过
-							{
-								//current.Next.Add(visited);
-								continue;
-							}
-							Table.Add(cur.Point, cur);//将该点添加到表中
-							if (cur.GetWeight() < 2)//判断是否为导线
-								isWire = true;
-							else if (isWire)
-								break;//元件被短接
-							current.Next.Add(cur);
-							stack.Push(cur);//将该点添加到访问栈中
+							continue;
 						}
+						set.Add(cur);
+						Table.Add(cur.Point, cur);//将该点添加到表中
+						stack.Push(cur);//将该点添加到访问栈中
 					}
+					current.Next.Count = set.Count;
+					set.CopyTo(current.Next.Array);
 				}
 				stack.RemoveAtEnd();
+				//Table.Remove(current.Point);
 			}
+			if ((device.Type & ElementType.Supply) != 0)
+				Path.Push(device);
 		}
 		public override void OnBlockRemoved(int value, int newValue, int x, int y, int z)
 		{
-			var device = elementblock.GetDevice(Terrain, x, y, z);
-			if (device != null)
+			if (elementblock.GetItem(ref value) is Device device)
 			{
+				device.Point = new Point3(x, y, z);
 				if (device is IBlockBehavior behavior)
 					behavior.OnBlockRemoved(SubsystemTerrain, value, newValue);
-				var next = device.Next.Array;
-				for (int i = 0; i < next.Length; i++)
+				if (device.Next != null)
 				{
-					next[i].Next.Remove(device);
-				}
-				if ((device.Type & ElementType.Supply) != 0)
-				{
-					int index = Path.IndexOf(device);
-					if (index >= 0)
+					var next = device.Next.Array;
+					for (int i = 0; i < next.Length; i++)
 					{
-						Path.Array[index] = null;
+						next[i]?.Next?.Remove(device);
+					}
+					if ((device.Type & ElementType.Supply) != 0)
+					{
+						int index = Path.IndexOf(device);
+						if (index >= 0)
+						{
+							Path.Array[index] = null;
+						}
 					}
 				}
+				Table.Remove(device.Point);
 			}
-			Table.Remove(new Point3(x, y, z));
 		}
 		public override void OnBlockModified(int value, int oldValue, int x, int y, int z)
 		{
@@ -234,7 +226,7 @@ namespace Game
 				Monitor.Pulse(Requests);
 			}
 		}
-		public static void QuickSort(Node[] R, int Low, int High, int voltage = 0)
+		/*public static void QuickSort(Node[] R, int Low, int High, int voltage = 0)
 		{
 			int low = 2, high = High - Low;
 			while ((high >>= 1) > 0)
@@ -285,7 +277,7 @@ namespace Game
 					}
 				}
 			}
-		}
+		}*/
 		public void GarbageCollectItems()
 		{
 			var path = new DynamicArray<Element>(Path.Count >> 1);

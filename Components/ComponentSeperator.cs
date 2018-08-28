@@ -31,7 +31,7 @@ namespace Game
 			}
 		}
 
-		public int ResultSlotIndex
+		public override int ResultSlotIndex
 		{
 			get
 			{
@@ -46,10 +46,6 @@ namespace Game
 				return SlotsCount;
 			}
 		}
-
-		public float HeatLevel;
-
-		public float SmeltingProgress;
 
 		public int UpdateOrder
 		{

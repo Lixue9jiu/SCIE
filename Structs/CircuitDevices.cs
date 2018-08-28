@@ -90,7 +90,10 @@ namespace Game
 				RemainCount--;
 			}
 			else if(voltage >= Voltage)
+			{
+				voltage -= Voltage;
 				RemainCount++;
+			}
 		}
 		public bool Equals(Battery other)
 		{
@@ -176,14 +179,12 @@ namespace Game
 	}
 	public class Fridge : EntityDevice<ComponentChestNew>
 	{
-		public ComponentChestNew ComponentChestNew;
-		public bool Powered;
 		public Fridge() : base("ChestNew", 2000)
 		{
 		}
 		public override void Simulate(ref int voltage)
 		{
-			ComponentChestNew.Powered = voltage > 110;
+			Component.Powered = voltage > 110;
 		}
 		public override int GetFaceTextureSlot(int face, int value)
 		{

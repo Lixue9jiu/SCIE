@@ -14,10 +14,6 @@ namespace Game
 			}
 		}
 
-		public float HeatLevel;
-
-		public float SmeltingProgress;
-
 		public int UpdateOrder
 		{
 			get

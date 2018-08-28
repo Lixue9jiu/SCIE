@@ -25,10 +25,7 @@ namespace Game
 		}
 		public override Item GetItem(ref int value)
 		{
-			if (Terrain.ExtractContents(value) != Index)
-				return DefaultItem;
-			int data = Terrain.ExtractData(value) & 32767;
-			return data < Devices.Length ? Devices[data] : DefaultItem;
+			return Terrain.ExtractContents(value) != Index ? null : Devices[Terrain.ExtractData(value) & 32767];
 		}
 		/*public Element GetElement(int value)
 		{
@@ -89,7 +86,7 @@ namespace Game
 		}
 		public void GetAllConnectedNeighbors(Terrain terrain, Device elem, int mountingFace, ICollection<Device> list)
 		{
-			if (mountingFace != 5 || elem == null) return;
+			if (mountingFace != 4 || elem == null) return;
 			int x, y, z;
 			var type = elem.Type;
 			var point = elem.Point;
@@ -145,23 +142,17 @@ namespace Game
 		}
 		public override IEnumerable<int> GetCreativeValues()
 		{
-			var list = new List<int>(Items.Length + 1);
-			var set = new HashSet<Item>()
-			{
-				DefaultItem
-			};
+			var list = new List<int>(Devices.Length);
 			int value = Index;
-			Item item = GetItem(ref value);
-			var itemBlock =
-			item.ItemBlock = new ElementBlock
+			var itemBlock = new ElementBlock
 			{
 				BlockIndex = -1
 			};
-			while (set.Add(item))
+			for (int i = 0; i < Devices.Length; i++)
 			{
+				GetItem(ref value).ItemBlock = itemBlock;
 				list.Add(value);
 				value += 1 << 14;
-				(item = GetItem(ref value)).ItemBlock = itemBlock;
 			}
 			return list;
 		}

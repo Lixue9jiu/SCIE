@@ -3,9 +3,9 @@ using System.Xml.Linq;
 
 namespace Game
 {
-	public class PresserWidget : CanvasWidget
+	public class BasePresserWidget<T> : CanvasWidget where T : ComponentMachine
 	{
-		protected readonly ComponentPresser m_componentFurnace;
+		protected readonly T m_componentFurnace;
 
 		protected readonly FireWidget m_fire;
 
@@ -21,10 +21,10 @@ namespace Game
 
 		protected readonly InventorySlotWidget m_resultSlot;
 
-		public PresserWidget(IInventory inventory, ComponentPresser componentFurnace)
+		public BasePresserWidget(IInventory inventory, T component, string path)
 		{
-			m_componentFurnace = componentFurnace;
-			WidgetsManager.LoadWidgetContents(this, this, ContentManager.Get<XElement>("Widgets/PresserWidget"));
+			m_componentFurnace = component;
+			WidgetsManager.LoadWidgetContents(this, this, ContentManager.Get<XElement>(path));
 			m_inventoryGrid = Children.Find<GridPanelWidget>("InventoryGrid", true);
 			m_furnaceGrid = Children.Find<GridPanelWidget>("FurnaceGrid", true);
 			m_fire = Children.Find<FireWidget>("Fire", true);
@@ -48,14 +48,13 @@ namespace Game
 				for (int l = 0; l < m_furnaceGrid.ColumnsCount; l++)
 				{
 					var inventorySlotWidget2 = new InventorySlotWidget();
-					inventorySlotWidget2.AssignInventorySlot(componentFurnace, num3++);
+					inventorySlotWidget2.AssignInventorySlot(component, num3++);
 					m_furnaceGrid.Children.Add(inventorySlotWidget2);
 					m_furnaceGrid.SetWidgetCell(inventorySlotWidget2, new Point2(l, k));
 				}
 			}
-			m_resultSlot.AssignInventorySlot(componentFurnace, componentFurnace.ResultSlotIndex);
+			m_resultSlot.AssignInventorySlot(component, component.ResultSlotIndex);
 		}
-
 		public override void Update()
 		{
 			m_fire.ParticlesPerSecond = (m_componentFurnace.HeatLevel > 0f) ? 24f : 0f;
@@ -64,6 +63,24 @@ namespace Game
 			{
 				ParentWidget.Children.Remove(this);
 			}
+		}
+	}
+	public class PresserWidget : BasePresserWidget<ComponentPresser>
+	{
+		public PresserWidget(IInventory inventory, ComponentPresser componentFurnace) : base(inventory, componentFurnace, "Widgets/PresserWidget")
+		{
+		}
+	}
+	public class PresserNWidget : BasePresserWidget<ComponentPresserN>
+	{
+		public PresserNWidget(IInventory inventory, ComponentPresserN componentFurnace) : base(inventory, componentFurnace, "Widgets/PresserNWidget")
+		{
+		}
+	}
+	public class PresserNNWidget : BasePresserWidget<ComponentPresserNN>
+	{
+		public PresserNNWidget(IInventory inventory, ComponentPresserNN componentFurnace) : base(inventory, componentFurnace, "Widgets/PresserNNWidget")
+		{
 		}
 	}
 }

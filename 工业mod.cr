@@ -180,7 +180,7 @@
       "aaa"
     </Recipe>
     <Recipe Result="IronIngotBlock" ResultCount="1" RequiredHeatLevel="1500" a="rod" Description="Smelt rod ore to obtain iron">
-      "a"
+      "aa"
     </Recipe>
     <Recipe Result="ScrapIron" ResultCount="1" RequiredHeatLevel="1" a="rod" Description="Smelt rod ore to scrap iron">
       "a"
@@ -681,6 +681,9 @@
       "bbb"
       "cdc"
       "aaa"
+    </Recipe>
+    <Recipe Result="WireDevice" ResultCount="10" RequiredHeatLevel="0" a="CopperLine" Description="Make a IndustrialWire.">
+      "a"
     </Recipe>
     <Recipe Result="Magnetizer" ResultCount="1" RequiredHeatLevel="0" a="steelblock:0" b="CopperWire" c="SteelRod" d="furnace" Description="Make a Magnetizer to creat industrial magnet.">
       "bbb"

@@ -15,17 +15,13 @@ namespace Game
 			}
 		}
 
-		public int ResultSlotIndex
+		public override int ResultSlotIndex
 		{
 			get
 			{
 				return SlotsCount - 4;
 			}
 		}
-
-		public float HeatLevel;
-
-		public float SmeltingProgress;
 
 		public int UpdateOrder
 		{
