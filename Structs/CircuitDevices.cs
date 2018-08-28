@@ -295,6 +295,20 @@ namespace Game
                     return 107;
             }
         }
+        public override bool IsFaceTransparent(SubsystemTerrain subsystemTerrain, int face, int value)
+        {
+            return false;
+        }
+    
+
+        public override void GenerateTerrainVertices(Block block,BlockGeometryGenerator generator, TerrainGeometrySubsets geometry, int value, int x, int y, int z)
+        {
+            generator.GenerateCubeVertices(block, value, x, y, z, Color.LightGray, geometry.OpaqueSubsetsByFace);
+        }
+        public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
+        {
+            BlocksManager.DrawCubeBlock(primitivesRenderer, value, new Vector3(size), ref matrix, Color.LightGray, Color.LightGray, environmentData);
+        }
         public override BlockPlacementData GetPlacementValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, TerrainRaycastResult raycastResult)
         {
             Vector3 forward = Matrix.CreateFromQuaternion(componentMiner.ComponentCreature.ComponentCreatureModel.EyeRotation).Forward;
@@ -372,6 +386,18 @@ namespace Game
                     return 107;
             }
         }
+        public override bool IsFaceTransparent(SubsystemTerrain subsystemTerrain, int face, int value)
+        {
+            return true;
+        }
+        public override void GenerateTerrainVertices(Block block, BlockGeometryGenerator generator, TerrainGeometrySubsets geometry, int value, int x, int y, int z)
+        {
+            generator.GenerateCubeVertices(block, value, x, y, z, Color.LightGray, geometry.OpaqueSubsetsByFace);
+        }
+        public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
+        {
+            BlocksManager.DrawCubeBlock(primitivesRenderer, value, new Vector3(size), ref matrix, Color.LightGray, Color.LightGray, environmentData);
+        }
         public override BlockPlacementData GetPlacementValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, TerrainRaycastResult raycastResult)
         {
             Vector3 forward = Matrix.CreateFromQuaternion(componentMiner.ComponentCreature.ComponentCreatureModel.EyeRotation).Forward;
@@ -410,7 +436,12 @@ namespace Game
         {
             return "A Separator is a device to separate matarial by high frequency rotation, it is a shrinking version of centrifuge.";
         }
+       
     }
+
+
+    
+
 
     public class AirBlower : FixedDevice
     {
@@ -465,6 +496,109 @@ namespace Game
         public override string GetDescription(int value)
         {
             return "AirBlower is a device to transfer air into some big machine that need a large amount of hot air.";
+        }
+        public override void GenerateTerrainVertices(Block block, BlockGeometryGenerator generator, TerrainGeometrySubsets geometry, int value, int x, int y, int z)
+        {
+            generator.GenerateCubeVertices(block, value, x, y, z, Color.LightGray, geometry.OpaqueSubsetsByFace);
+        }
+        public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
+        {
+            BlocksManager.DrawCubeBlock(primitivesRenderer, value, new Vector3(size), ref matrix, Color.LightGray, Color.LightGray, environmentData);
+        }
+        public override bool IsFaceTransparent(SubsystemTerrain subsystemTerrain, int face, int value)
+        {
+            return true;
+        }
+
+    }
+
+
+    public class EFurnace : FixedDevice
+    {
+        public EFurnace() : base(8000)
+        {
+        }
+        public override int GetFaceTextureSlot(int face, int value)
+        {
+            if (face == 4 || face == 5)
+                return 107;
+            switch (Terrain.ExtractData(value) >> 15)
+            {
+                case 0:
+                    if (face == 0)
+                    {
+                        return 164;
+                    }
+                    return 107;
+                case 1:
+                    if (face == 1)
+                    {
+                        return 164;
+                    }
+                    return 107;
+                case 2:
+                    if (face == 2)
+                    {
+                        return 164;
+                    }
+                    return 107;
+                default:
+                    if (face == 3)
+                    {
+                        return 164;
+                    }
+                    return 107;
+            }
+        }
+        public override bool IsFaceTransparent(SubsystemTerrain subsystemTerrain, int face, int value)
+        {
+            return true;
+        }
+        public override void GenerateTerrainVertices(Block block, BlockGeometryGenerator generator, TerrainGeometrySubsets geometry, int value, int x, int y, int z)
+        {
+            generator.GenerateCubeVertices(block, value, x, y, z, Color.LightGray, geometry.OpaqueSubsetsByFace);
+        }
+        public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
+        {
+            BlocksManager.DrawCubeBlock(primitivesRenderer, value, new Vector3(size), ref matrix, Color.LightGray, Color.LightGray, environmentData);
+        }
+        public override BlockPlacementData GetPlacementValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, TerrainRaycastResult raycastResult)
+        {
+            Vector3 forward = Matrix.CreateFromQuaternion(componentMiner.ComponentCreature.ComponentCreatureModel.EyeRotation).Forward;
+            float num = Vector3.Dot(forward, Vector3.UnitZ);
+            float num2 = Vector3.Dot(forward, Vector3.UnitX);
+            float num3 = Vector3.Dot(forward, -Vector3.UnitZ);
+            float num4 = Vector3.Dot(forward, -Vector3.UnitX);
+            int data = 0;
+            float max = MathUtils.Max(num, num2, num3, num4);
+            if (num == max)
+            {
+                data = 2;
+            }
+            else if (num2 == max)
+            {
+                data = 3;
+            }
+            else if (num3 == max)
+            {
+                data = 0;
+            }
+            else if (num4 == max)
+            {
+                data = 1;
+            }
+            BlockPlacementData result = default(BlockPlacementData);
+            result.Value = Terrain.ReplaceData(ElementBlock.Index, data << 15 | 6);
+            result.CellFace = raycastResult.CellFace;
+            return result;
+        }
+        public override string GetDisplayName(SubsystemTerrain subsystemTerrain, int value)
+        {
+            return "Electric Resistance Furnace";
+        }
+        public override string GetDescription(int value)
+        {
+            return "Electric Resistance Furnace is a device that can heat item by heating resistor, it can reach a high temperature but a large amount heat is needed";
         }
     }
     /*public abstract class Diode : Element
