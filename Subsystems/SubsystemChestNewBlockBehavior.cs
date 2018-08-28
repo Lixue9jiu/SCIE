@@ -102,12 +102,12 @@ namespace Game
                 case 6:
                     {
                         ComponentBlockEntity blockEntity = m_subsystemBlockEntities.GetBlockEntity(raycastResult.CellFace.X, raycastResult.CellFace.Y, raycastResult.CellFace.Z);
-                        Log.Information("111111111111111111111111111");
+                       
                         if (blockEntity == null || componentMiner.ComponentPlayer == null)
                         {
                             return false;
                         }
-                        Log.Information("22222222222222");
+                       
                         ComponentElectricFurnace componentChestNew = blockEntity.Entity.FindComponent<ComponentElectricFurnace>(true);
                         componentMiner.ComponentPlayer.ComponentGui.ModalPanelWidget = new ElectricFurnaceWidget(componentMiner.Inventory, componentChestNew);
                         AudioManager.PlaySound("Audio/UI/ButtonClick", 1f, 0f, 0f);

@@ -147,10 +147,6 @@ namespace Game
 		{
 			base.Load(valuesDictionary, idToEntityMap);
 			m_furnaceSize = SlotsCount - 3;
-			if (m_furnaceSize < 1 || m_furnaceSize > 3)
-			{
-				throw new InvalidOperationException("Invalid furnace size.");
-			}
 			m_fireTimeRemaining = valuesDictionary.GetValue<float>("FireTimeRemaining");
 			HeatLevel = valuesDictionary.GetValue<float>("HeatLevel");
 			m_updateSmeltingRecipe = true;
