@@ -33,6 +33,7 @@ namespace Game
 			switch (Terrain.ExtractData(value) & 32767)
 			{
                 case 3: name = "Seperator"; break;
+                case 2: name = "Magnetizer"; break;
                 case 6: name = "ElectricFurnace"; break;
                 default: return;
 			}
@@ -52,7 +53,8 @@ namespace Game
 			{
 				case 0:
 				case 1: return;
-				case 3:
+                case 2:
+                case 3:
                 case 6: break;
 				default: return;
 			}
@@ -72,18 +74,30 @@ namespace Game
 		{
 			switch (Terrain.ExtractData(raycastResult.Value) & 32767)
 			{
-				case 3:
+				case 2:
 					{
 						ComponentBlockEntity blockEntity = m_subsystemBlockEntities.GetBlockEntity(raycastResult.CellFace.X, raycastResult.CellFace.Y, raycastResult.CellFace.Z);
 						if (blockEntity == null || componentMiner.ComponentPlayer == null)
 						{
 							return false;
 						}
-						ComponentSeperator componentChestNew = blockEntity.Entity.FindComponent<ComponentSeperator>(true);
-						componentMiner.ComponentPlayer.ComponentGui.ModalPanelWidget = new SeperatorWidget(componentMiner.Inventory, componentChestNew);
+						ComponentMagnetizer componentChestNew = blockEntity.Entity.FindComponent<ComponentMagnetizer>(true);
+						componentMiner.ComponentPlayer.ComponentGui.ModalPanelWidget = new MagnetizerWidget(componentMiner.Inventory, componentChestNew);
 						AudioManager.PlaySound("Audio/UI/ButtonClick", 1f, 0f, 0f);
 						return true;
 					}
+                case 3:
+                    {
+                        ComponentBlockEntity blockEntity = m_subsystemBlockEntities.GetBlockEntity(raycastResult.CellFace.X, raycastResult.CellFace.Y, raycastResult.CellFace.Z);
+                        if (blockEntity == null || componentMiner.ComponentPlayer == null)
+                        {
+                            return false;
+                        }
+                        ComponentSeperator componentChestNew = blockEntity.Entity.FindComponent<ComponentSeperator>(true);
+                        componentMiner.ComponentPlayer.ComponentGui.ModalPanelWidget = new SeperatorWidget(componentMiner.Inventory, componentChestNew);
+                        AudioManager.PlaySound("Audio/UI/ButtonClick", 1f, 0f, 0f);
+                        return true;
+                    }
                 case 6:
                     {
                         ComponentBlockEntity blockEntity = m_subsystemBlockEntities.GetBlockEntity(raycastResult.CellFace.X, raycastResult.CellFace.Y, raycastResult.CellFace.Z);

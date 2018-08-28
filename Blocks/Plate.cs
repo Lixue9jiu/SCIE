@@ -21,7 +21,8 @@ namespace Game
 		Iron,
 		Copper,
 		Mercury,
-		Germanium
+		Germanium,
+        FeAlCrAlloy
 	}
 	public class Sheet : Plate
 	{
