@@ -6,7 +6,7 @@ using TemplatesDatabase;
 
 namespace Game
 {
-	public class ComponentElectricFurnace : ComponentMachine, IUpdateable
+	public class ComponentElectricFurnace : ComponentFurnace, IUpdateable
 	{
 		protected float m_fireTimeRemaining;
 
@@ -16,23 +16,7 @@ namespace Game
 
 		protected CraftingRecipe m_smeltingRecipe;
 
-		public int RemainsSlotIndex
-		{
-			get
-			{
-				return SlotsCount - 1;
-			}
-		}
-
-		public override int ResultSlotIndex
-		{
-			get
-			{
-				return SlotsCount - 2;
-			}
-		}
-
-		public override int FuelSlotIndex
+		public new int RemainsSlotIndex
 		{
 			get
 			{
@@ -40,15 +24,38 @@ namespace Game
 			}
 		}
 
-		public int UpdateOrder
+		public new int ResultSlotIndex
 		{
 			get
 			{
-				return 0;
+				return SlotsCount - 4;
 			}
 		}
 
-		public void Update(float dt)
+		public new int FuelSlotIndex
+		{
+			get
+			{
+				return SlotsCount - 0;
+			}
+		}
+        public int Cir1SlotIndex
+        {
+            get
+            {
+                return SlotsCount - 2;
+            }
+        }
+        public int Cir2SlotIndex
+        {
+            get
+            {
+                return SlotsCount - 1;
+            }
+        }
+     
+
+		public new void Update(float dt)
 		{
 			Point3 coordinates = m_componentBlockEntity.Coordinates;
 			if (HeatLevel > 0f)
@@ -56,7 +63,7 @@ namespace Game
 				m_fireTimeRemaining = MathUtils.Max(0f, m_fireTimeRemaining - dt);
 				if (m_fireTimeRemaining == 0f)
 				{
-					HeatLevel = 0f;
+                    m_heatLevel = 0f;
 				}
 			}
 			if (m_updateSmeltingRecipe)
@@ -69,51 +76,33 @@ namespace Game
 				}
 				else
 				{
-					Slot slot = m_slots[FuelSlotIndex];
-					if (slot.Count > 0)
-					{
-						heatLevel = BlocksManager.Blocks[Terrain.ExtractContents(slot.Value)].FuelHeatLevel;
-					}
+					heatLevel = 2000f;
 				}
-				CraftingRecipe craftingRecipe = FindSmeltingRecipe(heatLevel);
+				CraftingRecipe craftingRecipe = FindSmeltingRecipe(2000f);
 				if (craftingRecipe != m_smeltingRecipe)
 				{
 					m_smeltingRecipe = craftingRecipe;
-					SmeltingProgress = 0f;
+					m_smeltingProgress = 0f;
 				}
 			}
 			if (m_smeltingRecipe == null)
 			{
-				HeatLevel = 0f;
+                m_heatLevel = 0f;
 				m_fireTimeRemaining = 0f;
 			}
 			if (m_smeltingRecipe != null && m_fireTimeRemaining <= 0f)
 			{
-				Slot slot2 = m_slots[FuelSlotIndex];
-				if (slot2.Count > 0)
-				{
-					Block block = BlocksManager.Blocks[Terrain.ExtractContents(slot2.Value)];
-					if (block.GetExplosionPressure(slot2.Value) > 0f)
-					{
-						slot2.Count = 0;
-						m_subsystemExplosions.TryExplodeBlock(coordinates.X, coordinates.Y, coordinates.Z, slot2.Value);
-					}
-					else if (block.FuelHeatLevel > 0f)
-					{
-						slot2.Count--;
-						m_fireTimeRemaining = block is IFuel fuel ? fuel.GetFuelFireDuration(slot2.Value) : block.FuelFireDuration;
-						HeatLevel = block.FuelHeatLevel;
-					}
-				}
-			}
+                m_heatLevel = 2000f;
+                m_fireTimeRemaining = 100f;
+            }
 			if (m_fireTimeRemaining <= 0f)
 			{
 				m_smeltingRecipe = null;
-				SmeltingProgress = 0f;
+                m_smeltingProgress = 0f;
 			}
 			if (m_smeltingRecipe != null)
 			{
-				SmeltingProgress = MathUtils.Min(SmeltingProgress + 0.15f * dt, 1f);
+                m_smeltingProgress = MathUtils.Min(SmeltingProgress + 0.15f * dt, 1f);
 				if (SmeltingProgress >= 1f)
 				{
 					for (int i = 0; i < m_furnaceSize; i++)
@@ -131,24 +120,40 @@ namespace Game
 						m_slots[RemainsSlotIndex].Count += m_smeltingRecipe.RemainsCount;
 					}
 					m_smeltingRecipe = null;
-					SmeltingProgress = 0f;
+                    m_smeltingProgress = 0f;
 					m_updateSmeltingRecipe = true;
 				}
 			}
-			TerrainChunk chunkAtCell = m_subsystemTerrain.Terrain.GetChunkAtCell(coordinates.X, coordinates.Z);
-			if (chunkAtCell != null && chunkAtCell.State == TerrainChunkState.Valid)
-			{
-				int cellValue = m_subsystemTerrain.Terrain.GetCellValue(coordinates.X, coordinates.Y, coordinates.Z);
-				m_subsystemTerrain.ChangeCell(coordinates.X, coordinates.Y, coordinates.Z, Terrain.ReplaceData(cellValue, FurnaceNBlock.SetHeatLevel(Terrain.ExtractData(cellValue), (HeatLevel > 0f) ? 1 : 0)), true);
-			}
+			
 		}
 
 		public override void Load(ValuesDictionary valuesDictionary, IdToEntityMap idToEntityMap)
 		{
-			base.Load(valuesDictionary, idToEntityMap);
-			m_furnaceSize = SlotsCount - 3;
+            //	base.Load(valuesDictionary, idToEntityMap);
+            int num = valuesDictionary.GetValue<int>("SlotsCount");
+            for (int index = 0; index < num; index++)
+            {
+                this.m_slots.Add(new ComponentInventoryBase.Slot());
+            }
+            ValuesDictionary valuesDictionary2 = valuesDictionary.GetValue<ValuesDictionary>("Slots");
+            for (int index2 = 0; index2 < this.m_slots.Count; index2++)
+            {
+                ValuesDictionary valuesDictionary3 = valuesDictionary2.GetValue<ValuesDictionary>("Slot" + index2.ToString(CultureInfo.InvariantCulture), null);
+                if (valuesDictionary3 != null)
+                {
+                    ComponentInventoryBase.Slot slot = this.m_slots[index2];
+                    slot.Value = valuesDictionary3.GetValue<int>("Contents");
+                    slot.Count = valuesDictionary3.GetValue<int>("Count");
+                }
+            }
+            this.m_subsystemTerrain = base.Project.FindSubsystem<SubsystemTerrain>(true);
+            this.m_subsystemExplosions = base.Project.FindSubsystem<SubsystemExplosions>(true);
+            this.m_componentBlockEntity = base.Entity.FindComponent<ComponentBlockEntity>(true);
+            this.m_fireTimeRemaining = valuesDictionary.GetValue<float>("FireTimeRemaining");
+            this.m_heatLevel = valuesDictionary.GetValue<float>("HeatLevel");
+            this.m_updateSmeltingRecipe = true;
+            m_furnaceSize = SlotsCount - 5;
 			m_fireTimeRemaining = valuesDictionary.GetValue<float>("FireTimeRemaining");
-			HeatLevel = valuesDictionary.GetValue<float>("HeatLevel");
 			m_updateSmeltingRecipe = true;
 		}
 
@@ -159,51 +164,6 @@ namespace Game
 			valuesDictionary.SetValue("HeatLevel", HeatLevel);
 		}
 
-		protected CraftingRecipe FindSmeltingRecipe(float heatLevel)
-		{
-			if (heatLevel <= 0f)
-			{
-				return null;
-			}
-			for (int i = 0; i < m_furnaceSize; i++)
-			{
-				int slotValue = GetSlotValue(i);
-				int num = Terrain.ExtractContents(slotValue);
-				int num2 = Terrain.ExtractData(slotValue);
-				m_matchedIngredients[i] = GetSlotCount(i) > 0 ? BlocksManager.Blocks[num].CraftingId + ":" + num2.ToString(CultureInfo.InvariantCulture) : null;
-			}
-			CraftingRecipe craftingRecipe = CraftingRecipesManager.FindMatchingRecipe(m_subsystemTerrain, m_matchedIngredients, heatLevel);
-			if (craftingRecipe != null)
-			{
-				if (craftingRecipe.RequiredHeatLevel <= 0f)
-				{
-					craftingRecipe = null;
-				}
-				if (craftingRecipe != null)
-				{
-					Slot slot = m_slots[ResultSlotIndex];
-					int num3 = Terrain.ExtractContents(craftingRecipe.ResultValue);
-					if (slot.Count != 0 && (craftingRecipe.ResultValue != slot.Value || craftingRecipe.ResultCount + slot.Count > BlocksManager.Blocks[num3].MaxStacking))
-					{
-						craftingRecipe = null;
-					}
-				}
-				if (craftingRecipe != null && craftingRecipe.RemainsValue != 0 && craftingRecipe.RemainsCount > 0)
-				{
-					if (m_slots[RemainsSlotIndex].Count == 0 || m_slots[RemainsSlotIndex].Value == craftingRecipe.RemainsValue)
-					{
-						if (BlocksManager.Blocks[Terrain.ExtractContents(craftingRecipe.RemainsValue)].MaxStacking - m_slots[RemainsSlotIndex].Count < craftingRecipe.RemainsCount)
-						{
-							craftingRecipe = null;
-						}
-					}
-					else
-					{
-						craftingRecipe = null;
-					}
-				}
-			}
-			return craftingRecipe;
-		}
+		
 	}
 }

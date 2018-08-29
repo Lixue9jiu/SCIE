@@ -45,10 +45,10 @@ namespace Game
 				}
 			}
 			this.m_resultSlot.AssignInventorySlot(componentFurnace, componentFurnace.ResultSlotIndex);
-			this.m_circuitSlot.AssignInventorySlot(componentFurnace, componentFurnace.ResultSlotIndex);
-			this.m_circuit2Slot.AssignInventorySlot(componentFurnace, componentFurnace.ResultSlotIndex);
 			this.m_remainsSlot.AssignInventorySlot(componentFurnace, componentFurnace.RemainsSlotIndex);
-		}
+            this.m_circuitSlot.AssignInventorySlot(componentFurnace, componentFurnace.Cir1SlotIndex);
+            this.m_circuit2Slot.AssignInventorySlot(componentFurnace, componentFurnace.Cir2SlotIndex);
+        }
 
 		// Token: 0x06000C7F RID: 3199 RVA: 0x000620B8 File Offset: 0x000602B8
 		public override void Update()
@@ -69,7 +69,6 @@ namespace Game
 		private readonly FireWidget m_fire;
 
 		// Token: 0x040009D7 RID: 2519
-		private readonly InventorySlotWidget m_fuelSlot;
 
 		// Token: 0x040009D8 RID: 2520
 		private readonly GridPanelWidget m_furnaceGrid;
