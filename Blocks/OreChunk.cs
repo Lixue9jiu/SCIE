@@ -31,12 +31,8 @@ namespace Game
 			BlockMesh standaloneBlockMesh = m_standaloneBlockMesh;
 			ModelMeshPart meshPart = model.Meshes[0].MeshParts[0];
 			Matrix matrix2 = matrix;
-			int num = 0;
-			int num2 = 0;
-			int num3 = 0;
-			int num4 = 0;
 			Color color2 = Color;
-			standaloneBlockMesh.AppendModelMeshPart(meshPart, matrix2, num != 0, num2 != 0, num3 != 0, num4 != 0, color2);
+			standaloneBlockMesh.AppendModelMeshPart(meshPart, matrix2, 0 != 0, 0 != 0, 0 != 0, 0 != 0, color2);
 			m_standaloneBlockMesh.TransformTextureCoordinates(m_tcTransform, -1);
 		}
 

@@ -55,7 +55,7 @@
     <Compile Include="Blocks\BlastFurnaceBlock.cs" />
     <Compile Include="Blocks\CastMachBlock.cs" />
     <Compile Include="Blocks\ChemicalReactor.cs" />
-    <Compile Include="Blocks\CokeCoalBlock.cs" />
+    <Compile Include="Blocks\CokeCoal.cs" />
     <Compile Include="Blocks\CovenBlock.cs" />
     <Compile Include="Blocks\DrillBlock.cs" />
     <Compile Include="Blocks\ElementBlock.cs" />
