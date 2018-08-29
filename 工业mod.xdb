@@ -163,6 +163,9 @@
       <MemberComponentTemplate Name="Train" Guid="07ea51e6-f429-42e2-9fa5-fc75c6869333" InheritanceParent="b05700ed-7e4e-4679-98f5-b597f421496b">
         <Parameter Name="Class" Guid="0b3a344c-3938-47d1-9f5f-add9676d50c6" Value="Game.ComponentTrain" Type="string" />
       </MemberComponentTemplate>
+      <MemberComponentTemplate Name="TrainTable" Guid="e82420a9-10c6-4a2c-9ea5-725fffee2339" InheritanceParent="98fdc8cc-8ca8-4d0f-af8d-25bfe9b56a19">
+          <Parameter Name="SlotsCount" Guid="3ddd5645-a4c0-4ad5-85f8-813ef26dae6b" Value="3" Type="int" />
+      </MemberComponentTemplate>
       <MemberComponentTemplate Name="SimpleModel" Guid="e9f671fe-8113-4d04-9c6d-54a290f730ed" InheritanceParent="cc5a4e72-0df9-4acf-a42e-ecb5a2a7baf4">
         <Parameter Name="ModelName" Guid="af7158aa-0da7-4130-a87c-90e06e83a27d" Value="Models/Train" Type="string" />
         <Parameter Name="CastsShadow" Guid="1915cbc1-77f5-4679-8d7a-2bfd5c2b0caa" Value="True" Type="bool" />
@@ -170,8 +173,8 @@
       </MemberComponentTemplate>
       <MemberComponentTemplate Name="Spawn" Guid="d21f1d95-20a6-4a12-ad87-a5117736d258" InheritanceParent="65268743-4076-4ee3-aefe-f02a54d16b36" />
       <MemberComponentTemplate Name="Mount" Guid="b648807e-1574-4c7a-b40e-42a70b2406a7" InheritanceParent="d0b14127-39ce-4490-af00-fb4111e9c51e">
-        <Parameter Name="MountOffset" Guid="9dd993d6-c4b8-4b7f-99e2-4f70e881f6a2" Value="0,0.75,-0.2" Type="Vector3" />
-        <Parameter Name="DismountOffset" Guid="f13f69cf-e282-4325-9e7e-bcdd2a04c925" Value="0,0.5,0.4" Type="Vector3" />
+        <Parameter Name="MountOffset" Guid="9dd993d6-c4b8-4b7f-99e2-4f70e881f6a2" Value="0,1.00,0.8" Type="Vector3" />
+        <Parameter Name="DismountOffset" Guid="f13f69cf-e282-4325-9e7e-bcdd2a04c925" Value="0,0.5,1.2" Type="Vector3" />
       </MemberComponentTemplate>
       <MemberComponentTemplate Name="Body" Guid="4ea59a4b-e96e-4d08-a2f0-3cdd51cf1d4c" InheritanceParent="8edd1986-0dcc-424f-893a-491c089b821e">
         <Parameter Name="WaterSwayAngle" Guid="bbb72996-8999-4b8f-9049-f952e6506936" Value="0.04" Type="float" />
@@ -309,6 +312,11 @@
       <Parameter Name="FireTimeRemaining" Description="Fire time remaining, in seconds" Guid="4830cd84-3ff3-4165-aad1-19685f751850" Value="0" Type="float" />
       <Parameter Name="HeatLevel" Description="Current heat level in steamengine" Guid="d4667084-79c4-409e-b043-f9d301fd7e95" Value="0" Type="float" />
       <Parameter Name="Class" Guid="fb4c23fe-1d3c-467e-81bc-1796f68fbe51" Value="Game.ComponentEngine2" Type="string" />
+    </ComponentTemplate>
+    <ComponentTemplate Name="TrainTable" Description="A steamengine" Guid="98fdc8cc-8ca8-4d0f-af8d-25bfe9b56a19" InheritanceParent="81a44c6a-c30a-4f53-8d64-0c30aabab8f9">
+      <Parameter Name="FireTimeRemaining" Description="Fire time remaining, in seconds" Guid="4841cd84-3ff3-4165-aad1-19685f751850" Value="0" Type="float" />
+      <Parameter Name="HeatLevel" Description="Current heat level in steamengine" Guid="d4777084-79c4-409e-b043-f9d301fd7e95" Value="0" Type="float" />
+      <Parameter Name="Class" Guid="fb4c34fe-1d3c-467e-81bc-1796f68fbe51" Value="Game.ComponentEngine3" Type="string" />
     </ComponentTemplate>
     <ComponentTemplate Name="Presser" Description="A presser" Guid="c9ff7906-de35-4e94-ba6e-90cd55cd19d4" InheritanceParent="81a44c6a-c30a-4f53-8d64-0c30aabab8f9">
       <Parameter Name="FireTimeRemaining" Description="Fire time remaining, in seconds" Guid="5830cd84-3ff3-4165-aad1-19685e751850" Value="0" Type="float" />

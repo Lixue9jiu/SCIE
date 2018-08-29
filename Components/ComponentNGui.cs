@@ -74,7 +74,14 @@ namespace Game
 						AudioManager.PlaySound("Audio/UI/ButtonClick", 1f, 0f, 0f);
 						return;
 					}
-				}
+                    ComponentEngine3 componentEngine2 = m_componentPlayer.ComponentRider.Mount.Entity.FindComponent<ComponentEngine3>();
+                    if (componentEngine2 != null)
+                    {
+                        ModalPanelWidget = new TrainWidget(m_componentPlayer.ComponentMiner.Inventory, componentEngine2);
+                        AudioManager.PlaySound("Audio/UI/ButtonClick", 1f, 0f, 0f);
+                        return;
+                    }
+                }
 				if (IsInventoryVisible())
 				{
 					ModalPanelWidget = null;
