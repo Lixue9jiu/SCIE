@@ -119,14 +119,7 @@ namespace Game
 						}
 					}
 					int value = 0;
-					if (m_smeltingRecipe != "CoalPowder")
-					{
-						value = ItemBlock.IdTable[m_smeltingRecipe];
-					}
-					else
-                    {
-                        value = CoalPowderBlock.Index;
-                    }
+					value = ItemBlock.IdTable[m_smeltingRecipe];
 					m_slots[ResultSlotIndex].Value = value;
 					m_slots[ResultSlotIndex].Count += 2;
 					m_smeltingRecipe = null;
@@ -138,11 +131,10 @@ namespace Game
 
 		public override int GetSlotCapacity(int slotIndex, int value)
 		{
-			if (slotIndex != FuelSlotIndex || BlocksManager.Blocks[Terrain.ExtractContents(value)].FuelHeatLevel > 0f)
-			{
-				return base.GetSlotCapacity(slotIndex, value);
-			}
-			return 0;
+			Block block = BlocksManager.Blocks[Terrain.ExtractContents(value)];
+			return slotIndex != FuelSlotIndex || (block is IFuel fuel ? fuel.GetHeatLevel(value) : block.FuelHeatLevel) > 1f
+				? base.GetSlotCapacity(slotIndex, value)
+				: 0;
 		}
 
 		public override void Load(ValuesDictionary valuesDictionary, IdToEntityMap idToEntityMap)
@@ -234,7 +226,7 @@ namespace Game
 				{
 					text = null;
 				}
-                if (slot.Count != 0 && text == "CoalPowder" && (slot.Value != CoalPowderBlock.Index || 2 + slot.Count > 40))
+                if (slot.Count != 0 && text == "CoalPowder" && (slot.Value != ItemBlock.IdTable["CoalPowder"] || 2 + slot.Count > 40))
                 {
                     text = null;
                 }

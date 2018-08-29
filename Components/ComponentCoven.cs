@@ -131,7 +131,7 @@ namespace Game
 						IronOreChunkBlock.Index,
 						ItemBlock.IdTable["IronOrePowder"],
 						CoalChunkBlock.Index,
-						CoalPowderBlock.Index,
+						ItemBlock.IdTable["CoalPowder"],
 						SandBlock.Index,
 						PigmentBlock.Index,
 						IronIngotBlock.Index
@@ -247,7 +247,7 @@ namespace Game
 					{
 						m_matchedIngredients2[2] += slotCount;
 					}
-					else if (slotValue == CoalPowderBlock.Index)
+					else if (slotValue == ItemBlock.IdTable["CoalPowder"] || slotValue == ItemBlock.IdTable["CokeCoalPowder"])
 					{
 						m_matchedIngredients2[3] += slotCount;
 					}

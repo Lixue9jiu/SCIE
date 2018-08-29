@@ -34,13 +34,12 @@ namespace Game
 			{
 				num2 = componentEngine.HeatLevel;
 			}
-			bool obj2 = obj;
-			if (obj2 && num2 != 0f)
+			if (obj && num2 != 0f)
 			{
 				num -= m_turnSpeed * dt;
 			}
 			m_componentBody.Rotation = Quaternion.CreateFromAxisAngle(Vector3.UnitY, num);
-			if (obj2 && MoveOrder != 0f)
+			if (obj && MoveOrder != 0f)
 			{
 				m_componentBody.Velocity += dt * num2 / 90f * MoveOrder * m_componentBody.Matrix.Forward;
 			}

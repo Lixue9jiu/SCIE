@@ -9,7 +9,7 @@ namespace Game
 	public partial class ItemBlock : CubeBlock, IItemBlock
 	{
 		public static Item[] Items = new Item[]
-        {
+		{
 			new RottenEgg(),
 			new MetalLine(MetalType.Iron),
 			new MetalLine(MetalType.Copper),
@@ -21,8 +21,8 @@ namespace Game
 			new MetalLine(MetalType.Stannary),
 			new MetalLine(MetalType.Chromium),
 			new MetalLine(MetalType.Aluminum),
-            new MetalLine(MetalType.FeAlCrAlloy),
-            new Rod("RifleBarrel", Color.Gray, "Rifle Barrel are made by Rifling Machine. They are useful for making guns."),
+			new MetalLine(MetalType.FeAlCrAlloy),
+			new Rod("RifleBarrel", Color.Gray, "Rifle Barrel are made by Rifling Machine. They are useful for making guns."),
 			new ScrapIron(),
 			new OreChunk(Matrix.CreateRotationX(4f) * Matrix.CreateRotationZ(2f), Matrix.CreateTranslation(0.9375f, 0.1875f, 0f), new Color(255,215,0), false, MetalType.Gold),
 			new OreChunk(Matrix.CreateRotationX(5f) * Matrix.CreateRotationZ(2f), Matrix.CreateTranslation(0.9375f, 0.1875f, 0f), new Color(212,212,212), false, MetalType.Silver),
@@ -44,8 +44,8 @@ namespace Game
 			new MetalIngot(MetalType.Chromium),
 			new MetalIngot(MetalType.Aluminum),
 			new MetalIngot(MetalType.Stannary),
-            new MetalIngot(MetalType.FeAlCrAlloy),
-            new OrePowder(MetalType.Iron),
+			new MetalIngot(MetalType.FeAlCrAlloy),
+			new OrePowder(MetalType.Iron),
 			new OrePowder(MetalType.Copper),
 			new OrePowder(MetalType.Germanium),
 			new OrePowder(MetalType.Gold),
@@ -57,6 +57,8 @@ namespace Game
 			new OrePowder(MetalType.Chromium),
 			new OrePowder(MetalType.Nickel),
 			new OrePowder(MetalType.Aluminum),
+			new CoalPowder("Coal", new Color(28, 28, 28)),
+			new CoalPowder("CokeCoal", Color.DarkGray, 2000f, 100f, "Coke Coal Powder looks like silver powder obtained by crushing coke coal. It can be used to be fuel or the reductant agent in the industrial field."),
 			new Plate(MetalType.Steel),
 			new Plate(MetalType.Iron),
 			new Plate(MetalType.Copper),

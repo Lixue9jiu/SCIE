@@ -444,7 +444,7 @@ namespace Game
 			return true;
 		}
 	}
-	public abstract partial class ItemBlock : CubeBlock, IItemBlock
+	public abstract partial class ItemBlock : CubeBlock, IItemBlock, IFuel
 	{
 		public const int Index = 246;
 		//public Item this[int index] => Items[index];
@@ -632,6 +632,14 @@ namespace Game
 				value += 1 << 14;
 			}
 			return list;
+		}
+		public float GetHeatLevel(int value)
+		{
+			return (GetItem(ref value) is IFuel fuel) ? fuel.GetHeatLevel(value) : 0f;
+		}
+		public float GetFuelFireDuration(int value)
+		{
+			return (GetItem(ref value) is IFuel fuel) ? fuel.GetFuelFireDuration(value) : 0f;
 		}
 		/*public bool Equals(object other, IEqualityComparer comparer)
 		{
