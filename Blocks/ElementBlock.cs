@@ -33,22 +33,14 @@ namespace Game
 		}*/
 		public Device GetDevice(int x, int y, int z, int value)
 		{
-			if (GetItem(ref value) is Device device)
-			{
-				device.Point = new Point3(x, y, z);
-				return device;
-			}
-			return null;
+			var device = GetItem(ref value);
+			return device == null ? null : ((Device)device).Create(new Point3(x, y, z));
 		}
 		public virtual Device GetDevice(Terrain terrain, int x, int y, int z)
 		{
 			int value = terrain.GetCellValueFast(x, y, z);
-			if (GetItem(ref value) is Device device)
-			{
-				device.Point = new Point3(x, y, z);
-				return device;
-			}
-			return null;
+			var device = GetItem(ref value);
+			return device == null ? null : ((Device)device).Create(new Point3(x, y, z));
 		}
 		public void GetAllConnectedNeighbors(Terrain terrain, Device elem, int mountingFace, ICollection<ElectricConnectionPath> list)
 		{

@@ -8,14 +8,6 @@ namespace Game
 {
 	public class ComponentElectricFurnace : ComponentFurnace, IUpdateable
 	{
-		protected float m_fireTimeRemaining;
-
-		protected int m_furnaceSize;
-
-		protected readonly string[] m_matchedIngredients = new string[9];
-
-		protected CraftingRecipe m_smeltingRecipe;
-
 		public new int RemainsSlotIndex
 		{
 			get
@@ -129,8 +121,9 @@ namespace Game
 
 		public override void Load(ValuesDictionary valuesDictionary, IdToEntityMap idToEntityMap)
 		{
-            //	base.Load(valuesDictionary, idToEntityMap);
-            int num = valuesDictionary.GetValue<int>("SlotsCount");
+			//	base.Load(valuesDictionary, idToEntityMap);
+			m_matchedIngredients = new string[36];
+			int num = valuesDictionary.GetValue<int>("SlotsCount");
             for (int index = 0; index < num; index++)
             {
                 this.m_slots.Add(new ComponentInventoryBase.Slot());
@@ -163,7 +156,5 @@ namespace Game
 			valuesDictionary.SetValue("FireTimeRemaining", m_fireTimeRemaining);
 			valuesDictionary.SetValue("HeatLevel", HeatLevel);
 		}
-
-		
 	}
 }

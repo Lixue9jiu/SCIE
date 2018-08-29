@@ -50,10 +50,6 @@ namespace Game
 		public virtual void Simulate(ref int value)
 		{
 		}
-		/*public object Clone()
-		{
-			return MemberwiseClone();
-		}}*/
 		public bool Equals(Node other)
 		{
 			return other.Type == Type;
@@ -174,7 +170,7 @@ namespace Game
 		public bool IsSynchronized => false;
 		object IList.this[int index] { get => Next.Array[index]; set => Next.Array[index] = value as Element; }
 		public Element this[int index] { get => Next.Array[index]; set => Next.Array[index] = value; }*/
-		protected Element(ElementType type = ElementType.Device) : base(type)
+		protected Element(ElementType type = ElementType.Device | ElementType.Connector) : base(type)
 		{
 		}
 		protected Element(SerializationInfo info, StreamingContext context) : base(info, context)
@@ -207,7 +203,7 @@ namespace Game
 				return false;
 			if (Next == null)
 				return other.Next == null;
-			return Next.Count == other.Next.Count;
+			return GetCraftingId().Equals(other.GetCraftingId());
 		}
 		public override void GetObjectData(SerializationInfo info, StreamingContext context)
 		{
@@ -290,6 +286,20 @@ namespace Game
 		protected Device(ElementType type = ElementType.Device | ElementType.Connector) : base(type)
 		{
 		}
+		public virtual Device Create(Point3 p)
+		{
+			if (SubsystemCircuit.Table.TryGetValue(p, out Device device))
+			{
+				return device;
+			}
+			device = (Device)MemberwiseClone();
+			device.Point = p;
+			device.Next = new DynamicArray<Element>();
+			return device;
+		}
+		public virtual void UpdateState()
+		{
+		}
 		protected Device(SerializationInfo info, StreamingContext context) : base(info, context)
 		{
 			Point = (Point3)info.GetValue("Point", typeof(Point3));
@@ -300,7 +310,7 @@ namespace Game
 		}
 		public bool Equals(Device other)
 		{
-			return base.Equals(other) && Point.Equals(other.Point) && GetCraftingId().Equals(other.GetCraftingId());
+			return base.Equals(other) && Point.Equals(other.Point);
 		}
 		public override int GetHashCode()
 		{
@@ -310,10 +320,6 @@ namespace Game
 		{
 			base.GetObjectData(info, context);
 			info.AddValue("Point", Point, typeof(Point3));
-		}
-		public override bool IsInteractive(SubsystemTerrain subsystemTerrain, int value)
-		{
-			return false;
 		}
 	}
 	[Serializable]
@@ -326,7 +332,7 @@ namespace Game
 				throw new ArgumentOutOfRangeException("resistance", resistance, "Device has Resistance < 1");
 			Resistance = resistance;
 		}
-		protected FixedDevice(SerializationInfo info, StreamingContext context) : base(info, context)
+		public FixedDevice(SerializationInfo info, StreamingContext context) : base(info, context)
 		{
 			Resistance = info.GetInt32("Resistance");
 		}

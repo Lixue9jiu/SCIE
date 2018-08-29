@@ -52,8 +52,8 @@ namespace Game
 			switch (Terrain.ExtractData(value) & 32767)
 			{
 				case 0:
-				case 1: return;
-                case 2:
+				case 1:
+                case 2:return;
                 case 3:
                 case 6: break;
 				default: return;
@@ -74,18 +74,6 @@ namespace Game
 		{
 			switch (Terrain.ExtractData(raycastResult.Value) & 32767)
 			{
-				case 2:
-					{
-						ComponentBlockEntity blockEntity = m_subsystemBlockEntities.GetBlockEntity(raycastResult.CellFace.X, raycastResult.CellFace.Y, raycastResult.CellFace.Z);
-						if (blockEntity == null || componentMiner.ComponentPlayer == null)
-						{
-							return false;
-						}
-						ComponentMagnetizer componentChestNew = blockEntity.Entity.FindComponent<ComponentMagnetizer>(true);
-						componentMiner.ComponentPlayer.ComponentGui.ModalPanelWidget = new MagnetizerWidget(componentMiner.Inventory, componentChestNew);
-						AudioManager.PlaySound("Audio/UI/ButtonClick", 1f, 0f, 0f);
-						return true;
-					}
                 case 3:
                     {
                         ComponentBlockEntity blockEntity = m_subsystemBlockEntities.GetBlockEntity(raycastResult.CellFace.X, raycastResult.CellFace.Y, raycastResult.CellFace.Z);
@@ -115,38 +103,5 @@ namespace Game
             }
 			return false;
         }
-
-		public override void OnHitByProjectile(CellFace cellFace, WorldItem worldItem)
-		{
-			if ((Terrain.ExtractData(SubsystemTerrain.Terrain.GetCellValue(cellFace.X, cellFace.Y, cellFace.Z)) & 32767) != 1)
-			{
-				return;
-			}
-            if (!worldItem.ToRemove)
-			{
-				ComponentBlockEntity blockEntity = m_subsystemBlockEntities.GetBlockEntity(cellFace.X, cellFace.Y, cellFace.Z);
-				if (blockEntity != null)
-				{
-					ComponentChestNew inventory = blockEntity.Entity.FindComponent<ComponentChestNew>(true);
-					var pickable = worldItem as Pickable;
-					int num = (pickable == null) ? 1 : pickable.Count;
-					int value = worldItem.Value;
-					int count = num;
-					int num2 = ComponentInventoryBase.AcquireItems(inventory, value, count);
-					if (num2 < num)
-					{
-						m_subsystemAudio.PlaySound("Audio/PickableCollected", 1f, 0f, worldItem.Position, 3f, true);
-					}
-					if (num2 <= 0)
-					{
-						worldItem.ToRemove = true;
-					}
-					else if (pickable != null)
-					{
-						pickable.Count = num2;
-					}
-				}
-			}
-		}
 	}
 }

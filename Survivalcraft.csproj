@@ -102,6 +102,7 @@
     <Compile Include="Subsystems\SubsystemMineral.cs" />
     <Compile Include="Subsystems\SubsystemRailBlockBehavior.cs" />
     <Compile Include="Subsystems\SubsystemSourceOfFireBlockBehavior.cs" />
+    <Compile Include="Subsystems\Utils.cs" />
     <Compile Include="Widgets\CovenWidget.cs" />
     <Compile Include="Widgets\CReactorWidget.cs" />
     <Compile Include="Widgets\ElectricFurnaceWidget.cs" />
