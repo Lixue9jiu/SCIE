@@ -102,13 +102,18 @@ namespace Game
                 {
                     flag = true;
                 }
-
+                ComponentEngine3 componentEngine = Entity.FindComponent<ComponentEngine3>();
+                float num2 = 0;
+                if (componentEngine != null)
+                {
+                    num2 = componentEngine.HeatLevel/50f;
+                }
                 if (flag)
                 {
-                    if (SimulateRail(RailBlock.GetRailType(Terrain.ExtractData(value))))
+                    if (SimulateRail(RailBlock.GetRailType(Terrain.ExtractData(value))) && m_componentMount.Rider != null)
                     {
                         m_componentBody.Rotation = currentRotation;
-                        m_componentBody.Velocity += Speed * dt * m_componentBody.Matrix.Forward;
+                        m_componentBody.Velocity += num2 * dt * m_componentBody.Matrix.Forward;
                     }
                     else
                     {

@@ -79,6 +79,7 @@
     <Compile Include="Components\ComponentCoven.cs" />
     <Compile Include="Components\ComponentCReactor.cs" />
     <Compile Include="Components\ComponentElectricFurnace.cs" />
+    <Compile Include="Components\ComponentEngine3.cs" />
     <Compile Include="Components\ComponentHearthFurnace.cs" />
     <Compile Include="Components\ComponentLargeCraftingTable.cs" />
     <Compile Include="Components\ComponentMachine.cs" />
@@ -185,6 +186,7 @@
     <Compile Include="Subsystems\SubsystemNRotBlockBehavior.cs" />
     <Compile Include="Subsystems\SubsystemNSoilBlockBehavior.cs" />
     <Compile Include="Blocks\TankBlock.cs" />
+    <Compile Include="Widgets\TrainWidget.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -187,7 +187,14 @@ namespace Game
 						AudioManager.PlaySound("Audio/UI/ButtonClick", 1f, 0f, 0f);
 						return;
 					}
-					if (!nullable3.HasValue || nullable3.Value.Distance > nullable4.Value.Distance)
+                    ComponentEngine3 componentEngine2 = nullable4.Value.ComponentBody.Entity.FindComponent<ComponentEngine3>();
+                    if (componentEngine2 != null)
+                    {
+                        ComponentGui.ModalPanelWidget = new TrainWidget(ComponentMiner.Inventory, componentEngine2);
+                        AudioManager.PlaySound("Audio/UI/ButtonClick", 1f, 0f, 0f);
+                        return;
+                    }
+                    if (!nullable3.HasValue || nullable3.Value.Distance > nullable4.Value.Distance)
 					{
 						flag = true;
 						m_isDigBlocked = true;
