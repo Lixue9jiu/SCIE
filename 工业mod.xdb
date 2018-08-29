@@ -11,10 +11,6 @@
   <ToAdd Type="ComponentTemplate" Name="CraftingTable" Guid="48fdc8bb-8ca8-4d0f-af8d-25bfe9b56a19">
     <Parameter Name="Class" Guid="566663a5-0480-45c8-9266-18c8060a236c" Value="Game.ComponentLargeCraftingTable" Type="string" />
   </ToAdd>
-  <ToRemove Type="Parameter" Name="Class" Guid="f04c23fe-1d3c-467e-81bc-1796f686be51" />
-  <ToAdd Type="ComponentTemplate" Name="Furnace" Guid="c91f7906-de35-4e94-ba6e-90cd55cd19d4">
-    <Parameter Name="Class" Guid="f04c23fe-1d3c-467e-81bc-1796f686be51" Value="Game.ComponentFurnaceN" Type="string" />
-  </ToAdd>
   <ToRemove Type="Parameter" Name="Class" Guid="9ef8d250-edd0-4fe5-8979-49f7dd023cdb" />
   <ToAdd Type="SubsystemTemplate" Name="SoilBlockBehavior" Guid="59d44a4c-bc6a-499f-944e-39390092696e">
     <Parameter Name="Class" Guid="9ef8d250-edd0-4fe5-8979-49f7dd023cdb" Value="Game.SubsystemNSoilBlockBehavior" Type="string" />
@@ -168,9 +164,9 @@
         <Parameter Name="Class" Guid="0b3a344c-3938-47d1-9f5f-add9676d50c6" Value="Game.ComponentTrain" Type="string" />
       </MemberComponentTemplate>
       <MemberComponentTemplate Name="SimpleModel" Guid="e9f671fe-8113-4d04-9c6d-54a290f730ed" InheritanceParent="cc5a4e72-0df9-4acf-a42e-ecb5a2a7baf4">
-        <Parameter Name="ModelName" Guid="af7158aa-0da7-4130-a87c-90e06e83a27d" Value="Models/Boat" Type="string" />
+        <Parameter Name="ModelName" Guid="af7158aa-0da7-4130-a87c-90e06e83a27d" Value="Models/Train" Type="string" />
         <Parameter Name="CastsShadow" Guid="1915cbc1-77f5-4679-8d7a-2bfd5c2b0caa" Value="True" Type="bool" />
-        <Parameter Name="TextureOverride" Guid="285e6d7e-b88c-41b8-948a-ac4b81d2de32" Value="Textures/Boat" Type="string" />
+        <Parameter Name="TextureOverride" Guid="285e6d7e-b88c-41b8-948a-ac4b81d2de32" Value="Textures/Train" Type="string" />
       </MemberComponentTemplate>
       <MemberComponentTemplate Name="Spawn" Guid="d21f1d95-20a6-4a12-ad87-a5117736d258" InheritanceParent="65268743-4076-4ee3-aefe-f02a54d16b36" />
       <MemberComponentTemplate Name="Mount" Guid="b648807e-1574-4c7a-b40e-42a70b2406a7" InheritanceParent="d0b14127-39ce-4490-af00-fb4111e9c51e">
