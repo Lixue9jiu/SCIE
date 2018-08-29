@@ -11,7 +11,7 @@ namespace Game
 	{
 		public string DefaultDisplayName;
 		public string DefaultDescription;
-		public int Voltage;
+		public readonly int Voltage;
 
 		protected DeviceBlock(int voltage, ElementType type = ElementType.Device | ElementType.Connector) : base(type)
 		{
@@ -43,7 +43,7 @@ namespace Game
 		public readonly float Size;
 		protected BoundingBox[] m_collisionBoxes;
 		public BlockMesh m_standaloneBlockMesh = new BlockMesh();
-		public int RemainCount = 10000;
+		public int RemainCount = 1000;
 		public Battery(int voltage, string modelName, string meshName, Matrix boneTransform, Matrix tcTransform, string description = "", string name = "", float size = 1f) : base(voltage, ElementType.Connector | ElementType.Container)
 		{
 			DefaultDisplayName = name;
@@ -146,17 +146,16 @@ namespace Game
 		}
 		public virtual void OnBlockAdded(SubsystemTerrain subsystemTerrain, int value, int oldValue)
 		{
-			if (oldValue == -1)
+			if (oldValue != -1)
 			{
-				Component = (m_subsystemBlockEntities = subsystemTerrain.Project.FindSubsystem<SubsystemBlockEntities>(true)).GetBlockEntity(Point.X, Point.Y, Point.Z).Entity.FindComponent<T>(true);
-				return;
+				var valuesDictionary = new ValuesDictionary();
+				valuesDictionary.PopulateFromDatabaseObject(subsystemTerrain.Project.GameDatabase.Database.FindDatabaseObject(Name, subsystemTerrain.Project.GameDatabase.EntityTemplateType, true));
+				valuesDictionary.GetValue<ValuesDictionary>("BlockEntity").SetValue("Coordinates", Point);
+				Entity entity = subsystemTerrain.Project.CreateEntity(valuesDictionary);
+				Component = entity.FindComponent<T>(true);
+				subsystemTerrain.Project.AddEntity(entity);
 			}
-			var valuesDictionary = new ValuesDictionary();
-			valuesDictionary.PopulateFromDatabaseObject(subsystemTerrain.Project.GameDatabase.Database.FindDatabaseObject(Name, subsystemTerrain.Project.GameDatabase.EntityTemplateType, true));
-			valuesDictionary.GetValue<ValuesDictionary>("BlockEntity").SetValue("Coordinates", Point);
-			Entity entity = subsystemTerrain.Project.CreateEntity(valuesDictionary);
-			Component = entity.FindComponent<T>(true);
-			subsystemTerrain.Project.AddEntity(entity);
+			Component = (m_subsystemBlockEntities = subsystemTerrain.Project.FindSubsystem<SubsystemBlockEntities>(true)).GetBlockEntity(Point.X, Point.Y, Point.Z).Entity.FindComponent<T>(true);
 		}
 		public virtual void OnBlockRemoved(SubsystemTerrain subsystemTerrain, int value, int newValue)
 		{
@@ -172,12 +171,12 @@ namespace Game
 			}
 		}
 	}
-	public abstract class InteractiveEntityDevice<C, T> : EntityDevice<C> where T : CanvasWidget where C : Component
+	public abstract class InteractiveEntityDevice<C, T> : EntityDevice<C>, IInteractiveBlock where T : CanvasWidget where C : Component
 	{
 		public InteractiveEntityDevice(string name, int resistance) : base(name, resistance)
 		{
 		}
-		/*public bool OnInteract(TerrainRaycastResult raycastResult, ComponentMiner componentMiner)
+		public bool OnInteract(TerrainRaycastResult raycastResult, ComponentMiner componentMiner)
 		{
 			ComponentBlockEntity blockEntity = m_subsystemBlockEntities.GetBlockEntity(raycastResult.CellFace.X, raycastResult.CellFace.Y, raycastResult.CellFace.Z);
 			if (blockEntity == null || componentMiner.ComponentPlayer == null)
@@ -187,7 +186,7 @@ namespace Game
 			componentMiner.ComponentPlayer.ComponentGui.ModalPanelWidget = GetWidget(componentMiner.Inventory, blockEntity.Entity.FindComponent<C>(true));
 			AudioManager.PlaySound("Audio/UI/ButtonClick", 1f, 0f, 0f);
 			return true;
-		}*/
+		}
 		public abstract T GetWidget(IInventory inventory, C component);
 	}
 	public class Fridge : InteractiveEntityDevice<ComponentChestNew, ChestNewWidget>, IItemAcceptableBlock
@@ -198,6 +197,10 @@ namespace Game
 		public override void Simulate(ref int voltage)
 		{
 			Component.Powered = voltage >= 110;
+		}
+		public override void UpdateState()
+		{
+			Component.Powered = false;
 		}
 		public override void OnBlockAdded(SubsystemTerrain subsystemTerrain, int value, int oldValue)
 		{
@@ -281,7 +284,7 @@ namespace Game
 		}
 		public void OnHitByProjectile(CellFace cellFace, WorldItem worldItem)
 		{
-            /*if (!worldItem.ToRemove)
+            if (!worldItem.ToRemove)
 			{
 				ComponentBlockEntity blockEntity = m_subsystemBlockEntities.GetBlockEntity(cellFace.X, cellFace.Y, cellFace.Z);
 				if (blockEntity != null)
@@ -305,7 +308,7 @@ namespace Game
 						pickable.Count = num2;
 					}
 				}
-			}*/
+			}
 		}
 	}
 
@@ -314,6 +317,11 @@ namespace Game
         public Magnetizer() : base("Magnetizer", 1000)
         {
 		}
+		public override Device Create(Point3 p)
+		{
+			var other = (Magnetizer)base.Create(p);
+			return other;
+		}
 		public override void Simulate(ref int voltage)
 		{
 			if (voltage >= 12)
@@ -321,6 +329,10 @@ namespace Game
 				voltage -= 12;
 				Component.Powered = true;
 			}
+		}
+		public override void UpdateState()
+		{
+			Component.Powered = false;
 		}
 		public override void OnBlockAdded(SubsystemTerrain subsystemTerrain, int value, int oldValue)
 		{

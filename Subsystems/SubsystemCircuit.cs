@@ -13,7 +13,7 @@ namespace Game
 		{
 			//public volatile bool IsCompleted;
 			//public bool IsInProgress;
-			public Element Element;
+			public Element[] Elements;
 		}
 		public Queue<Request> Requests = new Queue<Request>();
 		public SubsystemTime SubsystemTime;
@@ -21,13 +21,16 @@ namespace Game
 		protected float m_remainingSimulationTime;
 		protected ElementBlock elementblock;
 		public int UpdateStep;
+		public bool UpdatePath;
 		public Terrain Terrain;
-		public ICollection<Device> Path;
+		public HashSet<Device> Path;
+		public Device[][] CircuitPath;
 		public static Dictionary<Point3, Device> Table;
 		public override int[] HandledBlocks => new int[] { ElementBlock.Index };
 		public int UpdateOrder => 0;
 		public override void Load(ValuesDictionary valuesDictionary)
 		{
+			CircuitPath = new Device[0][];
 			base.Load(valuesDictionary);
 			Terrain = SubsystemTerrain.Terrain;
 			int count = valuesDictionary.GetValue<int>("Count", 0);
@@ -50,33 +53,17 @@ namespace Game
 				return;
 			if (device is IBlockBehavior behavior)
 				behavior.OnBlockAdded(SubsystemTerrain, value, oldValue);
-			if (oldValue == -1 && (device.Type & ElementType.Supply) == 0)
-				return;
-			var v = device;
-			var visited = new HashSet<Element>();
-			var neighbors = new DynamicArray<Device>();
-			visited.Add(v);
-			var Q = new Queue<Device>();
-			Q.Enqueue(v);
-			while (Q.Count > 0)
-			{
-				v = Q.Dequeue();
-				neighbors.Clear();
-				elementblock.GetAllConnectedNeighbors(Terrain, v, 4, neighbors);
-				v.Next = new DynamicArray<Element>(neighbors.Count);
-				for (int i = 0; i < neighbors.Count; i++)
-				{
-					var w = neighbors.Array[i];
-					if (visited.Add(w))
-					{
-						v.Next.Add(w);
-						Q.Enqueue(w);
-					}
-				}
-			}
 			Table[device.Point] = device;
-			if ((device.Type & ElementType.Supply) != 0)
+			UpdatePath = true;
+			if ((device.Type & ElementType.Supply) == 0)
+			{
+				if (oldValue == -1)
+					return;
+			}
+			else
+			{
 				Path.Add(device);
+			}
 		}
 		public override void OnBlockRemoved(int value, int newValue, int x, int y, int z)
 		{
@@ -85,20 +72,20 @@ namespace Game
 				device.Point = new Point3(x, y, z);
 				if (device is IBlockBehavior behavior)
 					behavior.OnBlockRemoved(SubsystemTerrain, value, newValue);
-				if (device.Next != null)
+				UpdatePath = true;
+				/*if (device.Next != null)
 				{
 					var next = device.Next;
 					for (int i = 0; i < next.Count; i++)
 					{
 						var element = next.Array[i];
-						QueueSimulate(element);
 						element.Next.Remove(device);
 					}
 					if ((device.Type & ElementType.Supply) != 0)
 					{
 						Path.Remove(device);
 					}
-				}
+				}*/
 				Table.Remove(device.Point);
 			}
 		}
@@ -138,19 +125,91 @@ namespace Game
 		}
 		public override bool OnInteract(TerrainRaycastResult raycastResult, ComponentMiner componentMiner)
 		{
-			var item = elementblock.GetItem(ref raycastResult.Value);
-			return item != null && item is IInteractiveBlock block && block.OnInteract(raycastResult, componentMiner);
+			var face = raycastResult.CellFace;
+			return elementblock.GetDevice(face.X, face.Y, face.Z, raycastResult.Value) is IInteractiveBlock block && block.OnInteract(raycastResult, componentMiner);
+		}
+		public override void OnHitByProjectile(CellFace cellFace, WorldItem worldItem)
+		{
+			var item = elementblock.GetDevice(Terrain, cellFace.X, cellFace.Y, cellFace.Z);
+			if (item != null && item is IItemAcceptableBlock block)
+				block.OnHitByProjectile(cellFace, worldItem);
 		}
 		public void Update(float dt)
 		{
+			int i, j;
+			if (UpdatePath)
+			{
+				UpdatePath = false;
+				for (i = 0; i < CircuitPath.Length; i++)
+				{
+					int length = CircuitPath[i].Length;
+					for (j = 0; j < length; j++)
+					{
+						CircuitPath[i][j].UpdateState();
+					}
+				}
+				CircuitPath = new Device[Path.Count][];
+				i = 0;
+				for (var enumerator = Path.GetEnumerator(); enumerator.MoveNext(); i++)
+				{
+					var v = enumerator.Current;
+					var visited = new HashSet<Element>();
+					var neighbors = new DynamicArray<Device>(6);
+					visited.Add(v);
+					var Q = new Queue<Device>();
+					Q.Enqueue(v);
+					while (Q.Count > 0)
+					{
+						v = Q.Dequeue();
+						neighbors.Clear();
+						elementblock.GetAllConnectedNeighbors(Terrain, v, 4, neighbors);
+						v.Next = new DynamicArray<Element>(neighbors.Count);
+						for (j = 0; j < neighbors.Count; j++)
+						{
+							var w = neighbors.Array[j];
+							if (visited.Add(w))
+							{
+								v.Next.Add(w);
+								Q.Enqueue(w);
+							}
+						}
+					}
+					Element element = enumerator.Current;
+					var stack = new DynamicArray<Element>(1)
+					{
+						element
+					};
+					var arr = new DynamicArray<Element>(1);
+					while (stack.Count > 0)
+					{
+						if (stack.Count > 20000)
+						{
+							stack.Clear();
+							throw new InvalidOperationException("Stack overflow");
+						}
+						if ((element = stack.Array[--stack.Count]) != null)
+						{
+							arr.Add(element);
+							//if (voltage != 0)
+							//{
+							var next = element.Next;
+							for (j = 0; j < next.Count; j++)
+								stack.Add(next.Array[j]);
+							//}
+						}
+					}
+					CircuitPath[i] = new Device[arr.Count];
+					arr.CopyTo(CircuitPath[i], 0);
+				}
+			}
 			m_remainingSimulationTime = MathUtils.Min(m_remainingSimulationTime + dt, 0.1f);
 			while (m_remainingSimulationTime >= 0.02f)
 			{
 				UpdateStep++;
 				m_remainingSimulationTime -= 0.02f;
-				for (var enumerator = Path.GetEnumerator(); enumerator.MoveNext();)
+				for (i = 0; i < CircuitPath.Length; i++)
 				{
-					QueueSimulate(enumerator.Current);
+					QueueSimulate(CircuitPath[i]);
 				}
 			}
 		}
@@ -182,33 +241,16 @@ namespace Game
 				}
 				//request.IsInProgress = false;
 				//request.IsCompleted = true;
-				var element = request.Element;
+				var elements = request.Elements;
 				int voltage = 0;
-				var stack = new DynamicArray<Element>(1)
+				for (int i = 0; i < elements.Length; i++)
 				{
-					element
-				};
-				while (stack.Count > 0)
-				{
-					if (stack.Count > 20000)
-					{
-						throw new InvalidOperationException("Stack overflow");
-					}
-					if ((element = stack.Array[--stack.Count]) != null)
-					{
-						element.Simulate(ref voltage);
-						if (voltage != 0)
-						{
-							var array = element.Next.Array;
-							for (int j = 0; j < array.Length; j++)
-								stack.Add(array[j]);
-						}
-					}
+					elements[i].Simulate(ref voltage);
 				}
 				Task.Delay(10).Wait();
 			}
 		}
-		public void QueueSimulate(Element element)
+		public void QueueSimulate(Element[] elements)
 		{
 			lock (Requests)
 			{
@@ -216,7 +258,7 @@ namespace Game
 				{
 					//IsCompleted = false,
 					//IsInProgress = true,
-					Element = element
+					Elements = elements
 				});
 				Monitor.Pulse(Requests);
 			}

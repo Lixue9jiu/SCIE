@@ -4,95 +4,9 @@ using System.Text;
 using Engine;
 using Engine.Graphics;
 using TemplatesDatabase;
-using static Game.TerrainBrush;
 
 namespace Game
 {
-	public static class Utils
-	{
-		public static void PaintFastSelective(this TerrainChunk chunk, Cell[] cells, int x, int y, int z, int onlyInBlock = BasaltBlock.Index)
-		{
-			x -= chunk.Origin.X;
-			z -= chunk.Origin.Y;
-			for (int i = 0; i < cells.Length; i++)
-			{
-				Cell cell = cells[i];
-				int y2 = cell.Y + y;
-				if (y2 >= 0 && y2 < 128)
-				{
-					int index = TerrainChunk.CalculateCellIndex(cell.X + x & 15, y2, cell.Z + z & 15);
-					if (Terrain.ExtractContents(onlyInBlock) == Terrain.ExtractContents(chunk.GetCellValueFast(index)))
-					{
-						//SubsystemMineral.StoreItemData(cell.Value);
-						chunk.SetCellValueFast(index, onlyInBlock);
-					}
-				}
-			}
-		}
-		public static void PaintMaskSelective(this TerrainChunk chunk, Cell[] cells, int x, int y, int z, int mask = BasaltBlock.Index)
-		{
-			x -= chunk.Origin.X;
-			z -= chunk.Origin.Y;
-			for (int i = 0; i < cells.Length; i++)
-			{
-				Cell cell = cells[i];
-				int y2 = cell.Y + y;
-				if (y2 >= 0 && y2 < 128)
-				{
-					int index = TerrainChunk.CalculateCellIndex(cell.X + x & 15, y2, cell.Z + z & 15);
-					y2 = chunk.GetCellValueFast(index);
-					if (Terrain.ExtractContents(mask) == Terrain.ExtractContents(y2))
-					{
-						//SubsystemMineral.StoreItemData(cell.Value);
-						chunk.SetCellValueFast(index, y2 | mask);
-					}
-				}
-			}
-		}
-		public static int GetDirectionXZ(ComponentMiner componentMiner)
-		{
-			Vector3 forward = Matrix.CreateFromQuaternion(componentMiner.ComponentCreature.ComponentCreatureModel.EyeRotation).Forward;
-			float num = Vector3.Dot(forward, Vector3.UnitZ);
-			float num2 = Vector3.Dot(forward, Vector3.UnitX);
-			float num3 = Vector3.Dot(forward, -Vector3.UnitZ);
-			float num4 = Vector3.Dot(forward, -Vector3.UnitX);
-			float max = MathUtils.Max(num, num2, num3, num4);
-			if (num == max)
-			{
-				return 2;
-			}
-			else if (num2 == max)
-			{
-				return 3;
-			}
-			else if (num3 == max)
-			{
-				return 0;
-			}
-			else if (num4 == max)
-			{
-				return 1;
-			}
-			return 0;
-		}
-		public static void Push<T>(this DynamicArray<T> array, T item)
-		{
-			if (array.m_count >= array.Capacity)
-			{
-				int value = MathUtils.Max(array.Capacity << 1, 4);
-				if (value != array.Capacity)
-				{
-					T[] arr = new T[value];
-					if (array.Array != null)
-					{
-						Array.Copy(array.Array, 0, arr, 0, array.m_count);
-					}
-					array.Array = arr;
-				}
-			}
-			array.Array[array.m_count++] = item;
-		}
-	}
 	/*[Flags]
 	[Serializable]
 	public enum Mineral : long
@@ -107,25 +21,26 @@ namespace Game
 	}*/
 	[Flags]
 	[Serializable]
-	public enum Metal : ushort
+	public enum Metal : short
 	{
-		Used
+		None,
+		Used = -32768
 	}
 	public class BasaltBlock : PaintedCubeBlock
 	{
 		public static readonly Color[] Colors = new Color[]
 		{
 			new Color(255, 255, 255),
-			new Color(255, 215, 0),//GoldOre
-			new Color(212, 212, 212),//SliverOre
-			new Color(232, 232, 232),//PlatinumOre
-			new Color(65, 224, 205),//ZincOre
-			new Color(88, 87, 86),//LeadOre
-			new Color(255, 123, 113),//MercuryOre
+			new Color(255, 215, 0),//Gold
+			new Color(212, 212, 212),//Sliver
+			new Color(232, 232, 232),//Platinum
+			new Color(65, 224, 205),//Zinc
+			new Color(88, 87, 86),//Lead
+			new Color(255, 123, 113),//Mercury
 			new Color(225, 225, 225),//Stannary
-			new Color(190, 190, 190),//TitaniumOre
-			new Color(90, 90, 90), //ChromiumOre
-			new Color(120, 120, 120) //NickelOre
+			new Color(190, 190, 190),//Titanium
+			new Color(90, 90, 90), //Chromium
+			new Color(120, 120, 120) //Nickel
 		};
 	public const int Index = 67;
 
@@ -419,7 +334,7 @@ namespace Game
 			AlloysData = new DynamicArray<Metal>(arr.Length);
 			for (i = 0; i < arr.Length; i++)
 			{
-				if (ushort.TryParse(arr[i], out ushort value))
+				if (short.TryParse(arr[i], out short value))
 					AlloysData.Add((Metal)value);
 			}
 			/*Used = new byte[262144];
@@ -572,7 +487,7 @@ namespace Game
 					var random = new Random(generator.m_seed + i + (f1 ^ f4 ^ f5 ^ f7 ^ fa ^ fc ^ fd) * j);
 					int k, ix16 = i << 4, jx16 = j << 4;
 					float num2 = generator.CalculateMountainRangeFactor((float)ix16, (float)jx16);
-					const int index = BasaltBlock.Index, index2 = GermaniumOreBlock.Index;
+					const int index = BasaltBlock.Index, index2 = BasaltBlock.Index;
 					for (k = 1 + (int)(2f * num2 * SimplexNoise.OctavedNoise((float)(i ^ fe), (float)(j ^ ff), 0.33f, 1, 1f, 1f)); k-- != 0;)
 					{
 						chunk.PaintFastSelective(AuBrushes[random.Int() & 15].Cells, ix16 | (random.Int() & 15), random.UniformInt(2, 40), jx16 | (random.Int() & 15), index2 | (int)BrushType.Au << 15);

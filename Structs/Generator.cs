@@ -4,7 +4,7 @@ namespace Game
 {
 	public class Generator : Device, IBlockBehavior, IUnstableBlock
 	{
-		public int Voltage;
+		public readonly int Voltage;
 		public bool Powered;
 		public Generator(int voltage = 310) : base(ElementType.Container | ElementType.Connector)
 		{
