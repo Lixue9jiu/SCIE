@@ -33,7 +33,7 @@ namespace Game
 			switch (Terrain.ExtractData(value) & 32767)
 			{
                 case 3: name = "Seperator"; break;
-                case 2: name = "Magnetizer"; break;
+              //  case 2: name = "Magnetizer"; break;
                 case 6: name = "ElectricFurnace"; break;
                 default: return;
 			}
