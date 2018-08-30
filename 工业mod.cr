@@ -743,7 +743,7 @@
       "eca"
       "bbbb"
     </Recipe>
-    <Recipe Result="RailBlock" ResultCount="2" RequiredHeatLevel="0" a="SteelRod" b="rod" Description="Train can travel on the railway.">
+    <Recipe Result="RailBlock" ResultCount="2" RequiredHeatLevel="0" a="SteelRod" b="stick" Description="Train can travel on the railway.">
       "aba"
       "aba"
       "aba"
