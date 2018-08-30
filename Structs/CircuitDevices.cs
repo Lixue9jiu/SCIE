@@ -317,11 +317,6 @@ namespace Game
         public Magnetizer() : base("Magnetizer", 1000)
         {
 		}
-		public override Device Create(Point3 p)
-		{
-			var other = (Magnetizer)base.Create(p);
-			return other;
-		}
 		public override void Simulate(ref int voltage)
 		{
 			if (voltage >= 12)
