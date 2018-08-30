@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Text;
 using Engine;
 using Engine.Graphics;
@@ -334,7 +335,7 @@ namespace Game
 			AlloysData = new DynamicArray<Metal>(arr.Length);
 			for (i = 0; i < arr.Length; i++)
 			{
-				if (short.TryParse(arr[i], out short value))
+				if (short.TryParse(arr[i], NumberStyles.Integer, NumberFormatInfo.CurrentInfo, out short value))
 					AlloysData.Add((Metal)value);
 			}
 			/*Used = new byte[262144];
