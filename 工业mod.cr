@@ -200,7 +200,7 @@
     <Recipe Result="SteelIngot" ResultCount="1" RequiredHeatLevel="1500" Remains="ScrapIron" RemainsCount="2" a="ironingot" Description="Smelt iron ingot to obtain steel and get rid of sulphur">
       "aaa"
     </Recipe>
-    <Recipe Result="SteelIngot" ResultCount="2" RequiredHeatLevel="1800" Remains="ScrapIron" RemainsCount="1" a="ironingot" Description="Smelt iron ingot to obtain steel and get rid of sulphur">
+    <Recipe Result="SteelIngot" ResultCount="2" RequiredHeatLevel="1900" Remains="ScrapIron" RemainsCount="1" a="ironingot" Description="Smelt iron ingot to obtain steel and get rid of sulphur">
       "aaa"
     </Recipe>
     <Recipe Result="ScrapIron" ResultCount="3" RequiredHeatLevel="1" a="ironingot" Description="Smelt iron ingot to obtain steel and get rid of sulphur">

@@ -89,7 +89,6 @@ namespace Game
 					if (slot.Count > 0)
 					{
                         Block block = BlocksManager.Blocks[Terrain.ExtractContents(slot.Value)];
-           
                         float fuelHeatLevel = (block is IFuel fuel ? fuel.GetHeatLevel(slot.Value) : block.FuelHeatLevel);
                     }
 				}
@@ -125,12 +124,15 @@ namespace Game
 						{
 							HeatLevel = fuel.GetHeatLevel(slot2.Value);
 							m_fireTimeRemaining = fuel.GetFuelFireDuration(slot2.Value);
-						}
+                            m_fireTime = m_fireTimeRemaining;
+
+                        }
 						else
 						{
 							HeatLevel = block.FuelHeatLevel;
 							m_fireTimeRemaining = block.FuelFireDuration;
-						}
+                            m_fireTime = m_fireTimeRemaining;
+                        }
 					}
 				}
 			}

@@ -6,7 +6,7 @@
     </CanvasWidget>
     <CanvasWidget Name="SmeltingRecipeWidget.Canvas" HorizontalAlignment="Center" Margin="0, 10">
       <BevelledRectangleWidget Size="400, 280" BevelSize="3" />
-      <GridPanelWidget Name="SmeltingRecipeWidget.Ingredients" CanvasWidget.Position="25, 104" ColumnsCount="3" RowsCount="1" Margin="20, 0"/>
+      <GridPanelWidget Name="SmeltingRecipeWidget.Ingredients" CanvasWidget.Position="25, 104" ColumnsCount="4" RowsCount="1" Margin="20, 0"/>
       <CraftingRecipeSlotWidget Name="SmeltingRecipeWidget.Result" CanvasWidget.Position="295, 104" />
       <CanvasWidget CanvasWidget.Position="102, 183">
         <FireWidget Name="SmeltingRecipeWidget.Fire" Size="68, 40" HorizontalAlignment="Center" VerticalAlignment="Center"/>

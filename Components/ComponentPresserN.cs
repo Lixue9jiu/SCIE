@@ -184,7 +184,7 @@ namespace Game
 	                    {
 	                        text = "GoldOrePowder";
 	                    }
-						else if (slotValue == ItemBlock.IdTable["SliverOreChunk"])
+						else if (slotValue == ItemBlock.IdTable["SilverOreChunk"])
 	                    {
 	                        text = "SliverOrePowder";
 	                    }
@@ -200,11 +200,15 @@ namespace Game
 	                    {
 	                        text = "ZincOrePowder";
 	                    }
-						else if (slotValue == ItemBlock.IdTable["StannaryChunk"])
+						else if (slotValue == ItemBlock.IdTable["StannaryOreChunk"])
 	                    {
 	                        text = "StannaryOrePowder";
 	                    }
-						else if (slotValue == ItemBlock.IdTable["ChromiumOreChunk"])
+                        else if (slotValue == ItemBlock.IdTable["CokeCoal"])
+                        {
+                             text = "CokeCoalPowder";
+                        }
+                        else if (slotValue == ItemBlock.IdTable["ChromiumOreChunk"])
 	                    {
 	                        text = "ChromiumOrePowder";
 	                    }
@@ -212,10 +216,7 @@ namespace Game
 	                    {
 	                        text = "NickelOrePowder";
 	                    }
-                        else if (slotValue == ItemBlock.IdTable["CokeCoal"])
-                        {
-                            text = "CokeCoalPowder";
-                        }
+                        
                         break;
 					}
                 }

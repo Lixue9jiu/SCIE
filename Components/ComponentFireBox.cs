@@ -82,12 +82,14 @@ namespace Game
 						{
 							HeatLevel = fuel.GetHeatLevel(slot2.Value);
 							m_fireTimeRemaining = fuel.GetFuelFireDuration(slot2.Value);
-						}
+                            m_fireTime = m_fireTimeRemaining;
+                        }
 						else
 						{
 							HeatLevel = block.FuelHeatLevel;
 							m_fireTimeRemaining = block.FuelFireDuration;
-						}
+                            m_fireTime = m_fireTimeRemaining;
+                        }
 					}
 				}
 			}
