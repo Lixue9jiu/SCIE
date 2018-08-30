@@ -106,28 +106,32 @@ namespace Game
 				SmeltingProgress = 0f;
 				//m_music = -1;
 			}
-			if (m_smeltingRecipe != null)
-			{
-				SmeltingProgress = MathUtils.Min(SmeltingProgress + 0.1f * dt, 1f);
-				if (SmeltingProgress >= 1f)
-				{
-					for (int l = 0; l < m_furnaceSize; l++)
-					{
-						if (m_slots[l].Count > 0)
-						{
-							m_slots[l].Count--;
-						}
-					}
-					int value = 0;
-					if (m_smeltingRecipe != "CoalPowder")
+            if (m_smeltingRecipe != null)
+            {
+                SmeltingProgress = MathUtils.Min(SmeltingProgress + 0.1f * dt, 1f);
+                if (SmeltingProgress >= 1f)
+                {
+                    for (int l = 0; l < m_furnaceSize; l++)
+                    {
+                        if (m_slots[l].Count > 0)
+                        {
+                            m_slots[l].Count--;
+                        }
+                    }
+                    int value = 0;
+                    if (m_smeltingRecipe != "CoalPowder" && m_smeltingRecipe != "CokeCoalPowder")
 					{
 						value = ItemBlock.IdTable[m_smeltingRecipe];
 					}
-					else
+					else if (m_smeltingRecipe == "CoalPowder")
                     {
                         value = CoalPowderBlock.Index;
                     }
-					m_slots[ResultSlotIndex].Value = value;
+                    else if (m_smeltingRecipe == "CokeCoalPowder")
+                    {
+                        value = CoalPowderBlock.Index+16384;
+                    }
+                    m_slots[ResultSlotIndex].Value = value;
 					m_slots[ResultSlotIndex].Count += 2;
 					m_smeltingRecipe = null;
 					SmeltingProgress = 0f;
@@ -185,7 +189,10 @@ namespace Game
 						case CoalChunkBlock.Index:
 							text = "CoalPowder";
 							break;
-						default:
+                        case CokeCoalBlock.Index:
+                            text = "CokeCoalPowder";
+                            break;
+                        default:
 						if (slotValue == ItemBlock.IdTable["GoldOreChunk"])
 	                    {
 	                        text = "GoldOrePowder";
@@ -230,7 +237,7 @@ namespace Game
 			{
 				Slot slot = m_slots[ResultSlotIndex];
 				int num3 = Terrain.ExtractContents(GetSlotValue(1));
-				if (slot.Count != 0 && (slot.Value != ItemBlock.IdTable[text] || 2 + slot.Count > 40) && text != "CoalPowder")
+				if (slot.Count != 0 && (slot.Value != ItemBlock.IdTable[text] || 2 + slot.Count > 40) && text != "CoalPowder" && text != "CokeCoalPowder")
 				{
 					text = null;
 				}
@@ -238,7 +245,11 @@ namespace Game
                 {
                     text = null;
                 }
-			}
+                if (slot.Count != 0 && text == "CokeCoalPowder" && (slot.Value != CoalPowderBlock.Index+16384 || 2 + slot.Count > 40))
+                {
+                    text = null;
+                }
+            }
 			return text;
 		}
 	}

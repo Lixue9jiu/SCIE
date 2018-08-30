@@ -206,7 +206,7 @@
     <Recipe Result="ScrapIron" ResultCount="3" RequiredHeatLevel="1" a="ironingot" Description="Smelt iron ingot to obtain steel and get rid of sulphur">
       "aaa"
     </Recipe>
-    <Recipe Result="RefractoryBrick" ResultCount="6" RequiredHeatLevel="1500" a="clay" b="IronOrePowder" c="AluminumOrePowder" Description="Smelt clay,iron ore powder and aluminum ore powder to obtain fire brick">
+    <Recipe Result="RefractoryBrick" ResultCount="4" RequiredHeatLevel="1500" a="clay" b="IronOrePowder" c="AluminumOrePowder" Description="Smelt clay,iron ore powder and aluminum ore powder to obtain fire brick">
       "abc"
     </Recipe>
     <Recipe Result="CopperIngotBlock" ResultCount="1" RequiredHeatLevel="1000" a="CopperOrePowder" Description="Smelt copper ore powder to obtain copper">
@@ -687,6 +687,24 @@
       "beb"
       "ada"
     </Recipe>
+    <Recipe Result="CovenBlock" ResultCount="1" RequiredHeatLevel="0" a="RefractoryBrick" b="furnaceN"  Description="Make a Coke Oven to get coke coal">
+      "aaaa"
+      "abba"
+      "abba"
+      "aaaa"
+    </Recipe>
+    <Recipe Result="HearthFurnaceBlock" ResultCount="1" RequiredHeatLevel="0" a="SteelIngot" b="furnaceN"  Description="Make a Open Hearth Furnace to get Iron Metal More efficient ">
+      "aaaa"
+      "abba"
+      "abba"
+      "aaaa"
+    </Recipe>
+    <Recipe Result="FeAlCrAlloyResistor" ResultCount="1" RequiredHeatLevel="0" a="IronLine" b="FeAlCrAlloyLine"  Description="Make a FeAlCrAlloyResistor by FeCrAlloy Line and Iron Line.">
+      "bbbb"
+      "abba"
+      "abba"
+      "bbbb"
+    </Recipe>
     <Recipe Result="SteamBoat" ResultCount="1" RequiredHeatLevel="0" a="IronPlate" b="boat" c="sengine" Description="A Boat with steamengine can let you travel with high speed">
       "aaa"
       "aba"
@@ -753,6 +771,12 @@
       "cbbc"
       "ceac"
       "cafa"
+    </Recipe>
+    <Recipe Result="EFurnace" ResultCount="1" RequiredHeatLevel="0" a="CopperWire" b="SteelPlate" c="metalblock:64" d="FeAlCrAlloyResistor" Description="Make a Electric Furnace a powerful item in the electricity era.">
+      "baab"
+      "bccb"
+      "bddb"
+      "bccb"
     </Recipe>
     <Recipe Result="CReactorBlock" ResultCount="1" RequiredHeatLevel="0" a="tank" b="SteelPlate" c="CopperRod" d="metalblock:0" Description="Make a Chemical Reactor to get chemical product.">
       "bbb"

@@ -186,6 +186,10 @@ namespace Game
                     {
                         text = "StannaryLine";
                     }
+                    else if (slotValue == ItemBlock.IdTable["FeAlCrIngot"])
+                    {
+                        text = "FeAlCrLine";
+                    }
                 }
 				else
 				{

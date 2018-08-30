@@ -22,6 +22,7 @@ namespace Game
 			new MetalLine(MetalType.Chromium),
 			new MetalLine(MetalType.Aluminum),
             new MetalLine(MetalType.FeAlCrAlloy),
+            new Resistor(MetalType.FeAlCrAlloy),
             new Rod("RifleBarrel", Color.Gray, "Rifle Barrel are made by Rifling Machine. They are useful for making guns."),
 			new ScrapIron(),
 			new OreChunk(Matrix.CreateRotationX(4f) * Matrix.CreateRotationZ(2f), Matrix.CreateTranslation(0.9375f, 0.1875f, 0f), new Color(255,215,0), false, MetalType.Gold),

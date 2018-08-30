@@ -130,6 +130,8 @@ namespace Game
 					return Color.White;
 				case MetalType.Copper:
 					return new Color(255, 127, 80);
+                case MetalType.FeAlCrAlloy:
+                    return new Color(200, 200, 200);
                 default:
 					return new Color(232, 232, 232);
 			}

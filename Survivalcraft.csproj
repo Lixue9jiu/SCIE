@@ -67,6 +67,7 @@
     <Compile Include="Blocks\PaintableMagnetBlock.cs" />
     <Compile Include="Blocks\RailBlock.cs" />
     <Compile Include="Blocks\RefractoryBrick.cs" />
+    <Compile Include="Blocks\Resistor.cs" />
     <Compile Include="Blocks\RottenEgg.cs" />
     <Compile Include="Blocks\ScrapIron.cs" />
     <Compile Include="Blocks\SteamBoat.cs" />
