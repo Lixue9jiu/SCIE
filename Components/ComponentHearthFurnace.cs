@@ -231,7 +231,7 @@ namespace Game
 			m_matchedIngredients[7] = 0;
 			m_matchedIngredients[8] = 0;
 			m_matchedIngredients[9] = 0;
-			for (int i = 0; i < m_furnaceSize; i++)
+			for (int i = 0; i < m_furnaceSize+1; i++)
 			{
 				int slotValue = GetSlotValue(i);
 				int num = Terrain.ExtractContents(slotValue);
@@ -295,7 +295,7 @@ namespace Game
 			{
 				flag = false;
 			}
-			if (m_matchedIngredients[6] >= 1 && (m_slots[RemainsSlotIndex].Value != IronIngotBlock.Index || m_slots[RemainsSlotIndex].Count + m_matchedIngredients[6] > 40) && m_slots[ResultSlotIndex].Count != 0)
+			if (m_matchedIngredients[6] >= 1 && (m_slots[ResultSlotIndex].Value != IronIngotBlock.Index || m_slots[ResultSlotIndex].Count + m_matchedIngredients[6] > 40) && m_slots[ResultSlotIndex].Count != 0)
 			{
 				flag = false;
 			}

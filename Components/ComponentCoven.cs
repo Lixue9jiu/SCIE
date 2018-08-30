@@ -234,7 +234,7 @@ namespace Game
 			m_matchedIngredients[7] = 0;
 			m_matchedIngredients[8] = 0;
 			m_matchedIngredients[9] = 0;
-			for (int i = 0; i < m_furnaceSize; i++)
+			for (int i = 0; i < m_furnaceSize+1; i++)
 			{
 				int slotValue = GetSlotValue(i);
 				int num = Terrain.ExtractContents(slotValue);

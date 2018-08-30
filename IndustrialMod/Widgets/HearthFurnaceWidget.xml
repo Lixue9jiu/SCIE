@@ -6,7 +6,7 @@
   <GridPanelWidget Name="InventoryGrid" CanvasWidget.Position="304, 52" ColumnsCount="4" RowsCount="4"/>
   <GridPanelWidget Name="FurnaceGrid" CanvasWidget.Position="18, 52" ColumnsCount="3" RowsCount="2"/>
   <CanvasWidget CanvasWidget.Position="18, 210" >
-    <FireWidget Name="Fire" Size="216, 40" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+    <FireWidget Name="Fire" Size="168, 40" HorizontalAlignment="Center" VerticalAlignment="Center"/>
     <StackPanelWidget Direction="Horizontal">
       <BevelledRectangleWidget Size="24, 44" BevelSize="-2" CenterColor="0, 0, 0, 0" />
       <BevelledRectangleWidget Size="24, 44" BevelSize="-2" CenterColor="0, 0, 0, 0" />
