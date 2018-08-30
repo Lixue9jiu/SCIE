@@ -204,8 +204,8 @@ namespace Game
 			if (text != null)
 			{
 				Slot slot = m_slots[ResultSlotIndex];
-				Block block3 = BlocksManager.Blocks[Terrain.ExtractContents(slot.Value)];
-				if (slot.Count != 0 && (block3.CraftingId != text || 1 + slot.Count > 40))
+			
+				if (slot.Count != 0 && (slot.Value != ItemBlock.IdTable[text] || 1 + slot.Count > 40))
 				{
 					text = null;
 				}
