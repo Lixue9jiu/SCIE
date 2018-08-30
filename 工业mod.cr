@@ -582,10 +582,11 @@
     <Recipe Result="StannarySheet" ResultCount="36" RequiredHeatLevel="0" a="StannaryPlate" Description="Cut a stannary plate into sheets">
       "a"
     </Recipe>
-    <Recipe Result="Fridge" ResultCount="1" RequiredHeatLevel="0" a="ironingot" b="piston" c="battery" Description="Make a storage freezer to protect food">
-      "aba"
-      "aca"
-      "aba"
+    <Recipe Result="Fridge" ResultCount="1" RequiredHeatLevel="0" a="SteelPlate" b="IndustrialPiston" c="tank" d="SteelRod" Description="Make a storage freezer to protect food">
+      "abba"
+      "adda"
+      "abba"
+      "acca"
     </Recipe>
     <Recipe Result="DispenserNewBlock" ResultCount="1" RequiredHeatLevel="0" a="SteelGear" b="piston" c="metalblock:0" d="SteelRod" e="diamond" f="dispenser" Description="Make an auto driller to mining">
       "dbf"
@@ -705,10 +706,21 @@
       "abba"
       "bbbb"
     </Recipe>
-    <Recipe Result="SteamBoat" ResultCount="1" RequiredHeatLevel="0" a="IronPlate" b="boat" c="sengine" Description="A Boat with steamengine can let you travel with high speed">
-      "aaa"
+    <Recipe Result="SteamBoat" ResultCount="1" RequiredHeatLevel="0" a="metalblock:2" b="boat" c="sengine" d="SteelRod" e="SteelPlate" Description="A Boat with steamengine can let you travel with high speed">
+      "eaae"
+      "ebbe"
+      "dccd"
+      "eaae"
+    </Recipe>
+    <Recipe Result="Steam Locomotive" ResultCount="1" RequiredHeatLevel="0" a="SteelPlate" b="SteelWheel" c="sengine" d="SteelRod" e="tank" Description="A Steam Locomotive with steamengine can let you travel with high speed on railway.">
+      "eeda"
+      "eca"
+      "bbbb"
+    </Recipe>
+    <Recipe Result="RailBlock" ResultCount="2" RequiredHeatLevel="0" a="SteelRod" b="rod" Description="Train can travel on the railway.">
       "aba"
-      "aca"
+      "aba"
+      "aba"
     </Recipe>
     <Recipe Result="CopperWire" ResultCount="1" RequiredHeatLevel="0" a="CopperLine" b="SteelRod" Description="Make a wire from copperline and steelrod">
       "aaa"
