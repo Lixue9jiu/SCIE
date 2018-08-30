@@ -85,8 +85,16 @@ namespace Game
 					else if (block.FuelHeatLevel > 0f)
 					{
 						slot2.Count--;
-						m_fireTimeRemaining = block is IFuel fuel ? fuel.GetFuelFireDuration(slot2.Value) : block.FuelFireDuration;
-						m_heatLevel = block.FuelHeatLevel;
+						if (block is IFuel fuel)
+						{
+							m_heatLevel = fuel.GetHeatLevel(slot2.Value);
+							m_fireTimeRemaining = fuel.GetFuelFireDuration(slot2.Value);
+						}
+						else
+						{
+							m_heatLevel = block.FuelHeatLevel;
+							m_fireTimeRemaining = block.FuelFireDuration;
+						}
 					}
 				}
 			}

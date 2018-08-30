@@ -78,7 +78,8 @@ namespace Game
 					Slot slot = m_slots[FuelSlotIndex];
 					if (slot.Count > 0)
 					{
-						heatLevel = BlocksManager.Blocks[Terrain.ExtractContents(slot.Value)].FuelHeatLevel;
+						Block block = BlocksManager.Blocks[Terrain.ExtractContents(slot.Value)];
+						heatLevel = (block is IFuel fuel ? fuel.GetHeatLevel(slot.Value) : block.FuelHeatLevel);
 					}
 				}
 				string text = m_smeltingRecipe2 = FindSmeltingRecipe(heatLevel);
@@ -92,12 +93,13 @@ namespace Game
 			}
 			if (m_smeltingRecipe2 != null)
 			{
-				int num = Powered ? 1 : 0;
-				if (num == 0)
+				if (!Powered)
 				{
+					SmeltingProgress = 0f;
+					HeatLevel = 0f;
 					m_smeltingRecipe = null;
 				}
-				if (num == 1 && m_smeltingRecipe == null)
+				else if (m_smeltingRecipe == null)
 				{
 					m_smeltingRecipe = m_smeltingRecipe2;
 				}
@@ -122,8 +124,16 @@ namespace Game
 					else if (block.FuelHeatLevel > 0f)
 					{
 						slot2.Count--;
-						m_fireTimeRemaining = block is IFuel fuel ? fuel.GetFuelFireDuration(slot2.Value) : block.FuelFireDuration;
-						HeatLevel = block.FuelHeatLevel;
+						if (block is IFuel fuel)
+						{
+							HeatLevel = fuel.GetHeatLevel(slot2.Value);
+							m_fireTimeRemaining = fuel.GetFuelFireDuration(slot2.Value);
+						}
+						else
+						{
+							HeatLevel = block.FuelHeatLevel;
+							m_fireTimeRemaining = block.FuelFireDuration;
+						}
 					}
 				}
 			}
@@ -132,7 +142,6 @@ namespace Game
 				SmeltingProgress = MathUtils.Min(SmeltingProgress + 0.1f * dt, 1f);
 				if (SmeltingProgress >= 1f)
 				{
-					
 				    m_slots[0].Count--;
 					int value = ItemBlock.IdTable[m_smeltingRecipe];
 					m_slots[ResultSlotIndex].Value = value;
@@ -146,11 +155,8 @@ namespace Game
 
 		public override int GetSlotCapacity(int slotIndex, int value)
 		{
-			if (slotIndex != FuelSlotIndex)
-			{
-				return base.GetSlotCapacity(slotIndex, value);
-			}
-			if (BlocksManager.Blocks[Terrain.ExtractContents(value)].FuelHeatLevel > 1400f)
+			Block block = BlocksManager.Blocks[Terrain.ExtractContents(value)];
+			if (slotIndex != FuelSlotIndex || (block is IFuel fuel ? fuel.GetHeatLevel(value) : block.FuelHeatLevel) > 1400f)
 			{
 				return base.GetSlotCapacity(slotIndex, value);
 			}

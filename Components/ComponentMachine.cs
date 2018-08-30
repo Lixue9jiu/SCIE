@@ -17,7 +17,7 @@ namespace Game
 			}
 		}
 
-		public virtual int ResultSlotIndex { get; }
+		public virtual int ResultSlotIndex => 0;
 
 		public float HeatLevel;
 
@@ -25,7 +25,8 @@ namespace Game
 
 		public override int GetSlotCapacity(int slotIndex, int value)
 		{
-			return slotIndex != FuelSlotIndex || BlocksManager.Blocks[Terrain.ExtractContents(value)].FuelHeatLevel > 1f
+			Block block = BlocksManager.Blocks[Terrain.ExtractContents(value)];
+			return slotIndex != FuelSlotIndex || (block is IFuel fuel ? fuel.GetHeatLevel(value): block.FuelHeatLevel) > 1f
 				? base.GetSlotCapacity(slotIndex, value)
 				: 0;
 		}

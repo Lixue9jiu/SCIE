@@ -64,16 +64,17 @@ namespace Game
 			if (m_updateSmeltingRecipe)
 			{
 				m_updateSmeltingRecipe = false;
+				float heatLevel;
 				if (HeatLevel > 0f)
 				{
-					//float heatLevel = HeatLevel;
+					heatLevel = HeatLevel;
 				}
 				else
 				{
 					Slot slot = m_slots[FuelSlotIndex];
 					if (slot.Count > 0)
 					{
-						float fuelHeatLevel = BlocksManager.Blocks[Terrain.ExtractContents(slot.Value)].FuelHeatLevel;
+						heatLevel = BlocksManager.Blocks[Terrain.ExtractContents(slot.Value)].FuelHeatLevel;
 					}
 				}
 				string text = null;
@@ -117,8 +118,16 @@ namespace Game
 					else if (block.FuelHeatLevel > 0f)
 					{
 						slot3.Count--;
-						m_fireTimeRemaining = block is IFuel fuel ? fuel.GetFuelFireDuration(slot3.Value) : block.FuelFireDuration;
-						HeatLevel = block.FuelHeatLevel;
+						if (block is IFuel fuel)
+						{
+							HeatLevel = fuel.GetHeatLevel(slot3.Value);
+							m_fireTimeRemaining = fuel.GetFuelFireDuration(slot3.Value);
+						}
+						else
+						{
+							HeatLevel = block.FuelHeatLevel;
+							m_fireTimeRemaining = block.FuelFireDuration;
+						}
 					}
 				}
 			}

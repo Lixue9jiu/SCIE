@@ -24,20 +24,20 @@ namespace Game
 			Color.White,
 			new Color(205, 190, 112),
 		};
-		public readonly MetalType Type;
-		public OrePowder(MetalType type)
+		public readonly Color Color;
+		public OrePowder(MetalType type) : this(type.ToString() + "Ore", default(Color))
 		{
+			Color = Colors[(int)type];
+		}
+		public OrePowder(string name, Color color)
+		{
+			Color = color;
 			DefaultTextureSlot = 198;
-			DefaultDisplayName = type.ToString() + "OrePowder";
-			Type = type;
+			DefaultDescription = (DefaultDisplayName = name + "Powder") + " is Ore powder obtained by crushing " + name + ".";
 		}
 		public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
 		{
-			BlocksManager.DrawFlatBlock(primitivesRenderer, value, size, ref matrix, null, Colors[(int)Type], false, environmentData);
-		}
-		public override string GetDescription(int value)
-		{
-			return Type.ToString() + "OrePowder is Ore powder obtained by crushing " + Type.ToString() + ".";
+			BlocksManager.DrawFlatBlock(primitivesRenderer, value, size, ref matrix, null, Color, false, environmentData);
 		}
 	}
 }

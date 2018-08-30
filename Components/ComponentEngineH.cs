@@ -119,8 +119,16 @@ namespace Game
 					else if (block.FuelHeatLevel > 0f)
 					{
 						slot2.Count--;
-						m_fireTime = m_fireTimeRemaining = (block is IFuel fuel ? fuel.GetFuelFireDuration(slot2.Value) : block.FuelFireDuration) * 3f;
-						HeatLevel = block.FuelHeatLevel;
+						if (block is IFuel fuel)
+						{
+							HeatLevel = fuel.GetHeatLevel(slot2.Value);
+							m_fireTimeRemaining = fuel.GetFuelFireDuration(slot2.Value);
+						}
+						else
+						{
+							HeatLevel = block.FuelHeatLevel;
+							m_fireTimeRemaining = block.FuelFireDuration;
+						}
 					}
 				}
 			}
@@ -154,7 +162,8 @@ namespace Game
 
 		public override int GetSlotCapacity(int slotIndex, int value)
 		{
-			if (slotIndex != FuelSlotIndex || BlocksManager.Blocks[Terrain.ExtractContents(value)].FuelHeatLevel > 0f)
+			Block block = BlocksManager.Blocks[Terrain.ExtractContents(value)];
+			if (slotIndex != FuelSlotIndex || (block is IFuel fuel ? fuel.GetHeatLevel(value) : block.FuelHeatLevel) > 0f)
 			{
 				return base.GetSlotCapacity(slotIndex, value);
 			}

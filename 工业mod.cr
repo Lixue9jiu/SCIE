@@ -152,13 +152,13 @@
     <Recipe Result="LeadOreChunk" ResultCount="3" RequiredHeatLevel="1" a="LeadOreChunk" Description="Smelt Lead ore to obtain Lead">
       "aaa"
     </Recipe>
-    <Recipe Result="ZincIngot" ResultCount="1" RequiredHeatLevel="800" a="ZincOrePowder" b="coalpowder" Description="Smelt Zinc ore powder to obtain Zinc">
+    <Recipe Result="ZincIngot" ResultCount="1" RequiredHeatLevel="800" a="ZincOrePowder" b="CoalPowder" Description="Smelt Zinc ore powder to obtain Zinc">
       "abb"
     </Recipe>
-    <Recipe Result="ZincOrePowder" ResultCount="1" RequiredHeatLevel="1" a="ZincOrePowder" b="coalpowder" Description="Smelt Zinc ore powder to obtain Zinc">
+    <Recipe Result="ZincOrePowder" ResultCount="1" RequiredHeatLevel="1" a="ZincOrePowder" b="CoalPowder" Description="Smelt Zinc ore powder to obtain Zinc">
       "abb"
     </Recipe>
-    <Recipe Result="NickelIngot" ResultCount="1" RequiredHeatLevel="1200" a="NickelOrePowder" b="coalpowder" c="pigment" Description="Smelt Nickel ore powder to obtain Nickel">
+    <Recipe Result="NickelIngot" ResultCount="1" RequiredHeatLevel="1200" a="NickelOrePowder" b="CoalPowder" c="pigment" Description="Smelt Nickel ore powder to obtain Nickel">
       "abc"
     </Recipe>
     <Recipe Result="StannaryIngot" ResultCount="1" RequiredHeatLevel="300" a="StannaryOrePowder" Description="Smelt Stannary ore powder to obtain Stannary">
