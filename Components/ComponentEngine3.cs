@@ -102,7 +102,7 @@ namespace Game
 					{
 						slot2.Count = 0;
 					}
-					else if (block.FuelHeatLevel > 0f)
+					else 
 					{
 						slot2.Count--;
 						if (block is IFuel fuel)

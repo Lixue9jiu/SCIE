@@ -88,8 +88,10 @@ namespace Game
 					Slot slot = m_slots[FuelSlotIndex];
 					if (slot.Count > 0)
 					{
-						float fuelHeatLevel = BlocksManager.Blocks[Terrain.ExtractContents(slot.Value)].FuelHeatLevel;
-					}
+                        Block block = BlocksManager.Blocks[Terrain.ExtractContents(slot.Value)];
+           
+                        float fuelHeatLevel = (block is IFuel fuel ? fuel.GetHeatLevel(slot.Value) : block.FuelHeatLevel);
+                    }
 				}
 				const string text = "text";
 				if (text != m_smeltingRecipe)
@@ -116,7 +118,7 @@ namespace Game
 						slot2.Count = 0;
 						m_subsystemExplosions.TryExplodeBlock(coordinates.X, coordinates.Y, coordinates.Z, slot2.Value);
 					}
-					else if (block.FuelHeatLevel > 0f)
+					else 
 					{
 						slot2.Count--;
 						if (block is IFuel fuel)

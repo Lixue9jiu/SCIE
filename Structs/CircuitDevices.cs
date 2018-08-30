@@ -43,7 +43,7 @@ namespace Game
 		public readonly float Size;
 		protected BoundingBox[] m_collisionBoxes;
 		public BlockMesh m_standaloneBlockMesh = new BlockMesh();
-		public int RemainCount = 1000;
+		public int RemainCount = 500;
 		public Battery(int voltage, string modelName, string meshName, Matrix boneTransform, Matrix tcTransform, string description = "", string name = "", float size = 1f) : base(voltage, ElementType.Connector | ElementType.Container)
 		{
 			DefaultDisplayName = name;
@@ -431,10 +431,36 @@ namespace Game
 		}
 	}
 
-    public class Separator : FixedDevice
+    public class Separator : InteractiveEntityDevice<ComponentSeperator, SeperatorWidget>
     {
-        public Separator() : base(3000)
+        public Separator() : base("Seperator", 2000)
         {
+        }
+        public override Device Create(Point3 p)
+        {
+            var other = (Separator)base.Create(p);
+            return other;
+        }
+        public override void Simulate(ref int voltage)
+        {
+            if (voltage >= 120)
+            {
+                voltage -= 120;
+                Component.Powered = true;
+            }
+            else
+            {
+                Component.Powered = false;
+            }
+        }
+        public override void UpdateState()
+        {
+            Component.Powered = false;
+        }
+        public override void OnBlockAdded(SubsystemTerrain subsystemTerrain, int value, int oldValue)
+        {
+            base.OnBlockAdded(subsystemTerrain, value, oldValue);
+            Component.Powered = false;
         }
         public override int GetFaceTextureSlot(int face, int value)
         {
@@ -518,7 +544,10 @@ namespace Game
         {
             return "A Separator is a device to separate matarial by high frequency rotation, it is a shrinking version of centrifuge.";
         }
-       
+        public override SeperatorWidget GetWidget(IInventory inventory, ComponentSeperator component)
+        {
+            return new SeperatorWidget(inventory, component);
+        }
     }
 
 	
@@ -591,10 +620,36 @@ namespace Game
 
     }
 	
-    public class EFurnace : FixedDevice
+    public class EFurnace : InteractiveEntityDevice<ComponentElectricFurnace, ElectricFurnaceWidget>
     {
-        public EFurnace() : base(8000)
+        public EFurnace() : base("ElectricFurnace", 6000)
         {
+        }
+        public override Device Create(Point3 p)
+        {
+            var other = (EFurnace)base.Create(p);
+            return other;
+        }
+        public override void Simulate(ref int voltage)
+        {
+            if (voltage >= 300)
+            {
+                voltage -= 300;
+                Component.Powered = true;
+            }
+            else
+            {
+                Component.Powered = false;
+            }
+        }
+        public override void UpdateState()
+        {
+            Component.Powered = false;
+        }
+        public override void OnBlockAdded(SubsystemTerrain subsystemTerrain, int value, int oldValue)
+        {
+            base.OnBlockAdded(subsystemTerrain, value, oldValue);
+            Component.Powered = false;
         }
         public override int GetFaceTextureSlot(int face, int value)
         {
@@ -677,6 +732,10 @@ namespace Game
         public override string GetDescription(int value)
         {
             return "Electric Resistance Furnace is a device that can heat item by heating resistor, it can reach a high temperature but a large amount heat is needed";
+        }
+        public override ElectricFurnaceWidget GetWidget(IInventory inventory, ComponentElectricFurnace component)
+        {
+            return new ElectricFurnaceWidget(inventory, component);
         }
     }
     /*public abstract class Diode : Element

@@ -8,7 +8,9 @@ namespace Game
 {
 	public class ComponentElectricFurnace : ComponentFurnace, IUpdateable
 	{
-		public new int RemainsSlotIndex
+        public bool Powered;
+        protected CraftingRecipe m_smeltingRecipe2;
+        public new int RemainsSlotIndex
 		{
 			get
 			{
@@ -74,10 +76,30 @@ namespace Game
 				if (craftingRecipe != m_smeltingRecipe)
 				{
 					m_smeltingRecipe = craftingRecipe;
-					m_smeltingProgress = 0f;
+                    m_smeltingRecipe2= craftingRecipe;
+                    m_smeltingProgress = 0f;
 				}
 			}
-			if (m_smeltingRecipe == null)
+            if (m_smeltingRecipe2 != null)
+            {
+                if (!Powered)
+                {
+                    m_smeltingProgress = 0f;
+                    m_heatLevel = 0f;
+                    m_smeltingRecipe = null;
+                }
+                else if (m_smeltingRecipe == null)
+                {
+                    m_smeltingRecipe = m_smeltingRecipe2;
+                }
+            }
+            if (!Powered)
+            {
+                m_smeltingProgress = 0f;
+                m_heatLevel = 0f;
+                m_smeltingRecipe = null;
+            }
+            if (m_smeltingRecipe == null)
 			{
                 m_heatLevel = 0f;
 				m_fireTimeRemaining = 0f;
@@ -112,6 +134,7 @@ namespace Game
 						m_slots[RemainsSlotIndex].Count += m_smeltingRecipe.RemainsCount;
 					}
 					m_smeltingRecipe = null;
+                    m_smeltingRecipe2 = null;
                     m_smeltingProgress = 0f;
 					m_updateSmeltingRecipe = true;
 				}

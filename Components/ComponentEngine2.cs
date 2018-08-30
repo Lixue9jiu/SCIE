@@ -74,8 +74,9 @@ namespace Game
 					Slot slot = m_slots[FuelSlotIndex];
 					if (slot.Count > 0)
 					{
-						heatLevel = BlocksManager.Blocks[Terrain.ExtractContents(slot.Value)].FuelHeatLevel;
-					}
+                        Block block = BlocksManager.Blocks[Terrain.ExtractContents(slot.Value)];
+                        heatLevel = (block is IFuel fuel ? fuel.GetHeatLevel(slot.Value) : block.FuelHeatLevel);
+                    }
 				}
 				string text = null;
 				int remainsSlotIndex = RemainsSlotIndex;
@@ -115,7 +116,7 @@ namespace Game
 					{
 						slot3.Count = 0;
 					}
-					else if (block.FuelHeatLevel > 0f)
+					else 
 					{
 						slot3.Count--;
 						if (block is IFuel fuel)

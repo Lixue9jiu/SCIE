@@ -7,7 +7,9 @@ namespace Game
 {
 	public class ComponentSeperator : ComponentMachine, IUpdateable
 	{
-		protected float m_fireTimeRemaining;
+
+        public bool Powered;
+        protected float m_fireTimeRemaining;
 
 		protected int m_furnaceSize;
 
@@ -78,7 +80,26 @@ namespace Game
 					//m_music = 0;
 				}
 			}
-			if (m_smeltingRecipe == null)
+            if (m_smeltingRecipe2 != null)
+            {
+                if (!Powered)
+                {
+                    SmeltingProgress = 0f;
+                    HeatLevel = 0f;
+                    m_smeltingRecipe = null;
+                }
+                else if (m_smeltingRecipe == null)
+                {
+                    m_smeltingRecipe = m_smeltingRecipe2;
+                }
+            }
+            if (!Powered)
+            {
+                SmeltingProgress = 0f;
+                HeatLevel = 0f;
+                m_smeltingRecipe = null;
+            }
+            if (m_smeltingRecipe == null)
 			{
 				HeatLevel = 0f;
 				m_fireTimeRemaining = 0f;

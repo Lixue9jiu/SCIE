@@ -1,12 +1,12 @@
 ﻿using Engine;
-
+//ElementType.Container | ElementType.Connector |
 namespace Game
 {
 	public class Generator : Device, IBlockBehavior, IUnstableBlock
 	{
 		public readonly int Voltage;
 		public bool Powered;
-		public Generator(int voltage = 310) : base(ElementType.Container | ElementType.Connector)
+		public Generator(int voltage = 310) : base( ElementType.Supply | ElementType.Connector)
 		{
 			Voltage = voltage;
 		}

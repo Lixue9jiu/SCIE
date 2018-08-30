@@ -183,6 +183,7 @@ namespace Game
 		protected string FindSmeltingRecipe(float heatLevel)
 		{
             string text = null;
+            int text2 = 0;
             for (int i = 0; i < m_furnaceSize; i++)
 			{
 				int slotValue = GetSlotValue(i);
@@ -190,13 +191,28 @@ namespace Game
 				int num2 = Terrain.ExtractData(slotValue);
 				if (GetSlotCount(i) > 0)
 				{
-					
+					if (slotValue== TankBlock.Index)
+                    {
+                        text2 += 1;
+                    }
+                    if (slotValue == ItemBlock.IdTable["ZincRod"])
+                    {
+                        text2 += 10;
+                    }
+                    if (slotValue == SulphurChunkBlock.Index)
+                    {
+                        text2 += 100;
+                    }
                 }
 				else
 				{
 
 				}
 			}
+            if (text2 == 111)
+            {
+                text = "CuZnBattery";
+            }
 			if (text != null)
 			{
 				Slot slot = m_slots[ResultSlotIndex];
