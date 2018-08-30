@@ -135,7 +135,7 @@ namespace Game
 					int[] array = new int[]
 					{
                         CoalChunkBlock.Index,
-                        CoalPowderBlock.Index,
+                        ItemBlock.IdTable["CoalPowder"],
                         PlanksBlock.Index,
                         OakWoodBlock.Index,
                         BirchWoodBlock.Index,
@@ -171,12 +171,12 @@ namespace Game
 					}
 					if (m_matchedIngredients[7] >= 1)
 					{
-						m_slots[ResultSlotIndex].Value = CokeCoalBlock.Index;
+						m_slots[ResultSlotIndex].Value = ItemBlock.IdTable["CokeCoal"];
 						m_slots[ResultSlotIndex].Count += m_matchedIngredients[7];
 					}
 					if (m_matchedIngredients[8] >= 1)
 					{
-						m_slots[ResultSlotIndex].Value = CoalPowderBlock.Index+16384;
+						m_slots[ResultSlotIndex].Value = ItemBlock.IdTable["CokeCoalPowder"];
 						m_slots[ResultSlotIndex].Count += m_matchedIngredients[8];
 					}
 					if (m_matchedIngredients[9] >= 1)
@@ -246,7 +246,7 @@ namespace Game
 					{
 						m_matchedIngredients2[0] += slotCount;
 					}
-					else if (slotValue == CoalPowderBlock.Index)
+					else if (slotValue == ItemBlock.IdTable["CoalPowder"])
 					{
 						m_matchedIngredients2[1] += slotCount;
 					}
@@ -331,11 +331,11 @@ namespace Game
 			{
 				flag = false;
 			}
-            if (m_matchedIngredients[8] >= 1 && (m_slots[ResultSlotIndex].Value != CoalPowderBlock.Index+16384 || m_slots[ResultSlotIndex].Count + m_matchedIngredients[8] > 40) && m_slots[ResultSlotIndex].Count != 0)
+            if (m_matchedIngredients[8] >= 1 && (m_slots[ResultSlotIndex].Value != ItemBlock.IdTable["CokeCoalPowder"] || m_slots[ResultSlotIndex].Count + m_matchedIngredients[8] > 40) && m_slots[ResultSlotIndex].Count != 0)
             {
                 flag = false;
             }
-            if (m_matchedIngredients[7] >= 1 && (m_slots[ResultSlotIndex].Value != CokeCoalBlock.Index || m_slots[ResultSlotIndex].Count + m_matchedIngredients[6] > 40) && m_slots[ResultSlotIndex].Count != 0)
+            if (m_matchedIngredients[7] >= 1 && (m_slots[ResultSlotIndex].Value != ItemBlock.IdTable["CokeCoal"] || m_slots[ResultSlotIndex].Count + m_matchedIngredients[7] > 40) && m_slots[ResultSlotIndex].Count != 0)
 			{
 				flag = false;
 			}

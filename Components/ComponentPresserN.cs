@@ -119,18 +119,8 @@ namespace Game
                         }
                     }
                     int value = 0;
-                    if (m_smeltingRecipe != "CoalPowder" && m_smeltingRecipe != "CokeCoalPowder")
-					{
+                   
 						value = ItemBlock.IdTable[m_smeltingRecipe];
-					}
-					else if (m_smeltingRecipe == "CoalPowder")
-                    {
-                        value = CoalPowderBlock.Index;
-                    }
-                    else if (m_smeltingRecipe == "CokeCoalPowder")
-                    {
-                        value = CoalPowderBlock.Index+16384;
-                    }
                     m_slots[ResultSlotIndex].Value = value;
 					m_slots[ResultSlotIndex].Count += 2;
 					m_smeltingRecipe = null;
@@ -189,9 +179,6 @@ namespace Game
 						case CoalChunkBlock.Index:
 							text = "CoalPowder";
 							break;
-                        case CokeCoalBlock.Index:
-                            text = "CokeCoalPowder";
-                            break;
                         default:
 						if (slotValue == ItemBlock.IdTable["GoldOreChunk"])
 	                    {
@@ -225,7 +212,11 @@ namespace Game
 	                    {
 	                        text = "NickelOrePowder";
 	                    }
-						break;
+                        else if (slotValue == ItemBlock.IdTable["CokeCoal"])
+                        {
+                            text = "CokeCoalPowder";
+                        }
+                        break;
 					}
                 }
 				else
@@ -237,18 +228,10 @@ namespace Game
 			{
 				Slot slot = m_slots[ResultSlotIndex];
 				int num3 = Terrain.ExtractContents(GetSlotValue(1));
-				if (slot.Count != 0 && (slot.Value != ItemBlock.IdTable[text] || 2 + slot.Count > 40) && text != "CoalPowder" && text != "CokeCoalPowder")
+				if (slot.Count != 0 && (slot.Value != ItemBlock.IdTable[text] || 2 + slot.Count > 40))
 				{
 					text = null;
 				}
-                if (slot.Count != 0 && text == "CoalPowder" && (slot.Value != CoalPowderBlock.Index || 2 + slot.Count > 40))
-                {
-                    text = null;
-                }
-                if (slot.Count != 0 && text == "CokeCoalPowder" && (slot.Value != CoalPowderBlock.Index+16384 || 2 + slot.Count > 40))
-                {
-                    text = null;
-                }
             }
 			return text;
 		}

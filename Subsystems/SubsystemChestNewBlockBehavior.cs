@@ -53,7 +53,7 @@ namespace Game
 			{
 				case 0:
 				case 1:
-                case 2:return;
+              //  case 2:return;
                 case 3:
                 case 6: break;
 				default: return;

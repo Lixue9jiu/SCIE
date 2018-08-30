@@ -137,8 +137,8 @@ namespace Game
                         ItemBlock.IdTable["ScrapIron"],
                         ItemBlock.IdTable["AluminumOrePowder"],
                         ItemBlock.IdTable["ChromiumOrePowder"],
-                        CoalPowderBlock.Index+16384
-					};
+                        ItemBlock.IdTable["CokeCoalPowder"]
+                    };
 					for (int l = 0; l < 5; l++)
 					{
 						if (m_matchedIngredients[l] > 0)
@@ -254,7 +254,7 @@ namespace Game
 					{
 						m_matchedIngredients2[3] += slotCount;
 					}
-					else if (slotValue == CoalPowderBlock.Index+16384)
+					else if (slotValue == ItemBlock.IdTable["CokeCoalPowder"])
 					{
 						m_matchedIngredients2[4] += slotCount;
 					}
