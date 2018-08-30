@@ -3,7 +3,7 @@ using TemplatesDatabase;
 
 namespace Game
 {
-	public class SubsystemChestNewBlockBehavior : SubsystemBlockBehavior
+	public class SubsystemElememtBlockBehavior : SubsystemBlockBehavior
 	{
 		protected SubsystemAudio m_subsystemAudio;
 

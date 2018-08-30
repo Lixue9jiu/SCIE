@@ -74,7 +74,8 @@ namespace Game
 					Slot slot = m_slots[FuelSlotIndex];
 					if (slot.Count > 0)
 					{
-						heatLevel = BlocksManager.Blocks[Terrain.ExtractContents(slot.Value)].FuelHeatLevel;
+						var block = BlocksManager.Blocks[Terrain.ExtractContents(slot.Value)];
+						heatLevel = (block is IFuel fuel ? fuel.GetHeatLevel(slot.Value) : block.FuelHeatLevel);
 					}
 				}
 				string text = FindSmeltingRecipe(heatLevel);
@@ -104,8 +105,16 @@ namespace Game
 					else if (block.FuelHeatLevel > 0f)
 					{
 						slot2.Count--;
-						m_fireTimeRemaining = block is IFuel fuel ? fuel.GetFuelFireDuration(slot2.Value) : block.FuelFireDuration;
-						HeatLevel = block.FuelHeatLevel;
+						if (block is IFuel fuel)
+						{
+							HeatLevel = fuel.GetHeatLevel(slot2.Value);
+							m_fireTimeRemaining = fuel.GetFuelFireDuration(slot2.Value);
+						}
+						else
+						{
+							HeatLevel = block.FuelHeatLevel;
+							m_fireTimeRemaining = block.FuelFireDuration;
+						}
 					}
 				}
 			}
@@ -192,64 +201,6 @@ namespace Game
 				}
 			}
 			return text;
-		}
-		public static bool IsPowered(Terrain terrain, int x, int y, int z)
-		{
-			int cellValue = terrain.GetCellValue(x + 1, y, z);
-			if (FurnaceNBlock.GetHeatLevel(cellValue) != 0)
-			{
-				cellValue = Terrain.ExtractContents(cellValue);
-				if (cellValue == EngineBlock.Index || cellValue == EngineHBlock.Index)
-				{
-					return true;
-				}
-			}
-			cellValue = terrain.GetCellValue(x - 1, y, z);
-			if (FurnaceNBlock.GetHeatLevel(cellValue) != 0)
-			{
-				cellValue = Terrain.ExtractContents(cellValue);
-				if (cellValue == EngineBlock.Index || cellValue == EngineHBlock.Index)
-				{
-					return true;
-				}
-			}
-			cellValue = terrain.GetCellValue(x, y + 1, z);
-			if (FurnaceNBlock.GetHeatLevel(cellValue) != 0)
-			{
-				cellValue = Terrain.ExtractContents(cellValue);
-				if (cellValue == EngineBlock.Index || cellValue == EngineHBlock.Index)
-				{
-					return true;
-				}
-			}
-			cellValue = terrain.GetCellValue(x, y - 1, z);
-			if (FurnaceNBlock.GetHeatLevel(cellValue) != 0)
-			{
-				cellValue = Terrain.ExtractContents(cellValue);
-				if (cellValue == EngineBlock.Index || cellValue == EngineHBlock.Index)
-				{
-					return true;
-				}
-			}
-			cellValue = terrain.GetCellValue(x, y, z + 1);
-			if (FurnaceNBlock.GetHeatLevel(cellValue) != 0)
-			{
-				cellValue = Terrain.ExtractContents(cellValue);
-				if (cellValue == EngineBlock.Index || cellValue == EngineHBlock.Index)
-				{
-					return true;
-				}
-			}
-			cellValue = terrain.GetCellValue(x, y, z - 1);
-			if (FurnaceNBlock.GetHeatLevel(cellValue) != 0)
-			{
-				cellValue = Terrain.ExtractContents(cellValue);
-				if (cellValue == EngineBlock.Index || cellValue == EngineHBlock.Index)
-				{
-					return true;
-				}
-			}
-			return false;
 		}
 	}
 }

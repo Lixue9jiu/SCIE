@@ -28,11 +28,11 @@
       <MemberComponentTemplate Name="Magnetizer" Guid="0f193a13-ac7d-4b4c-97c7-df652ca11b51" InheritanceParent="73a2ec9e-10c7-4133-85b4-4a35bd44c956" />
       <MemberComponentTemplate Name="BlockEntity" Guid="a1e8dc3e-980d-461e-87ac-4358ed7d41b5" InheritanceParent="09a85cba-d94e-41b8-9497-f20ed942c17e" />
     </EntityTemplate>
-     <EntityTemplate Name="ElectricFurnace" Guid="0855a288-af17-4955-81fa-aafaf97b92bd">
+    <EntityTemplate Name="ElectricFurnace" Guid="0855a288-af17-4955-81fa-aafaf97b92bd">
       <MemberComponentTemplate Name="ElectricFurnace" Guid="0f193a24-ac7d-4b4c-97c7-df652ca11b51" InheritanceParent="73a2ecbf-10c7-4133-85b4-4a35bd44c956" />
       <MemberComponentTemplate Name="BlockEntity" Guid="a1e8dd4e-980d-461e-87ac-4358ed7d41b5" InheritanceParent="09a85cba-d94e-41b8-9497-f20ed942c17e" />
     </EntityTemplate>
-     <EntityTemplate Name="Seperator" Guid="0855a387-af17-4955-81fa-aafaf97b92bd">
+    <EntityTemplate Name="Seperator" Guid="0855a387-af17-4955-81fa-aafaf97b92bd">
       <MemberComponentTemplate Name="Seperator" Guid="0f193a26-ac7d-4b4c-97c7-df652ca11b51" InheritanceParent="73a2ecaf-10c7-4133-85b4-4a35bd44c956" />
       <MemberComponentTemplate Name="BlockEntity" Guid="a1e9dc3e-980d-461e-87ac-4358ed7d41b5" InheritanceParent="09a85cba-d94e-41b8-9497-f20ed942c17e" />
     </EntityTemplate>
@@ -201,8 +201,8 @@
     <MemberSubsystemTemplate Name="Musket2BlockBehavior" Guid="6bf6bba1-4ac1-44a9-9e83-b4c659038fc8" InheritanceParent="fefb9590-4972-4893-b02a-76063611b745">
       <Parameter Name="Class" Guid="f1d1cefa-29ad-42ed-ad2e-ae59da4dbd62" Value="Game.SubsystemMusket2BlockBehavior" Type="string" />
     </MemberSubsystemTemplate>
-    <MemberSubsystemTemplate Name="ChestNewBlockBehavior" Guid="8743c7b1-fe0c-4003-b41b-db3f4d46ac03" InheritanceParent="fefb9590-4972-4893-b02a-76063611b745">
-      <Parameter Name="Class" Guid="f1fc87b1-8fdf-4b13-8c37-9590cbb19928" Value="Game.SubsystemChestNewBlockBehavior" Type="string" />
+    <MemberSubsystemTemplate Name="ElememtBlockBehavior" Guid="8743c7b1-fe0c-4003-b41b-db3f4d46ac03" InheritanceParent="fefb9590-4972-4893-b02a-76063611b745">
+      <Parameter Name="Class" Guid="f1fc87b1-8fdf-4b13-8c37-9590cbb19928" Value="Game.SubsystemElememtBlockBehavior" Type="string" />
     </MemberSubsystemTemplate>
     <MemberSubsystemTemplate Name="Bullet2BlockBehavior" Guid="bf9999ae-bc28-4b68-ab40-22582ef75e5d" InheritanceParent="fefb9590-4972-4893-b02a-76063611b745">
       <Parameter Name="Class" Guid="dfb6e1e9-a71d-4dc2-b95c-cba662bfb7c8" Value="Game.SubsystemBullet2BlockBehavior" Type="string" />

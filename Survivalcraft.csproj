@@ -98,6 +98,7 @@
     <Compile Include="Structs\WireDevice.cs" />
     <Compile Include="Subsystems\SubsystemCircuit.cs" />
     <Compile Include="Subsystems\SubsystemCReactorBlockBehavior.cs" />
+    <Compile Include="Subsystems\SubsystemElememtBlockBehavior.cs" />
     <Compile Include="Subsystems\SubsystemItemBlockBehavior.cs" />
     <Compile Include="Subsystems\SubsystemMachineToolBlockbehavior.cs" />
     <Compile Include="Subsystems\SubsystemMineral.cs" />
@@ -173,7 +174,6 @@
     <Compile Include="Blocks\SteelShovelBlock.cs" />
     <Compile Include="Blocks\SteelSpearBlock.cs" />
     <Compile Include="Subsystems\SubsystemBullet2BlockBehavior.cs" />
-    <Compile Include="Subsystems\SubsystemChestNewBlockBehavior.cs" />
     <Compile Include="Subsystems\SubsystemDispenBlockBehavior.cs" />
     <Compile Include="Subsystems\SubsystemDispenserNBlockBehavior.cs" />
     <Compile Include="Subsystems\SubsystemDispenserNew2BlockBehavior.cs" />

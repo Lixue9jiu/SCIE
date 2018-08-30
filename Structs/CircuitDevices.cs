@@ -329,6 +329,10 @@ namespace Game
 				voltage -= 12;
 				Component.Powered = true;
 			}
+			else
+			{
+				Component.Powered = false;
+			}
 		}
 		public override void UpdateState()
 		{

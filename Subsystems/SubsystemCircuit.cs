@@ -67,35 +67,31 @@ namespace Game
 		}
 		public override void OnBlockRemoved(int value, int newValue, int x, int y, int z)
 		{
-			if (elementblock.GetItem(ref value) is Device device)
+			var device = elementblock.GetDevice(x, y, z, value);
+			if (device == null)
+				return;
+			if (device is IBlockBehavior behavior)
+				behavior.OnBlockRemoved(SubsystemTerrain, value, newValue);
+			if (device.Next != null)
 			{
-				device.Point = new Point3(x, y, z);
-				if (device is IBlockBehavior behavior)
-					behavior.OnBlockRemoved(SubsystemTerrain, value, newValue);
-				UpdatePath = true;
-				/*if (device.Next != null)
+				/*var next = device.Next;
+				for (int i = 0; i < next.Count; i++)
 				{
-					var next = device.Next;
-					for (int i = 0; i < next.Count; i++)
-					{
-						var element = next.Array[i];
-						element.Next.Remove(device);
-					}
-					if ((device.Type & ElementType.Supply) != 0)
-					{
-						Path.Remove(device);
-					}
+					var element = next.Array[i];
+					element.Next.Remove(device);
 				}*/
-				Table.Remove(device.Point);
+				if ((device.Type & ElementType.Supply) != 0)
+				{
+					Path.Remove(device);
+				}
 			}
+			Table.Remove(device.Point);
+			UpdatePath = true;
 		}
 		public override void OnBlockModified(int value, int oldValue, int x, int y, int z)
 		{
-			if (elementblock.GetDevice(x, y, z, oldValue) != null)
-			{
-				OnBlockRemoved(oldValue, value, x, y, z);
-				OnBlockAdded(value, oldValue, x, y, z);
-			}
+			OnBlockRemoved(oldValue, value, x, y, z);
+			OnBlockAdded(value, oldValue, x, y, z);
 		}
 		public override void OnChunkDiscarding(TerrainChunk chunk)
 		{
@@ -139,11 +135,10 @@ namespace Game
 			int i, j;
 			if (UpdatePath)
 			{
-				UpdatePath = false;
 				for (i = 0; i < CircuitPath.Length; i++)
 				{
 					int length = CircuitPath[i].Length;
-					for (j = 0; j < length; j++)
+					for (j = 1; j < length; j++)
 					{
 						CircuitPath[i][j].UpdateState();
 					}
@@ -201,6 +196,7 @@ namespace Game
 					CircuitPath[i] = new Device[arr.Count];
 					arr.CopyTo(CircuitPath[i], 0);
 				}
+				UpdatePath = false;
 			}
 			m_remainingSimulationTime = MathUtils.Min(m_remainingSimulationTime + dt, 0.1f);
 			while (m_remainingSimulationTime >= 0.02f)
@@ -239,13 +235,20 @@ namespace Game
 				{
 					return;
 				}
-				//request.IsInProgress = false;
-				//request.IsCompleted = true;
-				var elements = request.Elements;
-				int voltage = 0;
-				for (int i = 0; i < elements.Length; i++)
+				if (UpdatePath)
 				{
-					elements[i].Simulate(ref voltage);
+					Requests.Clear();
+				}
+				else
+				{
+					//request.IsInProgress = false;
+					//request.IsCompleted = true;
+					var elements = request.Elements;
+					int voltage = 0;
+					for (int i = 0; i < elements.Length; i++)
+					{
+						elements[i].Simulate(ref voltage);
+					}
 				}
 				Task.Delay(10).Wait();
 			}

@@ -72,6 +72,10 @@ namespace Game
 		}
 		public override BlockPlacementData GetPlacementValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, TerrainRaycastResult raycastResult)
 		{
+			if (raycastResult.CellFace.Face != 4)
+			{
+				return default(BlockPlacementData);
+			}
 			return new BlockPlacementData
 			{
 				Value = value,

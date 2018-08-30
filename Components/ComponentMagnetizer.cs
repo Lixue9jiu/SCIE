@@ -104,6 +104,12 @@ namespace Game
 					m_smeltingRecipe = m_smeltingRecipe2;
 				}
 			}
+			if (!Powered)
+			{
+				SmeltingProgress = 0f;
+				HeatLevel = 0f;
+				m_smeltingRecipe = null;
+			}
 			if (m_smeltingRecipe == null)
 			{
 				HeatLevel = 0f;

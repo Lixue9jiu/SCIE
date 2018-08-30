@@ -157,7 +157,8 @@ namespace Game
 		public override BlockPlacementData GetPlacementValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, TerrainRaycastResult raycastResult)
 		{
 			var cellFace = raycastResult.CellFace;
-			var device = GetDevice(cellFace.X, cellFace.Y, cellFace.Z, value);
+			var p = CellFace.FaceToPoint3(cellFace.Face);
+			var device = GetDevice(cellFace.X + p.X, cellFace.Y + p.X, cellFace.Z + p.Z, value);
 			return device != null ? device.GetPlacementValue(subsystemTerrain, componentMiner, value, raycastResult) : new BlockPlacementData
 			{
 				Value = value,
