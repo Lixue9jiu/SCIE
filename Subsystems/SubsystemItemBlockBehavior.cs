@@ -6,6 +6,7 @@ namespace Game
 	public class SubsystemItemBlockBehavior : SubsystemThrowableBlockBehavior
 	{
 		protected SubsystemBodies m_subsystemBodies;
+		protected SubsystemPickables m_subsystemPickables;
 		public override int[] HandledBlocks => new int[] { ItemBlock.Index };
 
 		public override bool OnAim(Vector3 start, Vector3 direction, ComponentMiner componentMiner, AimState state)
@@ -27,6 +28,9 @@ namespace Game
 				if (body.HasValue && (!result.HasValue || body.Value.Distance < result.Value.Distance) && body.Value.ComponentBody.Entity.FindComponent<ComponentTrain>() != null)
 				{
 					Project.RemoveEntity(body.Value.ComponentBody.Entity, true);
+					Matrix matrix = componentMiner.ComponentCreature.ComponentBody.Matrix;
+					Vector3 position = matrix.Translation + 1f * matrix.Forward + 1f * Vector3.UnitY;
+					m_subsystemPickables.AddPickable(componentMiner.ActiveBlockValue, 1, position, null, null);
 				}
 				else if (result.HasValue && Terrain.ExtractContents(result.Value.Value) == RailBlock.Index)
 				{
@@ -63,6 +67,7 @@ namespace Game
 			base.Load(valuesDictionary);
 			m_subsystemAudio = Project.FindSubsystem<SubsystemAudio>(true);
 			m_subsystemBodies = Project.FindSubsystem<SubsystemBodies>(true);
+			m_subsystemPickables = Project.FindSubsystem<SubsystemPickables>(true);
 		}
 	}
 }

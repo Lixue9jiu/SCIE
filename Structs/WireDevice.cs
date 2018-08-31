@@ -39,7 +39,6 @@ namespace Game
 			for (int i = 0; i < 6; i++)
 			{
 				Vector3 vector = CellFace.FaceToVector3(i);
-				Vector3 v = new Vector3(0.5f, 0.5f, 0.5f) - 0.5f * vector;
 				Vector3 v2;
 				Vector3 v3;
 				if (vector.X != 0f)
@@ -57,6 +56,7 @@ namespace Game
 					v2 = new Vector3(1f, 0f, 0f);
 					v3 = new Vector3(0f, 1f, 0f);
 				}
+				Vector3 v = new Vector3(0.5f, 0.5f, 0.5f) - 0.5f * vector;
 				Vector3 v4 = v - 0.5f * v2 - 0.5f * v3;
 				Vector3 v5 = v + 0.5f * v2 + 0.5f * v3 + 0.05f * vector;
 				m_collisionBoxesByFace[i] = new BoundingBox(Vector3.Min(v4, v5), Vector3.Max(v4, v5));
@@ -72,19 +72,15 @@ namespace Game
 		}
 		public override BlockPlacementData GetPlacementValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, TerrainRaycastResult raycastResult)
 		{
-			if (raycastResult.CellFace.Face != 4)
-			{
-				return default(BlockPlacementData);
-			}
 			return new BlockPlacementData
 			{
-				Value = value,
+				Value = raycastResult.CellFace.Face == 4 ? value : 0,
 				CellFace = raycastResult.CellFace
 			};
 		}
 		public override BoundingBox[] GetCustomCollisionBoxes(SubsystemTerrain terrain, int value)
 		{
-			BoundingBox[] array = new BoundingBox[6];
+			var array = new BoundingBox[6];
 			for (int i = 0; i < 6; i++)
 			{
 				if (i == 4)

@@ -171,7 +171,7 @@ namespace Game
 			}
 		}
 	}
-	public abstract class InteractiveEntityDevice<C, T> : EntityDevice<C>, IInteractiveBlock where T : CanvasWidget where C : Component
+	public abstract class InteractiveEntityDevice<C, T> : EntityDevice<C>, IInteractiveBlock where T : Widget where C : Component
 	{
 		public InteractiveEntityDevice(string name, int resistance) : base(name, resistance)
 		{

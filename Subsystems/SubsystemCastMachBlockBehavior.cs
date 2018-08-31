@@ -36,9 +36,9 @@ namespace Game
 			if (blockEntity != null)
 			{
 				Vector3 position = new Vector3((float)x, (float)y, (float)z) + new Vector3(0.5f);
-				foreach (IInventory item in blockEntity.Entity.FindComponents<IInventory>())
+				for (var i = blockEntity.Entity.FindComponents<IInventory>().GetEnumerator(); i.MoveNext();)
 				{
-					item.DropAllItems(position);
+					i.Current.DropAllItems(position);
 				}
 				Project.RemoveEntity(blockEntity.Entity, true);
 			}
