@@ -52,13 +52,13 @@ namespace Game
 					m_dispenserGrid2.SetWidgetCell(inventorySlotWidget2, new Point2(l, k));
 				}
 			}
-			int num4 = 6;
+			num = 6;
 			for (int m = 0; m < m_inventoryGrid.RowsCount; m++)
 			{
 				for (int n = 0; n < m_inventoryGrid.ColumnsCount; n++)
 				{
 					InventorySlotWidget inventorySlotWidget3 = new InventorySlotWidget();
-					inventorySlotWidget3.AssignInventorySlot(inventory, num4++);
+					inventorySlotWidget3.AssignInventorySlot(inventory, num++);
 					m_inventoryGrid.Children.Add(inventorySlotWidget3);
 					m_inventoryGrid.SetWidgetCell(inventorySlotWidget3, new Point2(n, m));
 				}

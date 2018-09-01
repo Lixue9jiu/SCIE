@@ -33,9 +33,9 @@ namespace Game
 				}
 			}
 			int num = 6;
-			foreach (Widget child in m_inventoryGrid.Children)
+			for (int i = 0, count = m_inventoryGrid.Children.Count; i < count; i++)
 			{
-				if (child is InventorySlotWidget inventorySlotWidget)
+				if (m_inventoryGrid.Children[i] is InventorySlotWidget inventorySlotWidget)
 				{
 					inventorySlotWidget.AssignInventorySlot(inventory, num++);
 				}

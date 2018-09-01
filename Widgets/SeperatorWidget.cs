@@ -53,23 +53,23 @@ namespace Game
 				}
 			}
             
-            int num3 = 0;
+            num = 0;
             for (int m = 0; m < m_furnaceGrid.RowsCount; m++)
             {
                 for (int n = 0; n < m_furnaceGrid.ColumnsCount; n++)
                 {
                     var inventorySlotWidget3 = new InventorySlotWidget();
-                    inventorySlotWidget3.AssignInventorySlot(componentFurnace, num3++);
+                    inventorySlotWidget3.AssignInventorySlot(componentFurnace, num++);
                     m_furnaceGrid.Children.Add(inventorySlotWidget3);
                     m_furnaceGrid.SetWidgetCell(inventorySlotWidget3, new Point2(n, m));
                 }
             }
           
-            m_result1.AssignInventorySlot(componentFurnace, num3++);
-            m_result2.AssignInventorySlot(componentFurnace, num3++);
-            m_result3.AssignInventorySlot(componentFurnace, num3++);
-            m_cir1.AssignInventorySlot(componentFurnace, num3++);
-            m_cir2.AssignInventorySlot(componentFurnace, num3++);
+            m_result1.AssignInventorySlot(componentFurnace, num++);
+            m_result2.AssignInventorySlot(componentFurnace, num++);
+            m_result3.AssignInventorySlot(componentFurnace, num++);
+            m_cir1.AssignInventorySlot(componentFurnace, num++);
+            m_cir2.AssignInventorySlot(componentFurnace, num++);
             
         }
 

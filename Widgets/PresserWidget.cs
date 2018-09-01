@@ -3,7 +3,14 @@ using System.Xml.Linq;
 
 namespace Game
 {
-	public class BasePresserWidget<T> : CanvasWidget where T : ComponentMachine
+	public class FWidget : PresserWidget<ComponentEngine3>
+	{
+		public FWidget(IInventory inventory, ComponentEngine3 component) : base(inventory, component, "Widgets/TrainWidget")
+		{
+			m_fuelSlot.AssignInventorySlot(component, component.FuelSlotIndex);
+		}
+	}
+	public class PresserWidget<T> : CanvasWidget where T : ComponentMachine
 	{
 		protected readonly T m_componentFurnace;
 
@@ -21,7 +28,7 @@ namespace Game
 
 		protected readonly InventorySlotWidget m_resultSlot;
 
-		public BasePresserWidget(IInventory inventory, T component, string path)
+		public PresserWidget(IInventory inventory, T component, string path)
 		{
 			m_componentFurnace = component;
 			WidgetsManager.LoadWidgetContents(this, this, ContentManager.Get<XElement>(path));
@@ -31,26 +38,26 @@ namespace Game
 			m_progress = Children.Find<ValueBarWidget>("Progress", true);
 			m_resultSlot = Children.Find<InventorySlotWidget>("ResultSlot", true);
 			m_fuelSlot = Children.Find<InventorySlotWidget>("FuelSlot", true);
-			int num = 6;
-			for (int i = 0; i < m_inventoryGrid.RowsCount; i++)
+			int num = 6, y, x;
+			for (y = 0; y < m_inventoryGrid.RowsCount; y++)
 			{
-				for (int j = 0; j < m_inventoryGrid.ColumnsCount; j++)
+				for (x = 0; x < m_inventoryGrid.ColumnsCount; x++)
 				{
 					var inventorySlotWidget = new InventorySlotWidget();
 					inventorySlotWidget.AssignInventorySlot(inventory, num++);
 					m_inventoryGrid.Children.Add(inventorySlotWidget);
-					m_inventoryGrid.SetWidgetCell(inventorySlotWidget, new Point2(j, i));
+					m_inventoryGrid.SetWidgetCell(inventorySlotWidget, new Point2(x, y));
 				}
 			}
-			int num3 = 0;
-			for (int k = 0; k < m_furnaceGrid.RowsCount; k++)
+			num = 0;
+			for (y = 0; y < m_furnaceGrid.RowsCount; y++)
 			{
-				for (int l = 0; l < m_furnaceGrid.ColumnsCount; l++)
+				for (x = 0; x < m_furnaceGrid.ColumnsCount; x++)
 				{
 					var inventorySlotWidget2 = new InventorySlotWidget();
-					inventorySlotWidget2.AssignInventorySlot(component, num3++);
+					inventorySlotWidget2.AssignInventorySlot(component, num++);
 					m_furnaceGrid.Children.Add(inventorySlotWidget2);
-					m_furnaceGrid.SetWidgetCell(inventorySlotWidget2, new Point2(l, k));
+					m_furnaceGrid.SetWidgetCell(inventorySlotWidget2, new Point2(x, y));
 				}
 			}
 			m_resultSlot.AssignInventorySlot(component, component.ResultSlotIndex);
@@ -63,24 +70,6 @@ namespace Game
 			{
 				ParentWidget.Children.Remove(this);
 			}
-		}
-	}
-	public class PresserWidget : BasePresserWidget<ComponentPresser>
-	{
-		public PresserWidget(IInventory inventory, ComponentPresser componentFurnace) : base(inventory, componentFurnace, "Widgets/PresserWidget")
-		{
-		}
-	}
-	public class PresserNWidget : BasePresserWidget<ComponentPresserN>
-	{
-		public PresserNWidget(IInventory inventory, ComponentPresserN componentFurnace) : base(inventory, componentFurnace, "Widgets/PresserNWidget")
-		{
-		}
-	}
-	public class PresserNNWidget : BasePresserWidget<ComponentPresserNN>
-	{
-		public PresserNNWidget(IInventory inventory, ComponentPresserNN componentFurnace) : base(inventory, componentFurnace, "Widgets/PresserNNWidget")
-		{
 		}
 	}
 }

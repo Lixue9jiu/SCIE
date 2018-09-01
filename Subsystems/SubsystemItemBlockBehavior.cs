@@ -27,9 +27,13 @@ namespace Game
 				var result = componentMiner.PickTerrainForDigging(start, direction);
 				if (body.HasValue && (!result.HasValue || body.Value.Distance < result.Value.Distance) && body.Value.ComponentBody.Entity.FindComponent<ComponentTrain>() != null)
 				{
-					Project.RemoveEntity(body.Value.ComponentBody.Entity, true);
 					Matrix matrix = componentMiner.ComponentCreature.ComponentBody.Matrix;
 					Vector3 position = matrix.Translation + 1f * matrix.Forward + 1f * Vector3.UnitY;
+					for (var i = body.Value.ComponentBody.Entity.FindComponents<IInventory>().GetEnumerator(); i.MoveNext();)
+					{
+						i.Current.DropAllItems(position);
+					}
+					Project.RemoveEntity(body.Value.ComponentBody.Entity, true);
 					m_subsystemPickables.AddPickable(componentMiner.ActiveBlockValue, 1, position, null, null);
 				}
 				else if (result.HasValue && Terrain.ExtractContents(result.Value.Value) == RailBlock.Index)

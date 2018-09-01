@@ -28,13 +28,13 @@ namespace Game
 					m_inventoryGrid.SetWidgetCell(inventorySlotWidget, new Point2(j, i));
 				}
 			}
-			int num2 = 0;
+			num = 0;
 			for (int k = 0; k < m_furnaceGrid.RowsCount; k++)
 			{
 				for (int l = 0; l < m_furnaceGrid.ColumnsCount; l++)
 				{
 					var inventorySlotWidget2 = new InventorySlotWidget();
-					inventorySlotWidget2.AssignInventorySlot(componentFurnace, num2++);
+					inventorySlotWidget2.AssignInventorySlot(componentFurnace, num++);
 					m_furnaceGrid.Children.Add(inventorySlotWidget2);
 					m_furnaceGrid.SetWidgetCell(inventorySlotWidget2, new Point2(l, k));
 				}

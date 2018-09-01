@@ -259,8 +259,8 @@ namespace Game
 				}
 			}
 		}
-	}/*
-	public abstract class DeviceElement : Element, IComparable<DeviceElement>, IEquatable<DeviceElement>
+	}
+	/*public abstract class DeviceElement : Element, IComparable<DeviceElement>, IEquatable<DeviceElement>
 	{
 		public int Voltage;
 
@@ -276,8 +276,8 @@ namespace Game
 		{
 			return base.Equals(other) && Voltage == other.Voltage;
 		}
-	}*/
-    /*public abstract class Diode : Element
+	}
+	public abstract class Diode : Element
 	{
 		public int MaxVoltage;
 		protected Diode() : base(ElementType.Connector)

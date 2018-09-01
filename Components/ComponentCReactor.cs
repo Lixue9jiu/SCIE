@@ -126,13 +126,13 @@ namespace Game
 				SmeltingProgress = MathUtils.Min(SmeltingProgress + 0.1f * dt, 1f);
 				if (SmeltingProgress >= 1f)
 				{
-                    for (int i = 0; i < 3; i++)
-                    {
-                        if (m_slots[i].Count > 0)
-                        {
-                            m_slots[i].Count--;
-                        }
-                    }
+					for (int i = 0; i < 3; i++)
+					{
+						if (m_slots[i].Count > 0)
+						{
+							m_slots[i].Count--;
+						}
+					}
 					int value = ItemBlock.IdTable[m_smeltingRecipe];
 					m_slots[ResultSlotIndex].Value = value;
 					m_slots[ResultSlotIndex].Count++;
@@ -182,9 +182,9 @@ namespace Game
 
 		protected string FindSmeltingRecipe(float heatLevel)
 		{
-            string text = null;
-            int text2 = 0;
-            for (int i = 0; i < m_furnaceSize; i++)
+			string text = null;
+			int text2 = 0;
+			for (int i = 0; i < m_furnaceSize; i++)
 			{
 				int slotValue = GetSlotValue(i);
 				int num = Terrain.ExtractContents(slotValue);
@@ -192,27 +192,27 @@ namespace Game
 				if (GetSlotCount(i) > 0)
 				{
 					if (slotValue== TankBlock.Index)
-                    {
-                        text2 += 1;
-                    }
-                    if (slotValue == ItemBlock.IdTable["ZincRod"])
-                    {
-                        text2 += 10;
-                    }
-                    if (slotValue == SulphurChunkBlock.Index)
-                    {
-                        text2 += 100;
-                    }
-                }
+					{
+						text2 += 1;
+					}
+					if (slotValue == ItemBlock.IdTable["ZincRod"])
+					{
+						text2 += 10;
+					}
+					if (slotValue == SulphurChunkBlock.Index)
+					{
+						text2 += 100;
+					}
+				}
 				else
 				{
 
 				}
 			}
-            if (text2 == 111)
-            {
-                text = "CuZnBattery";
-            }
+			if (text2 == 111)
+			{
+				text = "CuZnBattery";
+			}
 			if (text != null)
 			{
 				Slot slot = m_slots[ResultSlotIndex];

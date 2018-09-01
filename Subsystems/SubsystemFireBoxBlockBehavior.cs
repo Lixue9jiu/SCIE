@@ -45,10 +45,5 @@ namespace Game
 			AudioManager.PlaySound("Audio/UI/ButtonClick", 1f, 0f, 0f);
 			return true;
 		}
-		
-		/*public override void OnNeighborBlockChanged(int x, int y, int z, int neighborX, int neighborY, int neighborZ)
-		{
-			base.OnNeighborBlockChanged(x, y, z, neighborX, neighborY, neighborZ);
-		}*/
 	}
 }

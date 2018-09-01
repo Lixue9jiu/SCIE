@@ -149,25 +149,25 @@ namespace Game
 			int num = valuesDictionary.GetValue<int>("SlotsCount");
             for (int index = 0; index < num; index++)
             {
-                this.m_slots.Add(new ComponentInventoryBase.Slot());
+                m_slots.Add(new ComponentInventoryBase.Slot());
             }
             ValuesDictionary valuesDictionary2 = valuesDictionary.GetValue<ValuesDictionary>("Slots");
-            for (int index2 = 0; index2 < this.m_slots.Count; index2++)
+            for (int index2 = 0; index2 < m_slots.Count; index2++)
             {
                 ValuesDictionary valuesDictionary3 = valuesDictionary2.GetValue<ValuesDictionary>("Slot" + index2.ToString(CultureInfo.InvariantCulture), null);
                 if (valuesDictionary3 != null)
                 {
-                    ComponentInventoryBase.Slot slot = this.m_slots[index2];
+                    ComponentInventoryBase.Slot slot = m_slots[index2];
                     slot.Value = valuesDictionary3.GetValue<int>("Contents");
                     slot.Count = valuesDictionary3.GetValue<int>("Count");
                 }
             }
-            this.m_subsystemTerrain = base.Project.FindSubsystem<SubsystemTerrain>(true);
-            this.m_subsystemExplosions = base.Project.FindSubsystem<SubsystemExplosions>(true);
-            this.m_componentBlockEntity = base.Entity.FindComponent<ComponentBlockEntity>(true);
-            this.m_fireTimeRemaining = valuesDictionary.GetValue<float>("FireTimeRemaining");
-            this.m_heatLevel = valuesDictionary.GetValue<float>("HeatLevel");
-            this.m_updateSmeltingRecipe = true;
+            m_subsystemTerrain = base.Project.FindSubsystem<SubsystemTerrain>(true);
+            m_subsystemExplosions = base.Project.FindSubsystem<SubsystemExplosions>(true);
+            m_componentBlockEntity = base.Entity.FindComponent<ComponentBlockEntity>(true);
+            m_fireTimeRemaining = valuesDictionary.GetValue<float>("FireTimeRemaining");
+            m_heatLevel = valuesDictionary.GetValue<float>("HeatLevel");
+            m_updateSmeltingRecipe = true;
             m_furnaceSize = SlotsCount - 5;
 			m_fireTimeRemaining = valuesDictionary.GetValue<float>("FireTimeRemaining");
 			m_updateSmeltingRecipe = true;

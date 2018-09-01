@@ -35,26 +35,26 @@ namespace Game
 			m_shootButton = Children.Find<ButtonWidget>("ShootButton", true);
 			m_acceptsDropsBox = Children.Find<CheckboxWidget>("AcceptsDropsBox", true);
 			m_drillSlot = Children.Find<InventorySlotWidget>("DrillSlot", true);
-			int num = 0;
-			for (int i = 0; i < m_dispenserGrid.RowsCount; i++)
+			int num = 6, y, x;
+			for (y = 0; y < m_dispenserGrid.RowsCount; y++)
 			{
-				for (int j = 0; j < m_dispenserGrid.ColumnsCount; j++)
+				for (x = 0; x < m_dispenserGrid.ColumnsCount; x++)
 				{
 					var inventorySlotWidget = new InventorySlotWidget();
 					inventorySlotWidget.AssignInventorySlot(componentDispenser, num++);
 					m_dispenserGrid.Children.Add(inventorySlotWidget);
-					m_dispenserGrid.SetWidgetCell(inventorySlotWidget, new Point2(j, i));
+					m_dispenserGrid.SetWidgetCell(inventorySlotWidget, new Point2(x, y));
 				}
 			}
-			int num3 = 6;
-			for (int k = 0; k < m_inventoryGrid.RowsCount; k++)
+			num = 0;
+			for (y = 0; y < m_inventoryGrid.RowsCount; y++)
 			{
-				for (int l = 0; l < m_inventoryGrid.ColumnsCount; l++)
+				for (x = 0; x < m_inventoryGrid.ColumnsCount; x++)
 				{
 					var inventorySlotWidget2 = new InventorySlotWidget();
-					inventorySlotWidget2.AssignInventorySlot(inventory, num3++);
+					inventorySlotWidget2.AssignInventorySlot(inventory, num++);
 					m_inventoryGrid.Children.Add(inventorySlotWidget2);
-					m_inventoryGrid.SetWidgetCell(inventorySlotWidget2, new Point2(l, k));
+					m_inventoryGrid.SetWidgetCell(inventorySlotWidget2, new Point2(x, y));
 				}
 			}
 			m_drillSlot.AssignInventorySlot(componentDispenser, 8);
@@ -67,21 +67,19 @@ namespace Game
 			if (m_dispenseButton.IsClicked)
 			{
 				data = DispenserNewBlock.SetMode(data, DispenserNewBlock.Mode.Dispense);
-				value = Terrain.ReplaceData(value, data);
-				m_subsystemTerrain.ChangeCell(m_componentBlockEntity.Coordinates.X, m_componentBlockEntity.Coordinates.Y, m_componentBlockEntity.Coordinates.Z, value, true);
+				m_subsystemTerrain.ChangeCell(m_componentBlockEntity.Coordinates.X, m_componentBlockEntity.Coordinates.Y, m_componentBlockEntity.Coordinates.Z, Terrain.ReplaceData(value, data), true);
 			}
 			if (m_shootButton.IsClicked)
 			{
 				data = DispenserNewBlock.SetMode(data, DispenserNewBlock.Mode.Shoot);
-				value = Terrain.ReplaceData(value, data);
-				m_subsystemTerrain.ChangeCell(m_componentBlockEntity.Coordinates.X, m_componentBlockEntity.Coordinates.Y, m_componentBlockEntity.Coordinates.Z, value, true);
+				m_subsystemTerrain.ChangeCell(m_componentBlockEntity.Coordinates.X, m_componentBlockEntity.Coordinates.Y, m_componentBlockEntity.Coordinates.Z, Terrain.ReplaceData(value, data), true);
 			}
 			if (m_acceptsDropsBox.IsClicked)
 			{
 				data = DispenserNewBlock.SetAcceptsDrops(data, !DispenserNewBlock.GetAcceptsDrops(data));
 				m_subsystemTerrain.ChangeCell(m_componentBlockEntity.Coordinates.X, m_componentBlockEntity.Coordinates.Y, m_componentBlockEntity.Coordinates.Z, Terrain.ReplaceData(value, data), true);
 			}
-			DispenserNewBlock.Mode mode = DispenserNewBlock.GetMode(data);
+			var mode = DispenserNewBlock.GetMode(data);
 			m_dispenseButton.IsChecked = mode == DispenserNewBlock.Mode.Dispense;
 			m_shootButton.IsChecked = mode == DispenserNewBlock.Mode.Shoot;
 			m_acceptsDropsBox.IsChecked = DispenserNewBlock.GetAcceptsDrops(data);

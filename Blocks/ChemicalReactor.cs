@@ -10,7 +10,7 @@ namespace Game
 			{
 				return 192;
 			}
-            if (face == 5)
+			if (face == 5)
 			{
 				return 107;
 			}

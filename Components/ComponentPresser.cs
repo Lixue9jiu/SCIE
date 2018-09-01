@@ -111,7 +111,7 @@ namespace Game
 				if (SmeltingProgress >= 1f)
 				{
 					
-				    m_slots[0].Count--;
+					m_slots[0].Count--;
 					int value = ItemBlock.IdTable[m_smeltingRecipe];
 					m_slots[ResultSlotIndex].Value = value;
 					m_slots[ResultSlotIndex].Count++;
@@ -181,23 +181,23 @@ namespace Game
 					{
 						text = "SteelPlate";
 					}
-                    if (slotValue == ItemBlock.IdTable["LeadIngot"])
-                    {
-                        text = "LeadPlate";
-                    }
-                    if (slotValue == ItemBlock.IdTable["ZincIngot"])
-                    {
-                        text = "ZincPlate";
-                    }
-                    if (slotValue == ItemBlock.IdTable["PlatinumIngot"])
-                    {
-                        text = "PlatinumPlate";
-                    }
-                    if (slotValue == ItemBlock.IdTable["AluminumIngot"])
-                    {
-                        text = "AluminumPlate";
-                    }
-                }
+					if (slotValue == ItemBlock.IdTable["LeadIngot"])
+					{
+						text = "LeadPlate";
+					}
+					if (slotValue == ItemBlock.IdTable["ZincIngot"])
+					{
+						text = "ZincPlate";
+					}
+					if (slotValue == ItemBlock.IdTable["PlatinumIngot"])
+					{
+						text = "PlatinumPlate";
+					}
+					if (slotValue == ItemBlock.IdTable["AluminumIngot"])
+					{
+						text = "AluminumPlate";
+					}
+				}
 				else
 				{
 

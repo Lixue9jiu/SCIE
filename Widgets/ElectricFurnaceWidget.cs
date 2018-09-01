@@ -10,52 +10,51 @@ namespace Game
 		// Token: 0x06000C7E RID: 3198 RVA: 0x00061E90 File Offset: 0x00060090
 		public ElectricFurnaceWidget(IInventory inventory, ComponentElectricFurnace componentFurnace)
 		{
-			this.m_componentFurnace = componentFurnace;
+			m_componentFurnace = componentFurnace;
 			WidgetsManager.LoadWidgetContents(this, this, ContentManager.Get<XElement>("Widgets/ElectricFurnaceWidget"));
-			this.m_inventoryGrid = this.Children.Find<GridPanelWidget>("InventoryGrid", true);
-			this.m_furnaceGrid = this.Children.Find<GridPanelWidget>("FurnaceGrid", true);
-			this.m_fire = this.Children.Find<FireWidget>("Fire", true);
-			this.m_progress = this.Children.Find<ValueBarWidget>("Progress", true);
-			this.m_resultSlot = this.Children.Find<InventorySlotWidget>("ResultSlot", true);
-			this.m_remainsSlot = this.Children.Find<InventorySlotWidget>("RemainsSlot", true);
-			this.m_circuitSlot = this.Children.Find<InventorySlotWidget>("CircuitSlot", true);
-			this.m_acceptsDropsBox = this.Children.Find<CheckboxWidget>("AcceptsElectBox", true);
-			this.m_circuit2Slot = this.Children.Find<InventorySlotWidget>("Circuit2Slot", true);
+			m_inventoryGrid = Children.Find<GridPanelWidget>("InventoryGrid", true);
+			m_furnaceGrid = Children.Find<GridPanelWidget>("FurnaceGrid", true);
+			m_fire = Children.Find<FireWidget>("Fire", true);
+			m_progress = Children.Find<ValueBarWidget>("Progress", true);
+			m_resultSlot = Children.Find<InventorySlotWidget>("ResultSlot", true);
+			m_remainsSlot = Children.Find<InventorySlotWidget>("RemainsSlot", true);
+			m_circuitSlot = Children.Find<InventorySlotWidget>("CircuitSlot", true);
+			m_acceptsDropsBox = Children.Find<CheckboxWidget>("AcceptsElectBox", true);
+			m_circuit2Slot = Children.Find<InventorySlotWidget>("Circuit2Slot", true);
 			int num = 6;
-			for (int i = 0; i < this.m_inventoryGrid.RowsCount; i++)
+			for (int i = 0; i < m_inventoryGrid.RowsCount; i++)
 			{
-				for (int j = 0; j < this.m_inventoryGrid.ColumnsCount; j++)
+				for (int j = 0; j < m_inventoryGrid.ColumnsCount; j++)
 				{
 					InventorySlotWidget inventorySlotWidget = new InventorySlotWidget();
 					inventorySlotWidget.AssignInventorySlot(inventory, num++);
-					this.m_inventoryGrid.Children.Add(inventorySlotWidget);
-					this.m_inventoryGrid.SetWidgetCell(inventorySlotWidget, new Point2(j, i));
+					m_inventoryGrid.Children.Add(inventorySlotWidget);
+					m_inventoryGrid.SetWidgetCell(inventorySlotWidget, new Point2(j, i));
 				}
 			}
-			int num2 = 0;
-			for (int k = 0; k < this.m_furnaceGrid.RowsCount; k++)
+			num = 0;
+			for (int k = 0; k < m_furnaceGrid.RowsCount; k++)
 			{
-				for (int l = 0; l < this.m_furnaceGrid.ColumnsCount; l++)
+				for (int l = 0; l < m_furnaceGrid.ColumnsCount; l++)
 				{
 					InventorySlotWidget inventorySlotWidget2 = new InventorySlotWidget();
-					inventorySlotWidget2.AssignInventorySlot(componentFurnace, num2++);
-					Log.Information(num2.ToString());
-					this.m_furnaceGrid.Children.Add(inventorySlotWidget2);
-					this.m_furnaceGrid.SetWidgetCell(inventorySlotWidget2, new Point2(l, k));
+					inventorySlotWidget2.AssignInventorySlot(componentFurnace, num++);
+					m_furnaceGrid.Children.Add(inventorySlotWidget2);
+					m_furnaceGrid.SetWidgetCell(inventorySlotWidget2, new Point2(l, k));
 				}
 			}
-			this.m_resultSlot.AssignInventorySlot(componentFurnace, componentFurnace.ResultSlotIndex);
-			this.m_remainsSlot.AssignInventorySlot(componentFurnace, componentFurnace.RemainsSlotIndex);
-            this.m_circuitSlot.AssignInventorySlot(componentFurnace, componentFurnace.Cir1SlotIndex);
-            this.m_circuit2Slot.AssignInventorySlot(componentFurnace, componentFurnace.Cir2SlotIndex);
+			m_resultSlot.AssignInventorySlot(componentFurnace, componentFurnace.ResultSlotIndex);
+			m_remainsSlot.AssignInventorySlot(componentFurnace, componentFurnace.RemainsSlotIndex);
+            m_circuitSlot.AssignInventorySlot(componentFurnace, componentFurnace.Cir1SlotIndex);
+            m_circuit2Slot.AssignInventorySlot(componentFurnace, componentFurnace.Cir2SlotIndex);
         }
 
 		// Token: 0x06000C7F RID: 3199 RVA: 0x000620B8 File Offset: 0x000602B8
 		public override void Update()
 		{
-			this.m_fire.ParticlesPerSecond = (((double)this.m_componentFurnace.HeatLevel > 0.0) ? 24f : 0f);
-			this.m_progress.Value = this.m_componentFurnace.SmeltingProgress;
-			if (this.m_componentFurnace.IsAddedToProject)
+			m_fire.ParticlesPerSecond = (((double)m_componentFurnace.HeatLevel > 0.0) ? 24f : 0f);
+			m_progress.Value = m_componentFurnace.SmeltingProgress;
+			if (m_componentFurnace.IsAddedToProject)
 			{
 				return;
 			}

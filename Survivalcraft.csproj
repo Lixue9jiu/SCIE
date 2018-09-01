@@ -98,7 +98,6 @@
     <Compile Include="Structs\WireDevice.cs" />
     <Compile Include="Subsystems\SubsystemCircuit.cs" />
     <Compile Include="Subsystems\SubsystemCReactorBlockBehavior.cs" />
-    <Compile Include="Subsystems\SubsystemElememtBlockBehavior.cs" />
     <Compile Include="Subsystems\SubsystemInventoryBlockBehavior.cs" />
     <Compile Include="Subsystems\SubsystemItemBlockBehavior.cs" />
     <Compile Include="Subsystems\SubsystemMachineToolBlockbehavior.cs" />

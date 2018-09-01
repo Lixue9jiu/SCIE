@@ -50,7 +50,7 @@ namespace Game
 			Size = size;
 			Model model = ContentManager.Get<Model>(modelName);
 			Matrix boneAbsoluteTransform = BlockMesh.GetBoneAbsoluteTransform(model.FindMesh(meshName, true).ParentBone);
-			BlockMesh blockMesh = new BlockMesh();
+			var blockMesh = new BlockMesh();
 			blockMesh.AppendModelMeshPart(model.FindMesh(meshName, true).MeshParts[0], boneAbsoluteTransform * boneTransform, false, false, false, false, Color.LightGray);
 			blockMesh.TransformTextureCoordinates(tcTransform * Matrix.CreateScale(0.05f), -1);
 			m_standaloneBlockMesh.AppendBlockMesh(blockMesh);
@@ -162,17 +162,17 @@ namespace Game
 			if (blockEntity != null)
 			{
 				Vector3 position = new Vector3(Point) + new Vector3(0.5f);
-				foreach (IInventory item in blockEntity.Entity.FindComponents<IInventory>())
+				for (var i = blockEntity.Entity.FindComponents<IInventory>().GetEnumerator(); i.MoveNext();)
 				{
-					item.DropAllItems(position);
+					i.Current.DropAllItems(position);
 				}
 				subsystemTerrain.Project.RemoveEntity(blockEntity.Entity, true);
 			}
 		}
 	}
-	public abstract class InteractiveEntityDevice<C> : EntityDevice<C>, IInteractiveBlock where C : Component
+	public abstract class InteractiveEntityDevice<T> : EntityDevice<T>, IInteractiveBlock where T : Component
 	{
-		public InteractiveEntityDevice(string name, int resistance) : base(name, resistance)
+		protected InteractiveEntityDevice(string name, int resistance) : base(name, resistance)
 		{
 		}
 		public bool OnInteract(TerrainRaycastResult raycastResult, ComponentMiner componentMiner)
@@ -182,11 +182,11 @@ namespace Game
 			{
 				return false;
 			}
-			componentMiner.ComponentPlayer.ComponentGui.ModalPanelWidget = GetWidget(componentMiner.Inventory, blockEntity.Entity.FindComponent<C>(true));
+			componentMiner.ComponentPlayer.ComponentGui.ModalPanelWidget = GetWidget(componentMiner.Inventory, blockEntity.Entity.FindComponent<T>(true));
 			AudioManager.PlaySound("Audio/UI/ButtonClick", 1f, 0f, 0f);
 			return true;
 		}
-		public abstract Widget GetWidget(IInventory inventory, C component);
+		public abstract Widget GetWidget(IInventory inventory, T component);
 	}
 	public class Fridge : InteractiveEntityDevice<ComponentChestNew>, IItemAcceptableBlock
 	{
@@ -283,7 +283,7 @@ namespace Game
 		}
 		public void OnHitByProjectile(CellFace cellFace, WorldItem worldItem)
 		{
-            if (!worldItem.ToRemove)
+			if (!worldItem.ToRemove)
 			{
 				ComponentBlockEntity blockEntity = m_subsystemBlockEntities.GetBlockEntity(cellFace.X, cellFace.Y, cellFace.Z);
 				if (blockEntity != null)
@@ -311,10 +311,10 @@ namespace Game
 		}
 	}
 
-    public class Magnetizer : InteractiveEntityDevice<ComponentMagnetizer>
+	public class Magnetizer : InteractiveEntityDevice<ComponentMagnetizer>
 	{
-        public Magnetizer() : base("Magnetizer", 1000)
-        {
+		public Magnetizer() : base("Magnetizer", 1000)
+		{
 		}
 		public override void Simulate(ref int voltage)
 		{
@@ -338,401 +338,401 @@ namespace Game
 			Component.Powered = false;
 		}
 		public override int GetFaceTextureSlot(int face, int value)
-        {
-            if (face == 4 || face == 5)
-                return 107;
-            switch (Terrain.ExtractData(value) >> 15)
-            {
-                case 0:
-                    if (face == 0)
-                    {
-                        return 239;
-                    }
-                    return 107;
-                case 1:
-                    if (face == 1)
-                    {
-                        return 239;
-                    }
-                    return 107;
-                case 2:
-                    if (face == 2)
-                    {
-                        return 239;
-                    }
-                    return 107;
-                default:
-                    if (face == 3)
-                    {
-                        return 239;
-                    }
-                    return 107;
-            }
-        }
-        public override bool IsFaceTransparent(SubsystemTerrain subsystemTerrain, int face, int value)
-        {
-            return face < 4;
-        }
-        public override void GenerateTerrainVertices(Block block, BlockGeometryGenerator generator, TerrainGeometrySubsets geometry, int value, int x, int y, int z)
-        {
-            generator.GenerateCubeVertices(ItemBlock, value, x, y, z, Color.LightGray, geometry.OpaqueSubsetsByFace);
-        }
-        public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
-        {
-            BlocksManager.DrawCubeBlock(primitivesRenderer, value, new Vector3(size), ref matrix, Color.LightGray, Color.LightGray, environmentData);
-        }
-        public override BlockPlacementData GetPlacementValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, TerrainRaycastResult raycastResult)
-        {
-            Vector3 forward = Matrix.CreateFromQuaternion(componentMiner.ComponentCreature.ComponentCreatureModel.EyeRotation).Forward;
-            float num = Vector3.Dot(forward, Vector3.UnitZ);
-            float num2 = Vector3.Dot(forward, Vector3.UnitX);
-            float num3 = Vector3.Dot(forward, -Vector3.UnitZ);
-            float num4 = Vector3.Dot(forward, -Vector3.UnitX);
-            int data = 0;
-            float max = MathUtils.Max(num, num2, num3, num4);
-            if (num == max)
-            {
-                data = 2;
-            }
-            else if (num2 == max)
-            {
-                data = 3;
-            }
-            else if (num3 == max)
-            {
-                data = 0;
-            }
-            else if (num4 == max)
-            {
-                data = 1;
-            }
-            BlockPlacementData result = default(BlockPlacementData);
+		{
+			if (face == 4 || face == 5)
+				return 107;
+			switch (Terrain.ExtractData(value) >> 15)
+			{
+				case 0:
+					if (face == 0)
+					{
+						return 239;
+					}
+					return 107;
+				case 1:
+					if (face == 1)
+					{
+						return 239;
+					}
+					return 107;
+				case 2:
+					if (face == 2)
+					{
+						return 239;
+					}
+					return 107;
+				default:
+					if (face == 3)
+					{
+						return 239;
+					}
+					return 107;
+			}
+		}
+		public override bool IsFaceTransparent(SubsystemTerrain subsystemTerrain, int face, int value)
+		{
+			return face < 4;
+		}
+		public override void GenerateTerrainVertices(Block block, BlockGeometryGenerator generator, TerrainGeometrySubsets geometry, int value, int x, int y, int z)
+		{
+			generator.GenerateCubeVertices(ItemBlock, value, x, y, z, Color.LightGray, geometry.OpaqueSubsetsByFace);
+		}
+		public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
+		{
+			BlocksManager.DrawCubeBlock(primitivesRenderer, value, new Vector3(size), ref matrix, Color.LightGray, Color.LightGray, environmentData);
+		}
+		public override BlockPlacementData GetPlacementValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, TerrainRaycastResult raycastResult)
+		{
+			Vector3 forward = Matrix.CreateFromQuaternion(componentMiner.ComponentCreature.ComponentCreatureModel.EyeRotation).Forward;
+			float num = Vector3.Dot(forward, Vector3.UnitZ);
+			float num2 = Vector3.Dot(forward, Vector3.UnitX);
+			float num3 = Vector3.Dot(forward, -Vector3.UnitZ);
+			float num4 = Vector3.Dot(forward, -Vector3.UnitX);
+			int data = 0;
+			float max = MathUtils.Max(num, num2, num3, num4);
+			if (num == max)
+			{
+				data = 2;
+			}
+			else if (num2 == max)
+			{
+				data = 3;
+			}
+			else if (num3 == max)
+			{
+				data = 0;
+			}
+			else if (num4 == max)
+			{
+				data = 1;
+			}
+			BlockPlacementData result = default(BlockPlacementData);
 			result.Value = Terrain.ReplaceData(ElementBlock.Index, data << 15 | 2);
-            result.CellFace = raycastResult.CellFace;
-            return result;
-        }
-        public override string GetDisplayName(SubsystemTerrain subsystemTerrain, int value)
-        {
-            return "Magnetizer";
-        }
-        public override string GetDescription(int value)
-        {
-            return "A Magnetizer is a device to create industrial magnet by melting steel ingot in a stronge magnetic field provided by wire.";
-        }
+			result.CellFace = raycastResult.CellFace;
+			return result;
+		}
+		public override string GetDisplayName(SubsystemTerrain subsystemTerrain, int value)
+		{
+			return "Magnetizer";
+		}
+		public override string GetDescription(int value)
+		{
+			return "A Magnetizer is a device to create industrial magnet by melting steel ingot in a stronge magnetic field provided by wire.";
+		}
 		public override Widget GetWidget(IInventory inventory, ComponentMagnetizer component)
 		{
 			return new MagnetizerWidget(inventory, component);
 		}
 	}
 
-    public class Separator : InteractiveEntityDevice<ComponentSeperator>
-    {
-        public Separator() : base("Seperator", 2000)
-        {
-        }
-        public override Device Create(Point3 p)
-        {
-            var other = (Separator)base.Create(p);
-            return other;
-        }
-        public override void Simulate(ref int voltage)
-        {
-            if (voltage >= 120)
-            {
-                voltage -= 120;
-                Component.Powered = true;
-            }
-            else
-            {
-                Component.Powered = false;
-            }
-        }
-        public override void UpdateState()
-        {
-            Component.Powered = false;
-        }
-        public override void OnBlockAdded(SubsystemTerrain subsystemTerrain, int value, int oldValue)
-        {
-            base.OnBlockAdded(subsystemTerrain, value, oldValue);
-            Component.Powered = false;
-        }
-        public override int GetFaceTextureSlot(int face, int value)
-        {
-            if (face == 4 || face == 5)
-                return 107;
-            switch (Terrain.ExtractData(value) >> 15)
-            {
-                case 0:
-                    if (face == 0)
-                    {
-                        return 240;
-                    }
-                    return 107;
-                case 1:
-                    if (face == 1)
-                    {
-                        return 240;
-                    }
-                    return 107;
-                case 2:
-                    if (face == 2)
-                    {
-                        return 240;
-                    }
-                    return 107;
-                default:
-                    if (face == 3)
-                    {
-                        return 240;
-                    }
-                    return 107;
-            }
-        }
-        public override bool IsFaceTransparent(SubsystemTerrain subsystemTerrain, int face, int value)
-        {
-            return true;
-        }
-        public override void GenerateTerrainVertices(Block block, BlockGeometryGenerator generator, TerrainGeometrySubsets geometry, int value, int x, int y, int z)
+	public class Separator : InteractiveEntityDevice<ComponentSeperator>
+	{
+		public Separator() : base("Seperator", 2000)
+		{
+		}
+		public override Device Create(Point3 p)
+		{
+			var other = (Separator)base.Create(p);
+			return other;
+		}
+		public override void Simulate(ref int voltage)
+		{
+			if (voltage >= 120)
+			{
+				voltage -= 120;
+				Component.Powered = true;
+			}
+			else
+			{
+				Component.Powered = false;
+			}
+		}
+		public override void UpdateState()
+		{
+			Component.Powered = false;
+		}
+		public override void OnBlockAdded(SubsystemTerrain subsystemTerrain, int value, int oldValue)
+		{
+			base.OnBlockAdded(subsystemTerrain, value, oldValue);
+			Component.Powered = false;
+		}
+		public override int GetFaceTextureSlot(int face, int value)
+		{
+			if (face == 4 || face == 5)
+				return 107;
+			switch (Terrain.ExtractData(value) >> 15)
+			{
+				case 0:
+					if (face == 0)
+					{
+						return 240;
+					}
+					return 107;
+				case 1:
+					if (face == 1)
+					{
+						return 240;
+					}
+					return 107;
+				case 2:
+					if (face == 2)
+					{
+						return 240;
+					}
+					return 107;
+				default:
+					if (face == 3)
+					{
+						return 240;
+					}
+					return 107;
+			}
+		}
+		public override bool IsFaceTransparent(SubsystemTerrain subsystemTerrain, int face, int value)
+		{
+			return true;
+		}
+		public override void GenerateTerrainVertices(Block block, BlockGeometryGenerator generator, TerrainGeometrySubsets geometry, int value, int x, int y, int z)
 		{
 			generator.GenerateCubeVertices(ItemBlock, value, x, y, z, Color.LightGray, geometry.OpaqueSubsetsByFace);
 		}
-        public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
-        {
-            BlocksManager.DrawCubeBlock(primitivesRenderer, value, new Vector3(size), ref matrix, Color.LightGray, Color.LightGray, environmentData);
-        }
-        public override BlockPlacementData GetPlacementValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, TerrainRaycastResult raycastResult)
-        {
-            Vector3 forward = Matrix.CreateFromQuaternion(componentMiner.ComponentCreature.ComponentCreatureModel.EyeRotation).Forward;
-            float num = Vector3.Dot(forward, Vector3.UnitZ);
-            float num2 = Vector3.Dot(forward, Vector3.UnitX);
-            float num3 = Vector3.Dot(forward, -Vector3.UnitZ);
-            float num4 = Vector3.Dot(forward, -Vector3.UnitX);
-            int data = 0;
-            float max = MathUtils.Max(num, num2, num3, num4);
-            if (num == max)
-            {
-                data = 2;
-            }
-            else if (num2 == max)
-            {
-                data = 3;
-            }
-            else if (num3 == max)
-            {
-                data = 0;
-            }
-            else if (num4 == max)
-            {
-                data = 1;
-            }
-            BlockPlacementData result = default(BlockPlacementData);
-            result.Value = Terrain.ReplaceData(ElementBlock.Index, data << 15|3);
-            result.CellFace = raycastResult.CellFace;
-            return result;
-        }
-        public override string GetDisplayName(SubsystemTerrain subsystemTerrain, int value)
-        {
-            return "Separator";
-        }
-        public override string GetDescription(int value)
-        {
-            return "A Separator is a device to separate matarial by high frequency rotation, it is a shrinking version of centrifuge.";
-        }
-        public override Widget GetWidget(IInventory inventory, ComponentSeperator component)
-        {
-            return new SeperatorWidget(inventory, component);
-        }
-    }
+		public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
+		{
+			BlocksManager.DrawCubeBlock(primitivesRenderer, value, new Vector3(size), ref matrix, Color.LightGray, Color.LightGray, environmentData);
+		}
+		public override BlockPlacementData GetPlacementValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, TerrainRaycastResult raycastResult)
+		{
+			Vector3 forward = Matrix.CreateFromQuaternion(componentMiner.ComponentCreature.ComponentCreatureModel.EyeRotation).Forward;
+			float num = Vector3.Dot(forward, Vector3.UnitZ);
+			float num2 = Vector3.Dot(forward, Vector3.UnitX);
+			float num3 = Vector3.Dot(forward, -Vector3.UnitZ);
+			float num4 = Vector3.Dot(forward, -Vector3.UnitX);
+			int data = 0;
+			float max = MathUtils.Max(num, num2, num3, num4);
+			if (num == max)
+			{
+				data = 2;
+			}
+			else if (num2 == max)
+			{
+				data = 3;
+			}
+			else if (num3 == max)
+			{
+				data = 0;
+			}
+			else if (num4 == max)
+			{
+				data = 1;
+			}
+			BlockPlacementData result = default(BlockPlacementData);
+			result.Value = Terrain.ReplaceData(ElementBlock.Index, data << 15|3);
+			result.CellFace = raycastResult.CellFace;
+			return result;
+		}
+		public override string GetDisplayName(SubsystemTerrain subsystemTerrain, int value)
+		{
+			return "Separator";
+		}
+		public override string GetDescription(int value)
+		{
+			return "A Separator is a device to separate matarial by high frequency rotation, it is a shrinking version of centrifuge.";
+		}
+		public override Widget GetWidget(IInventory inventory, ComponentSeperator component)
+		{
+			return new SeperatorWidget(inventory, component);
+		}
+	}
 
 	
-    public class AirBlower : FixedDevice
-    {
-        public AirBlower() : base(3000)
-        {
-        }
-        public override int GetFaceTextureSlot(int face, int value)
-        {
-            if (face == 4 || face == 5)
-            { 
-                return 107;
-            
-            }else
-            {
-                return 220;
-            }
-        }
-        public override BlockPlacementData GetPlacementValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, TerrainRaycastResult raycastResult)
-        {
-            Vector3 forward = Matrix.CreateFromQuaternion(componentMiner.ComponentCreature.ComponentCreatureModel.EyeRotation).Forward;
-            float num = Vector3.Dot(forward, Vector3.UnitZ);
-            float num2 = Vector3.Dot(forward, Vector3.UnitX);
-            float num3 = Vector3.Dot(forward, -Vector3.UnitZ);
-            float num4 = Vector3.Dot(forward, -Vector3.UnitX);
-            int data = 0;
-            float max = MathUtils.Max(num, num2, num3, num4);
-            if (num == max)
-            {
-                data = 2;
-            }
-            else if (num2 == max)
-            {
-                data = 3;
-            }
-            else if (num3 == max)
-            {
-                data = 0;
-            }
-            else if (num4 == max)
-            {
-                data = 1;
-            }
-            BlockPlacementData result = default(BlockPlacementData);
-            result.Value = Terrain.ReplaceData(ElementBlock.Index, data << 15 | 4);
-            result.CellFace = raycastResult.CellFace;
-            return result;
-        }
-        public override string GetDisplayName(SubsystemTerrain subsystemTerrain, int value)
-        {
-            return "AirBlower";
-        }
-        public override string GetDescription(int value)
-        {
-            return "AirBlower is a device to transfer air into some big machine that need a large amount of hot air.";
-        }
-        public override void GenerateTerrainVertices(Block block, BlockGeometryGenerator generator, TerrainGeometrySubsets geometry, int value, int x, int y, int z)
+	public class AirBlower : FixedDevice
+	{
+		public AirBlower() : base(3000)
+		{
+		}
+		public override int GetFaceTextureSlot(int face, int value)
+		{
+			if (face == 4 || face == 5)
+			{ 
+				return 107;
+			
+			}else
+			{
+				return 220;
+			}
+		}
+		public override BlockPlacementData GetPlacementValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, TerrainRaycastResult raycastResult)
+		{
+			Vector3 forward = Matrix.CreateFromQuaternion(componentMiner.ComponentCreature.ComponentCreatureModel.EyeRotation).Forward;
+			float num = Vector3.Dot(forward, Vector3.UnitZ);
+			float num2 = Vector3.Dot(forward, Vector3.UnitX);
+			float num3 = Vector3.Dot(forward, -Vector3.UnitZ);
+			float num4 = Vector3.Dot(forward, -Vector3.UnitX);
+			int data = 0;
+			float max = MathUtils.Max(num, num2, num3, num4);
+			if (num == max)
+			{
+				data = 2;
+			}
+			else if (num2 == max)
+			{
+				data = 3;
+			}
+			else if (num3 == max)
+			{
+				data = 0;
+			}
+			else if (num4 == max)
+			{
+				data = 1;
+			}
+			BlockPlacementData result = default(BlockPlacementData);
+			result.Value = Terrain.ReplaceData(ElementBlock.Index, data << 15 | 4);
+			result.CellFace = raycastResult.CellFace;
+			return result;
+		}
+		public override string GetDisplayName(SubsystemTerrain subsystemTerrain, int value)
+		{
+			return "AirBlower";
+		}
+		public override string GetDescription(int value)
+		{
+			return "AirBlower is a device to transfer air into some big machine that need a large amount of hot air.";
+		}
+		public override void GenerateTerrainVertices(Block block, BlockGeometryGenerator generator, TerrainGeometrySubsets geometry, int value, int x, int y, int z)
 		{
 			generator.GenerateCubeVertices(ItemBlock, value, x, y, z, Color.LightGray, geometry.OpaqueSubsetsByFace);
 		}
-        public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
-        {
-            BlocksManager.DrawCubeBlock(primitivesRenderer, value, new Vector3(size), ref matrix, Color.LightGray, Color.LightGray, environmentData);
-        }
-        public override bool IsFaceTransparent(SubsystemTerrain subsystemTerrain, int face, int value)
-        {
-            return true;
-        }
+		public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
+		{
+			BlocksManager.DrawCubeBlock(primitivesRenderer, value, new Vector3(size), ref matrix, Color.LightGray, Color.LightGray, environmentData);
+		}
+		public override bool IsFaceTransparent(SubsystemTerrain subsystemTerrain, int face, int value)
+		{
+			return true;
+		}
 
-    }
+	}
 	
-    public class EFurnace : InteractiveEntityDevice<ComponentElectricFurnace>
-    {
-        public EFurnace() : base("ElectricFurnace", 6000)
-        {
-        }
-        public override Device Create(Point3 p)
-        {
-            var other = (EFurnace)base.Create(p);
-            return other;
-        }
-        public override void Simulate(ref int voltage)
-        {
-            if (voltage >= 300)
-            {
-                voltage -= 300;
-                Component.Powered = true;
-            }
-            else
-            {
-                Component.Powered = false;
-            }
-        }
-        public override void UpdateState()
-        {
-            Component.Powered = false;
-        }
-        public override void OnBlockAdded(SubsystemTerrain subsystemTerrain, int value, int oldValue)
-        {
-            base.OnBlockAdded(subsystemTerrain, value, oldValue);
-            Component.Powered = false;
-        }
-        public override int GetFaceTextureSlot(int face, int value)
-        {
-            if (face == 4 || face == 5)
-                return 107;
-            switch (Terrain.ExtractData(value) >> 15)
-            {
-                case 0:
-                    if (face == 0)
-                    {
-                        return 164;
-                    }
-                    return 107;
-                case 1:
-                    if (face == 1)
-                    {
-                        return 164;
-                    }
-                    return 107;
-                case 2:
-                    if (face == 2)
-                    {
-                        return 164;
-                    }
-                    return 107;
-                default:
-                    if (face == 3)
-                    {
-                        return 164;
-                    }
-                    return 107;
-            }
-        }
-        public override bool IsFaceTransparent(SubsystemTerrain subsystemTerrain, int face, int value)
-        {
-            return true;
-        }
-        public override void GenerateTerrainVertices(Block block, BlockGeometryGenerator generator, TerrainGeometrySubsets geometry, int value, int x, int y, int z)
+	public class EFurnace : InteractiveEntityDevice<ComponentElectricFurnace>
+	{
+		public EFurnace() : base("ElectricFurnace", 6000)
+		{
+		}
+		public override Device Create(Point3 p)
+		{
+			var other = (EFurnace)base.Create(p);
+			return other;
+		}
+		public override void Simulate(ref int voltage)
+		{
+			if (voltage >= 300)
+			{
+				voltage -= 300;
+				Component.Powered = true;
+			}
+			else
+			{
+				Component.Powered = false;
+			}
+		}
+		public override void UpdateState()
+		{
+			Component.Powered = false;
+		}
+		public override void OnBlockAdded(SubsystemTerrain subsystemTerrain, int value, int oldValue)
+		{
+			base.OnBlockAdded(subsystemTerrain, value, oldValue);
+			Component.Powered = false;
+		}
+		public override int GetFaceTextureSlot(int face, int value)
+		{
+			if (face == 4 || face == 5)
+				return 107;
+			switch (Terrain.ExtractData(value) >> 15)
+			{
+				case 0:
+					if (face == 0)
+					{
+						return 164;
+					}
+					return 107;
+				case 1:
+					if (face == 1)
+					{
+						return 164;
+					}
+					return 107;
+				case 2:
+					if (face == 2)
+					{
+						return 164;
+					}
+					return 107;
+				default:
+					if (face == 3)
+					{
+						return 164;
+					}
+					return 107;
+			}
+		}
+		public override bool IsFaceTransparent(SubsystemTerrain subsystemTerrain, int face, int value)
+		{
+			return true;
+		}
+		public override void GenerateTerrainVertices(Block block, BlockGeometryGenerator generator, TerrainGeometrySubsets geometry, int value, int x, int y, int z)
 		{
 			generator.GenerateCubeVertices(ItemBlock, value, x, y, z, Color.LightGray, geometry.OpaqueSubsetsByFace);
 		}
-        public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
-        {
-            BlocksManager.DrawCubeBlock(primitivesRenderer, value, new Vector3(size), ref matrix, Color.LightGray, Color.LightGray, environmentData);
-        }
-        public override BlockPlacementData GetPlacementValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, TerrainRaycastResult raycastResult)
-        {
-            Vector3 forward = Matrix.CreateFromQuaternion(componentMiner.ComponentCreature.ComponentCreatureModel.EyeRotation).Forward;
-            float num = Vector3.Dot(forward, Vector3.UnitZ);
-            float num2 = Vector3.Dot(forward, Vector3.UnitX);
-            float num3 = Vector3.Dot(forward, -Vector3.UnitZ);
-            float num4 = Vector3.Dot(forward, -Vector3.UnitX);
-            int data = 0;
-            float max = MathUtils.Max(num, num2, num3, num4);
-            if (num == max)
-            {
-                data = 2;
-            }
-            else if (num2 == max)
-            {
-                data = 3;
-            }
-            else if (num3 == max)
-            {
-                data = 0;
-            }
-            else if (num4 == max)
-            {
-                data = 1;
-            }
-            BlockPlacementData result = default(BlockPlacementData);
-            result.Value = Terrain.ReplaceData(ElementBlock.Index, data << 15 | 6);
-            result.CellFace = raycastResult.CellFace;
-            return result;
-        }
-        public override string GetDisplayName(SubsystemTerrain subsystemTerrain, int value)
-        {
-            return "Electric Resistance Furnace";
-        }
-        public override string GetDescription(int value)
-        {
-            return "Electric Resistance Furnace is a device that can heat item by heating resistor, it can reach a high temperature but a large amount heat is needed";
-        }
-        public override Widget GetWidget(IInventory inventory, ComponentElectricFurnace component)
-        {
-            return new ElectricFurnaceWidget(inventory, component);
-        }
-    }
-    /*public abstract class Diode : Element
+		public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
+		{
+			BlocksManager.DrawCubeBlock(primitivesRenderer, value, new Vector3(size), ref matrix, Color.LightGray, Color.LightGray, environmentData);
+		}
+		public override BlockPlacementData GetPlacementValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, TerrainRaycastResult raycastResult)
+		{
+			Vector3 forward = Matrix.CreateFromQuaternion(componentMiner.ComponentCreature.ComponentCreatureModel.EyeRotation).Forward;
+			float num = Vector3.Dot(forward, Vector3.UnitZ);
+			float num2 = Vector3.Dot(forward, Vector3.UnitX);
+			float num3 = Vector3.Dot(forward, -Vector3.UnitZ);
+			float num4 = Vector3.Dot(forward, -Vector3.UnitX);
+			int data = 0;
+			float max = MathUtils.Max(num, num2, num3, num4);
+			if (num == max)
+			{
+				data = 2;
+			}
+			else if (num2 == max)
+			{
+				data = 3;
+			}
+			else if (num3 == max)
+			{
+				data = 0;
+			}
+			else if (num4 == max)
+			{
+				data = 1;
+			}
+			BlockPlacementData result = default(BlockPlacementData);
+			result.Value = Terrain.ReplaceData(ElementBlock.Index, data << 15 | 6);
+			result.CellFace = raycastResult.CellFace;
+			return result;
+		}
+		public override string GetDisplayName(SubsystemTerrain subsystemTerrain, int value)
+		{
+			return "Electric Resistance Furnace";
+		}
+		public override string GetDescription(int value)
+		{
+			return "Electric Resistance Furnace is a device that can heat item by heating resistor, it can reach a high temperature but a large amount heat is needed";
+		}
+		public override Widget GetWidget(IInventory inventory, ComponentElectricFurnace component)
+		{
+			return new ElectricFurnaceWidget(inventory, component);
+		}
+	}
+	/*public abstract class Diode : Element
 	{
 		public int MaxVoltage;
 		protected Diode() : base(ElementType.Connector)

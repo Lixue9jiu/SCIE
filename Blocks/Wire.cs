@@ -4,7 +4,7 @@ using System;
 
 namespace Game
 {
-    public class Wire : FlatItem
+	public class Wire : FlatItem
 	{
 		public string CraftingId;
 		public Wire(string craftingId)

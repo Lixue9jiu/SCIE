@@ -69,17 +69,17 @@ namespace Game
 						for (int k = -1; k < 2; k++)
 						{
 							int cellContents = m_subsystemTerrain.Terrain.GetCellValue(num3 + i, num4 + j, num5 + k);
-                            int cellContents2 = m_subsystemTerrain.Terrain.GetCellContents(num3 + i, num4 + j, num5 + k);
-                            if ( j == 1 && cellContents != 1049086)
+							int cellContents2 = m_subsystemTerrain.Terrain.GetCellContents(num3 + i, num4 + j, num5 + k);
+							if ( j == 1 && cellContents != 1049086)
 							{
-                               
+							   
 								num = 0;
 								break;
 							}
 							if (i * i + k * k == 1 && j == 0 && cellContents2 == 0 && (m_subsystemTerrain.Terrain.GetCellContents(num3 + 2 * i, num4 + j, num5 + 2 * k) != BlastBlowerBlock.Index || m_subsystemTerrain.Terrain.GetCellValue(num3 + 2 * i, num4 + j, num5 + 2 * k) != (BlastBlowerBlock.Index | 1 << 14)) && (num3 + i != coordinates.X || num5 + k != coordinates.Z))
 							{
-                                
-                                num = 0;
+								
+								num = 0;
 								break;
 							}
 							if (i * i + k * k == 1 && j == 0 && cellContents2 == 0)
@@ -88,20 +88,20 @@ namespace Game
 							}
 							if (i * i + k * k == 1 && j == 0 && cellContents2 != 0 && cellContents != 1049086 && ((num3 + i) != coordinates.X || (num5 + k) != coordinates.Z))
 							{
-                              
-                                num = 0;
+							  
+								num = 0;
 								break;
 							}
 							if (i * i + k * k == 2 && j == 0 && cellContents != 1049086)
 							{
 								num = 0;
-                              
-                                break;
+							  
+								break;
 							}
 							if (j < 0 && cellContents != 1049086)
 							{
-                              
-                                num = 0;
+								
+								num = 0;
 								break;
 							}
 						}
@@ -134,13 +134,13 @@ namespace Game
 				{
 					int[] array = new int[]
 					{
-                        CoalChunkBlock.Index,
-                        ItemBlock.IdTable["CoalPowder"],
-                        PlanksBlock.Index,
-                        OakWoodBlock.Index,
-                        BirchWoodBlock.Index,
-                        SpruceWoodBlock.Index,
-                        CactusBlock.Index
+						CoalChunkBlock.Index,
+						ItemBlock.IdTable["CoalPowder"],
+						PlanksBlock.Index,
+						OakWoodBlock.Index,
+						BirchWoodBlock.Index,
+						SpruceWoodBlock.Index,
+						CactusBlock.Index
 					};
 					for (int l = 0; l < 7; l++)
 					{
@@ -258,15 +258,15 @@ namespace Game
 					{
 						m_matchedIngredients2[3] += slotCount;
 					}
-                    else if (slotValue == BirchWoodBlock.Index)
-                    {
-                        m_matchedIngredients2[4] += slotCount;
-                    }
-                    else if (slotValue == SpruceWoodBlock.Index)
-                    {
-                        m_matchedIngredients2[5] += slotCount;
-                    }
-                    else if (slotValue == CactusBlock.Index)
+					else if (slotValue == BirchWoodBlock.Index)
+					{
+						m_matchedIngredients2[4] += slotCount;
+					}
+					else if (slotValue == SpruceWoodBlock.Index)
+					{
+						m_matchedIngredients2[5] += slotCount;
+					}
+					else if (slotValue == CactusBlock.Index)
 					{
 						m_matchedIngredients2[6] += slotCount;
 					}
@@ -284,58 +284,58 @@ namespace Game
 					m_matchedIngredients[0] = 6;
 					flag = true;
 				}
-                if (m_matchedIngredients2[1] >= 6 && m_matchedIngredients2[0] + m_matchedIngredients2[2] + m_matchedIngredients2[3] + m_matchedIngredients2[4] + m_matchedIngredients2[5] + m_matchedIngredients2[6] <= 0)
-                {
-                    m_matchedIngredients[8] = 2;
-                    m_matchedIngredients[1] = 6;
-                    flag = true;
-                }
-                if (m_matchedIngredients2[2] >= 6 && m_matchedIngredients2[0] + m_matchedIngredients2[1] + m_matchedIngredients2[3] + m_matchedIngredients2[4] + m_matchedIngredients2[5] + m_matchedIngredients2[6] <= 0)
-                {
-                    m_matchedIngredients[9] = 2;
-                    m_matchedIngredients[2] = 6;
-                    flag = true;
-                }
-                if (m_matchedIngredients2[3]+ m_matchedIngredients2[4]+ m_matchedIngredients2[5] >= 6 && m_matchedIngredients2[0] + m_matchedIngredients2[1] + m_matchedIngredients2[2]  + m_matchedIngredients2[6] <= 0)
-                {
-                    m_matchedIngredients[9] = 8;
-                    int num1 = 6;
-                    for (int ii = 0; ii < 4; ii++)
-                    {
-                        if (m_matchedIngredients2[3+ii] >= num1)
-                        {
-                            m_matchedIngredients[3+ii] = num1;
-                            num1 -= num1;
-                        }
-                        else
-                        {
-                            m_matchedIngredients[3+ii] = m_matchedIngredients2[3+ii];
-                            num1 -= m_matchedIngredients2[3 + ii];
-                        }
-                        if (num1==0)
-                        {
-                            break;
-                        }
-                    }
-                    flag = true;
-                }
-                if (m_matchedIngredients2[6] >= 6 && m_matchedIngredients2[0] + m_matchedIngredients2[1] + m_matchedIngredients2[2] + m_matchedIngredients2[3] + m_matchedIngredients2[4] + m_matchedIngredients2[5] <= 0)
-                {
-                    m_matchedIngredients[9] = 1;
-                    m_matchedIngredients[6] = 6;
-                    flag = true;
-                }
-            }
+				if (m_matchedIngredients2[1] >= 6 && m_matchedIngredients2[0] + m_matchedIngredients2[2] + m_matchedIngredients2[3] + m_matchedIngredients2[4] + m_matchedIngredients2[5] + m_matchedIngredients2[6] <= 0)
+				{
+					m_matchedIngredients[8] = 2;
+					m_matchedIngredients[1] = 6;
+					flag = true;
+				}
+				if (m_matchedIngredients2[2] >= 6 && m_matchedIngredients2[0] + m_matchedIngredients2[1] + m_matchedIngredients2[3] + m_matchedIngredients2[4] + m_matchedIngredients2[5] + m_matchedIngredients2[6] <= 0)
+				{
+					m_matchedIngredients[9] = 2;
+					m_matchedIngredients[2] = 6;
+					flag = true;
+				}
+				if (m_matchedIngredients2[3]+ m_matchedIngredients2[4]+ m_matchedIngredients2[5] >= 6 && m_matchedIngredients2[0] + m_matchedIngredients2[1] + m_matchedIngredients2[2]  + m_matchedIngredients2[6] <= 0)
+				{
+					m_matchedIngredients[9] = 8;
+					int num1 = 6;
+					for (int ii = 0; ii < 4; ii++)
+					{
+						if (m_matchedIngredients2[3+ii] >= num1)
+						{
+							m_matchedIngredients[3+ii] = num1;
+							num1 -= num1;
+						}
+						else
+						{
+							m_matchedIngredients[3+ii] = m_matchedIngredients2[3+ii];
+							num1 -= m_matchedIngredients2[3 + ii];
+						}
+						if (num1==0)
+						{
+							break;
+						}
+					}
+					flag = true;
+				}
+				if (m_matchedIngredients2[6] >= 6 && m_matchedIngredients2[0] + m_matchedIngredients2[1] + m_matchedIngredients2[2] + m_matchedIngredients2[3] + m_matchedIngredients2[4] + m_matchedIngredients2[5] <= 0)
+				{
+					m_matchedIngredients[9] = 1;
+					m_matchedIngredients[6] = 6;
+					flag = true;
+				}
+			}
 
 			if (m_matchedIngredients[9] >= 1 && (m_slots[ResultSlotIndex].Value != CoalChunkBlock.Index || m_slots[ResultSlotIndex].Count + m_matchedIngredients[9] > 40) && m_slots[ResultSlotIndex].Count != 0)
 			{
 				flag = false;
 			}
-            if (m_matchedIngredients[8] >= 1 && (m_slots[ResultSlotIndex].Value != ItemBlock.IdTable["CokeCoalPowder"] || m_slots[ResultSlotIndex].Count + m_matchedIngredients[8] > 40) && m_slots[ResultSlotIndex].Count != 0)
-            {
-                flag = false;
-            }
-            if (m_matchedIngredients[7] >= 1 && (m_slots[ResultSlotIndex].Value != ItemBlock.IdTable["CokeCoal"] || m_slots[ResultSlotIndex].Count + m_matchedIngredients[7] > 40) && m_slots[ResultSlotIndex].Count != 0)
+			if (m_matchedIngredients[8] >= 1 && (m_slots[ResultSlotIndex].Value != ItemBlock.IdTable["CokeCoalPowder"] || m_slots[ResultSlotIndex].Count + m_matchedIngredients[8] > 40) && m_slots[ResultSlotIndex].Count != 0)
+			{
+				flag = false;
+			}
+			if (m_matchedIngredients[7] >= 1 && (m_slots[ResultSlotIndex].Value != ItemBlock.IdTable["CokeCoal"] || m_slots[ResultSlotIndex].Count + m_matchedIngredients[7] > 40) && m_slots[ResultSlotIndex].Count != 0)
 			{
 				flag = false;
 			}

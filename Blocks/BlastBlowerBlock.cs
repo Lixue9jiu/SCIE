@@ -1,13 +1,13 @@
 namespace Game
 {
-    public class BlastBlowerBlock : CubeBlock
-    {
-        public override int GetFaceTextureSlot(int face, int value)
-        {
-            if (face == 4 || face ==5)
-            {
-                return 107;
-            }
+	public class BlastBlowerBlock : CubeBlock
+	{
+		public override int GetFaceTextureSlot(int face, int value)
+		{
+			if (face == 4 || face ==5)
+			{
+				return 107;
+			}
 			return 241;
 		}
 		

@@ -46,9 +46,9 @@ namespace Game
 					Slot slot = m_slots[FuelSlotIndex];
 					if (slot.Count > 0)
 					{
-                        Block block = BlocksManager.Blocks[Terrain.ExtractContents(slot.Value)];
-                        heatLevel = (block is IFuel fuel ? fuel.GetHeatLevel(slot.Value) : block.FuelHeatLevel);
-                    }
+						Block block = BlocksManager.Blocks[Terrain.ExtractContents(slot.Value)];
+						heatLevel = (block is IFuel fuel ? fuel.GetHeatLevel(slot.Value) : block.FuelHeatLevel);
+					}
 				}
 				string text = "text";
 				if (text != m_smeltingRecipe)
@@ -82,14 +82,14 @@ namespace Game
 						{
 							HeatLevel = fuel.GetHeatLevel(slot2.Value);
 							m_fireTimeRemaining = fuel.GetFuelFireDuration(slot2.Value);
-                            m_fireTime = m_fireTimeRemaining;
-                        }
+							m_fireTime = m_fireTimeRemaining;
+						}
 						else
 						{
 							HeatLevel = block.FuelHeatLevel;
 							m_fireTimeRemaining = block.FuelFireDuration;
-                            m_fireTime = m_fireTimeRemaining;
-                        }
+							m_fireTime = m_fireTimeRemaining;
+						}
 					}
 				}
 			}

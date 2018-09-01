@@ -22,7 +22,7 @@ namespace Game
 		Copper,
 		Mercury,
 		Germanium,
-        FeAlCrAlloy
+		FeAlCrAlloy
 	}
 	public class Sheet : Plate
 	{
@@ -37,23 +37,23 @@ namespace Game
 		}
 	}
 	public class Plate : BlockItem
-    {
+	{
 		protected readonly BlockMesh m_standaloneBlockMesh = new BlockMesh();
 		protected BoundingBox[] m_collisionBoxes;
 		public readonly MetalType Type;
-        public Plate(MetalType type)
+		public Plate(MetalType type)
 		{
-            Type = type;
+			Type = type;
 			DefaultDisplayName = Type.ToString() + "Plate";
 			DefaultDescription = "A plate of pure " + Type.ToString() + ". Can be crafted into very durable and strong " + Type.ToString() + " items. Very important in the industrial Era.";
-            Model model = ContentManager.Get<Model>("Models/Ingots");
+			Model model = ContentManager.Get<Model>("Models/Ingots");
 			m_standaloneBlockMesh.AppendModelMeshPart(model.FindMesh("IronPlate", true).MeshParts[0], BlockMesh.GetBoneAbsoluteTransform(model.FindMesh("IronPlate", true).ParentBone) * Matrix.CreateTranslation(0.5f, 0f, 0.5f), false, false, false, false, Color.White);
 			m_collisionBoxes = new BoundingBox[]
 			{
 				m_standaloneBlockMesh.CalculateBoundingBox()
 			};
 		}
-        public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
+		public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
 		{
 			BlocksManager.DrawMeshBlock(primitivesRenderer, m_standaloneBlockMesh, MetalBlock.GetColor(Type), size * 1.5f, ref matrix, environmentData);
 		}

@@ -32,26 +32,26 @@ namespace Game
 			m_remainsSlot = Children.Find<InventorySlotWidget>("RemainsSlot", true);
 			m_resultSlot = Children.Find<InventorySlotWidget>("ResultSlot", true);
 			m_fuelSlot = Children.Find<InventorySlotWidget>("FuelSlot", true);
-			int num = 6;
-			for (int i = 0; i < m_inventoryGrid.RowsCount; i++)
+			int num = 6, y, x;
+			for (y = 0; y < m_inventoryGrid.RowsCount; y++)
 			{
-				for (int j = 0; j < m_inventoryGrid.ColumnsCount; j++)
+				for (x = 0; x < m_inventoryGrid.ColumnsCount; x++)
 				{
 					var inventorySlotWidget = new InventorySlotWidget();
 					inventorySlotWidget.AssignInventorySlot(inventory, num++);
 					m_inventoryGrid.Children.Add(inventorySlotWidget);
-					m_inventoryGrid.SetWidgetCell(inventorySlotWidget, new Point2(j, i));
+					m_inventoryGrid.SetWidgetCell(inventorySlotWidget, new Point2(x, y));
 				}
 			}
-			int num3 = 0;
-			for (int k = 0; k < m_furnaceGrid.RowsCount; k++)
+			num = 0;
+			for (y = 0; y < m_furnaceGrid.RowsCount; y++)
 			{
-				for (int l = 0; l < m_furnaceGrid.ColumnsCount; l++)
+				for (x = 0; x < m_furnaceGrid.ColumnsCount; x++)
 				{
 					var inventorySlotWidget2 = new InventorySlotWidget();
-					inventorySlotWidget2.AssignInventorySlot(componentFurnace, num3++);
+					inventorySlotWidget2.AssignInventorySlot(componentFurnace, num++);
 					m_furnaceGrid.Children.Add(inventorySlotWidget2);
-					m_furnaceGrid.SetWidgetCell(inventorySlotWidget2, new Point2(l, k));
+					m_furnaceGrid.SetWidgetCell(inventorySlotWidget2, new Point2(x, y));
 				}
 			}
 			m_remainsSlot.AssignInventorySlot(componentFurnace, componentFurnace.RemainsSlotIndex);

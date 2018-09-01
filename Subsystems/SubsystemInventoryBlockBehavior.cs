@@ -1,11 +1,10 @@
-﻿using System;
-using Engine;
+﻿using Engine;
 using GameEntitySystem;
 using TemplatesDatabase;
 
 namespace Game
 {
-	public abstract class SubsystemInventoryBlockBehavior<C> : SubsystemCraftingTableBlockBehavior where C : Component
+	public abstract class SubsystemInventoryBlockBehavior<T> : SubsystemCraftingTableBlockBehavior where T : Component
 	{
 		protected SubsystemBlockEntities m_subsystemBlockEntities;
 		public readonly string Name;
@@ -28,7 +27,7 @@ namespace Game
 			{
 				return false;
 			}
-			componentMiner.ComponentPlayer.ComponentGui.ModalPanelWidget = GetWidget(componentMiner.Inventory, blockEntity.Entity.FindComponent<C>(true));
+			componentMiner.ComponentPlayer.ComponentGui.ModalPanelWidget = GetWidget(componentMiner.Inventory, blockEntity.Entity.FindComponent<T>(true));
 			AudioManager.PlaySound("Audio/UI/ButtonClick", 1f, 0f, 0f);
 			return true;
 		}
@@ -37,6 +36,6 @@ namespace Game
 			base.Load(valuesDictionary);
 			m_subsystemBlockEntities = Project.FindSubsystem<SubsystemBlockEntities>(true);
 		}
-		public abstract Widget GetWidget(IInventory inventory, C component);
+		public abstract Widget GetWidget(IInventory inventory, T component);
 	}
 }

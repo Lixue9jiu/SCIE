@@ -147,7 +147,7 @@ namespace Game
 				SmeltingProgress = MathUtils.Min(SmeltingProgress + 0.1f * dt, 1f);
 				if (SmeltingProgress >= 1f)
 				{
-				    m_slots[0].Count--;
+					m_slots[0].Count--;
 					int value = ItemBlock.IdTable[m_smeltingRecipe];
 					m_slots[ResultSlotIndex].Value = value;
 					m_slots[ResultSlotIndex].Count++;
@@ -212,8 +212,8 @@ namespace Game
 				int num2 = Terrain.ExtractData(slotValue);
 				if (GetSlotCount(FuelSlotIndex) > 0 && GetSlotValue(i) == ItemBlock.IdTable["SteelIngot"])
 				{
-                    text = "IndustrialMagnet";
-                }
+					text = "IndustrialMagnet";
+				}
 				/*else
 				{
 

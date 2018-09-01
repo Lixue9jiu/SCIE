@@ -116,7 +116,7 @@ namespace Game
 			Powered = ComponentEngine.IsPowered(subsystemTerrain.Terrain, Point.X, Point.Y, Point.Z);
 		}
 	}
-    /*public abstract class Diode : Element
+	/*public abstract class Diode : Element
 	{
 		public int MaxVoltage;
 		protected Diode() : base(ElementType.Connector)

@@ -34,31 +34,31 @@ namespace Game
             m_result2 = Children.Find<InventorySlotWidget>("ResultSlot2", true);
             m_result3 = Children.Find<InventorySlotWidget>("ResultSlot3", true);
             m_progress = Children.Find<ValueBarWidget>("Progress", true);
-            int num = 6;
-			for (int i = 0; i < m_inventoryGrid.RowsCount; i++)
+			int num = 6, y, x;
+			for (y = 0; y < m_inventoryGrid.RowsCount; y++)
 			{
-				for (int j = 0; j < m_inventoryGrid.ColumnsCount; j++)
+				for (x = 0; x < m_inventoryGrid.ColumnsCount; x++)
 				{
 					var inventorySlotWidget = new InventorySlotWidget();
 					inventorySlotWidget.AssignInventorySlot(inventory, num++);
 					m_inventoryGrid.Children.Add(inventorySlotWidget);
-					m_inventoryGrid.SetWidgetCell(inventorySlotWidget, new Point2(j, i));
+					m_inventoryGrid.SetWidgetCell(inventorySlotWidget, new Point2(x, y));
 				}
 			}
-			int num3 = 0;
-            for (int m = 0; m < m_furnaceGrid.RowsCount; m++)
-            {
-                for (int n = 0; n < m_furnaceGrid.ColumnsCount; n++)
-                {
-                    var inventorySlotWidget3 = new InventorySlotWidget();
-                    inventorySlotWidget3.AssignInventorySlot(componentFurnace, num3++);
-                    m_furnaceGrid.Children.Add(inventorySlotWidget3);
-                    m_furnaceGrid.SetWidgetCell(inventorySlotWidget3, new Point2(n, m));
-                }
-            }
-            m_result1.AssignInventorySlot(componentFurnace, num3++);
-            m_result2.AssignInventorySlot(componentFurnace, num3++);
-            m_result3.AssignInventorySlot(componentFurnace, num3++);
+			num = 0;
+			for (y = 0; y < m_furnaceGrid.RowsCount; y++)
+			{
+				for (x = 0; x < m_furnaceGrid.ColumnsCount; x++)
+				{
+					var inventorySlotWidget2 = new InventorySlotWidget();
+					inventorySlotWidget2.AssignInventorySlot(componentFurnace, num++);
+					m_furnaceGrid.Children.Add(inventorySlotWidget2);
+					m_furnaceGrid.SetWidgetCell(inventorySlotWidget2, new Point2(x, y));
+				}
+			}
+			m_result1.AssignInventorySlot(componentFurnace, num++);
+            m_result2.AssignInventorySlot(componentFurnace, num++);
+            m_result3.AssignInventorySlot(componentFurnace, num++);
         }
 
 		public override void Update()

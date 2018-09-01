@@ -18,7 +18,7 @@ namespace Game
 
 		public override Widget GetWidget(IInventory inventory, ComponentPresserN component)
 		{
-			return new PresserNWidget(inventory, component);
+			return new PresserWidget<ComponentPresserN>(inventory, component, "Widgets/PresserNWidget");
 		}
 	}
 }

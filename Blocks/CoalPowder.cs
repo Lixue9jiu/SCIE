@@ -1,6 +1,5 @@
 using Engine;
 using Engine.Graphics;
-using System;
 
 namespace Game
 {
@@ -10,12 +9,6 @@ namespace Game
 	}
 	public class CoalPowder : OrePowder, IFuel
 	{
-		[Serializable]
-        public enum Type
-        {
-            Coal,
-            CokeCoal
-        }
 		public readonly float HeatLevel;
 		public readonly float FuelFireDuration;
 
@@ -27,20 +20,16 @@ namespace Game
 		}
 
 		public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
-        {
-            BlocksManager.DrawFlatBlock(primitivesRenderer, value, size, ref matrix, null, Color, false, environmentData);
-        }
-        public static Type GetType(int value)
-        {
-            return (Type)(Terrain.ExtractData(value) & 0xF);
-        }
-        public float GetHeatLevel(int value)
-        {
-            return HeatLevel;
-        }
-        public float GetFuelFireDuration(int value)
-        {
-            return FuelFireDuration;
-        }
+		{
+			BlocksManager.DrawFlatBlock(primitivesRenderer, value, size, ref matrix, null, Color, false, environmentData);
+		}
+		public float GetHeatLevel(int value)
+		{
+			return HeatLevel;
+		}
+		public float GetFuelFireDuration(int value)
+		{
+			return FuelFireDuration;
+		}
 	}
 }

@@ -22,8 +22,8 @@ namespace Game
 			new MetalLine(MetalType.Chromium),
 			new MetalLine(MetalType.Aluminum),
 			new MetalLine(MetalType.FeAlCrAlloy),
-            new Resistor(MetalType.FeAlCrAlloy),
-            new Rod("RifleBarrel", Color.Gray, "Rifle Barrel are made by Rifling Machine. They are useful for making guns."),
+			new Resistor(MetalType.FeAlCrAlloy),
+			new Rod("RifleBarrel", Color.Gray, "Rifle Barrel are made by Rifling Machine. They are useful for making guns."),
 			new ScrapIron(),
 			new OreChunk(Matrix.CreateRotationX(4f) * Matrix.CreateRotationZ(2f), Matrix.CreateTranslation(0.9375f, 0.1875f, 0f), new Color(255,215,0), false, MetalType.Gold),
 			new OreChunk(Matrix.CreateRotationX(5f) * Matrix.CreateRotationZ(2f), Matrix.CreateTranslation(0.9375f, 0.1875f, 0f), new Color(212,212,212), false, MetalType.Silver),
@@ -101,13 +101,13 @@ namespace Game
 			new Sheet(MetalType.Platinum),
 			new Sheet(MetalType.Aluminum),
 			new Mould("Models/Battery", "Battery", Matrix.CreateRotationX(MathUtils.PI / 2) * Matrix.CreateTranslation(0.5f, 0.5f, 0f), Matrix.CreateTranslation(9f / 16f, -7f / 16f, 0f) * Matrix.CreateScale(20f), "IndustrialMagnet", "IndustrialMagnet"),
-            new RefractoryBrick(),
+			new RefractoryBrick(),
 			new CokeCoal(),
 		};
 		public static Dictionary<string, int> IdTable;
 		static ItemBlock()
 		{
-            IdTable = new Dictionary<string, int>(Items.Length);
+			IdTable = new Dictionary<string, int>(Items.Length);
 			for (int i = 0; i < Items.Length; i++)
 			{
 				IdTable.Add(Items[i].GetCraftingId(), Index | i << 14);
