@@ -1,10 +1,9 @@
 using Engine;
 using Engine.Graphics;
-using System;
 
 namespace Game
 {
-    public class Resistor : FlatItem
+	public class Resistor : FlatItem
 	{
 		public readonly Color[] Colors = new Color[]
 		{

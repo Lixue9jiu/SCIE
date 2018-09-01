@@ -1,10 +1,9 @@
 using Engine;
 using Engine.Graphics;
-using System;
 
 namespace Game
 {
-    public class OrePowder : FlatItem
+	public class OrePowder : FlatItem
 	{
 		public readonly Color[] Colors = new Color[]
 		{

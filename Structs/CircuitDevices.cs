@@ -2,7 +2,6 @@
 using Engine.Graphics;
 using GameEntitySystem;
 using System;
-using System.Collections.Generic;
 using TemplatesDatabase;
 
 namespace Game
@@ -171,7 +170,7 @@ namespace Game
 			}
 		}
 	}
-	public abstract class InteractiveEntityDevice<C, T> : EntityDevice<C>, IInteractiveBlock where T : Widget where C : Component
+	public abstract class InteractiveEntityDevice<C> : EntityDevice<C>, IInteractiveBlock where C : Component
 	{
 		public InteractiveEntityDevice(string name, int resistance) : base(name, resistance)
 		{
@@ -187,9 +186,9 @@ namespace Game
 			AudioManager.PlaySound("Audio/UI/ButtonClick", 1f, 0f, 0f);
 			return true;
 		}
-		public abstract T GetWidget(IInventory inventory, C component);
+		public abstract Widget GetWidget(IInventory inventory, C component);
 	}
-	public class Fridge : InteractiveEntityDevice<ComponentChestNew, ChestNewWidget>, IItemAcceptableBlock
+	public class Fridge : InteractiveEntityDevice<ComponentChestNew>, IItemAcceptableBlock
 	{
 		public Fridge() : base("ChestNew", 2000)
 		{
@@ -278,7 +277,7 @@ namespace Game
 		{
 			return "A Freezer is a good place to protect food that can delay the decay of it. It will hold up to 16 stacks of items.";
 		}
-		public override ChestNewWidget GetWidget(IInventory inventory, ComponentChestNew component)
+		public override Widget GetWidget(IInventory inventory, ComponentChestNew component)
 		{
 			return new ChestNewWidget(inventory, component);
 		}
@@ -312,7 +311,7 @@ namespace Game
 		}
 	}
 
-    public class Magnetizer : InteractiveEntityDevice<ComponentMagnetizer, MagnetizerWidget>
+    public class Magnetizer : InteractiveEntityDevice<ComponentMagnetizer>
 	{
         public Magnetizer() : base("Magnetizer", 1000)
         {
@@ -420,13 +419,13 @@ namespace Game
         {
             return "A Magnetizer is a device to create industrial magnet by melting steel ingot in a stronge magnetic field provided by wire.";
         }
-		public override MagnetizerWidget GetWidget(IInventory inventory, ComponentMagnetizer component)
+		public override Widget GetWidget(IInventory inventory, ComponentMagnetizer component)
 		{
 			return new MagnetizerWidget(inventory, component);
 		}
 	}
 
-    public class Separator : InteractiveEntityDevice<ComponentSeperator, SeperatorWidget>
+    public class Separator : InteractiveEntityDevice<ComponentSeperator>
     {
         public Separator() : base("Seperator", 2000)
         {
@@ -539,7 +538,7 @@ namespace Game
         {
             return "A Separator is a device to separate matarial by high frequency rotation, it is a shrinking version of centrifuge.";
         }
-        public override SeperatorWidget GetWidget(IInventory inventory, ComponentSeperator component)
+        public override Widget GetWidget(IInventory inventory, ComponentSeperator component)
         {
             return new SeperatorWidget(inventory, component);
         }
@@ -615,7 +614,7 @@ namespace Game
 
     }
 	
-    public class EFurnace : InteractiveEntityDevice<ComponentElectricFurnace, ElectricFurnaceWidget>
+    public class EFurnace : InteractiveEntityDevice<ComponentElectricFurnace>
     {
         public EFurnace() : base("ElectricFurnace", 6000)
         {
@@ -728,7 +727,7 @@ namespace Game
         {
             return "Electric Resistance Furnace is a device that can heat item by heating resistor, it can reach a high temperature but a large amount heat is needed";
         }
-        public override ElectricFurnaceWidget GetWidget(IInventory inventory, ComponentElectricFurnace component)
+        public override Widget GetWidget(IInventory inventory, ComponentElectricFurnace component)
         {
             return new ElectricFurnaceWidget(inventory, component);
         }

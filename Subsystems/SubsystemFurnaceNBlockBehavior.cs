@@ -4,11 +4,15 @@ using TemplatesDatabase;
 
 namespace Game
 {
-	public class SubsystemFurnaceNBlockBehavior : SubsystemBlockBehavior
+	public class SubsystemFurnaceNBlockBehavior : SubsystemInventoryBlockBehavior<ComponentFurnaceN>
 	{
 		protected readonly Dictionary<Point3, FireParticleSystem> m_particleSystemsByCell = new Dictionary<Point3, FireParticleSystem>();
 
 		protected SubsystemParticles m_subsystemParticles;
+
+		public SubsystemFurnaceNBlockBehavior() : base("FurnaceN")
+		{
+		}
 
 		public override int[] HandledBlocks
 		{
@@ -23,14 +27,7 @@ namespace Game
 
 		public override void OnBlockAdded(int value, int oldValue, int x, int y, int z)
 		{
-			if (Terrain.ExtractContents(oldValue) != FurnaceNBlock.Index)
-			{
-				DatabaseObject databaseObject = Project.GameDatabase.Database.FindDatabaseObject("FurnaceN", Project.GameDatabase.EntityTemplateType, true);
-				var valuesDictionary = new ValuesDictionary();
-				valuesDictionary.PopulateFromDatabaseObject(databaseObject);
-				valuesDictionary.GetValue<ValuesDictionary>("BlockEntity").SetValue("Coordinates", new Point3(x, y, z));
-				Project.AddEntity(Project.CreateEntity(valuesDictionary));
-			}
+			base.OnBlockAdded(value, oldValue, x, y, z);
 			if (FurnaceNBlock.GetHeatLevel(value) != 0)
 			{
 				AddFire(value, x, y, z);
@@ -39,16 +36,7 @@ namespace Game
 
 		public override void OnBlockRemoved(int value, int newValue, int x, int y, int z)
 		{
-			ComponentBlockEntity blockEntity = Project.FindSubsystem<SubsystemBlockEntities>(true).GetBlockEntity(x, y, z);
-			if (blockEntity != null)
-			{
-				var position = new Vector3((float)x, (float)y, (float)z) + new Vector3(0.5f);
-				for (var i = blockEntity.Entity.FindComponents<IInventory>().GetEnumerator(); i.MoveNext();)
-				{
-					i.Current.DropAllItems(position);
-				}
-				Project.RemoveEntity(blockEntity.Entity, true);
-			}
+			base.OnBlockRemoved(value, newValue, x, y, z);
 			if (FurnaceNBlock.GetHeatLevel(value) != 0)
 			{
 				RemoveFire(x, y, z);
@@ -80,31 +68,19 @@ namespace Game
 		{
 			int originX = chunk.Origin.X, originY = chunk.Origin.Y;
 			var list = new List<Point3>();
-			foreach (var key in m_particleSystemsByCell.Keys)
+			for (var i = m_particleSystemsByCell.Keys.GetEnumerator(); i.MoveNext();)
 			{
+				var key = i.Current;
 				if (key.X >= originX && key.X < originX + 16 && key.Z >= originY && key.Z < originY + 16)
 				{
 					list.Add(key);
 				}
 			}
-			for (int i = 0; i < list.Count; i++)
+			for (originX = 0; originX < list.Count; originX++)
 			{
-				Point3 item = list[i];
+				Point3 item = list[originX];
 				RemoveFire(item.X, item.Y, item.Z);
 			}
-		}
-
-		public override bool OnInteract(TerrainRaycastResult raycastResult, ComponentMiner componentMiner)
-		{
-			ComponentBlockEntity blockEntity = Project.FindSubsystem<SubsystemBlockEntities>(true).GetBlockEntity(raycastResult.CellFace.X, raycastResult.CellFace.Y, raycastResult.CellFace.Z);
-			if (blockEntity == null || componentMiner.ComponentPlayer == null)
-			{
-				return false;
-			}
-			ComponentFurnaceN componentFurnace = blockEntity.Entity.FindComponent<ComponentFurnaceN>(true);
-			componentMiner.ComponentPlayer.ComponentGui.ModalPanelWidget = new FurnaceNWidget(componentMiner.Inventory, componentFurnace);
-			AudioManager.PlaySound("Audio/UI/ButtonClick", 1f, 0f, 0f);
-			return true;
 		}
 
 		public override void Load(ValuesDictionary valuesDictionary)
@@ -115,9 +91,8 @@ namespace Game
 
 		protected void AddFire(int value, int x, int y, int z)
 		{
-			var v = new Vector3(0.5f, 0.2f, 0.5f);
 			const float size = 0.15f;
-			var fireParticleSystem = new FireParticleSystem(new Vector3((float)x, (float)y, (float)z) + v, size, 16f);
+			var fireParticleSystem = new FireParticleSystem(new Vector3((float)x + 0.5f, (float)y + 0.2f, (float)z + 0.5f), size, 16f);
 			m_subsystemParticles.AddParticleSystem(fireParticleSystem);
 			m_particleSystemsByCell[new Point3(x, y, z)] = fireParticleSystem;
 		}
@@ -127,6 +102,10 @@ namespace Game
 			var key = new Point3(x, y, z);
 			m_subsystemParticles.RemoveParticleSystem(m_particleSystemsByCell[key]);
 			m_particleSystemsByCell.Remove(key);
+		}
+		public override Widget GetWidget(IInventory inventory, ComponentFurnaceN component)
+		{
+			return new FurnaceNWidget(inventory, component);
 		}
 	}
 }

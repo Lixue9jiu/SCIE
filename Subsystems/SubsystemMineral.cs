@@ -52,21 +52,17 @@ namespace Game
 		public override void GetDropValues(SubsystemTerrain subsystemTerrain, int oldValue, int newValue, int toolLevel, List<BlockDropValue> dropValues, out bool showDebris)
 		{
 			int data = Terrain.ExtractData(oldValue);
-			if ((data & 98304) == 32768 && (Random.Int() & 3) == 0)
+			if (toolLevel > 2 && (data & 98304) == 32768 && (Random.Int() & 3) == 0)
 			{
 				dropValues.Add(new BlockDropValue
 				{
 					Value = oldValue,
 					Count = 1
 				});
-			}
-			else if (IsColored(data) || toolLevel < 3)
-			{
-				base.GetDropValues(subsystemTerrain, oldValue, newValue, toolLevel, dropValues, out showDebris);
+				showDebris = true;
 				return;
 			}
-			data = data >> 1 & 16383;
-			if (data > 0 && data < 11)
+			if (!IsColored(data) && toolLevel > 2 && (data = data >> 1 & 16383) > 0 && data < 11)
 			{
 				if ((Random.Int() & 7) == 0)
 				{
@@ -81,7 +77,7 @@ namespace Game
 					Value = Terrain.ReplaceData(ItemBlock.Index, data + 12),
 					Count = 1
 				});
-				for (int i = (data & 1) + (Random.Int() & 1) + 2; i-- != 0;)
+				for (int i = (Random.Int() & 1) + (2 | data & 1); i-- != 0;)
 				{
 					dropValues.Add(new BlockDropValue
 					{
@@ -89,8 +85,13 @@ namespace Game
 						Count = 1
 					});
 				}
+				showDebris = true;
 			}
-			showDebris = true;
+			else
+			{
+				base.GetDropValues(subsystemTerrain, oldValue, newValue, toolLevel, dropValues, out showDebris);
+				return;
+			}
 		}
 		public override BlockPlacementData GetDigValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, int toolValue, TerrainRaycastResult raycastResult)
 		{
@@ -180,67 +181,7 @@ namespace Game
 			}
 			return list;
 		}
-		/*public virtual Mineral OnItemHarvested(SubsystemTerrain subsystemTerrain, int x, int y, int z, int value, ref BlockDropValue dropValue, ref int newValue)
-		{
-			var result = Mineral.None;
-			var terrain = subsystemTerrain.Terrain;
-			int v = terrain.GetCellValueFast(x ,y + 1, z);
-			switch (Terrain.ExtractContents(value))
-			{
-				case DirtBlock.Index:
-				if (Terrain.ExtractContents(v) != GrassBlock.Index)
-				{
-					if (y > 56 && (x + z - y) % 5 == 0)
-						result |= Mineral.P;
-				}
-				break;
-				case GraniteBlock.Index:
-				if (y > 2 && y < 30 && (((x ^ y * 10007) + z) % 5 == 4 || (x * 89 - z) % y == 1))
-					result |= Mineral.Ag;
-				break;
-				case SandstoneBlock.Index:
-				break;
-				case SandBlock.Index:
-				if (Terrain.ExtractContents(v) == WaterBlock.Index && FluidBlock.GetIsTop(Terrain.ExtractData(v)) && (x + z * y) % 11 == 3)
-					result |= Mineral.Au;
-				break;
-				case LimestoneBlock.Index:
-				case BasaltBlock.Index:
-				break;
-				case SaltpeterOreBlock.Index:
-				if ((int)SimplexNoise.Hash(y) % 3 == 1 && (x + z ^ 0xbcbabdc) > 262144)
-				{
-					result |= Mineral.As;
-				}
-				break;
-			}
-			return result;
-		}*/
-		}
-	/*public class GermaniumOreBlock : BasaltBlock
-	{
-		public new const int Index = 148;
-		public override void GetDropValues(SubsystemTerrain subsystemTerrain, int oldValue, int newValue, int toolLevel, List<BlockDropValue> dropValues, out bool showDebris)
-		{
-			int data = Terrain.ExtractData(oldValue) >> 1 & 16383;
-			if (data > 0 && data < 11 && toolLevel > 2)
-			{
-				dropValues.Add(new BlockDropValue
-				{
-					Value = Terrain.ReplaceData(ItemBlock.Index, data + 10),
-					Count = 1
-				});
-			}
-			base.GetDropValues(subsystemTerrain, oldValue, newValue, toolLevel, dropValues, out showDebris);
-		}
-		public override string GetDisplayName(SubsystemTerrain subsystemTerrain, int value)
-		{
-			int data = Terrain.ExtractData(value);
-			if (IsColored(data) || data == 0 || data > 18)
-				return base.GetDisplayName(subsystemTerrain, value);
-			return "Rare " + base.GetDisplayName(subsystemTerrain, value);
-		}
-	}*/
+	}
 	public class SubsystemMineral : SubsystemCollapsingBlockBehavior
 	{
 		[Serializable]

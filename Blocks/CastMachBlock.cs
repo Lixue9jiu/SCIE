@@ -2,9 +2,9 @@ using Engine;
 
 namespace Game
 {
-	public class CastMachBlock : FourDirectionalBlock
+	public class CastMachBlock : FurnaceNBlock
 	{
-		public const int Index = 530;
+		public new const int Index = 530;
 
 		public override int GetFaceTextureSlot(int face, int value)
 		{
