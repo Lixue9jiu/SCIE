@@ -143,7 +143,7 @@ namespace Game
 			for (int i = 0; i < Devices.Length; i++)
 			{
 				GetItem(ref value).ItemBlock = itemBlock;
-				list.Add(value);
+				//list.Add(value);
 				for (int j = 1; j < 16; j++)
 				{
 					list.Add(Paint(null, value, j));
