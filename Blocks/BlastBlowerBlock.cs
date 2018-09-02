@@ -4,7 +4,7 @@ namespace Game
 	{
 		public override int GetFaceTextureSlot(int face, int value)
 		{
-			if (face == 4 || face ==5)
+			if (face == 4 || face == 5)
 			{
 				return 107;
 			}
@@ -33,7 +33,7 @@ namespace Game
 			};
 		}
 		
-		public static int GetPower(int data)
+		/*public static int GetPower(int data)
 		{
 			return data & 99;
 		}
@@ -41,7 +41,7 @@ namespace Game
 		public static int SetPower(int data, int direction)
 		{
 			return (data & -100) | (direction & 99);
-		}
+		}*/
 		
 		public const int Index = 529;
 	}

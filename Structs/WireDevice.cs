@@ -10,7 +10,7 @@ namespace Game
 		}
 		public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
 		{
-			int? paintColor = GetColor(Terrain.ExtractData(value));
+			int? paintColor = PaintableItemBlock.GetColor(Terrain.ExtractData(value));
 			Color color2 = paintColor.HasValue ? (color * SubsystemPalette.GetColor(environmentData, paintColor)) : (1.25f * WireBlock.WireColor * color);
 			BlocksManager.DrawMeshBlock(primitivesRenderer, ElementBlock.WireBlock.m_standaloneBlockMesh, color2, 2f * size, ref matrix, environmentData);
 		}
@@ -18,21 +18,10 @@ namespace Game
 		{
 			return 1;
 		}
-		public static int? GetColor(int data)
-		{
-			return null;
-		}
-		public static int SetColor(int data, int? color)
-		{
-			return data;
-		}
-		public override string GetDisplayName(SubsystemTerrain subsystemTerrain, int value)
-		{
-			return "IndustrialWire";
-		}
 	}
 	public class WireDevice : WireElement
 	{
+		public Terrain Terrain;
 		public BoundingBox[] m_collisionBoxesByFace = new BoundingBox[6];
 		public WireDevice()
 		{
@@ -65,6 +54,13 @@ namespace Game
 		public override int GetWeight(int voltage)
 		{
 			return 1;
+		}
+		public override Device Create(Point3 p)
+		{
+			Device device = base.Create(p);
+			var color = PaintableItemBlock.GetColor(Terrain.ExtractData(Terrain.GetCellValue(p.X, p.Y, p.Z)));
+			device.Type = color.HasValue ? (ElementType)(1 << (color.Value + 2)) : ElementType.Connector;
+			return device;
 		}
 		public override void GenerateTerrainVertices(Block block, BlockGeometryGenerator generator, TerrainGeometrySubsets geometry, int value, int x, int y, int z)
 		{
@@ -218,7 +214,7 @@ namespace Game
 					}
 				}
 			}
-			if (centerBoxSize == 0f && (num4 != 0 || num == 133))
+			if (centerBoxSize == 0f && (num4 != 0 || (num == ElementBlock.Index && Terrain.ExtractData(value) == 5)))
 			{
 				for (int i = 0; i < 6; i++)
 				{

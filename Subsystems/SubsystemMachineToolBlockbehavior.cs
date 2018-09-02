@@ -1,3 +1,4 @@
+using Engine;
 using TemplatesDatabase;
 
 namespace Game
@@ -33,26 +34,29 @@ namespace Game
 		{
 			if (!worldItem.ToRemove)
 			{
-				ComponentBlockEntity blockEntity = m_subsystemBlockEntities.GetBlockEntity(cellFace.X, cellFace.Y, cellFace.Z);
-				if (blockEntity != null && DispenserNewBlock.GetAcceptsDrops(Terrain.ExtractData(SubsystemTerrain.Terrain.GetCellValue(cellFace.X, cellFace.Y, cellFace.Z))))
+				ComponentBlockEntity blockEntity = SubsystemBlockEntities.GetBlockEntity(cellFace.X, cellFace.Y, cellFace.Z);
+				if (blockEntity != null)
 				{
 					ComponentLargeCraftingTable inventory = blockEntity.Entity.FindComponent<ComponentLargeCraftingTable>(true);
 					var pickable = worldItem as Pickable;
-					int num = (pickable == null) ? 1 : pickable.Count;
 					int value = worldItem.Value;
-					int count = num;
-					int num2 = ComponentInventoryBase.AcquireItems(inventory, value, count);
-					if (num2 < num)
+					int count = (pickable == null) ? 1 : pickable.Count, count2 = MathUtils.Min(count, inventory.GetSlotCapacity(inventory.SlotIndex, value) - inventory.GetSlotCount(inventory.SlotIndex));
+					if (inventory.GetSlotCount(inventory.SlotIndex) != 0 && inventory.GetSlotValue(inventory.SlotIndex) != value)
+					{
+						return;
+					}
+					inventory.AddSlotItems(inventory.SlotIndex, value, count2);
+					if (count2 < count)
 					{
 						m_subsystemAudio.PlaySound("Audio/PickableCollected", 1f, 0f, worldItem.Position, 3f, true);
 					}
-					if (num2 <= 0)
+					if (count - count2 <= 0)
 					{
 						worldItem.ToRemove = true;
 					}
 					else if (pickable != null)
 					{
-						pickable.Count = num2;
+						pickable.Count = count - count2;
 					}
 				}
 			}

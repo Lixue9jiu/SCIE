@@ -8,23 +8,17 @@ using TemplatesDatabase;
 
 namespace Game
 {
-	/*[Flags]
-	[Serializable]
-	public enum Mineral : long
-	{
-		None = 0,
-		Li = 1,
-		Al = 1<<1, P = 1<<2, S = 1<<3, Sc = 1<<4, Ti = 1<<5, V = 1<<6, Cr = 1<<7, Mn = 1<<8,
-		Fe = 1<<9, Co = 1<<10, Ni = 1<<11, Cu = 1<<12, Zn = 1<<13, Ga = 1<<14, Ge = 1<<15, As = 1<<16,
-		Ag = 1<<17, Cd = 1<<18, Sn = 1<<19, Sb = 1<<20,
-		Ba = 1<<21, W = 1<<22, Pt = 1<<23, Au = 1<<24, Hg = 1<<25, Pb = 1<<26,
-		U = 1<<31
-	}*/
 	[Flags]
 	[Serializable]
 	public enum Metal : short
 	{
 		None,
+		Li = 1,
+		Al = 1<<1, /*P = 1<<2, S = 1<<3, Sc = 1<<4, Ti = 1<<5, V = 1<<6,*/ Cr = 1<<7, Mn = 1<<8,
+		Fe = 1<<9, Co = 1<<10, Ni = 1<<11, Cu = 1<<12, Zn = 1<<13, Ga = 1<<14, /*Ge = 1<<15, As = 1<<16,
+		Ag = 1<<17, Cd = 1<<18, Sn = 1<<19, Sb = 1<<20,
+		Ba = 1<<21, W = 1<<22, Pt = 1<<23, Au = 1<<24, Hg = 1<<25, Pb = 1<<26,
+		U = 1<<31*/
 		Used = -32768
 	}
 	public class BasaltBlock : PaintedCubeBlock
@@ -43,7 +37,7 @@ namespace Game
 			new Color(90, 90, 90), //Chromium
 			new Color(120, 120, 120) //Nickel
 		};
-	public const int Index = 67;
+		public const int Index = 67;
 
 		public BasaltBlock()
 			: base(40)
@@ -74,10 +68,10 @@ namespace Game
 				}
 				dropValues.Add(new BlockDropValue
 				{
-					Value = Terrain.ReplaceData(ItemBlock.Index, data + 12),
+					Value = Terrain.ReplaceData(ItemBlock.Index, data + 14),
 					Count = 1
 				});
-				for (int i = (Random.Int() & 1) + (2 | data & 1); i-- != 0;)
+				for (data = (Random.Int() & 1) + (2 | data & 1); data-- != 0;)
 				{
 					dropValues.Add(new BlockDropValue
 					{
@@ -90,7 +84,6 @@ namespace Game
 			else
 			{
 				base.GetDropValues(subsystemTerrain, oldValue, newValue, toolLevel, dropValues, out showDebris);
-				return;
 			}
 		}
 		public override BlockPlacementData GetDigValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, int toolValue, TerrainRaycastResult raycastResult)
@@ -124,7 +117,7 @@ namespace Game
 			data &= 16383;
 			if (IsColored(data) || data == 0 || data > 20)
 				return name + base.GetDisplayName(subsystemTerrain, value);
-			name += BlocksManager.Blocks[ItemBlock.Index].GetDisplayName(subsystemTerrain, Terrain.ReplaceData(ItemBlock.Index, (data >> 1) + 12));
+			name += BlocksManager.Blocks[ItemBlock.Index].GetDisplayName(subsystemTerrain, Terrain.ReplaceData(ItemBlock.Index, (data >> 1) + 14));
 			return name.Substring(0, name.Length - 5);
 		}
 		public override float GetExplosionPressure(int value)
@@ -197,7 +190,7 @@ namespace Game
 			Ti,
 			Cr,
 			Ni,
-			P,
+			//P,
 			//Oil,
 			//NaruralGas
 		}
@@ -224,7 +217,6 @@ namespace Game
 		public override int[] HandledBlocks => new int[]
 		{
 			BasaltBlock.Index,
-			//GermaniumOreBlock.Index
 		};/*
 				{
 					DirtBlock.Index,
@@ -331,7 +323,7 @@ namespace Game
 				brush.Compile();
 				PtBrushes[i] = brush;
 				brush = new TerrainBrush();
-				for (j = random.UniformInt(2, 6); j-- != 0;)
+				for (j = random.UniformInt(2, 4); j-- != 0;)
 				{
 					v = 0.5f * Vector3.Normalize(new Vector3(random.UniformFloat(-1f, 1f), random.UniformFloat(-0.25f, 0.25f), random.UniformFloat(-1f, 1f)));
 					vec = Vector3.Zero;
@@ -344,7 +336,7 @@ namespace Game
 				brush.Compile();
 				PbBrushes[i] = TiBrushes[i] = brush;
 				brush = new TerrainBrush();
-				for (j = random.UniformInt(3, 7); j-- != 0;)
+				for (j = random.UniformInt(3, 5); j-- != 0;)
 				{
 					v = 0.5f * Vector3.Normalize(new Vector3(random.UniformFloat(-1f, 1f), random.UniformFloat(-1f, 1f), random.UniformFloat(-1f, 1f)));
 					vec = Vector3.Zero;
@@ -422,9 +414,9 @@ namespace Game
 				fd = 0x62473051,
 				fe = 0x01234567,
 				ff = 0x57142603;
-			for (int i = x; i <= x + 2; i++)
+			for (int i = x; i < x + 2; i++)
 			{
-				for (int j = y; j <= y + 2; j++)
+				for (int j = y; j < y + 2; j++)
 				{
 					var random = new Random(generator.m_seed + i + (f1 ^ f4 ^ f5 ^ f7 ^ fa ^ fc ^ fd) * j);
 					int k, ix16 = i << 4, jx16 = j << 4;
@@ -511,7 +503,10 @@ namespace Game
 
 		public override void OnItemPlaced(int x, int y, int z, ref BlockPlacementData placementData, int itemValue)
 		{
-			//AlloysData.Array[Terrain.ExtractData(itemValue)] |= Metal.Used;
+			/*if (Terrain.ExtractContents(itemValue) == AlloyBlock.Index)
+			{
+				AlloysData.Array[Terrain.ExtractData(itemValue)] |= Metal.Used;
+			}*/
 			placementData.Value = itemValue;
 		}
 

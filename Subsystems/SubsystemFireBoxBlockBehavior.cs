@@ -41,7 +41,7 @@ namespace Game
 				return false;
 			}
 			ComponentFireBox componentFurnace = blockEntity.Entity.FindComponent<ComponentFireBox>(true);
-			componentMiner.ComponentPlayer.ComponentGui.ModalPanelWidget = new FireBoxWidget(componentMiner.Inventory, componentFurnace);
+			componentMiner.ComponentPlayer.ComponentGui.ModalPanelWidget = new FireBoxWidget<ComponentFireBox>(componentMiner.Inventory, componentFurnace, "Widgets/FireBoxWidget");
 			AudioManager.PlaySound("Audio/UI/ButtonClick", 1f, 0f, 0f);
 			return true;
 		}

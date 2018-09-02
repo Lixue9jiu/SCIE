@@ -41,27 +41,27 @@ namespace Game
             m_acceptsDropsBox = Children.Find<CheckboxWidget>("AcceptsElectBox", true);
             m_progress = Children.Find<ValueBarWidget>("Progress", true);
             
-            int num = 6;
-			for (int i = 0; i < m_inventoryGrid.RowsCount; i++)
+            int num = 6, y, x;
+			for (y = 0; y < m_inventoryGrid.RowsCount; y++)
 			{
-				for (int j = 0; j < m_inventoryGrid.ColumnsCount; j++)
+				for (x = 0; x < m_inventoryGrid.ColumnsCount; x++)
 				{
 					var inventorySlotWidget = new InventorySlotWidget();
 					inventorySlotWidget.AssignInventorySlot(inventory, num++);
 					m_inventoryGrid.Children.Add(inventorySlotWidget);
-					m_inventoryGrid.SetWidgetCell(inventorySlotWidget, new Point2(j, i));
+					m_inventoryGrid.SetWidgetCell(inventorySlotWidget, new Point2(x, y));
 				}
 			}
             
             num = 0;
-            for (int m = 0; m < m_furnaceGrid.RowsCount; m++)
+            for (y = 0; y < m_furnaceGrid.RowsCount; y++)
             {
-                for (int n = 0; n < m_furnaceGrid.ColumnsCount; n++)
+                for (x = 0; x < m_furnaceGrid.ColumnsCount; x++)
                 {
                     var inventorySlotWidget3 = new InventorySlotWidget();
                     inventorySlotWidget3.AssignInventorySlot(componentFurnace, num++);
                     m_furnaceGrid.Children.Add(inventorySlotWidget3);
-                    m_furnaceGrid.SetWidgetCell(inventorySlotWidget3, new Point2(n, m));
+                    m_furnaceGrid.SetWidgetCell(inventorySlotWidget3, new Point2(x, y));
                 }
             }
           

@@ -6,7 +6,7 @@ namespace Game
 {
 	public abstract class SubsystemInventoryBlockBehavior<T> : SubsystemCraftingTableBlockBehavior where T : Component
 	{
-		protected SubsystemBlockEntities m_subsystemBlockEntities;
+		public SubsystemBlockEntities SubsystemBlockEntities;
 		public readonly string Name;
 
 		protected SubsystemInventoryBlockBehavior(string name)
@@ -22,7 +22,7 @@ namespace Game
 		}
 		public override bool OnInteract(TerrainRaycastResult raycastResult, ComponentMiner componentMiner)
 		{
-			ComponentBlockEntity blockEntity = m_subsystemBlockEntities.GetBlockEntity(raycastResult.CellFace.X, raycastResult.CellFace.Y, raycastResult.CellFace.Z);
+			ComponentBlockEntity blockEntity = SubsystemBlockEntities.GetBlockEntity(raycastResult.CellFace.X, raycastResult.CellFace.Y, raycastResult.CellFace.Z);
 			if (blockEntity == null || componentMiner.ComponentPlayer == null)
 			{
 				return false;
@@ -34,7 +34,7 @@ namespace Game
 		public override void Load(ValuesDictionary valuesDictionary)
 		{
 			base.Load(valuesDictionary);
-			m_subsystemBlockEntities = Project.FindSubsystem<SubsystemBlockEntities>(true);
+			SubsystemBlockEntities = Project.FindSubsystem<SubsystemBlockEntities>(true);
 		}
 		public abstract Widget GetWidget(IInventory inventory, T component);
 	}

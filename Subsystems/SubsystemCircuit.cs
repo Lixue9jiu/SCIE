@@ -32,7 +32,7 @@ namespace Game
 		{
 			CircuitPath = new Device[0][];
 			base.Load(valuesDictionary);
-			Terrain = SubsystemTerrain.Terrain;
+			((WireDevice)ElementBlock.Devices[5]).Terrain = Terrain = SubsystemTerrain.Terrain;
 			int count = valuesDictionary.GetValue<int>("Count", 0);
 			Path = new HashSet<Device>();
 			Table = new Dictionary<Point3, Device>(count);

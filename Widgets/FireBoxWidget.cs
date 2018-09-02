@@ -3,12 +3,28 @@ using Engine;
 
 namespace Game
 {
-	public class FireBoxWidget : CanvasWidget
+	public class FireBoxWidget<T> : CanvasWidget where T : ComponentMachine
 	{
-		public FireBoxWidget(IInventory inventory, ComponentFireBox componentFurnace)
+		protected readonly T m_componentFurnace;
+
+		protected readonly FireWidget m_fire;
+
+		protected readonly InventorySlotWidget m_fuelSlot;
+
+		//protected readonly GridPanelWidget m_furnaceGrid;
+
+		protected readonly GridPanelWidget m_inventoryGrid;
+
+		protected readonly ValueBarWidget m_progress;
+
+		//protected readonly InventorySlotWidget m_remainsSlot;
+
+		//protected readonly InventorySlotWidget m_resultSlot;
+
+		public FireBoxWidget(IInventory inventory, T component, string path)
 		{
-			m_componentFurnace = componentFurnace;
-			WidgetsManager.LoadWidgetContents(this, this, ContentManager.Get<XElement>("Widgets/FireBoxWidget"));
+			m_componentFurnace = component;
+			WidgetsManager.LoadWidgetContents(this, this, ContentManager.Get<XElement>(path));
 			m_inventoryGrid = Children.Find<GridPanelWidget>("InventoryGrid", true);
 			m_fire = Children.Find<FireWidget>("Fire", true);
 			m_progress = Children.Find<ValueBarWidget>("Progress", true);
@@ -24,7 +40,7 @@ namespace Game
 					m_inventoryGrid.SetWidgetCell(inventorySlotWidget, new Point2(j, i));
 				}
 			}
-			m_fuelSlot.AssignInventorySlot(componentFurnace, componentFurnace.FuelSlotIndex);
+			m_fuelSlot.AssignInventorySlot(component, component.FuelSlotIndex);
 		}
 
 		public override void Update()
@@ -36,21 +52,5 @@ namespace Game
 				ParentWidget.Children.Remove(this);
 			}
 		}
-
-		protected readonly ComponentFireBox m_componentFurnace;
-
-		protected readonly FireWidget m_fire;
-
-		protected readonly InventorySlotWidget m_fuelSlot;
-
-		//protected readonly GridPanelWidget m_furnaceGrid;
-
-		protected readonly GridPanelWidget m_inventoryGrid;
-
-		protected readonly ValueBarWidget m_progress;
-
-		//protected readonly InventorySlotWidget m_remainsSlot;
-
-		//protected readonly InventorySlotWidget m_resultSlot;
 	}
 }

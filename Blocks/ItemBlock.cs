@@ -669,7 +669,11 @@ namespace Game
 			var item = GetItem(ref value);
 			return item != null
 				? SubsystemPalette.GetName(subsystemTerrain, GetPaintColor(value), item.GetDisplayName(subsystemTerrain, value))
-				: DefaultDisplayName;
+				: base.GetDisplayName(subsystemTerrain, value);
+		}
+		public override string GetCategory(int value)
+		{
+			return GetPaintColor(value).HasValue ? "Painted" : base.GetCategory(value);
 		}
 		public int? GetPaintColor(int value)
 		{
@@ -677,20 +681,16 @@ namespace Game
 		}
 		public int Paint(SubsystemTerrain subsystemTerrain, int value, int? color)
 		{
-			int data = Terrain.ExtractData(value);
-			return Terrain.ReplaceData(value, SetColor(data, color));
+			return Terrain.ReplaceData(value, SetColor(Terrain.ExtractData(value), color));
 		}
 		public static int? GetColor(int data)
 		{
-			return (data & 0b1000000) != 0 ? data >> 7 & 15 : default(int?);
+			return (data & 0b11110000000000) != 0 ? data >> 11 & 15 : new int?();
 		}
 		public static int SetColor(int data, int? color)
 		{
-			if (color.HasValue)
-			{
-				return (data & -0b1111100000111111) | 0b1000000 | (color.Value & 15) << 7;
-			}
-			return data & -0b1111100000111111;
+			data &= -15361;
+			return color.HasValue ? (color == 0 ? data : (data | (color.Value & 15) << 11)) : data;
 		}
 	}
 	public class RottenEggBlock : ItemBlock
