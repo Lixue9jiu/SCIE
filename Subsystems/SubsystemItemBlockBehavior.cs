@@ -39,10 +39,19 @@ namespace Game
 				else if (result.HasValue && Terrain.ExtractContents(result.Value.Value) == RailBlock.Index)
 				{
 					var cell = result.Value.CellFace;
+					var position = new Vector3(cell.X + 0.5f, cell.Y + 0.01f, cell.Z + 0.5f);
+
 					var entity = DatabaseManager.CreateEntity(Project, "Train", true);
-					entity.FindComponent<ComponentBody>(true).Position = new Vector3(cell.X + 0.5f, cell.Y + 1f, cell.Z + 0.5f);
-					entity.FindComponent<ComponentFrame>(true).Rotation = componentMiner.ComponentCreature.ComponentBody.Rotation;
+					entity.FindComponent<ComponentBody>(true).Position = position;
 					entity.FindComponent<ComponentSpawn>(true).SpawnDuration = 0f;
+
+					int dir;
+					var rotation = componentMiner.ComponentCreature.ComponentCreatureModel.EyeRotation.ToForwardVector();
+					if (RailBlock.IsDirectionX(RailBlock.GetRailType(Terrain.ExtractData(result.Value.Value))))
+						dir = rotation.Z < 0 ? 0 : 2;
+					else
+						dir = rotation.X < 0 ? 1 : 3;
+					entity.FindComponent<ComponentTrain>(true).SetDirectionImmediately(dir);
 					Project.AddEntity(entity);
 				}
 			}

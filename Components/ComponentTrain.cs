@@ -87,7 +87,7 @@ namespace Game
             if (m_componentMount.Rider != null)
             {
                 var player = m_componentMount.Rider.Entity.FindComponent<ComponentPlayer>();
-                player.ComponentLocomotion.LookOrder = new Vector2(player.ComponentInput.PlayerInput.Look.X, player.ComponentLocomotion.LookOrder.Y);
+                player.ComponentLocomotion.LookOrder = player.ComponentInput.PlayerInput.Look;
             }
             
             switch (Direction)
