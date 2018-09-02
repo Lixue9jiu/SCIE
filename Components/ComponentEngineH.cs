@@ -5,21 +5,13 @@ using TemplatesDatabase;
 
 namespace Game
 {
-	public class ComponentEngineH : ComponentInventoryBase, IUpdateable
+	public class ComponentEngineH : ComponentMachine, IUpdateable
 	{
-		protected ComponentBlockEntity m_componentBlockEntity;
-
 		protected float m_fireTimeRemaining;
 
 		protected int m_furnaceSize;
 
 		protected readonly string[] m_matchedIngredients = new string[9];
-
-		protected SubsystemExplosions m_subsystemExplosions;
-
-		protected SubsystemTerrain m_subsystemTerrain;
-
-		protected bool m_updateSmeltingRecipe;
 
 		protected string m_smeltingRecipe;
 
@@ -37,7 +29,7 @@ namespace Game
 			}
 		}
 
-		public int ResultSlotIndex
+		public override int ResultSlotIndex
 		{
 			get
 			{
@@ -45,17 +37,13 @@ namespace Game
 			}
 		}
 
-		public int FuelSlotIndex
+		public override int FuelSlotIndex
 		{
 			get
 			{
 				return SlotsCount - 1;
 			}
 		}
-
-		public float HeatLevel;
-
-		public float SmeltingProgress;
 
 		public int UpdateOrder
 		{
@@ -189,14 +177,10 @@ namespace Game
 		public override void Load(ValuesDictionary valuesDictionary, IdToEntityMap idToEntityMap)
 		{
 			base.Load(valuesDictionary, idToEntityMap);
-			m_subsystemTerrain = Project.FindSubsystem<SubsystemTerrain>(true);
-			m_subsystemExplosions = Project.FindSubsystem<SubsystemExplosions>(true);
-			m_componentBlockEntity = Entity.FindComponent<ComponentBlockEntity>(true);
 			m_subsystemAudio = Project.FindSubsystem<SubsystemAudio>(true);
 			m_furnaceSize = SlotsCount - 2;
 			m_fireTimeRemaining = valuesDictionary.GetValue<float>("FireTimeRemaining");
 			HeatLevel = valuesDictionary.GetValue<float>("HeatLevel");
-			m_updateSmeltingRecipe = true;
 		}
 
 		public override void Save(ValuesDictionary valuesDictionary, EntityToIdMap entityToIdMap)

@@ -25,7 +25,7 @@ namespace Game
 		}
 		public override Item GetItem(ref int value)
 		{
-			return Terrain.ExtractContents(value) != Index ? null : Devices[Terrain.ExtractData(value) & 32767];
+			return Terrain.ExtractContents(value) != Index ? null : Devices[Terrain.ExtractData(value) & 1023];
 		}
 		/*public Element GetElement(int value)
 		{
@@ -122,10 +122,10 @@ namespace Game
 				new AirBlower(),
 				new WireDevice(),
 				new EFurnace(),
-				new Battery(12, "Models/Battery", "Battery", Matrix.CreateTranslation(0f, -0.5f, 0f) * Matrix.CreateTranslation(0.5f, 0.5f, 0.5f), Matrix.CreateTranslation(11f / 16f, 4f / 256f, 0f) * Matrix.CreateScale(20f), "CuZnBattery", "CuZnBattery"),
-				new Battery(12, "Models/Battery", "Battery", Matrix.CreateTranslation(0f, -0.5f, 0f) * Matrix.CreateTranslation(0.5f, 0.5f, 0.5f), Matrix.CreateTranslation(11f / 16f, 4f / 256f, 0f) * Matrix.CreateScale(20f), "AgZnBattery", "AgZnBattery"),
-				new Battery(12, "Models/Battery", "Battery", Matrix.CreateTranslation(0f, -0.5f, 0f) * Matrix.CreateTranslation(0.5f, 0.5f, 0.5f), Matrix.CreateTranslation(11f / 16f, 4f / 256f, 0f) * Matrix.CreateScale(20f), "AuZnBattery", "AuZnBattery"),
-				new Battery(12, "Models/Battery", "Battery", Matrix.CreateTranslation(0f, -0.5f, 0f) * Matrix.CreateTranslation(0.5f, 0.5f, 0.5f), Matrix.CreateTranslation(-2f / 16f, 4f / 16f, 0f) * Matrix.CreateScale(20f), "VoltaicBattery", "VoltaicBattery"),
+				new Battery(12, "Models/Battery", "Battery", Matrix.CreateTranslation(0f, -0.5f, 0f) * Matrix.CreateTranslation(new Vector3(0.5f)), Matrix.CreateTranslation(11f / 16f, 4f / 256f, 0f), "CuZnBattery", "CuZnBattery"),
+				new Battery(12, "Models/Battery", "Battery", Matrix.CreateTranslation(0f, -0.5f, 0f) * Matrix.CreateTranslation(new Vector3(0.5f)), Matrix.CreateTranslation(11f / 16f, 4f / 256f, 0f), "AgZnBattery", "AgZnBattery"),
+				new Battery(12, "Models/Battery", "Battery", Matrix.CreateTranslation(0f, -0.5f, 0f) * Matrix.CreateTranslation(new Vector3(0.5f)), Matrix.CreateTranslation(11f / 16f, 4f / 256f, 0f), "AuZnBattery", "AuZnBattery"),
+				new Battery(12, "Models/Battery", "Battery", Matrix.CreateTranslation(0f, -0.5f, 0f) * Matrix.CreateTranslation(new Vector3(0.5f)), Matrix.CreateTranslation(-2f / 16f, 4f / 16f, 0f), "VoltaicBattery", "VoltaicBattery"),
 			};
 			for (int i = 0; i < Devices.Length; i++)
 			{
@@ -143,7 +143,11 @@ namespace Game
 			for (int i = 0; i < Devices.Length; i++)
 			{
 				GetItem(ref value).ItemBlock = itemBlock;
-				list.Add(value);
+				//list.Add(value);
+				for (int j = 1; j < 16; j++)
+				{
+					list.Add(Paint(null, value, j));
+				}
 				value += 1 << 14;
 			}
 			return list;

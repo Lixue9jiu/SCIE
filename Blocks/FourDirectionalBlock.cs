@@ -1,18 +1,44 @@
 ﻿using Engine;
+using Engine.Graphics;
+using System.Collections.Generic;
 
 namespace Game
 {
-	public abstract class FourDirectionalBlock : CubeBlock
+	public abstract class FourDirectionalBlock : CubeBlock, IPaintableBlock
 	{
 		//protected readonly BlockMesh[] m_blockMeshesByData = new BlockMesh[4];
 
 		//protected readonly BlockMesh m_standaloneBlockMesh = new BlockMesh();
 
+		public override int GetFaceTextureSlot(int face, int value)
+		{
+			return DefaultTextureSlot;
+		}
+		public override void GenerateTerrainVertices(BlockGeometryGenerator generator, TerrainGeometrySubsets geometry, int value, int x, int y, int z)
+		{
+			generator.GenerateCubeVertices(this, value, x, y, z, SubsystemPalette.GetColor(generator, GetPaintColor(value)), geometry.OpaqueSubsetsByFace);
+		}
+
+		public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
+		{
+			color *= SubsystemPalette.GetColor(environmentData, GetPaintColor(value));
+			BlocksManager.DrawCubeBlock(primitivesRenderer, value, new Vector3(size), ref matrix, color, color, environmentData);
+		}
+		public override IEnumerable<int> GetCreativeValues()
+		{
+			var array = new int[17];
+			array[0] = BlockIndex;
+			for (int i = 1; i < 17; i++)
+			{
+				array[i] = BlockIndex | SetColor(0, i) << 14;
+			}
+			return array;
+		}
 		public override BlockPlacementData GetPlacementValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, TerrainRaycastResult raycastResult)
 		{
 			return new BlockPlacementData
 			{
-				Value = Terrain.ReplaceData(BlockIndex, Utils.GetDirectionXZ(componentMiner)),
+				Value = Terrain.ReplaceData(BlockIndex, SetDirection(Terrain.ExtractData(value), Utils.GetDirectionXZ(componentMiner))),
 				CellFace = raycastResult.CellFace
 			};
 		}
@@ -20,6 +46,49 @@ namespace Game
 		public override bool IsFaceTransparent(SubsystemTerrain subsystemTerrain, int face, int value)
 		{
 			return false;
+		}
+
+		public override BlockDebrisParticleSystem CreateDebrisParticleSystem(SubsystemTerrain subsystemTerrain, Vector3 position, int value, float strength)
+		{
+			return new BlockDebrisParticleSystem(subsystemTerrain, position, strength, DestructionDebrisScale, SubsystemPalette.GetColor(subsystemTerrain, GetPaintColor(value)), GetFaceTextureSlot(0, value));
+		}
+
+		public override string GetDisplayName(SubsystemTerrain subsystemTerrain, int value)
+		{
+			return SubsystemPalette.GetName(subsystemTerrain, GetPaintColor(value), DefaultDisplayName);
+		}
+
+		public override string GetCategory(int value)
+		{
+			return GetPaintColor(value).HasValue ? "Painted" : base.GetCategory(value);
+		}
+
+		public int? GetPaintColor(int value)
+		{
+			return GetColor(Terrain.ExtractData(value));
+		}
+
+		public int Paint(SubsystemTerrain terrain, int value, int? color)
+		{
+			return Terrain.ReplaceData(value, SetColor(Terrain.ExtractData(value), color));
+		}
+
+		public static int? GetColor(int data)
+		{
+			if ((data & 0x10) != 0)
+			{
+				return (data >> 5) & 0xF;
+			}
+			return null;
+		}
+
+		public static int SetColor(int data, int? color)
+		{
+			if (color.HasValue)
+			{
+				return (data & -497) | 0x10 | ((color.Value & 0xF) << 5);
+			}
+			return data & -497;
 		}
 
 		public static int GetDirection(int value)

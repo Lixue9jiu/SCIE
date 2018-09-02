@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Runtime.Serialization;
 using Engine;
+using Engine.Graphics;
 
 namespace Game
 {
@@ -35,7 +36,7 @@ namespace Game
 	[Serializable]
 	public abstract class Node : Item, IEquatable<Node>//, ICloneable, IComparable, IComparable<Node>, IFormattable, IConvertible
 	{
-		public readonly ElementType Type;
+		public ElementType Type;
 		//public ElectricConnectorDirection Direction;
 		protected Node(ElementType type)
 		{
@@ -297,6 +298,15 @@ namespace Game
 		}
 		public virtual void UpdateState()
 		{
+		}
+		public override void GenerateTerrainVertices(Block block, BlockGeometryGenerator generator, TerrainGeometrySubsets geometry, int value, int x, int y, int z)
+		{
+			generator.GenerateCubeVertices(ItemBlock, value, x, y, z, Color.LightGray * SubsystemPalette.GetColor(generator, PaintableItemBlock.GetColor(Terrain.ExtractData(value))), geometry.OpaqueSubsetsByFace);
+		}
+		public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
+		{
+			color = Color.LightGray * SubsystemPalette.GetColor(environmentData, PaintableItemBlock.GetColor(Terrain.ExtractData(value)));
+			BlocksManager.DrawCubeBlock(primitivesRenderer, value, new Vector3(size), ref matrix, color, color, environmentData);
 		}
 		protected Device(SerializationInfo info, StreamingContext context) : base(info, context)
 		{

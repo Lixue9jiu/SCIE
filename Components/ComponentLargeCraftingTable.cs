@@ -8,6 +8,7 @@ namespace Game
 {
 	public class ComponentLargeCraftingTable : ComponentCraftingTable
 	{
+		public int SlotIndex;
 		internal new string[] m_matchedIngredients = new string[36];
 		public override void AddSlotItems(int slotIndex, int value, int count)
 		{
