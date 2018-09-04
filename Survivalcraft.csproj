@@ -80,7 +80,6 @@
     <Compile Include="Components\ComponentCoven.cs" />
     <Compile Include="Components\ComponentCReactor.cs" />
     <Compile Include="Components\ComponentElectricFurnace.cs" />
-    <Compile Include="Components\ComponentEngine3.cs" />
     <Compile Include="Components\ComponentHearthFurnace.cs" />
     <Compile Include="Components\ComponentLargeCraftingTable.cs" />
     <Compile Include="Components\ComponentMachine.cs" />

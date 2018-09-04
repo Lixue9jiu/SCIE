@@ -1,8 +1,8 @@
 namespace Game
 {
-	public class TrainWidget : PresserWidget<ComponentEngine3>
+	public class TrainWidget : PresserWidget<ComponentTrain>
 	{
-		public TrainWidget(IInventory inventory, ComponentEngine3 component) : base(inventory, component, "Widgets/TrainWidget")
+		public TrainWidget(IInventory inventory, ComponentTrain component) : base(inventory, component, "Widgets/TrainWidget")
 		{
 			m_fuelSlot.AssignInventorySlot(component, component.FuelSlotIndex);
 		}

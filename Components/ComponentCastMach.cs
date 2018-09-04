@@ -10,7 +10,7 @@ namespace Game
 
 		protected int m_furnaceSize;
 
-		protected readonly string[] m_matchedIngredients = new string[9];
+		//protected readonly string[] m_matchedIngredients = new string[9];
 
 		protected string m_smeltingRecipe;
 
@@ -74,7 +74,8 @@ namespace Game
 					Slot slot = m_slots[FuelSlotIndex];
 					if (slot.Count > 0)
 					{
-						heatLevel = BlocksManager.Blocks[Terrain.ExtractContents(slot.Value)].FuelHeatLevel;
+						Block block = BlocksManager.Blocks[Terrain.ExtractContents(slot.Value)];
+						heatLevel = block is IFuel fuel ? fuel.GetHeatLevel(slot.Value) : block.FuelHeatLevel;
 					}
 				}
 				string text = FindSmeltingRecipe(heatLevel);
@@ -136,7 +137,7 @@ namespace Game
 							m_slots[i].Count--;
 						}
 					}
-					if (m_smeltingRecipe == "SteelWheel" || m_smeltingRecipe == "SteelGear")
+					if (m_smeltingRecipe == "SteelWheel" || m_smeltingRecipe == "SteelGear" || m_smeltingRecipe == "ScrapIron")
 					{
 						m_slots[ResultSlotIndex].Value = ItemBlock.IdTable[m_smeltingRecipe];
 						m_slots[ResultSlotIndex].Count++;
@@ -184,7 +185,7 @@ namespace Game
 					{
 						if (heatLevel < 1500f)
 						{
-							text = "SteelIngot";
+							text = "ScrapIron";
 						}
 						else
 						{
@@ -200,10 +201,10 @@ namespace Game
 						}
 					}
 				}
-				else
+				/*else
 				{
 					m_matchedIngredients[i] = null;
-				}
+				}*/
 			}
 			if (text != null)
 			{

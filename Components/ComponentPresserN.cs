@@ -186,7 +186,7 @@ namespace Game
 	                    }
 						else if (slotValue == ItemBlock.IdTable["SilverOreChunk"])
 	                    {
-	                        text = "SliverOrePowder";
+	                        text = "SilverOrePowder";
 	                    }
 						else if (slotValue == ItemBlock.IdTable["PlatinumOreChunk"])
 	                    {

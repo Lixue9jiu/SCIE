@@ -3,9 +3,9 @@ using System.Xml.Linq;
 
 namespace Game
 {
-	public class FWidget : PresserWidget<ComponentEngine3>
+	public class FWidget : PresserWidget<ComponentTrain>
 	{
-		public FWidget(IInventory inventory, ComponentEngine3 component) : base(inventory, component, "Widgets/TrainWidget")
+		public FWidget(IInventory inventory, ComponentTrain component) : base(inventory, component, "Widgets/TrainWidget")
 		{
 			m_fuelSlot.AssignInventorySlot(component, component.FuelSlotIndex);
 		}

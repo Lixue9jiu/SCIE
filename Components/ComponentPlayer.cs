@@ -187,7 +187,7 @@ namespace Game
 						AudioManager.PlaySound("Audio/UI/ButtonClick", 1f, 0f, 0f);
 						return;
 					}
-                    ComponentEngine3 componentEngine2 = nullable4.Value.ComponentBody.Entity.FindComponent<ComponentEngine3>();
+                    ComponentTrain componentEngine2 = nullable4.Value.ComponentBody.Entity.FindComponent<ComponentTrain>();
                     if (componentEngine2 != null)
                     {
                         ComponentGui.ModalPanelWidget = new TrainWidget(ComponentMiner.Inventory, componentEngine2);
