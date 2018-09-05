@@ -164,11 +164,11 @@
       </MemberComponentTemplate>
     </EntityTemplate>
     <EntityTemplate Name="Train" Guid="bac5f71d-3f5e-490c-94fb-144e6596c9fc">
-      <MemberComponentTemplate Name="Train" Guid="07ea51e6-f429-42e2-9fa5-fc75c6869333" InheritanceParent="b05700ed-7e4e-4679-98f5-b597f421496b">
+      <MemberComponentTemplate Name="Train" Guid="07ea51e6-f429-42e2-9fa5-fc75c6869333" InheritanceParent="81a44c6a-c30a-4f53-8d64-0c30aabab8f9">
         <Parameter Name="Class" Guid="0b3a344c-3938-47d1-9f5f-add9676d50c6" Value="Game.ComponentTrain" Type="string" />
-      </MemberComponentTemplate>
-      <MemberComponentTemplate Name="TrainTable" Guid="e82420a9-10c6-4a2c-9ea5-725fffee2339" InheritanceParent="98fdc8cc-8ca8-4d0f-af8d-25bfe9b56a19">
-          <Parameter Name="SlotsCount" Guid="3ddd5645-a4c0-4ad5-85f8-813ef26dae6b" Value="3" Type="int" />
+        <Parameter Name="SlotsCount" Guid="3ddd5645-a4c0-4ad5-85f8-813ef26dae6b" Value="3" Type="int" />
+        <Parameter Name="FireTimeRemaining" Description="Fire time remaining, in seconds" Guid="4841cd84-3ff3-4165-aad1-19685f751850" Value="0" Type="float" />
+        <Parameter Name="HeatLevel" Description="Current heat level in steamengine" Guid="d4777084-79c4-409e-b043-f9d301fd7e95" Value="0" Type="float" />
       </MemberComponentTemplate>
       <MemberComponentTemplate Name="SimpleModel" Guid="e9f671fe-8113-4d04-9c6d-54a290f730ed" InheritanceParent="cc5a4e72-0df9-4acf-a42e-ecb5a2a7baf4">
         <Parameter Name="ModelName" Guid="af7158aa-0da7-4130-a87c-90e06e83a27d" Value="Models/Train" Type="string" />
@@ -315,11 +315,6 @@
       <Parameter Name="FireTimeRemaining" Description="Fire time remaining, in seconds" Guid="4830cd84-3ff3-4165-aad1-19685f751850" Value="0" Type="float" />
       <Parameter Name="HeatLevel" Description="Current heat level in steamengine" Guid="d4667084-79c4-409e-b043-f9d301fd7e95" Value="0" Type="float" />
       <Parameter Name="Class" Guid="fb4c23fe-1d3c-467e-81bc-1796f68fbe51" Value="Game.ComponentEngine2" Type="string" />
-    </ComponentTemplate>
-    <ComponentTemplate Name="TrainTable" Description="A steamengine" Guid="98fdc8cc-8ca8-4d0f-af8d-25bfe9b56a19" InheritanceParent="81a44c6a-c30a-4f53-8d64-0c30aabab8f9">
-      <Parameter Name="FireTimeRemaining" Description="Fire time remaining, in seconds" Guid="4841cd84-3ff3-4165-aad1-19685f751850" Value="0" Type="float" />
-      <Parameter Name="HeatLevel" Description="Current heat level in steamengine" Guid="d4777084-79c4-409e-b043-f9d301fd7e95" Value="0" Type="float" />
-      <Parameter Name="Class" Guid="fb4c34fe-1d3c-467e-81bc-1796f68fbe51" Value="Game.ComponentEngine3" Type="string" />
     </ComponentTemplate>
     <ComponentTemplate Name="Presser" Description="A presser" Guid="c9ff7906-de35-4e94-ba6e-90cd55cd19d4" InheritanceParent="81a44c6a-c30a-4f53-8d64-0c30aabab8f9">
       <Parameter Name="FireTimeRemaining" Description="Fire time remaining, in seconds" Guid="5830cd84-3ff3-4165-aad1-19685e751850" Value="0" Type="float" />

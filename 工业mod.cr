@@ -260,6 +260,9 @@
     <Recipe Result="PlatinumRod" ResultCount="2" RequiredHeatLevel="1800" a="PlatinumIngot" Description="Forge a platinum ingot into rods">
       "aa"
     </Recipe>
+    <Recipe Result="ZincIngot" ResultCount="2" RequiredHeatLevel="1" a="ZincIngot" Description="Forge a zinc ingot into rods">
+      "aa"
+    </Recipe>
     <Recipe Result="ZincRod" ResultCount="2" RequiredHeatLevel="800" a="ZincIngot" Description="Forge a zinc ingot into rods">
       "aa"
     </Recipe>
@@ -288,9 +291,6 @@
       "aa"
     </Recipe>
     <Recipe Result="PlatinumIngot" ResultCount="2" RequiredHeatLevel="1" a="PlatinumIngot" Description="Forge a platinum ingot into rods">
-      "aa"
-    </Recipe>
-    <Recipe Result="ZincIngot" ResultCount="2" RequiredHeatLevel="1" a="ZincIngot" Description="Forge a zinc ingot into rods">
       "aa"
     </Recipe>
     <Recipe Result="StannaryIngot" ResultCount="2" RequiredHeatLevel="1" a="StannaryIngot" Description="Forge a stannary ingot into rods">

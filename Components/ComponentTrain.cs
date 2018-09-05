@@ -73,8 +73,6 @@ namespace Game
         Quaternion currentRotation;
         Vector3 forwardVector;
 
-        float m_remainedBurnTime = -1;
-
         public float Speed = 30f;
 
         public int Direction
@@ -224,7 +222,7 @@ namespace Game
 					m_updateSmeltingRecipe = true;
 				}
 			}
-			if (m_fireTimeRemaining < 0)
+			if (m_fireTimeRemaining <= 0f)
                 return;
 
             if (m_componentMount.Rider != null)
