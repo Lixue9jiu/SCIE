@@ -263,8 +263,8 @@
     <Recipe Result="ZincIngot" ResultCount="2" RequiredHeatLevel="1" a="ZincIngot" Description="Forge a zinc ingot into rods">
       "aa"
     </Recipe>
-    <Recipe Result="ZincRod" ResultCount="2" RequiredHeatLevel="800" a="ZincIngot" Description="Forge a zinc ingot into rods">
-      "aa"
+    <Recipe Result="ZincRod" ResultCount="2" RequiredHeatLevel="800" a="ZincIngot" b="CoalPowder" Description="Forge a zinc ingot into rods">
+      "aab"
     </Recipe>
     <Recipe Result="ChromiumRod" ResultCount="2" RequiredHeatLevel="1850" a="ChromiumIngot" Description="Forge a chromium ingot into rods">
       "aa"

@@ -18,6 +18,10 @@ namespace Game
 		{
 			return 1;
 		}
+		public override string GetDisplayName(SubsystemTerrain subsystemTerrain, int value)
+		{
+			return "IndustrialWire";
+		}
 	}
 	public class WireDevice : WireElement
 	{

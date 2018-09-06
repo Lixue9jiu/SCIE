@@ -30,7 +30,7 @@ namespace Game
 		{
 			if (ItemBlock.IdTable.TryGetValue(craftingId, out int value))
 			{
-				return new Block[]{ BlocksManager.Blocks[ItemBlock.Index] };
+				return new Block[] { BlocksManager.Blocks[ItemBlock.Index] };
 			}
 			var c__DisplayClass = new BlocksManager.c__DisplayClass6
 			{
@@ -685,12 +685,12 @@ namespace Game
 		}
 		public static int? GetColor(int data)
 		{
-			return (data & 0b11110000000000) != 0 ? data >> 11 & 15 : new int?();
+			return (data & 0b11110000000000) != 0 ? data >> 10 & 15 : new int?();
 		}
 		public static int SetColor(int data, int? color)
 		{
 			data &= -15361;
-			return color.HasValue ? (color == 0 ? data : (data | (color.Value & 15) << 11)) : data;
+			return color.HasValue ? (color == 0 ? data : (data | (color.Value & 15) << 10)) : data;
 		}
 	}
 	public class RottenEggBlock : ItemBlock
