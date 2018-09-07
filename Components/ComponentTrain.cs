@@ -105,6 +105,7 @@ namespace Game
 			m_furnaceSize = SlotsCount - 2;
 			m_fireTimeRemaining = valuesDictionary.GetValue<float>("FireTimeRemaining");
 			HeatLevel = valuesDictionary.GetValue<float>("HeatLevel");
+			Direction = valuesDictionary.GetValue("Direction", 0);
 			m_updateSmeltingRecipe = true;
 		}
 
@@ -113,6 +114,7 @@ namespace Game
 			base.Save(valuesDictionary, entityToIdMap);
 			valuesDictionary.SetValue("FireTimeRemaining", m_fireTimeRemaining);
 			valuesDictionary.SetValue("HeatLevel", HeatLevel);
+			valuesDictionary.SetValue("Direction", m_forwardDirection);
 		}
 
 		private void CollidedWithBody(ComponentBody obj)
