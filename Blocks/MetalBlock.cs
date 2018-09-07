@@ -3,7 +3,6 @@ using Engine.Graphics;
 using System;
 using System.Collections.Generic;
 
-
 namespace Game
 {
 	public class IronBlock : PaintedCubeBlock

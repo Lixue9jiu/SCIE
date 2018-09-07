@@ -61,7 +61,7 @@ namespace Game
 				var vector = new Vector3(CellFace.FaceToPoint3(FourDirectionalBlock.GetDirection(m_subsystemTerrain.Terrain.GetCellValue(coordinates.X, coordinates.Y, coordinates.Z))));
 				int num3 = coordinates.X - (int)vector.X;
 				int num4 = coordinates.Y - (int)vector.Y;
-				int num5 = coordinates.Z - (int)vector.Z;
+				int num5 = coordinates.Z - (int)vector.Z, v;
 				for (int i = -1; i < 2; i++)
 				{
 					for (int j = -1; j < 3; j++)
@@ -74,7 +74,7 @@ namespace Game
 								num = 0;
 								break;
 							}
-							if (i * i + k * k == 1 && j == 0 && cellContents == 0 && (m_subsystemTerrain.Terrain.GetCellContents(num3 + 2 * i, num4 + j, num5 + 2 * k) != BlastBlowerBlock.Index || m_subsystemTerrain.Terrain.GetCellValue(num3 + 2 * i, num4 + j, num5 + 2 * k) != (BlastBlowerBlock.Index | 1 << 14)) && (num3 + i != coordinates.X || num5 + k != coordinates.Z))
+							if (i * i + k * k == 1 && j == 0 && cellContents == 0 && ((v = m_subsystemTerrain.Terrain.GetCellValue(num3 + 2 * i, num4 + j, num5 + 2 * k)) != (BlastBlowerBlock.Index | FurnaceNBlock.SetHeatLevel(Terrain.ExtractData(v), 1) << 14)) && (num3 + i != coordinates.X || num5 + k != coordinates.Z))
 							{
 								num = 0;
 								break;

@@ -1,6 +1,6 @@
 namespace Game
 {
-	public class BlastBlowerBlock : CubeBlock
+	public class BlastBlowerBlock : FourDirectionalBlock
 	{
 		public override int GetFaceTextureSlot(int face, int value)
 		{
@@ -28,7 +28,7 @@ namespace Game
 			}*/
 			return new BlockPlacementData
 			{
-				Value = Terrain.MakeBlockValue(Index),
+				Value = Index,
 				CellFace = raycastResult.CellFace
 			};
 		}

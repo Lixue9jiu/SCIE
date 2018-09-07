@@ -3,9 +3,13 @@ using System.Collections.Generic;
 
 namespace Game
 {
-	public class MachineToolBlock : CubeBlock, IElectricElementBlock
+	public class MachineToolBlock : PaintedCubeBlock, IElectricElementBlock
 	{
 		public const int Index = 508;
+
+		public MachineToolBlock() : base(0)
+		{
+		}
 
 		public override int GetFaceTextureSlot(int face, int value)
 		{

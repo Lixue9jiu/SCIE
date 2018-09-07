@@ -732,7 +732,7 @@
       "abba"
       "bbbb"
     </Recipe>
-    <Recipe Result="SteamBoat" ResultCount="1" RequiredHeatLevel="0" a="metalblock:2" b="boat" c="sengine" d="SteelRod" e="SteelPlate" Description="A Boat with steamengine can let you travel with high speed">
+    <Recipe Result="SteamBoat" ResultCount="1" RequiredHeatLevel="0" a="metalblock:32" b="boat" c="sengine" d="SteelRod" e="SteelPlate" Description="A Boat with steamengine can let you travel with high speed">
       "eaae"
       "ebbe"
       "dccd"
@@ -804,7 +804,7 @@
       "aeba"
       "caac"
     </Recipe>
-    <Recipe Result="Separator" ResultCount="1" RequiredHeatLevel="0" a="CopperWire" b="SteelRod" c="SteelPlate" d="SteelGear" e="metalblock:2" f="Generator" g="tank" Description="Make a Seperator to seperate raw material.">
+    <Recipe Result="Separator" ResultCount="1" RequiredHeatLevel="0" a="CopperWire" b="SteelRod" c="SteelPlate" d="SteelGear" e="metalblock:32" f="Generator" g="tank" Description="Make a Seperator to seperate raw material.">
       "cggc"
       "cbbc"
       "ceac"

@@ -62,7 +62,7 @@ namespace Game
 					}
 				}
 			}
-			SubsystemTerrain.ChangeCell(x, y, z, (num == 0 || num2 == 0) ? BlastBlowerBlock.Index : BlastBlowerBlock.Index | 1 << 14, true);
+			SubsystemTerrain.ChangeCell(x, y, z, (num == 0 || num2 == 0) ? BlastBlowerBlock.Index : BlastBlowerBlock.Index | FurnaceNBlock.SetHeatLevel(Terrain.ExtractData(SubsystemTerrain.Terrain.GetCellValue(x, y, z)), 1) << 14, true);
 		}
 		/*public void Scanner(int x, int y, int z)
 		{
@@ -96,7 +96,7 @@ namespace Game
 					}
 				}
 			}
-			SubsystemTerrain.ChangeCell(x, y, z, (num == 0 || num2 == 0) ? BlastBlowerBlock.Index : BlastBlowerBlock.Index | 1 << 14, true);
+			SubsystemTerrain.ChangeCell(x, y, z, (num == 0 || num2 == 0) ? BlastBlowerBlock.Index : BlastBlowerBlock.Index | FurnaceNBlock.SetHeatLevel(Terrain.ExtractData(SubsystemTerrain.Terrain.GetCellValue(x, y, z)), 1) << 14, true);
 		}
 		
 		protected readonly Random m_random = new Random();
