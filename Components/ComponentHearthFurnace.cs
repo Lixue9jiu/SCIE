@@ -66,8 +66,8 @@ namespace Game
 				{
 					for (int j = -1; j < 3; j++)
 					{
-						for (int k = -1; k < 2; k++)
-						{
+                        for (int k = -1; k < 2; k++)
+                        {
                             int cellContents = m_subsystemTerrain.Terrain.GetCellValue(num3 + i, num4 + j, num5 + k);
                             int cellContents2 = m_subsystemTerrain.Terrain.GetCellContents(num3 + i, num4 + j, num5 + k);
                             if (j == 1 && cellContents != 1573374)
@@ -75,15 +75,15 @@ namespace Game
                                 num = 0;
                                 break;
                             }
-                            if (i * i + k * k == 1 && j == 0 && cellContents2 == 0 && (m_subsystemTerrain.Terrain.GetCellContents(num3 + 2 * i, num4 + j, num5 + 2 * k) != BlastBlowerBlock.Index || m_subsystemTerrain.Terrain.GetCellValue(num3 + 2 * i, num4 + j, num5 + 2 * k) != (BlastBlowerBlock.Index | 1 << 14)) && (num3 + i != coordinates.X || num5 + k != coordinates.Z))
+                            if (i * i + k * k == 1 && j == 0 && cellContents2 == 0 && (m_subsystemTerrain.Terrain.GetCellContents(num3 + 2 * i, num4 + j, num5 + 2 * k) != BlastBlowerBlock.Index || m_subsystemTerrain.Terrain.GetCellValue(num3 + 2 * i, num4 + j, num5 + 2 * k) <= BlastBlowerBlock.Index  ) && (num3 + i != coordinates.X || num5 + k != coordinates.Z))
                             {
-
+                           
                                 num = 0;
                                 break;
                             }
                             if (i * i + k * k == 1 && j == 0 && cellContents2 == 0)
                             {
-                                num2 = 1;
+                                num2 += 1;
                             }
                             if (i * i + k * k == 1 && j == 0 && cellContents2 != 0 && cellContents != 1573374 && ((num3 + i) != coordinates.X || (num5 + k) != coordinates.Z))
                             {
@@ -115,7 +115,7 @@ namespace Game
 					m_smeltingRecipe = m_smeltingRecipe2;
 				}
 			}
-			m_time++;
+		
 			if (!m_smeltingRecipe)
 			{
 				HeatLevel = 0f;
