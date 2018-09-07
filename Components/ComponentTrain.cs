@@ -224,16 +224,16 @@ namespace Game
 					m_updateSmeltingRecipe = true;
 				}
 			}
-            if (HeatLevel <= 100f)
-            {
-                return;
-            }
+            
             if (m_componentMount.Rider != null)
             {
                 var player = m_componentMount.Rider.Entity.FindComponent<ComponentPlayer>();
                 player.ComponentLocomotion.LookOrder = player.ComponentInput.PlayerInput.Look;
             }
-            
+            if (HeatLevel <= 100f)
+            {
+                return;
+            }
             switch (Direction)
             {
                 case 0:
