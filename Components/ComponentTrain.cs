@@ -73,7 +73,7 @@ namespace Game
         Quaternion currentRotation;
         Vector3 forwardVector;
 
-        public const float Speed = 190f;
+        public const float Speed = 50f;
 
         public int Direction
         {
