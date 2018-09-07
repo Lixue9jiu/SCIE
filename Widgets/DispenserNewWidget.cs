@@ -36,17 +36,6 @@ namespace Game
 			m_acceptsDropsBox = Children.Find<CheckboxWidget>("AcceptsDropsBox", true);
 			m_drillSlot = Children.Find<InventorySlotWidget>("DrillSlot", true);
 			int num = 6, y, x;
-			for (y = 0; y < m_dispenserGrid.RowsCount; y++)
-			{
-				for (x = 0; x < m_dispenserGrid.ColumnsCount; x++)
-				{
-					var inventorySlotWidget = new InventorySlotWidget();
-					inventorySlotWidget.AssignInventorySlot(componentDispenser, num++);
-					m_dispenserGrid.Children.Add(inventorySlotWidget);
-					m_dispenserGrid.SetWidgetCell(inventorySlotWidget, new Point2(x, y));
-				}
-			}
-			num = 0;
 			for (y = 0; y < m_inventoryGrid.RowsCount; y++)
 			{
 				for (x = 0; x < m_inventoryGrid.ColumnsCount; x++)
@@ -57,7 +46,18 @@ namespace Game
 					m_inventoryGrid.SetWidgetCell(inventorySlotWidget2, new Point2(x, y));
 				}
 			}
-			m_drillSlot.AssignInventorySlot(componentDispenser, 8);
+            num = 0;
+            for (y = 0; y < m_dispenserGrid.RowsCount; y++)
+            {
+                for (x = 0; x < m_dispenserGrid.ColumnsCount; x++)
+                {
+                    var inventorySlotWidget = new InventorySlotWidget();
+                    inventorySlotWidget.AssignInventorySlot(componentDispenser, num++);
+                    m_dispenserGrid.Children.Add(inventorySlotWidget);
+                    m_dispenserGrid.SetWidgetCell(inventorySlotWidget, new Point2(x, y));
+                }
+            }
+            m_drillSlot.AssignInventorySlot(componentDispenser, 8);
 		}
 
 		public override void Update()
