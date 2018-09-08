@@ -76,7 +76,7 @@ namespace Game
 								num = 0;
 								break;
 							}
-							if (i * i + k * k == 1 && j == 0 && cellContents2 == 0 && (m_subsystemTerrain.Terrain.GetCellContents(num3 + 2 * i, num4 + j, num5 + 2 * k) != BlastBlowerBlock.Index || m_subsystemTerrain.Terrain.GetCellValue(num3 + 2 * i, num4 + j, num5 + 2 * k) != (BlastBlowerBlock.Index | 1 << 14)) && (num3 + i != coordinates.X || num5 + k != coordinates.Z))
+							if (i * i + k * k == 1 && j == 0 && cellContents2 == 0 && (m_subsystemTerrain.Terrain.GetCellContents(num3 + 2 * i, num4 + j, num5 + 2 * k) != BlastBlowerBlock.Index || m_subsystemTerrain.Terrain.GetCellValue(num3 + 2 * i, num4 + j, num5 + 2 * k) <= BlastBlowerBlock.Index) && (num3 + i != coordinates.X || num5 + k != coordinates.Z))
 							{
 								
 								num = 0;
