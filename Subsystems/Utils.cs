@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Engine;
 using static Game.TerrainBrush;
 
@@ -87,6 +88,109 @@ namespace Game
 				}
 			}
 			array.Array[array.m_count++] = item;
+		}
+
+		public static int GetColor(int data)
+		{
+			return data & 0xF;
+		}
+
+		public static int SetColor(int data, int color)
+		{
+			return (data & -16) | (color & 0xF);
+		}
+		public static int[] GetCreativeValues(int BlockIndex)
+		{
+			var array = new int[17];
+			array[0] = BlockIndex;
+			for (int i = 1; i < 16; i++)
+			{
+				array[i] = BlockIndex | SetColor(0, i) << 14;
+			}
+			return array;
+		}
+		public static CraftingRecipe GetAdHocCraftingRecipe(int index, SubsystemTerrain subsystemTerrain, string[] ingredients, float heatLevel)
+		{
+			if (heatLevel < 1f)
+			{
+				return null;
+			}
+			int i = 0, num = 0;
+			var array = new string[2];
+			for (; i < ingredients.Length; i++)
+			{
+				if (!string.IsNullOrEmpty(ingredients[i]))
+				{
+					if (num > 1)
+					{
+						return null;
+					}
+					array[num] = ingredients[i];
+					num++;
+				}
+			}
+			if (num != 2)
+			{
+				return null;
+			}
+			num = 0;
+			int num2 = 0;
+			int num3 = 0;
+			for (i = 0; i < array.Length; i++)
+			{
+				string item = array[i];
+				CraftingRecipesManager.DecodeIngredient(item, out string craftingId, out int? data);
+				int d = data ?? 0;
+				if (craftingId == BlocksManager.Blocks[index].CraftingId)
+				{
+					num3 = Terrain.MakeBlockValue(index, 0, d);
+				}
+				else if (craftingId == BlocksManager.Blocks[129].CraftingId)
+				{
+					num = Terrain.MakeBlockValue(129, 0, d);
+				}
+				else if (craftingId == BlocksManager.Blocks[128].CraftingId)
+				{
+					num2 = Terrain.MakeBlockValue(128, 0, d);
+				}
+			}
+			if (num != 0 && num3 != 0)
+			{
+				int num4 = GetColor(Terrain.ExtractData(num3));
+				int color = PaintBucketBlock.GetColor(Terrain.ExtractData(num));
+				int num5 = PaintBucketBlock.CombineColors(num4, color);
+				if (num5 != num4)
+				{
+					return new CraftingRecipe
+					{
+						ResultCount = 1,
+						ResultValue = Terrain.MakeBlockValue(index, 0, SetColor(Terrain.ExtractData(num3), num5)),
+						RemainsCount = 1,
+						RemainsValue = BlocksManager.DamageItem(Terrain.MakeBlockValue(129, 0, color), BlocksManager.Blocks[129].GetDamage(num) + 1),
+						RequiredHeatLevel = 1f,
+						Description = "Dye tool " + SubsystemPalette.GetName(subsystemTerrain, color, null),
+						Ingredients = (string[])ingredients.Clone()
+					};
+				}
+			}
+			if (num2 != 0 && num3 != 0)
+			{
+				int num6 = Terrain.ExtractData(num3);
+				if (GetColor(num6) != 0)
+				{
+					return new CraftingRecipe
+					{
+						ResultCount = 1,
+						ResultValue = Terrain.MakeBlockValue(index, 0, SetColor(num6, 0)),
+						RemainsCount = 1,
+						RemainsValue = BlocksManager.DamageItem(Terrain.MakeBlockValue(128), BlocksManager.Blocks[128].GetDamage(num2) + 1),
+						RequiredHeatLevel = 1f,
+						Description = "Undye tool",
+						Ingredients = (string[])ingredients.Clone()
+					};
+				}
+			}
+			return null;
 		}
 	}
 }

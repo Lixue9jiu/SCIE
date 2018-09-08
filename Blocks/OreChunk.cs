@@ -5,10 +5,9 @@ namespace Game
 {
 	public class OreChunk : BlockItem
 	{
-		public readonly MetalType Type;
 		public readonly Color Color;
 
-		protected readonly bool m_smooth;
+		//protected readonly bool m_smooth;
 
 		protected readonly BlockMesh m_standaloneBlockMesh = new BlockMesh();
 
@@ -18,20 +17,16 @@ namespace Game
 
 		public OreChunk(Matrix transform, Matrix tcTransform, Color color, bool smooth, MetalType type)
 		{
-			Type = type;
-			DefaultDisplayName = Type.ToString() + "OreChunk";
+			DefaultDisplayName = type.ToString() + "OreChunk";
 			DefaultDescription = GetDescription(type);
 			m_transform = transform;
 			m_tcTransform = tcTransform;
 			Color = color;
-			m_smooth = smooth;
-			Model model = m_smooth ? ContentManager.Get<Model>("Models/ChunkSmooth") : ContentManager.Get<Model>("Models/Chunk");
+			//m_smooth = smooth;
+			Model model = smooth ? ContentManager.Get<Model>("Models/ChunkSmooth") : ContentManager.Get<Model>("Models/Chunk");
 			Matrix matrix = BlockMesh.GetBoneAbsoluteTransform(model.Meshes[0].ParentBone) * m_transform;
 			BlockMesh standaloneBlockMesh = m_standaloneBlockMesh;
-			ModelMeshPart meshPart = model.Meshes[0].MeshParts[0];
-			Matrix matrix2 = matrix;
-			Color color2 = Color;
-			standaloneBlockMesh.AppendModelMeshPart(meshPart, matrix2, 0 != 0, 0 != 0, 0 != 0, 0 != 0, color2);
+			standaloneBlockMesh.AppendModelMeshPart(model.Meshes[0].MeshParts[0], matrix, 0 != 0, 0 != 0, 0 != 0, 0 != 0, color);
 			m_standaloneBlockMesh.TransformTextureCoordinates(m_tcTransform, -1);
 		}
 

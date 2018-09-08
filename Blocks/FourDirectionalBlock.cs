@@ -10,10 +10,10 @@ namespace Game
 
 		//protected readonly BlockMesh m_standaloneBlockMesh = new BlockMesh();
 
-		public override int GetFaceTextureSlot(int face, int value)
+		/*public override int GetFaceTextureSlot(int face, int value)
 		{
 			return DefaultTextureSlot;
-		}
+		}*/
 		public override void GenerateTerrainVertices(BlockGeometryGenerator generator, TerrainGeometrySubsets geometry, int value, int x, int y, int z)
 		{
 			generator.GenerateCubeVertices(this, value, x, y, z, SubsystemPalette.GetColor(generator, GetPaintColor(value)), geometry.OpaqueSubsetsByFace);
@@ -30,7 +30,7 @@ namespace Game
 			array[0] = BlockIndex;
 			for (int i = 1; i < 17; i++)
 			{
-				array[i] = BlockIndex | SetColor(0, i) << 14;
+				array[i] = BlockIndex | SetColor(0, i - 1) << 14;
 			}
 			return array;
 		}

@@ -10,7 +10,7 @@ using System;
 namespace Game
 {
 	[PluginLoader("IndustrialMod", "", 0u)]
-	public class Item : IAnimatedItem, IUnstableItem, IFood, IExplosive, IWeapon, IScalableItem, ICollidableItem
+	public class Item : IItem
 	{
 		public ItemBlock ItemBlock;
 		internal static readonly BoundingBox[] m_defaultCollisionBoxes = new BoundingBox[]

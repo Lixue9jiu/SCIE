@@ -18,17 +18,21 @@ namespace Game
 		public const int Index = 525;
 		public override IEnumerable<int> GetCreativeValues()
 		{
-			if (DefaultCreativeData < 0)
-			{
-				return base.GetCreativeValues();
-			}
-			var list = new List<int>(4);
+			var array = new int[4];
 			for (int i = 0; i < 4; i++)
 			{
-				list.Add(Terrain.ReplaceData(Index, i));
+				array[i] = Terrain.ReplaceData(Index, i);
 			}
-			return list;
+			return array;
 		}
+		public override string GetCategory(int value)
+		{
+			return Utils.GetColor(Terrain.ExtractData(value)) != 0 ? "Painted" : base.GetCategory(value);
+		}
+		/*public override CraftingRecipe GetAdHocCraftingRecipe(SubsystemTerrain subsystemTerrain, string[] ingredients, float heatLevel)
+		{
+			return Utils.GetAdHocCraftingRecipe(Index, subsystemTerrain, ingredients, heatLevel);
+		}*/
 		public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
 		{
 			switch (GetType(value))
@@ -44,7 +48,7 @@ namespace Game
 					color = Color.Gray;
 					break;
 			}
-			BlocksManager.DrawFlatBlock(primitivesRenderer, value, size, ref matrix, null, color, false, environmentData);
+			BlocksManager.DrawFlatBlock(primitivesRenderer, value, size, ref matrix, null, color * SubsystemPalette.GetColor(environmentData, Utils.GetColor(Terrain.ExtractData(value))), false, environmentData);
 		}
 		public static Type GetType(int value)
 		{
@@ -56,7 +60,7 @@ namespace Game
 		}
 		public override string GetDisplayName(SubsystemTerrain subsystemTerrain, int value)
 		{
-			return GetType(value).ToString();
+			return SubsystemPalette.GetName(subsystemTerrain, Utils.GetColor(Terrain.ExtractData(value)), GetType(value).ToString());
 		}
 		public override string GetDescription(int value)
 		{

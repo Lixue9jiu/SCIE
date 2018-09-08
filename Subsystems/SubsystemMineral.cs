@@ -175,7 +175,7 @@ namespace Game
 			return list;
 		}
 	}
-	public class SubsystemMineral : SubsystemCollapsingBlockBehavior
+	public class SubsystemMineral : SubsystemBlockBehavior
 	{
 		[Serializable]
 		public enum BrushType
@@ -209,7 +209,10 @@ namespace Game
 		//public static TerrainBrush[] NaruralGasBrushes;
 		public static TerrainBrush[,] Brushes;
 		//public SubsystemTime SubsystemTime;
+		protected SubsystemGameInfo m_subsystemGameInfo;
 		protected SubsystemItemsScanner m_subsystemItemsScanner;
+		protected SubsystemMovingBlocks m_subsystemMovingBlocks;
+		SubsystemCollapsingBlockBehavior m_subsystemCollapsingBlockBehavior;
 		//public static Dictionary<long, int> MinesData;
 		public static DynamicArray<Metal> AlloysData;
 		//public static HashSet<int> Handled;
@@ -261,6 +264,9 @@ namespace Game
 		public override void Load(ValuesDictionary valuesDictionary)
 		{
 			base.Load(valuesDictionary);
+			m_subsystemGameInfo = base.Project.FindSubsystem<SubsystemGameInfo>(true);
+			m_subsystemMovingBlocks = base.Project.FindSubsystem<SubsystemMovingBlocks>(true);
+			m_subsystemCollapsingBlockBehavior = base.Project.FindSubsystem<SubsystemCollapsingBlockBehavior>(true);
 			int i;
 			//(m_subsystemItemsScanner = Project.FindSubsystem<SubsystemItemsScanner>(true)).ItemsScanned += GarbageCollectItems;
 			//SubsystemTime = Project.FindSubsystem<SubsystemTime>(true);
@@ -289,7 +295,7 @@ namespace Game
 			//NaruralGasBrushes = new TerrainBrush[16];
 			//OilPocketBrushes = new TerrainBrush[16];
 			//Brushes = new TerrainBrush[12, 16];
-			//MinCounts = new TerrainBrush[12, 16];
+			//MinCounts = new int[12, 16];
 			var random = new Random(17034);
 			TerrainBrush brush;
 			int j, k;
@@ -474,7 +480,7 @@ namespace Game
 			if (m_subsystemGameInfo.WorldSettings.EnvironmentBehaviorMode != EnvironmentBehaviorMode.Living || y <= 0)
 				return;
 			int value = SubsystemTerrain.Terrain.GetCellValue(x, y - 1, z);
-			if (!IsCollapseSupportBlock(value))
+			if (!m_subsystemCollapsingBlockBehavior.IsCollapseSupportBlock(value))
 			{
 				List<MovingBlock> list = new List<MovingBlock>();
 				for (int i = y; i < 128; i++)

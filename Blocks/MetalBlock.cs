@@ -5,20 +5,48 @@ using System.Collections.Generic;
 
 namespace Game
 {
-	public class IronBlock : PaintedCubeBlock
+	public abstract class MulticoloredCubeBlock : PaintedCubeBlock
+	{
+		protected MulticoloredCubeBlock() : base(0)
+		{
+		}
+		public override int GetFaceTextureSlot(int face, int value)
+		{
+			return DefaultTextureSlot;
+		}
+	}
+	public class IronBlock : MulticoloredCubeBlock
 	{
 		public const int Index = 46;
-		public IronBlock() : base(180)
-		{
-		}
 	}
-	public class CopperBlock : PaintedCubeBlock
+	public class CopperBlock : MulticoloredCubeBlock
 	{
 		public const int Index = 47;
-		public CopperBlock() : base(181)
-		{
-		}
 	}
+	public class MalachiteBlock : MulticoloredCubeBlock
+	{
+		public const int Index = 71;
+	}
+	public class DiamondBlock : MulticoloredCubeBlock
+	{
+		public const int Index = 126;
+	}
+	public class SemiconductorBlock : MulticoloredCubeBlock
+	{
+		public const int Index = 231;
+	}
+	public class BedrockBlock : MulticoloredCubeBlock
+	{
+		public const int Index = 1;
+	}
+	public class LimestoneBlock : MulticoloredCubeBlock
+	{
+		public const int Index = 66;
+	}
+	/*public class CopperOreBlock : MulticoloredCubeBlock
+	{
+		public const int Index = 41;
+	}*/
 	public class MetalBlock : PaintedCubeBlock
 	{
 		public const int Index = 510;
@@ -34,21 +62,17 @@ namespace Game
 		}
 		public override IEnumerable<int> GetCreativeValues()
 		{
-			if (DefaultCreativeData < 0)
-			{
-				return base.GetCreativeValues();
-			}
-			var list = new List<int>(14);
+			var arr = new int[14 * (16 + 1)];
 			int i;
-			for (i = 0; i < list.Capacity; i++)
+			for (i = 0; i < 14; i++)
 			{
-				list.Add(Terrain.ReplaceData(Index, i << 5));
+				arr[i] = Terrain.ReplaceData(Index, i << 5);
 			}
-			for (i = 0; i < 14 * 16; i++)
+			for (; i < 14 * (16 + 1); i++)
 			{
-				list.Add(Terrain.ReplaceData(Index, i << 1 | 1));
+				arr[i] = Terrain.ReplaceData(Index, (i - 14) << 1 | 1);
 			}
-			return list;
+			return arr;
 		}
 		public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
 		{

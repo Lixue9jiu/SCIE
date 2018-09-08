@@ -18,7 +18,10 @@ namespace Game
 	{
 		Item GetItem(ref int value);
 	}
-	public interface IItem
+	public interface IItem : IAnimatedItem, IUnstableItem, IFood, IExplosive, IWeapon, IScalableItem, ICollidableItem
+	{
+	}
+	public interface IItemBase
 	{
 		string GetDisplayName(SubsystemTerrain subsystemTerrain, int value);
 		string GetDescription(int value);
@@ -54,11 +57,11 @@ namespace Game
 		float GetMeleeHitProbability(int value);
 		float GetProjectilePower(int value);
 	}
-	public interface IScalableItem : IItem
+	public interface IScalableItem : IItemBase
 	{
 		float GetIconViewScale(int value, DrawBlockEnvironmentData environmentData);
 	}
-	public interface IPlaceableItem : IItem
+	public interface IPlaceableItem : IItemBase
 	{
 		bool IsInteractive(SubsystemTerrain subsystemTerrain, int value);
 		bool IsFaceTransparent(SubsystemTerrain subsystemTerrain, int face, int value);
