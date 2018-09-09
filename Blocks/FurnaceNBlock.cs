@@ -6,11 +6,7 @@ namespace Game
 
 		public override int GetFaceTextureSlot(int face, int value)
 		{
-			if (face == GetDirection(value))
-			{
-				return 191;
-			}
-			return 107;
+			return face == GetDirection(value) ? 191 : 107;
 		}
 		public override int GetEmittedLightAmount(int value)
 		{

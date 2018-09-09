@@ -2,11 +2,11 @@
 //ElementType.Container | ElementType.Connector |
 namespace Game
 {
-	public class Generator : Device, IBlockBehavior, IUnstableBlock
+	public class Generator : Device, IBlockBehavior, IInteractiveBlock, IUnstableBlock
 	{
 		public readonly int Voltage;
 		public bool Powered;
-		public Generator(int voltage = 310) : base( ElementType.Supply | ElementType.Connector)
+		public Generator(int voltage = 310) : base(ElementType.Supply | ElementType.Connector)
 		{
 			Voltage = voltage;
 		}
@@ -114,6 +114,10 @@ namespace Game
 		public void OnNeighborBlockChanged(SubsystemTerrain subsystemTerrain, int neighborX, int neighborY, int neighborZ)
 		{
 			Powered = ComponentEngine.IsPowered(subsystemTerrain.Terrain, Point.X, Point.Y, Point.Z);
+		}
+		public bool OnInteract(TerrainRaycastResult raycastResult, ComponentMiner componentMiner)
+		{
+			return componentMiner.Project.FindSubsystem<SubsystemSignBlockBehavior>(true).OnInteract(raycastResult, componentMiner);
 		}
 	}
 	/*public abstract class Diode : Element

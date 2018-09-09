@@ -40,11 +40,7 @@ namespace Game
 		public override int GetFaceTextureSlot(int face, int value)
 		{
 			int bulletType = (int)GetBulletType(Terrain.ExtractData(value));
-			if (bulletType < 0 || bulletType >= m_textureSlots.Length)
-			{
-				return 226;
-			}
-			return m_textureSlots[bulletType];
+			return bulletType < 0 || bulletType >= m_textureSlots.Length ? 226 : m_textureSlots[bulletType];
 		}
 
 		public static BulletType GetBulletType(int data)

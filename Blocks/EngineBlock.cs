@@ -16,7 +16,7 @@ namespace Game
 					{
 					case 0:
 						return (offset > 0) ? 175 : 143;
-                            default:
+					default:
 						return 159;
 					case 2:
 						return 107;
@@ -26,7 +26,7 @@ namespace Game
 					{
 					case 1:
 						return (offset > 0) ? 175 : 143;
-                            default:
+					default:
 						return 159;
 					case 3:
 						return 107;
@@ -36,7 +36,7 @@ namespace Game
 					{
 					case 2:
 						return (offset > 0) ? 175 : 143;
-                            default:
+					default:
 						return 159;
 					case 0:
 						return 107;
@@ -46,7 +46,7 @@ namespace Game
 					{
 					case 3:
 						return (offset > 0) ? 175 : 143;
-                            default:
+					default:
 						return 159;
 					case 1:
 						return 107;

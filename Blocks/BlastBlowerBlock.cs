@@ -4,13 +4,9 @@ namespace Game
 	{
 		public override int GetFaceTextureSlot(int face, int value)
 		{
-			if (face == 4 || face == 5)
-			{
-				return 107;
-			}
-			return 241;
+			return face == 4 || face == 5 ? 107 : 241;
 		}
-		
+
 		public override BlockPlacementData GetPlacementValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, TerrainRaycastResult raycastResult)
 		{
 			/*Vector3 forward = Matrix.CreateFromQuaternion(componentMiner.ComponentCreature.ComponentCreatureModel.EyeRotation).Forward;
