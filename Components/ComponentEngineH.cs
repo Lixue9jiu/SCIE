@@ -56,6 +56,10 @@ namespace Game
 		public void Update(float dt)
 		{
 			Point3 coordinates = m_componentBlockEntity.Coordinates;
+			if (coordinates.Y < 0 || coordinates.Y > 127)
+			{
+				return;
+			}
 			if (HeatLevel > 0f)
 			{
 				m_fireTimeRemaining = MathUtils.Max(0f, m_fireTimeRemaining - dt * 4f);
@@ -94,7 +98,7 @@ namespace Game
 				m_fireTimeRemaining = 0f;
 				//m_music = -1;
 			}
-			if (m_smeltingRecipe != null && m_fireTimeRemaining <= 0f)
+			else if (m_fireTimeRemaining <= 0f)
 			{
 				Slot slot2 = m_slots[FuelSlotIndex];
 				if (slot2.Count > 0)
@@ -147,31 +151,9 @@ namespace Game
 			TerrainChunk chunkAtCell = m_subsystemTerrain.Terrain.GetChunkAtCell(coordinates.X, coordinates.Z);
 			if (chunkAtCell != null && chunkAtCell.State == TerrainChunkState.Valid)
 			{
-				int cellValue = m_subsystemTerrain.Terrain.GetCellValue(coordinates.X, coordinates.Y, coordinates.Z);
+				int cellValue = chunkAtCell.GetCellValueFast(coordinates.X & 15, coordinates.Y, coordinates.Z & 15);
 				m_subsystemTerrain.ChangeCell(coordinates.X, coordinates.Y, coordinates.Z, Terrain.ReplaceData(cellValue, FurnaceNBlock.SetHeatLevel(Terrain.ExtractData(cellValue), (HeatLevel > 0f) ? 1 : 0)), true);
 			}
-		}
-
-		public override int GetSlotCapacity(int slotIndex, int value)
-		{
-			Block block = BlocksManager.Blocks[Terrain.ExtractContents(value)];
-			if (slotIndex != FuelSlotIndex || (block is IFuel fuel ? fuel.GetHeatLevel(value) : block.FuelHeatLevel) > 0f)
-			{
-				return base.GetSlotCapacity(slotIndex, value);
-			}
-			return 0;
-		}
-
-		public override void AddSlotItems(int slotIndex, int value, int count)
-		{
-			base.AddSlotItems(slotIndex, value, count);
-			m_updateSmeltingRecipe = true;
-		}
-
-		public override int RemoveSlotItems(int slotIndex, int count)
-		{
-			m_updateSmeltingRecipe = true;
-			return base.RemoveSlotItems(slotIndex, count);
 		}
 
 		public override void Load(ValuesDictionary valuesDictionary, IdToEntityMap idToEntityMap)

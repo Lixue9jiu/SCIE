@@ -23,17 +23,19 @@ namespace Game
 			m_inventoryGrid = Children.Find<GridPanelWidget>("InventoryGrid", true);
 			m_inventorySlotWidget = Children.Find<InventorySlotWidget>("InventorySlot", true);
 			m_instructionsLabel = Children.Find<LabelWidget>("InstructionsLabel", true);
-			for (int i = 0; i < m_inventoryGrid.RowsCount; i++)
+			int i = 0, num;
+			for (; i < m_inventoryGrid.RowsCount; i++)
 			{
-				for (int j = 0; j < m_inventoryGrid.ColumnsCount; j++)
+				for (num = 0; num < m_inventoryGrid.ColumnsCount; num++)
 				{
 					var widget = new InventorySlotWidget();
 					m_inventoryGrid.Children.Add(widget);
-					m_inventoryGrid.SetWidgetCell(widget, new Point2(j, i));
+					m_inventoryGrid.SetWidgetCell(widget, new Point2(num, i));
 				}
 			}
-			int num = 6;
-			for (int i = 0, count = m_inventoryGrid.Children.Count; i < count; i++)
+			num = 6;
+			i = 0;
+			for (int count = m_inventoryGrid.Children.Count; i < count; i++)
 			{
 				if (m_inventoryGrid.Children[i] is InventorySlotWidget inventorySlotWidget)
 				{
@@ -47,8 +49,7 @@ namespace Game
 		public override void Update()
 		{
 			int slotValue = m_inventory.GetSlotValue(m_slotIndex);
-			int slotCount = m_inventory.GetSlotCount(m_slotIndex);
-			if (Terrain.ExtractContents(slotValue) == Musket2Block.Index && slotCount > 0)
+			if (Terrain.ExtractContents(slotValue) == Musket2Block.Index && m_inventory.GetSlotCount(m_slotIndex) > 0)
 			{
 				switch (Musket2Block.GetLoadState(Terrain.ExtractData(slotValue)))
 				{

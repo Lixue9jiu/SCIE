@@ -1,51 +1,28 @@
 using Engine;
 using Engine.Graphics;
-using System;
 
 namespace Game
 {
-	[Serializable]
-	public enum MetalType
-	{
-		Steel,
-		Gold,
-		Silver,
-		Lead,
-		Platinum,
-		Zinc,
-		Stannary,
-		Chromium,
-		Titanium,
-		Nickel,
-		Aluminum,
-		Iron,
-		Copper,
-		Mercury,
-		Germanium,
-		FeAlCrAlloy
-	}
 	public class Sheet : Plate
 	{
 		public Sheet(MetalType type) : base(type)
 		{
-			DefaultDisplayName = Type.ToString() + "Sheet";
-			DefaultDescription = "A sheet of pure " + Type.ToString() + ". Can be crafted into very durable and strong " + Type.ToString() + " items. Very important in the industrial Era.";
+			DefaultDisplayName = type.ToString() + "Sheet";
+			DefaultDescription = "A sheet of pure " + type.ToString() + ". Can be crafted into very durable and strong " + type.ToString() + " items. Very important in the industrial Era.";
 		}
 		public override float GetIconViewScale(int value, DrawBlockEnvironmentData environmentData)
 		{
 			return 0.5f;
 		}
 	}
-	public class Plate : BlockItem
+	public class Plate : MeshItem
 	{
-		protected readonly BlockMesh m_standaloneBlockMesh = new BlockMesh();
 		protected BoundingBox[] m_collisionBoxes;
 		public readonly MetalType Type;
-		public Plate(MetalType type)
+		public Plate(MetalType type) : base("A plate of pure " + type.ToString() + ". Can be crafted into very durable and strong " + type.ToString() + " items. Very important in the industrial Era.")
 		{
 			Type = type;
-			DefaultDisplayName = Type.ToString() + "Plate";
-			DefaultDescription = "A plate of pure " + Type.ToString() + ". Can be crafted into very durable and strong " + Type.ToString() + " items. Very important in the industrial Era.";
+			DefaultDisplayName = type.ToString() + "Plate";
 			Model model = ContentManager.Get<Model>("Models/Ingots");
 			m_standaloneBlockMesh.AppendModelMeshPart(model.FindMesh("IronPlate", true).MeshParts[0], BlockMesh.GetBoneAbsoluteTransform(model.FindMesh("IronPlate", true).ParentBone) * Matrix.CreateTranslation(0.5f, 0f, 0.5f), false, false, false, false, Color.White);
 			m_collisionBoxes = new BoundingBox[]
@@ -76,14 +53,6 @@ namespace Game
 			{
 				Y = 0.45f
 			};
-		}
-		public override float GetIconViewScale(int value, DrawBlockEnvironmentData environmentData)
-		{
-			return 0.85f;
-		}
-		public override bool IsFaceTransparent(SubsystemTerrain subsystemTerrain, int face, int value)
-		{
-			return true;
 		}
 		public override BoundingBox[] GetCustomCollisionBoxes(SubsystemTerrain terrain, int value)
 		{

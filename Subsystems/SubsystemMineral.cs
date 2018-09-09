@@ -27,12 +27,12 @@ namespace Game
 		{
 			new Color(255, 255, 255),
 			new Color(255, 215, 0),//Gold
-			new Color(212, 212, 212),//Sliver
+			new Color(212, 212, 212),//Silver
 			new Color(232, 232, 232),//Platinum
 			new Color(65, 224, 205),//Zinc
 			new Color(88, 87, 86),//Lead
-			new Color(255, 123, 113),//Mercury
 			new Color(225, 225, 225),//Stannary
+			new Color(255, 123, 113),//Mercury
 			new Color(190, 190, 190),//Titanium
 			new Color(90, 90, 90), //Chromium
 			new Color(120, 120, 120) //Nickel
@@ -177,7 +177,6 @@ namespace Game
 	}
 	public class SubsystemMineral : SubsystemBlockBehavior
 	{
-		[Serializable]
 		public enum BrushType
 		{
 			Au,

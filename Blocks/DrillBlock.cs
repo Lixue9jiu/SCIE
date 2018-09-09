@@ -1,13 +1,11 @@
 using Engine;
 using Engine.Graphics;
-using System;
 using System.Collections.Generic;
 
 namespace Game
 {
 	public class DrillBlock : FlatBlock, IDurability
 	{
-		[Serializable]
 		public enum Type
 		{
 			SteelDrill,
@@ -54,10 +52,10 @@ namespace Game
 		{
 			return (Type)(Terrain.ExtractData(value) & 0xF);
 		}
-		public static int SetType(int value, Type type)
+		/*public static int SetType(int value, Type type)
 		{
 			return Terrain.ReplaceData(value, (Terrain.ExtractData(value) & -16) | ((int)type & 0xF));
-		}
+		}*/
 		public override string GetDisplayName(SubsystemTerrain subsystemTerrain, int value)
 		{
 			return SubsystemPalette.GetName(subsystemTerrain, Utils.GetColor(Terrain.ExtractData(value)), GetType(value).ToString());
@@ -66,27 +64,27 @@ namespace Game
 		{
 			switch (GetType(value))
 			{
-				case Type.SteelDrill:
-				case Type.DiamondDrill:
-					return "Drill is the most important part in the autodriller, you should put it in the machine while using it. Reminding, mining will damage the drill.";
+				default:
+				//case Type.SteelDrill:
+				//case Type.DiamondDrill:
+					return DefaultDescription;
 				case Type.IronTubularis:
 				case Type.SteelTubularis:
 					return "Tubularis is the most important part in the liquidpump, you should put it in the machine while using it. Reminding, pumping magma will damage the Tubularis.";
 			}
-			return string.Empty;
 		}
 		public override int GetFaceTextureSlot(int face, int value)
 		{
 			switch (GetType(value))
 			{
-				case Type.SteelDrill:
-				case Type.DiamondDrill:
+				default:
+				//case Type.SteelDrill:
+				//case Type.DiamondDrill:
 					return 214;
 				case Type.IronTubularis:
 				case Type.SteelTubularis:
 					return 112;
 			}
-			return 0;
 		}
 		public int GetDurability(int value)
 		{

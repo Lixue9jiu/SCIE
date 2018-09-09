@@ -11,8 +11,7 @@ namespace Game
 		public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
 		{
 			int? paintColor = PaintableItemBlock.GetColor(Terrain.ExtractData(value));
-			Color color2 = paintColor.HasValue ? (color * SubsystemPalette.GetColor(environmentData, paintColor)) : (1.25f * WireBlock.WireColor * color);
-			BlocksManager.DrawMeshBlock(primitivesRenderer, ElementBlock.WireBlock.m_standaloneBlockMesh, color2, 2f * size, ref matrix, environmentData);
+			BlocksManager.DrawMeshBlock(primitivesRenderer, ElementBlock.WireBlock.m_standaloneBlockMesh, (paintColor.HasValue ? SubsystemPalette.GetColor(environmentData, paintColor) : 1.25f * WireBlock.WireColor) * color, 2f * size, ref matrix, environmentData);
 		}
 		public override int GetWeight(int voltage)
 		{
@@ -86,10 +85,6 @@ namespace Game
 				if (i == 4)
 				{
 					array[i] = m_collisionBoxesByFace[i];
-				}
-				else
-				{
-					array[i] = default(BoundingBox);
 				}
 			}
 			return array;
@@ -167,9 +162,7 @@ namespace Game
 						Vector2 vector14 = v2 + v3 * new Vector2(MathUtils.Max(0.0625f, centerBoxSize), 1f);
 						Vector2 vector15 = v2 + v3 * new Vector2(centerBoxSize, 0.5f);
 						Vector2 vector16 = v2 + v3 * new Vector2(num6 * 2f, 0.5f);
-						int num7 = Terrain.ExtractLight(terrain.GetCellValue(x + tmpConnectionPath.NeighborOffsetX, y + tmpConnectionPath.NeighborOffsetY, z + tmpConnectionPath.NeighborOffsetZ));
-						float num8 = LightingManager.LightIntensityByLightValue[num7];
-						float num9 = 0.5f * (num3 + num8);
+						float num9 = 0.5f * (num3 + LightingManager.LightIntensityByLightValue[Terrain.ExtractLight(terrain.GetCellValue(x + tmpConnectionPath.NeighborOffsetX, y + tmpConnectionPath.NeighborOffsetY, z + tmpConnectionPath.NeighborOffsetZ))]);
 						float num10 = LightingManager.CalculateLighting(-vector4);
 						float num11 = LightingManager.CalculateLighting(vector4);
 						float num12 = LightingManager.CalculateLighting(vector);
@@ -218,7 +211,7 @@ namespace Game
 					}
 				}
 			}
-			if (centerBoxSize == 0f && (num4 != 0 || (num == ElementBlock.Index && Terrain.ExtractData(value) == 5)))
+			if (centerBoxSize == 0f && (num4 != 0 || (num == ElementBlock.Index && (Terrain.ExtractData(value) & 1023) == 5)))
 			{
 				for (int i = 0; i < 6; i++)
 				{

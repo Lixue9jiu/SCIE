@@ -344,7 +344,7 @@ namespace Game
 		}
 		public virtual Vector3 GetIconViewOffset(int value, DrawBlockEnvironmentData environmentData)
 		{
-			return new Vector3(1f);
+			return Vector3.One;
 		}
 		public virtual float GetIconViewScale(int value, DrawBlockEnvironmentData environmentData)
 		{
@@ -424,12 +424,16 @@ namespace Game
 			};
 		}
 	}
-	public class MeshItem : FlatItem
+	public class MeshItem : BlockItem
 	{
 		public BlockMesh m_standaloneBlockMesh = new BlockMesh();
 		public MeshItem(string description)
 		{
 			DefaultDescription = description;
+		}
+		public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
+		{
+			BlocksManager.DrawMeshBlock(primitivesRenderer, m_standaloneBlockMesh, color, size, ref matrix, environmentData);
 		}
 		public override Vector3 GetIconViewOffset(int value, DrawBlockEnvironmentData environmentData)
 		{

@@ -64,6 +64,7 @@
     <Compile Include="Blocks\ItemBlock.cs" />
     <Compile Include="Blocks\KibblerBlock.cs" />
     <Compile Include="Blocks\MachineToolBlock.cs" />
+    <Compile Include="Blocks\MulticoloredCubeBlock.cs" />
     <Compile Include="Blocks\PaintableMagnetBlock.cs" />
     <Compile Include="Blocks\RailBlock.cs" />
     <Compile Include="Blocks\RefractoryBrick.cs" />

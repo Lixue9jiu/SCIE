@@ -1,5 +1,3 @@
-using Engine;
-
 namespace Game
 {
 	public class CastMachBlock : FurnaceNBlock
@@ -12,46 +10,30 @@ namespace Game
 			{
 				switch (GetDirection(value))
 				{
-				case 0:
-					switch (face)
-					{
 					case 0:
-						return 234;
-					default:
-						return 107;
-					case 2:
-						return 107;
-					}
-				case 1:
-					switch (face)
-					{
-					case 1:
-						return 234;
-					default:
-						return 107;
-					case 3:
-						return 107;
-					}
-				case 2:
-					switch (face)
-					{
-					case 2:
-						return 234;
-					default:
-						return 107;
-					case 0:
-						return 107;
-					}
-				default:
-					switch (face)
-					{
-					case 3:
-						return 234;
-					default:
+						if (face == 0)
+						{
+							return 234;
+						}
 						return 107;
 					case 1:
+						if (face == 1)
+						{
+							return 234;
+						}
 						return 107;
-					}
+					case 2:
+						if (face == 2)
+						{
+							return 234;
+						}
+						return 107;
+					default:
+						if (face == 3)
+						{
+							return 234;
+						}
+						return 107;
 				}
 			}
 			return 107;

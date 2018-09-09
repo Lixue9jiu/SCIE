@@ -1,6 +1,5 @@
 using Engine;
 using GameEntitySystem;
-using System;
 using System.Globalization;
 using TemplatesDatabase;
 

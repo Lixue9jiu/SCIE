@@ -8,10 +8,13 @@ namespace Game
 		public RottenEgg() : base("Rotten egg. Do not eat.")
 		{
 			DefaultDisplayName = "Rotten Egg";
-			DefaultTextureSlot = 15;
 			var meshes = ContentManager.Get<Model>("Models/RottenEgg").Meshes;
 			m_standaloneBlockMesh.AppendModelMeshPart(meshes[0].MeshParts[0], BlockMesh.GetBoneAbsoluteTransform(meshes[0].ParentBone), false, false, false, false, Color.White);
 			m_standaloneBlockMesh.TransformTextureCoordinates(Matrix.Identity, -1);
+		}
+		public override int GetFaceTextureSlot(int face, int value)
+		{
+			return 15;
 		}
 		public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
 		{

@@ -50,12 +50,9 @@ namespace Game
 
 		public override bool IsSwapAnimationNeeded(int oldValue, int newValue)
 		{
-			if (Terrain.ExtractContents(oldValue) != Index)
-			{
-				return true;
-			}
-			int data = Terrain.ExtractData(oldValue);
-			return SetHammerState(Terrain.ExtractData(newValue), true) != SetHammerState(data, true);
+			return Terrain.ExtractContents(oldValue) != Index
+				? true
+				: SetHammerState(Terrain.ExtractData(newValue), true) != SetHammerState(Terrain.ExtractData(oldValue), true);
 		}
 
 		public override int GetDamage(int value)
@@ -65,8 +62,7 @@ namespace Game
 
 		public override int SetDamage(int value, int damage)
 		{
-			int data = (Terrain.ExtractData(value) & -65281) | (MathUtils.Clamp(damage, 0, 255) << 8);
-			return Terrain.ReplaceData(value, data);
+			return Terrain.ReplaceData(value, (Terrain.ExtractData(value) & -65281) | (MathUtils.Clamp(damage, 0, 255) << 8));
 		}
 
 		public static LoadState GetLoadState(int data)
@@ -89,7 +85,7 @@ namespace Game
 			return (data & -5) | ((state ? 1 : 0) << 2);
 		}
 
-		public static Bullet2Block.BulletType? GetBulletType(int data)
+		/*public static Bullet2Block.BulletType? GetBulletType(int data)
 		{
 			int num = (data >> 4) & 0xF;
 			if (num != 0)
@@ -97,7 +93,7 @@ namespace Game
 				return (Bullet2Block.BulletType)(num - 1);
 			}
 			return null;
-		}
+		}*/
 
 		public static int SetBulletType(int data, Bullet2Block.BulletType? bulletType)
 		{
