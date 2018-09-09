@@ -126,17 +126,20 @@ namespace Game
 					while (enumerator2.MoveNext())
 					{
 						var old = enumerator2.Current.Ingredients;
-						var ingredients = new string[36];
-						ingredients[0] = old[0];
-						ingredients[1] = old[1];
-						ingredients[2] = old[2];
-						ingredients[6] = old[3];
-						ingredients[7] = old[4];
-						ingredients[8] = old[5];
-						ingredients[12] = old[6];
-						ingredients[13] = old[7];
-						ingredients[14] = old[8];
-						enumerator2.Current.Ingredients = ingredients;
+						if (old.Length == 9)
+						{
+							var ingredients = new string[36];
+							ingredients[0] = old[0];
+							ingredients[1] = old[1];
+							ingredients[2] = old[2];
+							ingredients[6] = old[3];
+							ingredients[7] = old[4];
+							ingredients[8] = old[5];
+							ingredients[12] = old[6];
+							ingredients[13] = old[7];
+							ingredients[14] = old[8];
+							enumerator2.Current.Ingredients = ingredients;
+						}
 						CraftingRecipesManager.m_recipes.Add(enumerator2.Current);
 					}
 				}

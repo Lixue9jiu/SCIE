@@ -127,6 +127,72 @@ public class MagnetBlock : Game.MagnetBlock, IPaintableBlock
 		}
 		return array;
 	}
+	public override IEnumerable<CraftingRecipe> GetProceduralCraftingRecipes()
+	{
+		var recipes = new CraftingRecipe[30];
+		for (int i = 1; i < 16; i++)
+		{
+			var ingredients = new string[36];
+			int count = 0;
+			if ((i & 1) != 0)
+			{
+				ingredients[0] = "magnet:0";
+				count++;
+			}
+			else
+			{
+				ingredients[0] = "stick";
+			}
+			if ((i & 2) != 0)
+			{
+				ingredients[1] = "magnet:0";
+				count++;
+			}
+			else
+			{
+				ingredients[1] = "stick";
+			}
+			if ((i & 4) != 0)
+			{
+				ingredients[2] = "magnet:0";
+				count++;
+			}
+			else
+			{
+				ingredients[2] = "stick";
+			}
+			if ((i & 8) != 0)
+			{
+				ingredients[3] = "magnet:0";
+				count++;
+			}
+			else
+			{
+				ingredients[3] = "stick";
+			}
+			recipes[(i - 1) << 1] = new CraftingRecipe
+			{
+				ResultCount = 1,
+				ResultValue = Terrain.ReplaceData(Index, i << 5),
+				RequiredHeatLevel = 0f,
+				Ingredients = ingredients,
+				Description = "Make a Cross Magnet from magnet."
+			};
+			ingredients = new string[36];
+			ingredients[0] = "magnet:" + (i << 5);
+			recipes[(i - 1) << 1 | 1] = new CraftingRecipe
+			{
+				ResultCount = count,
+				ResultValue = Terrain.MakeBlockValue(Index),
+				RemainsValue = Terrain.MakeBlockValue(StickBlock.Index),
+				RemainsCount = 3 ^ count,
+				RequiredHeatLevel = 0f,
+				Ingredients = ingredients,
+				Description = "Dismantle the Cross Magnet."
+			};
+		}
+		return recipes;
+	}
 
 	public override string GetDisplayName(SubsystemTerrain subsystemTerrain, int value)
 	{

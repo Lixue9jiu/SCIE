@@ -11,7 +11,7 @@
     <Recipe Result="SaltpeterChunkBlock" ResultCount="1" RequiredHeatLevel="300" a="rottenbread" b="dirt" Description="Using bacterium to decompose dirt and rotten food to get Saltpeter">
       "ab"
     </Recipe>
-    <Recipe Result="SaltpeterChunkBlock" ResultCount="1" RequiredHeatLevel="300" a="RottenEgg" b="dirt" Description="Using bacterium to decompose dirt and rotten food to get Saltpeter">
+    <Recipe Result="SaltpeterChunkBlock" ResultCount="1" RequiredHeatLevel="300" a="Rotten Egg" b="dirt" Description="Using bacterium to decompose dirt and rotten food to get Saltpeter">
       "ab"
     </Recipe>
     <Recipe Result="SaltpeterChunkBlock" ResultCount="1" RequiredHeatLevel="300" a="rottenbird" b="dirt" Description="Using bacterium to decompose dirt and rotten food to get Saltpeter">
@@ -38,7 +38,7 @@
     <Recipe Result="SaltpeterChunkBlock" ResultCount="2" RequiredHeatLevel="300" a="rottenbread" b="dirt" Description="Using bacterium to decompose dirt and rotten food to get Saltpeter">
       "aba"
     </Recipe>
-    <Recipe Result="SaltpeterChunkBlock" ResultCount="2" RequiredHeatLevel="300" a="RottenEgg" b="dirt" Description="Using bacterium to decompose dirt and rotten food to get Saltpeter">
+    <Recipe Result="SaltpeterChunkBlock" ResultCount="2" RequiredHeatLevel="300" a="Rotten Egg" b="dirt" Description="Using bacterium to decompose dirt and rotten food to get Saltpeter">
       "aba"
     </Recipe>
     <Recipe Result="SaltpeterChunkBlock" ResultCount="2" RequiredHeatLevel="300" a="rottenbird" b="dirt" Description="Using bacterium to decompose dirt and rotten food to get Saltpeter">
@@ -59,7 +59,7 @@
     <Recipe Result="SaltpeterChunkBlock" ResultCount="2" RequiredHeatLevel="300" a="rottenbread" b="dirt" Description="Using bacterium to decompose dirt and rotten food to get Saltpeter">
       "aab"
     </Recipe>
-    <Recipe Result="SaltpeterChunkBlock" ResultCount="2" RequiredHeatLevel="300" a="RottenEgg" b="dirt" Description="Using bacterium to decompose dirt and rotten food to get Saltpeter">
+    <Recipe Result="SaltpeterChunkBlock" ResultCount="2" RequiredHeatLevel="300" a="Rotten Egg" b="dirt" Description="Using bacterium to decompose dirt and rotten food to get Saltpeter">
       "aab"
     </Recipe>
     <Recipe Result="SaltpeterChunkBlock" ResultCount="2" RequiredHeatLevel="300" a="rottenbird" b="dirt" Description="Using bacterium to decompose dirt and rotten food to get Saltpeter">
@@ -748,55 +748,16 @@
       "aba"
       "aba"
     </Recipe>
+    <Recipe Result="SteelRod" ResultCount="3" Remains="StickBlock" RemainsCount="1" RequiredHeatLevel="0" a="rail" Description="Dismantle the rail.">
+      "a"
+    </Recipe>
     <Recipe Result="CopperWire" ResultCount="1" RequiredHeatLevel="0" a="CopperLine" b="SteelRod" Description="Make a wire from copperline and steelrod">
       "aaa"
       "aba"
       "aaa"
     </Recipe>
-    <Recipe Result="MagnetBlock:32" ResultCount="1" RequiredHeatLevel="0" a="magnet:0" Description="Make a Cross Magnet from magnet">
-      "a   "
-    </Recipe>
-    <Recipe Result="MagnetBlock:64" ResultCount="1" RequiredHeatLevel="0" a="magnet:0" Description="Make a Cross Magnet from magnet">
-      " a  "
-    </Recipe>
-    <Recipe Result="MagnetBlock:96" ResultCount="1" RequiredHeatLevel="0" a="magnet:0" Description="Make a Cross Magnet from magnet">
-      "aa  "
-    </Recipe>
-    <Recipe Result="MagnetBlock:128" ResultCount="1" RequiredHeatLevel="0" a="magnet:0" Description="Make a Cross Magnet from magnet">
-      "  a "
-    </Recipe>
-    <Recipe Result="MagnetBlock:160" ResultCount="1" RequiredHeatLevel="0" a="magnet:0" Description="Make a Cross Magnet from magnet">
-      "a a "
-    </Recipe>
-    <Recipe Result="MagnetBlock:192" ResultCount="1" RequiredHeatLevel="0" a="magnet:0" Description="Make a Cross Magnet from magnet">
-      " aa "
-    </Recipe>
-    <Recipe Result="MagnetBlock:224" ResultCount="1" RequiredHeatLevel="0" a="magnet:0" Description="Make a Cross Magnet from magnet">
-      "aaa "
-    </Recipe>
-    <Recipe Result="MagnetBlock:256" ResultCount="1" RequiredHeatLevel="0" a="magnet:0" Description="Make a Cross Magnet from magnet">
-      "   a"
-    </Recipe>
-    <Recipe Result="MagnetBlock:288" ResultCount="1" RequiredHeatLevel="0" a="magnet:0" Description="Make a Cross Magnet from magnet">
-      "a  a"
-    </Recipe>
-    <Recipe Result="MagnetBlock:320" ResultCount="1" RequiredHeatLevel="0" a="magnet:0" Description="Make a Cross Magnet from magnet">
-      " a a"
-    </Recipe>
-    <Recipe Result="MagnetBlock:352" ResultCount="1" RequiredHeatLevel="0" a="magnet:0" Description="Make a Cross Magnet from magnet">
-      "aa a"
-    </Recipe>
-    <Recipe Result="MagnetBlock:384" ResultCount="1" RequiredHeatLevel="0" a="magnet:0" Description="Make a Cross Magnet from magnet">
-      "  aa"
-    </Recipe>
-    <Recipe Result="MagnetBlock:416" ResultCount="1" RequiredHeatLevel="0" a="magnet:0" Description="Make a Cross Magnet from magnet">
-      "a aa"
-    </Recipe>
-    <Recipe Result="MagnetBlock:448" ResultCount="1" RequiredHeatLevel="0" a="magnet:0" Description="Make a Cross Magnet from magnet">
-      " aaa"
-    </Recipe>
-    <Recipe Result="MagnetBlock:480" ResultCount="1" RequiredHeatLevel="0" a="magnet:0" Description="Make a Cross Magnet from magnet">
-      "aaaa"
+    <Recipe Result="CopperLine" ResultCount="8" Remains="SteelRod" RemainsCount="1" RequiredHeatLevel="0" a="CopperWire" Description="Dismantle the CopperWire.">
+      "a"
     </Recipe>
     <Recipe Result="Generator" ResultCount="1" RequiredHeatLevel="0" a="CopperWire" b="IndustrialMagnet" c="SteelPlate" d="SteelGear" e="metalblock:0" Description="Make a Direct Current Dynamo to enter the electricity era.">
       "caac"
