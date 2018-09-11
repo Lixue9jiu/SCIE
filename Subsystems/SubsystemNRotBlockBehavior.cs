@@ -5,46 +5,11 @@ namespace Game
 {
 	public class SubsystemNRotBlockBehavior : SubsystemRotBlockBehavior
 	{
-		/*public override int[] HandledBlocks
-		{
-			get
-			{
-				return new []{ BasaltBlock.Index };
-			}
-		}*/
-
 		public override void Load(ValuesDictionary valuesDictionary)
 		{
 			base.Load(valuesDictionary);
-			m_subsystemGameInfo = Project.FindSubsystem<SubsystemGameInfo>(true);
-			m_subsystemItemsScanner = Project.FindSubsystem<SubsystemItemsScanner>(true);
-			m_lastRotTime = valuesDictionary.GetValue<double>("LastRotTime");
-			m_rotStep = valuesDictionary.GetValue<int>("RotStep");
+			m_subsystemItemsScanner.ItemsScanned -= base.ItemsScanned;
 			m_subsystemItemsScanner.ItemsScanned += ItemsScanned;
-			m_isRotEnabled = m_subsystemGameInfo.WorldSettings.GameMode != 0 && m_subsystemGameInfo.WorldSettings.GameMode != GameMode.Adventure;
-		}
-
-		public override void Save(ValuesDictionary valuesDictionary)
-		{
-			base.Save(valuesDictionary);
-			valuesDictionary.SetValue("LastRotTime", m_lastRotTime);
-			valuesDictionary.SetValue("RotStep", m_rotStep);
-		}
-
-		public override void OnPoll(int value, int x, int y, int z, int pollPass)
-		{
-			if (m_isRotEnabled)
-			{
-				int num = Terrain.ExtractContents(value);
-				Block block = BlocksManager.Blocks[num];
-				int rotPeriod = block.GetRotPeriod(value);
-				if (rotPeriod > 0 && pollPass % rotPeriod == 0)
-				{
-					int num2 = block.GetDamage(value) + 1;
-					value = (num2 > 1) ? block.GetDamageDestructionValue(value) : block.SetDamage(value, num2);
-					SubsystemTerrain.ChangeCell(x, y, z, value, true);
-				}
-			}
 		}
 
 		protected new void ItemsScanned(ReadOnlyList<ScannedItemData> items)

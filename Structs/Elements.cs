@@ -294,6 +294,11 @@ namespace Game
 			device = (Device)MemberwiseClone();
 			device.Point = p;
 			device.Next = new DynamicArray<Element>();
+			if ((device.Type & ElementType.Connector) != 0)
+			{
+				var color = PaintableItemBlock.GetColor(Terrain.ExtractData(Utils.Terrain.GetCellValue(p.X, p.Y, p.Z)));
+				device.Type = color.HasValue ? (ElementType)(1 << (color.Value + 2)) : ElementType.Connector;
+			}
 			return device;
 		}
 		public virtual void UpdateState()

@@ -1,33 +1,9 @@
 using Engine;
-using System.Collections.Generic;
-using TemplatesDatabase;
 
 namespace Game
 {
-	public class SubsystemMusket2BlockBehavior : SubsystemBlockBehavior
+	public class SubsystemMusket2BlockBehavior : SubsystemMusketBlockBehavior
 	{
-		protected readonly Dictionary<ComponentMiner, double> m_aimStartTimes = new Dictionary<ComponentMiner, double>();
-
-		protected readonly Random m_random = new Random();
-
-		protected SubsystemAudio m_subsystemAudio;
-
-		protected SubsystemNoise m_subsystemNoise;
-
-		protected SubsystemParticles m_subsystemParticles;
-
-		protected SubsystemProjectiles m_subsystemProjectiles;
-
-		protected SubsystemTime m_subsystemTime;
-
-		public override int[] HandledBlocks
-		{
-			get
-			{
-				return new int[0];
-			}
-		}
-
 		public override bool OnEditInventoryItem(IInventory inventory, int slotIndex, ComponentPlayer componentPlayer)
 		{
 			componentPlayer.ComponentGui.ModalPanelWidget = (componentPlayer.ComponentGui.ModalPanelWidget == null) ? new Musket2Widget(inventory, slotIndex) : null;
@@ -233,16 +209,6 @@ namespace Game
 				inventory.RemoveSlotItems(slotIndex, 1);
 				inventory.AddSlotItems(slotIndex, Terrain.MakeBlockValue(Musket2Block.Index, 0, Musket2Block.SetBulletType(Musket2Block.SetLoadState(Terrain.ExtractData(inventory.GetSlotValue(slotIndex)), loadState), null)), 1);
 			}
-		}
-
-		public override void Load(ValuesDictionary valuesDictionary)
-		{
-			m_subsystemTime = Project.FindSubsystem<SubsystemTime>(true);
-			m_subsystemProjectiles = Project.FindSubsystem<SubsystemProjectiles>(true);
-			m_subsystemParticles = Project.FindSubsystem<SubsystemParticles>(true);
-			m_subsystemAudio = Project.FindSubsystem<SubsystemAudio>(true);
-			m_subsystemNoise = Project.FindSubsystem<SubsystemNoise>(true);
-			base.Load(valuesDictionary);
 		}
 	}
 }

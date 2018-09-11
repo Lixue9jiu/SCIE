@@ -126,12 +126,8 @@ namespace Game
 		}
 		public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
 		{
-			int data = (Terrain.ExtractData(value) & 16383) >> 1;
-			if (data < 11)
-			{
-				color *= Colors[data];
-			}
-			base.DrawBlock(primitivesRenderer, value, color, size, ref matrix, environmentData);
+			int data = Terrain.ExtractData(value) & 16383;
+			base.DrawBlock(primitivesRenderer, value, data < 22 ? color * Colors[data >> 1] : color, size, ref matrix, environmentData);
 		}
 		public override void GenerateTerrainVertices(BlockGeometryGenerator generator, TerrainGeometrySubsets geometry, int value, int x, int y, int z)
 		{
@@ -207,11 +203,6 @@ namespace Game
 		//public static TerrainBrush[] OilPocketBrushes;
 		//public static TerrainBrush[] NaruralGasBrushes;
 		public static TerrainBrush[,] Brushes;
-		//public SubsystemTime SubsystemTime;
-		protected SubsystemGameInfo m_subsystemGameInfo;
-		protected SubsystemItemsScanner m_subsystemItemsScanner;
-		protected SubsystemMovingBlocks m_subsystemMovingBlocks;
-		SubsystemCollapsingBlockBehavior m_subsystemCollapsingBlockBehavior;
 		//public static Dictionary<long, int> MinesData;
 		public static DynamicArray<Metal> AlloysData;
 		//public static HashSet<int> Handled;
@@ -219,26 +210,24 @@ namespace Game
 		public override int[] HandledBlocks => new int[]
 		{
 			BasaltBlock.Index,
-		};/*
-				{
-					DirtBlock.Index,
-					GraniteBlock.Index,
-					SandstoneBlock.Index,
-					GravelBlock.Index,
-					SandBlock.Index,
-					LimestoneBlock.Index,
-					BasaltBlock.Index,
-					ClayBlock.Index,
-					MagmaBlock.Index,
-					CoalOreBlock.Index,
-					CopperOreBlock.Index,
-					IronOreBlock.Index,
-					SulphurOreBlock.Index,
-					DiamondOreBlock.Index,
-					GermaniumOreBlock.Index,
-					SaltpeterOreBlock.Index,
-					CoalBlock.Index
-				};*/
+			/*DirtBlock.Index,
+			GraniteBlock.Index,
+			SandstoneBlock.Index,
+			GravelBlock.Index,
+			SandBlock.Index,
+			LimestoneBlock.Index,
+			BasaltBlock.Index,
+			ClayBlock.Index,
+			MagmaBlock.Index,
+			CoalOreBlock.Index,
+			CopperOreBlock.Index,
+			IronOreBlock.Index,
+			SulphurOreBlock.Index,
+			DiamondOreBlock.Index,
+			GermaniumOreBlock.Index,
+			SaltpeterOreBlock.Index,
+			CoalBlock.Index*/
+		};
 
 		public static int StoreItemData(Metal key)
 		{
@@ -263,14 +252,11 @@ namespace Game
 		public override void Load(ValuesDictionary valuesDictionary)
 		{
 			base.Load(valuesDictionary);
-			m_subsystemGameInfo = base.Project.FindSubsystem<SubsystemGameInfo>(true);
-			m_subsystemMovingBlocks = base.Project.FindSubsystem<SubsystemMovingBlocks>(true);
-			m_subsystemCollapsingBlockBehavior = base.Project.FindSubsystem<SubsystemCollapsingBlockBehavior>(true);
-			int i;
-			//(m_subsystemItemsScanner = Project.FindSubsystem<SubsystemItemsScanner>(true)).ItemsScanned += GarbageCollectItems;
-			//SubsystemTime = Project.FindSubsystem<SubsystemTime>(true);
+			Utils.Load(Project);
+			Utils.SubsystemItemsScanner.ItemsScanned += GarbageCollectItems;
 			var arr = valuesDictionary.GetValue<string>("AlloysData", "0").Split(',');
 			AlloysData = new DynamicArray<Metal>(arr.Length);
+			int i;
 			for (i = 0; i < arr.Length; i++)
 			{
 				if (short.TryParse(arr[i], NumberStyles.Integer, NumberFormatInfo.CurrentInfo, out short value))
@@ -476,10 +462,10 @@ namespace Game
 		}
 		public override void OnNeighborBlockChanged(int x, int y, int z, int neighborX, int neighborY, int neighborZ)
 		{
-			if (m_subsystemGameInfo.WorldSettings.EnvironmentBehaviorMode != EnvironmentBehaviorMode.Living || y <= 0)
+			if (Utils.SubsystemGameInfo.WorldSettings.EnvironmentBehaviorMode != EnvironmentBehaviorMode.Living || y <= 0)
 				return;
 			int value = SubsystemTerrain.Terrain.GetCellValue(x, y - 1, z);
-			if (!m_subsystemCollapsingBlockBehavior.IsCollapseSupportBlock(value))
+			if (!Utils.SubsystemCollapsingBlockBehavior.IsCollapseSupportBlock(value))
 			{
 				List<MovingBlock> list = new List<MovingBlock>();
 				for (int i = y; i < 128; i++)
@@ -495,7 +481,7 @@ namespace Game
 						Offset = new Point3(0, i - y, 0)
 					});
 				}
-				if (list.Count != 0 && m_subsystemMovingBlocks.AddMovingBlockSet(new Vector3(x, y, z), new Vector3((float)x, (float)(-list.Count - 1), (float)z), 0f, 10f, 0.7f, new Vector2(0f), list, "CollapsingBlock", null, true) != null)
+				if (list.Count != 0 && Utils.SubsystemMovingBlocks.AddMovingBlockSet(new Vector3(x, y, z), new Vector3((float)x, (float)(-list.Count - 1), (float)z), 0f, 10f, 0.7f, new Vector2(0f), list, "CollapsingBlock", null, true) != null)
 				{
 					for (int i = 0; i < list.Count; i++)
 					{
@@ -517,12 +503,12 @@ namespace Game
 
 		public void GarbageCollectItems(ReadOnlyList<ScannedItemData> allExistingItems)
 		{
-			for (int i = 0; i < allExistingItems.Count; i++)
+			/*for (int i = 0; i < allExistingItems.Count; i++)
 			{
 				int value = allExistingItems[i].Value;
 				if (Terrain.ExtractContents(value) == BasaltBlock.Index)
 					AlloysData.Array[Terrain.ExtractData(value)] |= Metal.Used;
-			}
+			}*/
 		}
 	}
 }

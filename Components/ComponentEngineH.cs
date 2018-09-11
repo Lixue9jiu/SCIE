@@ -1,6 +1,5 @@
 using Engine;
 using GameEntitySystem;
-using System.Globalization;
 using TemplatesDatabase;
 
 namespace Game
@@ -73,7 +72,7 @@ namespace Game
 				m_updateSmeltingRecipe = false;
 				if (HeatLevel > 0f)
 				{
-					float heatLevel = HeatLevel;
+					//float heatLevel = HeatLevel;
 				}
 				else
 				{
@@ -182,25 +181,23 @@ namespace Game
 				int num2 = Terrain.ExtractData(slotValue);
 				if (GetSlotCount(i) > 0)
 				{
-					var block = BlocksManager.Blocks[num];
-					m_matchedIngredients[i] = block.CraftingId + ":" + num2.ToString(CultureInfo.InvariantCulture);
-					if (block.CraftingId == "waterbucket")
+					//m_matchedIngredients[i] = block.CraftingId + ":" + num2.ToString(CultureInfo.InvariantCulture);
+					if (BlocksManager.Blocks[num].CraftingId == "waterbucket")
 					{
 						text = "bucket";
 					}
 				}
-				else
+				/*else
 				{
 					m_matchedIngredients[i] = null;
-				}
+				}*/
 			}
 			if (text != null)
 			{
 				Slot slot = m_slots[ResultSlotIndex];
-				//Terrain.ExtractContents(90);
 				if (slot.Count != 0 && (90 != slot.Value || 1 + slot.Count > 40))
 				{
-					text = null;
+					return null;
 				}
 			}
 			return text;

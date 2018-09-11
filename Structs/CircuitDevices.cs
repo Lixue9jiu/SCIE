@@ -136,7 +136,6 @@ namespace Game
 	}*/
 	public class EntityDevice<T> : FixedDevice, IBlockBehavior where T : Component
 	{
-		protected SubsystemBlockEntities m_subsystemBlockEntities;
 		public T Component;
 		public string Name;
 		public EntityDevice(string name, int resistance) : base(resistance)
@@ -154,11 +153,11 @@ namespace Game
 				Component = entity.FindComponent<T>(true);
 				subsystemTerrain.Project.AddEntity(entity);
 			}
-			Component = (m_subsystemBlockEntities = subsystemTerrain.Project.FindSubsystem<SubsystemBlockEntities>(true)).GetBlockEntity(Point.X, Point.Y, Point.Z).Entity.FindComponent<T>(true);
+			Component = (Utils.SubsystemBlockEntities = subsystemTerrain.Project.FindSubsystem<SubsystemBlockEntities>(true)).GetBlockEntity(Point.X, Point.Y, Point.Z).Entity.FindComponent<T>(true);
 		}
 		public virtual void OnBlockRemoved(SubsystemTerrain subsystemTerrain, int value, int newValue)
 		{
-			ComponentBlockEntity blockEntity = m_subsystemBlockEntities.GetBlockEntity(Point.X, Point.Y, Point.Z);
+			ComponentBlockEntity blockEntity = Utils.SubsystemBlockEntities.GetBlockEntity(Point.X, Point.Y, Point.Z);
 			if (blockEntity != null)
 			{
 				Vector3 position = new Vector3(Point) + new Vector3(0.5f);
@@ -177,7 +176,7 @@ namespace Game
 		}
 		public bool OnInteract(TerrainRaycastResult raycastResult, ComponentMiner componentMiner)
 		{
-			ComponentBlockEntity blockEntity = m_subsystemBlockEntities.GetBlockEntity(raycastResult.CellFace.X, raycastResult.CellFace.Y, raycastResult.CellFace.Z);
+			ComponentBlockEntity blockEntity = Utils.SubsystemBlockEntities.GetBlockEntity(raycastResult.CellFace.X, raycastResult.CellFace.Y, raycastResult.CellFace.Z);
 			if (blockEntity == null || componentMiner.ComponentPlayer == null)
 			{
 				return false;
@@ -265,7 +264,7 @@ namespace Game
 				data = 1;
 			}
 			BlockPlacementData result = default(BlockPlacementData);
-			result.Value = Terrain.ReplaceData(ElementBlock.Index, data << 15);
+			result.Value = Terrain.ReplaceData(value, Terrain.ExtractData(value) & -229377 | data << 15);
 			result.CellFace = raycastResult.CellFace;
 			return result;
 		}
@@ -285,7 +284,7 @@ namespace Game
 		{
 			if (!worldItem.ToRemove)
 			{
-				ComponentBlockEntity blockEntity = m_subsystemBlockEntities.GetBlockEntity(cellFace.X, cellFace.Y, cellFace.Z);
+				ComponentBlockEntity blockEntity = Utils.SubsystemBlockEntities.GetBlockEntity(cellFace.X, cellFace.Y, cellFace.Z);
 				if (blockEntity != null)
 				{
 					ComponentChestNew inventory = blockEntity.Entity.FindComponent<ComponentChestNew>(true);
@@ -296,7 +295,7 @@ namespace Game
 					int num2 = ComponentInventoryBase.AcquireItems(inventory, value, count);
 					if (num2 < num)
 					{
-						m_subsystemBlockEntities.Project.FindSubsystem<SubsystemAudio>(true).PlaySound("Audio/PickableCollected", 1f, 0f, worldItem.Position, 3f, true);
+						Utils.SubsystemBlockEntities.Project.FindSubsystem<SubsystemAudio>(true).PlaySound("Audio/PickableCollected", 1f, 0f, worldItem.Position, 3f, true);
 					}
 					if (num2 <= 0)
 					{
@@ -399,7 +398,7 @@ namespace Game
 				data = 1;
 			}
 			BlockPlacementData result = default(BlockPlacementData);
-			result.Value = Terrain.ReplaceData(ElementBlock.Index, data << 15 | 2);
+			result.Value = Terrain.ReplaceData(value, Terrain.ExtractData(value) & -229377 | data << 15 | 2);
 			result.CellFace = raycastResult.CellFace;
 			return result;
 		}
@@ -510,7 +509,7 @@ namespace Game
 				data = 1;
 			}
 			BlockPlacementData result = default(BlockPlacementData);
-			result.Value = Terrain.ReplaceData(ElementBlock.Index, data << 15|3);
+			result.Value = Terrain.ReplaceData(value, Terrain.ExtractData(value) & -229377 | data << 15 | 3);
 			result.CellFace = raycastResult.CellFace;
 			return result;
 		}
@@ -570,7 +569,7 @@ namespace Game
 				data = 1;
 			}
 			BlockPlacementData result = default(BlockPlacementData);
-			result.Value = Terrain.ReplaceData(ElementBlock.Index, data << 15 | 4);
+			result.Value = Terrain.ReplaceData(value, Terrain.ExtractData(value) & -229377 | data << 15 | 4);
 			result.CellFace = raycastResult.CellFace;
 			return result;
 		}
@@ -682,7 +681,7 @@ namespace Game
 				data = 1;
 			}
 			BlockPlacementData result = default(BlockPlacementData);
-			result.Value = Terrain.ReplaceData(ElementBlock.Index, data << 15 | 6);
+			result.Value = Terrain.ReplaceData(value, Terrain.ExtractData(value) & -229377 | data << 15 | 6);
 			result.CellFace = raycastResult.CellFace;
 			return result;
 		}

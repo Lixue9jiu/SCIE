@@ -85,7 +85,7 @@ namespace Game
 				data = 1;
 			}
 			BlockPlacementData result = default(BlockPlacementData);
-			result.Value = Terrain.ReplaceData(ElementBlock.Index, data << 15 | 1);
+			result.Value = Terrain.ReplaceData(value, Terrain.ExtractData(value) & -229377 | data << 15 | 1);
 			result.CellFace = raycastResult.CellFace;
 			return result;
 		}

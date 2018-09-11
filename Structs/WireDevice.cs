@@ -58,13 +58,6 @@ namespace Game
 		{
 			return 1;
 		}
-		public override Device Create(Point3 p)
-		{
-			Device device = base.Create(p);
-			var color = PaintableItemBlock.GetColor(Terrain.ExtractData(Terrain.GetCellValue(p.X, p.Y, p.Z)));
-			device.Type = color.HasValue ? (ElementType)(1 << (color.Value + 2)) : ElementType.Connector;
-			return device;
-		}
 		public override void GenerateTerrainVertices(Block block, BlockGeometryGenerator generator, TerrainGeometrySubsets geometry, int value, int x, int y, int z)
 		{
 			GenerateWireVertices(generator, value, x, y, z, 4, 0f, Vector2.Zero, geometry.SubsetOpaque);

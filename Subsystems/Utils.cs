@@ -1,12 +1,35 @@
 ﻿using System;
-using System.Collections.Generic;
 using Engine;
+using GameEntitySystem;
 using static Game.TerrainBrush;
 
 namespace Game
 {
 	public static class Utils
 	{
+		public static SubsystemGameInfo SubsystemGameInfo;
+		public static SubsystemTime SubsystemTime;
+		public static SubsystemItemsScanner SubsystemItemsScanner;
+		public static SubsystemMovingBlocks SubsystemMovingBlocks;
+		public static SubsystemBlockEntities SubsystemBlockEntities;
+		public static SubsystemCollapsingBlockBehavior SubsystemCollapsingBlockBehavior;
+		public static Terrain Terrain;
+		public static bool LoadedProject;
+		public static void Load(Project Project)
+		{
+			if (LoadedProject)
+			{
+				return;
+			}
+			SubsystemGameInfo = Project.FindSubsystem<SubsystemGameInfo>(true);
+			SubsystemTime = Project.FindSubsystem<SubsystemTime>(true);
+			SubsystemItemsScanner = Project.FindSubsystem<SubsystemItemsScanner>(true);
+			SubsystemMovingBlocks = Project.FindSubsystem<SubsystemMovingBlocks>(true);
+			SubsystemCollapsingBlockBehavior = Project.FindSubsystem<SubsystemCollapsingBlockBehavior>(true);
+			Terrain = Project.FindSubsystem<SubsystemTerrain>(true).Terrain;
+			SubsystemBlockEntities = Project.FindSubsystem<SubsystemBlockEntities>(true);
+			LoadedProject = true;
+		}
 		public static void PaintFastSelective(this TerrainChunk chunk, Cell[] cells, int x, int y, int z, int onlyInBlock = BasaltBlock.Index)
 		{
 			x -= chunk.Origin.X;

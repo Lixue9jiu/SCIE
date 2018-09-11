@@ -32,6 +32,7 @@ namespace Game
 		{
 			CircuitPath = new Device[0][];
 			base.Load(valuesDictionary);
+			Utils.Load(Project);
 			((WireDevice)ElementBlock.Devices[5]).Terrain = Terrain = SubsystemTerrain.Terrain;
 			int count = valuesDictionary.GetValue<int>("Count", 0);
 			Path = new HashSet<Device>();
@@ -217,6 +218,7 @@ namespace Game
 				Requests.Enqueue(null);
 				Monitor.Pulse(Requests);
 			}
+			Utils.LoadedProject = false;
 		}
 		public void ThreadFunction()
 		{
