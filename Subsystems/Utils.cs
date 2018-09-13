@@ -8,10 +8,13 @@ namespace Game
 	public static class Utils
 	{
 		public static SubsystemGameInfo SubsystemGameInfo;
+		//public static SubsystemAudio SubsystemAudio;
+		public static SubsystemTerrain SubsystemTerrain;
 		public static SubsystemTime SubsystemTime;
 		public static SubsystemItemsScanner SubsystemItemsScanner;
 		public static SubsystemMovingBlocks SubsystemMovingBlocks;
 		public static SubsystemBlockEntities SubsystemBlockEntities;
+		public static SubsystemExplosions SubsystemExplosions;
 		public static SubsystemCollapsingBlockBehavior SubsystemCollapsingBlockBehavior;
 		public static Terrain Terrain;
 		public static bool LoadedProject;
@@ -22,12 +25,14 @@ namespace Game
 				return;
 			}
 			SubsystemGameInfo = Project.FindSubsystem<SubsystemGameInfo>(true);
+			//SubsystemAudio = Project.FindSubsystem<SubsystemAudio>(true);
 			SubsystemTime = Project.FindSubsystem<SubsystemTime>(true);
 			SubsystemItemsScanner = Project.FindSubsystem<SubsystemItemsScanner>(true);
 			SubsystemMovingBlocks = Project.FindSubsystem<SubsystemMovingBlocks>(true);
-			SubsystemCollapsingBlockBehavior = Project.FindSubsystem<SubsystemCollapsingBlockBehavior>(true);
-			Terrain = Project.FindSubsystem<SubsystemTerrain>(true).Terrain;
 			SubsystemBlockEntities = Project.FindSubsystem<SubsystemBlockEntities>(true);
+			SubsystemExplosions = Project.FindSubsystem<SubsystemExplosions>(true);
+			SubsystemCollapsingBlockBehavior = Project.FindSubsystem<SubsystemCollapsingBlockBehavior>(true);
+			Terrain = (SubsystemTerrain = Project.FindSubsystem<SubsystemTerrain>(true)).Terrain;
 			LoadedProject = true;
 		}
 		public static void PaintFastSelective(this TerrainChunk chunk, Cell[] cells, int x, int y, int z, int onlyInBlock = BasaltBlock.Index)

@@ -142,6 +142,13 @@ namespace Game
 		{
 			Name = name;
 		}
+		public override Device Create(Point3 p)
+		{
+			var device = (EntityDevice<T>)base.Create(p);
+			device.Component = Component = Utils.SubsystemBlockEntities.GetBlockEntity(p.X, p.Y, p.Z).Entity.FindComponent<T>(true);
+			device.Name = Name;
+			return device;
+		}
 		public virtual void OnBlockAdded(SubsystemTerrain subsystemTerrain, int value, int oldValue)
 		{
 			if (oldValue != -1)
@@ -153,7 +160,6 @@ namespace Game
 				Component = entity.FindComponent<T>(true);
 				subsystemTerrain.Project.AddEntity(entity);
 			}
-			Component = (Utils.SubsystemBlockEntities = subsystemTerrain.Project.FindSubsystem<SubsystemBlockEntities>(true)).GetBlockEntity(Point.X, Point.Y, Point.Z).Entity.FindComponent<T>(true);
 		}
 		public virtual void OnBlockRemoved(SubsystemTerrain subsystemTerrain, int value, int newValue)
 		{

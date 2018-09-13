@@ -4,6 +4,11 @@ using System.Collections.Generic;
 
 namespace Game
 {
+	public interface INode
+	{
+		int GetWeight(int value = 0);
+		void Simulate(ref int value);
+	}
 	public interface IDurability
 	{
 		int GetDurability(int value);

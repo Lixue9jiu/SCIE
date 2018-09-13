@@ -24,7 +24,6 @@ namespace Game
 	}
 	public class WireDevice : WireElement
 	{
-		public Terrain Terrain;
 		public BoundingBox[] m_collisionBoxesByFace = new BoundingBox[6];
 		public WireDevice()
 		{

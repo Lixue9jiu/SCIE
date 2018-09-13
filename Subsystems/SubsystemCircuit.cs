@@ -16,13 +16,10 @@ namespace Game
 			public Element[] Elements;
 		}
 		public Queue<Request> Requests = new Queue<Request>();
-		public SubsystemTime SubsystemTime;
-		//public SubsystemAudio SubsystemAudio;
 		protected float m_remainingSimulationTime;
 		protected ElementBlock elementblock;
 		public int UpdateStep;
 		public bool UpdatePath;
-		public Terrain Terrain;
 		public HashSet<Device> Path;
 		public Device[][] CircuitPath;
 		public static Dictionary<Point3, Device> Table;
@@ -33,13 +30,10 @@ namespace Game
 			CircuitPath = new Device[0][];
 			base.Load(valuesDictionary);
 			Utils.Load(Project);
-			((WireDevice)ElementBlock.Devices[5]).Terrain = Terrain = SubsystemTerrain.Terrain;
 			int count = valuesDictionary.GetValue<int>("Count", 0);
 			Path = new HashSet<Device>();
 			Table = new Dictionary<Point3, Device>(count);
-			SubsystemTime = Project.FindSubsystem<SubsystemTime>(true);
 			elementblock = BlocksManager.Blocks[ElementBlock.Index] as ElementBlock;
-			//SubsystemAudio = Project.FindSubsystem<SubsystemAudio>(true);
 			Task.Run((Action)ThreadFunction);
 		}
 		public override void OnBlockGenerated(int value, int x, int y, int z, bool isLoaded)
@@ -114,7 +108,7 @@ namespace Game
 		}
 		public override void OnNeighborBlockChanged(int x, int y, int z, int neighborX, int neighborY, int neighborZ)
 		{
-			var device = elementblock.GetDevice(Terrain, x, y, z);
+			var device = elementblock.GetDevice(Utils.Terrain, x, y, z);
 			if (device != null && device is IUnstableBlock behavior)
 			{
 				behavior.OnNeighborBlockChanged(SubsystemTerrain, neighborX, neighborY, neighborZ);
@@ -127,7 +121,7 @@ namespace Game
 		}
 		public override void OnHitByProjectile(CellFace cellFace, WorldItem worldItem)
 		{
-			var item = elementblock.GetDevice(Terrain, cellFace.X, cellFace.Y, cellFace.Z);
+			var item = elementblock.GetDevice(Utils.Terrain, cellFace.X, cellFace.Y, cellFace.Z);
 			if (item != null && item is IItemAcceptableBlock block)
 				block.OnHitByProjectile(cellFace, worldItem);
 		}
@@ -158,7 +152,7 @@ namespace Game
 					{
 						v = Q.Dequeue();
 						neighbors.Clear();
-						elementblock.GetAllConnectedNeighbors(Terrain, v, 4, neighbors);
+						elementblock.GetAllConnectedNeighbors(Utils.Terrain, v, 4, neighbors);
 						v.Next = new DynamicArray<Element>(neighbors.Count);
 						for (j = 0; j < neighbors.Count; j++)
 						{
@@ -268,7 +262,7 @@ namespace Game
 				Monitor.Pulse(Requests);
 			}
 		}
-		/*public static void QuickSort(Node[] R, int Low, int High, int voltage = 0)
+		/*public static void QuickSort(INode[] R, int Low, int High, int voltage = 0)
 		{
 			int low = 2, high = High - Low;
 			while ((high >>= 1) > 0)

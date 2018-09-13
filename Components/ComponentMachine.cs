@@ -5,8 +5,8 @@ namespace Game
 {
 	public abstract class ComponentMachine : ComponentInventoryBase
 	{
-		protected SubsystemExplosions m_subsystemExplosions;
-		protected SubsystemTerrain m_subsystemTerrain;
+		protected SubsystemExplosions SubsystemExplosions;
+		protected SubsystemTerrain SubsystemTerrain;
 		protected ComponentBlockEntity m_componentBlockEntity;
 		protected bool m_updateSmeltingRecipe;
 		public virtual int FuelSlotIndex
@@ -44,8 +44,8 @@ namespace Game
 		public override void Load(ValuesDictionary valuesDictionary, IdToEntityMap idToEntityMap)
 		{
 			base.Load(valuesDictionary, idToEntityMap);
-			m_subsystemTerrain = Project.FindSubsystem<SubsystemTerrain>(true);
-			m_subsystemExplosions = Project.FindSubsystem<SubsystemExplosions>(true);
+			SubsystemTerrain = Project.FindSubsystem<SubsystemTerrain>(true);
+			SubsystemExplosions = Project.FindSubsystem<SubsystemExplosions>(true);
 			m_componentBlockEntity = Entity.FindComponent<ComponentBlockEntity>(false);
 			m_updateSmeltingRecipe = true;
 		}

@@ -124,7 +124,7 @@ namespace Game
 					if (block.GetExplosionPressure(slot2.Value) > 0f)
 					{
 						slot2.Count = 0;
-						m_subsystemExplosions.TryExplodeBlock(coordinates.X, coordinates.Y, coordinates.Z, slot2.Value);
+						SubsystemExplosions.TryExplodeBlock(coordinates.X, coordinates.Y, coordinates.Z, slot2.Value);
 					}
 					else if (block.FuelHeatLevel > 0f)
 					{
