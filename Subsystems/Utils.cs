@@ -8,7 +8,7 @@ namespace Game
 	public static class Utils
 	{
 		public static SubsystemGameInfo SubsystemGameInfo;
-		//public static SubsystemAudio SubsystemAudio;
+		public static SubsystemAudio SubsystemAudio;
 		public static SubsystemTerrain SubsystemTerrain;
 		public static SubsystemTime SubsystemTime;
 		public static SubsystemItemsScanner SubsystemItemsScanner;
@@ -25,7 +25,7 @@ namespace Game
 				return;
 			}
 			SubsystemGameInfo = Project.FindSubsystem<SubsystemGameInfo>(true);
-			//SubsystemAudio = Project.FindSubsystem<SubsystemAudio>(true);
+			SubsystemAudio = Project.FindSubsystem<SubsystemAudio>(true);
 			SubsystemTime = Project.FindSubsystem<SubsystemTime>(true);
 			SubsystemItemsScanner = Project.FindSubsystem<SubsystemItemsScanner>(true);
 			SubsystemMovingBlocks = Project.FindSubsystem<SubsystemMovingBlocks>(true);
@@ -129,9 +129,8 @@ namespace Game
 		}
 		public static int[] GetCreativeValues(int BlockIndex)
 		{
-			var array = new int[17];
-			array[0] = BlockIndex;
-			for (int i = 1; i < 16; i++)
+			var array = new int[16];
+			for (int i = 0; i < 16; i++)
 			{
 				array[i] = BlockIndex | SetColor(0, i) << 14;
 			}

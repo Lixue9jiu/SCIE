@@ -123,7 +123,6 @@ namespace Game
 		public override void Load(ValuesDictionary valuesDictionary, IdToEntityMap idToEntityMap)
 		{
 			base.Load(valuesDictionary, idToEntityMap);
-			m_subsystemAudio = Project.FindSubsystem<SubsystemAudio>(true);
 			m_furnaceSize = SlotsCount - 2;
 			m_fireTimeRemaining = valuesDictionary.GetValue<float>("FireTimeRemaining");
 			HeatLevel = valuesDictionary.GetValue<float>("HeatLevel");
@@ -144,8 +143,6 @@ namespace Game
 		protected readonly string[] m_matchedIngredients = new string[9];
 
 		protected string m_smeltingRecipe;
-
-		protected SubsystemAudio m_subsystemAudio;
 
 		//protected int m_music;
 

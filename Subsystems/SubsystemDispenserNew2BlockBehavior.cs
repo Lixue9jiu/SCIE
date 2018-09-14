@@ -11,8 +11,6 @@ namespace Game
 
 		protected SubsystemGameInfo m_subsystemGameInfo;
 
-		protected SubsystemTerrain m_subsystemTerrain;
-
 		public override int[] HandledBlocks
 		{
 			get
@@ -27,7 +25,6 @@ namespace Game
 		public override void Load(ValuesDictionary valuesDictionary)
 		{
 			base.Load(valuesDictionary);
-			m_subsystemTerrain = Project.FindSubsystem<SubsystemTerrain>(true);
 			m_subsystemBlockEntities = Project.FindSubsystem<SubsystemBlockEntities>(true);
 			m_subsystemGameInfo = Project.FindSubsystem<SubsystemGameInfo>(true);
 			m_subsystemAudio = Project.FindSubsystem<SubsystemAudio>(true);
@@ -76,7 +73,7 @@ namespace Game
 			if (!worldItem.ToRemove)
 			{
 				ComponentBlockEntity blockEntity = m_subsystemBlockEntities.GetBlockEntity(cellFace.X, cellFace.Y, cellFace.Z);
-				if (blockEntity != null && DispenserNew2Block.GetAcceptsDrops(Terrain.ExtractData(m_subsystemTerrain.Terrain.GetCellValue(cellFace.X, cellFace.Y, cellFace.Z))))
+				if (blockEntity != null && DispenserNew2Block.GetAcceptsDrops(Terrain.ExtractData(SubsystemTerrain.Terrain.GetCellValue(cellFace.X, cellFace.Y, cellFace.Z))))
 				{
 					ComponentDispenserNew inventory = blockEntity.Entity.FindComponent<ComponentDispenserNew>(true);
 					var pickable = worldItem as Pickable;

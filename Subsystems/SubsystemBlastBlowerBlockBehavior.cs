@@ -28,7 +28,6 @@ namespace Game
 			base.Load(valuesDictionary);
 			m_subsystemTime = Project.FindSubsystem<SubsystemTime>(true);
 			m_subsystemProjectiles = Project.FindSubsystem<SubsystemProjectiles>(true);
-			m_subsystemTerrain = Project.FindSubsystem<SubsystemTerrain>(true);
 		}
 		/*public void Update(float dt)
 		{
@@ -104,8 +103,6 @@ namespace Game
 		protected SubsystemTime m_subsystemTime;
 		
 		protected SubsystemProjectiles m_subsystemProjectiles;
-		
-		protected SubsystemTerrain m_subsystemTerrain;
 		
 		//protected Vector3 coordinate;
 		

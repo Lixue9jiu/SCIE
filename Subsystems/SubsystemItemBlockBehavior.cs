@@ -53,6 +53,7 @@ namespace Game
 						dir = rotation.X < 0 ? 1 : 3;
 					entity.FindComponent<ComponentTrain>(true).SetDirectionImmediately(dir);
 					Project.AddEntity(entity);
+					m_subsystemAudio.PlaySound("Audio/BlockPlaced", 1f, 0f, position, 3f, true);
 				}
 			}
 			else if (componentMiner.ActiveBlockValue == ItemBlock.IdTable["SteamBoat"])
@@ -78,7 +79,6 @@ namespace Game
 		public override void Load(ValuesDictionary valuesDictionary)
 		{
 			base.Load(valuesDictionary);
-			m_subsystemAudio = Project.FindSubsystem<SubsystemAudio>(true);
 			m_subsystemBodies = Project.FindSubsystem<SubsystemBodies>(true);
 			m_subsystemPickables = Project.FindSubsystem<SubsystemPickables>(true);
 		}

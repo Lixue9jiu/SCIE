@@ -145,21 +145,20 @@ namespace Game
 		public override Device Create(Point3 p)
 		{
 			var device = (EntityDevice<T>)base.Create(p);
-			device.Component = Component = Utils.SubsystemBlockEntities.GetBlockEntity(p.X, p.Y, p.Z).Entity.FindComponent<T>(true);
+			device.Component = Utils.SubsystemBlockEntities.GetBlockEntity(p.X, p.Y, p.Z)?.Entity.FindComponent<T>(true);
 			device.Name = Name;
 			return device;
 		}
 		public virtual void OnBlockAdded(SubsystemTerrain subsystemTerrain, int value, int oldValue)
 		{
-			if (oldValue != -1)
-			{
-				var valuesDictionary = new ValuesDictionary();
-				valuesDictionary.PopulateFromDatabaseObject(subsystemTerrain.Project.GameDatabase.Database.FindDatabaseObject(Name, subsystemTerrain.Project.GameDatabase.EntityTemplateType, true));
-				valuesDictionary.GetValue<ValuesDictionary>("BlockEntity").SetValue("Coordinates", Point);
-				Entity entity = subsystemTerrain.Project.CreateEntity(valuesDictionary);
-				Component = entity.FindComponent<T>(true);
-				subsystemTerrain.Project.AddEntity(entity);
-			}
+			if (oldValue == -1)
+				return;
+			var valuesDictionary = new ValuesDictionary();
+			valuesDictionary.PopulateFromDatabaseObject(subsystemTerrain.Project.GameDatabase.Database.FindDatabaseObject(Name, subsystemTerrain.Project.GameDatabase.EntityTemplateType, true));
+			valuesDictionary.GetValue<ValuesDictionary>("BlockEntity").SetValue("Coordinates", Point);
+			Entity entity = subsystemTerrain.Project.CreateEntity(valuesDictionary);
+			Component = entity.FindComponent<T>(true);
+			subsystemTerrain.Project.AddEntity(entity);
 		}
 		public virtual void OnBlockRemoved(SubsystemTerrain subsystemTerrain, int value, int newValue)
 		{
@@ -245,34 +244,7 @@ namespace Game
 		}
 		public override BlockPlacementData GetPlacementValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, TerrainRaycastResult raycastResult)
 		{
-			CellFace cellFace = raycastResult.CellFace;
-			Vector3 forward = Matrix.CreateFromQuaternion(componentMiner.ComponentCreature.ComponentCreatureModel.EyeRotation).Forward;
-			float num = Vector3.Dot(forward, Vector3.UnitZ);
-			float num2 = Vector3.Dot(forward, Vector3.UnitX);
-			float num3 = Vector3.Dot(forward, -Vector3.UnitZ);
-			float num4 = Vector3.Dot(forward, -Vector3.UnitX);
-			int data = 0;
-			float max = MathUtils.Max(num, num2, num3, num4);
-			if (num == max)
-			{
-				data = 2;
-			}
-			else if (num2 == max)
-			{
-				data = 3;
-			}
-			else if (num3 == max)
-			{
-				data = 0;
-			}
-			else if (num4 == max)
-			{
-				data = 1;
-			}
-			BlockPlacementData result = default(BlockPlacementData);
-			result.Value = Terrain.ReplaceData(value, Terrain.ExtractData(value) & -229377 | data << 15);
-			result.CellFace = raycastResult.CellFace;
-			return result;
+			return GetPlacementValue(0, componentMiner, value, raycastResult);
 		}
 		public override string GetDisplayName(SubsystemTerrain subsystemTerrain, int value)
 		{
@@ -301,7 +273,7 @@ namespace Game
 					int num2 = ComponentInventoryBase.AcquireItems(inventory, value, count);
 					if (num2 < num)
 					{
-						Utils.SubsystemBlockEntities.Project.FindSubsystem<SubsystemAudio>(true).PlaySound("Audio/PickableCollected", 1f, 0f, worldItem.Position, 3f, true);
+						Utils.SubsystemAudio.PlaySound("Audio/PickableCollected", 1f, 0f, worldItem.Position, 3f, true);
 					}
 					if (num2 <= 0)
 					{
@@ -380,33 +352,7 @@ namespace Game
 		}
 		public override BlockPlacementData GetPlacementValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, TerrainRaycastResult raycastResult)
 		{
-			Vector3 forward = Matrix.CreateFromQuaternion(componentMiner.ComponentCreature.ComponentCreatureModel.EyeRotation).Forward;
-			float num = Vector3.Dot(forward, Vector3.UnitZ);
-			float num2 = Vector3.Dot(forward, Vector3.UnitX);
-			float num3 = Vector3.Dot(forward, -Vector3.UnitZ);
-			float num4 = Vector3.Dot(forward, -Vector3.UnitX);
-			int data = 0;
-			float max = MathUtils.Max(num, num2, num3, num4);
-			if (num == max)
-			{
-				data = 2;
-			}
-			else if (num2 == max)
-			{
-				data = 3;
-			}
-			else if (num3 == max)
-			{
-				data = 0;
-			}
-			else if (num4 == max)
-			{
-				data = 1;
-			}
-			BlockPlacementData result = default(BlockPlacementData);
-			result.Value = Terrain.ReplaceData(value, Terrain.ExtractData(value) & -229377 | data << 15 | 2);
-			result.CellFace = raycastResult.CellFace;
-			return result;
+			return GetPlacementValue(2, componentMiner, value, raycastResult);
 		}
 		public override string GetDisplayName(SubsystemTerrain subsystemTerrain, int value)
 		{
@@ -491,33 +437,7 @@ namespace Game
 		}
 		public override BlockPlacementData GetPlacementValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, TerrainRaycastResult raycastResult)
 		{
-			Vector3 forward = Matrix.CreateFromQuaternion(componentMiner.ComponentCreature.ComponentCreatureModel.EyeRotation).Forward;
-			float num = Vector3.Dot(forward, Vector3.UnitZ);
-			float num2 = Vector3.Dot(forward, Vector3.UnitX);
-			float num3 = Vector3.Dot(forward, -Vector3.UnitZ);
-			float num4 = Vector3.Dot(forward, -Vector3.UnitX);
-			int data = 0;
-			float max = MathUtils.Max(num, num2, num3, num4);
-			if (num == max)
-			{
-				data = 2;
-			}
-			else if (num2 == max)
-			{
-				data = 3;
-			}
-			else if (num3 == max)
-			{
-				data = 0;
-			}
-			else if (num4 == max)
-			{
-				data = 1;
-			}
-			BlockPlacementData result = default(BlockPlacementData);
-			result.Value = Terrain.ReplaceData(value, Terrain.ExtractData(value) & -229377 | data << 15 | 3);
-			result.CellFace = raycastResult.CellFace;
-			return result;
+			return GetPlacementValue(3, componentMiner, value, raycastResult);
 		}
 		public override string GetDisplayName(SubsystemTerrain subsystemTerrain, int value)
 		{
@@ -551,33 +471,7 @@ namespace Game
 		}
 		public override BlockPlacementData GetPlacementValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, TerrainRaycastResult raycastResult)
 		{
-			Vector3 forward = Matrix.CreateFromQuaternion(componentMiner.ComponentCreature.ComponentCreatureModel.EyeRotation).Forward;
-			float num = Vector3.Dot(forward, Vector3.UnitZ);
-			float num2 = Vector3.Dot(forward, Vector3.UnitX);
-			float num3 = Vector3.Dot(forward, -Vector3.UnitZ);
-			float num4 = Vector3.Dot(forward, -Vector3.UnitX);
-			int data = 0;
-			float max = MathUtils.Max(num, num2, num3, num4);
-			if (num == max)
-			{
-				data = 2;
-			}
-			else if (num2 == max)
-			{
-				data = 3;
-			}
-			else if (num3 == max)
-			{
-				data = 0;
-			}
-			else if (num4 == max)
-			{
-				data = 1;
-			}
-			BlockPlacementData result = default(BlockPlacementData);
-			result.Value = Terrain.ReplaceData(value, Terrain.ExtractData(value) & -229377 | data << 15 | 4);
-			result.CellFace = raycastResult.CellFace;
-			return result;
+			return GetPlacementValue(4, componentMiner, value, raycastResult);
 		}
 		public override string GetDisplayName(SubsystemTerrain subsystemTerrain, int value)
 		{
@@ -663,33 +557,7 @@ namespace Game
 		}
 		public override BlockPlacementData GetPlacementValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, TerrainRaycastResult raycastResult)
 		{
-			Vector3 forward = Matrix.CreateFromQuaternion(componentMiner.ComponentCreature.ComponentCreatureModel.EyeRotation).Forward;
-			float num = Vector3.Dot(forward, Vector3.UnitZ);
-			float num2 = Vector3.Dot(forward, Vector3.UnitX);
-			float num3 = Vector3.Dot(forward, -Vector3.UnitZ);
-			float num4 = Vector3.Dot(forward, -Vector3.UnitX);
-			int data = 0;
-			float max = MathUtils.Max(num, num2, num3, num4);
-			if (num == max)
-			{
-				data = 2;
-			}
-			else if (num2 == max)
-			{
-				data = 3;
-			}
-			else if (num3 == max)
-			{
-				data = 0;
-			}
-			else if (num4 == max)
-			{
-				data = 1;
-			}
-			BlockPlacementData result = default(BlockPlacementData);
-			result.Value = Terrain.ReplaceData(value, Terrain.ExtractData(value) & -229377 | data << 15 | 6);
-			result.CellFace = raycastResult.CellFace;
-			return result;
+			return GetPlacementValue(6, componentMiner, value, raycastResult);
 		}
 		public override string GetDisplayName(SubsystemTerrain subsystemTerrain, int value)
 		{

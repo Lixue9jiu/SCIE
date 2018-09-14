@@ -32,6 +32,8 @@ namespace Game
 		Connector = 262140,
 		Capacitor = 262144,
 		Inductor = 524288,
+		Drive = 1048576,
+		Tube = 2097152,
 	}
 	[Serializable]
 	public abstract class Element : Item, IEquatable<Element>, INode//, ICloneable, IComparable, IComparable<Node>, IFormattable, IConvertible, ICollection, ICollection<Element>, IList, IList<Element>, IReadOnlyList<Element>, IStructuralComparable, IStructuralEquatable
@@ -347,6 +349,37 @@ namespace Game
 		{
 			base.GetObjectData(info, context);
 			info.AddValue("Resistance", Resistance);
+		}
+		public static BlockPlacementData GetPlacementValue(int index, ComponentMiner componentMiner, int value, TerrainRaycastResult raycastResult)
+		{
+			Vector3 forward = Matrix.CreateFromQuaternion(componentMiner.ComponentCreature.ComponentCreatureModel.EyeRotation).Forward;
+			float num = Vector3.Dot(forward, Vector3.UnitZ);
+			float num2 = Vector3.Dot(forward, Vector3.UnitX);
+			float num3 = Vector3.Dot(forward, -Vector3.UnitZ);
+			float num4 = Vector3.Dot(forward, -Vector3.UnitX);
+			int data = 0;
+			float max = MathUtils.Max(num, num2, num3, num4);
+			if (num == max)
+			{
+				data = 2;
+			}
+			else if (num2 == max)
+			{
+				data = 3;
+			}
+			else if (num3 == max)
+			{
+				data = 0;
+			}
+			else if (num4 == max)
+			{
+				data = 1;
+			}
+			return new BlockPlacementData
+			{
+				Value = Terrain.ReplaceData(value, Terrain.ExtractData(value) & -229377 | data << 15 | index),
+				CellFace = raycastResult.CellFace
+			};
 		}
 	}
 }
