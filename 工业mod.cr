@@ -221,9 +221,6 @@
     <Recipe Result="SteelIngot" ResultCount="2" RequiredHeatLevel="1900" Remains="ScrapIron" RemainsCount="1" a="ironingot" Description="Smelt iron ingot to obtain steel and get rid of sulphur">
       "aaa"
     </Recipe>
-    <Recipe Result="ScrapIron" ResultCount="3" RequiredHeatLevel="1" a="ironingot" Description="Smelt iron ingot to obtain steel and get rid of sulphur">
-      "aaa"
-    </Recipe>
     <Recipe Result="RefractoryBrick" ResultCount="4" RequiredHeatLevel="1500" a="clay" b="IronOrePowder" c="AluminumOrePowder" Description="Smelt clay,iron ore powder and aluminum ore powder to obtain fire brick">
       "abc"
     </Recipe>
@@ -394,6 +391,9 @@
     </Recipe>
     <Recipe Result="StannaryLine" ResultCount="2" RequiredHeatLevel="1" a="StannaryLine" Description="Forge a stannary line into ingots">
       "aa"
+    </Recipe>
+    <Recipe Result="SteelIngot" ResultCount="1" RequiredHeatLevel="100" a="IndustrialMagnet" Description="Forge an IndustrialMagnet into ingots">
+      "a"
     </Recipe>
   </Smelting>
   <Materials>
@@ -689,7 +689,17 @@
       "cbc"
       "bab"
     </Recipe>
-    <Recipe Result="FurnaceNBlock" ResultCount="1" RequiredHeatLevel="0" a="ironingot" b="furnace" Description="Make a furnace from stone">
+    <Recipe Result="CastMachBlock" ResultCount="1" RequiredHeatLevel="0" a="furnace" b="IronPlate" c="copperingot" Description="Make a Casting Machine to cast steel item">
+      "bab"
+      "cbc"
+      "bab"
+    </Recipe>
+    <Recipe Result="FurnaceNBlock" ResultCount="1" RequiredHeatLevel="0" a="ironingot" b="furnace" Description="Make a furnace from iron">
+      "aaa"
+      "aba"
+      "aaa"
+    </Recipe>
+    <Recipe Result="FurnaceNBlock" ResultCount="1" RequiredHeatLevel="0" a="IronPlate" b="furnace" Description="Make a furnace from iron">
       "aaa"
       "aba"
       "aaa"
