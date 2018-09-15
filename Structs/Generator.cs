@@ -1,7 +1,5 @@
-﻿using Engine;
-//ElementType.Container | ElementType.Connector |
-namespace Game
-{
+﻿namespace Game
+{//ElementType.Container | ElementType.Connector |
 	public class Generator : Device, IBlockBehavior, IInteractiveBlock, IUnstableBlock
 	{
 		public readonly int Voltage;
@@ -61,33 +59,7 @@ namespace Game
 		}
 		public override BlockPlacementData GetPlacementValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, TerrainRaycastResult raycastResult)
 		{
-			Vector3 forward = Matrix.CreateFromQuaternion(componentMiner.ComponentCreature.ComponentCreatureModel.EyeRotation).Forward;
-			float num = Vector3.Dot(forward, Vector3.UnitZ);
-			float num2 = Vector3.Dot(forward, Vector3.UnitX);
-			float num3 = Vector3.Dot(forward, -Vector3.UnitZ);
-			float num4 = Vector3.Dot(forward, -Vector3.UnitX);
-			int data = 0;
-			float max = MathUtils.Max(num, num2, num3, num4);
-			if (num == max)
-			{
-				data = 2;
-			}
-			else if (num2 == max)
-			{
-				data = 3;
-			}
-			else if (num3 == max)
-			{
-				data = 0;
-			}
-			else if (num4 == max)
-			{
-				data = 1;
-			}
-			BlockPlacementData result = default(BlockPlacementData);
-			result.Value = Terrain.ReplaceData(value, Terrain.ExtractData(value) & -229377 | data << 15 | 1);
-			result.CellFace = raycastResult.CellFace;
-			return result;
+			return FixedDevice.GetPlacementValue(1, componentMiner, value, raycastResult);
 		}
 
 		public static int GetDirection(int data)

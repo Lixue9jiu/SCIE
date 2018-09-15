@@ -1,10 +1,6 @@
-using System.Collections.Generic;
-using Engine;
-using TemplatesDatabase;
-
 namespace Game
 {
-	public class SubsystemFireBoxBlockBehavior : SubsystemFurnaceNBlockBehavior
+	public class SubsystemFireBoxBlockBehavior : SubsystemFurnaceBlockBehavior<ComponentFireBox>
 	{
 		public override int[] HandledBlocks
 		{
@@ -16,34 +12,14 @@ namespace Game
 				};
 			}
 		}
-		
-		public override void OnBlockAdded(int value, int oldValue, int x, int y, int z)
+
+		public SubsystemFireBoxBlockBehavior() : base("FireBox")
 		{
-			if (Terrain.ExtractContents(oldValue) != FireBoxBlock.Index)
-			{
-				DatabaseObject databaseObject = Project.GameDatabase.Database.FindDatabaseObject("FireBox", Project.GameDatabase.EntityTemplateType, true);
-				ValuesDictionary valuesDictionary = new ValuesDictionary();
-				valuesDictionary.PopulateFromDatabaseObject(databaseObject);
-				valuesDictionary.GetValue<ValuesDictionary>("BlockEntity").SetValue<Point3>("Coordinates", new Point3(x, y, z));
-				Project.AddEntity(Project.CreateEntity(valuesDictionary));
-			}
-			if (FurnaceNBlock.GetHeatLevel(value) != 0)
-			{
-				AddFire(value, x, y, z);
-			}
 		}
-		
-		public override bool OnInteract(TerrainRaycastResult raycastResult, ComponentMiner componentMiner)
+
+		public override Widget GetWidget(IInventory inventory, ComponentFireBox component)
 		{
-			ComponentBlockEntity blockEntity = Project.FindSubsystem<SubsystemBlockEntities>(true).GetBlockEntity(raycastResult.CellFace.X, raycastResult.CellFace.Y, raycastResult.CellFace.Z);
-			if (blockEntity == null || componentMiner.ComponentPlayer == null)
-			{
-				return false;
-			}
-			ComponentFireBox componentFurnace = blockEntity.Entity.FindComponent<ComponentFireBox>(true);
-			componentMiner.ComponentPlayer.ComponentGui.ModalPanelWidget = new FireBoxWidget<ComponentFireBox>(componentMiner.Inventory, componentFurnace, "Widgets/FireBoxWidget");
-			AudioManager.PlaySound("Audio/UI/ButtonClick", 1f, 0f, 0f);
-			return true;
+			return new FireBoxWidget<ComponentFireBox>(inventory, component, "Widgets/FireBoxWidget");
 		}
 	}
 }

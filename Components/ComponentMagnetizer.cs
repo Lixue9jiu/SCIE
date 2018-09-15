@@ -82,8 +82,7 @@ namespace Game
 				string text = m_smeltingRecipe2 = FindSmeltingRecipe(heatLevel);
 				if (text != m_smeltingRecipe)
 				{
-					m_smeltingRecipe = text;
-					m_smeltingRecipe2 = text;
+					m_smeltingRecipe = m_smeltingRecipe2 = text;
 					SmeltingProgress = 0f;
 					//m_music = 0;
 				}
@@ -122,7 +121,7 @@ namespace Game
 					if (block.GetExplosionPressure(slot2.Value) > 0f)
 					{
 						slot2.Count = 0;
-						SubsystemExplosions.TryExplodeBlock(coordinates.X, coordinates.Y, coordinates.Z, slot2.Value);
+						Utils.SubsystemExplosions.TryExplodeBlock(coordinates.X, coordinates.Y, coordinates.Z, slot2.Value);
 					}
 					else if (block.FuelHeatLevel > 0f)
 					{

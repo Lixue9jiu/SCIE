@@ -8,12 +8,6 @@ namespace Game
 	{
 		protected readonly Random m_random = new Random();
 
-		protected SubsystemTime m_subsystemTime;
-
-		protected readonly Dictionary<Point3, bool> m_toDegrade = new Dictionary<Point3, bool>();
-
-		protected readonly Dictionary<Point3, bool> m_toHydrate = new Dictionary<Point3, bool>();
-
 		protected SubsystemProjectiles m_subsystemProjectiles;
 
 		public override int[] HandledBlocks
@@ -27,18 +21,9 @@ namespace Game
 			}
 		}
 
-		/*public int UpdateOrder
-		{
-			get
-			{
-				return 0;
-			}
-		}*/
-
 		public override void Load(ValuesDictionary valuesDictionary)
 		{
 			base.Load(valuesDictionary);
-			m_subsystemTime = Project.FindSubsystem<SubsystemTime>(true);
 			m_subsystemProjectiles = Project.FindSubsystem<SubsystemProjectiles>(true);
 		}
 
@@ -46,27 +31,7 @@ namespace Game
 		{
 			Vector3 v = CellFace.FaceToVector3(cellFace.Face);
 			Vector3 position = new Vector3((float)cellFace.X + 0.5f, (float)cellFace.Y + 0.5f, (float)cellFace.Z + 0.5f) - 0.75f * v;
-			int num = 0;
-			for (int i = -1; i < 2; i++)
-			{
-				for (int j = -1; j < 2; j++)
-				{
-					for (int k = -1; k < 2; k++)
-					{
-						int cellValue = SubsystemTerrain.Terrain.GetCellValue(cellFace.X + i, cellFace.Y + j, cellFace.Z + k);
-						if (i * i + j * j + k * k <= 1 && FurnaceNBlock.GetHeatLevel(cellValue) != 0)
-						{
-							cellValue = Terrain.ExtractContents(cellValue);
-							if (cellValue == EngineBlock.Index || cellValue == EngineHBlock.Index)
-							{
-								num = 1;
-								break;
-							}
-						}
-					}
-				}
-			}
-			if (num != 0)
+			if (ComponentEngine.IsPowered(SubsystemTerrain.Terrain, cellFace.X, cellFace.Y, cellFace.Z))
 			{
 				if (worldItem.Velocity.Length() >= 20f && BlocksManager.Blocks[Terrain.ExtractContents(worldItem.Value)].DefaultDropCount >= 2f)
 				{

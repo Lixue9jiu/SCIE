@@ -468,7 +468,8 @@ namespace Game
 			if (!Utils.SubsystemCollapsingBlockBehavior.IsCollapseSupportBlock(value))
 			{
 				List<MovingBlock> list = new List<MovingBlock>();
-				for (int i = y; i < 128; i++)
+				int i;
+				for (i = y; i < 128; i++)
 				{
 					value = SubsystemTerrain.Terrain.GetCellValue(x, i, z);
 					if (Terrain.ExtractContents(value) != 67 || (Terrain.ExtractData(value) & 65536) == 0)
@@ -483,7 +484,7 @@ namespace Game
 				}
 				if (list.Count != 0 && Utils.SubsystemMovingBlocks.AddMovingBlockSet(new Vector3(x, y, z), new Vector3((float)x, (float)(-list.Count - 1), (float)z), 0f, 10f, 0.7f, new Vector2(0f), list, "CollapsingBlock", null, true) != null)
 				{
-					for (int i = 0; i < list.Count; i++)
+					for (i = 0; i < list.Count; i++)
 					{
 						Point3 point = list[i].Offset;
 						SubsystemTerrain.ChangeCell(point.X + x, point.Y + y, point.Z + z, 0, true);

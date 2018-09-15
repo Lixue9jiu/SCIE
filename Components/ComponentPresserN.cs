@@ -75,7 +75,7 @@ namespace Game
 			}
 			if (m_smeltingRecipe2 != null)
 			{
-				int num = ComponentEngine.IsPowered(SubsystemTerrain.Terrain, coordinates.X, coordinates.Y, coordinates.Z) ? 1 : 0;
+				int num = ComponentEngine.IsPowered(Utils.SubsystemTerrain.Terrain, coordinates.X, coordinates.Y, coordinates.Z) ? 1 : 0;
 				if (num == 0)
 				{
 					m_smeltingRecipe = null;

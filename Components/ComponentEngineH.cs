@@ -104,7 +104,7 @@ namespace Game
 					if (block.GetExplosionPressure(slot2.Value) > 0f)
 					{
 						slot2.Count = 0;
-						SubsystemExplosions.TryExplodeBlock(coordinates.X, coordinates.Y, coordinates.Z, slot2.Value);
+						Utils.SubsystemExplosions.TryExplodeBlock(coordinates.X, coordinates.Y, coordinates.Z, slot2.Value);
 					}
 					else 
 					{
@@ -145,11 +145,11 @@ namespace Game
 					m_updateSmeltingRecipe = true;
 				}
 			}
-			TerrainChunk chunkAtCell = SubsystemTerrain.Terrain.GetChunkAtCell(coordinates.X, coordinates.Z);
+			TerrainChunk chunkAtCell = Utils.SubsystemTerrain.Terrain.GetChunkAtCell(coordinates.X, coordinates.Z);
 			if (chunkAtCell != null && chunkAtCell.State == TerrainChunkState.Valid)
 			{
 				int cellValue = chunkAtCell.GetCellValueFast(coordinates.X & 15, coordinates.Y, coordinates.Z & 15);
-				SubsystemTerrain.ChangeCell(coordinates.X, coordinates.Y, coordinates.Z, Terrain.ReplaceData(cellValue, FurnaceNBlock.SetHeatLevel(Terrain.ExtractData(cellValue), (HeatLevel > 0f) ? 1 : 0)), true);
+				Utils.SubsystemTerrain.ChangeCell(coordinates.X, coordinates.Y, coordinates.Z, Terrain.ReplaceData(cellValue, FurnaceNBlock.SetHeatLevel(Terrain.ExtractData(cellValue), (HeatLevel > 0f) ? 1 : 0)), true);
 			}
 		}
 

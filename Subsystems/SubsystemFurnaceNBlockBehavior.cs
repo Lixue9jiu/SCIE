@@ -1,28 +1,18 @@
 using Engine;
+using GameEntitySystem;
 using System.Collections.Generic;
 using TemplatesDatabase;
 
 namespace Game
 {
-	public class SubsystemFurnaceNBlockBehavior : SubsystemInventoryBlockBehavior<ComponentFurnaceN>
+	public abstract class SubsystemFurnaceBlockBehavior<T> : SubsystemInventoryBlockBehavior<T> where T : Component
 	{
 		protected readonly Dictionary<Point3, FireParticleSystem> m_particleSystemsByCell = new Dictionary<Point3, FireParticleSystem>();
 
 		protected SubsystemParticles m_subsystemParticles;
 
-		public SubsystemFurnaceNBlockBehavior() : base("FurnaceN")
+		public SubsystemFurnaceBlockBehavior(string name) : base(name)
 		{
-		}
-
-		public override int[] HandledBlocks
-		{
-			get
-			{
-				return new []
-				{
-					FurnaceNBlock.Index
-				};
-			}
 		}
 
 		public override void OnBlockAdded(int value, int oldValue, int x, int y, int z)
@@ -102,6 +92,23 @@ namespace Game
 			var key = new Point3(x, y, z);
 			m_subsystemParticles.RemoveParticleSystem(m_particleSystemsByCell[key]);
 			m_particleSystemsByCell.Remove(key);
+		}
+	}
+	public class SubsystemFurnaceNBlockBehavior : SubsystemFurnaceBlockBehavior<ComponentFurnaceN>
+	{
+		public SubsystemFurnaceNBlockBehavior() : base("FurnaceN")
+		{
+		}
+
+		public override int[] HandledBlocks
+		{
+			get
+			{
+				return new []
+				{
+					FurnaceNBlock.Index
+				};
+			}
 		}
 		public override Widget GetWidget(IInventory inventory, ComponentFurnaceN component)
 		{

@@ -7,12 +7,6 @@ namespace Game
 	{
 		protected readonly Random m_random = new Random();
 
-		protected SubsystemTime m_subsystemTime;
-
-		//protected readonly Dictionary<Point3, bool> m_toDegrade = new Dictionary<Point3, bool>();
-
-		//protected readonly Dictionary<Point3, bool> m_toHydrate = new Dictionary<Point3, bool>();
-
 		protected SubsystemProjectiles m_subsystemProjectiles;
 
 		public override int[] HandledBlocks
@@ -26,18 +20,9 @@ namespace Game
 			}
 		}
 
-		/*public int UpdateOrder
-		{
-			get
-			{
-				return 0;
-			}
-		}*/
-
 		public override void Load(ValuesDictionary valuesDictionary)
 		{
 			base.Load(valuesDictionary);
-			m_subsystemTime = Project.FindSubsystem<SubsystemTime>(true);
 			m_subsystemProjectiles = Project.FindSubsystem<SubsystemProjectiles>(true);
 		}
 
