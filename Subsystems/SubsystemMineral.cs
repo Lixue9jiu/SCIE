@@ -9,15 +9,15 @@ using TemplatesDatabase;
 namespace Game
 {
 	[Flags]
-	[Serializable]
+	//[Serializable]
 	public enum Metal : short
 	{
 		None,
 		Li = 1,
-		Al = 1<<1, /*P = 1<<2, S = 1<<3, Sc = 1<<4, Ti = 1<<5, V = 1<<6,*/ Cr = 1<<7, Mn = 1<<8,
-		Fe = 1<<9, Co = 1<<10, Ni = 1<<11, Cu = 1<<12, Zn = 1<<13, Ga = 1<<14, /*Ge = 1<<15, As = 1<<16,
-		Ag = 1<<17, Cd = 1<<18, Sn = 1<<19, Sb = 1<<20,
-		Ba = 1<<21, W = 1<<22, Pt = 1<<23, Au = 1<<24, Hg = 1<<25, Pb = 1<<26,
+		Al = 1<<1, /*P = 1<<2, S = 1<<3,  Ti = 1<<4, V = 1<<5,*/ Cr = 1<<6, Mn = 1<<7,
+		Fe = 1<<8, Co = 1<<9, Ni = 1<<10, Cu = 1<<11, Zn = 1<<12, Ga = 1<<13, /*Ge = 1<<14, As = 1<<15,
+		Ag = 1<<16, Cd = 1<<17, Sn = 1<<18, Sb = 1<<19,
+		Ba = 1<<20, W = 1<<21, Pt = 1<<22, Au = 1<<23, Hg = 1<<24, Pb = 1<<25, I = 1<<26
 		U = 1<<31*/
 		Used = -32768
 	}
@@ -88,9 +88,6 @@ namespace Game
 		}
 		public override BlockPlacementData GetDigValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, int toolValue, TerrainRaycastResult raycastResult)
 		{
-			var cellFace = raycastResult.CellFace;
-			int x = cellFace.X, y = cellFace.Y, z = cellFace.Z;
-			Terrain terrain = subsystemTerrain.Terrain;
 			return new BlockPlacementData
 			{
 				Value = (Terrain.ExtractData(value) & 65536) != 0 ? Terrain.ReplaceData(MagmaBlock.Index
@@ -189,17 +186,10 @@ namespace Game
 			//Oil,
 			//NaruralGas
 		}
-		public static TerrainBrush[] AuBrushes;
-		public static TerrainBrush[] AgBrushes;
+		public static TerrainBrush[] SmallBrushes;
 		public static TerrainBrush[] PtBrushes;
-		public static TerrainBrush[] TiBrushes;
-		public static TerrainBrush[] SnBrushes;
-		public static TerrainBrush[] HgBrushes;
-		public static TerrainBrush[] PbBrushes;
-		public static TerrainBrush[] ZnBrushes;
-		public static TerrainBrush[] CoBrushes;
-		public static TerrainBrush[] NiBrushes;
-		public static TerrainBrush[] PBrushes;
+		public static TerrainBrush[] ABrushes;
+		public static TerrainBrush[] BBrushes;
 		//public static TerrainBrush[] OilPocketBrushes;
 		//public static TerrainBrush[] NaruralGasBrushes;
 		public static TerrainBrush[,] Brushes;
@@ -266,17 +256,10 @@ namespace Game
 			Handled = new HashSet<int>();
 			for (i = 0; i < HandledBlocks.Length; i++)
 				Handled.Add(HandledBlocks[i]);*/
-			AuBrushes = new TerrainBrush[16];
-			AgBrushes = new TerrainBrush[16];
+			SmallBrushes = new TerrainBrush[16];
 			PtBrushes = new TerrainBrush[16];
-			TiBrushes = new TerrainBrush[16];
-			SnBrushes = new TerrainBrush[16];
-			HgBrushes = new TerrainBrush[16];
-			PbBrushes = new TerrainBrush[16];
-			ZnBrushes = new TerrainBrush[16];
-			//CoBrushes = new TerrainBrush[16];
-			//NiBrushes = new TerrainBrush[16];
-			PBrushes = new TerrainBrush[16];
+			BBrushes = new TerrainBrush[16];
+			ABrushes = new TerrainBrush[16];
 			//NaruralGasBrushes = new TerrainBrush[16];
 			//OilPocketBrushes = new TerrainBrush[16];
 			//Brushes = new TerrainBrush[12, 16];
@@ -299,7 +282,7 @@ namespace Game
 					}
 				}
 				brush.Compile();
-				AuBrushes[i] = AgBrushes[i] = brush;
+				SmallBrushes[i] = brush;
 				brush = new TerrainBrush();
 				for (j = random.UniformInt(1, 3); j-- != 0;)
 				{
@@ -318,14 +301,14 @@ namespace Game
 				{
 					v = 0.5f * Vector3.Normalize(new Vector3(random.UniformFloat(-1f, 1f), random.UniformFloat(-0.25f, 0.25f), random.UniformFloat(-1f, 1f)));
 					vec = Vector3.Zero;
-					for (k = random.UniformInt(3, 6); k-- != 0;)
+					for (k = random.UniformInt(3, 5); k-- != 0;)
 					{
 						brush.AddBox((int)MathUtils.Floor(vec.X), (int)MathUtils.Floor(vec.Y), (int)MathUtils.Floor(vec.Z), 1, 1, 1, (int)BrushType.Ti);
 						vec += v;
 					}
 				}
 				brush.Compile();
-				PbBrushes[i] = TiBrushes[i] = brush;
+				ABrushes[i] = brush;
 				brush = new TerrainBrush();
 				for (j = random.UniformInt(3, 5); j-- != 0;)
 				{
@@ -338,20 +321,7 @@ namespace Game
 					}
 				}
 				brush.Compile();
-				HgBrushes[i] = SnBrushes[i] = brush;
-				/*brush = new TerrainBrush();
-				for (j = random.UniformInt(10, 20); j-- != 0;)
-				{
-					v = 0.5f * Vector3.Normalize(new Vector3(random.UniformFloat(-1f, 1f), random.UniformFloat(-1f, 1f), random.UniformFloat(-1f, 1f)));
-					vec = Vector3.Zero;
-					for (k = random.UniformInt(6, 10); k-- != 0;)
-					{
-						brush.AddBox((int)MathUtils.Floor(vec.X), (int)MathUtils.Floor(vec.Y), (int)MathUtils.Floor(vec.Z), 1, 1, 1, 67);
-						vec += v;
-					}
-				}
-				brush.Compile();
-				PBrushes[i] = brush;*/
+				BBrushes[i] = brush;
 			}
 		}
 
@@ -415,11 +385,11 @@ namespace Game
 					const int index = BasaltBlock.Index, index2 = BasaltBlock.Index;
 					for (k = 1 + (int)(2f * num2 * SimplexNoise.OctavedNoise((float)(i ^ fe), (float)(j ^ ff), 0.33f, 1, 1f, 1f)); k-- != 0;)
 					{
-						chunk.PaintFastSelective(AuBrushes[random.Int() & 15].Cells, ix16 | (random.Int() & 15), random.UniformInt(2, 40), jx16 | (random.Int() & 15), index2 | (int)BrushType.Au << 15);
+						chunk.PaintFastSelective(SmallBrushes[random.Int() & 15].Cells, ix16 | (random.Int() & 15), random.UniformInt(2, 40), jx16 | (random.Int() & 15), index2 | (int)BrushType.Au << 15);
 					}
 					for (k = 1 + (int)(2f * num2 * SimplexNoise.OctavedNoise((float)(i + 713), (float)(j + f3), 0.33f, 1, 1f, 1f)); k-- != 0;)
 					{
-						chunk.PaintFastSelective(AgBrushes[random.Int() & 15].Cells, ix16 | (random.Int() & 15), random.UniformInt(2, 40), jx16 | (random.Int() & 15), index2 | (int)BrushType.Ag << 15);
+						chunk.PaintFastSelective(SmallBrushes[random.Int() & 15].Cells, ix16 | (random.Int() & 15), random.UniformInt(2, 40), jx16 | (random.Int() & 15), index2 | (int)BrushType.Ag << 15);
 					}
 					for (k = 1 + (int)(2f * num2 * SimplexNoise.OctavedNoise((float)(i + f2), (float)(j + 396), 0.33f, 1, 1f, 1f)); k-- != 0;)
 					{
@@ -427,35 +397,35 @@ namespace Game
 					}
 					for (k = 3 + (int)(2f * num2 * SimplexNoise.OctavedNoise((float)(i + f6), (float)(j + 131), 0.33f, 1, 1f, 1f)); k-- != 0;)
 					{
-						chunk.PaintFastSelective(PbBrushes[random.Int() & 15].Cells, ix16 | (random.Int() & 15), random.UniformInt(2, 50), jx16 | (random.Int() & 15), index | (int)BrushType.Pb << 15);
+						chunk.PaintFastSelective(ABrushes[random.Int() & 15].Cells, ix16 | (random.Int() & 15), random.UniformInt(2, 50), jx16 | (random.Int() & 15), index | (int)BrushType.Pb << 15);
 					}
 					for (k = (int)(0.5f + 2f * num2 * SimplexNoise.OctavedNoise((float)(i + 432), (float)(j + f9), 0.33f, 1, 1f, 1f)); k-- != 0;)
 					{
-						chunk.PaintFastSelective(HgBrushes[random.Int() & 15].Cells, ix16 | (random.Int() & 15), random.UniformInt(2, 15), jx16 | (random.Int() & 15), index | (int)BrushType.Hg << 15);
+						chunk.PaintFastSelective(BBrushes[random.Int() & 15].Cells, ix16 | (random.Int() & 15), random.UniformInt(2, 15), jx16 | (random.Int() & 15), index | (int)BrushType.Hg << 15);
 					}
 					for (k = 3 + (int)(2f * num2 * SimplexNoise.OctavedNoise((float)(i + 711), (float)(j + fb), 0.33f, 1, 1f, 1f)); k-- != 0;)
 					{
-						chunk.PaintFastSelective(SnBrushes[random.Int() & 15].Cells, ix16 | (random.Int() & 15), random.UniformInt(2, 40), jx16 | (random.Int() & 15), index | (int)BrushType.Sn << 15);
+						chunk.PaintFastSelective(BBrushes[random.Int() & 15].Cells, ix16 | (random.Int() & 15), random.UniformInt(2, 40), jx16 | (random.Int() & 15), index | (int)BrushType.Sn << 15);
 					}
 					for (k = 2 + (int)(2f * num2 * SimplexNoise.OctavedNoise((float)(i + f8), (float)(j + 272), 0.33f, 1, 1f, 1f)); k-- != 0;)
 					{
-						chunk.PaintFastSelective(TiBrushes[random.Int() & 15].Cells, ix16 | (random.Int() & 15), random.UniformInt(2, 50), jx16 | (random.Int() & 15), index | (int)BrushType.Ti << 15);
+						chunk.PaintFastSelective(ABrushes[random.Int() & 15].Cells, ix16 | (random.Int() & 15), random.UniformInt(2, 50), jx16 | (random.Int() & 15), index | (int)BrushType.Ti << 15);
 					}
 					for (k = 2 + (int)(2f * num2 * SimplexNoise.OctavedNoise((float)(i + fa), (float)(j + fc), 0.33f, 1, 1f, 1f)); k-- != 0;)
 					{
-						chunk.PaintFastSelective(HgBrushes[random.Int() & 15].Cells, ix16 | (random.Int() & 15), random.UniformInt(2, 50), jx16 | (random.Int() & 15), index | (int)BrushType.Cr << 15);
+						chunk.PaintFastSelective(BBrushes[random.Int() & 15].Cells, ix16 | (random.Int() & 15), random.UniformInt(2, 50), jx16 | (random.Int() & 15), index | (int)BrushType.Cr << 15);
 					}
 					for (k = 2 + (int)(2f * num2 * SimplexNoise.OctavedNoise((float)(i + f3), (float)(j + f6), 0.33f, 1, 1f, 1f)); k-- != 0;)
 					{
-						chunk.PaintFastSelective(TiBrushes[random.Int() & 15].Cells, ix16 | (random.Int() & 15), random.UniformInt(2, 50), jx16 | (random.Int() & 15), index | (int)BrushType.Ni << 15);
+						chunk.PaintFastSelective(ABrushes[random.Int() & 15].Cells, ix16 | (random.Int() & 15), random.UniformInt(2, 50), jx16 | (random.Int() & 15), index | (int)BrushType.Ni << 15);
 					}
 					for (k = 20 + (int)(8f * num2 * SimplexNoise.OctavedNoise((float)(i + fa ^ f5 + f1), (float)(j + fc - f9), 0.33f, 1, 1f, 1f)); k-- != 0;)
 					{
-						chunk.PaintMaskSelective(PbBrushes[random.Int() & 15].Cells, ix16 | (random.Int() & 15), random.UniformInt(2, 50), jx16 | (random.Int() & 15), index | 65536 << 14);
+						chunk.PaintMaskSelective(ABrushes[random.Int() & 15].Cells, ix16 | (random.Int() & 15), random.UniformInt(2, 50), jx16 | (random.Int() & 15), index | 65536 << 14);
 					}
 					for (k = 9 + (int)(8f * num2 * SimplexNoise.OctavedNoise((float)(i + f5 ^ f8 + f1), (float)(j + f9 - fc), 0.33f, 1, 1f, 1f)); k-- != 0;)
 					{
-						chunk.PaintMaskSelective(PbBrushes[random.Int() & 15].Cells, ix16 | (random.Int() & 15), random.UniformInt(2, 50), jx16 | (random.Int() & 15), index | 32768 << 14);
+						chunk.PaintMaskSelective(ABrushes[random.Int() & 15].Cells, ix16 | (random.Int() & 15), random.UniformInt(2, 50), jx16 | (random.Int() & 15), index | 32768 << 14);
 					}
 				}
 			}

@@ -1,5 +1,4 @@
 using Engine;
-using TemplatesDatabase;
 
 namespace Game
 {
@@ -21,12 +20,11 @@ namespace Game
 			if (cellFace.HasValue)
 			{
 				int cellValue = SubsystemTerrain.Terrain.GetCellValue(cellFace.Value.X, cellFace.Value.Y, cellFace.Value.Z);
-				Block obj = BlocksManager.Blocks[Terrain.ExtractContents(cellValue)];
 				if (worldItem.Velocity.Length() > 30f)
 				{
 					Utils.SubsystemExplosions.TryExplodeBlock(cellFace.Value.X, cellFace.Value.Y, cellFace.Value.Z, cellValue);
 				}
-				if (obj.Density >= 1.5f && worldItem.Velocity.Length() > 30f)
+				if (BlocksManager.Blocks[Terrain.ExtractContents(cellValue)].Density >= 1.5f && worldItem.Velocity.Length() > 30f)
 				{
 					const float num = 1f;
 					const float minDistance = 8f;

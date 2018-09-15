@@ -1,5 +1,4 @@
 using Engine;
-using System.Collections.Generic;
 using TemplatesDatabase;
 
 namespace Game
@@ -33,9 +32,10 @@ namespace Game
 			Vector3 position = new Vector3((float)cellFace.X + 0.5f, (float)cellFace.Y + 0.5f, (float)cellFace.Z + 0.5f) - 0.75f * v;
 			if (ComponentEngine.IsPowered(SubsystemTerrain.Terrain, cellFace.X, cellFace.Y, cellFace.Z))
 			{
+				int l;
 				if (worldItem.Velocity.Length() >= 20f && BlocksManager.Blocks[Terrain.ExtractContents(worldItem.Value)].DefaultDropCount >= 2f)
 				{
-					for (int l = 0; (float)l <= BlocksManager.Blocks[Terrain.ExtractContents(worldItem.Value)].DefaultDropCount + 1f; l++)
+					for (l = 0; (float)l <= BlocksManager.Blocks[Terrain.ExtractContents(worldItem.Value)].DefaultDropCount + 1f; l++)
 					{
 						m_subsystemProjectiles.FireProjectile(BlocksManager.Blocks[Terrain.ExtractContents(worldItem.Value)].DefaultDropContent, position, -20f * v, Vector3.Zero, null);
 					}
@@ -50,7 +50,7 @@ namespace Game
 					}
 					else if (worldItem.Velocity.Length() >= 20f && BlocksManager.Blocks[Terrain.ExtractContents(worldItem.Value)].BlockIndex == 6)
 					{
-						for (int m = 0; m <= 4; m++)
+						for (l = 0; l <= 4; l++)
 						{
 							m_subsystemProjectiles.FireProjectile(79, position, -20f * v, Vector3.Zero, null);
 						}

@@ -30,9 +30,8 @@ namespace Game
 			CircuitPath = new Device[0][];
 			base.Load(valuesDictionary);
 			Utils.Load(Project);
-			int count = valuesDictionary.GetValue<int>("Count", 0);
 			Path = new HashSet<Device>();
-			Table = new Dictionary<Point3, Device>(count);
+			Table = new Dictionary<Point3, Device>(valuesDictionary.GetValue<int>("Count", 0));
 			elementblock = BlocksManager.Blocks[ElementBlock.Index] as ElementBlock;
 			Task.Run((Action)ThreadFunction);
 		}

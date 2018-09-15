@@ -6,7 +6,7 @@ using Engine.Graphics;
 namespace Game
 {
 	[Flags]
-	[Serializable]
+	//[Serializable]
 	public enum ElementType
 	{
 		None = 0,
@@ -30,8 +30,8 @@ namespace Game
 		ConnectorE = 65536,
 		ConnectorF = 131072,
 		Connector = 262140,
-		Capacitor = 262144,
-		Inductor = 524288,
+		//Capacitor = 262144,
+		//Inductor = 524288,
 		Drive = 1048576,
 		Tube = 2097152,
 	}
@@ -68,6 +68,7 @@ namespace Game
 				return 100;
 			return 2147483647;
 		}
+		#region implements & overloads
 		public override bool Equals(object obj)
 		{
 			return obj is Element node ? Equals(node) : base.Equals(obj);
@@ -76,18 +77,6 @@ namespace Game
 		{
 			return Next == null ? (int)Type : (int)Type + Next.GetHashCode();
 		}
-		/*public DynamicArray<Element>.Enumerator GetEnumerator()
-		{
-			return new DynamicArray<Element>.Enumerator(Next);
-		}
-		IEnumerator<Element> IEnumerable<Element>.GetEnumerator()
-		{
-			return new DynamicArray<Element>.Enumerator(Next);
-		}
-		IEnumerator IEnumerable.GetEnumerator()
-		{
-			return new DynamicArray<Element>.Enumerator(Next);
-		}*/
 		public bool Equals(Element other)
 		{
 			if (other.Type != Type)
@@ -105,7 +94,19 @@ namespace Game
 		{
 			return Type.ToString();
 		}
-		/*public void CopyTo(Element[] array, int index)
+		/*public DynamicArray<Element>.Enumerator GetEnumerator()
+		{
+			return new DynamicArray<Element>.Enumerator(Next);
+		}
+		IEnumerator<Element> IEnumerable<Element>.GetEnumerator()
+		{
+			return new DynamicArray<Element>.Enumerator(Next);
+		}
+		IEnumerator IEnumerable.GetEnumerator()
+		{
+			return new DynamicArray<Element>.Enumerator(Next);
+		}
+		public void CopyTo(Element[] array, int index)
 		{
 			Next.CopyTo(array, index);
 		}
@@ -253,6 +254,7 @@ namespace Game
 		{
 			return ((IConvertible)Type).ToType(conversionType, provider);
 		}*/
+		#endregion
 	}
 	[Serializable]
 	public abstract class Device : Element, IEquatable<Device>
