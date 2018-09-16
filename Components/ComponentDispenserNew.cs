@@ -12,7 +12,7 @@ namespace Game
 
 		protected SubsystemPickables m_subsystemPickables;
 
-		protected SubsystemProjectiles m_subsystemProjectiles;
+		protected SubsystemProjectiles SubsystemProjectiles;
 
 		protected SubsystemTerrain m_subsystemTerrain;
 
@@ -57,7 +57,7 @@ namespace Game
 			m_subsystemTerrain = Project.FindSubsystem<SubsystemTerrain>(true);
 			m_subsystemAudio = Project.FindSubsystem<SubsystemAudio>(true);
 			m_subsystemPickables = Project.FindSubsystem<SubsystemPickables>(true);
-			m_subsystemProjectiles = Project.FindSubsystem<SubsystemProjectiles>(true);
+			SubsystemProjectiles = Project.FindSubsystem<SubsystemProjectiles>(true);
 			m_componentBlockEntity = Entity.FindComponent<ComponentBlockEntity>(true);
 		}
 
@@ -68,7 +68,7 @@ namespace Game
 			if (mode != 0)
 			{
 				float num = m_random.UniformFloat(39f, 41f);
-				if (m_subsystemProjectiles.FireProjectile(value, vector2, 1f * num * (vector + m_random.Vector3(0.025f, false) + new Vector3(0f, 0.05f, 0f)), Vector3.Zero, null) != null)
+				if (SubsystemProjectiles.FireProjectile(value, vector2, 1f * num * (vector + m_random.Vector3(0.025f, false) + new Vector3(0f, 0.05f, 0f)), Vector3.Zero, null) != null)
 				{
 					m_subsystemAudio.PlaySound("Audio/DispenserShoot", 1f, 0f, new Vector3(vector2.X, vector2.Y, vector2.Z), 4f, true);
 				}
@@ -168,7 +168,7 @@ namespace Game
 						if (block.IsPlaceable && block.DefaultCreativeData != -1 && !block.DefaultIsInteractive)
 						{
 							m_subsystemTerrain.ChangeCell(x, y, z, 0, true);
-							m_subsystemProjectiles.FireProjectile(cellValue, new Vector3((float)x + 0.5f, (float)y + 0.5f, (float)z + 0.5f) - 0.25f * vector, 60f * (vector - v), Vector3.Zero, null);
+							SubsystemProjectiles.FireProjectile(cellValue, new Vector3((float)x + 0.5f, (float)y + 0.5f, (float)z + 0.5f) - 0.25f * vector, 60f * (vector - v), Vector3.Zero, null);
 							RemoveSlotItems(8, 1);
 							AddSlotItems(8, BlocksManager.DamageItem(slotValue, 1 + num2), 1);
 							return;

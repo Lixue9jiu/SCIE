@@ -319,8 +319,8 @@ namespace Game
 		public readonly int Resistance;
 		protected FixedDevice(int resistance)
 		{
-			if (resistance < 1)
-				throw new ArgumentOutOfRangeException("resistance", resistance, "Device has Resistance < 1");
+			//if (resistance < 1)
+				//throw new ArgumentOutOfRangeException("resistance", resistance, "Device has Resistance < 1");
 			Resistance = resistance;
 		}
 		public FixedDevice(SerializationInfo info, StreamingContext context) : base(info, context)

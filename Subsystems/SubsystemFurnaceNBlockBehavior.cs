@@ -11,7 +11,7 @@ namespace Game
 
 		protected SubsystemParticles m_subsystemParticles;
 
-		public SubsystemFurnaceBlockBehavior(string name) : base(name)
+		protected SubsystemFurnaceBlockBehavior(string name) : base(name)
 		{
 		}
 

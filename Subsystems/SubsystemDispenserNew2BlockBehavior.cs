@@ -5,12 +5,6 @@ namespace Game
 {
 	public class SubsystemDispenserNew2BlockBehavior : SubsystemBlockBehavior
 	{
-		protected SubsystemAudio m_subsystemAudio;
-
-		protected SubsystemBlockEntities m_subsystemBlockEntities;
-
-		protected SubsystemGameInfo m_subsystemGameInfo;
-
 		public override int[] HandledBlocks
 		{
 			get
@@ -25,9 +19,7 @@ namespace Game
 		public override void Load(ValuesDictionary valuesDictionary)
 		{
 			base.Load(valuesDictionary);
-			m_subsystemBlockEntities = Project.FindSubsystem<SubsystemBlockEntities>(true);
-			m_subsystemGameInfo = Project.FindSubsystem<SubsystemGameInfo>(true);
-			m_subsystemAudio = Project.FindSubsystem<SubsystemAudio>(true);
+			Utils.Load(Project);
 		}
 
 		public override void OnBlockAdded(int value, int oldValue, int x, int y, int z)
@@ -40,7 +32,7 @@ namespace Game
 
 		public override void OnBlockRemoved(int value, int newValue, int x, int y, int z)
 		{
-			ComponentBlockEntity blockEntity = m_subsystemBlockEntities.GetBlockEntity(x, y, z);
+			ComponentBlockEntity blockEntity = Utils.SubsystemBlockEntities.GetBlockEntity(x, y, z);
 			if (blockEntity != null)
 			{
 				var position = new Vector3((float)x, (float)y, (float)z) + new Vector3(0.5f);
@@ -54,9 +46,9 @@ namespace Game
 
 		public override bool OnInteract(TerrainRaycastResult raycastResult, ComponentMiner componentMiner)
 		{
-			if (m_subsystemGameInfo.WorldSettings.GameMode != GameMode.Adventure)
+			if (Utils.SubsystemGameInfo.WorldSettings.GameMode != GameMode.Adventure)
 			{
-				ComponentBlockEntity blockEntity = m_subsystemBlockEntities.GetBlockEntity(raycastResult.CellFace.X, raycastResult.CellFace.Y, raycastResult.CellFace.Z);
+				ComponentBlockEntity blockEntity = Utils.SubsystemBlockEntities.GetBlockEntity(raycastResult.CellFace.X, raycastResult.CellFace.Y, raycastResult.CellFace.Z);
 				if (blockEntity != null && componentMiner.ComponentPlayer != null)
 				{
 					ComponentDispenserNew2 componentDispenser = blockEntity.Entity.FindComponent<ComponentDispenserNew2>(true);
@@ -72,7 +64,7 @@ namespace Game
 		{
 			if (!worldItem.ToRemove)
 			{
-				ComponentBlockEntity blockEntity = m_subsystemBlockEntities.GetBlockEntity(cellFace.X, cellFace.Y, cellFace.Z);
+				ComponentBlockEntity blockEntity = Utils.SubsystemBlockEntities.GetBlockEntity(cellFace.X, cellFace.Y, cellFace.Z);
 				if (blockEntity != null && DispenserNew2Block.GetAcceptsDrops(Terrain.ExtractData(SubsystemTerrain.Terrain.GetCellValue(cellFace.X, cellFace.Y, cellFace.Z))))
 				{
 					ComponentDispenserNew inventory = blockEntity.Entity.FindComponent<ComponentDispenserNew>(true);
@@ -83,7 +75,7 @@ namespace Game
 					int num2 = ComponentInventoryBase.AcquireItems(inventory, value, count);
 					if (num2 < num)
 					{
-						m_subsystemAudio.PlaySound("Audio/PickableCollected", 1f, 0f, worldItem.Position, 3f, true);
+						Utils.SubsystemAudio.PlaySound("Audio/PickableCollected", 1f, 0f, worldItem.Position, 3f, true);
 					}
 					if (num2 <= 0)
 					{

@@ -437,7 +437,7 @@ namespace Game
 			int value = SubsystemTerrain.Terrain.GetCellValue(x, y - 1, z);
 			if (!Utils.SubsystemCollapsingBlockBehavior.IsCollapseSupportBlock(value))
 			{
-				List<MovingBlock> list = new List<MovingBlock>();
+				var list = new List<MovingBlock>();
 				int i;
 				for (i = y; i < 128; i++)
 				{

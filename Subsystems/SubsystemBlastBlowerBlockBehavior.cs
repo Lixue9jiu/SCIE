@@ -1,5 +1,3 @@
-using TemplatesDatabase;
-
 namespace Game
 {
 	public class SubsystemBlastBlowerBlockBehavior : SubsystemBlockBehavior//, IUpdateable
@@ -21,15 +19,9 @@ namespace Game
 			{
 				return 0;
 			}
-		}*/
-		
-		public override void Load(ValuesDictionary valuesDictionary)
-		{
-			base.Load(valuesDictionary);
-			m_subsystemTime = Project.FindSubsystem<SubsystemTime>(true);
-			m_subsystemProjectiles = Project.FindSubsystem<SubsystemProjectiles>(true);
 		}
-		/*public void Update(float dt)
+		
+		public void Update(float dt)
 		{
 		}*/
 		public override void OnBlockGenerated(int value, int x, int y, int z, bool isLoaded)
@@ -97,12 +89,6 @@ namespace Game
 			}
 			SubsystemTerrain.ChangeCell(x, y, z, (num == 0 || num2 == 0) ? BlastBlowerBlock.Index : BlastBlowerBlock.Index | FurnaceNBlock.SetHeatLevel(Terrain.ExtractData(SubsystemTerrain.Terrain.GetCellValue(x, y, z)), 1) << 14, true);
 		}
-		
-		protected readonly Random m_random = new Random();
-		
-		protected SubsystemTime m_subsystemTime;
-		
-		protected SubsystemProjectiles m_subsystemProjectiles;
 		
 		//protected Vector3 coordinate;
 		

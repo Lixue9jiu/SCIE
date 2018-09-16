@@ -105,17 +105,18 @@ namespace Game
 		{
 			int value = valuesDictionary.GetValue<int>("SlotsCount");
 			m_slots.Capacity = value;
-			for (int i = 0; i < value; i++)
+			int i;
+			for (i = 0; i < value; i++)
 			{
 				m_slots.Add(new Slot());
 			}
 			ValuesDictionary value2 = valuesDictionary.GetValue<ValuesDictionary>("Slots");
-			for (int j = 0; j < m_slots.Count; j++)
+			for (i = 0; i < m_slots.Count; i++)
 			{
-				ValuesDictionary value3 = value2.GetValue<ValuesDictionary>("Slot" + j.ToString(CultureInfo.InvariantCulture), null);
+				ValuesDictionary value3 = value2.GetValue<ValuesDictionary>("Slot" + i.ToString(CultureInfo.InvariantCulture), null);
 				if (value3 != null)
 				{
-					Slot slot = m_slots[j];
+					Slot slot = m_slots[i];
 					slot.Value = value3.GetValue<int>("Contents");
 					slot.Count = value3.GetValue<int>("Count");
 				}

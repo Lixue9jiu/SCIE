@@ -12,7 +12,7 @@ namespace Game
 
 		protected SubsystemPickables m_subsystemPickables;
 
-		protected SubsystemProjectiles m_subsystemProjectiles;
+		protected SubsystemProjectiles SubsystemProjectiles;
 
 		protected SubsystemTerrain m_subsystemTerrain;
 
@@ -31,7 +31,7 @@ namespace Game
 			m_subsystemTerrain = Project.FindSubsystem<SubsystemTerrain>(true);
 			m_subsystemAudio = Project.FindSubsystem<SubsystemAudio>(true);
 			m_subsystemPickables = Project.FindSubsystem<SubsystemPickables>(true);
-			m_subsystemProjectiles = Project.FindSubsystem<SubsystemProjectiles>(true);
+			SubsystemProjectiles = Project.FindSubsystem<SubsystemProjectiles>(true);
 			m_componentBlockEntity = Entity.FindComponent<ComponentBlockEntity>(true);
 		}
 

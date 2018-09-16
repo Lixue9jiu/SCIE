@@ -345,17 +345,11 @@ namespace Game
 				}
 			}
 
-			if (m_matchedIngredients[8] >= 1 && (m_slots[ResultSlotIndex].Value != ItemBlock.IdTable["SteelIngot"] || m_slots[ResultSlotIndex].Count + m_matchedIngredients[8] > 40) && m_slots[ResultSlotIndex].Count != 0)
+			if (m_matchedIngredients[8] >= 1 && (m_slots[ResultSlotIndex].Value != ItemBlock.IdTable["SteelIngot"] || m_slots[ResultSlotIndex].Count + m_matchedIngredients[8] > 40) && m_slots[ResultSlotIndex].Count != 0 ||
+				m_matchedIngredients[7] >= 1 && (m_slots[RemainsSlotIndex].Value != ItemBlock.IdTable["ScrapIron"] || m_slots[RemainsSlotIndex].Count + m_matchedIngredients[7] > 40) && m_slots[RemainsSlotIndex].Count != 0 ||
+				m_matchedIngredients[9] >= 1 && (m_slots[ResultSlotIndex].Value != IronIngotBlock.Index || m_slots[ResultSlotIndex].Count + m_matchedIngredients[9] > 40) && m_slots[ResultSlotIndex].Count != 0)
 			{
-				flag = false;
-			}
-			if (m_matchedIngredients[7] >= 1 && (m_slots[RemainsSlotIndex].Value != ItemBlock.IdTable["ScrapIron"] || m_slots[RemainsSlotIndex].Count + m_matchedIngredients[7] > 40) && m_slots[RemainsSlotIndex].Count != 0)
-			{
-				flag = false;
-			}
-			if (m_matchedIngredients[9] >= 1 && (m_slots[ResultSlotIndex].Value != IronIngotBlock.Index || m_slots[ResultSlotIndex].Count + m_matchedIngredients[9] > 40) && m_slots[ResultSlotIndex].Count != 0)
-			{
-				flag = false;
+				return false;
 			}
 			return flag;
 		}

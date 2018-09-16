@@ -25,26 +25,26 @@ namespace Game
 			WidgetsManager.LoadWidgetContents(this, this, ContentManager.Get<XElement>("Widgets/ChestNewWidget"));
 			m_inventoryGrid = Children.Find<GridPanelWidget>("InventoryGrid", true);
 			m_chestNewGrid = Children.Find<GridPanelWidget>("ChestGrid", true);
-			int num = 0;
-			for (int i = 0; i < m_chestNewGrid.RowsCount; i++)
+			int num = 0, y, x;
+			for (y = 0; y < m_chestNewGrid.RowsCount; y++)
 			{
-				for (int j = 0; j < m_chestNewGrid.ColumnsCount; j++)
+				for (x = 0; x < m_chestNewGrid.ColumnsCount; x++)
 				{
 					var inventorySlotWidget = new InventorySlotWidget();
 					inventorySlotWidget.AssignInventorySlot(componentChestNew, num++);
 					m_chestNewGrid.Children.Add(inventorySlotWidget);
-					m_chestNewGrid.SetWidgetCell(inventorySlotWidget, new Point2(j, i));
+					m_chestNewGrid.SetWidgetCell(inventorySlotWidget, new Point2(x, y));
 				}
 			}
 			num = 6;
-			for (int k = 0; k < m_inventoryGrid.RowsCount; k++)
+			for (y = 0; y < m_inventoryGrid.RowsCount; y++)
 			{
-				for (int l = 0; l < m_inventoryGrid.ColumnsCount; l++)
+				for (x = 0; x < m_inventoryGrid.ColumnsCount; x++)
 				{
 					var inventorySlotWidget2 = new InventorySlotWidget();
 					inventorySlotWidget2.AssignInventorySlot(inventory, num++);
 					m_inventoryGrid.Children.Add(inventorySlotWidget2);
-					m_inventoryGrid.SetWidgetCell(inventorySlotWidget2, new Point2(l, k));
+					m_inventoryGrid.SetWidgetCell(inventorySlotWidget2, new Point2(x, y));
 				}
 			}
 		}

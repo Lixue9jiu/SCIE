@@ -10,7 +10,7 @@ namespace Game
 
 		public Rod(string name, Color color, string description = null)
 		{
-			Model model = ContentManager.Get<Model>("Models/Rod");
+			Model model = ContentManager.Get<Model>("Models/Rods");
 			Matrix boneAbsoluteTransform = BlockMesh.GetBoneAbsoluteTransform(model.FindMesh("SteelRod", true).ParentBone);
 			m_standaloneBlockMesh.AppendModelMeshPart(model.FindMesh("SteelRod", true).MeshParts[0], boneAbsoluteTransform * Matrix.CreateTranslation(0f, -0.5f, 0f), false, false, false, false, color);
 			if (string.IsNullOrEmpty(description))

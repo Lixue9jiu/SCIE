@@ -9,7 +9,7 @@ namespace Game
 
 		protected double? m_lastDispenseTime;
 
-		protected readonly SubsystemBlockEntities m_subsystemBlockEntities;
+		protected readonly SubsystemBlockEntities SubsystemBlockEntities;
 
 		public DispenserNewElectricElement(SubsystemElectricity subsystemElectricity, Point3 point)
 			: base(subsystemElectricity, new List<CellFace>
@@ -22,7 +22,7 @@ namespace Game
 				new CellFace(point.X, point.Y, point.Z, 5)
 			})
 		{
-			m_subsystemBlockEntities = SubsystemElectricity.Project.FindSubsystem<SubsystemBlockEntities>(true);
+			SubsystemBlockEntities = SubsystemElectricity.Project.FindSubsystem<SubsystemBlockEntities>(true);
 		}
 
 		public override bool Simulate()
@@ -33,7 +33,6 @@ namespace Game
 				{
 					m_isDispenseAllowed = false;
 					m_lastDispenseTime = SubsystemElectricity.SubsystemTime.GameTime;
-					SubsystemBlockEntities subsystemBlockEntities = m_subsystemBlockEntities;
 					ReadOnlyList<CellFace> cellFaces = CellFaces;
 					CellFace cellFace = cellFaces[0];
 					int x = cellFace.Point.X;
@@ -43,7 +42,7 @@ namespace Game
 					cellFaces = CellFaces;
 					cellFace = cellFaces[0];
 					int z = cellFace.Point.Z;
-					ComponentBlockEntity blockEntity = subsystemBlockEntities.GetBlockEntity(x, y, z);
+					ComponentBlockEntity blockEntity = SubsystemBlockEntities.GetBlockEntity(x, y, z);
 					if (blockEntity != null)
 					{
 						ComponentDispenserNew componentDispenserNew = blockEntity.Entity.FindComponent<ComponentDispenserNew>();

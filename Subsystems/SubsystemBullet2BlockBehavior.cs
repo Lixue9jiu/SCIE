@@ -4,8 +4,6 @@ namespace Game
 {
 	public class SubsystemBullet2BlockBehavior : SubsystemBlockBehavior
 	{
-		protected readonly Random m_random = new Random();
-
 		public override int[] HandledBlocks
 		{
 			get
@@ -28,9 +26,9 @@ namespace Game
 				{
 					const float num = 1f;
 					const float minDistance = 8f;
-					if (m_random.UniformFloat(0f, 1f) < num)
+					if (Utils.Random.UniformFloat(0f, 1f) < num)
 					{
-						Utils.SubsystemAudio.PlayRandomSound("Audio/Ricochets", 1f, m_random.UniformFloat(-0.2f, 0.2f), new Vector3((float)cellFace.Value.X, (float)cellFace.Value.Y, (float)cellFace.Value.Z), minDistance, true);
+						Utils.SubsystemAudio.PlayRandomSound("Audio/Ricochets", 1f, Utils.Random.UniformFloat(-0.2f, 0.2f), new Vector3((float)cellFace.Value.X, (float)cellFace.Value.Y, (float)cellFace.Value.Z), minDistance, true);
 						return false;
 					}
 				}

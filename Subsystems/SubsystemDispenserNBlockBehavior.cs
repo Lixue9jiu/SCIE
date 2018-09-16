@@ -1,14 +1,9 @@
 using Engine;
-using TemplatesDatabase;
 
 namespace Game
 {
 	public class SubsystemDispenserNBlockBehavior : SubsystemBlockBehavior
 	{
-		protected readonly Random m_random = new Random();
-
-		protected SubsystemProjectiles m_subsystemProjectiles;
-
 		public override int[] HandledBlocks
 		{
 			get
@@ -18,12 +13,6 @@ namespace Game
 					DispenserNBlock.Index
 				};
 			}
-		}
-
-		public override void Load(ValuesDictionary valuesDictionary)
-		{
-			base.Load(valuesDictionary);
-			m_subsystemProjectiles = Project.FindSubsystem<SubsystemProjectiles>(true);
 		}
 
 		public override void OnHitByProjectile(CellFace cellFace, WorldItem worldItem)
@@ -37,7 +26,7 @@ namespace Game
 				{
 					for (l = 0; (float)l <= BlocksManager.Blocks[Terrain.ExtractContents(worldItem.Value)].DefaultDropCount + 1f; l++)
 					{
-						m_subsystemProjectiles.FireProjectile(BlocksManager.Blocks[Terrain.ExtractContents(worldItem.Value)].DefaultDropContent, position, -20f * v, Vector3.Zero, null);
+						Utils.SubsystemProjectiles.FireProjectile(BlocksManager.Blocks[Terrain.ExtractContents(worldItem.Value)].DefaultDropContent, position, -20f * v, Vector3.Zero, null);
 					}
 					worldItem.ToRemove = true;
 				}
@@ -45,14 +34,14 @@ namespace Game
 				{
 					if (worldItem.Velocity.Length() >= 20f && BlocksManager.Blocks[Terrain.ExtractContents(worldItem.Value)].DefaultDropContent == 5)
 					{
-						m_subsystemProjectiles.FireProjectile(BlocksManager.Blocks[Terrain.ExtractContents(worldItem.Value)].DefaultDropContent, position, -20f * v, Vector3.Zero, null);
+						Utils.SubsystemProjectiles.FireProjectile(BlocksManager.Blocks[Terrain.ExtractContents(worldItem.Value)].DefaultDropContent, position, -20f * v, Vector3.Zero, null);
 						worldItem.ToRemove = true;
 					}
 					else if (worldItem.Velocity.Length() >= 20f && BlocksManager.Blocks[Terrain.ExtractContents(worldItem.Value)].BlockIndex == 6)
 					{
 						for (l = 0; l <= 4; l++)
 						{
-							m_subsystemProjectiles.FireProjectile(79, position, -20f * v, Vector3.Zero, null);
+							Utils.SubsystemProjectiles.FireProjectile(79, position, -20f * v, Vector3.Zero, null);
 						}
 						worldItem.ToRemove = true;
 					}

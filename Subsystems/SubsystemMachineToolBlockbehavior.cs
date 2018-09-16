@@ -1,11 +1,9 @@
 using Engine;
-using TemplatesDatabase;
 
 namespace Game
 {
 	public class SubsystemMachineToolBlockBehavior : SubsystemInventoryBlockBehavior<ComponentLargeCraftingTable>
 	{
-		protected SubsystemAudio m_subsystemAudio;
 		public SubsystemMachineToolBlockBehavior() : base("MachineTool")
 		{
 		}
@@ -20,11 +18,6 @@ namespace Game
 				};
 			}
 		}
-		public override void Load(ValuesDictionary valuesDictionary)
-		{
-			base.Load(valuesDictionary);
-			m_subsystemAudio = Project.FindSubsystem<SubsystemAudio>(true);
-		}
 
 		public override Widget GetWidget(IInventory inventory, ComponentLargeCraftingTable component)
 		{
@@ -34,7 +27,7 @@ namespace Game
 		{
 			if (!worldItem.ToRemove)
 			{
-				ComponentBlockEntity blockEntity = SubsystemBlockEntities.GetBlockEntity(cellFace.X, cellFace.Y, cellFace.Z);
+				ComponentBlockEntity blockEntity = Utils.SubsystemBlockEntities.GetBlockEntity(cellFace.X, cellFace.Y, cellFace.Z);
 				if (blockEntity != null)
 				{
 					ComponentLargeCraftingTable inventory = blockEntity.Entity.FindComponent<ComponentLargeCraftingTable>(true);
@@ -48,7 +41,7 @@ namespace Game
 					inventory.AddSlotItems(inventory.SlotIndex, value, count2);
 					if (count2 < count)
 					{
-						m_subsystemAudio.PlaySound("Audio/PickableCollected", 1f, 0f, worldItem.Position, 3f, true);
+						Utils.SubsystemAudio.PlaySound("Audio/PickableCollected", 1f, 0f, worldItem.Position, 3f, true);
 					}
 					if (count - count2 <= 0)
 					{

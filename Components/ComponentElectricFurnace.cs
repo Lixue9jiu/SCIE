@@ -146,17 +146,18 @@ namespace Game
 			//	base.Load(valuesDictionary, idToEntityMap);
 			m_matchedIngredients = new string[36];
 			int num = valuesDictionary.GetValue<int>("SlotsCount");
-            for (int index = 0; index < num; index++)
+			int index;
+			for (index = 0; index < num; index++)
             {
-                m_slots.Add(new ComponentInventoryBase.Slot());
+                m_slots.Add(new Slot());
             }
             ValuesDictionary valuesDictionary2 = valuesDictionary.GetValue<ValuesDictionary>("Slots");
-            for (int index2 = 0; index2 < m_slots.Count; index2++)
+            for (index = 0; index < m_slots.Count; index++)
             {
-                ValuesDictionary valuesDictionary3 = valuesDictionary2.GetValue<ValuesDictionary>("Slot" + index2.ToString(CultureInfo.InvariantCulture), null);
+                ValuesDictionary valuesDictionary3 = valuesDictionary2.GetValue<ValuesDictionary>("Slot" + index.ToString(CultureInfo.InvariantCulture), null);
                 if (valuesDictionary3 != null)
                 {
-                    ComponentInventoryBase.Slot slot = m_slots[index2];
+					Slot slot = m_slots[index];
                     slot.Value = valuesDictionary3.GetValue<int>("Contents");
                     slot.Count = valuesDictionary3.GetValue<int>("Count");
                 }

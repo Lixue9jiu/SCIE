@@ -7,6 +7,7 @@ namespace Game
 {
 	public static class Utils
 	{
+		public static Random Random = new Random();
 		public static SubsystemGameInfo SubsystemGameInfo;
 		public static SubsystemAudio SubsystemAudio;
 		public static SubsystemTerrain SubsystemTerrain;
@@ -16,8 +17,10 @@ namespace Game
 		public static SubsystemBlockEntities SubsystemBlockEntities;
 		public static SubsystemExplosions SubsystemExplosions;
 		public static SubsystemCollapsingBlockBehavior SubsystemCollapsingBlockBehavior;
+		public static SubsystemProjectiles SubsystemProjectiles;
 		public static Terrain Terrain;
 		public static bool LoadedProject;
+
 		public static void Load(Project Project)
 		{
 			if (LoadedProject)
@@ -32,6 +35,7 @@ namespace Game
 			SubsystemBlockEntities = Project.FindSubsystem<SubsystemBlockEntities>(true);
 			SubsystemExplosions = Project.FindSubsystem<SubsystemExplosions>(true);
 			SubsystemCollapsingBlockBehavior = Project.FindSubsystem<SubsystemCollapsingBlockBehavior>(true);
+			SubsystemProjectiles = Project.FindSubsystem<SubsystemProjectiles>(true);
 			Terrain = (SubsystemTerrain = Project.FindSubsystem<SubsystemTerrain>(true)).Terrain;
 			LoadedProject = true;
 		}

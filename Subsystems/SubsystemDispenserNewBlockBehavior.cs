@@ -7,7 +7,7 @@ namespace Game
 	{
 		protected SubsystemAudio m_subsystemAudio;
 
-		protected SubsystemBlockEntities m_subsystemBlockEntities;
+		protected SubsystemBlockEntities SubsystemBlockEntities;
 
 		protected SubsystemGameInfo m_subsystemGameInfo;
 
@@ -25,7 +25,7 @@ namespace Game
 		public override void Load(ValuesDictionary valuesDictionary)
 		{
 			base.Load(valuesDictionary);
-			m_subsystemBlockEntities = Project.FindSubsystem<SubsystemBlockEntities>(true);
+			SubsystemBlockEntities = Project.FindSubsystem<SubsystemBlockEntities>(true);
 			m_subsystemGameInfo = Project.FindSubsystem<SubsystemGameInfo>(true);
 			m_subsystemAudio = Project.FindSubsystem<SubsystemAudio>(true);
 		}
@@ -40,7 +40,7 @@ namespace Game
 
 		public override void OnBlockRemoved(int value, int newValue, int x, int y, int z)
 		{
-			ComponentBlockEntity blockEntity = m_subsystemBlockEntities.GetBlockEntity(x, y, z);
+			ComponentBlockEntity blockEntity = SubsystemBlockEntities.GetBlockEntity(x, y, z);
 			if (blockEntity != null)
 			{
 				var position = new Vector3((float)x, (float)y, (float)z) + new Vector3(0.5f);
@@ -56,7 +56,7 @@ namespace Game
 		{
 			if (m_subsystemGameInfo.WorldSettings.GameMode != GameMode.Adventure)
 			{
-				ComponentBlockEntity blockEntity = m_subsystemBlockEntities.GetBlockEntity(raycastResult.CellFace.X, raycastResult.CellFace.Y, raycastResult.CellFace.Z);
+				ComponentBlockEntity blockEntity = SubsystemBlockEntities.GetBlockEntity(raycastResult.CellFace.X, raycastResult.CellFace.Y, raycastResult.CellFace.Z);
 				if (blockEntity != null && componentMiner.ComponentPlayer != null)
 				{
 					ComponentDispenserNew componentDispenser = blockEntity.Entity.FindComponent<ComponentDispenserNew>(true);
@@ -72,7 +72,7 @@ namespace Game
 		{
 			if (!worldItem.ToRemove)
 			{
-				ComponentBlockEntity blockEntity = m_subsystemBlockEntities.GetBlockEntity(cellFace.X, cellFace.Y, cellFace.Z);
+				ComponentBlockEntity blockEntity = SubsystemBlockEntities.GetBlockEntity(cellFace.X, cellFace.Y, cellFace.Z);
 				if (blockEntity != null && DispenserNewBlock.GetAcceptsDrops(Terrain.ExtractData(SubsystemTerrain.Terrain.GetCellValue(cellFace.X, cellFace.Y, cellFace.Z))))
 				{
 					ComponentDispenserNew inventory = blockEntity.Entity.FindComponent<ComponentDispenserNew>(true);
