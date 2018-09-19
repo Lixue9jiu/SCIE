@@ -354,34 +354,42 @@ namespace Game
 		}
 		public static BlockPlacementData GetPlacementValue(int index, ComponentMiner componentMiner, int value, TerrainRaycastResult raycastResult)
 		{
-			Vector3 forward = Matrix.CreateFromQuaternion(componentMiner.ComponentCreature.ComponentCreatureModel.EyeRotation).Forward;
-			float num = Vector3.Dot(forward, Vector3.UnitZ);
-			float num2 = Vector3.Dot(forward, Vector3.UnitX);
-			float num3 = Vector3.Dot(forward, -Vector3.UnitZ);
-			float num4 = Vector3.Dot(forward, -Vector3.UnitX);
-			int data = 0;
-			float max = MathUtils.Max(num, num2, num3, num4);
-			if (num == max)
-			{
-				data = 2;
-			}
-			else if (num2 == max)
-			{
-				data = 3;
-			}
-			else if (num3 == max)
-			{
-				data = 0;
-			}
-			else if (num4 == max)
-			{
-				data = 1;
-			}
 			return new BlockPlacementData
 			{
-				Value = Terrain.ReplaceData(value, Terrain.ExtractData(value) & -229377 | data << 15 | index),
+				Value = Terrain.ReplaceData(value, Terrain.ExtractData(value) & -229377 | Utils.GetDirectionXZ(componentMiner) << 15 | index),
 				CellFace = raycastResult.CellFace
 			};
+		}
+	}
+	public abstract class DeviceBlock : Device, IEquatable<DeviceBlock>//, IComparable<DeviceBlock>
+	{
+		public string DefaultDisplayName;
+		public string DefaultDescription;
+		public readonly int Voltage;
+
+		protected DeviceBlock(int voltage, ElementType type = ElementType.Device | ElementType.Connector) : base(type)
+		{
+			Voltage = voltage;
+		}
+		public override string GetCraftingId()
+		{
+			return DefaultDisplayName;
+		}
+		public override string GetDisplayName(SubsystemTerrain subsystemTerrain, int value)
+		{
+			return DefaultDisplayName;
+		}
+		public override string GetDescription(int value)
+		{
+			return DefaultDescription;
+		}
+		/*public int CompareTo(DeviceBlock other)
+		{
+			return Voltage.CompareTo(other.Voltage);
+		}*/
+		public bool Equals(DeviceBlock other)
+		{
+			return base.Equals(other) && Voltage == other.Voltage;
 		}
 	}
 }

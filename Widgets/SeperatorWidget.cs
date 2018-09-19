@@ -7,9 +7,9 @@ namespace Game
 	{
 		protected readonly ComponentSeperator m_componentFurnace;
 
-		protected readonly FireWidget m_fire;
+		//protected readonly FireWidget m_fire;
 
-		protected readonly InventorySlotWidget m_fuelSlot;
+		//protected readonly InventorySlotWidget m_fuelSlot;
 
 		protected readonly GridPanelWidget m_furnaceGrid;
 

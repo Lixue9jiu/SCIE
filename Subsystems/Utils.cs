@@ -39,6 +39,24 @@ namespace Game
 			Terrain = (SubsystemTerrain = Project.FindSubsystem<SubsystemTerrain>(true)).Terrain;
 			LoadedProject = true;
 		}
+		public static void PaintSelective(this TerrainChunk chunk, Cell[] cells, int x, int y, int z, int src = BasaltBlock.Index)
+		{
+			x -= chunk.Origin.X;
+			z -= chunk.Origin.Y;
+			for (int i = 0; i < cells.Length; i++)
+			{
+				Cell cell = cells[i];
+				int y2 = cell.Y + y;
+				if (y2 >= 0 && y2 < 128)
+				{
+					int index = TerrainChunk.CalculateCellIndex(cell.X + x & 15, y2, cell.Z + z & 15);
+					if (src == chunk.GetCellValueFast(index))
+					{
+						chunk.SetCellValueFast(index, cell.Value);
+					}
+				}
+			}
+		}
 		public static void PaintFastSelective(this TerrainChunk chunk, Cell[] cells, int x, int y, int z, int onlyInBlock = BasaltBlock.Index)
 		{
 			x -= chunk.Origin.X;

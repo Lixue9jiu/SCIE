@@ -1,2 +1,3 @@
-;CraftingId;IsCollidable;IsPlaceable;IsTransparent;MaxStacking;FuelHeatLevel;FuelFireDuration;ProjectileSpeed;ProjectileDamping;ProjectileTipOffset
-RottenEggBlock;item;TRUE;TRUE;TRUE;40;0.1;0;15;0.9;0.1
+;CraftingId;IsCollidable;IsPlaceable;IsPlacementTransparent;IsTransparent;DefaultShadowStrength;MaxStacking;FuelHeatLevel;FuelFireDuration;ProjectileSpeed;ProjectileDamping;ProjectileTipOffset;DestructionDebrisScale
+RottenEggBlock;item;TRUE;TRUE;FALSE;TRUE;0;40;0.1;0;15;0.9;0.1;0.75
+RottenMeatBlock;rottenmeat;FALSE;TRUE;TRUE;TRUE;0;40;0;0;0;;0;0

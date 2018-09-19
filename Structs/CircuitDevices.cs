@@ -6,40 +6,10 @@ using TemplatesDatabase;
 
 namespace Game
 {
-	public abstract class DeviceBlock : Device, IEquatable<DeviceBlock>//, IComparable<DeviceBlock>
-	{
-		public string DefaultDisplayName;
-		public string DefaultDescription;
-		public readonly int Voltage;
-
-		protected DeviceBlock(int voltage, ElementType type = ElementType.Device | ElementType.Connector) : base(type)
-		{
-			Voltage = voltage;
-		}
-		public override string GetCraftingId()
-		{
-			return DefaultDisplayName;
-		}
-		public override string GetDisplayName(SubsystemTerrain subsystemTerrain, int value)
-		{
-			return DefaultDisplayName;
-		}
-		public override string GetDescription(int value)
-		{
-			return DefaultDescription;
-		}
-		/*public int CompareTo(DeviceBlock other)
-		{
-			return Voltage.CompareTo(other.Voltage);
-		}*/
-		public bool Equals(DeviceBlock other)
-		{
-			return base.Equals(other) && Voltage == other.Voltage;
-		}
-	}
 	public class Battery : DeviceBlock, IEquatable<Battery>
 	{
 		public readonly float Size;
+		public int Factor = 1;
 		protected BoundingBox[] m_collisionBoxes;
 		public BlockMesh m_standaloneBlockMesh = new BlockMesh();
 		public int RemainCount = 500;
@@ -90,50 +60,18 @@ namespace Game
 			else if(voltage >= Voltage)
 			{
 				voltage -= Voltage;
-				RemainCount++;
+				RemainCount += Factor;
 			}
 		}
 		public bool Equals(Battery other)
 		{
-			return base.Equals(other) && RemainCount == other.RemainCount;
+			return base.Equals(other) && RemainCount == other.RemainCount && Factor == other.Factor;
 		}
 		public override bool IsFaceTransparent(SubsystemTerrain subsystemTerrain, int face, int value)
 		{
 			return true;
 		}
 	}
-	/*public class QCBattery : Battery, IEquatable<QCBattery>
-	{
-		public int Factor;
-		protected QCBattery(int voltage) : base(voltage)
-		{
-			Factor = 2;
-		}
-		protected QCBattery(int voltage, int factor) : base(voltage)
-		{
-			Factor = factor;
-		}
-		public bool Equals(QCBattery other)
-		{
-			return base.Equals(other) && Factor == other.Factor;
-		}
-		public override void Simulate(ref int voltage)
-		{
-			if (voltage == 0)
-			{
-				voltage = Voltage;
-				RemainCount--;
-			}
-			else if (voltage >= Voltage)
-				RemainCount += Factor;
-		}
-	}
-	public class QCBattery12V : QCBattery
-	{
-		public QCBattery12V() : base(12)
-		{
-		}
-	}*/
 	public class EntityDevice<T> : FixedDevice, IBlockBehavior where T : Component
 	{
 		public T Component;
@@ -453,10 +391,48 @@ namespace Game
 		}
 	}
 	
-	public class AirBlower : FixedDevice
+	public class AirBlower : FixedDevice, IBlockBehavior
 	{
+		public int Level;
 		public AirBlower() : base(3000)
 		{
+		}
+		public override void UpdateState()
+		{
+			int v = 0;
+			Simulate(ref v);
+		}
+		public override void Simulate(ref int voltage)
+		{
+			int level = voltage < 20 ? 0 : (voltage - 20) / 40;
+			if (level == Level)
+				return;
+			voltage -= level * 40 + 20;
+			var p = Point;
+			var chunk = Utils.Terrain.GetChunkAtCell(p.X, p.Z);
+			if (chunk != null)
+			{
+				if (chunk.State < TerrainChunkState.InvalidLight)
+				{
+					Level = -1;
+				}
+				else
+				{
+					p.X &= 15;
+					p.Z &= 15;
+					int i;
+					for (i = 1; i <= level && chunk.GetCellContentsFast(p.X, p.Y + i, p.Z) == 0; i++)
+					{
+						chunk.SetCellValueFast(p.X, p.Y + i, p.Z, RottenMeatBlock.Index | 1 << 8 << 14);
+					}
+					for (; i < 8 && p.Y < 127; i++)
+					{
+						if (Terrain.ReplaceLight(chunk.GetCellValueFast(p.X, ++p.Y, p.Z), 0) == (RottenMeatBlock.Index | 1 << 8 << 14))
+							chunk.SetCellValueFast(p.X, p.Y, p.Z, 0);
+					}
+					Level = level;
+				}
+			}
 		}
 		public override int GetFaceTextureSlot(int face, int value)
 		{
@@ -485,7 +461,14 @@ namespace Game
 		{
 			return true;
 		}
-
+		public void OnBlockAdded(SubsystemTerrain terrain, int value, int oldValue)
+		{
+		}
+		public void OnBlockRemoved(SubsystemTerrain terrain, int value, int newValue)
+		{
+			Level = -1;
+			UpdateState();
+		}
 	}
 	
 	public class EFurnace : InteractiveEntityDevice<ComponentElectricFurnace>

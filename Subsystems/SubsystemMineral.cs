@@ -184,15 +184,14 @@ namespace Game
 			Ni,
 			//P,
 			//Oil,
-			//NaruralGas
+			//NaturalGas
 		}
 		public static TerrainBrush[] SmallBrushes;
 		public static TerrainBrush[] PtBrushes;
 		public static TerrainBrush[] ABrushes;
 		public static TerrainBrush[] BBrushes;
-		//public static TerrainBrush[] OilPocketBrushes;
-		//public static TerrainBrush[] NaruralGasBrushes;
-		public static TerrainBrush[,] Brushes;
+		public static TerrainBrush.Cell[][] OilPocketCells;
+		//public static TerrainBrush[] NaturalGasBrushes;
 		//public static Dictionary<long, int> MinesData;
 		public static DynamicArray<Metal> AlloysData;
 		//public static HashSet<int> Handled;
@@ -261,7 +260,7 @@ namespace Game
 			BBrushes = new TerrainBrush[16];
 			ABrushes = new TerrainBrush[16];
 			//NaruralGasBrushes = new TerrainBrush[16];
-			//OilPocketBrushes = new TerrainBrush[16];
+			OilPocketCells = new TerrainBrush.Cell[16][];
 			//Brushes = new TerrainBrush[12, 16];
 			//MinCounts = new int[12, 16];
 			var random = new Random(17034);
@@ -322,6 +321,16 @@ namespace Game
 				}
 				brush.Compile();
 				BBrushes[i] = brush;
+				var cells = TerrainContentsGenerator.m_basaltPocketBrushes[i].Cells;
+				OilPocketCells[i] = new TerrainBrush.Cell[j = cells.Length];
+				while (j-- != 0)
+				{
+					if (cells[j].Value != 0)
+					{
+						OilPocketCells[i][j] = cells[j];
+						OilPocketCells[i][j].Value = RottenMeatBlock.Index | 1 << 4 << 14;
+					}
+				}
 			}
 		}
 
@@ -385,15 +394,15 @@ namespace Game
 					const int index = BasaltBlock.Index, index2 = BasaltBlock.Index;
 					for (k = 1 + (int)(2f * num2 * SimplexNoise.OctavedNoise((float)(i ^ fe), (float)(j ^ ff), 0.33f, 1, 1f, 1f)); k-- != 0;)
 					{
-						chunk.PaintFastSelective(SmallBrushes[random.Int() & 15].Cells, ix16 | (random.Int() & 15), random.UniformInt(2, 40), jx16 | (random.Int() & 15), index2 | (int)BrushType.Au << 15);
+						chunk.PaintFastSelective(SmallBrushes[random.Int() & 15].Cells, ix16 | (random.Int() & 15), random.UniformInt(2, 30), jx16 | (random.Int() & 15), index2 | (int)BrushType.Au << 15);
 					}
 					for (k = 1 + (int)(2f * num2 * SimplexNoise.OctavedNoise((float)(i + 713), (float)(j + f3), 0.33f, 1, 1f, 1f)); k-- != 0;)
 					{
-						chunk.PaintFastSelective(SmallBrushes[random.Int() & 15].Cells, ix16 | (random.Int() & 15), random.UniformInt(2, 40), jx16 | (random.Int() & 15), index2 | (int)BrushType.Ag << 15);
+						chunk.PaintFastSelective(SmallBrushes[random.Int() & 15].Cells, ix16 | (random.Int() & 15), random.UniformInt(2, 30), jx16 | (random.Int() & 15), index2 | (int)BrushType.Ag << 15);
 					}
 					for (k = 1 + (int)(2f * num2 * SimplexNoise.OctavedNoise((float)(i + f2), (float)(j + 396), 0.33f, 1, 1f, 1f)); k-- != 0;)
 					{
-						chunk.PaintFastSelective(PtBrushes[random.Int() & 15].Cells, ix16 | (random.Int() & 15), random.UniformInt(2, 40), jx16 | (random.Int() & 15), index2 | (int)BrushType.Pt << 15);
+						chunk.PaintFastSelective(PtBrushes[random.Int() & 15].Cells, ix16 | (random.Int() & 15), random.UniformInt(2, 15), jx16 | (random.Int() & 15), index2 | (int)BrushType.Pt << 15);
 					}
 					for (k = 3 + (int)(2f * num2 * SimplexNoise.OctavedNoise((float)(i + f6), (float)(j + 131), 0.33f, 1, 1f, 1f)); k-- != 0;)
 					{
@@ -426,6 +435,10 @@ namespace Game
 					for (k = 9 + (int)(8f * num2 * SimplexNoise.OctavedNoise((float)(i + f5 ^ f8 + f1), (float)(j + f9 - fc), 0.33f, 1, 1f, 1f)); k-- != 0;)
 					{
 						chunk.PaintMaskSelective(ABrushes[random.Int() & 15].Cells, ix16 | (random.Int() & 15), random.UniformInt(2, 50), jx16 | (random.Int() & 15), index | 32768 << 14);
+					}
+					if ((random.Int() & 1) != 0)
+					{
+						chunk.PaintSelective(OilPocketCells[random.Int() & 15], ix16 | (random.Int() & 15), random.UniformInt(40, 70), jx16 | (random.Int() & 15), 3);
 					}
 				}
 			}
