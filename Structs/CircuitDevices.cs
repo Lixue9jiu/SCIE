@@ -423,11 +423,11 @@ namespace Game
 					int i;
 					for (i = 1; i <= level && chunk.GetCellContentsFast(p.X, p.Y + i, p.Z) == 0; i++)
 					{
-						chunk.SetCellValueFast(p.X, p.Y + i, p.Z, RottenMeatBlock.Index | 1 << 8 << 14);
+						chunk.SetCellValueFast(p.X, p.Y + i, p.Z, RottenMeatBlock.Index | 3 << 4 << 14);
 					}
 					for (; i < 8 && p.Y < 127; i++)
 					{
-						if (Terrain.ReplaceLight(chunk.GetCellValueFast(p.X, ++p.Y, p.Z), 0) == (RottenMeatBlock.Index | 1 << 8 << 14))
+						if (Terrain.ReplaceLight(chunk.GetCellValueFast(p.X, ++p.Y, p.Z), 0) == (RottenMeatBlock.Index | 3 << 4 << 14))
 							chunk.SetCellValueFast(p.X, p.Y, p.Z, 0);
 					}
 					Level = level;

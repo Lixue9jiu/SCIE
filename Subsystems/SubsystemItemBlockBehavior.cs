@@ -7,7 +7,7 @@ namespace Game
 	{
 		protected SubsystemBodies m_subsystemBodies;
 		protected SubsystemPickables m_subsystemPickables;
-		public override int[] HandledBlocks => new int[] { ItemBlock.Index };
+		public override int[] HandledBlocks => new int[] { 90, RottenMeatBlock.Index, ItemBlock.Index };
 
 		public override bool OnAim(Vector3 start, Vector3 direction, ComponentMiner componentMiner, AimState state)
 		{
@@ -72,6 +72,41 @@ namespace Game
 					componentMiner.RemoveActiveTool(1);
 					m_subsystemAudio.PlaySound("Audio/BlockPlaced", 1f, 0f, vector, 3f, true);
 					return true;
+				}
+			}
+			else
+			{
+				IInventory inventory = componentMiner.Inventory;
+				int activeBlockValue = componentMiner.ActiveBlockValue;
+				int num = Terrain.ExtractContents(activeBlockValue);
+				var nullable2 = componentMiner.PickTerrainForDigging(start, direction);
+				if (Terrain.ExtractContents(activeBlockValue) == 90 && nullable2.HasValue)
+				{
+					CellFace cellFace = nullable2.Value.CellFace;
+					int cellValue = Terrain.ReplaceLight(Utils.Terrain.GetCellValue(cellFace.X, cellFace.Y, cellFace.Z), 0);
+					if (cellValue != (RottenMeatBlock.Index | 1 << 4 << 14))
+					{
+						return false;
+					}
+					inventory.RemoveSlotItems(inventory.ActiveSlotIndex, inventory.GetSlotCount(inventory.ActiveSlotIndex));
+					if (inventory.GetSlotCount(inventory.ActiveSlotIndex) == 0)
+					{
+						inventory.AddSlotItems(inventory.ActiveSlotIndex, RottenMeatBlock.Index | 2 << 4 << 14, 1);
+					}
+					SubsystemTerrain.DestroyCell(0, cellFace.X, cellFace.Y, cellFace.Z, 0, false, false);
+				}
+				else if (activeBlockValue == (RottenMeatBlock.Index | 2 << 4 << 14))
+				{
+					TerrainRaycastResult? nullable3 = componentMiner.PickTerrainForInteraction(start, direction);
+					if (nullable3.HasValue && componentMiner.Place(nullable3.Value, RottenMeatBlock.Index | 1 << 4 << 14))
+					{
+						inventory.RemoveSlotItems(inventory.ActiveSlotIndex, 1);
+						if (inventory.GetSlotCount(inventory.ActiveSlotIndex) == 0)
+						{
+							inventory.AddSlotItems(inventory.ActiveSlotIndex, Terrain.ReplaceContents(activeBlockValue, 90), 1);
+						}
+						return true;
+					}
 				}
 			}
 			return false;
