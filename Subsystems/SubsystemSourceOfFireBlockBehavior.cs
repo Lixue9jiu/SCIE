@@ -78,16 +78,17 @@ namespace Game
 		{
 			int originX = chunk.Origin.X, originY = chunk.Origin.Y;
 			var list = new List<Point3>();
-			foreach (var key in m_particleSystemsByCell.Keys)
+			for (var i = m_particleSystemsByCell.Keys.GetEnumerator(); i.MoveNext();)
 			{
+				var key = i.Current;
 				if (key.X >= originX && key.X < originX + 16 && key.Z >= originY && key.Z < originY + 16)
 				{
 					list.Add(key);
 				}
 			}
-			for (int i = 0; i < list.Count; i++)
+			for (originX = 0; originX < list.Count; originX++)
 			{
-				RemoveTorch(list[i]);
+				RemoveTorch(list[originX]);
 			}
 		}
 		public override void Load(ValuesDictionary valuesDictionary)

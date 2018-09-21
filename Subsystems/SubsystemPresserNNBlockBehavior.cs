@@ -9,10 +9,7 @@ namespace Game
 		{
 			get
 			{
-				return new[]
-				{
-					PresserNNBlock.Index
-				};
+				return new[] { PresserNNBlock.Index };
 			}
 		}
 

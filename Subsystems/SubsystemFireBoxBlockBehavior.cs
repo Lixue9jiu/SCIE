@@ -6,10 +6,7 @@ namespace Game
 		{
 			get
 			{
-				return new []
-				{
-					FireBoxBlock.Index
-				};
+				return new[] { FireBoxBlock.Index };
 			}
 		}
 

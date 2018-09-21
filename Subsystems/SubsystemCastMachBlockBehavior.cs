@@ -6,10 +6,7 @@ namespace Game
 		{
 			get
 			{
-				return new []
-				{
-					CastMachBlock.Index
-				};
+				return new[] { CastMachBlock.Index };
 			}
 		}
 

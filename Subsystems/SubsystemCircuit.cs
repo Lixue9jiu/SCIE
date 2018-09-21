@@ -134,7 +134,8 @@ namespace Game
 					int length = CircuitPath[i].Length;
 					for (j = 1; j < length; j++)
 					{
-						CircuitPath[i][j].UpdateState();
+						int v = 0;
+						CircuitPath[i][j].Simulate(ref v);
 					}
 				}
 				CircuitPath = new Device[Path.Count][];

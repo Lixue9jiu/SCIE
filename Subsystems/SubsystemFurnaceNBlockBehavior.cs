@@ -104,10 +104,7 @@ namespace Game
 		{
 			get
 			{
-				return new []
-				{
-					FurnaceNBlock.Index
-				};
+				return new[] { FurnaceNBlock.Index };
 			}
 		}
 		public override Widget GetWidget(IInventory inventory, ComponentFurnaceN component)

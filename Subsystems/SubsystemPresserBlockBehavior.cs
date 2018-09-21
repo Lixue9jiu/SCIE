@@ -1,5 +1,3 @@
-using Engine;
-
 namespace Game
 {
 	public class SubsystemPresserBlockBehavior : SubsystemInventoryBlockBehavior<ComponentPresser>
@@ -12,10 +10,7 @@ namespace Game
 		{
 			get
 			{
-				return new[]
-				{
-					PresserBlock.Index
-				};
+				return new[] { PresserBlock.Index };
 			}
 		}
 

@@ -10,10 +10,7 @@ namespace Game
 		{
 			get
 			{
-				return new []
-				{
-					SqueezerBlock.Index
-				};
+				return new[] { SqueezerBlock.Index };
 			}
 		}
 		public override Widget GetWidget(IInventory inventory, ComponentSqueezer component)

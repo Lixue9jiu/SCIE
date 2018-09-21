@@ -57,7 +57,7 @@ namespace Game
 			ParentWidget.Children.Remove(this);
 		}
 		
-		private readonly ComponentElectricFurnace m_componentFurnace;
+		protected readonly ComponentElectricFurnace m_componentFurnace;
 		
 		private readonly FireWidget m_fire;
 		

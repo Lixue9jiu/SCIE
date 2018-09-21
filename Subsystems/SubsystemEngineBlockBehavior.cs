@@ -6,10 +6,7 @@ namespace Game
 		{
 			get
 			{
-				return new []
-				{
-					EngineBlock.Index
-				};
+				return new[] { EngineBlock.Index };
 			}
 		}
 

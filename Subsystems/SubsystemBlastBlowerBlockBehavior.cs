@@ -6,10 +6,7 @@ namespace Game
 		{
 			get
 			{
-				return new []
-				{
-					BlastBlowerBlock.Index
-				};
+				return new[] { BlastBlowerBlock.Index };
 			}
 		}
 		

@@ -139,10 +139,6 @@ namespace Game
 		{
 			Component.Powered = voltage >= 110;
 		}
-		public override void UpdateState()
-		{
-			Component.Powered = false;
-		}
 		public override void OnBlockAdded(SubsystemTerrain subsystemTerrain, int value, int oldValue)
 		{
 			base.OnBlockAdded(subsystemTerrain, value, oldValue);
@@ -243,10 +239,6 @@ namespace Game
 				Component.Powered = false;
 			}
 		}
-		public override void UpdateState()
-		{
-			Component.Powered = false;
-		}
 		public override void OnBlockAdded(SubsystemTerrain subsystemTerrain, int value, int oldValue)
 		{
 			base.OnBlockAdded(subsystemTerrain, value, oldValue);
@@ -328,10 +320,6 @@ namespace Game
 				Component.Powered = false;
 			}
 		}
-		public override void UpdateState()
-		{
-			Component.Powered = false;
-		}
 		public override void OnBlockAdded(SubsystemTerrain subsystemTerrain, int value, int oldValue)
 		{
 			base.OnBlockAdded(subsystemTerrain, value, oldValue);
@@ -397,11 +385,6 @@ namespace Game
 		public AirBlower() : base(3000)
 		{
 		}
-		public override void UpdateState()
-		{
-			int v = 0;
-			Simulate(ref v);
-		}
 		public override void Simulate(ref int voltage)
 		{
 			int level = voltage < 20 ? 0 : (voltage - 20) / 40;
@@ -436,14 +419,7 @@ namespace Game
 		}
 		public override int GetFaceTextureSlot(int face, int value)
 		{
-			if (face == 4 || face == 5)
-			{ 
-				return 107;
-			
-			}else
-			{
-				return 220;
-			}
+			return face == 4 || face == 5 ? 107 : 220;
 		}
 		public override BlockPlacementData GetPlacementValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, TerrainRaycastResult raycastResult)
 		{
@@ -467,7 +443,8 @@ namespace Game
 		public void OnBlockRemoved(SubsystemTerrain terrain, int value, int newValue)
 		{
 			Level = -1;
-			UpdateState();
+			value = 0;
+			Simulate(ref value);
 		}
 	}
 	
@@ -492,10 +469,6 @@ namespace Game
 			{
 				Component.Powered = false;
 			}
-		}
-		public override void UpdateState()
-		{
-			Component.Powered = false;
 		}
 		public override void OnBlockAdded(SubsystemTerrain subsystemTerrain, int value, int oldValue)
 		{
