@@ -1,17 +1,12 @@
 using Engine;
 using GameEntitySystem;
-using System.Globalization;
 using TemplatesDatabase;
 
 namespace Game
 {
 	public class ComponentCReactor : ComponentMachine, IUpdateable
 	{
-		protected float m_fireTimeRemaining;
-
-		protected int m_furnaceSize;
-
-		protected readonly int[] m_matchedIngredients = new int[9];
+		//protected readonly int[] m_matchedIngredients = new int[9];
 
 		protected string m_smeltingRecipe;
 
@@ -19,37 +14,13 @@ namespace Game
 
 		protected string m_smeltingRecipe2;
 
-		public int RemainsSlotIndex
-		{
-			get
-			{
-				return SlotsCount;
-			}
-		}
+		public override int RemainsSlotIndex => SlotsCount;
 
-		public override int ResultSlotIndex
-		{
-			get
-			{
-				return SlotsCount - 1;
-			}
-		}
+		public override int ResultSlotIndex => SlotsCount - 1;
 
-		public override int FuelSlotIndex
-		{
-			get
-			{
-				return SlotsCount;
-			}
-		}
+		public override int FuelSlotIndex => SlotsCount;
 
-		public int UpdateOrder
-		{
-			get
-			{
-				return 0;
-			}
-		}
+		public int UpdateOrder => 0;
 
 		public void Update(float dt)
 		{
@@ -83,7 +54,7 @@ namespace Game
 					{
 						for (int k = -1; k < 2; k++)
 						{
-							int cellValue = Utils.SubsystemTerrain.Terrain.GetCellValue(coordinates.X + i, coordinates.Y + j, coordinates.Z + k);
+							int cellValue = Utils.Terrain.GetCellValue(coordinates.X + i, coordinates.Y + j, coordinates.Z + k);
 							if (i * i + j * j + k * k <= 1 && (Terrain.ExtractContents(cellValue) == FireBoxBlock.Index) && FurnaceNBlock.GetHeatLevel(cellValue) != 0)
 							{
 								num = 1;
@@ -141,33 +112,12 @@ namespace Game
 			}
 		}
 
-		public override int GetSlotCapacity(int slotIndex, int value)
-		{
-			Block block = BlocksManager.Blocks[Terrain.ExtractContents(value)];
-			return slotIndex != FuelSlotIndex || (block is IFuel fuel ? fuel.GetHeatLevel(value) : block.FuelHeatLevel) > 1f
-				? base.GetSlotCapacity(slotIndex, value)
-				: 0;
-		}
-
-		public override void AddSlotItems(int slotIndex, int value, int count)
-		{
-			base.AddSlotItems(slotIndex, value, count);
-			m_updateSmeltingRecipe = true;
-		}
-
-		public override int RemoveSlotItems(int slotIndex, int count)
-		{
-			m_updateSmeltingRecipe = true;
-			return base.RemoveSlotItems(slotIndex, count);
-		}
-
 		public override void Load(ValuesDictionary valuesDictionary, IdToEntityMap idToEntityMap)
 		{
 			base.Load(valuesDictionary, idToEntityMap);
 			m_furnaceSize = SlotsCount - 1;
 			m_fireTimeRemaining = valuesDictionary.GetValue<float>("FireTimeRemaining");
 			HeatLevel = valuesDictionary.GetValue<float>("HeatLevel");
-			m_updateSmeltingRecipe = true;
 		}
 
 		public override void Save(ValuesDictionary valuesDictionary, EntityToIdMap entityToIdMap)
@@ -180,41 +130,40 @@ namespace Game
 		protected string FindSmeltingRecipe(float heatLevel)
 		{
 			string text = null;
-			int text2 = 0;
+			int n = 0;
 			for (int i = 0; i < m_furnaceSize; i++)
 			{
 				int slotValue = GetSlotValue(i);
 				int num = Terrain.ExtractContents(slotValue);
-				int num2 = Terrain.ExtractData(slotValue);
+				//int num2 = Terrain.ExtractData(slotValue);
 				if (GetSlotCount(i) > 0)
 				{
-					if (slotValue== TankBlock.Index)
+					if (num == TankBlock.Index)
 					{
-						text2 += 1;
+						n |= 1;
 					}
-					if (slotValue == ItemBlock.IdTable["ZincRod"])
+					else if (slotValue == ItemBlock.IdTable["ZincRod"])
 					{
-						text2 += 10;
+						n |= 2;
 					}
-					if (slotValue == SulphurChunkBlock.Index)
+					else if (num == SulphurChunkBlock.Index)
 					{
-						text2 += 100;
+						n |= 4;
 					}
 				}
-				else
+				/*else
 				{
-
-				}
+				}*/
 			}
-			if (text2 == 111)
+			if (n == 7)
 			{
 				text = "CuZnBattery";
-			}
-			if (text != null)
-			{
+			//}
+			//if (text != null)
+			//{
 				Slot slot = m_slots[ResultSlotIndex];
-				int num3 = Terrain.ExtractContents(GetSlotValue(1));
-				if (slot.Count != 0 && (slot.Value!= ItemBlock.IdTable[text] || 1 + slot.Count > 40))
+				//int num3 = Terrain.ExtractContents(GetSlotValue(1));
+				if (slot.Count != 0 && (slot.Value != ItemBlock.IdTable[text] || 1 + slot.Count > 40))
 				{
 					text = null;
 				}

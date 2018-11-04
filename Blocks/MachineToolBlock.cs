@@ -13,25 +13,17 @@ namespace Game
 
 		public override int GetFaceTextureSlot(int face, int value)
 		{
-			if (face == 4)
-			{
-				return 146;
-			}
-			return 107;
+			return face == 4 ? 146 : 107;
 		}
 
 		public ElectricElement CreateElectricElement(SubsystemElectricity subsystemElectricity, int value, int x, int y, int z)
 		{
-			return new MachineToolElectricElement(subsystemElectricity, new Point3(x, y, z));
+			return new CraftingMachineElectricElement(subsystemElectricity, new Point3(x, y, z));
 		}
 
 		public ElectricConnectorType? GetConnectorType(SubsystemTerrain terrain, int value, int face, int connectorFace, int x, int y, int z)
 		{
-			if (face == 4 || face == 5)
-			{
-				return ElectricConnectorType.Input;
-			}
-			return null;
+			return face == 4 || face == 5 ? (ElectricConnectorType?)ElectricConnectorType.Input : null;
 		}
 
 		public int GetConnectionMask(int value)
@@ -39,14 +31,14 @@ namespace Game
 			return 2147483647;
 		}
 	}
-	public class MachineToolElectricElement : ElectricElement
+
+	public class CraftingMachineElectricElement : ElectricElement
 	{
-		public SubsystemBlockEntities SubsystemBlockEntities;
-		public SubsystemPickables SubsystemPickables;
 		public Point3 Point;
-		protected ComponentLargeCraftingTable Inventory;
+		protected ICraftingMachine Inventory;
 		protected double m_lastDispenseTime = double.NegativeInfinity;
-		public MachineToolElectricElement(SubsystemElectricity subsystemElectricity, Point3 point)
+
+		public CraftingMachineElectricElement(SubsystemElectricity subsystemElectricity, Point3 point)
 			: base(subsystemElectricity, new List<CellFace>
 			{
 				new CellFace(point.X, point.Y, point.Z, 4),
@@ -54,8 +46,6 @@ namespace Game
 			})
 		{
 			Point = point;
-			SubsystemBlockEntities = SubsystemElectricity.Project.FindSubsystem<SubsystemBlockEntities>(true);
-			SubsystemPickables = SubsystemElectricity.Project.FindSubsystem<SubsystemPickables>(true);
 		}
 
 		public override bool Simulate()
@@ -65,10 +55,14 @@ namespace Game
 				var connection = Connections[i];
 				if (connection.ConnectorType != ElectricConnectorType.Output && connection.NeighborConnectorType != 0)
 				{
-					ComponentLargeCraftingTable inventory = Inventory;
+					ICraftingMachine inventory = Inventory;
 					if (inventory == null)
 					{
-						Inventory = inventory = SubsystemBlockEntities.GetBlockEntity(Point.X, Point.Y, Point.Z).Entity.FindComponent<ComponentLargeCraftingTable>(true);
+						Inventory = inventory = Utils.GetBlockEntity(Point)?.Entity.FindComponent<ICraftingMachine>();
+					}
+					if (inventory == null)
+					{
+						return false;
 					}
 					int n = (int)MathUtils.Round(connection.NeighborElectricElement.GetOutputVoltage(connection.NeighborConnectorFace) * 15f);
 					if (connection.CellFace.Face == 4)
@@ -76,15 +70,16 @@ namespace Game
 					else if (n > 0 && (SubsystemElectricity.SubsystemTime.GameTime - m_lastDispenseTime > 0.1) && connection.CellFace.Face == 5)
 					{
 						m_lastDispenseTime = SubsystemElectricity.SubsystemTime.GameTime;
-						CraftingRecipe m_matchedRecipe = inventory.m_matchedRecipe;
-						if (m_matchedRecipe == null)
+						var matchedRecipe = inventory.GetRecipe() ?? new CraftingRecipe
 						{
-							return false;
-						}
-						SubsystemPickables.AddPickable(inventory.GetSlotValue(inventory.ResultSlotIndex), inventory.RemoveSlotItems(inventory.ResultSlotIndex, m_matchedRecipe.ResultCount * MathUtils.Min(inventory.GetSlotCount(inventory.ResultSlotIndex) / m_matchedRecipe.ResultCount, n)), new Vector3(Point) + new Vector3(0.5f, 1f, 0.5f), null, null);
-						if (m_matchedRecipe.RemainsCount > 0)
+							ResultCount = 1,
+							RemainsCount = 1
+						};
+						var position = new Vector3(Point) + new Vector3(0.5f, 1f, 0.5f);
+						Utils.SubsystemPickables.AddPickable(inventory.GetSlotValue(inventory.ResultSlotIndex), inventory.RemoveSlotItems(inventory.ResultSlotIndex, matchedRecipe.ResultCount * MathUtils.Min(inventory.GetSlotCount(inventory.ResultSlotIndex) / matchedRecipe.ResultCount, n)), position, null, null);
+						if (matchedRecipe.RemainsCount > 0)
 						{
-							SubsystemPickables.AddPickable(inventory.GetSlotValue(inventory.RemainsSlotIndex), inventory.RemoveSlotItems(inventory.RemainsSlotIndex, m_matchedRecipe.RemainsCount * MathUtils.Min(inventory.GetSlotCount(inventory.RemainsSlotIndex) / m_matchedRecipe.RemainsCount, n)), new Vector3(Point) + new Vector3(0.5f, 1f, 0.5f), null, null);
+							Utils.SubsystemPickables.AddPickable(inventory.GetSlotValue(inventory.RemainsSlotIndex), inventory.RemoveSlotItems(inventory.RemainsSlotIndex, matchedRecipe.RemainsCount * MathUtils.Min(inventory.GetSlotCount(inventory.RemainsSlotIndex) / matchedRecipe.RemainsCount, n)), position, null, null);
 						}
 					}
 				}

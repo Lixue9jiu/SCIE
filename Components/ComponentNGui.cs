@@ -11,7 +11,7 @@ namespace Game
 			UpdateWidgets();
 		}
 
-		protected new void HandleInput()
+		public new void HandleInput()
 		{
 			WidgetInput input = m_componentPlayer.View.Input;
 			PlayerInput playerInput = m_componentPlayer.ComponentInput.PlayerInput;
@@ -67,21 +67,28 @@ namespace Game
 			{
 				if (componentRider.Mount != null && ModalPanelWidget == null)
 				{
-					ComponentEngine2 componentEngine = m_componentPlayer.ComponentRider.Mount.Entity.FindComponent<ComponentEngine2>();
+					var componentEngine = m_componentPlayer.ComponentRider.Mount.Entity.FindComponent<ComponentEngine2>();
 					if (componentEngine != null)
 					{
 						ModalPanelWidget = new Engine2Widget(m_componentPlayer.ComponentMiner.Inventory, componentEngine);
 						AudioManager.PlaySound("Audio/UI/ButtonClick", 1f, 0f, 0f);
 						return;
 					}
-                    ComponentTrain componentEngine2 = m_componentPlayer.ComponentRider.Mount.Entity.FindComponent<ComponentTrain>();
-                    if (componentEngine2 != null)
-                    {
-                        ModalPanelWidget = new TrainWidget(m_componentPlayer.ComponentMiner.Inventory, componentEngine2);
-                        AudioManager.PlaySound("Audio/UI/ButtonClick", 1f, 0f, 0f);
-                        return;
-                    }
-                }
+					var componentEngine3 = m_componentPlayer.ComponentRider.Mount.Entity.FindComponent<ComponentEngineA>();
+					if (componentEngine3 != null)
+					{
+						ModalPanelWidget = new EngineAWidget(m_componentPlayer.ComponentMiner.Inventory, componentEngine3);
+						AudioManager.PlaySound("Audio/UI/ButtonClick", 1f, 0f, 0f);
+						return;
+					}
+					var componentEngine2 = m_componentPlayer.ComponentRider.Mount.Entity.FindComponent<ComponentTrain>();
+					if (componentEngine2 != null)
+					{
+						ModalPanelWidget = new TrainWidget(m_componentPlayer.ComponentMiner.Inventory, componentEngine2);
+						AudioManager.PlaySound("Audio/UI/ButtonClick", 1f, 0f, 0f);
+						return;
+					}
+				}
 				if (IsInventoryVisible())
 				{
 					ModalPanelWidget = null;
@@ -174,7 +181,8 @@ namespace Game
 					}
 				}
 			}
-			if (m_subsystemGameInfo.WorldSettings.GameMode == GameMode.Creative && (m_creativeFlyButtonWidget.IsClicked || playerInput.ToggleCreativeFly) && componentRider.Mount == null)
+			bool isCreative = m_subsystemGameInfo.WorldSettings.GameMode == GameMode.Creative;
+			if (isCreative && (m_creativeFlyButtonWidget.IsClicked || playerInput.ToggleCreativeFly) && componentRider.Mount == null)
 			{
 				bool isCreativeFlyEnabled = m_componentPlayer.ComponentLocomotion.IsCreativeFlyEnabled;
 				m_componentPlayer.ComponentLocomotion.IsCreativeFlyEnabled = !isCreativeFlyEnabled;
@@ -206,35 +214,34 @@ namespace Game
 				}
 				else if (view.ActiveCamera.GetType() == typeof(OrbitCamera))
 				{
+					view.ActiveCamera = isCreative ? (Camera)new DebugCamera(view) : view.FindCamera<FixedCamera>(true);
+					DisplaySmallMessage(isCreative ? "Debug camera" : "Fixed camera", false, false);
+				}
+				else if (isCreative && view.ActiveCamera.GetType() == typeof(FixedCamera))
+				{
+					view.ActiveCamera = new FlyCamera(view);
+					DisplaySmallMessage("Fly camera", false, false);
+				}
+				else if (view.ActiveCamera.GetType() == typeof(DebugCamera))
+				{
 					view.ActiveCamera = view.FindCamera<FixedCamera>(true);
 					DisplaySmallMessage("Fixed camera", false, false);
 				}
-				/*else 
-					if (view.ActiveCamera.GetType() == typeof(FixedCamera))
-					{
-						view.ActiveCamera = view.FindCamera<DebugCamera>(true);
-						DisplaySmallMessage("Debug camera", false, false);
-					}
-					else if (view.ActiveCamera.GetType() == typeof(DebugCamera))
-					{
-						view.ActiveCamera = view.FindCamera<FlyCamera>(true);
-						DisplaySmallMessage("Fly camera", false, false);
-					}
-					else if (view.ActiveCamera.GetType() == typeof(FlyCamera))
-					{
-						view.ActiveCamera = view.FindCamera<RandomJumpCamera>(true);
-						DisplaySmallMessage("Random jump camera", false, false);
-					}
-					else if (view.ActiveCamera.GetType() == typeof(FlyCamera))
-					{
-						view.ActiveCamera = view.FindCamera<StraightFlightCamera>(true);
-						DisplaySmallMessage("Straight flight camera", false, false);
-					}*/
-					else
-					{
-						view.ActiveCamera = view.FindCamera<FppCamera>(true);
-						DisplaySmallMessage("First person camera", false, false);
-					}
+				else if (view.ActiveCamera.GetType() == typeof(FlyCamera))
+				{
+					view.ActiveCamera = new RandomJumpCamera(view);
+					DisplaySmallMessage("Random jump camera", false, false);
+				}
+				else if (view.ActiveCamera.GetType() == typeof(RandomJumpCamera))
+				{
+					view.ActiveCamera = new StraightFlightCamera(view);
+					DisplaySmallMessage("Straight flight camera", false, false);
+				}
+				else
+				{
+					view.ActiveCamera = view.FindCamera<FppCamera>(true);
+					DisplaySmallMessage("First person camera", false, false);
+				}
 			}
 			if (m_photoButtonWidget.IsClicked || playerInput.TakeScreenshot)
 			{
@@ -244,12 +251,12 @@ namespace Game
 					DisplaySmallMessage("Photo saved in pictures library", false, false);
 				});
 			}
-			if (m_subsystemGameInfo.WorldSettings.GameMode == GameMode.Creative && (m_lightningButtonWidget.IsClicked || playerInput.Lighting))
+			if (isCreative && (m_lightningButtonWidget.IsClicked || playerInput.Lighting))
 			{
-				Matrix matrix = Matrix.CreateFromQuaternion(m_componentPlayer.ComponentCreatureModel.EyeRotation);
+				var matrix = Matrix.CreateFromQuaternion(m_componentPlayer.ComponentCreatureModel.EyeRotation);
 				Project.FindSubsystem<SubsystemWeather>(true).ManualLightingStrike(m_componentPlayer.ComponentCreatureModel.EyePosition, matrix.Forward);
 			}
-			if (m_subsystemGameInfo.WorldSettings.GameMode == GameMode.Creative && (m_timeOfDayButtonWidget.IsClicked || playerInput.TimeOfDay))
+			if (isCreative && (m_timeOfDayButtonWidget.IsClicked || playerInput.TimeOfDay))
 			{
 				float num2 = MathUtils.Remainder(0.25f, 1f);
 				float num3 = MathUtils.Remainder(0.5f, 1f);

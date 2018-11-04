@@ -16,49 +16,61 @@ namespace Game
 		public const int Index = 525;
 		public override IEnumerable<int> GetCreativeValues()
 		{
-			var array = new int[4];
-			for (int i = 0; i < 4; i++)
+			var array = new int[64];
+			for (int i = 0; i < 64; i++)
 			{
-				array[i] = Terrain.ReplaceData(Index, i);
+				array[i] = Terrain.ReplaceData(Index, i >> 4 | (i & 15) << 13);
 			}
 			return array;
 		}
 		public override string GetCategory(int value)
 		{
-			return (Terrain.ExtractData(value) >> 12 & 15) != 0 ? "Painted" : base.GetCategory(value);
+			return (Terrain.ExtractData(value) >> 13 & 15) != 0 ? "Painted" : base.GetCategory(value);
 		}
 		/*public override CraftingRecipe GetAdHocCraftingRecipe(SubsystemTerrain subsystemTerrain, string[] ingredients, float heatLevel)
 		{
-			return Utils.GetAdHocCraftingRecipe(Index, subsystemTerrain, ingredients, heatLevel);
+			var recipe = Utils.GetAdHocCraftingRecipe(Index, subsystemTerrain, ingredients, heatLevel);
+			if (recipe != null)
+			{
+				for (int i = 0; i < ingredients.Length; i++)
+				{
+					if (!string.IsNullOrEmpty(ingredients[i]))
+					{
+						CraftingRecipesManager.DecodeIngredient(ingredients[i], out string craftingId, out int? data);
+						if (string.Equals(craftingId, CraftingId))
+						{
+							recipe.ResultValue = Terrain.ReplaceData(Index, (Terrain.ExtractData(recipe.ResultValue) & 15) << 13 | (data ?? 0) & 15);
+						}
+					}
+				}
+			}
+			return recipe;
 		}*/
 		public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
 		{
 			switch (GetType(value))
 			{
-				//case Type.SteelDrill:
-				//break;
 				case Type.DiamondDrill:
 					color = Color.Cyan;
 					break;
-				//case Type.IronTubularis:
-				//break;
 				case Type.SteelTubularis:
 					color = Color.Gray;
 					break;
 			}
-			BlocksManager.DrawFlatBlock(primitivesRenderer, value, size, ref matrix, null, color * SubsystemPalette.GetColor(environmentData, Terrain.ExtractData(value) >> 12 & 15), false, environmentData);
+			CustomTextureItem.DrawFlatBlock(primitivesRenderer, value, size, ref matrix, CustomTextureItem.Texture, color * SubsystemPalette.GetColor(environmentData, Terrain.ExtractData(value) >> 13 & 15), false, environmentData);
 		}
 		public static Type GetType(int value)
 		{
 			return (Type)(Terrain.ExtractData(value) & 0xF);
 		}
-		/*public static int SetType(int value, Type type)
+		public static int SetType(int value, Type type)
 		{
 			return Terrain.ReplaceData(value, (Terrain.ExtractData(value) & -16) | ((int)type & 0xF));
-		}*/
+		}
 		public override string GetDisplayName(SubsystemTerrain subsystemTerrain, int value)
 		{
-			return SubsystemPalette.GetName(subsystemTerrain, Terrain.ExtractData(value) >> 12 & 15, GetType(value).ToString());
+			int index = Terrain.ExtractData(value) >> 13 & 15;
+			return SubsystemPalette.GetName(subsystemTerrain, index == 0 ? default(int?) : index, GetType(value).ToString());
 		}
 		public override string GetDescription(int value)
 		{
@@ -80,26 +92,26 @@ namespace Game
 				default:
 				//case Type.SteelDrill:
 				//case Type.DiamondDrill:
-					return 214;
+					return 211;
 				case Type.IronTubularis:
 				case Type.SteelTubularis:
-					return 112;
+					return 208;
 			}
 		}
 		public int GetDurability(int value)
 		{
 			switch (GetType(value))
 			{
-				case Type.SteelDrill:
-					return 1000;
-				case Type.DiamondDrill:
-					return 2000;
-				case Type.IronTubularis:
-					return 700;
-				case Type.SteelTubularis:
-					return 1100;
+				case Type.SteelDrill: return 1000;
+				case Type.DiamondDrill: return 2000;
+				case Type.IronTubularis: return 700;
+				case Type.SteelTubularis: return 1100;
 			}
 			return 0;
+		}
+		public override int GetDamage(int value)
+		{
+			return base.GetDamage(value) & 2047;
 		}
 	}
 }

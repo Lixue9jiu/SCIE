@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Game
 {
-	public class ElementBlock : PaintableItemBlock
+	public class ElementBlock : PaintableItemBlock, IElectricElementBlock
 	{
 		public static ElementBlock Block;
 		public static WireBlock WireBlock;
@@ -19,13 +19,17 @@ namespace Game
 		};
 		public override void Initialize()
 		{
+			Item.ItemBlock = new ElementBlock
+			{
+				BlockIndex = -1
+			};
 			Block = (ElementBlock)BlocksManager.Blocks[Index];
 			WireBlock = (WireBlock)BlocksManager.Blocks[WireBlock.Index];
 			base.Initialize();
 		}
-		public override Item GetItem(ref int value)
+		public override IItem GetItem(ref int value)
 		{
-			return Terrain.ExtractContents(value) != Index ? null : Devices[Terrain.ExtractData(value) & 1023];
+			return Terrain.ExtractContents(value) != Index ? base.GetItem(ref value) : Devices[Terrain.ExtractData(value) & 1023];
 		}
 		/*public Element GetElement(int value)
 		{
@@ -34,13 +38,13 @@ namespace Game
 		public Device GetDevice(int x, int y, int z, int value)
 		{
 			var device = GetItem(ref value);
-			return device == null ? null : ((Device)device).Create(new Point3(x, y, z));
+			return (device is Device d) ? d.Create(new Point3(x, y, z)) : null;
 		}
 		public virtual Device GetDevice(Terrain terrain, int x, int y, int z)
 		{
 			int value = terrain.GetCellValueFast(x, y, z);
 			var device = GetItem(ref value);
-			return device == null ? null : ((Device)device).Create(new Point3(x, y, z));
+			return (device is Device d) ? d.Create(new Point3(x, y, z)) : null;
 		}
 		public void GetAllConnectedNeighbors(Terrain terrain, Device elem, int mountingFace, ICollection<ElectricConnectionPath> list)
 		{
@@ -67,11 +71,11 @@ namespace Game
 			{
 				list.Add(PathTable[3]);
 			}
-			if ((elem = GetDevice(terrain, x, y + 1, z)) != null && (elem.Type & type) != 0)
+			if (y < 127 && (elem = GetDevice(terrain, x, y + 1, z)) != null && (elem.Type & type) != 0)
 			{
 				list.Add(PathTable[4]);
 			}
-			if ((elem = GetDevice(terrain, x, y - 1, z)) != null && (elem.Type & type) != 0)
+			if (y > 0 && (elem = GetDevice(terrain, x, y - 1, z)) != null && (elem.Type & type) != 0)
 			{
 				list.Add(PathTable[5]);
 			}
@@ -101,11 +105,11 @@ namespace Game
 			{
 				list.Add(elem);
 			}
-			if ((elem = GetDevice(terrain, x, y + 1, z)) != null && (elem.Type & type) != 0)
+			if (y < 127 && (elem = GetDevice(terrain, x, y + 1, z)) != null && (elem.Type & type) != 0)
 			{
 				list.Add(elem);
 			}
-			if ((elem = GetDevice(terrain, x, y - 1, z)) != null && (elem.Type & type) != 0)
+			if (y > 0 && (elem = GetDevice(terrain, x, y - 1, z)) != null && (elem.Type & type) != 0)
 			{
 				list.Add(elem);
 			}
@@ -126,6 +130,14 @@ namespace Game
 				new Battery(12, "Models/Battery", "Battery", Matrix.CreateTranslation(0f, -0.5f, 0f) * Matrix.CreateTranslation(new Vector3(0.5f)), Matrix.CreateTranslation(11f / 16f, 4f / 256f, 0f), "AgZnBattery", "AgZnBattery"),
 				new Battery(12, "Models/Battery", "Battery", Matrix.CreateTranslation(0f, -0.5f, 0f) * Matrix.CreateTranslation(new Vector3(0.5f)), Matrix.CreateTranslation(11f / 16f, 4f / 256f, 0f), "AuZnBattery", "AuZnBattery"),
 				new Battery(12, "Models/Battery", "Battery", Matrix.CreateTranslation(0f, -0.5f, 0f) * Matrix.CreateTranslation(new Vector3(0.5f)), Matrix.CreateTranslation(-2f / 16f, 4f / 16f, 0f), "VoltaicBattery", "VoltaicBattery"),
+				new Pipe(),
+				new Pipe(1),
+				new Pipe(2),
+				new Pipe(3),
+				new Pipe(4),
+				new Pipe(5),
+				new Pipe(6),
+				new Pipe(7),
 			};
 			for (int i = 0; i < Devices.Length; i++)
 			{
@@ -134,21 +146,24 @@ namespace Game
 		}
 		public override IEnumerable<int> GetCreativeValues()
 		{
-			var list = new List<int>(Devices.Length);
-			int value = Index;
-			var itemBlock = new ElementBlock
+			var list = new List<int>(Devices.Length << 4);
+			int value = Index, i = 0, j;
+			for (; i < Devices.Length; i++)
 			{
-				BlockIndex = -1
-			};
-			for (int i = 0; i < Devices.Length; i++)
-			{
-				GetItem(ref value).ItemBlock = itemBlock;
 				list.Add(value);
-				for (int j = 1; j < 16; j++)
+				for (j = 1; j < 16; j++)
 				{
 					list.Add(Paint(null, value, j));
 				}
 				value += 1 << 14;
+			}
+			for (i = 11; i < 18; i++)
+			{
+				for (j = 0; j < (16 << 3); j++)
+				{
+					value = Index | i << 14 | (j >> 4) << (14 + 12);
+					list.Add(Paint(null, value, j & 15));
+				}
 			}
 			return list;
 		}
@@ -157,7 +172,6 @@ namespace Game
 			oldValue = Terrain.ReplaceData(Index, Terrain.ExtractData(oldValue) & 32767);
 			GetItem(ref oldValue).GetDropValues(subsystemTerrain, oldValue, newValue, toolLevel, dropValues, out showDebris);
 		}
-
 		public override BlockPlacementData GetPlacementValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, TerrainRaycastResult raycastResult)
 		{
 			var cellFace = raycastResult.CellFace;
@@ -168,6 +182,24 @@ namespace Game
 				Value = value,
 				CellFace = cellFace
 			};
+		}
+		public ElectricElement CreateElectricElement(SubsystemElectricity subsystemElectricity, int value, int x, int y, int z)
+		{
+			return GetDevice(x, y, z, value) is IElectricElementBlock electricElementBlock
+				? electricElementBlock.CreateElectricElement(subsystemElectricity, value, x, y, z)
+				: null;
+		}
+
+		public ElectricConnectorType? GetConnectorType(SubsystemTerrain terrain, int value, int face, int connectorFace, int x, int y, int z)
+		{
+			return GetDevice(x, y, z, value) is IElectricElementBlock electricElementBlock
+				? electricElementBlock.GetConnectorType(terrain, value, face, connectorFace, x, y, z)
+				: null;
+		}
+
+		public int GetConnectionMask(int value)
+		{
+			return GetItem(ref value) is IElectricElementBlock electricElementBlock ? electricElementBlock.GetConnectionMask(value) : 0;
 		}
 	}
 }

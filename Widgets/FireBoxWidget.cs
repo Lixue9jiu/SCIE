@@ -1,5 +1,5 @@
-using System.Xml.Linq;
 using Engine;
+using System.Xml.Linq;
 
 namespace Game
 {
@@ -25,10 +25,10 @@ namespace Game
 		{
 			m_componentFurnace = component;
 			WidgetsManager.LoadWidgetContents(this, this, ContentManager.Get<XElement>(path));
-			m_inventoryGrid = Children.Find<GridPanelWidget>("InventoryGrid", true);
-			m_fire = Children.Find<FireWidget>("Fire", true);
-			m_progress = Children.Find<ValueBarWidget>("Progress", true);
-			m_fuelSlot = Children.Find<InventorySlotWidget>("FuelSlot", true);
+			m_inventoryGrid = Children.Find<GridPanelWidget>("InventoryGrid");
+			m_fire = Children.Find<FireWidget>("Fire");
+			m_progress = Children.Find<ValueBarWidget>("Progress");
+			m_fuelSlot = Children.Find<InventorySlotWidget>("FuelSlot");
 			int num = 6;
 			for (int i = 0; i < m_inventoryGrid.RowsCount; i++)
 			{
@@ -45,7 +45,7 @@ namespace Game
 
 		public override void Update()
 		{
-			m_fire.ParticlesPerSecond = (m_componentFurnace.HeatLevel > 0f) ? 24f : 0f;
+			m_fire.ParticlesPerSecond = m_componentFurnace.HeatLevel > 0f ? 24f : 0f;
 			m_progress.Value = m_componentFurnace.SmeltingProgress;
 			if (!m_componentFurnace.IsAddedToProject)
 			{

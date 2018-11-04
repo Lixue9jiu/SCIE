@@ -1,16 +1,11 @@
 using Engine;
 using GameEntitySystem;
-using System.Globalization;
 using TemplatesDatabase;
 
 namespace Game
 {
 	public class ComponentPresserNN : ComponentMachine, IUpdateable
 	{
-		protected float m_fireTimeRemaining;
-
-		protected int m_furnaceSize;
-
 		protected readonly string[] m_matchedIngredients = new string[9];
 
 		protected string m_smeltingRecipe;
@@ -19,37 +14,13 @@ namespace Game
 
 		protected string m_smeltingRecipe2;
 
-		public int RemainsSlotIndex
-		{
-			get
-			{
-				return SlotsCount;
-			}
-		}
+		public override int RemainsSlotIndex => SlotsCount;
 
-		public override int ResultSlotIndex
-		{
-			get
-			{
-				return SlotsCount - 1;
-			}
-		}
+		public override int ResultSlotIndex => SlotsCount - 1;
 
-		public override int FuelSlotIndex
-		{
-			get
-			{
-				return SlotsCount;
-			}
-		}
+		public override int FuelSlotIndex => SlotsCount;
 
-		public int UpdateOrder
-		{
-			get
-			{
-				return 0;
-			}
-		}
+		public int UpdateOrder => 0;
 
 		public void Update(float dt)
 		{
@@ -74,14 +45,15 @@ namespace Game
 					//m_music = 0;
 				}
 			}
+			int l;
 			if (m_smeltingRecipe2 != null)
 			{
-				int num = ComponentEngine.IsPowered(Utils.SubsystemTerrain.Terrain, coordinates.X, coordinates.Y, coordinates.Z) ? 1 : 0;
-				if (num == 0)
+				l = ComponentEngine.IsPowered(Utils.Terrain, coordinates.X, coordinates.Y, coordinates.Z) ? 1 : 0;
+				if (l == 0)
 				{
 					m_smeltingRecipe = null;
 				}
-				if (num == 1 && m_smeltingRecipe == null)
+				if (l == 1 && m_smeltingRecipe == null)
 				{
 					m_smeltingRecipe = m_smeltingRecipe2;
 				}
@@ -106,17 +78,15 @@ namespace Game
 			}
 			if (m_smeltingRecipe != null)
 			{
-				SmeltingProgress = MathUtils.Min(SmeltingProgress + 0.01f * dt, 1f);
-				if (SmeltingProgress >= 1f)
+				if ((SmeltingProgress = MathUtils.Min(SmeltingProgress + 0.01f * dt, 1f)) >= 1f)
 				{
-					for (int l = 0; l < m_furnaceSize; l++)
+					for (l = 0; l < m_furnaceSize; l++)
 					{
 						if (m_slots[l].Count > 0)
 						{
 							m_slots[l].Count--;
 						}
 					}
-					//int value = 0;
 					m_slots[ResultSlotIndex].Value = ItemBlock.IdTable[m_smeltingRecipe];
 					m_slots[ResultSlotIndex].Count++;
 					m_smeltingRecipe = null;
@@ -126,21 +96,12 @@ namespace Game
 			}
 		}
 
-		public override int GetSlotCapacity(int slotIndex, int value)
-		{
-			Block block = BlocksManager.Blocks[Terrain.ExtractContents(value)];
-			return slotIndex != FuelSlotIndex || (block is IFuel fuel ? fuel.GetHeatLevel(value) : block.FuelHeatLevel) > 1f
-				? base.GetSlotCapacity(slotIndex, value)
-				: 0;
-		}
-
 		public override void Load(ValuesDictionary valuesDictionary, IdToEntityMap idToEntityMap)
 		{
 			base.Load(valuesDictionary, idToEntityMap);
 			m_furnaceSize = SlotsCount - 1;
 			m_fireTimeRemaining = valuesDictionary.GetValue<float>("FireTimeRemaining");
 			HeatLevel = valuesDictionary.GetValue<float>("HeatLevel");
-			m_updateSmeltingRecipe = true;
 		}
 
 		public override void Save(ValuesDictionary valuesDictionary, EntityToIdMap entityToIdMap)
@@ -156,8 +117,6 @@ namespace Game
 			for (int i = 0; i < m_furnaceSize; i++)
 			{
 				int slotValue = GetSlotValue(i);
-				int num = Terrain.ExtractContents(slotValue);
-				int num2 = Terrain.ExtractData(slotValue);
 				if (GetSlotCount(i) > 0)
 				{
 					if (slotValue == ItemBlock.IdTable["SteelRod"])
@@ -175,7 +134,7 @@ namespace Game
 				Slot slot = m_slots[ResultSlotIndex];
 				if (slot.Count != 0 && (slot.Value != ItemBlock.IdTable[text] || 1 + slot.Count > 40))
 				{
-					text = null;
+					return null;
 				}
 			}
 			return text;

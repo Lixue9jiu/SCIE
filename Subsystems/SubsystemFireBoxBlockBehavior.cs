@@ -2,13 +2,7 @@ namespace Game
 {
 	public class SubsystemFireBoxBlockBehavior : SubsystemFurnaceBlockBehavior<ComponentFireBox>
 	{
-		public override int[] HandledBlocks
-		{
-			get
-			{
-				return new[] { FireBoxBlock.Index };
-			}
-		}
+		public override int[] HandledBlocks => new[] { FireBoxBlock.Index };
 
 		public SubsystemFireBoxBlockBehavior() : base("FireBox")
 		{

@@ -1,6 +1,4 @@
-using System.Collections.Generic;
 using Engine;
-using TemplatesDatabase;
 
 namespace Game
 {
@@ -10,7 +8,7 @@ namespace Game
 		{
 			get
 			{
-				return new []
+				return new[]
 				{
 					17,
 					31,
@@ -21,13 +19,14 @@ namespace Game
 				};
 			}
 		}
-		public void TryExplode(int x, int y, int z)
+
+		public static void TryExplode(int x, int y, int z)
 		{
 			if (Utils.SubsystemGameInfo.WorldSettings.EnvironmentBehaviorMode != EnvironmentBehaviorMode.Living)
 			{
 				return;
 			}
-			var terrain = SubsystemTerrain.Terrain;
+			var terrain = Utils.SubsystemTerrain.Terrain;
 			for (int i = x - 2; i <= x + 2; i++)
 				for (int j = y - 4; j <= y + 1; j++)
 					if (terrain.IsCellValid(i, j, 0))
@@ -52,6 +51,7 @@ namespace Game
 							}
 						}
 		}
+
 		public override void OnBlockAdded(int value, int oldValue, int x, int y, int z)
 		{
 			TryExplode(x, y, z);
@@ -59,43 +59,30 @@ namespace Game
 			if (content != 92 && content != 104 && content != 209)
 				AddTorch(value, x, y, z);
 		}
+
 		public override void OnBlockRemoved(int value, int newValue, int x, int y, int z)
 		{
 			RemoveTorch(new Point3(x, y, z));
 		}
+
 		public override void OnBlockModified(int value, int oldValue, int x, int y, int z)
 		{
 			RemoveTorch(new Point3(x, y, z));
 			OnBlockAdded(value, oldValue, x, y, z);
 		}
+
 		public override void OnBlockGenerated(int value, int x, int y, int z, bool isLoaded)
 		{
 			int content = Terrain.ExtractContents(value);
 			if (content != 92 && content != 104 && content != 209)
 				AddTorch(value, x, y, z);
 		}
+
 		public override void OnChunkDiscarding(TerrainChunk chunk)
 		{
-			int originX = chunk.Origin.X, originY = chunk.Origin.Y;
-			var list = new List<Point3>();
-			for (var i = m_particleSystemsByCell.Keys.GetEnumerator(); i.MoveNext();)
-			{
-				var key = i.Current;
-				if (key.X >= originX && key.X < originX + 16 && key.Z >= originY && key.Z < originY + 16)
-				{
-					list.Add(key);
-				}
-			}
-			for (originX = 0; originX < list.Count; originX++)
-			{
-				RemoveTorch(list[originX]);
-			}
+			Utils.RemoveElementsInChunk(chunk, m_particleSystemsByCell.Keys, RemoveTorch);
 		}
-		public override void Load(ValuesDictionary valuesDictionary)
-		{
-			base.Load(valuesDictionary);
-			Utils.Load(Project);
-		}
+
 		public void RemoveTorch(Point3 p)
 		{
 			if (m_particleSystemsByCell.TryGetValue(p, out FireParticleSystem particleSystem))

@@ -1,189 +1,35 @@
-﻿using System;
+﻿using Engine;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Text;
-using Engine;
-using Engine.Graphics;
 using TemplatesDatabase;
 
 namespace Game
 {
 	[Flags]
-	//[Serializable]
 	public enum Metal : short
 	{
-		None,
-		Li = 1,
-		Al = 1<<1, /*P = 1<<2, S = 1<<3,  Ti = 1<<4, V = 1<<5,*/ Cr = 1<<6, Mn = 1<<7,
-		Fe = 1<<8, Co = 1<<9, Ni = 1<<10, Cu = 1<<11, Zn = 1<<12, Ga = 1<<13, /*Ge = 1<<14, As = 1<<15,
-		Ag = 1<<16, Cd = 1<<17, Sn = 1<<18, Sb = 1<<19,
-		Ba = 1<<20, W = 1<<21, Pt = 1<<22, Au = 1<<23, Hg = 1<<24, Pb = 1<<25, I = 1<<26
-		U = 1<<31*/
+		None, Al = 1, Cr = 1<<6, Mn = 1<<7,
+		Fe = 1<<8, Co = 1<<9, Ni = 1<<10, Cu = 1<<11, Zn = 1<<12, Ga = 1<<13,
 		Used = -32768
 	}
-	public class BasaltBlock : PaintedCubeBlock
-	{
-		public static readonly Color[] Colors = new Color[]
-		{
-			new Color(255, 255, 255),
-			new Color(255, 215, 0),//Gold
-			new Color(212, 212, 212),//Silver
-			new Color(232, 232, 232),//Platinum
-			new Color(88, 87, 86),//Lead
-			new Color(65, 224, 205),//Zinc
-			new Color(225, 225, 225),//Stannary
-			new Color(255, 123, 113),//Mercury
-			new Color(90, 90, 90), //Chromium
-			new Color(190, 190, 190),//Titanium
-			new Color(120, 120, 120) //Nickel
-		};
-		public const int Index = 67;
-
-		public BasaltBlock()
-			: base(40)
-		{
-		}
-		public override void GetDropValues(SubsystemTerrain subsystemTerrain, int oldValue, int newValue, int toolLevel, List<BlockDropValue> dropValues, out bool showDebris)
-		{
-			int data = Terrain.ExtractData(oldValue);
-			if (toolLevel > 2 && (data & 98304) == 32768 && (Random.Int() & 3) == 0)
-			{
-				dropValues.Add(new BlockDropValue
-				{
-					Value = oldValue,
-					Count = 1
-				});
-				showDebris = true;
-				return;
-			}
-			if (!IsColored(data) && toolLevel > 2 && (data = data >> 1 & 16383) > 0 && data < 11)
-			{
-				if ((Random.Int() & 7) == 0)
-				{
-					dropValues.Add(new BlockDropValue
-					{
-						Value = ItemBlock.IdTable["ScrapIron"],
-						Count = 1
-					});
-				}
-				dropValues.Add(new BlockDropValue
-				{
-					Value = Terrain.ReplaceData(ItemBlock.Index, data + 14),
-					Count = 1
-				});
-				for (data = (Random.Int() & 1) + (2 | data & 1); data-- != 0;)
-				{
-					dropValues.Add(new BlockDropValue
-					{
-						Value = ExperienceBlock.Index,
-						Count = 1
-					});
-				}
-				showDebris = true;
-			}
-			else
-			{
-				base.GetDropValues(subsystemTerrain, oldValue, newValue, toolLevel, dropValues, out showDebris);
-			}
-		}
-		public override BlockPlacementData GetDigValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, int toolValue, TerrainRaycastResult raycastResult)
-		{
-			return new BlockPlacementData
-			{
-				Value = (Terrain.ExtractData(value) & 65536) != 0 ? Terrain.ReplaceData(MagmaBlock.Index
-					, FluidBlock.SetIsTop(FluidBlock.SetLevel(0, 4), toolValue == MagmaBucketBlock.Index)) : 0,
-				CellFace = raycastResult.CellFace
-			};
-		}
-		public override int GetFaceTextureSlot(int face, int value)
-		{
-			int data = Terrain.ExtractData(value);
-			if (IsColored(data))
-				return m_coloredTextureSlot;
-			data = data >> 1 & 16383;
-			return data > 0 && data < 11 ? 9 : DefaultTextureSlot;
-		}
-		public override string GetDisplayName(SubsystemTerrain subsystemTerrain, int value)
-		{
-			int data = Terrain.ExtractData(value);
-			string name = (data & 65536) != 0 ? "Unstable " : string.Empty;
-			if ((data & 32768) != 0)
-			{
-				name += "Explosive ";
-			}
-			data &= 16383;
-			if (IsColored(data) || data == 0 || data > 20)
-				return name + base.GetDisplayName(subsystemTerrain, value);
-			name += BlocksManager.Blocks[ItemBlock.Index].GetDisplayName(subsystemTerrain, Terrain.ReplaceData(ItemBlock.Index, (data >> 1) + 14));
-			return name.Substring(0, name.Length - 5);
-		}
-		public override float GetExplosionPressure(int value)
-		{
-			return (Terrain.ExtractData(value) & 32768) != 0 ? 10f : base.GetExplosionPressure(value);
-		}
-		public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
-		{
-			int data = Terrain.ExtractData(value) & 16383;
-			base.DrawBlock(primitivesRenderer, value, data < 22 ? color * Colors[data >> 1] : color, size, ref matrix, environmentData);
-		}
-		public override void GenerateTerrainVertices(BlockGeometryGenerator generator, TerrainGeometrySubsets geometry, int value, int x, int y, int z)
-		{
-			int data = Terrain.ExtractData(value) & 16383;
-			generator.GenerateCubeVertices(this, value, x, y, z, IsColored(data) ? SubsystemPalette.GetColor(generator, GetColor(Terrain.ExtractData(value))) : data < 22 ? Colors[data >> 1] : Color.White, geometry.OpaqueSubsetsByFace);
-		}
-		public override IEnumerable<int> GetCreativeValues()
-		{
-			var list = new List<int>(base.GetCreativeValues());
-			int count = list.Count;
-			int i = 0;
-			for (; i < count; i++)
-			{
-				list.Add(list[i] | 65536 << 14);
-			}
-			for (i = 0; i < count; i++)
-			{
-				list.Add(list[i] | 32768 << 14);
-			}
-			for (i = 0; i < count; i++)
-			{
-				list.Add(list[i] | (65536 | 32768) << 14);
-			}
-			const int M = 11;
-			for (i = 1; i < M; i++)
-			{
-				list.Add(BlockIndex | i << 15);
-			}
-			for (i = 1; i < M; i++)
-			{
-				list.Add(BlockIndex | i << 15 | 65536 << 14);
-			}
-			for (i = 1; i < M; i++)
-			{
-				list.Add(BlockIndex | i << 15 | 32768 << 14);
-			}
-			for (i = 1; i < M; i++)
-			{
-				list.Add(BlockIndex | i << 15 | (65536 | 32768) << 14);
-			}
-			return list;
-		}
-	}
-	public class SubsystemMineral : SubsystemBlockBehavior
+	public partial class SubsystemMineral : SubsystemBlockBehavior
 	{
 		public enum BrushType
 		{
 			Au,
 			Ag,
 			Pt,
-			Zn,
 			Pb,
-			Hg,
+			Zn,
 			Sn,
-			Ti,
+			Hg,
 			Cr,
+			Ti,
 			Ni,
-			//P,
-			//Oil,
+			U,
+			P,
 			//NaturalGas
 		}
 		public static TerrainBrush[] SmallBrushes;
@@ -194,7 +40,6 @@ namespace Game
 		//public static TerrainBrush[] NaturalGasBrushes;
 		//public static Dictionary<long, int> MinesData;
 		public static DynamicArray<Metal> AlloysData;
-		//public static HashSet<int> Handled;
 
 		public override int[] HandledBlocks => new int[]
 		{
@@ -228,7 +73,7 @@ namespace Game
 					array[i] = key;
 					return i;
 				}
-				else if (array[i] == key || (array[i] & Metal.Used) == 0)
+				if (array[i] == key || (array[i] & Metal.Used) == 0)
 					return i;
 			if (i == 262144)
 				return 0;
@@ -243,7 +88,7 @@ namespace Game
 			base.Load(valuesDictionary);
 			Utils.Load(Project);
 			Utils.SubsystemItemsScanner.ItemsScanned += GarbageCollectItems;
-			var arr = valuesDictionary.GetValue<string>("AlloysData", "0").Split(',');
+			var arr = valuesDictionary.GetValue("AlloysData", "0").Split(',');
 			AlloysData = new DynamicArray<Metal>(arr.Length);
 			int i;
 			for (i = 0; i < arr.Length; i++)
@@ -251,17 +96,12 @@ namespace Game
 				if (short.TryParse(arr[i], NumberStyles.Integer, NumberFormatInfo.CurrentInfo, out short value))
 					AlloysData.Add((Metal)value);
 			}
-			/*Used = new byte[262144];
-			Handled = new HashSet<int>();
-			for (i = 0; i < HandledBlocks.Length; i++)
-				Handled.Add(HandledBlocks[i]);*/
 			SmallBrushes = new TerrainBrush[16];
 			PtBrushes = new TerrainBrush[16];
 			BBrushes = new TerrainBrush[16];
 			ABrushes = new TerrainBrush[16];
 			//NaruralGasBrushes = new TerrainBrush[16];
 			OilPocketCells = new TerrainBrush.Cell[16][];
-			//Brushes = new TerrainBrush[12, 16];
 			//MinCounts = new int[12, 16];
 			var random = new Random(17034);
 			TerrainBrush brush;
@@ -338,8 +178,9 @@ namespace Game
 		{
 			base.Save(valuesDictionary);
 			/*var sb = new StringBuilder(MinesData.Count * 3);
-			foreach (var data in MinesData)
+			for (var i = MinesData.GetEnumerator(); i.MoveNext();)
 			{
+				var data = i.Current;
 				sb.Append(',');
 				sb.Append(data.Key.ToString());
 				sb.Append('=');
@@ -362,7 +203,7 @@ namespace Game
 
 		public override void OnChunkInitialized(TerrainChunk chunk)
 		{
-			if (!(SubsystemTerrain.TerrainContentsGenerator is TerrainContentsGenerator generator) || chunk.ModificationCounter != 0)
+			if (!(Utils.SubsystemTerrain.TerrainContentsGenerator is TerrainContentsGenerator generator) || chunk.IsLoaded)
 			{
 				return;
 			}
@@ -384,12 +225,14 @@ namespace Game
 				fd = 0x62473051,
 				fe = 0x01234567,
 				ff = 0x57142603;
+			Random random;
 			for (int i = x; i < x + 2; i++)
 			{
+				int k, ix16 = i << 4;
 				for (int j = y; j < y + 2; j++)
 				{
-					var random = new Random(generator.m_seed + i + (f1 ^ f4 ^ f5 ^ f7 ^ fa ^ fc ^ fd) * j);
-					int k, ix16 = i << 4, jx16 = j << 4;
+					random = new Random(generator.m_seed + i + (f1 ^ f4 ^ f5 ^ f7 ^ fa ^ fc ^ fd) * j);
+					int jx16 = j << 4;
 					float num2 = generator.CalculateMountainRangeFactor((float)ix16, (float)jx16);
 					const int index = BasaltBlock.Index, index2 = BasaltBlock.Index;
 					for (k = 1 + (int)(2f * num2 * SimplexNoise.OctavedNoise((float)(i ^ fe), (float)(j ^ ff), 0.33f, 1, 1f, 1f)); k-- != 0;)
@@ -436,10 +279,31 @@ namespace Game
 					{
 						chunk.PaintMaskSelective(ABrushes[random.Int() & 15].Cells, ix16 | (random.Int() & 15), random.UniformInt(2, 50), jx16 | (random.Int() & 15), index | 32768 << 14);
 					}
-					if ((random.Int() & 1) != 0)
+					for (k = 1 + (int)(2f * num2 * SimplexNoise.OctavedNoise((float)(i + fc), (float)(j + f9), 0.33f, 1, 1f, 1f)); k-- != 0;)
 					{
-						chunk.PaintSelective(OilPocketCells[random.Int() & 15], ix16 | (random.Int() & 15), random.UniformInt(40, 70), jx16 | (random.Int() & 15), 3);
+						chunk.PaintFastSelective(SmallBrushes[random.Int() & 15].Cells, ix16 | (random.Int() & 15), random.UniformInt(2, 20), jx16 | (random.Int() & 15), index2 | (int)BrushType.U << 15);
 					}
+					for (k = 3 + (int)(2f * num2 * SimplexNoise.OctavedNoise((float)(i + f3), (float)(j + f1), 0.33f, 1, 1f, 1f)); k-- != 0;)
+					{
+						chunk.PaintFastSelective(ABrushes[random.Int() & 15].Cells, ix16 | (random.Int() & 15), random.UniformInt(45, 70), jx16 | (random.Int() & 15), 3 | (int)BrushType.P << 15);
+					}
+					if (generator.CalculateOceanShoreDistance(ix16, y << 4) < -90f)
+					{
+						int n = TerrainChunk.CalculateCellIndex(random.Int() & 15, 35, random.Int() & 15);
+						for (k = 0; k < 45; k++)
+						{
+							if (Terrain.ExtractContents(chunk.GetCellValueFast(n + k)) == WaterBlock.Index && BlocksManager.Blocks[Terrain.ExtractContents(chunk.GetCellValueFast(n + k - 1))].IsCollidable)
+							{
+								chunk.SetCellValueFast(n + k, IceBlock.Index | 32 << 14);
+								break;
+							}
+						}
+					}
+				}
+				random = new Random(generator.m_seed ^ (x << 16 | y));
+				if ((random.Int() & 1) != 0)
+				{
+					chunk.PaintSelective(OilPocketCells[random.Int() & 15], x << 16 | (random.Int() & 15), random.UniformInt(40, 70), y << 16 | (random.Int() & 15), 3);
 				}
 			}
 		}
@@ -447,14 +311,14 @@ namespace Game
 		{
 			if (Utils.SubsystemGameInfo.WorldSettings.EnvironmentBehaviorMode != EnvironmentBehaviorMode.Living || y <= 0)
 				return;
-			int value = SubsystemTerrain.Terrain.GetCellValue(x, y - 1, z);
+			int value = Utils.Terrain.GetCellValue(x, y - 1, z);
 			if (!Utils.SubsystemCollapsingBlockBehavior.IsCollapseSupportBlock(value))
 			{
 				var list = new List<MovingBlock>();
 				int i;
 				for (i = y; i < 128; i++)
 				{
-					value = SubsystemTerrain.Terrain.GetCellValue(x, i, z);
+					value = Utils.Terrain.GetCellValue(x, i, z);
 					if (Terrain.ExtractContents(value) != 67 || (Terrain.ExtractData(value) & 65536) == 0)
 					{
 						break;
@@ -476,14 +340,14 @@ namespace Game
 			}
 		}
 
-		public override void OnItemPlaced(int x, int y, int z, ref BlockPlacementData placementData, int itemValue)
+		/*public override void OnItemPlaced(int x, int y, int z, ref BlockPlacementData placementData, int itemValue)
 		{
-			/*if (Terrain.ExtractContents(itemValue) == AlloyBlock.Index)
+			if (Terrain.ExtractContents(itemValue) == AlloyBlock.Index)
 			{
 				AlloysData.Array[Terrain.ExtractData(itemValue)] |= Metal.Used;
-			}*/
+			}
 			placementData.Value = itemValue;
-		}
+		}*/
 
 		public void GarbageCollectItems(ReadOnlyList<ScannedItemData> allExistingItems)
 		{

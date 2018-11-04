@@ -1,33 +1,26 @@
 using Engine;
-using GameEntitySystem;
-using TemplatesDatabase;
+using System;
 
 namespace Game
 {
-	public class ComponentFurnaceN : ComponentFurnace, IUpdateable
+	public class ComponentFurnaceN : ComponentFurnace, IUpdateable, ICraftingMachine
 	{
-		public new int RemainsSlotIndex
+		public ComponentFurnaceN()
 		{
-			get
-			{
-				return SlotsCount - 1;
-			}
+			m_matchedIngredients = new string[36];
 		}
 
-		public new int ResultSlotIndex
-		{
-			get
-			{
-				return SlotsCount - 2;
-			}
-		}
+		public new int RemainsSlotIndex => SlotsCount - 1;
 
-		public new int FuelSlotIndex
+		public new int ResultSlotIndex => SlotsCount - 2;
+
+		public new int FuelSlotIndex => SlotsCount - 3;
+
+		public int SlotIndex { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+
+		public CraftingRecipe GetRecipe()
 		{
-			get
-			{
-				return SlotsCount - 3;
-			}
+			throw new NotImplementedException();
 		}
 
 		public new void Update(float dt)
@@ -58,9 +51,9 @@ namespace Game
 					Slot slot = m_slots[FuelSlotIndex];
 					if (slot.Count > 0)
 					{
-                        Block block = BlocksManager.Blocks[Terrain.ExtractContents(slot.Value)];
-                        heatLevel = (block is IFuel fuel ? fuel.GetHeatLevel(slot.Value) : block.FuelHeatLevel);
-                    }
+						Block block = BlocksManager.Blocks[Terrain.ExtractContents(slot.Value)];
+						heatLevel = block is IFuel fuel ? fuel.GetHeatLevel(slot.Value) : block.FuelHeatLevel;
+					}
 				}
 				CraftingRecipe craftingRecipe = FindSmeltingRecipe(heatLevel);
 				if (craftingRecipe != m_smeltingRecipe)
@@ -85,7 +78,7 @@ namespace Game
 						slot2.Count = 0;
 						m_subsystemExplosions.TryExplodeBlock(coordinates.X, coordinates.Y, coordinates.Z, slot2.Value);
 					}
-					else 
+					else
 					{
 						slot2.Count--;
 						if (block is IFuel fuel)
@@ -130,18 +123,12 @@ namespace Game
 					m_updateSmeltingRecipe = true;
 				}
 			}
-			TerrainChunk chunkAtCell = m_subsystemTerrain.Terrain.GetChunkAtCell(coordinates.X, coordinates.Z);
-			if (chunkAtCell != null && chunkAtCell.State == TerrainChunkState.Valid)
+			TerrainChunk chunk = m_subsystemTerrain.Terrain.GetChunkAtCell(coordinates.X, coordinates.Z);
+			if (chunk != null && chunk.State == TerrainChunkState.Valid)
 			{
-				int cellValue = chunkAtCell.GetCellValueFast(coordinates.X & 15, coordinates.Y, coordinates.Z & 15);
+				int cellValue = chunk.GetCellValueFast(coordinates.X & 15, coordinates.Y, coordinates.Z & 15);
 				m_subsystemTerrain.ChangeCell(coordinates.X, coordinates.Y, coordinates.Z, (Terrain.ExtractContents(cellValue) >> 1) == 32 ? Terrain.ReplaceContents(cellValue, (m_heatLevel > 0f) ? 65 : 64) : Terrain.ReplaceData(cellValue, FurnaceNBlock.SetHeatLevel(Terrain.ExtractData(cellValue), (HeatLevel > 0f) ? 1 : 0)), true);
 			}
-		}
-
-		public override void Load(ValuesDictionary valuesDictionary, IdToEntityMap idToEntityMap)
-		{
-			base.Load(valuesDictionary, idToEntityMap);
-			m_matchedIngredients = new string[36];
 		}
 	}
 }

@@ -1,8 +1,8 @@
-﻿using System;
+﻿using Engine;
+using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using Engine;
 using TemplatesDatabase;
 
 namespace Game
@@ -21,17 +21,17 @@ namespace Game
 		public int UpdateStep;
 		public bool UpdatePath;
 		public HashSet<Device> Path;
-		public Device[][] CircuitPath;
+		public Element[][] CircuitPath;
 		public static Dictionary<Point3, Device> Table;
 		public override int[] HandledBlocks => new int[] { ElementBlock.Index };
 		public int UpdateOrder => 0;
 		public override void Load(ValuesDictionary valuesDictionary)
 		{
-			CircuitPath = new Device[0][];
+			CircuitPath = new Element[0][];
 			base.Load(valuesDictionary);
 			Utils.Load(Project);
 			Path = new HashSet<Device>();
-			Table = new Dictionary<Point3, Device>(valuesDictionary.GetValue<int>("Count", 0));
+			Table = new Dictionary<Point3, Device>(valuesDictionary.GetValue("Count", 0));
 			elementblock = BlocksManager.Blocks[ElementBlock.Index] as ElementBlock;
 			Task.Run((Action)ThreadFunction);
 		}
@@ -64,6 +64,7 @@ namespace Game
 			var device = elementblock.GetDevice(x, y, z, value);
 			if (device == null)
 				return;
+			UpdatePath = true;
 			if (device is IBlockBehavior behavior)
 				behavior.OnBlockRemoved(SubsystemTerrain, value, newValue);
 			if (device.Next != null)
@@ -80,7 +81,6 @@ namespace Game
 				}
 			}
 			Table.Remove(device.Point);
-			UpdatePath = true;
 		}
 		public override void OnBlockModified(int value, int oldValue, int x, int y, int z)
 		{
@@ -108,7 +108,7 @@ namespace Game
 		public override void OnNeighborBlockChanged(int x, int y, int z, int neighborX, int neighborY, int neighborZ)
 		{
 			var device = elementblock.GetDevice(Utils.Terrain, x, y, z);
-			if (device != null && device is IUnstableBlock behavior)
+			if (device is IUnstableBlock behavior)
 			{
 				behavior.OnNeighborBlockChanged(SubsystemTerrain, neighborX, neighborY, neighborZ);
 			}
@@ -121,8 +121,14 @@ namespace Game
 		public override void OnHitByProjectile(CellFace cellFace, WorldItem worldItem)
 		{
 			var item = elementblock.GetDevice(Utils.Terrain, cellFace.X, cellFace.Y, cellFace.Z);
-			if (item != null && item is IItemAcceptableBlock block)
+			if (item is IItemAcceptableBlock block)
 				block.OnHitByProjectile(cellFace, worldItem);
+		}
+		public override void OnItemHarvested(int x, int y, int z, int blockValue, ref BlockDropValue dropValue, ref int newBlockValue)
+		{
+			var item = elementblock.GetDevice(Utils.Terrain, x, y, z);
+			if (item is IHarvestingItem block)
+				block.OnItemHarvested(x, y, z, blockValue, ref dropValue, ref newBlockValue);
 		}
 		public void Update(float dt)
 		{
@@ -138,28 +144,32 @@ namespace Game
 						CircuitPath[i][j].Simulate(ref v);
 					}
 				}
-				CircuitPath = new Device[Path.Count][];
+				CircuitPath = new Element[Path.Count][];
 				i = 0;
 				for (var enumerator = Path.GetEnumerator(); enumerator.MoveNext(); i++)
 				{
 					var v = enumerator.Current;
-					var visited = new HashSet<Element>();
+					var visited = new HashSet<Device>
+					{
+						v
+					};
 					var neighbors = new DynamicArray<Device>(6);
-					visited.Add(v);
 					var Q = new Queue<Device>();
+					int count;
 					Q.Enqueue(v);
 					while (Q.Count > 0)
 					{
 						v = Q.Dequeue();
 						neighbors.Clear();
 						elementblock.GetAllConnectedNeighbors(Utils.Terrain, v, 4, neighbors);
-						v.Next = new DynamicArray<Element>(neighbors.Count);
+						v.Next = new Element[neighbors.Count];
+						count = 0;
 						for (j = 0; j < neighbors.Count; j++)
 						{
 							var w = neighbors.Array[j];
 							if (visited.Add(w))
 							{
-								v.Next.Add(w);
+								v.Next[count++] = w;
 								Q.Enqueue(w);
 							}
 						}
@@ -169,27 +179,20 @@ namespace Game
 					{
 						element
 					};
-					var arr = new DynamicArray<Element>(1);
+					var arr = new Element[visited.Count];
+					count = 0;
 					while (stack.Count > 0)
 					{
-						if (stack.Count > 20000)
-						{
-							stack.Clear();
-							throw new InvalidOperationException("Stack overflow");
-						}
 						if ((element = stack.Array[--stack.Count]) != null)
 						{
-							arr.Add(element);
-							//if (voltage != 0)
-							//{
+							arr[count++] = element;
 							var next = element.Next;
-							for (j = 0; j < next.Count; j++)
-								stack.Add(next.Array[j]);
-							//}
+							for (j = 0; j < next.Length && next[j] != null; j++)
+								stack.Add(next[j]);
 						}
 					}
-					CircuitPath[i] = new Device[arr.Count];
-					arr.CopyTo(CircuitPath[i], 0);
+					CircuitPath[i] = new Element[count];
+					Array.Copy(arr, CircuitPath[i], count);
 				}
 				UpdatePath = false;
 			}

@@ -1,11 +1,13 @@
-﻿using System;
-using Engine;
+﻿using Engine;
+using Engine.Graphics;
 using GameEntitySystem;
+using System;
+using System.Collections.Generic;
 using static Game.TerrainBrush;
 
 namespace Game
 {
-	public static class Utils
+	public static partial class Utils
 	{
 		public static Random Random = new Random();
 		public static SubsystemGameInfo SubsystemGameInfo;
@@ -17,6 +19,7 @@ namespace Game
 		public static SubsystemBlockEntities SubsystemBlockEntities;
 		public static SubsystemExplosions SubsystemExplosions;
 		public static SubsystemCollapsingBlockBehavior SubsystemCollapsingBlockBehavior;
+		public static SubsystemPickables SubsystemPickables;
 		public static SubsystemProjectiles SubsystemProjectiles;
 		public static Terrain Terrain;
 		public static bool LoadedProject;
@@ -35,9 +38,27 @@ namespace Game
 			SubsystemBlockEntities = Project.FindSubsystem<SubsystemBlockEntities>(true);
 			SubsystemExplosions = Project.FindSubsystem<SubsystemExplosions>(true);
 			SubsystemCollapsingBlockBehavior = Project.FindSubsystem<SubsystemCollapsingBlockBehavior>(true);
+			SubsystemPickables = Project.FindSubsystem<SubsystemPickables>(true);
 			SubsystemProjectiles = Project.FindSubsystem<SubsystemProjectiles>(true);
 			Terrain = (SubsystemTerrain = Project.FindSubsystem<SubsystemTerrain>(true)).Terrain;
 			LoadedProject = true;
+		}
+		public static void RemoveElementsInChunk(TerrainChunk chunk, IEnumerable<Point3> elements, Action<Point3> action)
+		{
+			int originX = chunk.Origin.X, originY = chunk.Origin.Y;
+			var list = new List<Point3>();
+			for (var i = elements.GetEnumerator(); i.MoveNext();)
+			{
+				var key = i.Current;
+				if (key.X >= originX && key.X < originX + 16 && key.Z >= originY && key.Z < originY + 16)
+				{
+					list.Add(key);
+				}
+			}
+			for (originX = 0; originX < list.Count; originX++)
+			{
+				action(list[originX]);
+			}
 		}
 		public static void PaintSelective(this TerrainChunk chunk, Cell[] cells, int x, int y, int z, int src = BasaltBlock.Index)
 		{
@@ -98,51 +119,35 @@ namespace Game
 		}
 		public static int GetDirectionXZ(ComponentMiner componentMiner)
 		{
-			Vector3 forward = Matrix.CreateFromQuaternion(componentMiner.ComponentCreature.ComponentCreatureModel.EyeRotation).Forward;
+			Vector3 forward = componentMiner.ComponentCreature.ComponentCreatureModel.EyeRotation.ToForwardVector();
 			float num = Vector3.Dot(forward, Vector3.UnitZ);
 			float num2 = Vector3.Dot(forward, Vector3.UnitX);
 			float num3 = Vector3.Dot(forward, -Vector3.UnitZ);
 			float num4 = Vector3.Dot(forward, -Vector3.UnitX);
 			float max = MathUtils.Max(num, num2, num3, num4);
-			if (num == max)
-			{
-				return 2;
-			}
-			else if (num2 == max)
-			{
-				return 3;
-			}
-			else if (num3 == max)
-			{
-				return 0;
-			}
-			else if (num4 == max)
-			{
-				return 1;
-			}
+			if (num == max) return 2;
+			if (num2 == max) return 3;
+			if (num3 == max) return 0;
+			if (num4 == max) return 1;
 			return 0;
 		}
-		public static void Push<T>(this DynamicArray<T> array, T item)
+		public static ComponentBlockEntity GetBlockEntity(Point3 p)
 		{
-			if (array.m_count >= array.Capacity)
-			{
-				int value = MathUtils.Max(array.Capacity << 1, 4);
-				if (value != array.Capacity)
-				{
-					T[] arr = new T[value];
-					if (array.Array != null)
-					{
-						Array.Copy(array.Array, 0, arr, 0, array.m_count);
-					}
-					array.Array = arr;
-				}
-			}
-			array.Array[array.m_count++] = item;
+			SubsystemBlockEntities.m_blockEntities.TryGetValue(p, out ComponentBlockEntity entity);
+			return entity;
+		}
+		public static BlockMesh CreateMesh(string modelName, string meshName, Matrix boneTransform, Matrix tcTransform, Color color)
+		{
+			var model = ContentManager.Get<Model>(modelName);
+			var blockMesh = new BlockMesh();
+			blockMesh.AppendModelMeshPart(model.FindMesh(meshName, true).MeshParts[0], BlockMesh.GetBoneAbsoluteTransform(model.FindMesh(meshName, true).ParentBone) * boneTransform, false, false, false, false, color);
+			blockMesh.TransformTextureCoordinates(tcTransform, -1);
+			return blockMesh;
 		}
 
-		public static int GetColor(int data)
+		public static int GetColor(int value)
 		{
-			return data & 0xF;
+			return Terrain.ExtractData(value) & 0xF;
 		}
 
 		public static int SetColor(int data, int color)
@@ -157,89 +162,6 @@ namespace Game
 				array[i] = BlockIndex | SetColor(0, i) << 14;
 			}
 			return array;
-		}
-		public static CraftingRecipe GetAdHocCraftingRecipe(int index, SubsystemTerrain subsystemTerrain, string[] ingredients, float heatLevel)
-		{
-			if (heatLevel < 1f)
-			{
-				return null;
-			}
-			int i = 0, num = 0;
-			var array = new string[2];
-			for (; i < ingredients.Length; i++)
-			{
-				if (!string.IsNullOrEmpty(ingredients[i]))
-				{
-					if (num > 1)
-					{
-						return null;
-					}
-					array[num] = ingredients[i];
-					num++;
-				}
-			}
-			if (num != 2)
-			{
-				return null;
-			}
-			num = 0;
-			int num2 = 0;
-			int num3 = 0;
-			for (i = 0; i < array.Length; i++)
-			{
-				string item = array[i];
-				CraftingRecipesManager.DecodeIngredient(item, out string craftingId, out int? data);
-				int d = data ?? 0;
-				if (craftingId == BlocksManager.Blocks[index].CraftingId)
-				{
-					num3 = Terrain.MakeBlockValue(index, 0, d);
-				}
-				else if (craftingId == BlocksManager.Blocks[129].CraftingId)
-				{
-					num = Terrain.MakeBlockValue(129, 0, d);
-				}
-				else if (craftingId == BlocksManager.Blocks[128].CraftingId)
-				{
-					num2 = Terrain.MakeBlockValue(128, 0, d);
-				}
-			}
-			if (num != 0 && num3 != 0)
-			{
-				int num4 = GetColor(Terrain.ExtractData(num3));
-				int color = PaintBucketBlock.GetColor(Terrain.ExtractData(num));
-				int num5 = PaintBucketBlock.CombineColors(num4, color);
-				if (num5 != num4)
-				{
-					return new CraftingRecipe
-					{
-						ResultCount = 1,
-						ResultValue = Terrain.MakeBlockValue(index, 0, SetColor(Terrain.ExtractData(num3), num5)),
-						RemainsCount = 1,
-						RemainsValue = BlocksManager.DamageItem(Terrain.MakeBlockValue(129, 0, color), BlocksManager.Blocks[129].GetDamage(num) + 1),
-						RequiredHeatLevel = 1f,
-						Description = "Dye tool " + SubsystemPalette.GetName(subsystemTerrain, color, null),
-						Ingredients = (string[])ingredients.Clone()
-					};
-				}
-			}
-			if (num2 != 0 && num3 != 0)
-			{
-				int num6 = Terrain.ExtractData(num3);
-				if (GetColor(num6) != 0)
-				{
-					return new CraftingRecipe
-					{
-						ResultCount = 1,
-						ResultValue = Terrain.MakeBlockValue(index, 0, SetColor(num6, 0)),
-						RemainsCount = 1,
-						RemainsValue = BlocksManager.DamageItem(Terrain.MakeBlockValue(128), BlocksManager.Blocks[128].GetDamage(num2) + 1),
-						RequiredHeatLevel = 1f,
-						Description = "Undye tool",
-						Ingredients = (string[])ingredients.Clone()
-					};
-				}
-			}
-			return null;
 		}
 	}
 }

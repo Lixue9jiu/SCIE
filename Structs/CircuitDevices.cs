@@ -1,33 +1,23 @@
 ﻿using Engine;
 using Engine.Graphics;
-using GameEntitySystem;
 using System;
-using TemplatesDatabase;
+using System.Collections.Generic;
 
 namespace Game
 {
-	public class Battery : DeviceBlock, IEquatable<Battery>
+	public class Battery : DeviceBlock, IBlockBehavior, IHarvestingItem, IEquatable<Battery>
 	{
-		public readonly float Size;
 		public int Factor = 1;
-		protected BoundingBox[] m_collisionBoxes;
-		public BlockMesh m_standaloneBlockMesh = new BlockMesh();
+		public readonly BoundingBox[] m_collisionBoxes;
+		public readonly BlockMesh m_standaloneBlockMesh = new BlockMesh();
 		public int RemainCount = 500;
-		public Battery(int voltage, string modelName, string meshName, Matrix boneTransform, Matrix tcTransform, string description = "", string name = "", float size = 1f) : base(voltage, ElementType.Connector | ElementType.Container)
+		public Battery(int voltage, string modelName, string meshName, Matrix boneTransform, Matrix tcTransform, string description = "", string name = "") : base(voltage, ElementType.Connector | ElementType.Container)
 		{
 			DefaultDisplayName = name;
 			DefaultDescription = description;
-			Size = size;
-			Model model = ContentManager.Get<Model>(modelName);
-			Matrix boneAbsoluteTransform = BlockMesh.GetBoneAbsoluteTransform(model.FindMesh(meshName, true).ParentBone);
-			var blockMesh = new BlockMesh();
-			blockMesh.AppendModelMeshPart(model.FindMesh(meshName, true).MeshParts[0], boneAbsoluteTransform * boneTransform, false, false, false, false, Color.LightGray);
-			blockMesh.TransformTextureCoordinates(tcTransform, -1);
+			var blockMesh = Utils.CreateMesh(modelName, meshName, boneTransform, tcTransform, Color.LightGray);
 			m_standaloneBlockMesh.AppendBlockMesh(blockMesh);
-			m_collisionBoxes = new BoundingBox[]
-			{
-				blockMesh.CalculateBoundingBox()
-			};
+			m_collisionBoxes = new BoundingBox[] { blockMesh.CalculateBoundingBox() };
 		}
 		public override void GenerateTerrainVertices(Block block, BlockGeometryGenerator generator, TerrainGeometrySubsets geometry, int value, int x, int y, int z)
 		{
@@ -36,7 +26,7 @@ namespace Game
 		}
 		public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
 		{
-			BlocksManager.DrawMeshBlock(primitivesRenderer, m_standaloneBlockMesh, color * SubsystemPalette.GetColor(environmentData, PaintableItemBlock.GetColor(Terrain.ExtractData(value))), size * Size, ref matrix, environmentData);
+			BlocksManager.DrawMeshBlock(primitivesRenderer, m_standaloneBlockMesh, color * SubsystemPalette.GetColor(environmentData, PaintableItemBlock.GetColor(Terrain.ExtractData(value))), size, ref matrix, environmentData);
 		}
 		public override BlockPlacementData GetPlacementValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, TerrainRaycastResult raycastResult)
 		{
@@ -45,6 +35,15 @@ namespace Game
 				Value = value,
 				CellFace = raycastResult.CellFace
 			};
+		}
+		public override void GetDropValues(SubsystemTerrain subsystemTerrain, int oldValue, int newValue, int toolLevel, List<BlockDropValue> dropValues, out bool showDebris)
+		{
+			showDebris = true;
+			dropValues.Add(new BlockDropValue
+			{
+				Value = Terrain.ReplaceLight(oldValue, 0),
+				Count = 1
+			});
 		}
 		public override BoundingBox[] GetCustomCollisionBoxes(SubsystemTerrain terrain, int value)
 		{
@@ -57,7 +56,7 @@ namespace Game
 				voltage = Voltage;
 				RemainCount--;
 			}
-			else if(voltage >= Voltage)
+			else if (voltage >= Voltage)
 			{
 				voltage -= Voltage;
 				RemainCount += Factor;
@@ -65,74 +64,33 @@ namespace Game
 		}
 		public bool Equals(Battery other)
 		{
-			return base.Equals(other) && RemainCount == other.RemainCount && Factor == other.Factor;
+			return base.Equals(other) && Factor == other.Factor;
 		}
 		public override bool IsFaceTransparent(SubsystemTerrain subsystemTerrain, int face, int value)
 		{
 			return true;
 		}
-	}
-	public class EntityDevice<T> : FixedDevice, IBlockBehavior where T : Component
-	{
-		public T Component;
-		public string Name;
-		public EntityDevice(string name, int resistance) : base(resistance)
+		public void OnItemHarvested(int x, int y, int z, int blockValue, ref BlockDropValue dropValue, ref int newBlockValue)
 		{
-			Name = name;
-		}
-		public override Device Create(Point3 p)
-		{
-			var device = (EntityDevice<T>)base.Create(p);
-			device.Component = Utils.SubsystemBlockEntities.GetBlockEntity(p.X, p.Y, p.Z)?.Entity.FindComponent<T>(true);
-			device.Name = Name;
-			return device;
-		}
-		public virtual void OnBlockAdded(SubsystemTerrain subsystemTerrain, int value, int oldValue)
-		{
-			if (oldValue == -1)
-				return;
-			var valuesDictionary = new ValuesDictionary();
-			valuesDictionary.PopulateFromDatabaseObject(subsystemTerrain.Project.GameDatabase.Database.FindDatabaseObject(Name, subsystemTerrain.Project.GameDatabase.EntityTemplateType, true));
-			valuesDictionary.GetValue<ValuesDictionary>("BlockEntity").SetValue("Coordinates", Point);
-			Entity entity = subsystemTerrain.Project.CreateEntity(valuesDictionary);
-			Component = entity.FindComponent<T>(true);
-			subsystemTerrain.Project.AddEntity(entity);
-		}
-		public virtual void OnBlockRemoved(SubsystemTerrain subsystemTerrain, int value, int newValue)
-		{
-			ComponentBlockEntity blockEntity = Utils.SubsystemBlockEntities.GetBlockEntity(Point.X, Point.Y, Point.Z);
-			if (blockEntity != null)
+			if (RemainCount <= 0)
 			{
-				Vector3 position = new Vector3(Point) + new Vector3(0.5f);
-				for (var i = blockEntity.Entity.FindComponents<IInventory>().GetEnumerator(); i.MoveNext();)
-				{
-					i.Current.DropAllItems(position);
-				}
-				subsystemTerrain.Project.RemoveEntity(blockEntity.Entity, true);
+				dropValue.Value = Terrain.ReplaceData(Terrain.ReplaceLight(blockValue, 0), Terrain.ExtractData(blockValue) | 16384);
 			}
 		}
-	}
-	public abstract class InteractiveEntityDevice<T> : EntityDevice<T>, IInteractiveBlock where T : Component
-	{
-		protected InteractiveEntityDevice(string name, int resistance) : base(name, resistance)
+		public void OnBlockAdded(SubsystemTerrain terrain, int value, int oldValue)
 		{
-		}
-		public bool OnInteract(TerrainRaycastResult raycastResult, ComponentMiner componentMiner)
-		{
-			ComponentBlockEntity blockEntity = Utils.SubsystemBlockEntities.GetBlockEntity(raycastResult.CellFace.X, raycastResult.CellFace.Y, raycastResult.CellFace.Z);
-			if (blockEntity == null || componentMiner.ComponentPlayer == null)
+			if ((Terrain.ExtractData(value) & 16384) != 0)
 			{
-				return false;
+				RemainCount = 0;
 			}
-			componentMiner.ComponentPlayer.ComponentGui.ModalPanelWidget = GetWidget(componentMiner.Inventory, blockEntity.Entity.FindComponent<T>(true));
-			AudioManager.PlaySound("Audio/UI/ButtonClick", 1f, 0f, 0f);
-			return true;
 		}
-		public abstract Widget GetWidget(IInventory inventory, T component);
+		public void OnBlockRemoved(SubsystemTerrain terrain, int value, int newValue)
+		{
+		}
 	}
-	public class Fridge : InteractiveEntityDevice<ComponentChestNew>, IItemAcceptableBlock
+	public class Fridge : InteractiveEntityDevice<ComponentNewChest>
 	{
-		public Fridge() : base("ChestNew", 2000)
+		public Fridge() : base("Freezer", 2000)
 		{
 		}
 		public override void Simulate(ref int voltage)
@@ -150,75 +108,23 @@ namespace Game
 				return 107;
 			switch (Terrain.ExtractData(value) >> 15)
 			{
-				case 0:
-					if (face == 0)
-					{
-						return 106;
-					}
-					return 107;
-				case 1:
-					if (face == 1)
-					{
-						return 106;
-					}
-					return 107;
-				case 2:
-					if (face == 2)
-					{
-						return 106;
-					}
-					return 107;
-				default:
-					if (face == 3)
-					{
-						return 106;
-					}
-					return 107;
+				case 0: return face == 0 ? 106 : 107;
+				case 1: return face == 1 ? 106 : 107;
+				case 2: return face == 2 ? 106 : 107;
 			}
+						return face == 3 ? 106 : 107;
 		}
 		public override BlockPlacementData GetPlacementValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, TerrainRaycastResult raycastResult)
 		{
 			return GetPlacementValue(0, componentMiner, value, raycastResult);
 		}
-		public override string GetDisplayName(SubsystemTerrain subsystemTerrain, int value)
-		{
-			return "Freezer";
-		}
 		public override string GetDescription(int value)
 		{
-			return "A Freezer is a good place to protect food that can delay the decay of it. It will hold up to 16 stacks of items.";
+			return "A freezer is a good place to protect food that can delay the decay of it. It will hold up to 16 stacks of items.";
 		}
-		public override Widget GetWidget(IInventory inventory, ComponentChestNew component)
+		public override Widget GetWidget(IInventory inventory, ComponentNewChest component)
 		{
-			return new ChestNewWidget(inventory, component);
-		}
-		public void OnHitByProjectile(CellFace cellFace, WorldItem worldItem)
-		{
-			if (!worldItem.ToRemove)
-			{
-				ComponentBlockEntity blockEntity = Utils.SubsystemBlockEntities.GetBlockEntity(cellFace.X, cellFace.Y, cellFace.Z);
-				if (blockEntity != null)
-				{
-					ComponentChestNew inventory = blockEntity.Entity.FindComponent<ComponentChestNew>(true);
-					var pickable = worldItem as Pickable;
-					int num = (pickable == null) ? 1 : pickable.Count;
-					int value = worldItem.Value;
-					int count = num;
-					int num2 = ComponentInventoryBase.AcquireItems(inventory, value, count);
-					if (num2 < num)
-					{
-						Utils.SubsystemAudio.PlaySound("Audio/PickableCollected", 1f, 0f, worldItem.Position, 3f, true);
-					}
-					if (num2 <= 0)
-					{
-						worldItem.ToRemove = true;
-					}
-					else if (pickable != null)
-					{
-						pickable.Count = num2;
-					}
-				}
-			}
+			return new NewChestWidget(inventory, component);
 		}
 	}
 
@@ -229,14 +135,9 @@ namespace Game
 		}
 		public override void Simulate(ref int voltage)
 		{
-			if (voltage >= 12)
+			if (Component.Powered = voltage >= 12)
 			{
 				voltage -= 12;
-				Component.Powered = true;
-			}
-			else
-			{
-				Component.Powered = false;
 			}
 		}
 		public override void OnBlockAdded(SubsystemTerrain subsystemTerrain, int value, int oldValue)
@@ -250,51 +151,23 @@ namespace Game
 				return 107;
 			switch (Terrain.ExtractData(value) >> 15)
 			{
-				case 0:
-					if (face == 0)
-					{
-						return 239;
-					}
-					return 107;
-				case 1:
-					if (face == 1)
-					{
-						return 239;
-					}
-					return 107;
-				case 2:
-					if (face == 2)
-					{
-						return 239;
-					}
-					return 107;
-				default:
-					if (face == 3)
-					{
-						return 239;
-					}
-					return 107;
+				case 0: return face == 0 ? 239 : 107;
+				case 1: return face == 1 ? 239 : 107;
+				case 2: return face == 2 ? 239 : 107;
 			}
-		}
-		public override bool IsFaceTransparent(SubsystemTerrain subsystemTerrain, int face, int value)
-		{
-			return face < 4;
+						return face == 3 ? 239 : 107;
 		}
 		public override BlockPlacementData GetPlacementValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, TerrainRaycastResult raycastResult)
 		{
 			return GetPlacementValue(2, componentMiner, value, raycastResult);
 		}
-		public override string GetDisplayName(SubsystemTerrain subsystemTerrain, int value)
-		{
-			return "Magnetizer";
-		}
 		public override string GetDescription(int value)
 		{
-			return "A Magnetizer is a device to create industrial magnet by melting steel ingot in a stronge magnetic field provided by wire.";
+			return "A magnetizer is a device to create industrial magnet by melting steel ingot in a stronge magnetic field provided by wire.";
 		}
 		public override Widget GetWidget(IInventory inventory, ComponentMagnetizer component)
 		{
-			return new MagnetizerWidget(inventory, component);
+			return new StoveWidget(inventory, component, "Widgets/MagnetizerWidget");
 		}
 	}
 
@@ -303,21 +176,16 @@ namespace Game
 		public Separator() : base("Seperator", 2000)
 		{
 		}
-		public override Device Create(Point3 p)
+		/*public override Device Create(Point3 p)
 		{
 			var other = (Separator)base.Create(p);
 			return other;
-		}
+		}*/
 		public override void Simulate(ref int voltage)
 		{
-			if (voltage >= 120)
+			if (Component.Powered = voltage >= 120)
 			{
 				voltage -= 120;
-				Component.Powered = true;
-			}
-			else
-			{
-				Component.Powered = false;
 			}
 		}
 		public override void OnBlockAdded(SubsystemTerrain subsystemTerrain, int value, int oldValue)
@@ -331,67 +199,49 @@ namespace Game
 				return 107;
 			switch (Terrain.ExtractData(value) >> 15)
 			{
-				case 0:
-					if (face == 0)
-					{
-						return 240;
-					}
-					return 107;
-				case 1:
-					if (face == 1)
-					{
-						return 240;
-					}
-					return 107;
-				case 2:
-					if (face == 2)
-					{
-						return 240;
-					}
-					return 107;
-				default:
-					if (face == 3)
-					{
-						return 240;
-					}
-					return 107;
+				case 0: return face == 0 ? 240 : 107;
+				case 1: return face == 1 ? 240 : 107;
+				case 2: return face == 2 ? 240 : 107;
 			}
-		}
-		public override bool IsFaceTransparent(SubsystemTerrain subsystemTerrain, int face, int value)
-		{
-			return true;
+						return face == 3 ? 240 : 107;
 		}
 		public override BlockPlacementData GetPlacementValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, TerrainRaycastResult raycastResult)
 		{
 			return GetPlacementValue(3, componentMiner, value, raycastResult);
 		}
-		public override string GetDisplayName(SubsystemTerrain subsystemTerrain, int value)
-		{
-			return "Separator";
-		}
 		public override string GetDescription(int value)
 		{
-			return "A Separator is a device to separate matarial by high frequency rotation, it is a shrinking version of centrifuge.";
+			return "A separator is a device to separate matarial by high frequency rotation, it is a shrinking version of centrifuge.";
 		}
 		public override Widget GetWidget(IInventory inventory, ComponentSeperator component)
 		{
 			return new SeperatorWidget(inventory, component);
 		}
 	}
-	
+
 	public class AirBlower : FixedDevice, IBlockBehavior
 	{
-		public int Level;
+		public int Level = -1;
 		public AirBlower() : base(3000)
 		{
 		}
 		public override void Simulate(ref int voltage)
 		{
-			int level = voltage < 20 ? 0 : (voltage - 20) / 40;
+			int level;
+			if (voltage < 20)
+			{
+				level = 0;
+			}
+			else
+			{
+				level = voltage < 20 ? 0 : (voltage - 20) / 40;
+				voltage -= level * 40 + 20;
+			}
 			if (level == Level)
 				return;
-			voltage -= level * 40 + 20;
 			var p = Point;
+
+			//SubsystemTerrain.ChangeCell(p.X, p.Y, p.Z, , true);
 			var chunk = Utils.Terrain.GetChunkAtCell(p.X, p.Z);
 			if (chunk != null)
 			{
@@ -425,17 +275,9 @@ namespace Game
 		{
 			return GetPlacementValue(4, componentMiner, value, raycastResult);
 		}
-		public override string GetDisplayName(SubsystemTerrain subsystemTerrain, int value)
-		{
-			return "AirBlower";
-		}
 		public override string GetDescription(int value)
 		{
 			return "AirBlower is a device to transfer air into some big machine that need a large amount of hot air.";
-		}
-		public override bool IsFaceTransparent(SubsystemTerrain subsystemTerrain, int face, int value)
-		{
-			return true;
 		}
 		public void OnBlockAdded(SubsystemTerrain terrain, int value, int oldValue)
 		{
@@ -447,27 +289,22 @@ namespace Game
 			Simulate(ref value);
 		}
 	}
-	
-	public class EFurnace : InteractiveEntityDevice<ComponentElectricFurnace>
+
+	public class EFurnace : InteractiveEntityDevice<ComponentElectricFurnace>, IElectricElementBlock
 	{
 		public EFurnace() : base("ElectricFurnace", 6000)
 		{
 		}
-		public override Device Create(Point3 p)
+		/*public override Device Create(Point3 p)
 		{
 			var other = (EFurnace)base.Create(p);
 			return other;
-		}
+		}*/
 		public override void Simulate(ref int voltage)
 		{
-			if (voltage >= 300)
+			if (Component.Powered = voltage >= 300)
 			{
 				voltage -= 300;
-				Component.Powered = true;
-			}
-			else
-			{
-				Component.Powered = false;
 			}
 		}
 		public override void OnBlockAdded(SubsystemTerrain subsystemTerrain, int value, int oldValue)
@@ -481,35 +318,11 @@ namespace Game
 				return 107;
 			switch (Terrain.ExtractData(value) >> 15)
 			{
-				case 0:
-					if (face == 0)
-					{
-						return 164;
-					}
-					return 107;
-				case 1:
-					if (face == 1)
-					{
-						return 164;
-					}
-					return 107;
-				case 2:
-					if (face == 2)
-					{
-						return 164;
-					}
-					return 107;
-				default:
-					if (face == 3)
-					{
-						return 164;
-					}
-					return 107;
+				case 0: return face == 0 ? 164 : 107;
+				case 1: return face == 1 ? 164 : 107;
+				case 2: return face == 2 ? 164 : 107;
 			}
-		}
-		public override bool IsFaceTransparent(SubsystemTerrain subsystemTerrain, int face, int value)
-		{
-			return true;
+						return face == 3 ? 164 : 107;
 		}
 		public override BlockPlacementData GetPlacementValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, TerrainRaycastResult raycastResult)
 		{
@@ -527,24 +340,20 @@ namespace Game
 		{
 			return new ElectricFurnaceWidget(inventory, component);
 		}
-	}
-	/*public abstract class Diode : Element
-	{
-		public int MaxVoltage;
-		protected Diode() : base(ElementType.Connector)
+		public ElectricElement CreateElectricElement(SubsystemElectricity subsystemElectricity, int value, int x, int y, int z)
 		{
+			return new CraftingMachineElectricElement(subsystemElectricity, new Point3(x, y, z));
 		}
-		public override void Simulate(ref int voltage)
+
+		public ElectricConnectorType? GetConnectorType(SubsystemTerrain terrain, int value, int face, int connectorFace, int x, int y, int z)
 		{
-			if (voltage < 0)
-			{
-				if (voltage > -MaxVoltage)
-					voltage = 0;
-				else MaxVoltage = 0;
-			}
+			return face == 4 || face == 5 ? (ElectricConnectorType?)ElectricConnectorType.Input : null;
+		}
+
+		public int GetConnectionMask(int value)
+		{
+			int? color = PaintableItemBlock.GetColor(Terrain.ExtractData(value));
+			return color.HasValue ? 1 << color.Value : 2147483647;
 		}
 	}
-	public class DiodeDevice : Diode
-	{
-	}*/
 }

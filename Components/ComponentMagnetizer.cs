@@ -7,11 +7,8 @@ namespace Game
 	public class ComponentMagnetizer : ComponentMachine, IUpdateable
 	{
 		public bool Powered;
-		protected float m_fireTimeRemaining;
 
-		protected int m_furnaceSize;
-
-		protected readonly string[] m_matchedIngredients = new string[9];
+		//protected readonly string[] m_matchedIngredients = new string[9];
 
 		protected string m_smeltingRecipe;
 
@@ -19,37 +16,13 @@ namespace Game
 
 		protected string m_smeltingRecipe2;
 
-		public int RemainsSlotIndex
-		{
-			get
-			{
-				return SlotsCount;
-			}
-		}
+		public override int RemainsSlotIndex => SlotsCount;
 
-		public override int ResultSlotIndex
-		{
-			get
-			{
-				return SlotsCount - 1;
-			}
-		}
+		public override int ResultSlotIndex => SlotsCount - 1;
 
-		public override int FuelSlotIndex
-		{
-			get
-			{
-				return SlotsCount - 2;
-			}
-		}
+		public override int FuelSlotIndex => SlotsCount - 2;
 
-		public int UpdateOrder
-		{
-			get
-			{
-				return 0;
-			}
-		}
+		public int UpdateOrder => 0;
 
 		public void Update(float dt)
 		{
@@ -62,6 +35,7 @@ namespace Game
 					HeatLevel = 0f;
 				}
 			}
+			Slot slot;
 			if (m_updateSmeltingRecipe)
 			{
 				m_updateSmeltingRecipe = false;
@@ -72,11 +46,11 @@ namespace Game
 				}
 				else
 				{
-					Slot slot = m_slots[FuelSlotIndex];
+					slot = m_slots[FuelSlotIndex];
 					if (slot.Count > 0)
 					{
 						Block block = BlocksManager.Blocks[Terrain.ExtractContents(slot.Value)];
-						heatLevel = (block is IFuel fuel ? fuel.GetHeatLevel(slot.Value) : block.FuelHeatLevel);
+						heatLevel = block is IFuel fuel ? fuel.GetHeatLevel(slot.Value) : block.FuelHeatLevel;
 					}
 				}
 				string text = m_smeltingRecipe2 = FindSmeltingRecipe(heatLevel);
@@ -114,22 +88,22 @@ namespace Game
 			}
 			if (m_smeltingRecipe != null && m_fireTimeRemaining <= 0f)
 			{
-				Slot slot2 = m_slots[FuelSlotIndex];
-				if (slot2.Count > 0)
+				slot = m_slots[FuelSlotIndex];
+				if (slot.Count > 0)
 				{
-					var block = BlocksManager.Blocks[Terrain.ExtractContents(slot2.Value)];
-					if (block.GetExplosionPressure(slot2.Value) > 0f)
+					var block = BlocksManager.Blocks[Terrain.ExtractContents(slot.Value)];
+					if (block.GetExplosionPressure(slot.Value) > 0f)
 					{
-						slot2.Count = 0;
-						Utils.SubsystemExplosions.TryExplodeBlock(coordinates.X, coordinates.Y, coordinates.Z, slot2.Value);
+						slot.Count = 0;
+						Utils.SubsystemExplosions.TryExplodeBlock(coordinates.X, coordinates.Y, coordinates.Z, slot.Value);
 					}
 					else if (block.FuelHeatLevel > 0f)
 					{
-						slot2.Count--;
+						slot.Count--;
 						if (block is IFuel fuel)
 						{
-							HeatLevel = fuel.GetHeatLevel(slot2.Value);
-							m_fireTimeRemaining = fuel.GetFuelFireDuration(slot2.Value);
+							HeatLevel = fuel.GetHeatLevel(slot.Value);
+							m_fireTimeRemaining = fuel.GetFuelFireDuration(slot.Value);
 						}
 						else
 						{
@@ -157,12 +131,13 @@ namespace Game
 
 		public override int GetSlotCapacity(int slotIndex, int value)
 		{
-			Block block = BlocksManager.Blocks[Terrain.ExtractContents(value)];
-			if (slotIndex != FuelSlotIndex || (block is IFuel fuel ? fuel.GetHeatLevel(value) : block.FuelHeatLevel) > 1400f)
+			if (slotIndex == FuelSlotIndex)
 			{
-				return base.GetSlotCapacity(slotIndex, value);
+				Block block = BlocksManager.Blocks[Terrain.ExtractContents(value)];
+				if ((block is IFuel fuel ? fuel.GetHeatLevel(value) : block.FuelHeatLevel) < 1400f)
+					return 0;
 			}
-			return 0;
+			return base.GetSlotCapacity(slotIndex, value);
 		}
 
 		public override void AddSlotItems(int slotIndex, int value, int count)
@@ -212,13 +187,12 @@ namespace Game
 				}
 				/*else
 				{
-
 				}*/
 			}
 			if (text != null)
 			{
 				Slot slot = m_slots[ResultSlotIndex];
-				if (slot.Count != 0 && (slot.Value!= ItemBlock.IdTable[text] || 1 + slot.Count > 40))
+				if (slot.Count != 0 && (slot.Value != ItemBlock.IdTable[text] || 1 + slot.Count > 40))
 				{
 					text = null;
 				}

@@ -6,22 +6,24 @@ namespace Game
 {
 	public abstract class SubsystemInventoryBlockBehavior<T> : SubsystemCraftingTableBlockBehavior where T : Component
 	{
-		public readonly string Name;
+		public string Name;
 
 		protected SubsystemInventoryBlockBehavior(string name)
 		{
 			Name = name;
 		}
+
 		public override void OnBlockAdded(int value, int oldValue, int x, int y, int z)
 		{
 			var valuesDictionary = new ValuesDictionary();
 			valuesDictionary.PopulateFromDatabaseObject(Project.GameDatabase.Database.FindDatabaseObject(Name, Project.GameDatabase.EntityTemplateType, true));
-			valuesDictionary.GetValue<ValuesDictionary>("BlockEntity").SetValue<Point3>("Coordinates", new Point3(x, y, z));
+			valuesDictionary.GetValue<ValuesDictionary>("BlockEntity").SetValue("Coordinates", new Point3(x, y, z));
 			Project.AddEntity(Project.CreateEntity(valuesDictionary));
 		}
+
 		public override bool OnInteract(TerrainRaycastResult raycastResult, ComponentMiner componentMiner)
 		{
-			ComponentBlockEntity blockEntity = Utils.SubsystemBlockEntities.GetBlockEntity(raycastResult.CellFace.X, raycastResult.CellFace.Y, raycastResult.CellFace.Z);
+			var blockEntity = Utils.GetBlockEntity(raycastResult.CellFace.Point);
 			if (blockEntity == null || componentMiner.ComponentPlayer == null)
 			{
 				return false;
@@ -30,11 +32,45 @@ namespace Game
 			AudioManager.PlaySound("Audio/UI/ButtonClick", 1f, 0f, 0f);
 			return true;
 		}
-		public override void Load(ValuesDictionary valuesDictionary)
+
+		public override void OnHitByProjectile(CellFace cellFace, WorldItem worldItem)
 		{
-			base.Load(valuesDictionary);
-			Utils.Load(Project);
+			Utils.OnHitByProjectile(cellFace, worldItem);
 		}
+
 		public abstract Widget GetWidget(IInventory inventory, T component);
+	}
+
+	public partial class Utils
+	{
+		public static void OnHitByProjectile(CellFace cellFace, WorldItem worldItem)
+		{
+			if (worldItem.ToRemove)
+			{
+				return;
+			}
+			var blockEntity = GetBlockEntity(cellFace.Point);
+			if (blockEntity == null)
+			{
+				return;
+			}
+			var inventory = blockEntity.Entity.FindComponent<ComponentInventoryBase>(true);
+			var pickable = worldItem as Pickable;
+			int count = (pickable == null) ? 1 : pickable.Count;
+			int value = worldItem.Value;
+			int max = ComponentInventoryBase.AcquireItems(inventory, value, count);
+			if (max < count)
+			{
+				SubsystemAudio.PlaySound("Audio/PickableCollected", 1f, 0f, worldItem.Position, 3f, true);
+			}
+			if (max <= 0)
+			{
+				worldItem.ToRemove = true;
+			}
+			else if (pickable != null)
+			{
+				pickable.Count = max;
+			}
+		}
 	}
 }

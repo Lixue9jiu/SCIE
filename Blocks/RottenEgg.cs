@@ -32,6 +32,10 @@ namespace Game
 		{
 			return 0.1f;
 		}
+		public override float GetSicknessProbability(int value)
+		{
+			return 0.75f;
+		}
 		public override int GetDamageDestructionValue(int value)
 		{
 			return 246;

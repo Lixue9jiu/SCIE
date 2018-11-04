@@ -12,7 +12,7 @@ namespace Game
 	[PluginLoader("IndustrialMod", "", 0u)]
 	public class Item : IItem
 	{
-		public ItemBlock ItemBlock;
+		public static ItemBlock ItemBlock;
 		internal static readonly BoundingBox[] m_defaultCollisionBoxes = new BoundingBox[]
 		{
 			new BoundingBox(Vector3.Zero, Vector3.One)
@@ -25,6 +25,14 @@ namespace Game
 			CraftingRecipesManager.DecodeResult1 = DecodeResult;
 			CraftingRecipesManager.MatchRecipe1 = MatchRecipe;
 			CraftingRecipesManager.TransformRecipe1 = TransformRecipe;
+			DebugCamera.get_IsEntityControlEnabled1 = True;
+			FlyCamera.get_IsEntityControlEnabled1 = True;
+			RandomJumpCamera.get_IsEntityControlEnabled1 = True;
+			StraightFlightCamera.get_IsEntityControlEnabled1 = True;
+		}
+		public static bool True(object obj)
+		{
+			return true;
 		}
 		public static Block[] FindBlocksByCraftingId(string craftingId)
 		{
@@ -53,6 +61,7 @@ namespace Game
 		public static void CRInitialize()
 		{
 			CraftingRecipesManager.m_recipes = new List<CraftingRecipe>();
+			var recipes = new List<CraftingRecipe>();
 			foreach (XElement xelement in ContentManager.ConbineXElements(ContentManager.Get<XElement>("CraftingRecipes"), ModsManager.GetEntries(".cr"), "Description", "Result", "Recipes").Descendants("Recipe"))
 			{
 				CraftingRecipe craftingRecipe = new CraftingRecipe
@@ -62,7 +71,7 @@ namespace Game
 				string attributeValue = XmlUtils.GetAttributeValue<string>(xelement, "Result");
 				craftingRecipe.ResultValue = CraftingRecipesManager.DecodeResult(attributeValue);
 				craftingRecipe.ResultCount = XmlUtils.GetAttributeValue<int>(xelement, "ResultCount");
-				string attributeValue2 = XmlUtils.GetAttributeValue<string>(xelement, "Remains", string.Empty);
+				string attributeValue2 = XmlUtils.GetAttributeValue(xelement, "Remains", string.Empty);
 				if (!string.IsNullOrEmpty(attributeValue2))
 				{
 					craftingRecipe.RemainsValue = CraftingRecipesManager.DecodeResult(attributeValue2);
@@ -93,6 +102,7 @@ namespace Game
 					dictionary.Add(xattribute.Name.LocalName[0], xattribute.Value);
 				}
 				string[] array = xelement.Value.Trim().Split('\n');
+				string[] ingredients = craftingRecipe.Ingredients;
 				for (int i = 0; i < array.Length; i++)
 				{
 					int num2 = array[i].IndexOf('"');
@@ -112,20 +122,38 @@ namespace Game
 							{
 								text2 = BlocksManager.Blocks[Terrain.ExtractContents(value)].CraftingId + ":" + Terrain.ExtractData(value);
 							}
-							craftingRecipe.Ingredients[j + i * 6] = text2;
+							ingredients[j + i * 6] = text2;
 						}
 					}
 				}
 				CraftingRecipesManager.m_recipes.Add(craftingRecipe);
+				if (craftingRecipe.RequiredHeatLevel >= 300f)
+				{
+					CraftingRecipesManager.DecodeIngredient(ingredients[0], out string craftingId, out int? num);
+					if (!num.HasValue)
+					{
+						continue;
+					}
+					recipes.Add(new CraftingRecipe
+					{
+						ResultValue = Terrain.ReplaceData(BlocksManager.FindBlocksByCraftingId(craftingId)[0].BlockIndex, num.Value),
+						ResultCount = GetCount(ingredients),
+						RemainsValue = craftingRecipe.RemainsValue,
+						RemainsCount = craftingRecipe.RemainsCount,
+						RequiredHeatLevel = 1f,
+						Ingredients = (string[])ingredients.Clone(),
+						Description = craftingRecipe.Description + " (temperature too low)"
+					});
+				}
 			}
 			var blocks = BlocksManager.Blocks;
 			for (int i = 0; i < blocks.Length; i++)
 			{
-				using (var enumerator2 = blocks[i].GetProceduralCraftingRecipes().GetEnumerator())
+				using (var enumerator = blocks[i].GetProceduralCraftingRecipes().GetEnumerator())
 				{
-					while (enumerator2.MoveNext())
+					while (enumerator.MoveNext())
 					{
-						var old = enumerator2.Current.Ingredients;
+						var old = enumerator.Current.Ingredients;
 						if (old.Length == 9)
 						{
 							var ingredients = new string[36];
@@ -138,13 +166,31 @@ namespace Game
 							ingredients[12] = old[6];
 							ingredients[13] = old[7];
 							ingredients[14] = old[8];
-							enumerator2.Current.Ingredients = ingredients;
+							enumerator.Current.Ingredients = ingredients;
 						}
-						CraftingRecipesManager.m_recipes.Add(enumerator2.Current);
+						CraftingRecipesManager.m_recipes.Add(enumerator.Current);
 					}
 				}
 			}
 			CraftingRecipesManager.m_recipes.Sort(CraftingRecipesManager.Initialize_b__1);
+			CraftingRecipesManager.m_recipes.AddRange(recipes);
+		}
+		public static int GetCount(string[] ingredients)
+		{
+			if (ingredients == null || ingredients.Length == 0)
+			{
+				return 0;
+			}
+			string target = ingredients[0];
+			int i = 0;
+			for (; i < ingredients.Length; i++)
+			{
+				if (ingredients[i] != target)
+				{
+					return i;
+				}
+			}
+			return i;
 		}
 		public static int DecodeResult(string result)
 		{
@@ -155,8 +201,7 @@ namespace Game
 			string[] array = result.Split(':');
 			return Terrain.MakeBlockValue(BlocksManager.FindBlockByTypeName(array[0], true).BlockIndex, 0, array.Length >= 2 ? int.Parse(array[1], CultureInfo.InvariantCulture) : 0);
 		}
-
-		protected static bool MatchRecipe(string[] requiredIngredients, string[] actualIngredients)
+		public static bool MatchRecipe(string[] requiredIngredients, string[] actualIngredients)
 		{
 			var array = new string[36];
 			for (int i = 0; i < 2; i++)
@@ -188,7 +233,7 @@ namespace Game
 			return false;
 		}
 
-		protected static bool TransformRecipe(string[] transformedIngredients, string[] ingredients, int shiftX, int shiftY, bool flip)
+		public static bool TransformRecipe(string[] transformedIngredients, string[] ingredients, int shiftX, int shiftY, bool flip)
 		{
 			for (int i = 0; i < 36; i++)
 			{
@@ -273,7 +318,7 @@ namespace Game
 		{
 			return new BlockPlacementData
 			{
-				Value = 0,
+				//Value = 0,
 				CellFace = raycastResult.CellFace
 			};
 		}
@@ -281,7 +326,7 @@ namespace Game
 		{
 			return new BlockPlacementData
 			{
-				Value = 0,
+				//Value = 0,
 				CellFace = raycastResult.CellFace
 			};
 		}
@@ -430,17 +475,13 @@ namespace Game
 	public class MeshItem : BlockItem
 	{
 		public BlockMesh m_standaloneBlockMesh = new BlockMesh();
-		public MeshItem(string description)
+		public MeshItem(string description = null)
 		{
 			DefaultDescription = description;
 		}
 		public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
 		{
 			BlocksManager.DrawMeshBlock(primitivesRenderer, m_standaloneBlockMesh, color, size, ref matrix, environmentData);
-		}
-		public override Vector3 GetIconViewOffset(int value, DrawBlockEnvironmentData environmentData)
-		{
-			return Vector3.One;
 		}
 		public override float GetIconViewScale(int value, DrawBlockEnvironmentData environmentData)
 		{
@@ -454,9 +495,7 @@ namespace Game
 	public abstract partial class ItemBlock : CubeBlock, IItemBlock, IFuel
 	{
 		public const int Index = 246;
-		//public Item this[int index] => Items[index];
-		//public int Count => Items.Length;
-		public virtual Item GetItem(ref int value)
+		public virtual IItem GetItem(ref int value)
 		{
 			return Terrain.ExtractContents(value) != Index ? null : Items[Terrain.ExtractData(value)];
 		}
@@ -476,25 +515,6 @@ namespace Game
 		{
 			return GetItem(ref value).IsInteractive(subsystemTerrain, value);
 		}
-		/*public override IEnumerable<CraftingRecipe> GetProceduralCraftingRecipes()
-		{
-			return base.GetProceduralCraftingRecipes();
-		}
-		public override CraftingRecipe GetAdHocCraftingRecipe(SubsystemTerrain subsystemTerrain, string[] ingredients, float heatLevel)
-		{
-			for (int i = 0; i < ingredients.Length; i++)
-			{
-				if (!string.IsNullOrEmpty(ingredients[i]))
-				{
-					CraftingRecipesManager.DecodeIngredient(ingredients[i], out string craftingId, out int? data);
-					if (craftingId == "item")
-					{
-						ingredients[i] = Items[data ?? 0].ToString().Substring(5);
-					}
-				}
-			}
-			return null;
-		}*/
 		public override bool IsFaceTransparent(SubsystemTerrain subsystemTerrain, int face, int value)
 		{
 			return GetItem(ref value).IsFaceTransparent(subsystemTerrain, face, value);
@@ -626,19 +646,14 @@ namespace Game
 		}
 		public override IEnumerable<int> GetCreativeValues()
 		{
-			var list = new List<int>(Items.Length);
+			var arr = new int[Items.Length];
 			int value = Index;
-			var itemBlock = new RottenEggBlock
-			{
-				BlockIndex = -1
-			};
 			for (int i = 0; i < Items.Length; i++)
 			{
-				GetItem(ref value).ItemBlock = itemBlock;
-				list.Add(value);
+				arr[i] = value;
 				value += 1 << 14;
 			}
-			return list;
+			return arr;
 		}
 		public float GetHeatLevel(int value)
 		{
@@ -648,26 +663,6 @@ namespace Game
 		{
 			return (GetItem(ref value) is IFuel fuel) ? fuel.GetFuelFireDuration(value) : 0f;
 		}
-		/*public bool Equals(object other, IEqualityComparer comparer)
-		{
-			return ((IStructuralEquatable)Items).Equals(other, comparer);
-		}
-		public int GetHashCode(IEqualityComparer comparer)
-		{
-			return ((IStructuralEquatable)Items).GetHashCode(comparer);
-		}
-		public int CompareTo(object other, IComparer comparer)
-		{
-			return ((IStructuralComparable)Items).CompareTo(other, comparer);
-		}
-		public IEnumerator<Item> GetEnumerator()
-		{
-			return ((IEnumerable<Item>)Items).GetEnumerator();
-		}
-		IEnumerator IEnumerable.GetEnumerator()
-		{
-			return Items.GetEnumerator();
-		}*/
 	}
 	public abstract class PaintableItemBlock : ItemBlock, IPaintableBlock
 	{

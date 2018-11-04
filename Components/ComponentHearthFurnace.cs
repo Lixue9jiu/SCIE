@@ -1,35 +1,17 @@
 using Engine;
 using GameEntitySystem;
+using System;
 using TemplatesDatabase;
 
 namespace Game
 {
 	public class ComponentHearthFurnace : ComponentMachine, IUpdateable
 	{
-		protected SubsystemTime m_subsystemTime;
-		public int RemainsSlotIndex
-		{
-			get
-			{
-				return SlotsCount - 1;
-			}
-		}
+		public override int RemainsSlotIndex => SlotsCount - 1;
 
-		public override int ResultSlotIndex
-		{
-			get
-			{
-				return SlotsCount - 2;
-			}
-		}
+		public override int ResultSlotIndex => SlotsCount - 2;
 
-		public int UpdateOrder
-		{
-			get
-			{
-				return 0;
-			}
-		}
+		public int UpdateOrder => 0;
 
 		public void Update(float dt)
 		{
@@ -54,56 +36,52 @@ namespace Game
 					m_time = 0;
 				}
 			}
-			if (m_smeltingRecipe2 && m_subsystemTime.PeriodicGameTimeEvent(0.2, 0.0))
+			if (m_smeltingRecipe2 && Utils.SubsystemTime.PeriodicGameTimeEvent(0.2, 0.0))
 			{
 				int num = 1;
 				int num2 = 0;
-				var vector = new Vector3(CellFace.FaceToPoint3(FourDirectionalBlock.GetDirection(Utils.SubsystemTerrain.Terrain.GetCellValue(coordinates.X, coordinates.Y, coordinates.Z))));
-				int num3 = coordinates.X - (int)vector.X;
-				int num4 = coordinates.Y - (int)vector.Y;
-				int num5 = coordinates.Z - (int)vector.Z;
+				var point = CellFace.FaceToPoint3(FourDirectionalBlock.GetDirection(Utils.Terrain.GetCellValue(coordinates.X, coordinates.Y, coordinates.Z)));
+				int num3 = coordinates.X - point.X;
+				int num4 = coordinates.Y - point.Y;
+				int num5 = coordinates.Z - point.Z, v;
 				for (int i = -1; i < 2; i++)
 				{
 					for (int j = -1; j < 3; j++)
 					{
-                        for (int k = -1; k < 2; k++)
-                        {
-                            int cellContents = Utils.SubsystemTerrain.Terrain.GetCellValue(num3 + i, num4 + j, num5 + k);
-                            int cellContents2 = Utils.SubsystemTerrain.Terrain.GetCellContents(num3 + i, num4 + j, num5 + k);
-                            if (j == 1 && cellContents != 1573374)
-                            {
-                                num = 0;
-                                break;
-                            }
-                            if (i * i + k * k == 1 && j == 0 && cellContents2 == 0 && (Utils.SubsystemTerrain.Terrain.GetCellContents(num3 + 2 * i, num4 + j, num5 + 2 * k) != BlastBlowerBlock.Index || Utils.SubsystemTerrain.Terrain.GetCellValue(num3 + 2 * i, num4 + j, num5 + 2 * k) <= BlastBlowerBlock.Index  ) && (num3 + i != coordinates.X || num5 + k != coordinates.Z))
-                            {
-                           
-                                num = 0;
-                                break;
-                            }
-                            if (i * i + k * k == 1 && j == 0 && cellContents2 == 0)
-                            {
-                                num2 += 1;
-                            }
-                            if (i * i + k * k == 1 && j == 0 && cellContents2 != 0 && cellContents != 1573374 && ((num3 + i) != coordinates.X || (num5 + k) != coordinates.Z))
-                            {
-
-                                num = 0;
-                                break;
-                            }
-                            if (i * i + k * k == 2 && j == 0 && cellContents != 1573374)
-                            {
-                                num = 0;
-
-                                break;
-                            }
-                            if (j < 0 && cellContents != 1049086)
-                            {
-
-                                num = 0;
-                                break;
-                            }
-                        }
+						for (int k = -1; k < 2; k++)
+						{
+							int cellValue = Terrain.ReplaceLight(Utils.Terrain.GetCellValue(num3 + i, num4 + j, num5 + k), 0);
+							int cellContents2 = Terrain.ExtractContents(cellValue);
+							if (j == 1 && cellValue != (MetalBlock.Index | 96 << 14))
+							{
+								num = 0;
+								break;
+							}
+							if (i * i + k * k == 1 && j == 0 && cellContents2 == 0 && ((v = Utils.Terrain.GetCellValue(num3 + 2 * i, num4 + j, num5 + 2 * k)) != (BlastBlowerBlock.Index | FurnaceNBlock.SetHeatLevel(Terrain.ExtractData(v), 1) << 14)) && (num3 + i != coordinates.X || num5 + k != coordinates.Z))
+							{
+								num = 0;
+								break;
+							}
+							if (i * i + k * k == 1 && j == 0 && cellContents2 == 0)
+							{
+								num2++;
+							}
+							if (i * i + k * k == 1 && j == 0 && cellContents2 != 0 && cellValue != (MetalBlock.Index | 96 << 14) && (num3 + i != coordinates.X || num5 + k != coordinates.Z))
+							{
+								num = 0;
+								break;
+							}
+							if (i * i + k * k == 2 && j == 0 && cellValue != (MetalBlock.Index | 96 << 14))
+							{
+								num = 0;
+								break;
+							}
+							if (j < 0 && cellValue != (MetalBlock.Index | 64 << 14))
+							{
+								num = 0;
+								break;
+							}
+						}
 					}
 				}
 				if (num == 0 || num2 == 0)
@@ -115,7 +93,7 @@ namespace Game
 					m_smeltingRecipe = m_smeltingRecipe2;
 				}
 			}
-		
+
 			if (!m_smeltingRecipe)
 			{
 				HeatLevel = 0f;
@@ -134,11 +112,11 @@ namespace Game
 					int[] array = new int[]
 					{
 						IronIngotBlock.Index,
-                        ItemBlock.IdTable["ScrapIron"],
-                        ItemBlock.IdTable["AluminumOrePowder"],
-                        ItemBlock.IdTable["ChromiumOrePowder"],
-                        ItemBlock.IdTable["CokeCoalPowder"]
-                    };
+						ItemBlock.IdTable["ScrapIron"],
+						ItemBlock.IdTable["AluminumOrePowder"],
+						ItemBlock.IdTable["ChromiumOrePowder"],
+						ItemBlock.IdTable["CokeCoalPowder"]
+					};
 					for (int l = 0; l < 5; l++)
 					{
 						if (m_matchedIngredients[l] > 0)
@@ -191,8 +169,7 @@ namespace Game
 		public override void Load(ValuesDictionary valuesDictionary, IdToEntityMap idToEntityMap)
 		{
 			base.Load(valuesDictionary, idToEntityMap);
-			m_subsystemTime = Project.FindSubsystem<SubsystemTime>(true);
-			m_furnaceSize = SlotsCount - 3;
+			m_furnaceSize = SlotsCount - 2;
 			m_fireTimeRemaining = valuesDictionary.GetValue<float>("FireTimeRemaining");
 			HeatLevel = valuesDictionary.GetValue<float>("HeatLevel");
 			m_updateSmeltingRecipe = true;
@@ -201,8 +178,8 @@ namespace Game
 		public override void Save(ValuesDictionary valuesDictionary, EntityToIdMap entityToIdMap)
 		{
 			base.Save(valuesDictionary, entityToIdMap);
-			valuesDictionary.SetValue<float>("FireTimeRemaining", m_fireTimeRemaining);
-			valuesDictionary.SetValue<float>("HeatLevel", HeatLevel);
+			valuesDictionary.SetValue("FireTimeRemaining", m_fireTimeRemaining);
+			valuesDictionary.SetValue("HeatLevel", HeatLevel);
 		}
 
 		protected bool FindSmeltingRecipe(float heatLevel)
@@ -211,34 +188,16 @@ namespace Game
 			{
 				return false;
 			}
-			bool flag = false;
-			m_matchedIngredients2[0] = 0;
-			m_matchedIngredients2[1] = 0;
-			m_matchedIngredients2[2] = 0;
-			m_matchedIngredients2[3] = 0;
-			m_matchedIngredients2[4] = 0;
-			m_matchedIngredients2[5] = 0;
-			m_matchedIngredients2[6] = 0;
-			m_matchedIngredients2[7] = 0;
-			m_matchedIngredients2[8] = 0;
-			m_matchedIngredients[0] = 0;
-			m_matchedIngredients[1] = 0;
-			m_matchedIngredients[2] = 0;
-			m_matchedIngredients[3] = 0;
-			m_matchedIngredients[4] = 0;
-			m_matchedIngredients[5] = 0;
-			m_matchedIngredients[6] = 0;
-			m_matchedIngredients[7] = 0;
-			m_matchedIngredients[8] = 0;
-			m_matchedIngredients[9] = 0;
-			for (int i = 0; i < m_furnaceSize+1; i++)
+			Array.Clear(m_matchedIngredients2, 0, m_matchedIngredients2.Length);
+			Array.Clear(m_matchedIngredients, 0, m_matchedIngredients.Length);
+			for (int i = 0; i < m_furnaceSize; i++)
 			{
 				int slotValue = GetSlotValue(i);
 				int num = Terrain.ExtractContents(slotValue);
 				int slotCount = GetSlotCount(i);
 				if (GetSlotCount(i) > 0)
 				{
-					if (slotValue == IronIngotBlock.Index)
+					if (num == IronIngotBlock.Index)
 					{
 						m_matchedIngredients2[0] += slotCount;
 					}
@@ -264,51 +223,41 @@ namespace Game
 					}
 				}
 			}
+			bool flag = false;
 			if (m_matchedIngredients2[5] == 0)
 			{
 				if (m_matchedIngredients2[0] >= 4 && m_matchedIngredients2[4] >= 2 && m_matchedIngredients2[1] + m_matchedIngredients2[2] + m_matchedIngredients2[3] <= 0)
 				{
-					m_matchedIngredients[5] = 6;
+					m_matchedIngredients[5] = 4;
 					m_matchedIngredients[0] = 4;
 					m_matchedIngredients[4] = 2;
 					flag = true;
 				}
-                if (m_matchedIngredients2[1] >= 4 && m_matchedIngredients2[4] >= 2 && m_matchedIngredients2[0] + m_matchedIngredients2[2] + m_matchedIngredients2[3] <= 0)
-                {
-                    m_matchedIngredients[6] = 4;
-                    m_matchedIngredients[1] = 4;
-                    m_matchedIngredients[4] = 2;
-                    flag = true;
-                }
-                if (m_matchedIngredients2[0] >= 2 && m_matchedIngredients2[2] >= 1 && m_matchedIngredients2[3] >= 1 && m_matchedIngredients2[4] >= 2 && m_matchedIngredients2[1]  <= 0)
-                {
-                    m_matchedIngredients[7] = 1;
-                    m_matchedIngredients[0] = 2;
-                    m_matchedIngredients[2] = 1;
-                    m_matchedIngredients[3] = 1;
-                    m_matchedIngredients[4] = 2;
-                    flag = true;
-                }
-            }
-
-			if (m_matchedIngredients[5] >= 1 && (m_slots[ResultSlotIndex].Value != ItemBlock.IdTable["SteelIngot"] || m_slots[ResultSlotIndex].Count + m_matchedIngredients[5] > 40) && m_slots[ResultSlotIndex].Count != 0)
-			{
-				flag = false;
+				if (m_matchedIngredients2[1] >= 4 && m_matchedIngredients2[4] >= 2 && m_matchedIngredients2[0] + m_matchedIngredients2[2] + m_matchedIngredients2[3] <= 0)
+				{
+					m_matchedIngredients[6] = 4;
+					m_matchedIngredients[1] = 4;
+					m_matchedIngredients[4] = 2;
+					flag = true;
+				}
+				if (m_matchedIngredients2[0] >= 2 && m_matchedIngredients2[2] >= 1 && m_matchedIngredients2[3] >= 1 && m_matchedIngredients2[4] >= 2 && m_matchedIngredients2[1] <= 0)
+				{
+					m_matchedIngredients[7] = 1;
+					m_matchedIngredients[0] = 2;
+					m_matchedIngredients[2] = 1;
+					m_matchedIngredients[3] = 1;
+					m_matchedIngredients[4] = 2;
+					flag = true;
+				}
 			}
-			if (m_matchedIngredients[6] >= 1 && (m_slots[ResultSlotIndex].Value != IronIngotBlock.Index || m_slots[ResultSlotIndex].Count + m_matchedIngredients[6] > 40) && m_slots[ResultSlotIndex].Count != 0)
+			if ((m_matchedIngredients[5] >= 1 && (m_slots[ResultSlotIndex].Value != ItemBlock.IdTable["SteelIngot"] || m_slots[ResultSlotIndex].Count + m_matchedIngredients[5] > 40) && m_slots[ResultSlotIndex].Count != 0) ||
+				(m_matchedIngredients[6] >= 1 && (Terrain.ExtractContents(m_slots[ResultSlotIndex].Value) != IronIngotBlock.Index || m_slots[ResultSlotIndex].Count + m_matchedIngredients[6] > 40) && m_slots[ResultSlotIndex].Count != 0) ||
+				(m_matchedIngredients[7] >= 1 && (m_slots[ResultSlotIndex].Value != ItemBlock.IdTable["FeAlCrAlloyIngot"] || m_slots[ResultSlotIndex].Count + m_matchedIngredients[7] > 40) && m_slots[ResultSlotIndex].Count != 0))
 			{
-				flag = false;
-			}
-			if (m_matchedIngredients[7] >= 1 && (m_slots[ResultSlotIndex].Value != ItemBlock.IdTable["FeAlCrAlloyIngot"] || m_slots[ResultSlotIndex].Count + m_matchedIngredients[7] > 40) && m_slots[ResultSlotIndex].Count != 0)
-			{
-				flag = false;
+				return false;
 			}
 			return flag;
 		}
-
-		protected float m_fireTimeRemaining;
-
-		protected int m_furnaceSize;
 
 		protected int m_time;
 

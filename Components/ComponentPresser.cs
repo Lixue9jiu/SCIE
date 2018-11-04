@@ -6,11 +6,7 @@ namespace Game
 {
 	public class ComponentPresser : ComponentMachine, IUpdateable
 	{
-		protected float m_fireTimeRemaining;
-
-		protected int m_furnaceSize;
-
-		protected readonly string[] m_matchedIngredients = new string[9];
+		//protected readonly string[] m_matchedIngredients = new string[9];
 
 		protected string m_smeltingRecipe;
 
@@ -18,37 +14,13 @@ namespace Game
 
 		protected string m_smeltingRecipe2;
 
-		public int RemainsSlotIndex
-		{
-			get
-			{
-				return SlotsCount;
-			}
-		}
+		public override int RemainsSlotIndex => SlotsCount;
 
-		public override int ResultSlotIndex
-		{
-			get
-			{
-				return SlotsCount - 1;
-			}
-		}
+		public override int ResultSlotIndex => SlotsCount - 1;
 
-		public override int FuelSlotIndex
-		{
-			get
-			{
-				return SlotsCount;
-			}
-		}
+		public override int FuelSlotIndex => SlotsCount;
 
-		public int UpdateOrder
-		{
-			get
-			{
-				return 0;
-			}
-		}
+		public int UpdateOrder => 0;
 
 		public void Update(float dt)
 		{
@@ -75,7 +47,7 @@ namespace Game
 			}
 			if (m_smeltingRecipe2 != null)
 			{
-				int num = ComponentEngine.IsPowered(Utils.SubsystemTerrain.Terrain, coordinates.X, coordinates.Y, coordinates.Z) ? 1 : 0;
+				int num = ComponentEngine.IsPowered(Utils.Terrain, coordinates.X, coordinates.Y, coordinates.Z) ? 1 : 0;
 				if (num == 0)
 				{
 					m_smeltingRecipe = null;
@@ -108,7 +80,6 @@ namespace Game
 				SmeltingProgress = MathUtils.Min(SmeltingProgress + 0.1f * dt, 1f);
 				if (SmeltingProgress >= 1f)
 				{
-					
 					m_slots[0].Count--;
 					int value = ItemBlock.IdTable[m_smeltingRecipe];
 					m_slots[ResultSlotIndex].Value = value;
@@ -120,33 +91,12 @@ namespace Game
 			}
 		}
 
-		public override int GetSlotCapacity(int slotIndex, int value)
-		{
-			Block block = BlocksManager.Blocks[Terrain.ExtractContents(value)];
-			return slotIndex != FuelSlotIndex || (block is IFuel fuel ? fuel.GetHeatLevel(value) : block.FuelHeatLevel) > 1f
-				? base.GetSlotCapacity(slotIndex, value)
-				: 0;
-		}
-
-		public override void AddSlotItems(int slotIndex, int value, int count)
-		{
-			base.AddSlotItems(slotIndex, value, count);
-			m_updateSmeltingRecipe = true;
-		}
-
-		public override int RemoveSlotItems(int slotIndex, int count)
-		{
-			m_updateSmeltingRecipe = true;
-			return base.RemoveSlotItems(slotIndex, count);
-		}
-
 		public override void Load(ValuesDictionary valuesDictionary, IdToEntityMap idToEntityMap)
 		{
 			base.Load(valuesDictionary, idToEntityMap);
 			m_furnaceSize = SlotsCount - 1;
 			m_fireTimeRemaining = valuesDictionary.GetValue<float>("FireTimeRemaining");
 			HeatLevel = valuesDictionary.GetValue<float>("HeatLevel");
-			m_updateSmeltingRecipe = true;
 		}
 
 		public override void Save(ValuesDictionary valuesDictionary, EntityToIdMap entityToIdMap)
@@ -195,16 +145,15 @@ namespace Game
 						text = "AluminumPlate";
 					}
 				}
-				else
+				/*else
 				{
-
-				}
+				}*/
 			}
 			if (text != null)
 			{
 				Slot slot = m_slots[ResultSlotIndex];
 				int num3 = Terrain.ExtractContents(GetSlotValue(1));
-				if (slot.Count != 0 && (slot.Value!= ItemBlock.IdTable[text] || 1 + slot.Count > 40))
+				if (slot.Count != 0 && (slot.Value != ItemBlock.IdTable[text] || 1 + slot.Count > 40))
 				{
 					text = null;
 				}

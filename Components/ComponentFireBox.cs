@@ -6,21 +6,17 @@ namespace Game
 {
 	public class ComponentFireBox : ComponentMachine, IUpdateable
 	{
-		public override int FuelSlotIndex
-		{
-			get
-			{
-				return SlotsCount - 1;
-			}
-		}
+		protected readonly string[] m_matchedIngredients = new string[9];
 
-		public int UpdateOrder
-		{
-			get
-			{
-				return 0;
-			}
-		}
+		protected string m_smeltingRecipe;
+
+		//protected int m_music;
+
+		protected float m_fireTime;
+
+		public override int FuelSlotIndex => SlotsCount - 1;
+
+		public int UpdateOrder => 0;
 
 		public void Update(float dt)
 		{
@@ -33,6 +29,7 @@ namespace Game
 					HeatLevel = 0f;
 				}
 			}
+			Slot slot;
 			if (m_updateSmeltingRecipe)
 			{
 				float heatLevel;
@@ -43,11 +40,11 @@ namespace Game
 				}
 				else
 				{
-					Slot slot = m_slots[FuelSlotIndex];
+					slot = m_slots[FuelSlotIndex];
 					if (slot.Count > 0)
 					{
 						Block block = BlocksManager.Blocks[Terrain.ExtractContents(slot.Value)];
-						heatLevel = (block is IFuel fuel ? fuel.GetHeatLevel(slot.Value) : block.FuelHeatLevel);
+						heatLevel = block is IFuel fuel ? fuel.GetHeatLevel(slot.Value) : block.FuelHeatLevel;
 					}
 				}
 				string text = "text";
@@ -66,29 +63,27 @@ namespace Game
 			}
 			if (m_smeltingRecipe != null && m_fireTimeRemaining <= 0f)
 			{
-				Slot slot2 = m_slots[FuelSlotIndex];
-				if (slot2.Count > 0)
+				slot = m_slots[FuelSlotIndex];
+				if (slot.Count > 0)
 				{
-					Block block = BlocksManager.Blocks[Terrain.ExtractContents(slot2.Value)];
-					if (block.GetExplosionPressure(slot2.Value) > 0f)
+					Block block = BlocksManager.Blocks[Terrain.ExtractContents(slot.Value)];
+					if (block.GetExplosionPressure(slot.Value) > 0f)
 					{
-						slot2.Count = 0;
-						Utils.SubsystemExplosions.TryExplodeBlock(coordinates.X, coordinates.Y, coordinates.Z, slot2.Value);
+						slot.Count = 0;
+						Utils.SubsystemExplosions.TryExplodeBlock(coordinates.X, coordinates.Y, coordinates.Z, slot.Value);
 					}
-					else 
+					else
 					{
-						slot2.Count--;
+						slot.Count--;
 						if (block is IFuel fuel)
 						{
-							HeatLevel = fuel.GetHeatLevel(slot2.Value);
-							m_fireTimeRemaining = fuel.GetFuelFireDuration(slot2.Value);
-							m_fireTime = m_fireTimeRemaining;
+							HeatLevel = fuel.GetHeatLevel(slot.Value);
+							m_fireTime = m_fireTimeRemaining = fuel.GetFuelFireDuration(slot.Value);
 						}
 						else
 						{
 							HeatLevel = block.FuelHeatLevel;
-							m_fireTimeRemaining = block.FuelFireDuration;
-							m_fireTime = m_fireTimeRemaining;
+							m_fireTime = m_fireTimeRemaining = block.FuelFireDuration;
 						}
 					}
 				}
@@ -113,9 +108,9 @@ namespace Game
 					m_updateSmeltingRecipe = true;
 				}
 			}
-			if (Utils.SubsystemTerrain.Terrain.GetCellContents(coordinates.X, coordinates.Y, coordinates.Z) != 0)
+			if (Utils.Terrain.GetCellContents(coordinates.X, coordinates.Y, coordinates.Z) != 0)
 			{
-				int cellValue = Utils.SubsystemTerrain.Terrain.GetCellValue(coordinates.X, coordinates.Y, coordinates.Z);
+				int cellValue = Utils.Terrain.GetCellValue(coordinates.X, coordinates.Y, coordinates.Z);
 				Utils.SubsystemTerrain.ChangeCell(coordinates.X, coordinates.Y, coordinates.Z, Terrain.ReplaceData(cellValue, FurnaceNBlock.SetHeatLevel(Terrain.ExtractData(cellValue), (HeatLevel > 0f) ? 1 : 0)), true);
 			}
 		}
@@ -126,7 +121,6 @@ namespace Game
 			m_furnaceSize = SlotsCount - 2;
 			m_fireTimeRemaining = valuesDictionary.GetValue<float>("FireTimeRemaining");
 			HeatLevel = valuesDictionary.GetValue<float>("HeatLevel");
-			m_updateSmeltingRecipe = true;
 		}
 
 		public override void Save(ValuesDictionary valuesDictionary, EntityToIdMap entityToIdMap)
@@ -135,17 +129,5 @@ namespace Game
 			valuesDictionary.SetValue("FireTimeRemaining", m_fireTimeRemaining);
 			valuesDictionary.SetValue("HeatLevel", HeatLevel);
 		}
-
-		protected float m_fireTimeRemaining;
-
-		protected int m_furnaceSize;
-
-		protected readonly string[] m_matchedIngredients = new string[9];
-
-		protected string m_smeltingRecipe;
-
-		//protected int m_music;
-
-		protected float m_fireTime;
 	}
 }

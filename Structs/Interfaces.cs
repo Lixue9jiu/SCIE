@@ -1,13 +1,25 @@
-﻿using Engine;
+﻿using Chemistry;
+using Engine;
 using Engine.Graphics;
 using System.Collections.Generic;
 
 namespace Game
 {
+	public interface ICraftingMachine : IInventory
+	{
+		int ResultSlotIndex { get; }
+		int RemainsSlotIndex { get; }
+		int SlotIndex { get; set; }
+		CraftingRecipe GetRecipe();
+	}
 	public interface INode
 	{
 		int GetWeight(int value = 0);
 		void Simulate(ref int value);
+	}
+	public interface IChemicalItem : IItem
+	{
+		DispersionSystem GetDispersionSystem();
 	}
 	public interface IDurability
 	{
@@ -20,7 +32,7 @@ namespace Game
 	}
 	public interface IItemBlock // : IReadOnlyList<Item>, IStructuralComparable, IStructuralEquatable
 	{
-		Item GetItem(ref int value);
+		IItem GetItem(ref int value);
 	}
 	public interface IItem : IAnimatedItem, IUnstableItem, IFood, IExplosive, IWeapon, IScalableItem, ICollidableItem
 	{
@@ -29,6 +41,7 @@ namespace Game
 	{
 		string GetDisplayName(SubsystemTerrain subsystemTerrain, int value);
 		string GetDescription(int value);
+		string GetCategory(int value);
 		int GetFaceTextureSlot(int face, int value);
 		void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData);
 		Vector3 GetIconBlockOffset(int value, DrawBlockEnvironmentData environmentData);
@@ -113,11 +126,11 @@ namespace Game
 	public interface IPlaceableItem
 	{
 		void OnItemPlaced(int x, int y, int z, ref BlockPlacementData placementData, int itemValue);
-	}
+	}*/
 	public interface IHarvestingItem
 	{
 		void OnItemHarvested(int x, int y, int z, int blockValue, ref BlockDropValue dropValue, ref int newBlockValue);
-	}*/
+	}
 	public interface IInteractiveBlock
 	{
 		bool OnInteract(TerrainRaycastResult raycastResult, ComponentMiner componentMiner);

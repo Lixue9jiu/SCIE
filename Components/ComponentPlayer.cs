@@ -1,8 +1,6 @@
 using Engine;
-using GameEntitySystem;
 using System.Collections.Generic;
 using System.Linq;
-using TemplatesDatabase;
 
 namespace Game
 {
@@ -23,71 +21,82 @@ namespace Game
 					ComponentMiner.Inventory.ActiveSlotIndex = MathUtils.Clamp(playerInput.SelectInventorySlot.Value, 0, 5);
 				}
 			}
-			ComponentSteedBehavior componentSteedBehavior = null;
-			ComponentBoat componentBoat = null;
-			ComponentBoatI componentBoatI = null;
+			if (ComponentBody.ImmersionFluidBlock != null && ComponentBody.ImmersionFluidBlock.BlockIndex == RottenMeatBlock.Index)
+			{
+				ComponentHealth.Air = 1f;
+			}
 			ComponentMount mount = ComponentRider.Mount;
 			if (mount != null)
 			{
-				componentSteedBehavior = mount.Entity.FindComponent<ComponentSteedBehavior>();
-				componentBoat = mount.Entity.FindComponent<ComponentBoat>();
-				componentBoatI = mount.Entity.FindComponent<ComponentBoatI>();
-			}
-			if (componentSteedBehavior != null)
-			{
-				if (playerInput.Move.Z > 0.5f && !m_speedOrderBlocked)
+				var componentSteedBehavior = mount.Entity.FindComponent<ComponentSteedBehavior>();
+				if (componentSteedBehavior != null)
 				{
-					if (PlayerData.PlayerClass == PlayerClass.Male)
+					if (playerInput.Move.Z > 0.5f && !m_speedOrderBlocked)
 					{
-						m_subsystemAudio.PlayRandomSound("Audio/Creatures/MaleYellFast", 0.75f, 0f, ComponentBody.Position, 2f, false);
+						if (PlayerData.PlayerClass == PlayerClass.Male)
+						{
+							m_subsystemAudio.PlayRandomSound("Audio/Creatures/MaleYellFast", 0.75f, 0f, ComponentBody.Position, 2f, false);
+						}
+						else
+						{
+							m_subsystemAudio.PlayRandomSound("Audio/Creatures/FemaleYellFast", 0.75f, 0f, ComponentBody.Position, 2f, false);
+						}
+						componentSteedBehavior.SpeedOrder = 1;
+						m_speedOrderBlocked = true;
 					}
-					else
+					else if (playerInput.Move.Z < -0.5f && !m_speedOrderBlocked)
 					{
-						m_subsystemAudio.PlayRandomSound("Audio/Creatures/FemaleYellFast", 0.75f, 0f, ComponentBody.Position, 2f, false);
+						if (PlayerData.PlayerClass == PlayerClass.Male)
+						{
+							m_subsystemAudio.PlayRandomSound("Audio/Creatures/MaleYellSlow", 0.75f, 0f, ComponentBody.Position, 2f, false);
+						}
+						else
+						{
+							m_subsystemAudio.PlayRandomSound("Audio/Creatures/FemaleYellSlow", 0.75f, 0f, ComponentBody.Position, 2f, false);
+						}
+						componentSteedBehavior.SpeedOrder = -1;
+						m_speedOrderBlocked = true;
 					}
-					componentSteedBehavior.SpeedOrder = 1;
-					m_speedOrderBlocked = true;
+					else if (MathUtils.Abs(playerInput.Move.Z) <= 0.25f)
+					{
+						m_speedOrderBlocked = false;
+					}
+					componentSteedBehavior.TurnOrder = playerInput.Move.X;
+					componentSteedBehavior.JumpOrder = (float)(playerInput.Jump ? 1 : 0);
+					ComponentLocomotion.LookOrder = new Vector2(playerInput.Look.X, 0f);
 				}
-				else if (playerInput.Move.Z < -0.5f && !m_speedOrderBlocked)
+				else
 				{
-					if (PlayerData.PlayerClass == PlayerClass.Male)
+					var componentBoat = mount.Entity.FindComponent<ComponentBoat>();
+					if (componentBoat != null || mount.Entity.FindComponent<ComponentBoatI>() != null)
 					{
-						m_subsystemAudio.PlayRandomSound("Audio/Creatures/MaleYellSlow", 0.75f, 0f, ComponentBody.Position, 2f, false);
+						if (componentBoat != null)
+						{
+							componentBoat.TurnOrder = playerInput.Move.X;
+							componentBoat.MoveOrder = playerInput.Move.Z;
+							ComponentLocomotion.LookOrder = new Vector2(playerInput.Look.X, 0f);
+						}
+						else // if (componentBoatI != null)
+						{
+							ComponentLocomotion.LookOrder = playerInput.Look;
+						}
+						ComponentCreatureModel.RowLeftOrder = playerInput.Move.X < -0.2f || playerInput.Move.Z > 0.2f;
+						ComponentCreatureModel.RowRightOrder = playerInput.Move.X > 0.2f || playerInput.Move.Z > 0.2f;
 					}
-					else
+					var c = mount.Entity.FindComponent<ComponentLocomotion>();
+					if (c != null)
 					{
-						m_subsystemAudio.PlayRandomSound("Audio/Creatures/FemaleYellSlow", 0.75f, 0f, ComponentBody.Position, 2f, false);
+						c.WalkOrder = playerInput.Move.XZ;
+						c.FlyOrder = new Vector3(0f, playerInput.Move.Y, 0f);
+						c.TurnOrder = playerInput.Look * new Vector2(1f, 0f);
+						c.JumpOrder = playerInput.Jump ? 1 : 0;
+						c.LookOrder = playerInput.Look;
 					}
-					componentSteedBehavior.SpeedOrder = -1;
-					m_speedOrderBlocked = true;
 				}
-				else if (MathUtils.Abs(playerInput.Move.Z) <= 0.25f)
-				{
-					m_speedOrderBlocked = false;
-				}
-				componentSteedBehavior.TurnOrder = playerInput.Move.X;
-				componentSteedBehavior.JumpOrder = (float)(playerInput.Jump ? 1 : 0);
-				ComponentLocomotion.LookOrder = new Vector2(playerInput.Look.X, 0f);
-			}
-			else if (componentBoat != null)
-			{
-				componentBoat.TurnOrder = playerInput.Move.X;
-				componentBoat.MoveOrder = playerInput.Move.Z;
-				ComponentLocomotion.LookOrder = new Vector2(playerInput.Look.X, 0f);
-				ComponentCreatureModel.RowLeftOrder = playerInput.Move.X < -0.2f || playerInput.Move.Z > 0.2f;
-				ComponentCreatureModel.RowRightOrder = playerInput.Move.X > 0.2f || playerInput.Move.Z > 0.2f;
-			}
-			else if (componentBoatI != null)
-			{
-				componentBoatI.TurnOrder = playerInput.Move.X;
-				componentBoatI.MoveOrder = playerInput.Move.Z;
-				ComponentLocomotion.LookOrder = new Vector2(playerInput.Look.X, 0f);
-				ComponentCreatureModel.RowLeftOrder = playerInput.Move.X < -0.2f || playerInput.Move.Z > 0.2f;
-				ComponentCreatureModel.RowRightOrder = playerInput.Move.X > 0.2f || playerInput.Move.Z > 0.2f;
 			}
 			else
 			{
-				ComponentLocomotion.WalkOrder = ComponentBody.IsSneaking ? (0.66f * new Vector2(playerInput.SneakMove.X, playerInput.SneakMove.Z)) : new Vector2(playerInput.Move.X, playerInput.Move.Z);
+				ComponentLocomotion.WalkOrder = (ComponentLocomotion.WalkOrder ?? Vector2.Zero) + (ComponentBody.IsSneaking ? (0.66f * new Vector2(playerInput.SneakMove.X, playerInput.SneakMove.Z)) : new Vector2(playerInput.Move.X, playerInput.Move.Z));
 				ComponentLocomotion.FlyOrder = new Vector3(0f, playerInput.Move.Y, 0f);
 				ComponentLocomotion.TurnOrder = playerInput.Look * new Vector2(1f, 0f);
 				ComponentLocomotion.JumpOrder = MathUtils.Max((float)(playerInput.Jump ? 1 : 0), ComponentLocomotion.JumpOrder);
@@ -102,13 +111,13 @@ namespace Game
 				Vector3 direction = Vector3.Normalize(View.ActiveCamera.ScreenToWorld(new Vector3(playerInput.Interact.Value, 1f), Matrix.Identity) - viewPosition);
 				if (!ComponentMiner.Use(viewPosition, direction))
 				{
-					BodyRaycastResult? nullable = ComponentMiner.PickBody(viewPosition, direction);
-					TerrainRaycastResult? nullable2 = ComponentMiner.PickTerrainForInteraction(viewPosition, direction);
-					if (nullable2.HasValue && (!nullable.HasValue || nullable2.Value.Distance < nullable.Value.Distance))
+					var body = ComponentMiner.PickBody(viewPosition, direction);
+					var result = ComponentMiner.PickTerrainForInteraction(viewPosition, direction);
+					if (result.HasValue && (!body.HasValue || result.Value.Distance < body.Value.Distance))
 					{
-						if (!ComponentMiner.Interact(nullable2.Value))
+						if (!ComponentMiner.Interact(result.Value))
 						{
-							if (ComponentMiner.Place(nullable2.Value))
+							if (ComponentMiner.Place(result.Value))
 							{
 								m_subsystemTerrain.TerrainUpdater.RequestSynchronousUpdate();
 								flag = true;
@@ -130,12 +139,8 @@ namespace Game
 					m_isAimBlocked = true;
 				}
 			}
-			float num2 = (m_subsystemGameInfo.WorldSettings.GameMode == GameMode.Creative) ? 0.1f : 1.4f;
+			float num2 = (m_subsystemGameInfo.WorldSettings.GameMode == GameMode.Creative || block.BlockIndex == Musket2Block.Index) ? 0.1f : 1.4f;
 			Vector3 viewPosition2 = View.ActiveCamera.ViewPosition;
-			if (block.BlockIndex == Musket2Block.Index)
-			{
-				num2 = 0.1f;
-			}
 			if (playerInput.Aim.HasValue && block.IsAimable && m_subsystemTime.GameTime - m_lastActionTime > (double)num2)
 			{
 				if (!m_isAimBlocked)
@@ -178,23 +183,30 @@ namespace Game
 				Vector3 vector = Vector3.Normalize(View.ActiveCamera.ScreenToWorld(new Vector3(playerInput.Hit.Value, 1f), Matrix.Identity) - viewPosition3);
 				TerrainRaycastResult? nullable3 = ComponentMiner.PickTerrainForInteraction(viewPosition3, vector);
 				BodyRaycastResult? nullable4 = ComponentMiner.PickBody(viewPosition3, vector);
-				if(nullable4.HasValue)
+				if (nullable4.HasValue)
 				{
-					ComponentEngine2 componentEngine = nullable4.Value.ComponentBody.Entity.FindComponent<ComponentEngine2>();
+					var componentEngine = nullable4.Value.ComponentBody.Entity.FindComponent<ComponentEngine2>();
 					if (componentEngine != null)
 					{
 						ComponentGui.ModalPanelWidget = new Engine2Widget(ComponentMiner.Inventory, componentEngine);
 						AudioManager.PlaySound("Audio/UI/ButtonClick", 1f, 0f, 0f);
 						return;
 					}
-                    ComponentTrain componentEngine2 = nullable4.Value.ComponentBody.Entity.FindComponent<ComponentTrain>();
-                    if (componentEngine2 != null)
-                    {
-                        ComponentGui.ModalPanelWidget = new TrainWidget(ComponentMiner.Inventory, componentEngine2);
-                        AudioManager.PlaySound("Audio/UI/ButtonClick", 1f, 0f, 0f);
-                        return;
-                    }
-                    if (!nullable3.HasValue || nullable3.Value.Distance > nullable4.Value.Distance)
+					var componentEngineA = nullable4.Value.ComponentBody.Entity.FindComponent<ComponentEngineA>();
+					if (componentEngineA != null)
+					{
+						ComponentGui.ModalPanelWidget = new EngineAWidget(ComponentMiner.Inventory, componentEngineA);
+						AudioManager.PlaySound("Audio/UI/ButtonClick", 1f, 0f, 0f);
+						return;
+					}
+					var componentEngine2 = nullable4.Value.ComponentBody.Entity.FindComponent<ComponentTrain>();
+					if (componentEngine2 != null)
+					{
+						ComponentGui.ModalPanelWidget = new TrainWidget(ComponentMiner.Inventory, componentEngine2);
+						AudioManager.PlaySound("Audio/UI/ButtonClick", 1f, 0f, 0f);
+						return;
+					}
+					if (!nullable3.HasValue || nullable3.Value.Distance > nullable4.Value.Distance)
 					{
 						flag = true;
 						m_isDigBlocked = true;
@@ -305,30 +317,6 @@ namespace Game
 				}
 			}
 			HighlightRaycastResult = ComponentMiner.PickTerrainForDigging(View.ActiveCamera.ViewPosition, View.ActiveCamera.ViewDirection);
-		}
-
-		public override void Load(ValuesDictionary valuesDictionary, IdToEntityMap idToEntityMap)
-		{
-			base.Load(valuesDictionary, idToEntityMap);
-			m_subsystemGameInfo = Project.FindSubsystem<SubsystemGameInfo>(true);
-			m_subsystemTime = Project.FindSubsystem<SubsystemTime>(true);
-			m_subsystemAudio = Project.FindSubsystem<SubsystemAudio>(true);
-			m_subsystemPickables = Project.FindSubsystem<SubsystemPickables>(true);
-			m_subsystemTerrain = Project.FindSubsystem<SubsystemTerrain>(true);
-			ComponentGui = Entity.FindComponent<ComponentNGui>(true);
-			ComponentInput = Entity.FindComponent<ComponentInput>(true);
-			ComponentScreenOverlays = Entity.FindComponent<ComponentScreenOverlays>(true);
-			ComponentMiner = Entity.FindComponent<ComponentMiner>(true);
-			ComponentRider = Entity.FindComponent<ComponentRider>(true);
-			ComponentSleep = Entity.FindComponent<ComponentSleep>(true);
-			ComponentVitalStats = Entity.FindComponent<ComponentVitalStats>(true);
-			ComponentSickness = Entity.FindComponent<ComponentSickness>(true);
-			ComponentFlu = Entity.FindComponent<ComponentFlu>(true);
-			ComponentLevel = Entity.FindComponent<ComponentLevel>(true);
-			ComponentClothing = Entity.FindComponent<ComponentClothing>(true);
-			ComponentOuterClothingModel = Entity.FindComponent<ComponentOuterClothingModel>(true);
-			int playerIndex = valuesDictionary.GetValue<int>("PlayerIndex");
-			PlayerData = Project.FindSubsystem<SubsystemPlayers>(true).PlayersData.First((PlayerData d) => d.PlayerIndex == playerIndex);
 		}
 	}
 }

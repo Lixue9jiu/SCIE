@@ -1,11 +1,10 @@
 using Engine;
 using Engine.Graphics;
-using Game;
 using System.Collections.Generic;
 
 namespace Game
 {
-	public class Bullet2Block : FlatBlock
+	public class Bullet2Block : SixDirectionalBlock, IElectricElementBlock
 	{
 		public enum BulletType
 		{
@@ -14,35 +13,52 @@ namespace Game
 
 		public const int Index = 521;
 
-		protected static readonly string[] m_displayNames = new string[]
+		protected static readonly string[] m_displayNames = new string[] { "IronFixedBullet" };
+		protected static readonly float[] m_sizes = new float[] { 1f };
+		protected static readonly int[] m_textureSlots = new int[] { 209 };
+		public override IEnumerable<int> GetCreativeValues()
 		{
-			"IronFixedBullet"
-		};
-		protected static readonly float[] m_sizes = new float[]
-		{
-			1f
-		};
-		protected static readonly int[] m_textureSlots = new int[]
-		{
-			226
-		};
-		protected static readonly float[] m_weaponPowers = new float[]
-		{
-			10f
-		};
-		//protected static readonly float[] m_explosionPressures = new float[3];
-
+			return new int[] { Index, Index | 1 << 10 << 14 };
+		}
 		public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
 		{
+			if ((Terrain.ExtractData(value) >> 10) != 0)
+			{
+				base.DrawBlock(primitivesRenderer, value, color, size, ref matrix, environmentData);
+				return;
+			}
 			int bulletType = (int)GetBulletType(Terrain.ExtractData(value));
 			float size2 = (bulletType >= 0 && bulletType < m_sizes.Length) ? (size * m_sizes[bulletType]) : size;
-			BlocksManager.DrawFlatBlock(primitivesRenderer, value, size2, ref matrix, null, color, false, environmentData);
+			CustomTextureItem.DrawFlatBlock(primitivesRenderer, value, size2, ref matrix, CustomTextureItem.Texture, color, false, environmentData);
 		}
-
+		public override BlockPlacementData GetPlacementValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, TerrainRaycastResult raycastResult)
+		{
+			return (Terrain.ExtractData(value) >> 10) != 0 ? base.GetPlacementValue(subsystemTerrain, componentMiner, value, raycastResult) : default;
+		}
+		public override string GetDisplayName(SubsystemTerrain subsystemTerrain, int value)
+		{
+			return (Terrain.ExtractData(value) >> 10) != 0 ? "Unloader" : DefaultDisplayName;
+		}
+		public override string GetDescription(int value)
+		{
+			return (Terrain.ExtractData(value) >> 10) != 0 ? "Unloader" : DefaultDescription;
+		}
+		public override string GetCategory(int value)
+		{
+			return (Terrain.ExtractData(value) >> 10) != 0 ? "Items" : DefaultCategory;
+		}
+		public override Vector3 GetIconViewOffset(int value, DrawBlockEnvironmentData environmentData)
+		{
+			return (Terrain.ExtractData(value) >> 10) != 0 ? Vector3.One : DefaultIconViewOffset;
+		}
 		public override int GetFaceTextureSlot(int face, int value)
 		{
+			if ((Terrain.ExtractData(value) >> 10) != 0)
+			{
+				return face == GetDirection(value) ? 111 : 170;
+			}
 			int bulletType = (int)GetBulletType(Terrain.ExtractData(value));
-			return bulletType < 0 || bulletType >= m_textureSlots.Length ? 226 : m_textureSlots[bulletType];
+			return bulletType < 0 || bulletType >= m_textureSlots.Length ? 209 : m_textureSlots[bulletType];
 		}
 
 		public static BulletType GetBulletType(int data)
@@ -54,99 +70,57 @@ namespace Game
 		{
 			return (data & -16) | (int)(bulletType & (BulletType)15);
 		}*/
-	}
-}
-public class RottenMeatBlock : FluidBlock
-{
-	public enum Type
-	{
-		RottenMeat,
-		Oil,
-		OilBucket,
-		Updraft
-	}
-	public const int Index = 240;
-	public BlockMesh m_standaloneBlockMesh;
-	public BlockMesh StandaloneBlockMesh = new BlockMesh();
 
-	public RottenMeatBlock() : base(1)
-	{
-	}
-	public override void Initialize()
-	{
-		Model model = ContentManager.Get<Model>("Models/FullBucket");
-		var meshParts = model.FindMesh("Contents", true).MeshParts;
-		StandaloneBlockMesh.AppendModelMeshPart(meshParts[0], BlockMesh.GetBoneAbsoluteTransform(model.FindMesh("Contents", true).ParentBone) * Matrix.CreateRotationY(MathUtils.DegToRad(180f)) * Matrix.CreateTranslation(0f, -0.3f, 0f), false, false, false, false, new Color(30, 30, 30));
-		StandaloneBlockMesh.TransformTextureCoordinates(Matrix.CreateTranslation(0.8125f, 0.6875f, 0f), -1);
-		meshParts = model.FindMesh("Bucket", true).MeshParts;
-		StandaloneBlockMesh.AppendModelMeshPart(meshParts[0], BlockMesh.GetBoneAbsoluteTransform(model.FindMesh("Bucket", true).ParentBone) * Matrix.CreateRotationY(MathUtils.DegToRad(180f)) * Matrix.CreateTranslation(0f, -0.3f, 0f), false, false, false, false, Color.White);
-		var rottenMeatBlock = new Game.RottenMeatBlock()
+		public new ElectricElement CreateElectricElement(SubsystemElectricity subsystemElectricity, int value, int x, int y, int z)
 		{
-			DefaultShadowStrength = -1
-		};
-		rottenMeatBlock.Initialize();
-		m_standaloneBlockMesh = rottenMeatBlock.m_standaloneBlockMesh;
-		base.Initialize();
-	}
-	public override IEnumerable<int> GetCreativeValues()
-	{
-		return new int[] { Index, Index | 1 << 4 << 14, Index | 2 << 4 << 14, Index | 3 << 4 << 14 };
-	}
-	public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
-	{
-		switch (GetType(value))
+			return new UnloaderElectricElement(subsystemElectricity, new Point3(x, y, z));
+		}
+		public override float GetProjectilePower(int value)
 		{
-			case Type.RottenMeat:
-				BlocksManager.DrawMeshBlock(primitivesRenderer, m_standaloneBlockMesh, color, 2f * size, ref matrix, environmentData);
-				return;
-			case Type.Oil:
-				color = new Color(30, 30, 30);
-				BlocksManager.DrawCubeBlock(primitivesRenderer, Terrain.ReplaceContents(value, 18), new Vector3(size), ref matrix, color, color, environmentData);
-				return;
-			case Type.OilBucket:
-				BlocksManager.DrawMeshBlock(primitivesRenderer, StandaloneBlockMesh, color, 2f * size, ref matrix, environmentData);
-				return;
-			default:
-				return;
+			return 10f;
 		}
 	}
-	public override void GenerateTerrainVertices(BlockGeometryGenerator generator, TerrainGeometrySubsets geometry, int value, int x, int y, int z)
+	public class UnloaderElectricElement : MachineElectricElement
 	{
-		if (GetType(value) == Type.Oil)
+		public UnloaderElectricElement(SubsystemElectricity subsystemElectricity, Point3 point) : base(subsystemElectricity, point)
 		{
-			BlocksManager.FluidBlocks[WaterBlock.Index].GenerateFluidTerrainVertices(generator, value, x, y, z, new Color(30, 30, 30), new Color(30, 30, 30), geometry.OpaqueSubsetsByFace);
 		}
-	}
-	public override BlockPlacementData GetPlacementValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, TerrainRaycastResult raycastResult)
-	{
-		return new BlockPlacementData
+
+		public override bool Simulate()
 		{
-			Value = GetType(value) == 0 ? 0 : Terrain.ReplaceLight(value, 0),
-			CellFace = raycastResult.CellFace
-		};
-	}
-	public override string GetDisplayName(SubsystemTerrain subsystemTerrain, int value)
-	{
-		return Terrain.ExtractData(value) != 0 ? GetType(value).ToString(): DefaultDisplayName;
-	}
-	public override string GetDescription(int value)
-	{
-		return Terrain.ExtractData(value) != 0 ? "" : DefaultDescription;
-	}
-	public override string GetCategory(int value)
-	{
-		return GetType(value) == Type.OilBucket ? "Tools" : GetType(value) != 0 ? "Terrain" : DefaultCategory;
-	}
-	public override Vector3 GetIconViewOffset(int value, DrawBlockEnvironmentData environmentData)
-	{
-		return GetType(value) != 0 ? Vector3.One : DefaultIconViewOffset;
-	}
-	public static Type GetType(int value)
-	{
-		return (Type)(Terrain.ExtractData(value) >> 4);
-	}
-	public static int SetType(int value, Type type)
-	{
-		return Terrain.ReplaceData(value, Terrain.ExtractData(value) & 15 | (int)type << 4);
+			int n = 0;
+			for (int i = 0; i < Connections.Count; i++)
+			{
+				var connection = Connections[i];
+				if (connection.ConnectorType != ElectricConnectorType.Output && connection.NeighborConnectorType != 0)
+				{
+					n = MathUtils.Max(n, (int)MathUtils.Round(connection.NeighborElectricElement.GetOutputVoltage(connection.NeighborConnectorFace) * 15f));
+				}
+			}
+			int y = Point.Y;
+			if ((n & 7) != 0 && (n & 7) != 7 && y >= 0 && y < 128)
+			{
+				int value = Utils.Terrain.GetCellValueFast(Point.X, y, Point.Z);
+				Utils.SubsystemTerrain.ChangeCell(Point.X, y, Point.Z, Terrain.ReplaceData(value, FourDirectionalBlock.SetDirection(Terrain.ExtractData(value), (n & 7) - 1)));
+			}
+			if (n > 7 && SubsystemElectricity.SubsystemTime.GameTime - m_lastDispenseTime > 0.1)
+			{
+				ComponentBlockEntity blockEntity = Utils.SubsystemBlockEntities.GetBlockEntity(Point.X, y, Point.Z);
+				bool placed = false;
+				if (blockEntity != null)
+				{
+					var componentUnloader = blockEntity.Entity.FindComponent<ComponentUnloader>();
+					if (componentUnloader != null)
+					{
+						placed = componentUnloader.Place();
+					}
+				}
+				if (placed)
+				{
+					m_lastDispenseTime = SubsystemElectricity.SubsystemTime.GameTime;
+				}
+			}
+			return false;
+		}
 	}
 }

@@ -2,11 +2,12 @@
 using System.Runtime.Serialization;
 using Engine;
 using Engine.Graphics;
+using GameEntitySystem;
+using TemplatesDatabase;
 
 namespace Game
 {
 	[Flags]
-	//[Serializable]
 	public enum ElementType
 	{
 		None = 0,
@@ -32,31 +33,29 @@ namespace Game
 		Connector = 262140,
 		//Capacitor = 262144,
 		//Inductor = 524288,
-		Drive = 1048576,
-		Tube = 2097152,
+		Pipe0 = 1 << 20,
+		Pipe1 = 1 << 21,
+		Pipe2 = 1 << 22,
+		Pipe3 = 1 << 23,
+		Pipe4 = 1 << 24,
+		Pipe5 = 1 << 25,
+		Drive = 1 << 26,
 	}
-	[Serializable]
-	public abstract class Element : Item, IEquatable<Element>, INode//, ICloneable, IComparable, IComparable<Node>, IFormattable, IConvertible, ICollection, ICollection<Element>, IList, IList<Element>, IReadOnlyList<Element>, IStructuralComparable, IStructuralEquatable
+	//[Serializable]
+	public abstract class Element : Item, IEquatable<Element>, INode
 	{
 		public ElementType Type;
 		//public ElectricConnectorDirection Direction;
-		public DynamicArray<Element> Next;
-		/*public int Count => Next.Count;
-		public object SyncRoot => this;
-		public bool IsReadOnly => Next.IsReadOnly;
-		public bool IsFixedSize => false;
-		public bool IsSynchronized => false;
-		object IList.this[int index] { get => Next.Array[index]; set => Next.Array[index] = value as Element; }
-		public Element this[int index] { get => Next.Array[index]; set => Next.Array[index] = value; }*/
+		public Element[] Next;
 		protected Element(ElementType type = ElementType.Device | ElementType.Connector)
 		{
 			Type = type;
 		}
-		protected Element(SerializationInfo info, StreamingContext context)
+		/*protected Element(SerializationInfo info, StreamingContext context)
 		{
 			Type = (ElementType)info.GetInt32("Type");
-			Next = (DynamicArray<Element>)info.GetValue("Next", typeof(DynamicArray<Element>));
-		}
+			Next = (Element[])info.GetValue("Next", typeof(DynamicArray<Element>));
+		}*/
 		public virtual void Simulate(ref int value)
 		{
 		}
@@ -75,7 +74,7 @@ namespace Game
 		}
 		public override int GetHashCode()
 		{
-			return Next == null ? (int)Type : (int)Type + Next.GetHashCode();
+			return (int)Type;
 		}
 		public bool Equals(Element other)
 		{
@@ -85,175 +84,15 @@ namespace Game
 				return other.Next == null;
 			return GetCraftingId().Equals(other.GetCraftingId());
 		}
-		public virtual void GetObjectData(SerializationInfo info, StreamingContext context)
+		/*public virtual void GetObjectData(SerializationInfo info, StreamingContext context)
 		{
 			info.AddValue("Type", (int)Type);
 			info.AddValue("Next", Next, typeof(DynamicArray<Element>));
-		}
+		}*/
 		public override string ToString()
 		{
 			return Type.ToString();
 		}
-		/*public DynamicArray<Element>.Enumerator GetEnumerator()
-		{
-			return new DynamicArray<Element>.Enumerator(Next);
-		}
-		IEnumerator<Element> IEnumerable<Element>.GetEnumerator()
-		{
-			return new DynamicArray<Element>.Enumerator(Next);
-		}
-		IEnumerator IEnumerable.GetEnumerator()
-		{
-			return new DynamicArray<Element>.Enumerator(Next);
-		}
-		public void CopyTo(Element[] array, int index)
-		{
-			Next.CopyTo(array, index);
-		}
-		public void CopyTo(Array array, int index)
-		{
-			Next.Array.CopyTo(array, index);
-		}
-		public int Add(object value)
-		{
-			throw new NotImplementedException();
-		}
-		public void Add(Element item)
-		{
-			Next.Add(item);
-		}
-		public void Clear()
-		{
-			Next.Clear();
-		}
-		public bool Contains(object item)
-		{
-			return Next.Contains(item as Element);
-		}
-		public bool Contains(Element item)
-		{
-			return Next.Contains(item);
-		}
-		public void Remove(object item)
-		{
-			Next.IndexOf(item as Element);
-		}
-		public bool Remove(Element item)
-		{
-			return Next.Remove(item);
-		}
-		public int IndexOf(object item)
-		{
-			return Next.IndexOf(item as Element);
-		}
-		public int IndexOf(Element item)
-		{
-			return Next.IndexOf(item);
-		}
-		public void Insert(int index, object item)
-		{
-			Insert(index, item as Element);
-		}
-		public void Insert(int index, Element item)
-		{
-			throw new NotImplementedException();
-		}
-		public void RemoveAt(int index)
-		{
-			Next.RemoveAt(index);
-		}
-		public bool Equals(object other, IEqualityComparer comparer)
-		{
-			return (Next.Array as IStructuralEquatable).Equals(other, comparer);
-		}
-		public int GetHashCode(IEqualityComparer comparer)
-		{
-			return ((IStructuralEquatable)Next.Array).GetHashCode(comparer);
-		}
-		public int CompareTo(object other, IComparer comparer)
-		{
-			return ((IStructuralComparable)Next.Array).CompareTo(other, comparer);
-		}
-		public int CompareTo(object obj)
-		{
-			return Type.CompareTo(obj);
-		}
-		public int CompareTo(Node other)
-		{
-			return Type.CompareTo(other);
-		}
-		public string ToString(string format, IFormatProvider formatProvider)
-		{
-			return Type.ToString(format);
-		}
-		public TypeCode GetTypeCode()
-		{
-			return Type.GetTypeCode();
-		}
-		public bool ToBoolean(IFormatProvider provider)
-		{
-			return ((IConvertible)Type).ToBoolean(provider);
-		}
-		public char ToChar(IFormatProvider provider)
-		{
-			return ((IConvertible)Type).ToChar(provider);
-		}
-		public sbyte ToSByte(IFormatProvider provider)
-		{
-			return ((IConvertible)Type).ToSByte(provider);
-		}
-		public byte ToByte(IFormatProvider provider)
-		{
-			return ((IConvertible)Type).ToByte(provider);
-		}
-		public short ToInt16(IFormatProvider provider)
-		{
-			return ((IConvertible)Type).ToInt16(provider);
-		}
-		public ushort ToUInt16(IFormatProvider provider)
-		{
-			return ((IConvertible)Type).ToUInt16(provider);
-		}
-		public int ToInt32(IFormatProvider provider)
-		{
-			return ((IConvertible)Type).ToInt32(provider);
-		}
-		public uint ToUInt32(IFormatProvider provider)
-		{
-			return ((IConvertible)Type).ToUInt32(provider);
-		}
-		public long ToInt64(IFormatProvider provider)
-		{
-			return ((IConvertible)Type).ToInt64(provider);
-		}
-		public ulong ToUInt64(IFormatProvider provider)
-		{
-			return ((IConvertible)Type).ToUInt64(provider);
-		}
-		public float ToSingle(IFormatProvider provider)
-		{
-			return ((IConvertible)Type).ToSingle(provider);
-		}
-		public double ToDouble(IFormatProvider provider)
-		{
-			return ((IConvertible)Type).ToDouble(provider);
-		}
-		public decimal ToDecimal(IFormatProvider provider)
-		{
-			return ((IConvertible)Type).ToDecimal(provider);
-		}
-		public DateTime ToDateTime(IFormatProvider provider)
-		{
-			return ((IConvertible)Type).ToDateTime(provider);
-		}
-		public string ToString(IFormatProvider provider)
-		{
-			return Type.ToString(provider);
-		}
-		public object ToType(Type conversionType, IFormatProvider provider)
-		{
-			return ((IConvertible)Type).ToType(conversionType, provider);
-		}*/
 		#endregion
 	}
 	[Serializable]
@@ -271,7 +110,7 @@ namespace Game
 			}
 			device = (Device)MemberwiseClone();
 			device.Point = p;
-			device.Next = new DynamicArray<Element>();
+			device.Next = new Element[0];
 			if ((device.Type & ElementType.Connector) != 0)
 			{
 				var color = PaintableItemBlock.GetColor(Terrain.ExtractData(Utils.Terrain.GetCellValue(p.X, p.Y, p.Z)));
@@ -288,10 +127,10 @@ namespace Game
 			color = Color.LightGray * SubsystemPalette.GetColor(environmentData, PaintableItemBlock.GetColor(Terrain.ExtractData(value)));
 			BlocksManager.DrawCubeBlock(primitivesRenderer, value, new Vector3(size), ref matrix, color, color, environmentData);
 		}
-		protected Device(SerializationInfo info, StreamingContext context) : base(info, context)
+		/*protected Device(SerializationInfo info, StreamingContext context) : base(info, context)
 		{
 			Point = (Point3)info.GetValue("Point", typeof(Point3));
-		}
+		}*/
 		public override bool Equals(object obj)
 		{
 			return obj is Device node ? Equals(node) : base.Equals(obj);
@@ -304,11 +143,11 @@ namespace Game
 		{
 			return Point.X | Point.Z << 10 | (base.GetHashCode() ^ Point.Y) << 20;
 		}
-		public override void GetObjectData(SerializationInfo info, StreamingContext context)
+		/*public override void GetObjectData(SerializationInfo info, StreamingContext context)
 		{
 			base.GetObjectData(info, context);
 			info.AddValue("Point", Point, typeof(Point3));
-		}
+		}*/
 	}
 	[Serializable]
 	public abstract class FixedDevice : Device, IEquatable<FixedDevice>
@@ -320,10 +159,10 @@ namespace Game
 				//throw new ArgumentOutOfRangeException("resistance", resistance, "Device has Resistance < 1");
 			Resistance = resistance;
 		}
-		public FixedDevice(SerializationInfo info, StreamingContext context) : base(info, context)
+		/*public FixedDevice(SerializationInfo info, StreamingContext context) : base(info, context)
 		{
 			Resistance = info.GetInt32("Resistance");
-		}
+		}*/
 		public override int GetWeight(int value)
 		{
 			return Resistance;
@@ -344,11 +183,11 @@ namespace Game
 		{
 			return base.GetHashCode() ^ Resistance;
 		}
-		public override void GetObjectData(SerializationInfo info, StreamingContext context)
+		/*public override void GetObjectData(SerializationInfo info, StreamingContext context)
 		{
 			base.GetObjectData(info, context);
 			info.AddValue("Resistance", Resistance);
-		}
+		}*/
 		public static BlockPlacementData GetPlacementValue(int index, ComponentMiner componentMiner, int value, TerrainRaycastResult raycastResult)
 		{
 			return new BlockPlacementData
@@ -388,5 +227,71 @@ namespace Game
 		{
 			return base.Equals(other) && Voltage == other.Voltage;
 		}
+	}
+	public class EntityDevice<T> : FixedDevice, IBlockBehavior where T : Component
+	{
+		public T Component;
+		public string Name;
+		public EntityDevice(string name, int resistance) : base(resistance)
+		{
+			Name = name;
+		}
+		public override Device Create(Point3 p)
+		{
+			var device = (EntityDevice<T>)base.Create(p);
+			device.Component = Utils.GetBlockEntity(p)?.Entity.FindComponent<T>(true);
+			device.Name = Name;
+			return device;
+		}
+		public override string GetDisplayName(SubsystemTerrain subsystemTerrain, int value)
+		{
+			return Name;
+		}
+		public virtual void OnBlockAdded(SubsystemTerrain subsystemTerrain, int value, int oldValue)
+		{
+			if (oldValue == -1)
+				return;
+			var valuesDictionary = new ValuesDictionary();
+			valuesDictionary.PopulateFromDatabaseObject(subsystemTerrain.Project.GameDatabase.Database.FindDatabaseObject(Name, subsystemTerrain.Project.GameDatabase.EntityTemplateType, true));
+			valuesDictionary.GetValue<ValuesDictionary>("BlockEntity").SetValue("Coordinates", Point);
+			Entity entity = subsystemTerrain.Project.CreateEntity(valuesDictionary);
+			Component = entity.FindComponent<T>(true);
+			subsystemTerrain.Project.AddEntity(entity);
+		}
+		public virtual void OnBlockRemoved(SubsystemTerrain subsystemTerrain, int value, int newValue)
+		{
+			var blockEntity = Utils.GetBlockEntity(Point);
+			if (blockEntity != null)
+			{
+				var position = new Vector3(Point) + new Vector3(0.5f);
+				for (var i = blockEntity.Entity.FindComponents<IInventory>().GetEnumerator(); i.MoveNext();)
+				{
+					i.Current.DropAllItems(position);
+				}
+				subsystemTerrain.Project.RemoveEntity(blockEntity.Entity, true);
+			}
+		}
+	}
+	public abstract class InteractiveEntityDevice<T> : EntityDevice<T>, IInteractiveBlock, IItemAcceptableBlock where T : Component
+	{
+		protected InteractiveEntityDevice(string name, int resistance) : base(name, resistance)
+		{
+		}
+		public virtual bool OnInteract(TerrainRaycastResult raycastResult, ComponentMiner componentMiner)
+		{
+			var blockEntity = Utils.GetBlockEntity(raycastResult.CellFace.Point);
+			if (blockEntity == null || componentMiner.ComponentPlayer == null)
+			{
+				return false;
+			}
+			componentMiner.ComponentPlayer.ComponentGui.ModalPanelWidget = GetWidget(componentMiner.Inventory, blockEntity.Entity.FindComponent<T>(true));
+			AudioManager.PlaySound("Audio/UI/ButtonClick", 1f, 0f, 0f);
+			return true;
+		}
+		public virtual void OnHitByProjectile(CellFace cellFace, WorldItem worldItem)
+		{
+			Utils.OnHitByProjectile(cellFace, worldItem);
+		}
+		public abstract Widget GetWidget(IInventory inventory, T component);
 	}
 }

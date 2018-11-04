@@ -6,10 +6,15 @@ using TemplatesDatabase;
 
 namespace Game
 {
-	public class ComponentLargeCraftingTable : ComponentCraftingTable
+	public class ComponentLargeCraftingTable : ComponentCraftingTable, ICraftingMachine
 	{
-		public int SlotIndex;
-		internal new string[] m_matchedIngredients = new string[36];
+		public int SlotIndex { get; set; }
+
+		public CraftingRecipe GetRecipe()
+		{
+			return m_matchedRecipe;
+		}
+
 		public override void AddSlotItems(int slotIndex, int value, int count)
 		{
 			if (count > 0 && slotIndex >= 0 && slotIndex < m_slots.Count)
@@ -101,12 +106,13 @@ namespace Game
 			UpdateCraftingResult();
 			return num;
 		}
+
 		public override void Load(ValuesDictionary valuesDictionary, IdToEntityMap idToEntityMap)
 		{
-			int value = valuesDictionary.GetValue<int>("SlotsCount");
-			m_slots.Capacity = value;
+			int count = valuesDictionary.GetValue<int>("SlotsCount");
+			m_slots.Capacity = count;
 			int i;
-			for (i = 0; i < value; i++)
+			for (i = 0; i < count; i++)
 			{
 				m_slots.Add(new Slot());
 			}
@@ -126,8 +132,9 @@ namespace Game
 			{
 				throw new InvalidOperationException("Invalid crafting grid size.");
 			}
-			base.m_matchedIngredients = null;
+			m_matchedIngredients = new string[36];
 		}
+
 		public new void UpdateCraftingResult()
 		{
 			int num = 2147483647;
@@ -152,7 +159,7 @@ namespace Game
 					}
 				}
 			}
-			CraftingRecipe craftingRecipe = CraftingRecipesManager.FindMatchingRecipe(Project.FindSubsystem<SubsystemTerrain>(true), m_matchedIngredients, 0f);
+			var craftingRecipe = CraftingRecipesManager.FindMatchingRecipe(Utils.SubsystemTerrain, m_matchedIngredients, 0f);
 			if (craftingRecipe != null)
 			{
 				m_matchedRecipe = craftingRecipe;

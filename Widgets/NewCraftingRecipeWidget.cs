@@ -1,5 +1,5 @@
-﻿using System;
-using Engine;
+﻿using Engine;
+using System;
 
 namespace Game
 {
@@ -13,7 +13,7 @@ namespace Game
 				WidgetsList.Enumerator enumerator;
 				if (m_recipe != null)
 				{
-					Block block = BlocksManager.Blocks[Terrain.ExtractContents(m_recipe.ResultValue)];
+					var block = BlocksManager.Blocks[Terrain.ExtractContents(m_recipe.ResultValue)];
 					m_nameWidget.Text = block.GetDisplayName(null, m_recipe.ResultValue) + ((!string.IsNullOrEmpty(NameSuffix)) ? NameSuffix : string.Empty);
 					m_descriptionWidget.Text = m_recipe.Description;
 					m_nameWidget.IsVisible = true;

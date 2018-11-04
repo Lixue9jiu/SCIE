@@ -5,23 +5,21 @@ namespace Game
 {
 	public class RefractoryBrick : MeshItem
 	{
-		public RefractoryBrick() : base("A refractory brick is a block of refractory ceramic material used in lining furnaces,kilns,advanced firebox, and fireplaces. It is bulit to withstand high temperature, but also have a low thermal conductivity for great energy efficiency.")
+		public RefractoryBrick() : base("A refractory brick is a block of refractory ceramic material used in lining furnaces, kilns, advanced firebox, and fireplaces. It is bulit to withstand high temperature, but also have a low thermal conductivity for great energy efficiency.")
 		{
-			Model model = ContentManager.Get<Model>("Models/Brick");
-			Matrix boneAbsoluteTransform = BlockMesh.GetBoneAbsoluteTransform(model.FindMesh("Brick", true).ParentBone);
-			BlockMesh blockMesh = new BlockMesh();
-			blockMesh.AppendModelMeshPart(model.FindMesh("Brick", true).MeshParts[0], boneAbsoluteTransform * 1.4f * Matrix.CreateTranslation(0f, -0.02f, 0f), false, false, false, false, Color.White);
-			blockMesh.TransformTextureCoordinates(Matrix.CreateTranslation((float)(-32 % 16) / 16f, (float)(-32 / 16) / 16f, 0f), -1);
-			m_standaloneBlockMesh.AppendBlockMesh(blockMesh);
+			m_standaloneBlockMesh = Utils.CreateMesh("Models/Brick", "Brick", Matrix.CreateTranslation(0f, -0.02f, 0f) * 1.4f, Matrix.CreateTranslation(-32 % 16 / 16f, -32 / 16 / 16f, 0f), new Color(255, 153, 18));
 		}
+
 		public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
 		{
-			BlocksManager.DrawMeshBlock(primitivesRenderer, m_standaloneBlockMesh, new Color(255, 153, 18), 2f * size, ref matrix, environmentData);
+			BlocksManager.DrawMeshBlock(primitivesRenderer, m_standaloneBlockMesh, Color.White, 2f * size, ref matrix, environmentData);
 		}
+
 		public override float GetMeleePower(int value)
 		{
 			return 2f;
 		}
+
 		public override float GetProjectilePower(int value)
 		{
 			return 2f;

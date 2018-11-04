@@ -6,10 +6,6 @@ namespace Game
 {
 	public class ComponentSqueezer : ComponentMachine, IUpdateable
 	{
-		protected float m_fireTimeRemaining;
-
-		protected int m_furnaceSize;
-
 		protected readonly string[] m_matchedIngredients = new string[9];
 
 		protected string m_smeltingRecipe;
@@ -18,37 +14,13 @@ namespace Game
 
 		protected string m_smeltingRecipe2;
 
-		public int RemainsSlotIndex
-		{
-			get
-			{
-				return SlotsCount;
-			}
-		}
+		public override int RemainsSlotIndex => SlotsCount;
 
-		public override int ResultSlotIndex
-		{
-			get
-			{
-				return SlotsCount - 1;
-			}
-		}
+		public override int ResultSlotIndex => SlotsCount - 1;
 
-		public override int FuelSlotIndex
-		{
-			get
-			{
-				return SlotsCount;
-			}
-		}
+		public override int FuelSlotIndex => SlotsCount;
 
-		public int UpdateOrder
-		{
-			get
-			{
-				return 0;
-			}
-		}
+		public int UpdateOrder => 0;
 
 		public void Update(float dt)
 		{
@@ -75,7 +47,7 @@ namespace Game
 			}
 			if (m_smeltingRecipe2 != null)
 			{
-				int num = ComponentEngine.IsPowered(Utils.SubsystemTerrain.Terrain, coordinates.X, coordinates.Y, coordinates.Z) ? 1 : 0;
+				int num = ComponentEngine.IsPowered(Utils.Terrain, coordinates.X, coordinates.Y, coordinates.Z) ? 1 : 0;
 				if (num == 0)
 				{
 					m_smeltingRecipe = null;
@@ -155,38 +127,23 @@ namespace Game
 						text = "IronLine";
 					}
 					else if (slotValue == CopperIngotBlock.Index)
-                    {
-                        text = "CopperLine";
+					{
+						text = "CopperLine";
 					}
-					else if (slotValue == ItemBlock.IdTable["SteelIngot"])
-                    {
-                        text = "SteelLine";
+					else
+					{
+						var item = Item.ItemBlock.GetItem(ref slotValue);
+						if (item is MetalIngot)
+						{
+							string name = item.GetDisplayName(Utils.SubsystemTerrain, slotValue);
+							text = name.Replace("Ingot", "Line");
+							if (!ItemBlock.IdTable.TryGetValue(text, out slotValue))
+							{
+								return null;
+							}
+						}
 					}
-                    else if (slotValue == ItemBlock.IdTable["GoldIngot"])
-                    {
-                        text = "GoldLine";
-                    }
-                    else if (slotValue == ItemBlock.IdTable["SliverIngot"])
-                    {
-                        text = "SliverLine";
-                    }
-                    else if (slotValue == ItemBlock.IdTable["PlatinumIngot"])
-                    {
-                        text = "PlatinumLine";
-                    }
-                    else if (slotValue == ItemBlock.IdTable["LeadIngot"])
-                    {
-                        text = "LeadLine";
-                    }
-                    else if (slotValue == ItemBlock.IdTable["StannaryIngot"])
-                    {
-                        text = "StannaryLine";
-                    }
-                    else if (slotValue == ItemBlock.IdTable["FeAlCrIngot"])
-                    {
-                        text = "FeAlCrLine";
-                    }
-                }
+				}
 				else
 				{
 					m_matchedIngredients[i] = null;

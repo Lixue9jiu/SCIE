@@ -12,7 +12,7 @@ namespace Game
 			m_subsystemItemsScanner.ItemsScanned += ItemsScanned;
 		}
 
-		protected new void ItemsScanned(ReadOnlyList<ScannedItemData> items)
+		public new void ItemsScanned(ReadOnlyList<ScannedItemData> items)
 		{
 			int num = (int)((m_subsystemGameInfo.TotalElapsedGameTime - m_lastRotTime) / 60.0);
 			if (num > 0)
@@ -22,11 +22,11 @@ namespace Game
 					for (int i = 0; i < items.Count; i++)
 					{
 						ScannedItemData item = items[i];
-						Block block = BlocksManager.Blocks[Terrain.ExtractContents(item.Value)];
+						var block = BlocksManager.Blocks[Terrain.ExtractContents(item.Value)];
 						int rotPeriod = block.GetRotPeriod(item.Value);
 						if (rotPeriod > 0)
 						{
-							int num2 = item.Container is ComponentChestNew chestNew && chestNew.Powered ? 4 : 1;
+							int num2 = item.Container is ComponentNewChest chestNew && chestNew.Powered ? 4 : 1;
 							int num3 = block.GetDamage(item.Value);
 							for (int j = 0; j < num; j++)
 							{

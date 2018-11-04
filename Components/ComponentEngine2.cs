@@ -1,53 +1,22 @@
 using Engine;
 using GameEntitySystem;
-using System.Globalization;
 using TemplatesDatabase;
 
 namespace Game
 {
 	public class ComponentEngine2 : ComponentMachine, IUpdateable
 	{
-		protected float m_fireTimeRemaining;
-
-		protected int m_furnaceSize;
-
-		protected readonly string[] m_matchedIngredients = new string[9];
-
 		protected string m_smeltingRecipe;
 
 		protected int m_music;
 
-		public int RemainsSlotIndex
-		{
-			get
-			{
-				return SlotsCount - 3;
-			}
-		}
+		public override int RemainsSlotIndex => SlotsCount - 3;
 
-		public override int ResultSlotIndex
-		{
-			get
-			{
-				return SlotsCount - 1;
-			}
-		}
+		public override int ResultSlotIndex => SlotsCount - 1;
 
-		public override int FuelSlotIndex
-		{
-			get
-			{
-				return SlotsCount - 2;
-			}
-		}
+		public override int FuelSlotIndex => SlotsCount - 2;
 
-		public int UpdateOrder
-		{
-			get
-			{
-				return 0;
-			}
-		}
+		public int UpdateOrder => 0;
 
 		public void Update(float dt)
 		{
@@ -59,6 +28,7 @@ namespace Game
 					HeatLevel = 0f;
 				}
 			}
+			Slot slot;
 			if (m_updateSmeltingRecipe)
 			{
 				m_updateSmeltingRecipe = false;
@@ -69,24 +39,22 @@ namespace Game
 				}
 				else
 				{
-					Slot slot = m_slots[FuelSlotIndex];
+					slot = m_slots[FuelSlotIndex];
 					if (slot.Count > 0)
 					{
-                        Block block = BlocksManager.Blocks[Terrain.ExtractContents(slot.Value)];
-                        heatLevel = (block is IFuel fuel ? fuel.GetHeatLevel(slot.Value) : block.FuelHeatLevel);
-                    }
+						var block = BlocksManager.Blocks[Terrain.ExtractContents(slot.Value)];
+						heatLevel = block is IFuel fuel ? fuel.GetHeatLevel(slot.Value) : block.FuelHeatLevel;
+					}
 				}
 				string text = null;
-				int remainsSlotIndex = RemainsSlotIndex;
-				int num = Terrain.ExtractContents(GetSlotValue(remainsSlotIndex));
-				if (GetSlotCount(remainsSlotIndex) > 0 && BlocksManager.Blocks[num].CraftingId.ToString() == "waterbucket")
+				if (base.GetSlotCount(RemainsSlotIndex) > 0 && Terrain.ExtractContents(base.GetSlotValue(RemainsSlotIndex)) == WaterBucketBlock.Index)
 				{
 					text = "bucket";
 				}
 				if (text != null)
 				{
-					Slot slot2 = m_slots[ResultSlotIndex];
-					if (slot2.Count != 0 && (90 != slot2.Value || 1 + slot2.Count > 40))
+					slot = m_slots[ResultSlotIndex];
+					if (slot.Count != 0 && (90 != slot.Value || 1 + slot.Count > 40))
 					{
 						text = null;
 					}
@@ -106,21 +74,21 @@ namespace Game
 			}
 			if (m_smeltingRecipe != null && m_fireTimeRemaining <= 0f)
 			{
-				Slot slot3 = m_slots[FuelSlotIndex];
-				if (slot3.Count > 0)
+				slot = m_slots[FuelSlotIndex];
+				if (slot.Count > 0)
 				{
-					var block = BlocksManager.Blocks[Terrain.ExtractContents(slot3.Value)];
-					if (block.GetExplosionPressure(slot3.Value) > 0f)
+					var block = BlocksManager.Blocks[Terrain.ExtractContents(slot.Value)];
+					if (block.GetExplosionPressure(slot.Value) > 0f)
 					{
-						slot3.Count = 0;
+						slot.Count = 0;
 					}
-					else 
+					else
 					{
-						slot3.Count--;
+						slot.Count--;
 						if (block is IFuel fuel)
 						{
-							HeatLevel = fuel.GetHeatLevel(slot3.Value);
-							m_fireTimeRemaining = fuel.GetFuelFireDuration(slot3.Value);
+							HeatLevel = fuel.GetHeatLevel(slot.Value);
+							m_fireTimeRemaining = fuel.GetFuelFireDuration(slot.Value);
 						}
 						else
 						{
@@ -143,10 +111,9 @@ namespace Game
 				m_music += 2;
 				if (SmeltingProgress >= 1f)
 				{
-					int remainsSlotIndex2 = RemainsSlotIndex;
-					if (m_slots[remainsSlotIndex2].Count > 0)
+					if (m_slots[RemainsSlotIndex].Count > 0)
 					{
-						m_slots[remainsSlotIndex2].Count--;
+						m_slots[RemainsSlotIndex].Count--;
 					}
 					m_slots[ResultSlotIndex].Value = 90;
 					m_slots[ResultSlotIndex].Count++;
@@ -171,36 +138,6 @@ namespace Game
 			base.Save(valuesDictionary, entityToIdMap);
 			valuesDictionary.SetValue("FireTimeRemaining", m_fireTimeRemaining);
 			valuesDictionary.SetValue("HeatLevel", HeatLevel);
-		}
-
-		protected string FindSmeltingRecipe(float heatLevel)
-		{
-			string text = null;
-			int remainsSlotIndex = RemainsSlotIndex;
-			if (GetSlotCount(remainsSlotIndex) > 0)
-			{
-				int slotValue = base.GetSlotValue(remainsSlotIndex);
-				var block = BlocksManager.Blocks[Terrain.ExtractContents(slotValue)].CraftingId;
-				m_matchedIngredients[remainsSlotIndex] = block + ":" + Terrain.ExtractData(slotValue).ToString(CultureInfo.InvariantCulture);
-				if (block == "waterbucket")
-				{
-					text = "bucket";
-				}
-			}
-			else
-			{
-				m_matchedIngredients[remainsSlotIndex] = null;
-			}
-			if (text != null)
-			{
-				Slot slot = m_slots[ResultSlotIndex];
-				//Terrain.ExtractContents(90);
-				if (slot.Count != 0 && (90 != slot.Value || 1 + slot.Count > 40))
-				{
-					text = null;
-				}
-			}
-			return text;
 		}
 	}
 }
