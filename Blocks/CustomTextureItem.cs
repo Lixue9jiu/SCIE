@@ -1,7 +1,9 @@
 ﻿using Engine;
 using Engine.Graphics;
 using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace Game
 {
@@ -32,7 +34,19 @@ namespace Game
 
 		public static Stream GetFileInZip(string name)
 		{
-			var enumerator = ModsManager.GetFiles(".zip", null).GetEnumerator();
+			var enumerator = (ModsManager.Directories != null && ModsManager.Directories.Any() ? ModsManager.Directories : Directory.EnumerateDirectories(ContentManager.Path)).GetEnumerator();
+			while (enumerator.MoveNext())
+			{
+				List<string>.Enumerator enumerator2 = ModsManager.GetFiles(".png", Directory.EnumerateFiles(enumerator.Current)).GetEnumerator();
+				while (enumerator2.MoveNext())
+				{
+					if (string.Equals(enumerator2.Current, name, StringComparison.OrdinalIgnoreCase))
+					{
+						return File.OpenRead(enumerator2.Current);
+					}
+				}
+			}
+			enumerator = ModsManager.GetFiles(".zip", null).GetEnumerator();
 			while (enumerator.MoveNext())
 			{
 				using (var zipArchive = ZipArchive.Open(File.OpenRead(enumerator.Current), false))

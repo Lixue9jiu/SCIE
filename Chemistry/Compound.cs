@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Text;
 
 namespace Chemistry
 {
+	[Serializable]
 	public class Compound : Dictionary<Group, int>
 	{
 		public Compound()

@@ -95,7 +95,7 @@ namespace Game
 		}
 		#endregion
 	}
-	[Serializable]
+	//[Serializable]
 	public abstract class Device : Element, IEquatable<Device>
 	{
 		public Point3 Point;

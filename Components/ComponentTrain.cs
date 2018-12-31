@@ -254,14 +254,7 @@ namespace Game
 			{
 				if (railType > 5)
 				{
-					if (railType - 6 != Direction)
-					{
-						currentRotation = directions[Direction] * upwardDirection;
-					}
-					else
-					{
-						currentRotation = directions[Direction] * downwardDirection;
-					}
+					currentRotation = railType - 6 != Direction ? directions[Direction] * upwardDirection : directions[Direction] * downwardDirection;
 				}
 				else
 				{
