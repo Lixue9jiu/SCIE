@@ -1,33 +1,12 @@
 <IndustrialMod>
-  <ToRemove Type="Parameter" Name="Class" Guid="7ecfafc4-4603-424c-87dd-1df59e7ef413" />
-  <ToAdd Type="ComponentTemplate" Name="Player" Guid="74a31f2d-3241-4f2e-a6ef-3add252691a7">
-    <Parameter Name="Class" Guid="7ecfafc4-4603-424c-87dd-1df59e7ef413" Value="Game.ComponentNPlayer" Type="string" />
-  </ToAdd>
-  <ToRemove Type="Parameter" Name="Class" Guid="8b3d07dc-6498-4691-9686-cf4edabb8f3f" />
-  <ToAdd Type="ComponentTemplate" Name="Gui" Guid="12fc0405-dbcc-417c-8ec8-005de26e670d">
-    <Parameter Name="Class" Guid="8b3d07dc-6498-4691-9686-cf4edabb8f3f" Value="Game.ComponentNGui" Type="string" />
-  </ToAdd>
-  <ToRemove Type="Parameter" Name="Class" Guid="566663a5-0480-45c8-9266-18c8060a236c" />
-  <ToAdd Type="ComponentTemplate" Name="CraftingTable" Guid="48fdc8bb-8ca8-4d0f-af8d-25bfe9b56a19">
-    <Parameter Name="Class" Guid="566663a5-0480-45c8-9266-18c8060a236c" Value="Game.ComponentLargeCraftingTable" Type="string" />
-  </ToAdd>
-  <ToRemove Type="Parameter" Name="Class" Guid="f04c23fe-1d3c-467e-81bc-1796f686be51" />
-  <ToAdd Type="ComponentTemplate" Name="Furnace" Guid="c91f7906-de35-4e94-ba6e-90cd55cd19d4">
-    <Parameter Name="Class" Guid="f04c23fe-1d3c-467e-81bc-1796f686be51" Value="Game.ComponentFurnaceN" Type="string" />
-  </ToAdd>
-  <ToRemove Type="Parameter" Name="Class" Guid="794afcc5-7af7-43ee-92c9-a6ba54084068" />
-  <ToAdd Type="SubsystemTemplate" Name="RotBlockBehavior" Guid="4966d04e-9351-4766-9ee0-c31948e6d9dc">
-    <Parameter Name="Class" Guid="794afcc5-7af7-43ee-92c9-a6ba54084068" Value="Game.SubsystemNRotBlockBehavior" Type="string" />
-  </ToAdd>
-  <ToRemove Type="Parameter" Name="Class" Guid="9ef8d250-edd0-4fe5-8979-49f7dd023cdb" />
-  <ToAdd Type="SubsystemTemplate" Name="SoilBlockBehavior" Guid="59d44a4c-bc6a-499f-944e-39390092696e">
-    <Parameter Name="Class" Guid="9ef8d250-edd0-4fe5-8979-49f7dd023cdb" Value="Game.SubsystemNSoilBlockBehavior" Type="string" />
-  </ToAdd>
-  <ToRemove Type="Parameter" Name="Class" Guid="5fb21b86-aa45-4991-97cf-0f78ce5ccde3" />
-  <ToAdd Type="SubsystemTemplate" Name="TorchBlockBehavior" Guid="1815d2e9-776d-40e3-abde-c46d1cc8b301">
-    <Parameter Name="Class" Guid="5fb21b86-aa45-4991-97cf-0f78ce5ccde3" Value="Game.SubsystemSourceOfFireBlockBehavior" Type="string" />
-  </ToAdd>
-  <ToAdd Type="Folder" Name="Entities" Guid="5fcdf35f-7001-442c-883e-e0502b15d291">
+  <Parameter Name="Class" Guid="7ecfafc4-4603-424c-87dd-1df59e7ef413" new-Value="Game.ComponentNPlayer" Type="string" />
+  <Parameter Name="Class" Guid="8b3d07dc-6498-4691-9686-cf4edabb8f3f" new-Value="Game.ComponentNGui" Type="string" />
+  <Parameter Name="Class" Guid="566663a5-0480-45c8-9266-18c8060a236c" new-Value="Game.ComponentLargeCraftingTable" Type="string" />
+  <Parameter Name="Class" Guid="f04c23fe-1d3c-467e-81bc-1796f686be51" new-Value="Game.ComponentFurnaceN" Type="string" />
+  <Parameter Name="Class" Guid="794afcc5-7af7-43ee-92c9-a6ba54084068" new-Value="Game.SubsystemNRotBlockBehavior" Type="string" />
+  <Parameter Name="Class" Guid="9ef8d250-edd0-4fe5-8979-49f7dd023cdb" new-Value="Game.SubsystemNSoilBlockBehavior" Type="string" />
+  <Parameter Name="Class" Guid="5fb21b86-aa45-4991-97cf-0f78ce5ccde3" new-Value="Game.SubsystemSourceOfFireBlockBehavior" Type="string" />
+  <Folder Name="Entities" Guid="5fcdf35f-7001-442c-883e-e0502b15d291">
     <EntityTemplate Name="Freezer" Guid="0855a017-af17-4955-81fa-aafaf97b92bd">
       <MemberComponentTemplate Name="NewChest" Guid="0f193a00-ac7d-4b4c-97c7-df652ca11b51" InheritanceParent="73a2ec8c-10c7-4133-85b4-4a35bd44c956" />
       <MemberComponentTemplate Name="BlockEntity" Guid="a1d7dc3e-980d-461e-87ac-4358ed7d41b5" InheritanceParent="09a85cba-d94e-41b8-9497-f20ed942c17e" />
@@ -80,14 +59,13 @@
       </MemberComponentTemplate>
     </EntityTemplate>
     <EntityTemplate Name="AirShip" Guid="3f3abb7e-1ce4-43fa-9614-47d69bf788ba">
-      <MemberComponentTemplate Name="AirShip" Guid="a372d5da-5307-4df6-9294-a51abcd70387" InheritanceParent="572b36f4-6ee6-442a-900f-b4caba94be39" />
-      <MemberComponentTemplate Name="AirShipTable" Guid="e82420a9-10c6-4a2c-9ea5-725fffee2225" InheritanceParent="98fdc888-8ca8-4d0f-af8d-25bfe9b56a19">
-        <Parameter Name="SlotsCount" Guid="3ddd5634-a4c0-4ad5-85f8-813ef26dae6b" Value="10" Type="int" />
-      </MemberComponentTemplate>
       <MemberComponentTemplate Name="SimpleModel" Guid="459a8ad2-0db8-4604-9ee8-8504dbd3c7b1" InheritanceParent="cc5a4e72-0df9-4acf-a42e-ecb5a2a7baf4">
         <Parameter Name="ModelName" Guid="fe4ed217-297f-47ca-950a-930ea7d6e881" Value="Models/Airship" Type="string" />
         <Parameter Name="CastsShadow" Guid="fed4af7d-a7de-46d9-8d02-55d0b08a157b" Value="True" Type="bool" />
-        <Parameter Name="TextureOverride" Guid="ffe057e5-037a-4504-a9fe-baf88d835b11" Value="Textures/Airship" Type="string" />
+      </MemberComponentTemplate>
+      <MemberComponentTemplate Name="AirShip" Guid="a372d5da-5307-4df6-9294-a51abcd70387" InheritanceParent="572b36f4-6ee6-442a-900f-b4caba94be39" />
+      <MemberComponentTemplate Name="AirShipTable" Guid="e82420a9-10c6-4a2c-9ea5-725fffee2225" InheritanceParent="98fdc888-8ca8-4d0f-af8d-25bfe9b56a19">
+        <Parameter Name="SlotsCount" Guid="3ddd5634-a4c0-4ad5-85f8-813ef26dae6b" Value="10" Type="int" />
       </MemberComponentTemplate>
       <MemberComponentTemplate Name="Spawn" Guid="377ab3f4-6fef-4408-b891-a781377a1e77" InheritanceParent="65268743-4076-4ee3-aefe-f02a54d16b36">
         <Parameter Name="AutoDespawn" Guid="1daa443d-2b92-4b08-9e97-28ac9cf3e0f6" Value="False" Type="bool" />
@@ -236,8 +214,29 @@
         <Parameter Name="AttackResilience" Guid="3d3001e5-e9da-47f6-9985-3838b5649b54" Value="100" Type="float" />
       </MemberComponentTemplate>
     </EntityTemplate>
-  </ToAdd>
-  <ToAdd Type="ProjectTemplate" Name="Project" Guid="85023bf8-1c90-4dd1-9442-e6c13691d078">
+    <EntityTemplate Name="Mine" Guid="3f3abb7e-1ce4-43fa-9612-47d69b9788ba">
+      <MemberComponentTemplate Name="Mine" Guid="a372d5da-5307-4df6-929e-a51abcd70386" InheritanceParent="73a29faf-10c7-4133-95b4-4a35bd44c956" />
+      <MemberComponentTemplate Name="SimpleModel" Guid="459a8ad1-0db9-4604-9ee8-8504dbd3c7b1" InheritanceParent="cc5a4e72-0df9-4acf-a42e-ecb5a2a7baf4">
+        <Parameter Name="ModelName" Guid="fe4ed206-297f-47ca-950a-939ea7d6e881" Value="Models/Snowball" Type="string" />
+        <Parameter Name="CastsShadow" Guid="fed4af6d-a7de-46d9-8d02-95d0b08a157b" Value="True" Type="bool" />
+        <Parameter Name="TextureOverride" Guid="ffe056e5-037a-4504-a9fe-baf88d835b19" Value="Textures/SteamBoat" Type="string" />
+      </MemberComponentTemplate>
+      <MemberComponentTemplate Name="Spawn" Guid="377ab3ff-6fef-4408-9891-a781377a1e77" InheritanceParent="65268743-4076-4ee3-aefe-f02a54d16b36" />
+      <MemberComponentTemplate Name="Body" Guid="b6800015-ddd6-407b-9d4d-7be14c05d3eb" InheritanceParent="8edd1986-0dcc-424f-893a-491c089b821e">
+        <Parameter Name="WaterSwayAngle" Guid="00cc6408-eb39-4058-859f-a12f2a86c16a" Value="0.04" Type="float" />
+        <Parameter Name="MaxSmoothRiseHeight" Guid="110519b4-e6f6-4694-aae9-7d0a3273c987" Value="0.3" Type="float" />
+        <Parameter Name="BoxSize" Guid="5323f9ba-8c20-4667-a19e-605a9a72e335" Value="0.4,0.2,0.4" Type="Vector3" />
+        <Parameter Name="WaterDrag" Guid="6547df11-9d00-410f-b0b0-4c9f89dcdae4" Value="6,4" Type="Vector2" />
+        <Parameter Name="Mass" Guid="ae127d38-1576-4901-a319-b21a8dc92175" Value="50" Type="float" />
+        <Parameter Name="AirDrag" Guid="d850431d-da38-409b-9b32-aadf99fc82a4" Value="0.25,0.5" Type="Vector2" />
+        <Parameter Name="Density" Guid="f2894d7d-5ef9-44c5-881e-a724910e3cd5" Value="2.05" Type="float" />
+      </MemberComponentTemplate>
+      <MemberComponentTemplate Name="Damage" Guid="eb61209d-8903-41b9-b663-545dea83af91" InheritanceParent="17bb7b53-159c-4eb3-b4bc-137b10bba88a">
+        <Parameter Name="AttackResilience" Guid="32e5b809-e2ba-4291-9f06-6b8710a8bcdf" Value="50" Type="float" />
+      </MemberComponentTemplate>
+    </EntityTemplate>
+  </Folder>
+  <ProjectTemplate Name="Project" Guid="85023bf8-1c90-4dd1-9442-e6c13691d078">
     <MemberSubsystemTemplate Name="CrusherBlockBehavior" Guid="f9d44a4c-bc6a-499f-944e-39390092696e" InheritanceParent="fefb9590-4972-4893-b02a-76063611b745">
       <Parameter Name="Class" Guid="aef8d250-edd0-4fe5-8979-49f7dd023cdb" Value="Game.SubsystemCrusherBlockBehavior" Type="string" />
     </MemberSubsystemTemplate>
@@ -307,8 +306,8 @@
     <MemberSubsystemTemplate Name="Circuit" Guid="fff36d3d-e999-452c-959d-47eefb16457a" InheritanceParent="a3914c13-7801-46a6-b23a-9e2b36e9defb">
       <Parameter Name="Class" Guid="ff8971da-4268-41d7-90a9-9a066f2feea8" Value="Game.SubsystemCircuit" Type="string" />
     </MemberSubsystemTemplate>
-  </ToAdd>
-  <ToAdd Type="Folder" Name="Gameplay" Guid="d3d4b692-acc9-4128-9b99-a5acf1de1fbb">
+  </ProjectTemplate>
+  <Folder Name="Gameplay" Guid="d3d4b692-acc9-4128-9b99-a5acf1de1fbb">
     <ComponentTemplate Name="BoatI" Description="Takes player inputs and controls a creature with them" Guid="572b36f3-6ee6-442a-900f-b4caba94be39" InheritanceParent="b05700ed-7e4e-4679-98f5-b597f421496b">
       <Parameter Name="FireTimeRemaining" Description="Fire time remaining, in seconds" Guid="2832cd84-3ff3-4165-aad1-19685e751850" Value="0" Type="float" />
       <Parameter Name="HeatLevel" Description="Fire time remaining, in seconds" Guid="2832cd94-3ff3-4165-aad1-19685e751850" Value="0" Type="float" />
@@ -398,7 +397,7 @@
       <Parameter Name="SlotsCount" Guid="fbc760a1-06f0-4313-9162-480eaee2be4c" Value="9" Type="int" />
       <Parameter Name="Class" Guid="bae68ecd-49fc-4c05-b784-424da13f8550" Value="Game.ComponentDriller" Type="string" />
     </ComponentTemplate>
-    <ComponentTemplate Name="LiquidPump" Description="A Liquid Pump that pump liquid" Guid="aa15e6ee-9078-4abf-873f-4a8da609e287" InheritanceParent="81a44c6a-c30a-4f53-8d64-0c30aabab8f9">
+    <ComponentTemplate Name="LiquidPump" Description="A liquid pump that pump liquid" Guid="aa15e6ee-9078-4abf-873f-4a8da609e287" InheritanceParent="81a44c6a-c30a-4f53-8d64-0c30aabab8f9">
       <Parameter Name="SlotsCount" Guid="fbc761a1-06f0-4313-9162-480eaee2be4c" Value="9" Type="int" />
       <Parameter Name="Class" Guid="bae69ecd-49fc-4c05-b784-424da13f8550" Value="Game.ComponentLiquidPump" Type="string" />
     </ComponentTemplate>
@@ -422,5 +421,9 @@
       <Parameter Name="HeatLevel" Description="Current heat level in furnace" Guid="c4777196-79c4-409e-b043-f9d3010d7e95" Value="0" Type="float" />
       <Parameter Name="Class" Guid="fa4c666e-1d3c-467e-81bc-1796f686be51" Value="Game.ComponentHearthFurnace" Type="string" />
     </ComponentTemplate>
-  </ToAdd>
+    <ComponentTemplate Name="Mine" Description="A mine" Guid="73a29faf-10c7-4133-95b4-4a35bd44c956" InheritanceParent="b05700ed-7e4e-4679-98f5-b597f421496b">
+      <Parameter Name="Class" Guid="1c0b89f0-22f9-45a9-aae3-039ba73b12b6" Value="Game.ComponentMine" Type="string" />
+      <Parameter Name="LoadOrder" Guid="159a738a-dd51-43ae-b3d9-16ebdcab85d1" Value="1" Type="int" />
+    </ComponentTemplate>
+  </Folder>
 </IndustrialMod>

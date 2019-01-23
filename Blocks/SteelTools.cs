@@ -172,9 +172,7 @@ namespace Game
 		public static CraftingRecipe GetAdHocCraftingRecipe(int index, SubsystemTerrain subsystemTerrain, string[] ingredients, float heatLevel)
 		{
 			if (heatLevel < 1f)
-			{
 				return null;
-			}
 			int i = 0, num = 0;
 			var array = new string[2];
 			for (; i < ingredients.Length; i++)

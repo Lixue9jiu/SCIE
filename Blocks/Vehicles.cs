@@ -92,9 +92,9 @@ namespace Game
 		}
 		public Airship() : base("A craft which uses gas lighter than the air to produce buoyancy force and make it fly, also the source of its driving power is coming from a reciprocaing engine by burning aviation gasoline.")
 		{
-			DefaultDisplayName = "Airship";
-			var model = ContentManager.Get<Model>("Models/Airship");
 			const string Name = "Airship";
+			DefaultDisplayName = Name;
+			var model = ContentManager.Get<Model>("Models/Airship");
 			Matrix transform = BlockMesh.GetBoneAbsoluteTransform(model.FindMesh(Name, true).ParentBone) * Matrix.CreateTranslation(0f, -0.4f, 0f) * Matrix.CreateScale(0.08f);
 			ModelMeshPart meshPart = model.FindMesh(Name, true).MeshParts[0];
 			m_standaloneBlockMesh.AppendModelMeshPart(meshPart, transform, false, false, false, false, Color.White);

@@ -156,12 +156,10 @@ namespace Game
 		}
 		public static int[] GetCreativeValues(int BlockIndex)
 		{
-			var array = new int[16];
+			var arr = new int[16];
 			for (int i = 0; i < 16; i++)
-			{
-				array[i] = BlockIndex | SetColor(0, i) << 14;
-			}
-			return array;
+				arr[i] = BlockIndex | SetColor(0, i) << 14;
+			return arr;
 		}
 	}
 }

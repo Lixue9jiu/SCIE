@@ -31,24 +31,26 @@
     <Optimize>true</Optimize>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
-    <OutputPath>D:\游戏文件夹\Mods\</OutputPath>
+    <OutputPath>D:\Survivalcraft\Mods\工业mod\</OutputPath>
     <LangVersion>7.1</LangVersion>
+    <DefineConstants>DEBUG</DefineConstants>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
     <LangVersion>7.1</LangVersion>
+    <OutputPath>D:\Survivalcraft\Mods\工业mod\</OutputPath>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Engine">
-      <HintPath>D:\游戏文件夹\Engine.dll</HintPath>
+      <HintPath>D:\Survivalcraft\Engine.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="EntitySystem">
-      <HintPath>D:\游戏文件夹\EntitySystem.dll</HintPath>
+      <HintPath>D:\Survivalcraft\EntitySystem.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Survivalcraft, Version=2.1.14.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>D:\游戏文件夹\Survivalcraft.exe</HintPath>
+      <HintPath>D:\Survivalcraft\Survivalcraft.exe</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="System, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL" />
