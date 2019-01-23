@@ -1,9 +1,7 @@
 ﻿using Engine;
 using Engine.Graphics;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 
 namespace Game
 {
@@ -13,57 +11,24 @@ namespace Game
 
 		static CustomTextureItem()
 		{
-			var stream = GetTargetFile(Path.Combine(ContentManager.Path, "IndustrialMod.png"));
+			var stream = GetTargetFile("IndustrialMod.png");
 			try
 			{
 				Texture = Texture2D.Load(stream);
 			}
 			finally
 			{
-				stream.Dispose();
+				stream.Close();
 			}
 		}
 
 		public static Stream GetTargetFile(string name, bool throwIfNotFound = true)
 		{
-			var stream = File.Exists(name) ? File.OpenRead(name) : GetFileInZip(Storage.GetFileName(name));
-			if (throwIfNotFound && stream == null)
+			for (var enumerator = ModsManager.GetEntries(".png").GetEnumerator(); enumerator.MoveNext();)
+				if (string.Equals(Path.GetFileName(enumerator.Current.Filename), name, StringComparison.OrdinalIgnoreCase))
+					return enumerator.Current.Stream;
+			if (throwIfNotFound)
 				throw new InvalidOperationException(name + " not found.");
-			return stream;
-		}
-
-		public static Stream GetFileInZip(string name)
-		{
-			var enumerator = (ModsManager.Directories != null && ModsManager.Directories.Any() ? ModsManager.Directories : Directory.EnumerateDirectories(ContentManager.Path)).GetEnumerator();
-			while (enumerator.MoveNext())
-			{
-				List<string>.Enumerator enumerator2 = ModsManager.GetFiles(".png", Directory.EnumerateFiles(enumerator.Current)).GetEnumerator();
-				while (enumerator2.MoveNext())
-				{
-					if (string.Equals(enumerator2.Current, name, StringComparison.OrdinalIgnoreCase))
-					{
-						return File.OpenRead(enumerator2.Current);
-					}
-				}
-			}
-			enumerator = ModsManager.GetFiles(".zip", null).GetEnumerator();
-			while (enumerator.MoveNext())
-			{
-				using (var zipArchive = ZipArchive.Open(File.OpenRead(enumerator.Current), false))
-				{
-					var enumerator2 = zipArchive.ReadCentralDir().GetEnumerator();
-					while (enumerator2.MoveNext())
-					{
-						if (Storage.GetFileName(enumerator2.Current.FilenameInZip).Equals(name, StringComparison.OrdinalIgnoreCase))
-						{
-							Stream stream = new MemoryStream();
-							zipArchive.ExtractFile(enumerator2.Current, stream);
-							stream.Position = 0L;
-							return stream;
-						}
-					}
-				}
-			}
 			return null;
 		}
 

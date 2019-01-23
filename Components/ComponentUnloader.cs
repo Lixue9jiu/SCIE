@@ -15,23 +15,17 @@ namespace Game
 			Point3 coordinates = m_componentBlockEntity.Coordinates;
 			int cellValue = Utils.Terrain.GetCellValue(coordinates.X, coordinates.Y, coordinates.Z);
 			if (Terrain.ExtractContents(cellValue) != Bullet2Block.Index || (Terrain.ExtractData(cellValue) >> 10) == 0)
-			{
 				return false;
-			}
 			int num = 0;
 			int slotValue;
 			while (true)
 			{
 				if (num >= SlotsCount - 1)
-				{
 					return false;
-				}
 				slotValue = GetSlotValue(num);
 				int slotCount = GetSlotCount(num);
 				if (slotValue != 0 && slotCount > 0)
-				{
 					break;
-				}
 				num++;
 			}
 			int face = FourDirectionalBlock.GetDirection(cellValue);
@@ -56,9 +50,7 @@ namespace Game
 			if (result.HasValue && componentMiner.Place(result.Value, value))
 			{
 				if (componentMiner.ComponentCreature.PlayerStats != null)
-				{
 					componentMiner.ComponentCreature.PlayerStats.BlocksPlaced--;
-				}
 				return true;
 			}
 			return false;
@@ -71,4 +63,45 @@ namespace Game
 			SubsystemPlayers = Project.FindSubsystem<SubsystemPlayers>(true);
 		}
 	}
+	/*public class ComponentVariant : Component
+	{
+		public struct Gene
+		{
+			public float[] DominantGenes;
+			public float[] RecessiveGenes;
+			public float LastTime;
+		}
+		public static Gene Mutate(Gene father, Gene mother)
+		{
+			var child = new Gene();
+			int i = 0, len = father.DominantGenes.Length;
+			for (; i < len; i++)
+				child.DominantGenes[i] = ((Utils.Random.Int() & 1) != 0 ? father.DominantGenes : father.RecessiveGenes)[i];
+			for (i = 0; i < len; i++)
+			{
+				var val = ((Utils.Random.Int() & 1) != 0 ? mother.DominantGenes : mother.RecessiveGenes)[i];
+				if (val > child.DominantGenes[i])
+				{
+					child.RecessiveGenes[i] = child.DominantGenes[i];
+					child.DominantGenes[i] = val;
+				}
+				else
+					child.RecessiveGenes[i] = val;
+			}
+			return child;
+		}
+		public override void Load(ValuesDictionary valuesDictionary, IdToEntityMap idToEntityMap)
+		{
+			base.Load(valuesDictionary, idToEntityMap);
+			//HeatLevel = valuesDictionary.GetValue<float>("HeatLevel");
+			//ComponentEatPickableBehavior
+		}
+
+		public override void Save(ValuesDictionary valuesDictionary, EntityToIdMap entityToIdMap)
+		{
+			base.Save(valuesDictionary, entityToIdMap);
+			//valuesDictionary.SetValue("FireTimeRemaining", m_fireTimeRemaining);
+			//valuesDictionary.SetValue("HeatLevel", HeatLevel);
+		}
+	}*/
 }

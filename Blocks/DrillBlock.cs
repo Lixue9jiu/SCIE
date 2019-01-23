@@ -16,12 +16,10 @@ namespace Game
 		public const int Index = 525;
 		public override IEnumerable<int> GetCreativeValues()
 		{
-			var array = new int[64];
+			var arr = new int[64];
 			for (int i = 0; i < 64; i++)
-			{
-				array[i] = Terrain.ReplaceData(Index, i >> 4 | (i & 15) << 13);
-			}
-			return array;
+				arr[i] = Terrain.ReplaceData(Index, i >> 4 | (i & 15) << 13);
+			return arr;
 		}
 		public override string GetCategory(int value)
 		{
@@ -48,16 +46,9 @@ namespace Game
 		}*/
 		public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
 		{
-			switch (GetType(value))
-			{
-				case Type.DiamondDrill:
-					color = Color.Cyan;
-					break;
-				case Type.SteelTubularis:
-					color = Color.Gray;
-					break;
-			}
-			CustomTextureItem.DrawFlatBlock(primitivesRenderer, value, size, ref matrix, CustomTextureItem.Texture, color * SubsystemPalette.GetColor(environmentData, Terrain.ExtractData(value) >> 13 & 15), false, environmentData);
+			var type = GetType(value);
+			CustomTextureItem.DrawFlatBlock(primitivesRenderer, value, size, ref matrix, CustomTextureItem.Texture,
+				(type == Type.DiamondDrill ? Color.Cyan : type == Type.SteelTubularis ? color = Color.Gray : color) * SubsystemPalette.GetColor(environmentData, Terrain.ExtractData(value) >> 13 & 15), false, environmentData);
 		}
 		public static Type GetType(int value)
 		{
@@ -87,16 +78,7 @@ namespace Game
 		}
 		public override int GetFaceTextureSlot(int face, int value)
 		{
-			switch (GetType(value))
-			{
-				default:
-				//case Type.SteelDrill:
-				//case Type.DiamondDrill:
-					return 211;
-				case Type.IronTubularis:
-				case Type.SteelTubularis:
-					return 208;
-			}
+			return (uint)(GetType(value) - 2) > 1u ? 211 : 208;
 		}
 		public int GetDurability(int value)
 		{

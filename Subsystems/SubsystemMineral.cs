@@ -66,14 +66,14 @@ namespace Game
 		public static int StoreItemData(Metal key)
 		{
 			int i;
-			var array = AlloysData.Array;
+			var arr = AlloysData.Array;
 			for (i = 1; i < AlloysData.Count; i++)
-				if (array[i] == 0)
+				if (arr[i] == 0)
 				{
-					array[i] = key;
+					arr[i] = key;
 					return i;
 				}
-				if (array[i] == key || (array[i] & Metal.Used) == 0)
+				if (arr[i] == key || (arr[i] & Metal.Used) == 0)
 					return i;
 			if (i == 262144)
 				return 0;

@@ -40,15 +40,7 @@ namespace Game
 			if (m_updateSmeltingRecipe)
 			{
 				m_updateSmeltingRecipe = false;
-				float heatLevel = 0f;
-				if (HeatLevel > 0f)
-				{
-					heatLevel = HeatLevel;
-				}
-				else
-				{
-					heatLevel = 2000f;
-				}
+				float heatLevel = HeatLevel > 0f ? HeatLevel : 2000f;
 				CraftingRecipe craftingRecipe = FindSmeltingRecipe(2000f);
 				if (craftingRecipe != m_smeltingRecipe)
 				{

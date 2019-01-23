@@ -22,9 +22,7 @@ namespace Game
 		public override int GetFaceTextureSlot(int face, int value)
 		{
 			if (face == 4 || face == 5)
-			{
 				return 221;
-			}
 			int offset = GetHeatLevel(value);
 			switch (GetDirection(value))
 			{
@@ -39,16 +37,14 @@ namespace Game
 		}
 		public override IEnumerable<int> GetCreativeValues()
 		{
-			var array = new int[17 * 9];
+			var arr = new int[17 * 9];
 			for (int i = 0; i < 9; i++)
 			{
-				array[i * 17] = BlockIndex | i << 24;
+				arr[i * 17] = BlockIndex | i << 24;
 				for (int j = 1; j < 17; j++)
-				{
-					array[i * 17 + j] = BlockIndex | SetColor(i << 10, j - 1) << 14;
-				}
+					arr[i * 17 + j] = BlockIndex | SetColor(i << 10, j - 1) << 14;
 			}
-			return array;
+			return arr;
 		}
 		public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
 		{

@@ -68,19 +68,19 @@ namespace Game
 
 		public override IEnumerable<int> GetCreativeValues()
 		{
-			var array = new int[34];
-			array[0] = BlockIndex;
+			var arr = new int[34];
+			arr[0] = BlockIndex;
 			int i;
 			for (i = 1; i < 17; i++)
 			{
-				array[i] = BlockIndex | SetColor(0, i - 1) << 14;
+				arr[i] = BlockIndex | SetColor(0, i - 1) << 14;
 			}
-			array[17] = BlockIndex | 1 << 10;
+			arr[17] = BlockIndex | 1 << 10;
 			for (i = 18; i < 34; i++)
 			{
-				array[i] = BlockIndex | SetColor(1 << 10, i - 1) << 14;
+				arr[i] = BlockIndex | SetColor(1 << 10, i - 1) << 14;
 			}
-			return array;
+			return arr;
 		}
 		public override float GetHeat(int value)
 		{
