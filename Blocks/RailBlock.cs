@@ -50,7 +50,7 @@ namespace Game
 
 			var flatMesh = new BlockMesh();
 			flatMesh.AppendBlockMesh(mesh);
-			flatMesh.TransformTextureCoordinates(Matrix.CreateTranslation(new Vector3((float)(238 % 16) / 16f, (float)(238 / 16) / 16f, 0f)));
+			flatMesh.TransformTextureCoordinates(Matrix.CreateTranslation(new Vector3(238 % 16 / 16f, 238 / 16 / 16f, 0f)));
 
 			Matrix center = Matrix.CreateTranslation(new Vector3(0.5f, 0, 0.5f));
 			Matrix reverseCenter = Matrix.CreateTranslation(new Vector3(-0.5f, 0, -0.5f));
@@ -65,7 +65,7 @@ namespace Game
 
 			flatMesh = new BlockMesh();
 			flatMesh.AppendBlockMesh(mesh);
-			flatMesh.TransformTextureCoordinates(Matrix.CreateTranslation(new Vector3((float)(237 % 16) / 16f, (float)(237 / 16) / 16f, 0f)));
+			flatMesh.TransformTextureCoordinates(Matrix.CreateTranslation(new Vector3(237 % 16 / 16f, 237 / 16 / 16f, 0f)));
 
 			m_blockMeshes[4] = new BlockMesh();
 			m_blockMeshes[4].AppendBlockMesh(flatMesh);
@@ -107,7 +107,7 @@ namespace Game
 			indices = new ushort[] { 2, 1, 0, 0, 1, 2, 0, 3, 2, 2, 3, 0 };
 			mesh.Vertices.AddRange(vertices);
 			mesh.Indices.AddRange(indices);
-			mesh.TransformTextureCoordinates(Matrix.CreateTranslation(new Vector3((float)(237 % 16) / 16f, (float)(237 / 16) / 16f, 0f)));
+			mesh.TransformTextureCoordinates(Matrix.CreateTranslation(new Vector3(237 % 16 / 16f, 237 / 16 / 16f, 0f)));
 
 			for (int i = 6; i < 10; i++)
 			{
@@ -121,9 +121,7 @@ namespace Game
 				new BoundingBox(0, 0, 0, 1, 0.01f, 1)
 			};
 			for (int i = 0; i < 6; i++)
-			{
 				boundingBoxes[i] = boxes;
-			}
 			boundingBoxes[6] = new BoundingBox[]
 			{
 				new BoundingBox(0, 0, 0, 1, 0.01f, 1),
@@ -217,9 +215,7 @@ namespace Game
 		public static bool CanConnectTo(int railType, int direction)
 		{
 			if (IsCorner(railType))
-			{
 				return direction == railType || direction == ((railType + 1) & 3);
-			}
 			return IsDirectionX(railType) ^ !IsDirectionX(direction);
 		}
 	}

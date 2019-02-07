@@ -29,9 +29,7 @@ namespace Game
 			{
 				m_fireTimeRemaining = MathUtils.Max(0f, m_fireTimeRemaining - dt);
 				if (m_fireTimeRemaining == 0f)
-				{
 					HeatLevel = 0f;
-				}
 			}
 			if (m_updateSmeltingRecipe)
 			{
@@ -50,13 +48,9 @@ namespace Game
 			{
 				l = ComponentEngine.IsPowered(Utils.Terrain, coordinates.X, coordinates.Y, coordinates.Z) ? 1 : 0;
 				if (l == 0)
-				{
 					m_smeltingRecipe = null;
-				}
 				if (l == 1 && m_smeltingRecipe == null)
-				{
 					m_smeltingRecipe = m_smeltingRecipe2;
-				}
 			}
 			if (m_smeltingRecipe == null)
 			{
@@ -81,12 +75,8 @@ namespace Game
 				if ((SmeltingProgress = MathUtils.Min(SmeltingProgress + 0.01f * dt, 1f)) >= 1f)
 				{
 					for (l = 0; l < m_furnaceSize; l++)
-					{
 						if (m_slots[l].Count > 0)
-						{
 							m_slots[l].Count--;
-						}
-					}
 					m_slots[ResultSlotIndex].Value = ItemBlock.IdTable[m_smeltingRecipe];
 					m_slots[ResultSlotIndex].Count++;
 					m_smeltingRecipe = null;
@@ -120,22 +110,16 @@ namespace Game
 				if (GetSlotCount(i) > 0)
 				{
 					if (slotValue == ItemBlock.IdTable["SteelRod"])
-					{
 						text = "RifleBarrel";
-					}
 				}
 				else
-				{
 					m_matchedIngredients[i] = null;
-				}
 			}
 			if (text != null)
 			{
 				Slot slot = m_slots[ResultSlotIndex];
 				if (slot.Count != 0 && (slot.Value != ItemBlock.IdTable[text] || 1 + slot.Count > 40))
-				{
 					return null;
-				}
 			}
 			return text;
 		}

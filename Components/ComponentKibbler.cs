@@ -29,9 +29,7 @@ namespace Game
 			{
 				m_fireTimeRemaining = MathUtils.Max(0f, m_fireTimeRemaining - dt);
 				if (m_fireTimeRemaining == 0f)
-				{
 					HeatLevel = 0f;
-				}
 			}
 			if (m_updateSmeltingRecipe)
 			{
@@ -49,13 +47,9 @@ namespace Game
 			{
 				int num = ComponentEngine.IsPowered(Utils.Terrain, coordinates.X, coordinates.Y, coordinates.Z) ? 1 : 0;
 				if (num == 0)
-				{
 					m_smeltingRecipe = null;
-				}
 				if (num == 1 && m_smeltingRecipe == null)
-				{
 					m_smeltingRecipe = m_smeltingRecipe2;
-				}
 			}
 			if (m_smeltingRecipe == null)
 			{
@@ -81,12 +75,8 @@ namespace Game
 				if (SmeltingProgress >= 1f)
 				{
 					for (int l = 0; l < m_furnaceSize; l++)
-					{
 						if (m_slots[l].Count > 0)
-						{
 							m_slots[l].Count--;
-						}
-					}
 					m_slots[ResultSlotIndex].Value = ItemBlock.IdTable[m_smeltingRecipe];
 					m_slots[ResultSlotIndex].Count += 2;
 					m_smeltingRecipe = null;
@@ -134,9 +124,7 @@ namespace Game
 							{
 								string name = item.GetDisplayName(Utils.SubsystemTerrain, slotValue);
 								if (name.Equals("CokeCoal"))
-								{
 									text = "CokeCoalPowder";
-								}
 								else
 								{
 									text = name.Replace("Chunk", "Powder");
@@ -148,18 +136,14 @@ namespace Game
 					}
 				}
 				else
-				{
 					m_matchedIngredients[i] = null;
-				}
 			}
 			if (text != null)
 			{
 				Slot slot = m_slots[ResultSlotIndex];
 				int num3 = Terrain.ExtractContents(GetSlotValue(1));
 				if (slot.Count != 0 && (slot.Value != ItemBlock.IdTable[text] || 2 + slot.Count > 40))
-				{
 					text = null;
-				}
 			}
 			return text;
 		}

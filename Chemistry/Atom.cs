@@ -166,9 +166,7 @@ namespace Chemistry
 		{
 			int count = 0;
 			for (int i = 0; i < Count; i++)
-			{
 				count += this[i].Count;
-			}
 			return count;
 		}
 
@@ -176,12 +174,8 @@ namespace Chemistry
 		{
 			int count = 0;
 			for (int i = 0; i < Count; i++)
-			{
 				if (this[i].Atom == atom)
-				{
 					count += this[i].Count;
-				}
-			}
 			return count;
 		}*/
 
@@ -206,9 +200,7 @@ namespace Chemistry
 		{
 			int code = 0;
 			for (int i = 0; i < Count; i++)
-			{
 				code += this[i].GetHashCode() * 107;
-			}
 			return code ^ Count << 27;
 		}
 
@@ -217,24 +209,16 @@ namespace Chemistry
 			var sb = new StringBuilder();
 			int i = 0;
 			for (; i < Count; i++)
-			{
 				sb.Append(this[i].ToString());
-			}
 			/*if (Charge != 0)
 			{
 				i = Math.Abs(Charge);
 				if (i == 2 || i == 3)
-				{
 					sb.Append('²');
-				}
 				else if (i == 3)
-				{
 					sb.Append('³');
-				}
 				else if (i > 3)
-				{
 					sb.Append((char)('⁰' + i));
-				}
 				sb.Append(Charge < 0 ? '⁻' : '⁺');
 			}*/
 			return sb.ToString();
@@ -243,9 +227,7 @@ namespace Chemistry
 		public static Compound operator +(Group g1, Group g2)
 		{
 			if ((g1.Charge | g2.Charge) == 0)
-			{
 				throw new InvalidOperationException();
-			}
 			if (g1.Charge < g2.Charge)
 			{
 				Group t = g1;

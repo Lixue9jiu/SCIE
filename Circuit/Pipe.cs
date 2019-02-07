@@ -35,12 +35,8 @@ namespace Game
 			{
 				Meshes[i] = new BlockMesh();
 				for (int j = 0; j < 6; j++)
-				{
 					if (((i + 1) & (1 << j)) != 0)
-					{
 						Meshes[i].AppendBlockMesh(meshes[j]);
-					}
-				}
 			}
 		}
 		public override Device Create(Point3 p)

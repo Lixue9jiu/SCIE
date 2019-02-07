@@ -89,9 +89,7 @@ namespace Game
 		{
 			int num = (data >> 4) & 0xF;
 			if (num != 0)
-			{
 				return (Bullet2Block.BulletType)(num - 1);
-			}
 			return null;
 		}*/
 

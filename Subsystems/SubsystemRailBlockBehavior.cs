@@ -69,45 +69,25 @@ namespace Game
 			}
 			
 			if (neighbors[0] && neighbors[3])
-			{
 				resultType = 1;
-			}
 			else if (neighbors[0] && neighbors[1])
-			{
 				resultType = 2;
-			}
 			else if (neighbors[1] && neighbors[2])
-			{
 				resultType = 3;
-			}
 			else if (neighbors[2] && neighbors[3])
-			{
 				resultType = 0;
-			}
 			else if (raisedNeighbors[2])
-			{
 				resultType = 6;
-			}
 			else if (raisedNeighbors[0])
-			{
 				resultType = 8;
-			}
 			else if (raisedNeighbors[3])
-			{
 				resultType = 7;
-			}
 			else if (raisedNeighbors[1])
-			{
 				resultType = 9;
-			}
 			else if (neighbors[0] || neighbors[2])
-			{
 				resultType = 4;
-			}
 			else if (neighbors[1] || neighbors[3])
-			{
 				resultType = 5;
-			}
 
 			if (resultType.HasValue)
 				SubsystemTerrain.ChangeCell(x, y, z, Terrain.MakeBlockValue(RailBlock.Index, 0, RailBlock.SetRailType(0, resultType.Value)));

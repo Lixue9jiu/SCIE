@@ -69,9 +69,7 @@ namespace Game
 		public override void Update()
 		{
 			if (!m_componentDispenser.IsAddedToProject)
-			{
 				ParentWidget.Children.Remove(this);
-			}
 		}
 	}
 }

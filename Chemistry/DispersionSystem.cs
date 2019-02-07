@@ -24,14 +24,10 @@ namespace Chemistry
 				if (x >= 0)
 				{
 					if (!int.TryParse(s, out x))
-					{
 						x = 1;
-					}
 				}
 				else
-				{
 					x = 1;
-				}
 				DispersedPhase.Add(new Compound(arr[i]), x);
 			}
 		}
@@ -72,9 +68,7 @@ namespace Chemistry
 			{
 				var pair = i.Current;
 				if (pair.Value > 0)
-				{
 					sb.Append(pair.Key.ToString());
-				}
 			}
 			return sb.ToString();
 		}

@@ -17,6 +17,7 @@ namespace Game
 			var item = itemblock.GetItem(ref value);
 			return (item is OreChunk || (item is Mould && !(item is Mine)) || value == ItemBlock.IdTable["RefractoryBrick"] || value == ItemBlock.IdTable["ScrapIron"]) && base.OnAim(start, direction, componentMiner, state);
 		}
+
 		public override bool OnUse(Vector3 start, Vector3 direction, ComponentMiner componentMiner)
 		{
 			int activeBlockValue = componentMiner.ActiveBlockValue;
@@ -32,9 +33,7 @@ namespace Game
 					Matrix matrix = componentMiner.ComponentCreature.ComponentBody.Matrix;
 					Vector3 position = matrix.Translation + 1f * matrix.Forward + Vector3.UnitY;
 					for (var i = body.Value.ComponentBody.Entity.FindComponents<IInventory>().GetEnumerator(); i.MoveNext();)
-					{
 						i.Current.DropAllItems(position);
-					}
 					Project.RemoveEntity(body.Value.ComponentBody.Entity, true);
 					Utils.SubsystemPickables.AddPickable(activeBlockValue, 1, position, null, null);
 				}
@@ -53,6 +52,17 @@ namespace Game
 					Project.AddEntity(entity);
 					componentMiner.RemoveActiveTool(1);
 					Utils.SubsystemAudio.PlaySound("Audio/BlockPlaced", 1f, 0f, position, 3f, true);
+				}
+			}
+			else if (activeBlockValue == ItemBlock.IdTable["Genome Viewer"])
+			{
+				var body = componentMiner.PickBody(start, direction);
+				if (body.HasValue && (!result.HasValue || body.Value.Distance < result.Value.Distance))
+				{
+					var cv = body.Value.ComponentBody.Entity.FindComponent<ComponentVariant>();
+					if (cv != null)
+						DialogsManager.ShowDialog(componentMiner.ComponentPlayer?.View.GameWidget, new MessageDialog("Result", cv.Genome.ToString(), "OK", null, null));
+					return true;
 				}
 			}
 			else if (result.HasValue)
@@ -81,9 +91,7 @@ namespace Game
 					Project.AddEntity(entity);
 					var componentMount = componentCarriage.FindNearestMount();
 					if (componentMount != null)
-					{
 						componentCarriage.StartMounting(componentMount);
-					}
 					componentMiner.RemoveActiveTool(1);
 					Utils.SubsystemAudio.PlaySound("Audio/BlockPlaced", 1f, 0f, position, 3f, true);
 					return true;
@@ -129,14 +137,10 @@ namespace Game
 						CellFace cellFace = result2.Value.CellFace;
 						int cellValue = Terrain.ReplaceLight(Utils.Terrain.GetCellValue(cellFace.X, cellFace.Y, cellFace.Z), 0);
 						if (cellValue != (RottenMeatBlock.Index | 1 << 4 << 14))
-						{
 							return false;
-						}
 						inventory.RemoveSlotItems(inventory.ActiveSlotIndex, inventory.GetSlotCount(inventory.ActiveSlotIndex));
 						if (inventory.GetSlotCount(inventory.ActiveSlotIndex) == 0)
-						{
 							inventory.AddSlotItems(inventory.ActiveSlotIndex, RottenMeatBlock.Index | 2 << 4 << 14, 1);
-						}
 						Utils.SubsystemTerrain.DestroyCell(0, cellFace.X, cellFace.Y, cellFace.Z, 0, false, false);
 						return true;
 					}
@@ -148,15 +152,14 @@ namespace Game
 					{
 						inventory.RemoveSlotItems(inventory.ActiveSlotIndex, 1);
 						if (inventory.GetSlotCount(inventory.ActiveSlotIndex) == 0)
-						{
 							inventory.AddSlotItems(inventory.ActiveSlotIndex, Terrain.ReplaceContents(activeBlockValue, 90), 1);
-						}
 						return true;
 					}
 				}
 			}
 			return false;
 		}
+
 		public override void Load(ValuesDictionary valuesDictionary)
 		{
 			base.Load(valuesDictionary);

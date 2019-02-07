@@ -47,13 +47,9 @@ namespace Game
 			var arr = new int[15 * (16 + 1)];
 			int i;
 			for (i = 0; i < 15; i++)
-			{
 				arr[i] = Terrain.ReplaceData(Index, i << 5);
-			}
 			for (i = 0; i < 15 * 16; i++)
-			{
 				arr[i + 15] = Terrain.ReplaceData(Index, i << 1 | 1);
-			}
 			return arr;
 		}
 		public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)

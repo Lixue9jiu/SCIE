@@ -24,16 +24,12 @@ namespace Game
 		{
 			Point3 coordinates = m_componentBlockEntity.Coordinates;
 			if (coordinates.Y < 0 || coordinates.Y > 127)
-			{
 				return;
-			}
 			if (HeatLevel > 0f)
 			{
 				m_fireTimeRemaining = MathUtils.Max(0f, m_fireTimeRemaining - dt * 4f);
 				if (m_fireTimeRemaining == 0f)
-				{
 					HeatLevel = 0f;
-				}
 			}
 			Slot slot;
 			if (m_updateSmeltingRecipe)
@@ -98,9 +94,7 @@ namespace Game
 			if (m_smeltingRecipe != null)
 			{
 				if (m_fireTime == 0f)
-				{
 					m_fireTime = m_fireTimeRemaining;
-				}
 				SmeltingProgress = MathUtils.Min(m_fireTimeRemaining / m_fireTime, 1f);
 				if (SmeltingProgress >= 2f)
 				{
@@ -141,20 +135,14 @@ namespace Game
 				int num = Terrain.ExtractContents(slotValue);
 				int num2 = Terrain.ExtractData(slotValue);
 				if (GetSlotCount(i) > 0)
-				{
 					if (BlocksManager.Blocks[num].CraftingId == "waterbucket")
-					{
 						text = "bucket";
-					}
-				}
 			}
 			if (text != null)
 			{
 				Slot slot = m_slots[ResultSlotIndex];
 				if (slot.Count != 0 && (90 != slot.Value || 1 + slot.Count > 40))
-				{
 					return null;
-				}
 			}
 			return text;
 		}

@@ -28,9 +28,7 @@ namespace Game
 					return;
 				int i = y;
 				while (i < 128 && Terrain.ExtractContents(terrain.GetCellValue(x, i, z)) == 18)
-				{
 					i++;
-				}
 				SubsystemTerrain.DestroyCell(0, x, i - 1, z, 0, false, false);
 			}
 		}

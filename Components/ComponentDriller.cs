@@ -19,15 +19,11 @@ namespace Game
 			while (true)
 			{
 				if (num >= SlotsCount - 1)
-				{
 					return;
-				}
 				slotValue = GetSlotValue(num);
 				int slotCount = GetSlotCount(num);
 				if (slotValue != 0 && slotCount > 0)
-				{
 					break;
-				}
 				num++;
 			}
 			MachineMode mode = DrillerBlock.GetMode(data);
@@ -35,9 +31,7 @@ namespace Game
 			{
 				int num2 = RemoveSlotItems(num, 1);
 				for (int i = 0; i < num2; i++)
-				{
 					DispenseItem(coordinates, direction, slotValue, mode);
-				}
 			}
 		}
 
@@ -54,13 +48,9 @@ namespace Game
 			if (mode != 0)
 			{
 				if (Utils.SubsystemProjectiles.FireProjectile(value, vector2, 1f * m_random.UniformFloat(39f, 41f) * (vector + m_random.Vector3(0.025f, false) + new Vector3(0f, 0.05f, 0f)), Vector3.Zero, null) != null)
-				{
 					Utils.SubsystemAudio.PlaySound("Audio/DispenserShoot", 1f, 0f, vector2, 4f, true);
-				}
 				else
-				{
 					DispenseItem(point, face, value, MachineMode.Dispense);
-				}
 			}
 		}
 
@@ -110,30 +100,28 @@ namespace Game
 					{
 						y = point.Y + array[m];
 						z = point.Z + array2[m];
-						v = new Vector3(0f, (float)array[m] / (float)l, (float)array2[m] / (float)l);
+						v = new Vector3(0f, array[m] / (float)l, array2[m] / (float)l);
 					}
 					if (vector.Y != 0f)
 					{
 						x = point.X + array[m];
 						z = point.Z + array2[m];
-						v = new Vector3((float)array[m] / (float)l, 0f, (float)array2[m] / (float)l);
+						v = new Vector3(array[m] / (float)l, 0f, array2[m] / (float)l);
 					}
 					if (vector.Z != 0f)
 					{
 						x = point.X + array[m];
 						y = point.Y + array2[m];
-						v = new Vector3((float)array[m] / (float)l, (float)array2[m] / (float)l, 0f);
+						v = new Vector3(array[m] / (float)l, array2[m] / (float)l, 0f);
 					}
 					int cellValue = Terrain.ReplaceLight(Utils.Terrain.GetCellValue(x, y, z), 0);
 					Block block = BlocksManager.Blocks[Terrain.ExtractContents(cellValue)];
 					if (num2 == 0 && block.BlockIndex == 92)
-					{
 						num2 = 9;
-					}
 					if (block.IsPlaceable && !block.IsDiggingTransparent && !block.DefaultIsInteractive)
 					{
 						Utils.SubsystemTerrain.ChangeCell(x, y, z, 0, true);
-						Utils.SubsystemProjectiles.FireProjectile(cellValue, new Vector3((float)x + 0.5f, (float)y + 0.5f, (float)z + 0.5f) - 0.25f * vector, 60f * (vector - v), Vector3.Zero, null);
+						Utils.SubsystemProjectiles.FireProjectile(cellValue, new Vector3(x + 0.5f, y + 0.5f, z + 0.5f) - 0.25f * vector, 60f * (vector - v), Vector3.Zero, null);
 						RemoveSlotItems(8, 1);
 						AddSlotItems(8, BlocksManager.DamageItem(slotValue, 1 + num2), 1);
 						return;
@@ -145,13 +133,11 @@ namespace Game
 		public override int GetSlotCapacity(int slotIndex, int value)
 		{
 			if (slotIndex != 8)
-			{
 				return base.GetSlotCapacity(slotIndex, value);
-			}
 			if (Terrain.ExtractContents(value) != DrillBlock.Index)
 				return 0;
 			var type = DrillBlock.GetType(value);
-			return (type == DrillBlock.Type.DiamondDrill || type == DrillBlock.Type.SteelDrill) ? base.GetSlotCapacity(slotIndex, value) : 0;
+			return (type == DrillType.DiamondDrill || type == DrillType.SteelDrill) ? base.GetSlotCapacity(slotIndex, value) : 0;
 		}
 	}
 }

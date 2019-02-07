@@ -4,15 +4,15 @@ using System.Collections.Generic;
 
 namespace Game
 {
+	public enum DrillType
+	{
+		SteelDrill,
+		DiamondDrill,
+		IronTubularis,
+		SteelTubularis
+	}
 	public class DrillBlock : FlatBlock, IDurability
 	{
-		public enum Type
-		{
-			SteelDrill,
-			DiamondDrill,
-			IronTubularis,
-			SteelTubularis
-		}
 		public const int Index = 525;
 		public override IEnumerable<int> GetCreativeValues()
 		{
@@ -29,32 +29,26 @@ namespace Game
 		{
 			var recipe = Utils.GetAdHocCraftingRecipe(Index, subsystemTerrain, ingredients, heatLevel);
 			if (recipe != null)
-			{
 				for (int i = 0; i < ingredients.Length; i++)
-				{
 					if (!string.IsNullOrEmpty(ingredients[i]))
 					{
 						CraftingRecipesManager.DecodeIngredient(ingredients[i], out string craftingId, out int? data);
 						if (string.Equals(craftingId, CraftingId))
-						{
 							recipe.ResultValue = Terrain.ReplaceData(Index, (Terrain.ExtractData(recipe.ResultValue) & 15) << 13 | (data ?? 0) & 15);
-						}
 					}
-				}
-			}
 			return recipe;
 		}*/
 		public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
 		{
 			var type = GetType(value);
 			CustomTextureItem.DrawFlatBlock(primitivesRenderer, value, size, ref matrix, CustomTextureItem.Texture,
-				(type == Type.DiamondDrill ? Color.Cyan : type == Type.SteelTubularis ? color = Color.Gray : color) * SubsystemPalette.GetColor(environmentData, Terrain.ExtractData(value) >> 13 & 15), false, environmentData);
+				(type == DrillType.DiamondDrill ? Color.Cyan : type == DrillType.SteelTubularis ? color = Color.Gray : color) * SubsystemPalette.GetColor(environmentData, Terrain.ExtractData(value) >> 13 & 15), false, environmentData);
 		}
-		public static Type GetType(int value)
+		public static DrillType GetType(int value)
 		{
-			return (Type)(Terrain.ExtractData(value) & 0xF);
+			return (DrillType)(Terrain.ExtractData(value) & 0xF);
 		}
-		public static int SetType(int value, Type type)
+		public static int SetType(int value, DrillType type)
 		{
 			return Terrain.ReplaceData(value, (Terrain.ExtractData(value) & -16) | ((int)type & 0xF));
 		}
@@ -68,11 +62,11 @@ namespace Game
 			switch (GetType(value))
 			{
 				default:
-				//case Type.SteelDrill:
-				//case Type.DiamondDrill:
+					//case DrillType.SteelDrill:
+					//case DrillType.DiamondDrill:
 					return DefaultDescription;
-				case Type.IronTubularis:
-				case Type.SteelTubularis:
+				case DrillType.IronTubularis:
+				case DrillType.SteelTubularis:
 					return "Tubularis is the most important part in the liquidpump, you should put it in the machine while using it. Reminding, pumping magma will damage the Tubularis.";
 			}
 		}
@@ -84,10 +78,10 @@ namespace Game
 		{
 			switch (GetType(value))
 			{
-				case Type.SteelDrill: return 1000;
-				case Type.DiamondDrill: return 2000;
-				case Type.IronTubularis: return 700;
-				case Type.SteelTubularis: return 1100;
+				case DrillType.SteelDrill: return 1000;
+				case DrillType.DiamondDrill: return 2000;
+				case DrillType.IronTubularis: return 700;
+				case DrillType.SteelTubularis: return 1100;
 			}
 			return 0;
 		}

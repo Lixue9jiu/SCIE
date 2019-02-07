@@ -1,9 +1,8 @@
 <IndustrialMod>
-<ToRemove Type="Recipe" Description="Smelt iron ore to obtain iron" />
-<ToRemove Type="Recipe" Description="Smelt copper ore to obtain copper" />
-<ToRemove Type="Recipe" Description="Smelt germanium ore to obtain germanium crystals" />
-<ToRemove Type="Recipe" Description="Forge an iron ingot into rods" />
-<ToAdd>
+<Recipe Result="IronIngotBlock" ResultCount="1" new-RequiredHeatLevel="1500" a="ironorechunk:0" Description="Smelt iron ore to obtain iron" />
+<Recipe Result="CopperIngotBlock" ResultCount="1" new-RequiredHeatLevel="1000" a="malachitechunk:0" Description="Smelt copper ore to obtain copper" />
+<Recipe Result="GermaniumChunkBlock" ResultCount="1" new-RequiredHeatLevel="900" a="germaniumorechunk:0" Description="Smelt germanium ore to obtain germanium crystals" />
+<Recipe Result="RodBlock" ResultCount="4" new-RequiredHeatLevel="1500" new-a="ironingot:0" Description="Forge an iron ingot into rods" />
   <Smelting>
     <Recipe Result="SaltpeterChunkBlock" ResultCount="1" RequiredHeatLevel="200" a="rottendough" b="dirt" Description="Using bacterium to decompose dirt and rotten food to get Saltpeter">
       "ab"
@@ -465,7 +464,7 @@
       "a"
     </Recipe>
   </Dismantling>
-  <Tools>
+  <Items>
     <Recipe Result="SteelShovelBlock" ResultCount="1" RequiredHeatLevel="0" a="stick" b="SteelIngot" Description="Make a steel tool">
       "b"
       "a"
@@ -540,8 +539,6 @@
       "aaa"
       "aaa"
     </Recipe>
-  </Tools>
-  <Items>
     <Recipe Result="SteelSheet" ResultCount="36" RequiredHeatLevel="0" a="SteelPlate" Description="Cut a steel plate into sheets">
       "a"
     </Recipe>
@@ -669,7 +666,7 @@
       "aca"
       "aba"
     </Recipe>
-     <Recipe Result="SqueezerBlock" ResultCount="1" RequiredHeatLevel="0" a="SteelGear" b="IndustrialPiston" c="metalblock:0" Description="Make a Squeezer to create metal line">
+    <Recipe Result="SqueezerBlock" ResultCount="1" RequiredHeatLevel="0" a="SteelGear" b="IndustrialPiston" c="metalblock:0" Description="Make a Squeezer to create metal line">
       "aba"
       "bcb"
       "aba"
@@ -966,5 +963,4 @@
       "a"
     </Recipe>
   </Items>
-</ToAdd>
 </IndustrialMod>

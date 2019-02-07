@@ -56,9 +56,7 @@ namespace Game
 		public override void Update()
 		{
 			if (!m_componentCraftingTable.IsAddedToProject)
-			{
 				ParentWidget.Children.Remove(this);
-			}
 		}
 	}
 }

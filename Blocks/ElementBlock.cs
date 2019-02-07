@@ -53,29 +53,17 @@ namespace Game
 			y = point.Y;
 			z = point.Z;
 			if ((elem = GetDevice(terrain, x, y, z + 1)) != null && (elem.Type & type) != 0)
-			{
 				list.Add(PathTable[0]);
-			}
 			if ((elem = GetDevice(terrain, x + 1, y, z)) != null && (elem.Type & type) != 0)
-			{
 				list.Add(PathTable[1]);
-			}
 			if ((elem = GetDevice(terrain, x, y, z - 1)) != null && (elem.Type & type) != 0)
-			{
 				list.Add(PathTable[2]);
-			}
 			if ((elem = GetDevice(terrain, x - 1, y, z)) != null && (elem.Type & type) != 0)
-			{
 				list.Add(PathTable[3]);
-			}
 			if (y < 127 && (elem = GetDevice(terrain, x, y + 1, z)) != null && (elem.Type & type) != 0)
-			{
 				list.Add(PathTable[4]);
-			}
 			if (y > 0 && (elem = GetDevice(terrain, x, y - 1, z)) != null && (elem.Type & type) != 0)
-			{
 				list.Add(PathTable[5]);
-			}
 		}
 		public void GetAllConnectedNeighbors(Terrain terrain, Device elem, int mountingFace, ICollection<Device> list)
 		{
@@ -87,29 +75,17 @@ namespace Game
 			y = point.Y;
 			z = point.Z;
 			if ((elem = GetDevice(terrain, x, y, z + 1)) != null && (elem.Type & type) != 0)
-			{
 				list.Add(elem);
-			}
 			if ((elem = GetDevice(terrain, x + 1, y, z)) != null && (elem.Type & type) != 0)
-			{
 				list.Add(elem);
-			}
 			if ((elem = GetDevice(terrain, x, y, z - 1)) != null && (elem.Type & type) != 0)
-			{
 				list.Add(elem);
-			}
 			if ((elem = GetDevice(terrain, x - 1, y, z)) != null && (elem.Type & type) != 0)
-			{
 				list.Add(elem);
-			}
 			if (y < 127 && (elem = GetDevice(terrain, x, y + 1, z)) != null && (elem.Type & type) != 0)
-			{
 				list.Add(elem);
-			}
 			if (y > 0 && (elem = GetDevice(terrain, x, y - 1, z)) != null && (elem.Type & type) != 0)
-			{
 				list.Add(elem);
-			}
 		}
 		public new const int Index = 501;
 		static ElementBlock()
@@ -137,9 +113,7 @@ namespace Game
 				new Pipe(7),
 			};
 			for (int i = 0; i < Devices.Length; i++)
-			{
 				IdTable.Add(Devices[i].GetCraftingId(), Index | i << 14);
-			}
 		}
 		public override IEnumerable<int> GetCreativeValues()
 		{
@@ -149,9 +123,7 @@ namespace Game
 			{
 				list.Add(value);
 				for (j = 1; j < 16; j++)
-				{
 					list.Add(Paint(null, value, j));
-				}
 				value += 1 << 14;
 			}
 			for (i = 11; i < 18; i++)

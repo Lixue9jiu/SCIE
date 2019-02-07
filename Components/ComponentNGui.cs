@@ -3,7 +3,7 @@ using GameEntitySystem;
 
 namespace Game
 {
-	public class ComponentNGui : ComponentGui, IUpdateable, IDrawable
+	public class ComponentNGui : ComponentGui, IUpdateable
 	{
 		public new void Update(float dt)
 		{
@@ -32,37 +32,23 @@ namespace Game
 			if (playerInput.KeyboardHelp)
 			{
 				if (m_keyboardHelpDialog == null)
-				{
 					m_keyboardHelpDialog = new KeyboardHelpDialog();
-				}
 				if (m_keyboardHelpDialog.ParentWidget != null)
-				{
 					DialogsManager.HideDialog(m_keyboardHelpDialog);
-				}
 				else
-				{
 					DialogsManager.ShowDialog(m_componentPlayer.View.GameWidget, m_keyboardHelpDialog);
-				}
 			}
 			if (playerInput.GamepadHelp)
 			{
 				if (m_gamepadHelpDialog == null)
-				{
 					m_gamepadHelpDialog = new GamepadHelpDialog();
-				}
 				if (m_gamepadHelpDialog.ParentWidget != null)
-				{
 					DialogsManager.HideDialog(m_gamepadHelpDialog);
-				}
 				else
-				{
 					DialogsManager.ShowDialog(m_componentPlayer.View.GameWidget, m_gamepadHelpDialog);
-				}
 			}
 			if (m_helpButtonWidget.IsClicked)
-			{
 				ScreensManager.SwitchScreen("Help");
-			}
 			if (playerInput.ToggleInventory || m_inventoryButtonWidget.IsClicked)
 			{
 				if (componentRider.Mount != null && ModalPanelWidget == null)
@@ -90,28 +76,18 @@ namespace Game
 					}
 				}
 				if (IsInventoryVisible())
-				{
 					ModalPanelWidget = null;
-				}
 				else if (m_componentPlayer.ComponentMiner.Inventory is ComponentCreativeInventory)
-				{
 					ModalPanelWidget = new CreativeInventoryWidget(m_componentPlayer.Entity);
-				}
 				else
-				{
 					ModalPanelWidget = new FullInventoryWidget(m_componentPlayer.ComponentMiner.Inventory, m_componentPlayer.Entity.FindComponent<ComponentCraftingTable>(true));
-				}
 			}
 			if (playerInput.ToggleClothing || m_clothingButtonWidget.IsClicked)
 			{
 				if (IsClothingVisible())
-				{
 					ModalPanelWidget = null;
-				}
 				else
-				{
 					ModalPanelWidget = new ClothingWidget(m_componentPlayer);
-				}
 			}
 			if (m_sneakButtonWidget.IsClicked || playerInput.ToggleSneak)
 			{
@@ -120,40 +96,28 @@ namespace Game
 				if (m_componentPlayer.ComponentBody.IsSneaking != isSneaking)
 				{
 					if (m_componentPlayer.ComponentBody.IsSneaking)
-					{
 						DisplaySmallMessage("Sneak mode on", false, false);
-					}
 					else
-					{
 						DisplaySmallMessage("Sneak mode off", false, false);
-					}
 				}
 			}
 			if (componentRider != null && (m_mountButtonWidget.IsClicked || playerInput.ToggleMount))
 			{
 				bool flag = componentRider.Mount != null;
 				if (flag)
-				{
 					componentRider.StartDismounting();
-				}
 				else
 				{
 					ComponentMount componentMount = componentRider.FindNearestMount();
 					if (componentMount != null)
-					{
 						componentRider.StartMounting(componentMount);
-					}
 				}
 				if (componentRider.Mount != null != flag)
 				{
 					if (componentRider.Mount != null)
-					{
 						DisplaySmallMessage("Mounted", false, false);
-					}
 					else
-					{
 						DisplaySmallMessage("Dismounted", false, false);
-					}
 				}
 			}
 			if ((m_editItemButton.IsClicked || playerInput.EditItem) && m_nearbyEditableCell.HasValue)
@@ -194,9 +158,7 @@ namespace Game
 						DisplaySmallMessage("Fly mode on", false, false);
 					}
 					else
-					{
 						DisplaySmallMessage("Fly mode off", false, false);
-					}
 				}
 			}
 			if (m_cameraButtonWidget.IsClicked || playerInput.SwitchCameraMode)
@@ -269,36 +231,32 @@ namespace Game
 				float num10 = MathUtils.Min(num6, num7, num8, num9);
 				if (num6 == num10)
 				{
-					m_subsystemTimeOfDay.TimeOfDayOffset += (double)num6;
+					m_subsystemTimeOfDay.TimeOfDayOffset += num6;
 					DisplaySmallMessage("Dawn", false, false);
 				}
 				else if (num7 == num10)
 				{
-					m_subsystemTimeOfDay.TimeOfDayOffset += (double)num7;
+					m_subsystemTimeOfDay.TimeOfDayOffset += num7;
 					DisplaySmallMessage("Noon", false, false);
 				}
 				else if (num8 == num10)
 				{
-					m_subsystemTimeOfDay.TimeOfDayOffset += (double)num8;
+					m_subsystemTimeOfDay.TimeOfDayOffset += num8;
 					DisplaySmallMessage("Dusk", false, false);
 				}
 				else if (num9 == num10)
 				{
-					m_subsystemTimeOfDay.TimeOfDayOffset += (double)num9;
+					m_subsystemTimeOfDay.TimeOfDayOffset += num9;
 					DisplaySmallMessage("Midnight", false, false);
 				}
 			}
 			if (ModalPanelWidget != null)
 			{
 				if (input.Cancel || input.Back || m_backButtonWidget.IsClicked)
-				{
 					ModalPanelWidget = null;
-				}
 			}
 			else if (input.Back || m_backButtonWidget.IsClicked)
-			{
 				DialogsManager.ShowDialog(m_componentPlayer.View.GameWidget, new GameMenuDialog(m_componentPlayer));
-			}
 		}
 	}
 }

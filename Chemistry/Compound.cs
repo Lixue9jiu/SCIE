@@ -106,9 +106,7 @@ namespace Chemistry
 			var result = new Compound(c1.Count + c2.Count);
 			Enumerator i;
 			for (i = c1.GetEnumerator(); i.MoveNext();)
-			{
 				result.Add(i.Current.Key, i.Current.Value);
-			}
 			for (i = c2.GetEnumerator(); i.MoveNext();)
 			{
 				var key = i.Current.Key;
@@ -128,13 +126,9 @@ namespace Chemistry
 				{
 					value -= i.Current.Value;
 					if (value > 0)
-					{
 						result[key] = value;
-					}
 					else
-					{
 						result.Remove(key);
-					}
 				}
 			}
 			return result;
@@ -155,18 +149,12 @@ namespace Chemistry
 				var pair = i.Current;
 				bool bracket = pair.Value > 1 && pair.Key.Count > 1;
 				if (bracket)
-				{
 					sb.Append('(');
-				}
 				sb.Append(pair.Key.ToString());
 				if (bracket)
-				{
 					sb.Append(')');
-				}
 				if (pair.Value > 1)
-				{
 					sb.Append(pair.Value);
-				}
 			}
 			return sb.ToString();
 		}

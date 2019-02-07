@@ -56,18 +56,14 @@ namespace Game
 		{
 			var list = EnumUtils.GetEnumValues(typeof(BulletType));
 			for (int i = 0; i < list.Count; i++)
-			{
 				yield return Terrain.MakeBlockValue(214, 0, SetBulletType(0, (BulletType)list[i]));
-			}
 		}
 
 		public override string GetDisplayName(SubsystemTerrain subsystemTerrain, int value)
 		{
 			int bulletType = (int)GetBulletType(Terrain.ExtractData(value));
 			if (bulletType < 0 || bulletType >= m_displayNames.Length)
-			{
 				return string.Empty;
-			}
 			return m_displayNames[bulletType];
 		}
 
@@ -75,9 +71,7 @@ namespace Game
 		{
 			int bulletType = (int)GetBulletType(Terrain.ExtractData(value));
 			if (bulletType < 0 || bulletType >= m_textureSlots.Length)
-			{
 				return 229;
-			}
 			return m_textureSlots[bulletType];
 		}
 

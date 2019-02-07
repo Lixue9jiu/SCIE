@@ -42,9 +42,7 @@ namespace Game
 					try
 					{
 						while (enumerator.MoveNext())
-						{
 							((CraftingRecipeSlotWidget)enumerator.Current).SetIngredient(null);
-						}
 					}
 					finally
 					{
@@ -55,13 +53,9 @@ namespace Game
 			}
 			var vector = Vector2.Zero;
 			if (Size.X >= 0f)
-			{
 				parentAvailableSize.X = MathUtils.Min(parentAvailableSize.X, Size.X);
-			}
 			if (Size.Y >= 0f)
-			{
 				parentAvailableSize.Y = MathUtils.Min(parentAvailableSize.Y, Size.Y);
-			}
 			foreach (Widget child in Children)
 			{
 				if (child.IsVisible)
@@ -76,13 +70,9 @@ namespace Game
 				}
 			}
 			if (Size.X >= 0f)
-			{
 				vector.X = Size.X;
-			}
 			if (Size.Y >= 0f)
-			{
 				vector.Y = Size.Y;
-			}
 			DesiredSize = vector;
 		}
 	}

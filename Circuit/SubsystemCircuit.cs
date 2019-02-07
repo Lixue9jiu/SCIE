@@ -55,9 +55,7 @@ namespace Game
 					return;
 			}
 			else
-			{
 				Path.Add(device);
-			}
 		}
 		public override void OnBlockRemoved(int value, int newValue, int x, int y, int z)
 		{
@@ -76,9 +74,7 @@ namespace Game
 					element.Next.Remove(device);
 				}*/
 				if ((device.Type & ElementType.Supply) != 0)
-				{
 					Path.Remove(device);
-				}
 			}
 			Table.Remove(device.Point);
 		}
@@ -96,22 +92,16 @@ namespace Game
 			{
 				var key = i.Current.Point;
 				if (key.X >= startX && key.X < startX + 16 && key.Z >= startY && key.Z < startY + 16)
-				{
 					list.Add(i.Current);
-				}
 			}
 			for (startX = 0; startX < list.Count; startX++)
-			{
 				Path.Remove(list[startX]);
-			}
 		}
 		public override void OnNeighborBlockChanged(int x, int y, int z, int neighborX, int neighborY, int neighborZ)
 		{
 			var device = elementblock.GetDevice(Utils.Terrain, x, y, z);
 			if (device is IUnstableBlock behavior)
-			{
 				behavior.OnNeighborBlockChanged(SubsystemTerrain, neighborX, neighborY, neighborZ);
-			}
 		}
 		public override bool OnInteract(TerrainRaycastResult raycastResult, ComponentMiner componentMiner)
 		{
@@ -202,9 +192,7 @@ namespace Game
 				UpdateStep++;
 				m_remainingSimulationTime -= 0.02f;
 				for (i = 0; i < CircuitPath.Length; i++)
-				{
 					QueueSimulate(CircuitPath[i]);
-				}
 			}
 		}
 		public override void Dispose()
@@ -225,19 +213,13 @@ namespace Game
 				lock (Requests)
 				{
 					while (Requests.Count == 0)
-					{
 						Monitor.Wait(Requests);
-					}
 					request = Requests.Dequeue();
 				}
 				if (request == null)
-				{
 					return;
-				}
 				if (UpdatePath)
-				{
 					Requests.Clear();
-				}
 				else
 				{
 					//request.IsInProgress = false;
@@ -245,9 +227,7 @@ namespace Game
 					var elements = request.Elements;
 					int voltage = 0;
 					for (int i = 0; i < elements.Length; i++)
-					{
 						elements[i].Simulate(ref voltage);
-					}
 				}
 				Task.Delay(10).Wait();
 			}
@@ -284,18 +264,14 @@ namespace Game
 				while (high > low)
 				{
 					while (low < high && r <= R[high].GetWeight(voltage))
-					{
 						high--;
-					}
 					if (high > low)
 					{
 						R[low] = R[high];
 						R[high] = tmp;
 					}
 					while (low < high && r >= R[low].GetWeight(voltage))
-					{
 						low++;
-					}
 					if (high > low)
 					{
 						R[high] = R[low];

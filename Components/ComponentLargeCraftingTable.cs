@@ -21,9 +21,7 @@ namespace Game
 			{
 				Slot slot = m_slots[slotIndex];
 				if ((GetSlotCount(slotIndex) != 0 && GetSlotValue(slotIndex) != value) || GetSlotCount(slotIndex) + count > GetSlotCapacity(slotIndex, value))
-				{
 					throw new InvalidOperationException("Cannot add slot items.");
-				}
 				slot.Value = value;
 				slot.Count += count;
 			}
@@ -45,9 +43,7 @@ namespace Game
 							count = MathUtils.Min(count, num2 / m_matchedRecipe.RemainsCount);
 						}
 						else
-						{
 							count = 0;
-						}
 					}
 					count = count / m_matchedRecipe.ResultCount * m_matchedRecipe.ResultCount;
 					if (slotIndex >= 0 && slotIndex < m_slots.Count)
@@ -85,9 +81,7 @@ namespace Game
 							}
 						}
 						if (componentPlayer != null && componentPlayer.PlayerStats != null)
-						{
 							componentPlayer.PlayerStats.ItemsCrafted += num;
-						}
 					}
 				}
 			}
@@ -113,9 +107,7 @@ namespace Game
 			m_slots.Capacity = count;
 			int i;
 			for (i = 0; i < count; i++)
-			{
 				m_slots.Add(new Slot());
-			}
 			ValuesDictionary value2 = valuesDictionary.GetValue<ValuesDictionary>("Slots");
 			for (i = 0; i < m_slots.Count; i++)
 			{
@@ -129,9 +121,7 @@ namespace Game
 			}
 			m_craftingGridSize = (int)MathUtils.Sqrt((double)(SlotsCount - 2));
 			if (m_craftingGridSize < 1 || m_craftingGridSize > 6)
-			{
 				throw new InvalidOperationException("Invalid crafting grid size.");
-			}
 			m_matchedIngredients = new string[36];
 		}
 
@@ -154,9 +144,7 @@ namespace Game
 						num = MathUtils.Min(num, slotCount);
 					}
 					else
-					{
 						m_matchedIngredients[num2] = null;
-					}
 				}
 			}
 			var craftingRecipe = CraftingRecipesManager.FindMatchingRecipe(Utils.SubsystemTerrain, m_matchedIngredients, 0f);

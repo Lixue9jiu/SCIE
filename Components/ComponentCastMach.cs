@@ -27,9 +27,7 @@ namespace Game
 			{
 				m_fireTimeRemaining = MathUtils.Max(0f, m_fireTimeRemaining - dt);
 				if (m_fireTimeRemaining == 0f)
-				{
 					HeatLevel = 0f;
-				}
 			}
 			Slot slot;
 			if (m_updateSmeltingRecipe)
@@ -37,9 +35,7 @@ namespace Game
 				m_updateSmeltingRecipe = false;
 				float heatLevel = 0f;
 				if (HeatLevel > 0f)
-				{
 					heatLevel = HeatLevel;
-				}
 				else
 				{
 					slot = m_slots[FuelSlotIndex];
@@ -102,12 +98,8 @@ namespace Game
 				if (SmeltingProgress >= 1f)
 				{
 					for (int i = 0; i < m_furnaceSize; i++)
-					{
 						if (m_slots[i].Count > 0)
-						{
 							m_slots[i].Count--;
-						}
-					}
 					if (string.Equals(m_smeltingRecipe, "SteelWheel") || string.Equals(m_smeltingRecipe, "SteelGear") || string.Equals(m_smeltingRecipe, "ScrapIron"))
 					{
 						m_slots[ResultSlotIndex].Value = ItemBlock.IdTable[m_smeltingRecipe];
@@ -153,35 +145,25 @@ namespace Game
 					if (slotValue == ItemBlock.IdTable["SteelIngot"])
 					{
 						if (heatLevel < 1500f)
-						{
 							text = "ScrapIron";
-						}
 						else
 						{
 							int slotvalue = base.GetSlotValue(1);
 							if (slotvalue == ItemBlock.IdTable["SteelGearMould"])
-							{
 								text = "SteelGear";
-							}
 							else if (slotvalue == ItemBlock.IdTable["SteelWheelMould"])
-							{
 								text = "SteelWheel";
-							}
 						}
 					}
 				}
 				/*else
-				{
-					m_matchedIngredients[i] = null;
-				}*/
+					m_matchedIngredients[i] = null;*/
 			}
 			if (text != null)
 			{
 				Slot slot = m_slots[ResultSlotIndex];
 				if (slot.Count != 0 && (slot.Value != ItemBlock.IdTable[text] || 1 + slot.Count > 40))
-				{
 					text = null;
-				}
 			}
 			return text;
 		}

@@ -180,17 +180,13 @@ namespace Game
 				if (!string.IsNullOrEmpty(ingredients[i]))
 				{
 					if (num > 1)
-					{
 						return null;
-					}
 					array[num] = ingredients[i];
 					num++;
 				}
 			}
 			if (num != 2)
-			{
 				return null;
-			}
 			num = 0;
 			int num2 = 0;
 			int num3 = 0;
@@ -200,17 +196,11 @@ namespace Game
 				CraftingRecipesManager.DecodeIngredient(item, out string craftingId, out int? data);
 				int d = data ?? 0;
 				if (craftingId == BlocksManager.Blocks[index].CraftingId)
-				{
 					num3 = Terrain.MakeBlockValue(index, 0, d);
-				}
 				else if (craftingId == BlocksManager.Blocks[129].CraftingId)
-				{
 					num = Terrain.MakeBlockValue(129, 0, d);
-				}
 				else if (craftingId == BlocksManager.Blocks[128].CraftingId)
-				{
 					num2 = Terrain.MakeBlockValue(128, 0, d);
-				}
 			}
 			if (num != 0 && num3 != 0)
 			{

@@ -57,13 +57,9 @@ namespace Game
 				{
 					ICraftingMachine inventory = Inventory;
 					if (inventory == null)
-					{
 						Inventory = inventory = Utils.GetBlockEntity(Point)?.Entity.FindComponent<ICraftingMachine>();
-					}
 					if (inventory == null)
-					{
 						return false;
-					}
 					int n = (int)MathUtils.Round(connection.NeighborElectricElement.GetOutputVoltage(connection.NeighborConnectorFace) * 15f);
 					if (connection.CellFace.Face == 4)
 						inventory.SlotIndex = n;
@@ -78,9 +74,7 @@ namespace Game
 						var position = new Vector3(Point) + new Vector3(0.5f, 1f, 0.5f);
 						Utils.SubsystemPickables.AddPickable(inventory.GetSlotValue(inventory.ResultSlotIndex), inventory.RemoveSlotItems(inventory.ResultSlotIndex, matchedRecipe.ResultCount * MathUtils.Min(inventory.GetSlotCount(inventory.ResultSlotIndex) / matchedRecipe.ResultCount, n)), position, null, null);
 						if (matchedRecipe.RemainsCount > 0)
-						{
 							Utils.SubsystemPickables.AddPickable(inventory.GetSlotValue(inventory.RemainsSlotIndex), inventory.RemoveSlotItems(inventory.RemainsSlotIndex, matchedRecipe.RemainsCount * MathUtils.Min(inventory.GetSlotCount(inventory.RemainsSlotIndex) / matchedRecipe.RemainsCount, n)), position, null, null);
-						}
 					}
 				}
 			}

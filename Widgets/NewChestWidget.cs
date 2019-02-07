@@ -14,9 +14,7 @@ namespace Game
 		public override void Update()
 		{
 			if (!Component.IsAddedToProject)
-			{
 				ParentWidget.Children.Remove(this);
-			}
 		}
 
 		public NewChestWidget(IInventory inventory, ComponentInventoryBase component, string text = null)
@@ -24,9 +22,7 @@ namespace Game
 			Component = component;
 			WidgetsManager.LoadWidgetContents(this, this, ContentManager.Get<XElement>("Widgets/NewChestWidget"));
 			if (text != null)
-			{
 				Children.Find<LabelWidget>("ChestLabel").Text = text;
-			}
 			m_inventoryGrid = Children.Find<GridPanelWidget>("InventoryGrid");
 			m_chestNewGrid = Children.Find<GridPanelWidget>("ChestGrid");
 			int num = 0, y, x;

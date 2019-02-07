@@ -48,10 +48,7 @@ namespace Game
 
 		public int Direction
 		{
-			get
-			{
-				return m_forwardDirection;
-			}
+			get { return m_forwardDirection; }
 			set
 			{
 				forwardVector = forwardVectors[value];
@@ -71,8 +68,8 @@ namespace Game
 			m_componentBody.CollidedWithBody += CollidedWithBody;
 
 			m_furnaceSize = SlotsCount - 2;
-			m_fireTimeRemaining = valuesDictionary.GetValue<float>("FireTimeRemaining");
-			HeatLevel = valuesDictionary.GetValue<float>("HeatLevel");
+			m_fireTimeRemaining = valuesDictionary.GetValue("FireTimeRemaining", 0f);
+			HeatLevel = valuesDictionary.GetValue("HeatLevel", 0f);
 			Direction = valuesDictionary.GetValue("Direction", 0);
 			m_updateSmeltingRecipe = true;
 		}
@@ -90,13 +87,9 @@ namespace Game
 			float amount = (body.Velocity - m_componentBody.Velocity).LengthSquared() * 0.5f;
 			var health = body.Entity.FindComponent<ComponentHealth>();
 			if (health != null)
-			{
 				health.Injure(amount / health.AttackResilience, null, false, "Train");
-			}
 			else
-			{
 				body.Entity.FindComponent<ComponentDamage>()?.Damage(amount);
-			}
 			body.ApplyImpulse(MathUtils.Clamp(1.25f * 6f * MathUtils.Pow(m_componentBody.Mass / body.Mass, 0.33f), 0f, 6f) * Vector3.Normalize(Vector3.Normalize(body.Position - m_componentBody.Position) + 0.2f * Vector3.UnitY));
 		}
 
@@ -112,9 +105,7 @@ namespace Game
 			{
 				m_fireTimeRemaining = MathUtils.Max(0f, m_fireTimeRemaining - dt);
 				if (m_fireTimeRemaining == 0f)
-				{
 					HeatLevel = 0f;
-				}
 			}
 			Slot slot;
 			if (m_updateSmeltingRecipe)
@@ -122,9 +113,7 @@ namespace Game
 				m_updateSmeltingRecipe = false;
 				float heatLevel = 0f;
 				if (HeatLevel > 0f)
-				{
 					heatLevel = HeatLevel;
-				}
 				else
 				{
 					slot = m_slots[FuelSlotIndex];
@@ -155,9 +144,7 @@ namespace Game
 				{
 					var block = BlocksManager.Blocks[Terrain.ExtractContents(slot.Value)];
 					if (block.GetExplosionPressure(slot.Value) > 0f)
-					{
 						slot.Count = 0;
-					}
 					else
 					{
 						slot.Count--;
@@ -188,12 +175,8 @@ namespace Game
 				if (SmeltingProgress >= 1.0)
 				{
 					for (int i = 0; i < m_furnaceSize; i++)
-					{
 						if (m_slots[i].Count > 0)
-						{
 							m_slots[i].Count--;
-						}
-					}
 					m_slots[ResultSlotIndex].Value = 90;
 					m_slots[ResultSlotIndex].Count++;
 					m_smeltingRecipe = null;
@@ -209,9 +192,7 @@ namespace Game
 			}
 			float dt2 = 1f;
 			if (HeatLevel <= 100f)
-			{
 				dt2 = 0f;
-			}
 
 			switch (Direction)
 			{
@@ -230,12 +211,8 @@ namespace Game
 				var result = Utils.SubsystemTerrain.Raycast(m_componentBody.Position, m_componentBody.Position + new Vector3(0, -3.0f, 0), false, true, null);
 
 				if (result.HasValue && Terrain.ExtractContents(result.Value.Value) == RailBlock.Index)
-				{
 					if (SimulateRail(RailBlock.GetRailType(Terrain.ExtractData(result.Value.Value))))
-					{
 						m_componentBody.Velocity += Speed * dt * dt2 * currentRotation.ToForwardVector();
-					}
-				}
 			}
 			m_componentBody.Rotation = Quaternion.Slerp(m_componentBody.Rotation, currentRotation, 0.15f);
 		}
@@ -245,21 +222,15 @@ namespace Game
 			if (RailBlock.IsCorner(railType))
 			{
 				if (GetOffsetOnDirection(m_componentBody.Position, m_forwardDirection) > 0.5f)
-				{
 					Turn(railType);
-				}
 				return true;
 			}
 			if (RailBlock.IsDirectionX(railType) ^ !RailBlock.IsDirectionX(m_forwardDirection))
 			{
 				if (railType > 5)
-				{
 					currentRotation = railType - 6 != Direction ? directions[Direction] * upwardDirection : directions[Direction] * downwardDirection;
-				}
 				else
-				{
 					currentRotation = directions[Direction];
-				}
 				return true;
 			}
 			return false;
@@ -282,9 +253,7 @@ namespace Game
 				return true;
 			}
 			else
-			{
 				return false;
-			}
 		}
 
 		static float GetOffsetOnDirection(Vector3 vec, int direction)
@@ -295,9 +264,7 @@ namespace Game
 		protected string FindSmeltingRecipe(float heatLevel)
 		{
 			if (heatLevel < 100f)
-			{
 				return null;
-			}
 			string text = null;
 			for (int i = 0; i < m_furnaceSize; i++)
 			{
@@ -309,23 +276,17 @@ namespace Game
 					var craftingId = BlocksManager.Blocks[num].CraftingId;
 					m_matchedIngredients[i] = craftingId + ":" + num2.ToString(CultureInfo.InvariantCulture);
 					if (craftingId.Equals("waterbucket"))
-					{
 						text = "bucket";
-					}
 				}
 				else
-				{
 					m_matchedIngredients[i] = null;
-				}
 			}
 			if (text != null)
 			{
 				Slot slot = m_slots[ResultSlotIndex];
 				//Terrain.ExtractContents(90);
 				if (slot.Count != 0 && (90 != slot.Value || 1 + slot.Count > 40))
-				{
 					text = null;
-				}
 			}
 			return text;
 		}

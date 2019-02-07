@@ -23,9 +23,7 @@ namespace Game
 				int num2 = 0;
 				int l;
 				for (l = 4; 3 < l && l < 8; l++)
-				{
 					num2 += GetSlotCount(l);
-				}
 				int num3 = 0;
 				int num4 = 0;
 				for (int m = 0; m < 4; m++)
@@ -120,9 +118,7 @@ namespace Game
 								while (true)
 								{
 									if (num7 >= 4)
-									{
 										return;
-									}
 									if (GetSlotCount(num7) < BlocksManager.Blocks[Terrain.ExtractContents(GetSlotValue(num7))].MaxStacking || GetSlotCount(num7) == 0)
 									{
 										if (block == 92 && (Terrain.ExtractContents(GetSlotValue(num7)) == 93 || GetSlotCount(num7) == 0))
@@ -167,13 +163,11 @@ namespace Game
 		public override int GetSlotCapacity(int slotIndex, int value)
 		{
 			if (slotIndex != 8)
-			{
 				return slotIndex > 3 && Terrain.ExtractContents(value) != 90
 					? 0
 					: base.GetSlotCapacity(slotIndex, value);
-			}
 			var type = DrillBlock.GetType(value);
-			return (type == DrillBlock.Type.IronTubularis || type == DrillBlock.Type.SteelTubularis) ? base.GetSlotCapacity(slotIndex, DrillBlock.SetType(value, DrillBlock.Type.SteelDrill)) : 0;
+			return (type == DrillType.IronTubularis || type == DrillType.SteelTubularis) ? base.GetSlotCapacity(slotIndex, DrillBlock.SetType(value, DrillType.SteelDrill)) : 0;
 		}
 	}
 }

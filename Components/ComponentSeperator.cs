@@ -31,9 +31,7 @@ namespace Game
 			{
 				m_fireTimeRemaining = MathUtils.Max(0f, m_fireTimeRemaining - dt);
 				if (m_fireTimeRemaining == 0f)
-				{
 					HeatLevel = 0f;
-				}
 			}
 			if (m_updateSmeltingRecipe)
 			{
@@ -56,9 +54,7 @@ namespace Game
 					m_smeltingRecipe = null;
 				}
 				else if (m_smeltingRecipe == null)
-				{
 					m_smeltingRecipe = m_smeltingRecipe2;
-				}
 			}
 			if (!Powered)
 			{
@@ -90,9 +86,7 @@ namespace Game
 				if (SmeltingProgress >= 1f)
 				{
 					if (m_slots[0].Count > 0)
-					{
 						m_slots[0].Count--;
-					}
 					for (int jk = 0; jk < 3; jk++)
 					{
 						if (result[jk] != 0)
@@ -146,13 +140,9 @@ namespace Game
 						result[1] = StoneChunkBlock.Index;
 						int num3 = m_random.Int() & 3;
 						if (num3 == 0)
-						{
 							result[2] = SaltpeterChunkBlock.Index;
-						}
 						if (num3 == 1)
-						{
 							result[2] = ItemBlock.IdTable["AluminumOrePowder"];
-						}
 					}
 				}
 			}
@@ -162,9 +152,7 @@ namespace Game
 				{
 					Slot slot = m_slots[1 + i];
 					if (slot.Count != 0 && result[i] != 0 && (slot.Value != result[i] || 1 + slot.Count > 40))
-					{
 						text = null;
-					}
 				}
 			}
 			return text;

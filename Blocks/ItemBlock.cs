@@ -78,9 +78,9 @@ namespace Game
 				craftingRecipe.RequiredHeatLevel = XmlUtils.GetAttributeValue<float>(xelement, "RequiredHeatLevel");
 				craftingRecipe.Description = XmlUtils.GetAttributeValue<string>(xelement, "Description");
 				if (craftingRecipe.ResultCount > BlocksManager.Blocks[Terrain.ExtractContents(craftingRecipe.ResultValue)].MaxStacking)
-					throw new InvalidOperationException(string.Format("In recipe for \"{0}\" ResultCount is larger than max stacking of result block.", attributeValue));
+					throw new InvalidOperationException($"In recipe for \"{attributeValue}\" ResultCount is larger than max stacking of result block.");
 				if (craftingRecipe.RemainsValue != 0 && craftingRecipe.RemainsCount > BlocksManager.Blocks[Terrain.ExtractContents(craftingRecipe.RemainsValue)].MaxStacking)
-					throw new InvalidOperationException(string.Format("In Recipe for \"{0}\" RemainsCount is larger than max stacking of remains block.", attributeValue2));
+					throw new InvalidOperationException($"In Recipe for \"{attributeValue2}\" RemainsCount is larger than max stacking of remains block.");
 				Dictionary<char, string> dictionary = new Dictionary<char, string>();
 				foreach (XAttribute item in xelement.Attributes().Where(CraftingRecipesManager.c._.Initialize_b__3_1))
 				{
@@ -132,9 +132,7 @@ namespace Game
 			}
 			var blocks = BlocksManager.Blocks;
 			for (int i = 0; i < blocks.Length; i++)
-			{
 				using (var enumerator2 = blocks[i].GetProceduralCraftingRecipes().GetEnumerator())
-				{
 					while (enumerator2.MoveNext())
 					{
 						var old = enumerator2.Current.Ingredients;
@@ -154,33 +152,25 @@ namespace Game
 						}
 						CraftingRecipesManager.m_recipes.Add(enumerator2.Current);
 					}
-				}
-			}
 			CraftingRecipesManager.m_recipes.Sort(CraftingRecipesManager.c._.Initialize_b__3_0);
 			CraftingRecipesManager.m_recipes.AddRange(recipes);
 		}
 		public static int GetCount(string[] ingredients)
 		{
 			if (ingredients == null || ingredients.Length == 0)
-			{
 				return 0;
-			}
 			string target = ingredients[0];
 			int i = 0;
 			for (; i < ingredients.Length; i++)
-			{
 				if (ingredients[i] != target)
-				{
 					return i;
-				}
-			}
 			return i;
 		}
 		public static int DecodeResult(string result)
 		{
 			if (ItemBlock.IdTable.TryGetValue(result, out int value))
 				return value;
-			string[] array = result.Split(':');
+			var array = result.Split(':');
 			return Terrain.MakeBlockValue(BlocksManager.FindBlockByTypeName(array[0], true).BlockIndex, 0, array.Length >= 2 ? int.Parse(array[1], CultureInfo.InvariantCulture) : 0);
 		}
 		public static bool MatchRecipe(string[] requiredIngredients, string[] actualIngredients)
@@ -205,9 +195,7 @@ namespace Game
 								}
 							}
 							if (flag)
-							{
 								return true;
-							}
 						}
 					}
 				}
@@ -226,13 +214,9 @@ namespace Game
 					int num2 = j + shiftY;
 					string text = ingredients[k + j * 6];
 					if (num >= 0 && num2 >= 0 && num < 6 && num2 < 6)
-					{
 						transformedIngredients[num + num2 * 6] = text;
-					}
 					else if (!string.IsNullOrEmpty(text))
-					{
 						return false;
-					}
 				}
 			}
 			return true;

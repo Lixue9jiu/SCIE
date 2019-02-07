@@ -85,9 +85,7 @@ namespace Game
 			m_shootButton.IsChecked = mode == MachineMode.Shoot;
 			m_acceptsDropsBox.IsChecked = SixDirectionalBlock.GetAcceptsDrops(data);
 			if (!m_componentDispenser.IsAddedToProject)
-			{
 				ParentWidget.Children.Remove(this);
-			}
 		}
 	}
 }

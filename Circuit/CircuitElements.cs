@@ -24,9 +24,7 @@ namespace Game
 		public bool Equals(FixedResistor other)
 		{
 			if (other.Type == Type)
-			{
 				return other.Resistance == Resistance;
-			}
 			return false;
 		}
 		public override bool Equals(object obj)

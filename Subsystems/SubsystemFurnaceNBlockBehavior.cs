@@ -19,18 +19,14 @@ namespace Game
 		{
 			base.OnBlockAdded(value, oldValue, x, y, z);
 			if (FurnaceNBlock.GetHeatLevel(value) != 0)
-			{
 				AddFire(value, x, y, z);
-			}
 		}
 
 		public override void OnBlockRemoved(int value, int newValue, int x, int y, int z)
 		{
 			base.OnBlockRemoved(value, newValue, x, y, z);
 			if (FurnaceNBlock.GetHeatLevel(value) != 0)
-			{
 				RemoveFire(new Point3(x, y, z));
-			}
 		}
 
 		public override void OnBlockModified(int value, int oldValue, int x, int y, int z)
@@ -45,9 +41,7 @@ namespace Game
 		public override void OnBlockGenerated(int value, int x, int y, int z, bool isLoaded)
 		{
 			if (FurnaceNBlock.GetHeatLevel(value) != 0)
-			{
 				AddFire(value, x, y, z);
-			}
 		}
 
 		public override void OnChunkDiscarding(TerrainChunk chunk)
@@ -64,7 +58,7 @@ namespace Game
 		public static void AddFire(int value, int x, int y, int z)
 		{
 			const float size = 0.15f;
-			var fireParticleSystem = new FireParticleSystem(new Vector3((float)x + 0.5f, (float)y + 0.2f, (float)z + 0.5f), size, 16f);
+			var fireParticleSystem = new FireParticleSystem(new Vector3(x + 0.5f, y + 0.2f, z + 0.5f), size, 16f);
 			m_subsystemParticles.AddParticleSystem(fireParticleSystem);
 			m_particleSystemsByCell[new Point3(x, y, z)] = fireParticleSystem;
 		}

@@ -27,25 +27,19 @@ namespace Game
 		{
 			Point3 coordinates = m_componentBlockEntity.Coordinates;
 			if (coordinates.Y < 0 || coordinates.Y > 127)
-			{
 				return;
-			}
 			if (HeatLevel > 0f)
 			{
 				m_fireTimeRemaining = MathUtils.Max(0f, m_fireTimeRemaining - dt);
 				if (m_fireTimeRemaining == 0f)
-				{
 					m_heatLevel = 0f;
-				}
 			}
 			if (m_updateSmeltingRecipe)
 			{
 				m_updateSmeltingRecipe = false;
 				float heatLevel = 0f;
 				if (HeatLevel > 0f)
-				{
 					heatLevel = HeatLevel;
-				}
 				else
 				{
 					Slot slot = m_slots[FuelSlotIndex];
@@ -105,12 +99,8 @@ namespace Game
 				if (m_smeltingProgress >= 1f)
 				{
 					for (int i = 0; i < m_furnaceSize; i++)
-					{
 						if (m_slots[i].Count > 0)
-						{
 							m_slots[i].Count--;
-						}
-					}
 					m_slots[ResultSlotIndex].Value = m_smeltingRecipe.ResultValue;
 					m_slots[ResultSlotIndex].Count += m_smeltingRecipe.ResultCount;
 					if (m_smeltingRecipe.RemainsValue != 0 && m_smeltingRecipe.RemainsCount > 0)

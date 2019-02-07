@@ -71,9 +71,7 @@ namespace Game
 								break;
 							}
 							if (i * i + k * k == 1 && j == 0 && cellContents == 0)
-							{
 								num2 = 1;
-							}
 							if (i * i + k * k == 1 && j == 0 && cellContents != 0 && cellContents != 73 && (num3 + i != coordinates.X || num5 + k != coordinates.Z))
 							{
 								num = 0;
@@ -93,13 +91,9 @@ namespace Game
 					}
 				}
 				if (num == 0 || num2 == 0)
-				{
 					m_smeltingRecipe = false;
-				}
 				if (num == 1 && num2 >= 1 && !m_smeltingRecipe)
-				{
 					m_smeltingRecipe = m_smeltingRecipe2;
-				}
 			}
 			m_time++;
 			if (!m_smeltingRecipe)
@@ -109,9 +103,7 @@ namespace Game
 				SmeltingProgress = 0f;
 			}
 			if (m_smeltingRecipe && m_fireTimeRemaining <= 0f)
-			{
 				HeatLevel = 5f;
-			}
 			if (m_smeltingRecipe)
 			{
 				SmeltingProgress = MathUtils.Min(SmeltingProgress + 0.1f * dt, 1f);
@@ -147,9 +139,7 @@ namespace Game
 										m_slots[m].Count = 0;
 									}
 									if (m_matchedIngredients[l] == 0)
-									{
 										break;
-									}
 								}
 							}
 						}
@@ -202,9 +192,7 @@ namespace Game
 		protected bool FindSmeltingRecipe(float heatLevel)
 		{
 			if (heatLevel <= 0f)
-			{
 				return false;
-			}
 			Array.Clear(m_matchedIngredients2, 0, m_matchedIngredients2.Length);
 			Array.Clear(m_matchedIngredients, 0, m_matchedIngredients.Length);
 			for (int i = 0; i < m_furnaceSize; i++)
@@ -229,9 +217,7 @@ namespace Game
 					else if (contents == IronIngotBlock.Index)
 						m_matchedIngredients2[6] += slotCount;
 					else
-					{
 						m_matchedIngredients2[7] += slotCount;
-					}
 				}
 			}
 			bool flag = false;
@@ -314,9 +300,7 @@ namespace Game
 			if ((m_matchedIngredients[8] >= 1 && (m_slots[ResultSlotIndex].Value != ItemBlock.IdTable["SteelIngot"] || m_slots[ResultSlotIndex].Count + m_matchedIngredients[8] > 40) && m_slots[ResultSlotIndex].Count != 0) ||
 				(m_matchedIngredients[7] >= 1 && (m_slots[RemainsSlotIndex].Value != ItemBlock.IdTable["ScrapIron"] || m_slots[RemainsSlotIndex].Count + m_matchedIngredients[7] > 40) && m_slots[RemainsSlotIndex].Count != 0) ||
 				(m_matchedIngredients[9] >= 1 && (m_slots[ResultSlotIndex].Value != IronIngotBlock.Index || m_slots[ResultSlotIndex].Count + m_matchedIngredients[9] > 40) && m_slots[ResultSlotIndex].Count != 0))
-			{
 				return false;
-			}
 			return flag;
 		}
 	}

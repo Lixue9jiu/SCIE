@@ -31,12 +31,8 @@ namespace Game
 				{
 					var v = componentMount.ComponentBody.Position + Vector3.Transform(componentMount.MountOffset, componentMount.ComponentBody.Rotation) - ComponentBody.Position;
 					if (v.Length() < maxDistance)
-					{
 						if (Vector3.Dot(Vector3.Normalize(v), ComponentBody.Rotation.ToForwardVector()) > 0.33f)
-						{
 							score = maxDistance - v.Length();
-						}
-					}
 				}
 				if (score > num)
 				{
@@ -67,9 +63,7 @@ namespace Game
 		{
 			ComponentMount mount = Mount;
 			if (mount == null)
-			{
 				return;
-			}
 			float x = 0f;
 			if (mount.DismountOffset.X > 0f)
 			{
@@ -100,9 +94,7 @@ namespace Game
 					: 0f;
 				ComponentDamage componentDamage = mount.Entity.FindComponent<ComponentDamage>();
 				if (m_outOfMountTime > 0.1f || (componentDamage != null && componentDamage.Hitpoints <= .05f) || ComponentDamage.Hitpoints <= .05f)
-				{
 					StartDismounting();
-				}
 				ComponentBody.ParentBodyPositionOffset = mount.MountOffset + RiderOffset;
 				ComponentBody.ParentBodyRotationOffset = Quaternion.Identity;
 			}

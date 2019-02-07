@@ -73,16 +73,12 @@ namespace Game
 		public void OnItemHarvested(int x, int y, int z, int blockValue, ref BlockDropValue dropValue, ref int newBlockValue)
 		{
 			if (RemainCount <= 0)
-			{
 				dropValue.Value = Terrain.ReplaceData(Terrain.ReplaceLight(blockValue, 0), Terrain.ExtractData(blockValue) | 16384);
-			}
 		}
 		public void OnBlockAdded(SubsystemTerrain terrain, int value, int oldValue)
 		{
 			if ((Terrain.ExtractData(value) & 16384) != 0)
-			{
 				RemainCount = 0;
-			}
 		}
 		public void OnBlockRemoved(SubsystemTerrain terrain, int value, int newValue)
 		{
@@ -136,9 +132,7 @@ namespace Game
 		public override void Simulate(ref int voltage)
 		{
 			if (Component.Powered = voltage >= 12)
-			{
 				voltage -= 12;
-			}
 		}
 		public override void OnBlockAdded(SubsystemTerrain subsystemTerrain, int value, int oldValue)
 		{
@@ -184,9 +178,7 @@ namespace Game
 		public override void Simulate(ref int voltage)
 		{
 			if (Component.Powered = voltage >= 120)
-			{
 				voltage -= 120;
-			}
 		}
 		public override void OnBlockAdded(SubsystemTerrain subsystemTerrain, int value, int oldValue)
 		{
@@ -229,9 +221,7 @@ namespace Game
 		{
 			int level;
 			if (voltage < 20)
-			{
 				level = 0;
-			}
 			else
 			{
 				level = voltage < 20 ? 0 : (voltage - 20) / 40;
@@ -246,23 +236,16 @@ namespace Game
 			if (chunk != null)
 			{
 				if (chunk.State < TerrainChunkState.InvalidLight)
-				{
 					Level = -1;
-				}
 				else
 				{
-					p.X &= 15;
-					p.Z &= 15;
+					p.X &= 15; p.Z &= 15;
 					int i;
 					for (i = 1; i <= level && chunk.GetCellContentsFast(p.X, p.Y + i, p.Z) == 0; i++)
-					{
 						chunk.SetCellValueFast(p.X, p.Y + i, p.Z, RottenMeatBlock.Index | 3 << 4 << 14);
-					}
 					for (; i < 8 && p.Y < 127; i++)
-					{
 						if (Terrain.ReplaceLight(chunk.GetCellValueFast(p.X, ++p.Y, p.Z), 0) == (RottenMeatBlock.Index | 3 << 4 << 14))
 							chunk.SetCellValueFast(p.X, p.Y, p.Z, 0);
-					}
 					Level = level;
 				}
 			}
@@ -303,9 +286,7 @@ namespace Game
 		public override void Simulate(ref int voltage)
 		{
 			if (Component.Powered = voltage >= 300)
-			{
 				voltage -= 300;
-			}
 		}
 		public override void OnBlockAdded(SubsystemTerrain subsystemTerrain, int value, int oldValue)
 		{
@@ -314,8 +295,7 @@ namespace Game
 		}
 		public override int GetFaceTextureSlot(int face, int value)
 		{
-			if (face == 4 || face == 5)
-				return 107;
+			if (face == 4 || face == 5) return 107;
 			switch (Terrain.ExtractData(value) >> 15)
 			{
 				case 0: return face == 0 ? 164 : 107;

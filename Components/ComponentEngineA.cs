@@ -31,17 +31,13 @@ namespace Game
 				int num = Terrain.ExtractContents(GetSlotValue(remainsSlotIndex));
 
 				if (GetSlotCount(remainsSlotIndex) > 0 && num == WaterBucketBlock.Index)
-				{
 					text = "bucket";
-				}
 				//while (text != null && SmeltingProgress <= 900f)
 				//{
 				if (text != null)
 				{
 					if (m_slots[ResultSlotIndex].Count != 0 && (90 != m_slots[ResultSlotIndex].Value || 1 + m_slots[ResultSlotIndex].Count > 40))
-					{
 						text = null;
-					}
 					else
 					{
 						if (m_slots[remainsSlotIndex].Count > 0)
@@ -64,9 +60,7 @@ namespace Game
 				HeatLevel = 1000f;
 			}
 			else
-			{
 				HeatLevel = 0f;
-			}
 		}
 
 		public override void Load(ValuesDictionary valuesDictionary, IdToEntityMap idToEntityMap)
@@ -90,9 +84,7 @@ namespace Game
 			if ((slotIndex == RemainsSlotIndex && Terrain.ExtractContents(value) == WaterBucketBlock.Index) ||
 				(slotIndex == ResultSlotIndex && Terrain.ExtractContents(value) == EmptyBucketBlock.Index) ||
 				(slotIndex != RemainsSlotIndex && slotIndex != ResultSlotIndex))
-			{
 				return base.GetSlotCapacity(slotIndex, value);
-			}
 			return 0;
 		}
 	}

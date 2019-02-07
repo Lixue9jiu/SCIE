@@ -72,14 +72,10 @@ namespace Game
 			arr[0] = BlockIndex;
 			int i;
 			for (i = 1; i < 17; i++)
-			{
 				arr[i] = BlockIndex | SetColor(0, i - 1) << 14;
-			}
 			arr[17] = BlockIndex | 1 << 10;
 			for (i = 18; i < 34; i++)
-			{
 				arr[i] = BlockIndex | SetColor(1 << 10, i - 1) << 14;
-			}
 			return arr;
 		}
 		public override float GetHeat(int value)

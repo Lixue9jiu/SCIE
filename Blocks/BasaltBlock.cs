@@ -58,9 +58,7 @@ namespace Game
 				showDebris = true;
 			}
 			else
-			{
 				base.GetDropValues(subsystemTerrain, oldValue, newValue, toolLevel, dropValues, out showDebris);
-			}
 		}
 		public override BlockPlacementData GetDigValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, int toolValue, TerrainRaycastResult raycastResult)
 		{
@@ -84,9 +82,7 @@ namespace Game
 			int data = Terrain.ExtractData(value);
 			string name = (data & 65536) != 0 ? "Unstable " : string.Empty;
 			if ((data & 32768) != 0)
-			{
 				name += "Explosive ";
-			}
 			data &= 16383;
 			if (IsColored(data) || data == 0 || data > 20)
 				return name + (data == 0 ? base.GetDisplayName(subsystemTerrain, value) : data == 22 ? "UraniumOre" : "PhosphorusOre");
@@ -112,34 +108,20 @@ namespace Game
 			int count = list.Count;
 			int i = 0;
 			for (; i < count; i++)
-			{
 				list.Add(list[i] | 65536 << 14);
-			}
 			for (i = 0; i < count; i++)
-			{
 				list.Add(list[i] | 32768 << 14);
-			}
 			for (i = 0; i < count; i++)
-			{
 				list.Add(list[i] | (65536 | 32768) << 14);
-			}
 			const int M = 13;
 			for (i = 1; i < M; i++)
-			{
 				list.Add(BlockIndex | i << 15);
-			}
 			for (i = 1; i < M; i++)
-			{
 				list.Add(BlockIndex | i << 15 | 65536 << 14);
-			}
 			for (i = 1; i < M; i++)
-			{
 				list.Add(BlockIndex | i << 15 | 32768 << 14);
-			}
 			for (i = 1; i < M; i++)
-			{
 				list.Add(BlockIndex | i << 15 | (65536 | 32768) << 14);
-			}
 			return list;
 		}
 	}

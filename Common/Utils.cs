@@ -27,9 +27,7 @@ namespace Game
 		public static void Load(Project Project)
 		{
 			if (LoadedProject)
-			{
 				return;
-			}
 			SubsystemGameInfo = Project.FindSubsystem<SubsystemGameInfo>(true);
 			SubsystemAudio = Project.FindSubsystem<SubsystemAudio>(true);
 			SubsystemTime = Project.FindSubsystem<SubsystemTime>(true);
@@ -51,13 +49,25 @@ namespace Game
 			{
 				var key = i.Current;
 				if (key.X >= originX && key.X < originX + 16 && key.Z >= originY && key.Z < originY + 16)
-				{
 					list.Add(key);
-				}
 			}
 			for (originX = 0; originX < list.Count; originX++)
-			{
 				action(list[originX]);
+		}
+		public static void Fade(TerrainChunk chunk, int? color = null)
+		{
+			if (!chunk.IsLoaded) return;
+			for (int i = 16; i-- > 0;)
+			{
+				for (int j = 16; i-- > 0;)
+				{
+					int n = TerrainChunk.CalculateCellIndex(i, 0, j);
+					for (int k = 128; k-- > 0;)
+					{
+						if (BlocksManager.Blocks[Terrain.ExtractContents(chunk.GetCellValueFast(n + k))] is IPaintableBlock block)
+							chunk.SetCellValueFast(n, block.Paint(Utils.SubsystemTerrain, 0, color));
+					}
+				}
 			}
 		}
 		public static void PaintSelective(this TerrainChunk chunk, Cell[] cells, int x, int y, int z, int src = BasaltBlock.Index)
@@ -72,9 +82,7 @@ namespace Game
 				{
 					int index = TerrainChunk.CalculateCellIndex(cell.X + x & 15, y2, cell.Z + z & 15);
 					if (src == chunk.GetCellValueFast(index))
-					{
 						chunk.SetCellValueFast(index, cell.Value);
-					}
 				}
 			}
 		}

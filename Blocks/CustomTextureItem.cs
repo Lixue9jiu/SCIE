@@ -1,7 +1,5 @@
 ﻿using Engine;
 using Engine.Graphics;
-using System;
-using System.IO;
 
 namespace Game
 {
@@ -11,7 +9,7 @@ namespace Game
 
 		static CustomTextureItem()
 		{
-			var stream = GetTargetFile("IndustrialMod.png");
+			var stream = Utils.GetTargetFile("IndustrialMod.png");
 			try
 			{
 				Texture = Texture2D.Load(stream);
@@ -20,16 +18,6 @@ namespace Game
 			{
 				stream.Close();
 			}
-		}
-
-		public static Stream GetTargetFile(string name, bool throwIfNotFound = true)
-		{
-			for (var enumerator = ModsManager.GetEntries(".png").GetEnumerator(); enumerator.MoveNext();)
-				if (string.Equals(Path.GetFileName(enumerator.Current.Filename), name, StringComparison.OrdinalIgnoreCase))
-					return enumerator.Current.Stream;
-			if (throwIfNotFound)
-				throw new InvalidOperationException(name + " not found.");
-			return null;
 		}
 
 		public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
@@ -124,9 +112,7 @@ namespace Game
 			TexturedBatch3D texturedBatch3D = primitivesRenderer.TexturedBatch(texture, true, 0, null, RasterizerState.CullCounterClockwiseScissor, null, SamplerState.PointClamp);
 			texturedBatch3D.QueueQuad(v2, v4, v5, v3, new Vector2(vector2.X, vector2.W), new Vector2(vector2.X, vector2.Y), new Vector2(vector2.Z, vector2.Y), new Vector2(vector2.Z, vector2.W), color);
 			if (!environmentData.BillboardDirection.HasValue)
-			{
 				texturedBatch3D.QueueQuad(v2, v3, v5, v4, new Vector2(vector2.X, vector2.W), new Vector2(vector2.Z, vector2.W), new Vector2(vector2.Z, vector2.Y), new Vector2(vector2.X, vector2.Y), color);
-			}
 		}
 	}
 }

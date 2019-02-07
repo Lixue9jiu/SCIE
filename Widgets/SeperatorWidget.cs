@@ -71,9 +71,7 @@ namespace Game
 		{
 			m_progress.Value = m_componentFurnace.SmeltingProgress;
 			if (!m_componentFurnace.IsAddedToProject)
-			{
 				ParentWidget.Children.Remove(this);
-			}
 		}
 	}
 }

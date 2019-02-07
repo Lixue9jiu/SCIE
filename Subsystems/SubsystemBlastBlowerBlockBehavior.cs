@@ -14,9 +14,7 @@ namespace Game
 				Check(x, y - 1, z) ||
 				Check(x, y, z + 1) ||
 				Check(x, y, z - 1)))
-			{
 				value |= FurnaceNBlock.SetHeatLevel(Terrain.ExtractData(Utils.Terrain.GetCellValue(x, y, z)), 1) << 14;
-			}
 			Utils.SubsystemTerrain.ChangeCell(x, y, z, value, true);
 		}
 

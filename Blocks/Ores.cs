@@ -17,16 +17,12 @@ namespace Game
 			DefaultDisplayName = name + "OreChunk";
 			var sb = new StringBuilder("A chunk of ");
 			if (type == Materials.Mercury)
-			{
 				sb.Append("oxide ");
-			}
 			name = char.ToLower(name[0], CultureInfo.CurrentCulture) + name.Substring(1);
 			sb.Append(name);
 			sb.Append(" ore. When smelted in the furnace will turn into pure ");
 			if (type == Materials.Mercury)
-			{
 				sb.Append("liquid ");
-			}
 			sb.Append(name);
 			sb.Append('.');
 			DefaultDescription = sb.ToString();
@@ -80,11 +76,12 @@ namespace Game
 		{
 		}
 
-		public Powder(string name, Color color)
+		public Powder(string name, Color color, string description = null)
 		{
+			DefaultDisplayName = name;
 			Color = color;
 			DefaultTextureSlot = 198;
-			DefaultDescription = (DefaultDisplayName = name) + " is powder obtained by crushing " + name + ".";
+			DefaultDescription = description ?? name + " is powder obtained by crushing " + name + ".";
 		}
 
 		public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)

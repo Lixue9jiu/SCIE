@@ -24,9 +24,7 @@ namespace Game
 			{
 				m_fireTimeRemaining = MathUtils.Max(0f, m_fireTimeRemaining - dt);
 				if (m_fireTimeRemaining == 0f)
-				{
 					HeatLevel = 0f;
-				}
 			}
 			Slot slot;
 			if (m_updateSmeltingRecipe)
@@ -34,9 +32,7 @@ namespace Game
 				m_updateSmeltingRecipe = false;
 				float heatLevel;
 				if (HeatLevel > 0f)
-				{
 					heatLevel = HeatLevel;
-				}
 				else
 				{
 					slot = m_slots[FuelSlotIndex];
@@ -48,16 +44,12 @@ namespace Game
 				}
 				string text = null;
 				if (base.GetSlotCount(RemainsSlotIndex) > 0 && Terrain.ExtractContents(base.GetSlotValue(RemainsSlotIndex)) == WaterBucketBlock.Index)
-				{
 					text = "bucket";
-				}
 				if (text != null)
 				{
 					slot = m_slots[ResultSlotIndex];
 					if (slot.Count != 0 && (90 != slot.Value || 1 + slot.Count > 40))
-					{
 						text = null;
-					}
 				}
 				if (text != m_smeltingRecipe)
 				{
@@ -79,9 +71,7 @@ namespace Game
 				{
 					var block = BlocksManager.Blocks[Terrain.ExtractContents(slot.Value)];
 					if (block.GetExplosionPressure(slot.Value) > 0f)
-					{
 						slot.Count = 0;
-					}
 					else
 					{
 						slot.Count--;
@@ -112,9 +102,7 @@ namespace Game
 				if (SmeltingProgress >= 1f)
 				{
 					if (m_slots[RemainsSlotIndex].Count > 0)
-					{
 						m_slots[RemainsSlotIndex].Count--;
-					}
 					m_slots[ResultSlotIndex].Value = 90;
 					m_slots[ResultSlotIndex].Count++;
 					m_smeltingRecipe = null;

@@ -63,9 +63,7 @@ namespace Game
 			m_fire.ParticlesPerSecond = m_componentFurnace.HeatLevel > 0f ? 24f : 0f;
 			m_progress.Value = m_componentFurnace.SmeltingProgress / 1000f;
 			if (!m_componentFurnace.IsAddedToProject)
-			{
 				ParentWidget.Children.Remove(this);
-			}
 		}
 	}
 }

@@ -25,9 +25,7 @@ namespace Game
 			{
 				m_fireTimeRemaining = MathUtils.Max(0f, m_fireTimeRemaining - dt);
 				if (m_fireTimeRemaining == 0f)
-				{
 					HeatLevel = 0f;
-				}
 			}
 			Slot slot;
 			if (m_updateSmeltingRecipe)
@@ -35,9 +33,7 @@ namespace Game
 				float heatLevel;
 				m_updateSmeltingRecipe = false;
 				if (HeatLevel > 0f)
-				{
 					heatLevel = HeatLevel;
-				}
 				else
 				{
 					slot = m_slots[FuelSlotIndex];
@@ -97,9 +93,7 @@ namespace Game
 			if (m_smeltingRecipe != null)
 			{
 				if (m_fireTime == 0f)
-				{
 					m_fireTime = m_fireTimeRemaining;
-				}
 				SmeltingProgress = MathUtils.Min(m_fireTimeRemaining / m_fireTime, 1f);
 				if (SmeltingProgress >= 2f)
 				{

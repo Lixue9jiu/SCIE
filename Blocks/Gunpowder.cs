@@ -76,9 +76,7 @@ namespace Game
 			list.AddRange(Mine.Mines);
 			Items = list.ToArray();
 			for (int i = 0; i < Items.Length; i++)
-			{
 				IdTable.Add(Items[i].GetCraftingId(), Index | i << 14);
-			}
 		}
 
 		public override IItem GetItem(ref int value)

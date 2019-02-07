@@ -63,45 +63,4 @@ namespace Game
 			SubsystemPlayers = Project.FindSubsystem<SubsystemPlayers>(true);
 		}
 	}
-	/*public class ComponentVariant : Component
-	{
-		public struct Genome
-		{
-			public float[] DominantGenes;
-			public float[] RecessiveGenes;
-			public float LastTime;
-		}
-		public static Genome Mutate(Genome father, Genome mother)
-		{
-			var child = new Genome();
-			int i = 0, len = father.DominantGenes.Length;
-			for (; i < len; i++)
-				child.DominantGenes[i] = ((Utils.Random.Int() & 1) != 0 ? father.DominantGenes : father.RecessiveGenes)[i];
-			for (i = 0; i < len; i++)
-			{
-				var val = ((Utils.Random.Int() & 1) != 0 ? mother.DominantGenes : mother.RecessiveGenes)[i];
-				if (val > child.DominantGenes[i])
-				{
-					child.RecessiveGenes[i] = child.DominantGenes[i];
-					child.DominantGenes[i] = val;
-				}
-				else
-					child.RecessiveGenes[i] = val;
-			}
-			return child;
-		}
-		public override void Load(ValuesDictionary valuesDictionary, IdToEntityMap idToEntityMap)
-		{
-			base.Load(valuesDictionary, idToEntityMap);
-			//HeatLevel = valuesDictionary.GetValue<float>("HeatLevel");
-			//ComponentEatPickableBehavior
-		}
-
-		public override void Save(ValuesDictionary valuesDictionary, EntityToIdMap entityToIdMap)
-		{
-			base.Save(valuesDictionary, entityToIdMap);
-			//valuesDictionary.SetValue("FireTimeRemaining", m_fireTimeRemaining);
-			//valuesDictionary.SetValue("HeatLevel", HeatLevel);
-		}
-	}*/
 }

@@ -14,17 +14,13 @@ namespace Game
 			{
 				m_componentBody.Density = 1.15f;
 				if (m_componentDamage.Hitpoints - m_componentDamage.HitpointsChange >= 0.33f && flag)
-				{
 					m_subsystemAudio.PlaySound("Audio/Sinking", 1f, 0f, m_componentBody.Position, 4f, true);
-				}
 			}
 			else if (m_componentDamage.Hitpoints < 0.66f)
 			{
 				m_componentBody.Density = 0.7f;
 				if (m_componentDamage.Hitpoints - m_componentDamage.HitpointsChange >= 0.66f && flag)
-				{
 					m_subsystemAudio.PlaySound("Audio/Sinking", 1f, 0f, m_componentBody.Position, 4f, true);
-				}
 			}
 			flag = m_componentBody.ImmersionFactor > 0.95f;
 			bool obj = !flag && m_componentBody.ImmersionFactor > 0.01f && m_componentBody.StandingOnValue == null && m_componentBody.StandingOnBody == null;
@@ -34,25 +30,17 @@ namespace Game
 			var componentEngine = Entity.FindComponent<ComponentEngine2>();
 			float num2 = 3f;
 			if (componentEngine != null)
-			{
 				num2 = componentEngine.HeatLevel;
-			}
 			if (obj && num2 != 0f)
-			{
 				num -= m_turnSpeed * dt;
-			}
 			m_componentBody.Rotation = Quaternion.CreateFromAxisAngle(Vector3.UnitY, num);
 			if (obj && MoveOrder != 0f)
-			{
 				m_componentBody.Velocity += dt * num2 / 90f * MoveOrder * m_componentBody.Matrix.Forward;
-			}
 			if (flag)
 			{
 				m_componentDamage.Damage(0.005f * dt);
 				if (m_componentMount.Rider != null)
-				{
 					m_componentMount.Rider.StartDismounting();
-				}
 			}
 			MoveOrder = 0f;
 			TurnOrder = 0f;
@@ -81,13 +69,11 @@ namespace Game
 		{
 			base.Load(valuesDictionary, idToEntityMap);
 			ExplosionPressure = valuesDictionary.GetValue("ExplosionPressure", 60f);
-			MineType = (MineType)valuesDictionary.GetValue("Type", 0);
+			MineType = valuesDictionary.GetValue<MineType>("Type", 0);
 			Delay = valuesDictionary.GetValue("Delay", .0);
 			(ComponentBody = Entity.FindComponent<ComponentBody>(true)).CollidedWithBody += CollidedWithBody;
 			if ((MineType & MineType.Torpedo) != 0)
-			{
 				ComponentBody.Density = .8f;
-			}
 		}
 		public override void Save(ValuesDictionary valuesDictionary, EntityToIdMap entityToIdMap)
 		{
@@ -99,9 +85,7 @@ namespace Game
 		public void CollidedWithBody(ComponentBody body)
 		{
 			if ((MineType & MineType.Sensitive) == 0 && body.Density - 2f < .1f)
-			{
 				return;
-			}
 			if ((MineType & MineType.FL) != 0)
 			{
 				body.PositionChanged += PositionChanged;

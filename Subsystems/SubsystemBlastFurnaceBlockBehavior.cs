@@ -22,10 +22,10 @@ namespace Game
 				case HearthFurnaceBlock.Index: name = "HearthFurnace"; break;
 				default: return;
 			}
-			var valuesDictionary = new ValuesDictionary();
-			valuesDictionary.PopulateFromDatabaseObject(Project.GameDatabase.Database.FindDatabaseObject(name, Project.GameDatabase.EntityTemplateType, true));
-			valuesDictionary.GetValue<ValuesDictionary>("BlockEntity").SetValue("Coordinates", new Point3(x, y, z));
-			Project.AddEntity(Project.CreateEntity(valuesDictionary));
+			var vd = new ValuesDictionary();
+			vd.PopulateFromDatabaseObject(Project.GameDatabase.Database.FindDatabaseObject(name, Project.GameDatabase.EntityTemplateType, true));
+			vd.GetValue<ValuesDictionary>("BlockEntity").SetValue("Coordinates", new Point3(x, y, z));
+			Project.AddEntity(Project.CreateEntity(vd));
 		}
 
 		public override void OnHitByProjectile(CellFace cellFace, WorldItem worldItem)
@@ -37,9 +37,7 @@ namespace Game
 		{
 			var blockEntity = Utils.GetBlockEntity(raycastResult.CellFace.Point);
 			if (blockEntity == null || componentMiner.ComponentPlayer == null)
-			{
 				return false;
-			}
 			switch (Terrain.ExtractContents(raycastResult.Value))
 			{
 				case BlastFurnaceBlock.Index:

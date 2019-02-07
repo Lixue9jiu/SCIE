@@ -44,16 +44,12 @@ namespace Game
 					{
 						var componentDispenserNew = blockEntity.Entity.FindComponent<ComponentLiquidPump>();
 						if (componentDispenserNew != null)
-						{
 							componentDispenserNew.Dispense();
-						}
 					}
 				}
 			}
 			else
-			{
 				m_isDispenseAllowed = true;
-			}
 			return false;
 		}
 	}

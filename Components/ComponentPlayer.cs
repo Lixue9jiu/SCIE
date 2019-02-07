@@ -10,21 +10,15 @@ namespace Game
 		{
 			PlayerInput playerInput = ComponentInput.PlayerInput;
 			if (ComponentInput.IsControlledByTouch && m_aimDirection.HasValue)
-			{
 				playerInput.Look = Vector2.Zero;
-			}
 			if (ComponentMiner.Inventory != null)
 			{
 				ComponentMiner.Inventory.ActiveSlotIndex = MathUtils.Clamp(ComponentMiner.Inventory.ActiveSlotIndex + playerInput.ScrollInventory, 0, 5);
 				if (playerInput.SelectInventorySlot.HasValue)
-				{
 					ComponentMiner.Inventory.ActiveSlotIndex = MathUtils.Clamp(playerInput.SelectInventorySlot.Value, 0, 5);
-				}
 			}
 			if (ComponentBody.ImmersionFluidBlock != null && ComponentBody.ImmersionFluidBlock.BlockIndex == RottenMeatBlock.Index)
-			{
 				ComponentHealth.Air = 1f;
-			}
 			ComponentMount mount = ComponentRider.Mount;
 			if (mount != null)
 			{
@@ -34,35 +28,25 @@ namespace Game
 					if (playerInput.Move.Z > 0.5f && !m_speedOrderBlocked)
 					{
 						if (PlayerData.PlayerClass == PlayerClass.Male)
-						{
 							m_subsystemAudio.PlayRandomSound("Audio/Creatures/MaleYellFast", 0.75f, 0f, ComponentBody.Position, 2f, false);
-						}
 						else
-						{
 							m_subsystemAudio.PlayRandomSound("Audio/Creatures/FemaleYellFast", 0.75f, 0f, ComponentBody.Position, 2f, false);
-						}
 						componentSteedBehavior.SpeedOrder = 1;
 						m_speedOrderBlocked = true;
 					}
 					else if (playerInput.Move.Z < -0.5f && !m_speedOrderBlocked)
 					{
 						if (PlayerData.PlayerClass == PlayerClass.Male)
-						{
 							m_subsystemAudio.PlayRandomSound("Audio/Creatures/MaleYellSlow", 0.75f, 0f, ComponentBody.Position, 2f, false);
-						}
 						else
-						{
 							m_subsystemAudio.PlayRandomSound("Audio/Creatures/FemaleYellSlow", 0.75f, 0f, ComponentBody.Position, 2f, false);
-						}
 						componentSteedBehavior.SpeedOrder = -1;
 						m_speedOrderBlocked = true;
 					}
 					else if (MathUtils.Abs(playerInput.Move.Z) <= 0.25f)
-					{
 						m_speedOrderBlocked = false;
-					}
 					componentSteedBehavior.TurnOrder = playerInput.Move.X;
-					componentSteedBehavior.JumpOrder = (float)(playerInput.Jump ? 1 : 0);
+					componentSteedBehavior.JumpOrder = playerInput.Jump ? 1 : 0;
 					ComponentLocomotion.LookOrder = new Vector2(playerInput.Look.X, 0f);
 				}
 				else
@@ -77,9 +61,7 @@ namespace Game
 							ComponentLocomotion.LookOrder = new Vector2(playerInput.Look.X, 0f);
 						}
 						else // if (componentBoatI != null)
-						{
 							ComponentLocomotion.LookOrder = playerInput.Look;
-						}
 						ComponentCreatureModel.RowLeftOrder = playerInput.Move.X < -0.2f || playerInput.Move.Z > 0.2f;
 						ComponentCreatureModel.RowRightOrder = playerInput.Move.X > 0.2f || playerInput.Move.Z > 0.2f;
 					}
@@ -99,7 +81,7 @@ namespace Game
 				ComponentLocomotion.WalkOrder = (ComponentLocomotion.WalkOrder ?? Vector2.Zero) + (ComponentBody.IsSneaking ? (0.66f * new Vector2(playerInput.SneakMove.X, playerInput.SneakMove.Z)) : new Vector2(playerInput.Move.X, playerInput.Move.Z));
 				ComponentLocomotion.FlyOrder = new Vector3(0f, playerInput.Move.Y, 0f);
 				ComponentLocomotion.TurnOrder = playerInput.Look * new Vector2(1f, 0f);
-				ComponentLocomotion.JumpOrder = MathUtils.Max((float)(playerInput.Jump ? 1 : 0), ComponentLocomotion.JumpOrder);
+				ComponentLocomotion.JumpOrder = MathUtils.Max(playerInput.Jump ? 1 : 0, ComponentLocomotion.JumpOrder);
 			}
 			ComponentLocomotion.LookOrder += playerInput.Look * (SettingsManager.FlipVerticalAxis ? new Vector2(0f, -1f) : new Vector2(0f, 1f));
 			int num = Terrain.ExtractContents(ComponentMiner.ActiveBlockValue);
@@ -141,14 +123,14 @@ namespace Game
 			}
 			float num2 = (m_subsystemGameInfo.WorldSettings.GameMode == GameMode.Creative || block.BlockIndex == Musket2Block.Index) ? 0.1f : 1.4f;
 			Vector3 viewPosition2 = View.ActiveCamera.ViewPosition;
-			if (playerInput.Aim.HasValue && block.IsAimable && m_subsystemTime.GameTime - m_lastActionTime > (double)num2)
+			if (playerInput.Aim.HasValue && block.IsAimable && m_subsystemTime.GameTime - m_lastActionTime > num2)
 			{
 				if (!m_isAimBlocked)
 				{
 					Vector2 value = playerInput.Aim.Value;
 					Vector3 v = View.ActiveCamera.ScreenToWorld(new Vector3(value, 1f), Matrix.Identity);
 					Point2 size = Window.Size;
-					if (playerInput.Aim.Value.X >= (float)size.X * 0.1f && playerInput.Aim.Value.X < (float)size.X * 0.9f && playerInput.Aim.Value.Y >= (float)size.Y * 0.1f && playerInput.Aim.Value.Y < (float)size.Y * 0.9f)
+					if (playerInput.Aim.Value.X >= size.X * 0.1f && playerInput.Aim.Value.X < size.X * 0.9f && playerInput.Aim.Value.Y >= size.Y * 0.1f && playerInput.Aim.Value.Y < size.Y * 0.9f)
 					{
 						m_aimDirection = Vector3.Normalize(v - viewPosition2);
 						if (ComponentMiner.Aim(viewPosition2, m_aimDirection.Value, AimState.InProgress))
@@ -211,9 +193,7 @@ namespace Game
 						flag = true;
 						m_isDigBlocked = true;
 						if (Vector3.Distance(viewPosition3 + vector * nullable4.Value.Distance, ComponentCreatureModel.EyePosition) <= 2f)
-						{
 							ComponentMiner.Hit(nullable4.Value.ComponentBody, vector);
-						}
 					}
 				}
 			}
@@ -229,9 +209,7 @@ namespace Game
 				}
 			}
 			if (!playerInput.Dig.HasValue)
-			{
 				m_isDigBlocked = false;
-			}
 			if (playerInput.Drop && ComponentMiner.Inventory != null)
 			{
 				IInventory inventory = ComponentMiner.Inventory;
@@ -262,25 +240,19 @@ namespace Game
 						int num4 = Terrain.ExtractContents(value3);
 						Block block2 = BlocksManager.Blocks[num4];
 						int num5 = 0;
-						IEnumerable<int> creativeValues = block2.GetCreativeValues();
+						var creativeValues = block2.GetCreativeValues();
 						if (block2.GetCreativeValues().Contains(value3))
-						{
 							num5 = value3;
-						}
 						if (num5 == 0 && !block2.IsNonDuplicable)
 						{
-							List<BlockDropValue> list = new List<BlockDropValue>();
+							var list = new List<BlockDropValue>();
 							bool _;
 							block2.GetDropValues(m_subsystemTerrain, value3, 0, 2147483647, list, out _);
 							if (list.Count > 0 && list[0].Count > 0)
-							{
 								num5 = list[0].Value;
-							}
 						}
 						if (num5 == 0)
-						{
 							num5 = creativeValues.FirstOrDefault();
-						}
 						if (num5 != 0)
 						{
 							int num6 = -1;
@@ -304,9 +276,7 @@ namespace Game
 								}
 							}
 							if (num6 < 0)
-							{
 								num6 = componentCreativeInventory.ActiveSlotIndex;
-							}
 							componentCreativeInventory.RemoveSlotItems(num6, 2147483647);
 							componentCreativeInventory.AddSlotItems(num6, num5, 1);
 							componentCreativeInventory.ActiveSlotIndex = num6;

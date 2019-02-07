@@ -29,9 +29,7 @@ namespace Game
 			{
 				m_fireTimeRemaining = MathUtils.Max(0f, m_fireTimeRemaining - dt);
 				if (m_fireTimeRemaining == 0f)
-				{
 					HeatLevel = 0f;
-				}
 			}
 			if (m_updateSmeltingRecipe)
 			{
@@ -64,13 +62,9 @@ namespace Game
 					}
 				}
 				if (num == 0)
-				{
 					m_smeltingRecipe = null;
-				}
 				if (num == 1 && m_smeltingRecipe == null)
-				{
 					m_smeltingRecipe = m_smeltingRecipe2;
-				}
 			}
 			if (m_smeltingRecipe == null)
 			{
@@ -96,12 +90,8 @@ namespace Game
 				if (SmeltingProgress >= 1f)
 				{
 					for (int i = 0; i < 3; i++)
-					{
 						if (m_slots[i].Count > 0)
-						{
 							m_slots[i].Count--;
-						}
-					}
 					int value = ItemBlock.IdTable[m_smeltingRecipe];
 					m_slots[ResultSlotIndex].Value = value;
 					m_slots[ResultSlotIndex].Count++;
@@ -139,17 +129,11 @@ namespace Game
 				if (GetSlotCount(i) > 0)
 				{
 					if (num == TankBlock.Index)
-					{
 						n |= 1;
-					}
 					else if (slotValue == ItemBlock.IdTable["ZincRod"])
-					{
 						n |= 2;
-					}
 					else if (num == SulphurChunkBlock.Index)
-					{
 						n |= 4;
-					}
 				}
 				/*else
 				{
@@ -164,9 +148,7 @@ namespace Game
 				Slot slot = m_slots[ResultSlotIndex];
 				//int num3 = Terrain.ExtractContents(GetSlotValue(1));
 				if (slot.Count != 0 && (slot.Value != ItemBlock.IdTable[text] || 1 + slot.Count > 40))
-				{
 					text = null;
-				}
 			}
 			return text;
 		}

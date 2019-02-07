@@ -71,15 +71,11 @@ namespace Game
 		}
 		public override BoundingBox[] GetCustomCollisionBoxes(SubsystemTerrain terrain, int value)
 		{
-			var array = new BoundingBox[6];
+			var arr = new BoundingBox[6];
 			for (int i = 0; i < 6; i++)
-			{
 				if (i == 4)
-				{
-					array[i] = m_collisionBoxesByFace[i];
-				}
-			}
-			return array;
+					arr[i] = m_collisionBoxesByFace[i];
+			return arr;
 		}
 		public override bool IsFaceTransparent(SubsystemTerrain subsystemTerrain, int face, int value)
 		{
@@ -125,9 +121,7 @@ namespace Game
 							{
 								int? color4 = PaintableItemBlock.GetColor(Terrain.ExtractData(cellValue));
 								if (color4.HasValue)
-								{
 									color3 = SubsystemPalette.GetColor(generator, color4);
-								}
 							}
 						}
 						Vector3 vector3 = (connectorDirection != ElectricConnectorDirection.In) ? CellFace.FaceToVector3(tmpConnectionPath.ConnectorFace) : (-Vector3.Normalize(vector2));
@@ -244,6 +238,10 @@ namespace Game
 				}
 			}
 		}
+	}
+	public class SilverWireDevice : WireDevice
+	{
+
 	}
 	/*public abstract class DeviceElement : Element, IComparable<DeviceElement>, IEquatable<DeviceElement>
 	{

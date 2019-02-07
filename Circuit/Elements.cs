@@ -78,11 +78,7 @@ namespace Game
 		}
 		public bool Equals(Element other)
 		{
-			if (other.Type != Type)
-				return false;
-			if (Next == null)
-				return other.Next == null;
-			return GetCraftingId().Equals(other.GetCraftingId());
+			return other.Type != Type ? false : Next == null ? other.Next == null : GetCraftingId().Equals(other.GetCraftingId());
 		}
 		/*public virtual void GetObjectData(SerializationInfo info, StreamingContext context)
 		{
@@ -105,9 +101,7 @@ namespace Game
 		public virtual Device Create(Point3 p)
 		{
 			if (SubsystemCircuit.Table.TryGetValue(p, out Device device))
-			{
 				return device;
-			}
 			device = (Device)MemberwiseClone();
 			device.Point = p;
 			device.Next = new Element[0];
@@ -170,9 +164,7 @@ namespace Game
 		public bool Equals(FixedDevice other)
 		{
 			if (other.Type == Type)
-			{
 				return other.Resistance == Resistance && other.GetCraftingId() == GetCraftingId();
-			}
 			return false;
 		}
 		public override bool Equals(object obj)
@@ -251,10 +243,10 @@ namespace Game
 		{
 			if (oldValue == -1)
 				return;
-			var valuesDictionary = new ValuesDictionary();
-			valuesDictionary.PopulateFromDatabaseObject(subsystemTerrain.Project.GameDatabase.Database.FindDatabaseObject(Name, subsystemTerrain.Project.GameDatabase.EntityTemplateType, true));
-			valuesDictionary.GetValue<ValuesDictionary>("BlockEntity").SetValue("Coordinates", Point);
-			Entity entity = subsystemTerrain.Project.CreateEntity(valuesDictionary);
+			var vd = new ValuesDictionary();
+			vd.PopulateFromDatabaseObject(subsystemTerrain.Project.GameDatabase.Database.FindDatabaseObject(Name, subsystemTerrain.Project.GameDatabase.EntityTemplateType, true));
+			vd.GetValue<ValuesDictionary>("BlockEntity").SetValue("Coordinates", Point);
+			var entity = subsystemTerrain.Project.CreateEntity(vd);
 			Component = entity.FindComponent<T>(true);
 			subsystemTerrain.Project.AddEntity(entity);
 		}
@@ -265,9 +257,7 @@ namespace Game
 			{
 				var position = new Vector3(Point) + new Vector3(0.5f);
 				for (var i = blockEntity.Entity.FindComponents<IInventory>().GetEnumerator(); i.MoveNext();)
-				{
 					i.Current.DropAllItems(position);
-				}
 				subsystemTerrain.Project.RemoveEntity(blockEntity.Entity, true);
 			}
 		}
@@ -281,9 +271,7 @@ namespace Game
 		{
 			var blockEntity = Utils.GetBlockEntity(raycastResult.CellFace.Point);
 			if (blockEntity == null || componentMiner.ComponentPlayer == null)
-			{
 				return false;
-			}
 			componentMiner.ComponentPlayer.ComponentGui.ModalPanelWidget = GetWidget(componentMiner.Inventory, blockEntity.Entity.FindComponent<T>(true));
 			AudioManager.PlaySound("Audio/UI/ButtonClick", 1f, 0f, 0f);
 			return true;

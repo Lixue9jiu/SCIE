@@ -11,9 +11,7 @@ namespace Game
 		public override bool OnInteract(TerrainRaycastResult raycastResult, ComponentMiner componentMiner)
 		{
 			if (base.OnInteract(raycastResult, componentMiner) && Terrain.ExtractData(Utils.Terrain.GetCellValueFast(raycastResult.CellFace.X, raycastResult.CellFace.Y, raycastResult.CellFace.Z)) >> 10 != 0 && componentMiner.ComponentPlayer.ComponentGui.ModalPanelWidget is StoveWidget widget)
-			{
 				widget.Children.Find<LabelWidget>("Label", false).Text = "SteamTurbine";
-			}
 			return true;
 		}
 

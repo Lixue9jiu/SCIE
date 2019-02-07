@@ -12,9 +12,7 @@ namespace Game
 		public override int GetFaceTextureSlot(int face, int value)
 		{
 			if (face == 4)
-			{
 				return 107;
-			}
 			return 112;
 		}
 	}

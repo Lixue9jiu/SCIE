@@ -21,9 +21,7 @@ namespace Game
 			var array = new int[17];
 			array[0] = BlockIndex;
 			for (int i = 1; i < 17; i++)
-			{
 				array[i] = BlockIndex | SetColor(0, i - 1) << 14;
-			}
 			return array;
 		}
 		public override BlockPlacementData GetPlacementValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, TerrainRaycastResult raycastResult)
@@ -92,9 +90,7 @@ namespace Game
 		public static int? GetColor(int data)
 		{
 			if ((data & 0x10) != 0)
-			{
 				return (data >> 5) & 0xF;
-			}
 			return null;
 		}
 
@@ -185,19 +181,13 @@ namespace Game
 			{
 				var inventory = Inventory;
 				if (inventory == null)
-				{
 					inventory = Utils.GetBlockEntity(Point)?.Entity.FindComponent<ICraftingMachine>();
-				}
 				if (inventory == null)
-				{
 					return false;
-				}
 				var position = new Vector3(Point) + new Vector3(0.5f, 1f, 0.5f);
 				Utils.SubsystemPickables.AddPickable(inventory.GetSlotValue(inventory.ResultSlotIndex), inventory.RemoveSlotItems(inventory.ResultSlotIndex, MathUtils.Min(inventory.GetSlotCount(inventory.ResultSlotIndex), n)), position, null, null);
 				if (inventory.GetSlotCount(inventory.RemainsSlotIndex) > 0)
-				{
 					Utils.SubsystemPickables.AddPickable(inventory.GetSlotValue(inventory.RemainsSlotIndex), inventory.RemoveSlotItems(inventory.RemainsSlotIndex, MathUtils.Min(inventory.GetSlotCount(inventory.RemainsSlotIndex), n)), position, null, null);
-				}
 			}
 			return false;
 		}

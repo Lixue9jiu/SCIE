@@ -31,22 +31,14 @@ namespace Game
 							for (int j = 0; j < num; j++)
 							{
 								if (num3 > 1)
-								{
 									break;
-								}
 								if ((j + m_rotStep) % (rotPeriod * num2) == 0)
-								{
 									num3++;
-								}
 							}
 							if (num3 <= 1)
-							{
 								m_subsystemItemsScanner.TryModifyItem(item, block.SetDamage(item.Value, num3));
-							}
 							else
-							{
 								m_subsystemItemsScanner.TryModifyItem(item, block.GetDamageDestructionValue(item.Value));
-							}
 						}
 					}
 				}

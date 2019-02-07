@@ -31,9 +31,7 @@ namespace Game
 			{
 				m_fireTimeRemaining = MathUtils.Max(0f, m_fireTimeRemaining - dt);
 				if (m_fireTimeRemaining == 0f)
-				{
 					HeatLevel = 0f;
-				}
 			}
 			Slot slot;
 			if (m_updateSmeltingRecipe)
@@ -41,9 +39,7 @@ namespace Game
 				m_updateSmeltingRecipe = false;
 				float heatLevel = 0f;
 				if (HeatLevel > 0f)
-				{
 					heatLevel = HeatLevel;
-				}
 				else
 				{
 					slot = m_slots[FuelSlotIndex];
@@ -70,9 +66,7 @@ namespace Game
 					m_smeltingRecipe = null;
 				}
 				else if (m_smeltingRecipe == null)
-				{
 					m_smeltingRecipe = m_smeltingRecipe2;
-				}
 			}
 			if (!Powered)
 			{
@@ -172,9 +166,7 @@ namespace Game
 		protected string FindSmeltingRecipe(float heatLevel)
 		{
 			if (heatLevel < 1500f)
-			{
 				return null;
-			}
 			string text = null;
 			for (int i = 0; i < 1; i++)
 			{
@@ -182,9 +174,7 @@ namespace Game
 				int num = Terrain.ExtractContents(slotValue);
 				int num2 = Terrain.ExtractData(slotValue);
 				if (GetSlotCount(FuelSlotIndex) > 0 && GetSlotValue(i) == ItemBlock.IdTable["SteelIngot"])
-				{
 					text = "IndustrialMagnet";
-				}
 				/*else
 				{
 				}*/
@@ -193,9 +183,7 @@ namespace Game
 			{
 				Slot slot = m_slots[ResultSlotIndex];
 				if (slot.Count != 0 && (slot.Value != ItemBlock.IdTable[text] || 1 + slot.Count > 40))
-				{
 					text = null;
-				}
 			}
 			return text;
 		}

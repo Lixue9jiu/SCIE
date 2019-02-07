@@ -10,18 +10,14 @@ namespace Game
 		public override void OnHitByProjectile(CellFace cellFace, WorldItem worldItem)
 		{
 			if (!ComponentEngine.IsPowered(Utils.Terrain, cellFace.X, cellFace.Y, cellFace.Z) || worldItem.Velocity.Length() < 20f)
-			{
 				return;
-			}
 			int l;
 			Vector3 v = CellFace.FaceToVector3(cellFace.Face);
 			var position = new Vector3(cellFace.Point) + new Vector3(0.5f) - 0.75f * v;
 			if (Terrain.ExtractContents(worldItem.Value) == 6)
 			{
 				for (l = 0; l < 5; l++)
-				{
 					Utils.SubsystemProjectiles.FireProjectile(79, position, -20f * v, Vector3.Zero, null);
-				}
 				worldItem.ToRemove = true;
 			}
 			else

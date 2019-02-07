@@ -25,16 +25,12 @@ namespace Game
 		{
 			Point3 coordinates = m_componentBlockEntity.Coordinates;
 			if (coordinates.Y < 0 || coordinates.Y > 127)
-			{
 				return;
-			}
 			if (HeatLevel > 0f)
 			{
 				m_fireTimeRemaining = MathUtils.Max(0f, m_fireTimeRemaining - dt);
 				if (m_fireTimeRemaining == 0f)
-				{
 					HeatLevel = 0f;
-				}
 			}
 			Slot slot;
 			if (m_updateSmeltingRecipe)
@@ -42,9 +38,7 @@ namespace Game
 				m_updateSmeltingRecipe = false;
 				float heatLevel = 0f;
 				if (HeatLevel > 0f)
-				{
 					heatLevel = HeatLevel;
-				}
 				else
 				{
 					slot = m_slots[FuelSlotIndex];
@@ -105,19 +99,13 @@ namespace Game
 			{
 				SmeltingProgress = MathUtils.Min(SmeltingProgress + 0.02f * dt, 1f);
 				if (m_music % 330 == 0)
-				{
 					Utils.SubsystemAudio.PlaySound("Audio/SteamEngine", 1f, 0f, new Vector3(coordinates), 4f, true);
-				}
 				m_music += 2;
 				if (SmeltingProgress >= 1.0)
 				{
 					for (int i = 0; i < m_furnaceSize; i++)
-					{
 						if (m_slots[i].Count > 0)
-						{
 							m_slots[i].Count--;
-						}
-					}
 					m_slots[ResultSlotIndex].Value = 90;
 					m_slots[ResultSlotIndex].Count++;
 					m_smeltingRecipe = null;
@@ -137,8 +125,8 @@ namespace Game
 		{
 			base.Load(valuesDictionary, idToEntityMap);
 			m_furnaceSize = SlotsCount - 2;
-			m_fireTimeRemaining = valuesDictionary.GetValue<float>("FireTimeRemaining");
-			HeatLevel = valuesDictionary.GetValue<float>("HeatLevel");
+			m_fireTimeRemaining = valuesDictionary.GetValue("FireTimeRemaining", 0f);
+			HeatLevel = valuesDictionary.GetValue("HeatLevel", 0f);
 		}
 
 		public override void Save(ValuesDictionary valuesDictionary, EntityToIdMap entityToIdMap)
@@ -151,9 +139,7 @@ namespace Game
 		protected string FindSmeltingRecipe(float heatLevel)
 		{
 			if (heatLevel < 100f)
-			{
 				return null;
-			}
 			string text = null;
 			for (int i = 0; i < m_furnaceSize; i++)
 			{
@@ -164,22 +150,16 @@ namespace Game
 				{
 					m_matchedIngredients[i] = BlocksManager.Blocks[num].CraftingId + ":" + num2.ToString(CultureInfo.InvariantCulture);
 					if (num == WaterBucketBlock.Index)
-					{
 						text = "bucket";
-					}
 				}
 				else
-				{
 					m_matchedIngredients[i] = null;
-				}
 			}
 			if (text != null)
 			{
 				Slot slot = m_slots[ResultSlotIndex];
 				if (slot.Count != 0 && (90 != slot.Value || 1 + slot.Count > 40))
-				{
 					text = null;
-				}
 			}
 			return text;
 		}
@@ -194,18 +174,14 @@ namespace Game
 			{
 				cellValue = Terrain.ExtractContents(cellValue);
 				if (cellValue == EngineBlock.Index || cellValue == EngineHBlock.Index)
-				{
 					return true;
-				}
 			}
 			cellValue = terrain.GetCellValueFast(x - 1, y, z);
 			if (FurnaceNBlock.GetHeatLevel(cellValue) != 0)
 			{
 				cellValue = Terrain.ExtractContents(cellValue);
 				if (cellValue == EngineBlock.Index || cellValue == EngineHBlock.Index)
-				{
 					return true;
-				}
 			}
 			if (y < 127)
 			{
@@ -214,9 +190,7 @@ namespace Game
 				{
 					cellValue = Terrain.ExtractContents(cellValue);
 					if (cellValue == EngineBlock.Index || cellValue == EngineHBlock.Index)
-					{
 						return true;
-					}
 				}
 			}
 			if (y > 0)
@@ -226,9 +200,7 @@ namespace Game
 				{
 					cellValue = Terrain.ExtractContents(cellValue);
 					if (cellValue == EngineBlock.Index || cellValue == EngineHBlock.Index)
-					{
 						return true;
-					}
 				}
 			}
 			cellValue = terrain.GetCellValueFast(x, y, z + 1);
@@ -236,18 +208,14 @@ namespace Game
 			{
 				cellValue = Terrain.ExtractContents(cellValue);
 				if (cellValue == EngineBlock.Index || cellValue == EngineHBlock.Index)
-				{
 					return true;
-				}
 			}
 			cellValue = terrain.GetCellValueFast(x, y, z - 1);
 			if (FurnaceNBlock.GetHeatLevel(cellValue) != 0)
 			{
 				cellValue = Terrain.ExtractContents(cellValue);
 				if (cellValue == EngineBlock.Index || cellValue == EngineHBlock.Index)
-				{
 					return true;
-				}
 			}
 			return false;
 		}

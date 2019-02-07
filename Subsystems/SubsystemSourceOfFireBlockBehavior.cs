@@ -6,9 +6,7 @@ namespace Game
 	{
 		public override int[] HandledBlocks
 		{
-			get
-			{
-				return new[]
+			get { return new[]
 				{
 					17,
 					31,
@@ -16,16 +14,13 @@ namespace Game
 					104,
 					132,
 					209
-				};
-			}
+				}; }
 		}
 
 		public static void TryExplode(int x, int y, int z)
 		{
 			if (Utils.SubsystemGameInfo.WorldSettings.EnvironmentBehaviorMode != EnvironmentBehaviorMode.Living)
-			{
 				return;
-			}
 			var terrain = Utils.SubsystemTerrain.Terrain;
 			for (int i = x - 2; i <= x + 2; i++)
 				for (int j = y - 4; j <= y + 1; j++)

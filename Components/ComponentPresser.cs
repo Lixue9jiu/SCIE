@@ -29,9 +29,7 @@ namespace Game
 			{
 				m_fireTimeRemaining = MathUtils.Max(0f, m_fireTimeRemaining - dt);
 				if (m_fireTimeRemaining == 0f)
-				{
 					HeatLevel = 0f;
-				}
 			}
 			if (m_updateSmeltingRecipe)
 			{
@@ -49,13 +47,9 @@ namespace Game
 			{
 				int num = ComponentEngine.IsPowered(Utils.Terrain, coordinates.X, coordinates.Y, coordinates.Z) ? 1 : 0;
 				if (num == 0)
-				{
 					m_smeltingRecipe = null;
-				}
 				if (num == 1 && m_smeltingRecipe == null)
-				{
 					m_smeltingRecipe = m_smeltingRecipe2;
-				}
 			}
 			if (m_smeltingRecipe == null)
 			{
@@ -117,33 +111,19 @@ namespace Game
 				if (GetSlotCount(i) > 0)
 				{
 					if (slotValue == IronIngotBlock.Index)
-					{
 						text = "IronPlate";
-					}
-					if (slotValue == CopperIngotBlock.Index)
-					{
+					else if (slotValue == CopperIngotBlock.Index)
 						text = "CopperPlate";
-					}
-					if (slotValue == ItemBlock.IdTable["SteelIngot"])
-					{
+					else if (slotValue == ItemBlock.IdTable["SteelIngot"])
 						text = "SteelPlate";
-					}
-					if (slotValue == ItemBlock.IdTable["LeadIngot"])
-					{
+					else if (slotValue == ItemBlock.IdTable["LeadIngot"])
 						text = "LeadPlate";
-					}
-					if (slotValue == ItemBlock.IdTable["ZincIngot"])
-					{
+					else if (slotValue == ItemBlock.IdTable["ZincIngot"])
 						text = "ZincPlate";
-					}
-					if (slotValue == ItemBlock.IdTable["PlatinumIngot"])
-					{
+					else if (slotValue == ItemBlock.IdTable["PlatinumIngot"])
 						text = "PlatinumPlate";
-					}
-					if (slotValue == ItemBlock.IdTable["AluminumIngot"])
-					{
+					else if (slotValue == ItemBlock.IdTable["AluminumIngot"])
 						text = "AluminumPlate";
-					}
 				}
 				/*else
 				{
@@ -154,9 +134,7 @@ namespace Game
 				Slot slot = m_slots[ResultSlotIndex];
 				int num3 = Terrain.ExtractContents(GetSlotValue(1));
 				if (slot.Count != 0 && (slot.Value != ItemBlock.IdTable[text] || 1 + slot.Count > 40))
-				{
 					text = null;
-				}
 			}
 			return text;
 		}

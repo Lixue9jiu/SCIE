@@ -80,9 +80,7 @@ namespace Game
 		static Mine()
 		{
 			for (int i = 0; i < 2048; i++)
-			{
 				Mines[i] = new Mine((MineType)(i & 63), (i >> 6) / 4.0);
-			}
 		}
 		public Mine(MineType type = MineType.Medium, double delay = 0, string description = "Mine") : base("Models/Snowball", "Snowball", Matrix.CreateTranslation(Vector3.Zero), Matrix.CreateTranslation(Vector3.Zero) * Matrix.CreateScale(20f), (type & MineType.Incendiary) != 0 ? Color.DarkRed : Color.LightGray, description, "", 2.5f)
 		{
@@ -94,9 +92,7 @@ namespace Game
 				case MineType.Large: ExplosionPressure = 300f; break;
 			}
 			if ((type & MineType.Incendiary) != 0)
-			{
 				ExplosionPressure *= 0.9f;
-			}
 			Delay = delay;
 			MineType = type;
 		}
@@ -113,17 +109,11 @@ namespace Game
 			var sb = new StringBuilder((MineType & MineType.Large).ToString());
 			sb.Append(' ');
 			if ((MineType & MineType.Incendiary) != 0)
-			{
 				sb.Append("Incendiary ");
-			}
 			if ((MineType & MineType.FL) != 0)
-			{
 				sb.Append("FL ");
-			}
 			if ((MineType & MineType.Sensitive) != 0)
-			{
 				sb.Append("Sensitive ");
-			}
 			if (Delay > 0.0)
 			{
 				sb.Append(Delay.ToString());
@@ -178,9 +168,7 @@ namespace Game
 		public override bool IsFaceTransparent(SubsystemTerrain subsystemTerrain, int face, int value)
 		{
 			if (GetIsTop(Terrain.ExtractData(value)))
-			{
 				return face != 4;
-			}
 			return face != 5;
 		}
 		public override BoundingBox[] GetCustomCollisionBoxes(SubsystemTerrain terrain, int value)

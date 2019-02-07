@@ -36,12 +36,8 @@ namespace Game
 			num = 6;
 			i = 0;
 			for (int count = m_inventoryGrid.Children.Count; i < count; i++)
-			{
 				if (m_inventoryGrid.Children[i] is InventorySlotWidget inventorySlotWidget)
-				{
 					inventorySlotWidget.AssignInventorySlot(inventory, num++);
-				}
-			}
 			m_inventorySlotWidget.AssignInventorySlot(inventory, slotIndex);
 			m_inventorySlotWidget.CustomViewMatrix = Matrix.CreateLookAt(new Vector3(1f, 0f, 0f), new Vector3(0f, 0f, 0f), -Vector3.UnitZ);
 		}
@@ -68,9 +64,7 @@ namespace Game
 				}
 			}
 			else
-			{
 				ParentWidget.Children.Remove(this);
-			}
 		}
 	}
 }

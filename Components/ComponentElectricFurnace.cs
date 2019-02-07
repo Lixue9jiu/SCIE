@@ -33,9 +33,7 @@ namespace Game
 			{
 				m_fireTimeRemaining = MathUtils.Max(0f, m_fireTimeRemaining - dt);
 				if (m_fireTimeRemaining == 0f)
-				{
 					m_heatLevel = 0f;
-				}
 			}
 			if (m_updateSmeltingRecipe)
 			{
@@ -58,9 +56,7 @@ namespace Game
 					m_smeltingRecipe = null;
 				}
 				else if (m_smeltingRecipe == null)
-				{
 					m_smeltingRecipe = m_smeltingRecipe2;
-				}
 			}
 			if (!Powered)
 			{
@@ -89,12 +85,8 @@ namespace Game
 				if (SmeltingProgress >= 1f)
 				{
 					for (int i = 0; i < m_furnaceSize; i++)
-					{
 						if (m_slots[i].Count > 0)
-						{
 							m_slots[i].Count--;
-						}
-					}
 					m_slots[ResultSlotIndex].Value = m_smeltingRecipe.ResultValue;
 					m_slots[ResultSlotIndex].Count += m_smeltingRecipe.ResultCount;
 					if (m_smeltingRecipe.RemainsValue != 0 && m_smeltingRecipe.RemainsCount > 0)
@@ -118,9 +110,7 @@ namespace Game
 			m_slots.Capacity = count;
 			int i;
 			for (i = 0; i < count; i++)
-			{
 				m_slots.Add(new Slot());
-			}
 			ValuesDictionary value2 = valuesDictionary.GetValue<ValuesDictionary>("Slots");
 			for (i = 0; i < m_slots.Count; i++)
 			{

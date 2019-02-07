@@ -90,9 +90,7 @@ namespace Game
 					? Cations[i].Charge == 2 ? Color.LightGreen : Color.DarkRed
 					: atom == AtomKind.Cu ? Color.Blue : Color.White;
 				for (int j = atom == AtomKind.Ag || Cations[i].Count == 2 ? 1 : 0; j < Anions.Length; j++)
-				{
 					list.Add(new PurePowder(Cations[i] + Anions[j], color));
-				}
 			}
 			list.Add(new PurePowder("H₂(SiO₃)", Color.White));
 			list.Add(new PurePowder("Na₂(SiO₃)", Color.White));

@@ -8,9 +8,9 @@ namespace Game
 		public Resistor(Materials type)
 		{
 			DefaultTextureSlot = 163;
-			string name = type.ToString();
+			var name = type.ToString();
 			DefaultDisplayName = name + "Resistor";
-			DefaultDescription = name + " Resistor is a kind of Resistor obtained by " + name + ".";
+			DefaultDescription = name + " Resistor is a kind of resistor obtained by " + name + ".";
 		}
 		public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
 		{
@@ -22,9 +22,9 @@ namespace Game
 		public Fan(Materials type)
 		{
 			DefaultTextureSlot = 210;
-			string name = type.ToString();
+			var name = type.ToString();
 			DefaultDisplayName = name + "Fan";
-			DefaultDescription = name + " Fan is a kind of Fan made by " + name + ".";
+			DefaultDescription = name + " Fan is a kind of fan made by " + name + ".";
 		}
 		public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
 		{

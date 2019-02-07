@@ -11,9 +11,7 @@
 		public override void Simulate(ref int voltage)
 		{
 			if (Powered)
-			{
 				voltage += Voltage;
-			}
 		}
 		public override int GetFaceTextureSlot(int face, int value)
 		{

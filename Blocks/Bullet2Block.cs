@@ -54,9 +54,7 @@ namespace Game
 		public override int GetFaceTextureSlot(int face, int value)
 		{
 			if ((Terrain.ExtractData(value) >> 10) != 0)
-			{
 				return face == GetDirection(value) ? 111 : 170;
-			}
 			int bulletType = (int)GetBulletType(Terrain.ExtractData(value));
 			return bulletType < 0 || bulletType >= m_textureSlots.Length ? 209 : m_textureSlots[bulletType];
 		}
@@ -93,9 +91,7 @@ namespace Game
 			{
 				var connection = Connections[i];
 				if (connection.ConnectorType != ElectricConnectorType.Output && connection.NeighborConnectorType != 0)
-				{
 					n = MathUtils.Max(n, (int)MathUtils.Round(connection.NeighborElectricElement.GetOutputVoltage(connection.NeighborConnectorFace) * 15f));
-				}
 			}
 			int y = Point.Y;
 			if ((n & 7) != 0 && (n & 7) != 7 && y >= 0 && y < 128)
@@ -111,14 +107,10 @@ namespace Game
 				{
 					var componentUnloader = blockEntity.Entity.FindComponent<ComponentUnloader>();
 					if (componentUnloader != null)
-					{
 						placed = componentUnloader.Place();
-					}
 				}
 				if (placed)
-				{
 					m_lastDispenseTime = SubsystemElectricity.SubsystemTime.GameTime;
-				}
 			}
 			return false;
 		}
