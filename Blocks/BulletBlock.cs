@@ -27,7 +27,7 @@ namespace Game
 
 		protected static readonly float[] m_weaponPowers = new float[4] { 60f, 0f, 3.6f, 90f };
 
-		protected static readonly float[] m_explosionPressures = new float[0];
+		protected static readonly float[] m_explosionPressures = new float[4] { 0f,0f,0f,1f};
 
 		public override void GenerateTerrainVertices(BlockGeometryGenerator generator, TerrainGeometrySubsets geometry, int value, int x, int y, int z)
 		{
