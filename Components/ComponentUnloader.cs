@@ -65,15 +65,15 @@ namespace Game
 	}
 	/*public class ComponentVariant : Component
 	{
-		public struct Gene
+		public struct Genome
 		{
 			public float[] DominantGenes;
 			public float[] RecessiveGenes;
 			public float LastTime;
 		}
-		public static Gene Mutate(Gene father, Gene mother)
+		public static Genome Mutate(Genome father, Genome mother)
 		{
-			var child = new Gene();
+			var child = new Genome();
 			int i = 0, len = father.DominantGenes.Length;
 			for (; i < len; i++)
 				child.DominantGenes[i] = ((Utils.Random.Int() & 1) != 0 ? father.DominantGenes : father.RecessiveGenes)[i];

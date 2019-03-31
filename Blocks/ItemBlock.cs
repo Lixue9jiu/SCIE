@@ -179,9 +179,7 @@ namespace Game
 		public static int DecodeResult(string result)
 		{
 			if (ItemBlock.IdTable.TryGetValue(result, out int value))
-			{
 				return value;
-			}
 			string[] array = result.Split(':');
 			return Terrain.MakeBlockValue(BlocksManager.FindBlockByTypeName(array[0], true).BlockIndex, 0, array.Length >= 2 ? int.Parse(array[1], CultureInfo.InvariantCulture) : 0);
 		}
@@ -219,10 +217,7 @@ namespace Game
 
 		public static bool TransformRecipe(string[] transformedIngredients, string[] ingredients, int shiftX, int shiftY, bool flip)
 		{
-			for (int i = 0; i < 36; i++)
-			{
-				transformedIngredients[i] = null;
-			}
+			Array.Clear(transformedIngredients, 0, 36);
 			for (int j = 0; j < 6; j++)
 			{
 				for (int k = 0; k < 6; k++)
