@@ -24,7 +24,7 @@ namespace Game
 			{
 				var list = new List<BlockDropValue>(8);
 				BlocksManager.Blocks[Terrain.ExtractContents(worldItem.Value)].GetDropValues(SubsystemTerrain, worldItem.Value, 0, 3, list, out bool s);
-				for (l = 0; l < list.Count; l++)
+				for (l = 0; l < (list.Count+1); l++)
 				{
 					var blockDropValue = list[l];
 					for (int i = 0; i < blockDropValue.Count; i++)
