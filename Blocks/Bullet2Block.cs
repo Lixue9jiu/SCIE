@@ -13,13 +13,15 @@ namespace Game
 
 		public const int Index = 521;
 
-		protected static readonly string[] m_displayNames = new string[] { "IronFixedBullet" };
-		protected static readonly float[] m_sizes = new float[] { 1f };
-		protected static readonly int[] m_textureSlots = new int[] { 209 };
+		protected static readonly string[] m_displayNames = new[] { "IronFixedBullet" };
+		protected static readonly float[] m_sizes = new[] { 1f };
+		protected static readonly int[] m_textureSlots = new[] { 209 };
+
 		public override IEnumerable<int> GetCreativeValues()
 		{
 			return new int[] { Index, Index | 1 << 10 << 14 };
 		}
+
 		public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
 		{
 			if ((Terrain.ExtractData(value) >> 10) != 0)
@@ -31,26 +33,32 @@ namespace Game
 			float size2 = (bulletType >= 0 && bulletType < m_sizes.Length) ? (size * m_sizes[bulletType]) : size;
 			CustomTextureItem.DrawFlatBlock(primitivesRenderer, value, size2, ref matrix, CustomTextureItem.Texture, color, false, environmentData);
 		}
+
 		public override BlockPlacementData GetPlacementValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, TerrainRaycastResult raycastResult)
 		{
 			return (Terrain.ExtractData(value) >> 10) != 0 ? base.GetPlacementValue(subsystemTerrain, componentMiner, value, raycastResult) : default;
 		}
+
 		public override string GetDisplayName(SubsystemTerrain subsystemTerrain, int value)
 		{
-			return (Terrain.ExtractData(value) >> 10) != 0 ? "Unloader" : DefaultDisplayName;
+			return (Terrain.ExtractData(value) >> 10) != 0 ? Utils.Get("放置机") : DefaultDisplayName;
 		}
+
 		public override string GetDescription(int value)
 		{
-			return (Terrain.ExtractData(value) >> 10) != 0 ? "Unloader" : DefaultDescription;
+			return (Terrain.ExtractData(value) >> 10) != 0 ? Utils.Get("放置机") : DefaultDescription;
 		}
+
 		public override string GetCategory(int value)
 		{
 			return (Terrain.ExtractData(value) >> 10) != 0 ? "Items" : DefaultCategory;
 		}
+
 		public override Vector3 GetIconViewOffset(int value, DrawBlockEnvironmentData environmentData)
 		{
 			return (Terrain.ExtractData(value) >> 10) != 0 ? Vector3.One : DefaultIconViewOffset;
 		}
+
 		public override int GetFaceTextureSlot(int face, int value)
 		{
 			if ((Terrain.ExtractData(value) >> 10) != 0)
@@ -73,11 +81,13 @@ namespace Game
 		{
 			return new UnloaderElectricElement(subsystemElectricity, new Point3(x, y, z));
 		}
+
 		public override float GetProjectilePower(int value)
 		{
 			return 10f;
 		}
 	}
+
 	public class UnloaderElectricElement : MachineElectricElement
 	{
 		public UnloaderElectricElement(SubsystemElectricity subsystemElectricity, Point3 point) : base(subsystemElectricity, point)

@@ -76,7 +76,7 @@ namespace Game
 							ComponentBlockEntity componentBlockEntity = Entity.FindComponent<ComponentBlockEntity>();
 							if (componentBlockEntity != null)
 							{
-								Vector3 position = new Vector3(componentBlockEntity.Coordinates);
+								var position = new Vector3(componentBlockEntity.Coordinates);
 								componentPlayer = Project.FindSubsystem<SubsystemPlayers>(true).FindNearestPlayer(position);
 							}
 						}

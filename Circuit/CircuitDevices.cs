@@ -116,7 +116,7 @@ namespace Game
 		}
 		public override string GetDescription(int value)
 		{
-			return "A freezer is a good place to protect food that can delay the decay of it. It will hold up to 16 stacks of items.";
+			return "冰箱是保护食物的好地方，可以延缓食物的腐烂。 它最多可容纳16件物品。";
 		}
 		public override Widget GetWidget(IInventory inventory, ComponentNewChest component)
 		{
@@ -157,7 +157,7 @@ namespace Game
 		}
 		public override string GetDescription(int value)
 		{
-			return "A magnetizer is a device to create industrial magnet by melting steel ingot in a stronge magnetic field provided by wire.";
+			return "磁化器是通过在由线提供的强磁场中熔化钢锭来制造工业磁体的装置。";
 		}
 		public override Widget GetWidget(IInventory inventory, ComponentMagnetizer component)
 		{
@@ -203,7 +203,7 @@ namespace Game
 		}
 		public override string GetDescription(int value)
 		{
-			return "A separator is a device to separate matarial by high frequency rotation, it is a shrinking version of centrifuge.";
+			return "分离器是通过高频旋转分离处材料的装置，它是离心机的缩小版本。";
 		}
 		public override Widget GetWidget(IInventory inventory, ComponentSeperator component)
 		{
@@ -260,7 +260,7 @@ namespace Game
 		}
 		public override string GetDescription(int value)
 		{
-			return "AirBlower is a device to transfer air into some big machine that need a large amount of hot air.";
+			return "鼓风机是一种将空气输送到需要大量热空气的大型机器中的装置。";
 		}
 		public void OnBlockAdded(SubsystemTerrain terrain, int value, int oldValue)
 		{
@@ -310,11 +310,11 @@ namespace Game
 		}
 		public override string GetDisplayName(SubsystemTerrain subsystemTerrain, int value)
 		{
-			return "Electric Resistance Furnace";
+			return "电阻炉";
 		}
 		public override string GetDescription(int value)
 		{
-			return "Electric Resistance Furnace is a device that can heat item by heating resistor, it can reach a high temperature but a large amount heat is needed";
+			return "电阻炉是一种通过电阻器加热物品的装置，它可以达到很高的温度，但需要大量的热量。";
 		}
 		public override Widget GetWidget(IInventory inventory, ComponentElectricFurnace component)
 		{

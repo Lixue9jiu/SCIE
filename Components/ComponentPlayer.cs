@@ -90,7 +90,7 @@ namespace Game
 			if (playerInput.Interact.HasValue && !flag && m_subsystemTime.GameTime - m_lastActionTime > 0.33000001311302185)
 			{
 				Vector3 viewPosition = View.ActiveCamera.ViewPosition;
-				Vector3 direction = Vector3.Normalize(View.ActiveCamera.ScreenToWorld(new Vector3(playerInput.Interact.Value, 1f), Matrix.Identity) - viewPosition);
+				var direction = Vector3.Normalize(View.ActiveCamera.ScreenToWorld(new Vector3(playerInput.Interact.Value, 1f), Matrix.Identity) - viewPosition);
 				if (!ComponentMiner.Use(viewPosition, direction))
 				{
 					var body = ComponentMiner.PickBody(viewPosition, direction);
@@ -162,7 +162,7 @@ namespace Game
 			if (playerInput.Hit.HasValue && !flag && m_subsystemTime.GameTime - m_lastActionTime > 0.33000001311302185)
 			{
 				Vector3 viewPosition3 = View.ActiveCamera.ViewPosition;
-				Vector3 vector = Vector3.Normalize(View.ActiveCamera.ScreenToWorld(new Vector3(playerInput.Hit.Value, 1f), Matrix.Identity) - viewPosition3);
+				var vector = Vector3.Normalize(View.ActiveCamera.ScreenToWorld(new Vector3(playerInput.Hit.Value, 1f), Matrix.Identity) - viewPosition3);
 				TerrainRaycastResult? nullable3 = ComponentMiner.PickTerrainForInteraction(viewPosition3, vector);
 				BodyRaycastResult? nullable4 = ComponentMiner.PickBody(viewPosition3, vector);
 				if (nullable4.HasValue)
@@ -227,7 +227,7 @@ namespace Game
 			}
 			if (playerInput.PickBlockType.HasValue && !flag)
 			{
-				ComponentCreativeInventory componentCreativeInventory = ComponentMiner.Inventory as ComponentCreativeInventory;
+				var componentCreativeInventory = ComponentMiner.Inventory as ComponentCreativeInventory;
 				if (componentCreativeInventory != null)
 				{
 					Vector3 viewPosition5 = View.ActiveCamera.ViewPosition;

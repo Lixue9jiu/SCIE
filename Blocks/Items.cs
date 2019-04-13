@@ -146,6 +146,8 @@ namespace Game
 				DefaultDescription = "Monocrystalline Silicon"
 			},
 			new GenomeViewer(),
+			new Screwdriver(Color.White), //螺丝刀
+			new Wrench(Color.White), //扳手
 		};
 		static ItemBlock()
 		{

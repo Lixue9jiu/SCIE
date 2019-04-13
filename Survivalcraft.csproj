@@ -58,7 +58,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Blocks\ChemicalBlock.cs" />
-    <Compile Include="Blocks\Coal.cs" />
     <Compile Include="Blocks\CustomTextureItem.cs" />
     <Compile Include="Blocks\DrillBlock.cs" />
     <Compile Include="Blocks\DrillerElectricElement.cs" />
@@ -69,11 +68,10 @@
     <Compile Include="Blocks\FractionatingTowerBlock.cs" />
     <Compile Include="Blocks\ItemBlock.cs" />
     <Compile Include="Blocks\MachineToolBlock.cs" />
-    <Compile Include="Blocks\Ores.cs" />
+    <Compile Include="Blocks\OresAndPowder.cs" />
     <Compile Include="Blocks\RailBlock.cs" />
     <Compile Include="Blocks\ReductorBlock.cs" />
     <Compile Include="Blocks\RefractoryBrick.cs" />
-    <Compile Include="Blocks\RottenEgg.cs" />
     <Compile Include="Blocks\Oil.cs" />
     <Compile Include="Blocks\Scraps.cs" />
     <Compile Include="Blocks\Moulds.cs" />
@@ -81,6 +79,7 @@
     <Compile Include="Blocks\ElectricComponents.cs" />
     <Compile Include="Chemistry\Compound.cs" />
     <Compile Include="Chemistry\DispersionSystem.cs" />
+    <Compile Include="Circuit\LockFreeQueue.cs" />
     <Compile Include="Components\ComponentCarriage.cs" />
     <Compile Include="Components\ComponentAirShip.cs" />
     <Compile Include="Components\ComponentCoven.cs" />

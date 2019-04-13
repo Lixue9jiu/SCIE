@@ -3,23 +3,28 @@ using Engine.Graphics;
 
 namespace Game
 {
-	public class SteamBoat : MeshItem
+	public class TexturedMeshItem : MeshItem
 	{
-		public readonly Texture2D Texture = ContentManager.Get<Texture2D>("Textures/SteamBoat");
+		public Texture2D Texture;
 
-		public SteamBoat() : base("SteamBoat allows you to cross large areas of water more safely and quickly as if you have enough fuel, a powerful vehicle during the initial industrial era.")
+		public TexturedMeshItem(string modelName, string meshName, Texture2D texture, float scale = 1, string description = null) : base(description)
+        {
+            var model = ContentManager.Get<Model>(modelName);
+            Matrix transform = BlockMesh.GetBoneAbsoluteTransform(model.FindMesh(meshName, true).ParentBone) * Matrix.CreateTranslation(0f, -0.4f, 0f) * Matrix.CreateScale(scale);
+            ModelMeshPart meshPart = model.FindMesh(meshName, true).MeshParts[0];
+            m_standaloneBlockMesh.AppendModelMeshPart(meshPart, transform, false, false, false, false, Color.White);
+            m_standaloneBlockMesh.AppendModelMeshPart(meshPart, transform, false, true, false, false, Color.White);
+            Texture = texture;
+        }
+        public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
+        {
+            BlocksManager.DrawMeshBlock(primitivesRenderer, m_standaloneBlockMesh, Texture, Color.White, size, ref matrix, environmentData);
+        }
+    }
+	public class SteamBoat : TexturedMeshItem
+    {
+		public SteamBoat() : base("Models/SteamBoat", "Cylinder", ContentManager.Get<Texture2D>("Textures/SteamBoat"), 1f, "蒸汽船可让您更安全，更快速地穿越大面积的水，就像您拥有足够的燃料一样，在最初的工业时代，这是一种强大的运输工具。")
 		{
-			var model = ContentManager.Get<Model>("Models/SteamBoat");
-			const string Name = "Cylinder_001";
-			Matrix transform = BlockMesh.GetBoneAbsoluteTransform(model.FindMesh(Name, true).ParentBone) * Matrix.CreateTranslation(0f, -0.4f, 0f);
-			ModelMeshPart meshPart = model.FindMesh(Name, true).MeshParts[0];
-			m_standaloneBlockMesh.AppendModelMeshPart(meshPart, transform, false, false, false, false, Color.White);
-			m_standaloneBlockMesh.AppendModelMeshPart(meshPart, transform, false, true, false, false, Color.White);
-		}
-
-		public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
-		{
-			BlocksManager.DrawMeshBlock(primitivesRenderer, m_standaloneBlockMesh, Texture, Color.White, size, ref matrix, environmentData);
 		}
 		public override Vector3 GetIconViewOffset(int value, DrawBlockEnvironmentData environmentData)
 		{
@@ -30,22 +35,11 @@ namespace Game
 			return 0.45f;
 		}
 	}
-	public class Train : MeshItem
-	{
-		public readonly Texture2D Texture = ContentManager.Get<Texture2D>("Textures/Train");
-		public Train() : base("A steam locomotive is a type of railway locomotive that produces its pulling power through a steam engine. These locomotives are fueled by burning combustible material usually coal to produce steam in a boiler. The steam moves reciprocating pistons which are mechanically connected to the locomotive's main wheels. Both fuel and water supplies are carried with the locomotive.")
+	public class Train : TexturedMeshItem
+    {
+		public Train() : base("Models/Train", "Cylinder", ContentManager.Get<Texture2D>("Textures/Train"), 1f, "蒸汽机车是一种通过蒸汽机产生牵引力的铁路机车。 这些机车通过燃烧可燃材料（通常是煤）在锅炉中产生蒸汽来加燃料。 蒸汽移动往复活塞，机械连接到机车的主轮。 燃料和水供应都由机车携带。")
 		{
 			DefaultDisplayName = "Steam Locomotive";
-			var model = ContentManager.Get<Model>("Models/Train");
-			const string Name = "Cylinder_003";
-			Matrix transform = BlockMesh.GetBoneAbsoluteTransform(model.FindMesh(Name, true).ParentBone) * Matrix.CreateTranslation(0f, -0.4f, 0f);
-			ModelMeshPart meshPart = model.FindMesh(Name, true).MeshParts[0];
-			m_standaloneBlockMesh.AppendModelMeshPart(meshPart, transform, false, false, false, false, Color.White);
-			m_standaloneBlockMesh.AppendModelMeshPart(meshPart, transform, false, true, false, false, Color.White);
-		}
-		public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
-		{
-			BlocksManager.DrawMeshBlock(primitivesRenderer, m_standaloneBlockMesh, Texture, Color.White, size, ref matrix, environmentData);
 		}
 		public override Vector3 GetIconViewOffset(int value, DrawBlockEnvironmentData environmentData)
 		{
@@ -55,54 +49,30 @@ namespace Game
 		{
 			return new Vector3(0f, -0.2f, 0f);
 		}
-	}
-	public class Carriage : MeshItem
-	{
-		public readonly Texture2D Texture = ContentManager.Get<Texture2D>("Textures/Train");
-		public Carriage() : base("Carriage")
-		{
-			DefaultDisplayName = "Carriage";
-			var model = ContentManager.Get<Model>("Models/Train");
-			const string Name = "Cylinder_003";
-			Matrix transform = BlockMesh.GetBoneAbsoluteTransform(model.FindMesh(Name, true).ParentBone) * Matrix.CreateTranslation(0f, -0.4f, 0f);
-			ModelMeshPart meshPart = model.FindMesh(Name, true).MeshParts[0];
-			m_standaloneBlockMesh.AppendModelMeshPart(meshPart, transform, false, false, false, false, Color.White);
-			m_standaloneBlockMesh.AppendModelMeshPart(meshPart, transform, false, true, false, false, Color.White);
-		}
-		public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
-		{
-			BlocksManager.DrawMeshBlock(primitivesRenderer, m_standaloneBlockMesh, Texture, Color.White, size, ref matrix, environmentData);
-		}
-		public override Vector3 GetIconViewOffset(int value, DrawBlockEnvironmentData environmentData)
-		{
-			return new Vector3(-0.6f, 0.6f, -0.8f);
-		}
-		public override Vector3 GetIconBlockOffset(int value, DrawBlockEnvironmentData environmentData)
-		{
-			return new Vector3(0f, -0.2f, 0f);
-		}
-	}
-	public class Airship : MeshItem
-	{
-		//public readonly Texture2D Texture = ContentManager.Get<Texture2D>("Textures/Airship");
-		public static readonly Texture2D Texture = new Texture2D(1, 1, false, ColorFormat.Rgba8888);
+    }
+    public class Carriage : TexturedMeshItem
+    {
+        public Carriage() : base("Models/Train", "Cylinder", ContentManager.Get<Texture2D>("Textures/Train"), 1f, "蒸汽机车是一种通过蒸汽机产生牵引力的铁路机车。 这些机车通过燃烧可燃材料（通常是煤）在锅炉中产生蒸汽来加燃料。 蒸汽移动往复活塞，机械连接到机车的主轮。 燃料和水供应都由机车携带。")
+        {
+        }
+        public override Vector3 GetIconViewOffset(int value, DrawBlockEnvironmentData environmentData)
+        {
+            return new Vector3(-0.6f, 0.6f, -0.8f);
+        }
+        public override Vector3 GetIconBlockOffset(int value, DrawBlockEnvironmentData environmentData)
+        {
+            return new Vector3(0f, -0.2f, 0f);
+        }
+    }
+	public class Airship : TexturedMeshItem
+    {
+		public static readonly Texture2D WhiteTexture = new Texture2D(1, 1, false, ColorFormat.Rgba8888);
 		static Airship()
 		{
-			Texture.SetData(0, new byte[] { 255, 255, 255, 255 });
+			WhiteTexture.SetData(0, new byte[] { 255, 255, 255, 255 });
 		}
-		public Airship() : base("A craft which uses gas lighter than the air to produce buoyancy force and make it fly, also the source of its driving power is coming from a reciprocaing engine by burning aviation gasoline.")
+		public Airship() : base("Models/Airship", "Airship", WhiteTexture, 0.08f, "使用比空气更轻的气体来产生浮力并使其飞行的工艺，其驱动动力源来自通过燃烧航空汽油的往复式发动机。")
 		{
-			const string Name = "Airship";
-			DefaultDisplayName = Name;
-			var model = ContentManager.Get<Model>("Models/Airship");
-			Matrix transform = BlockMesh.GetBoneAbsoluteTransform(model.FindMesh(Name, true).ParentBone) * Matrix.CreateTranslation(0f, -0.4f, 0f) * Matrix.CreateScale(0.08f);
-			ModelMeshPart meshPart = model.FindMesh(Name, true).MeshParts[0];
-			m_standaloneBlockMesh.AppendModelMeshPart(meshPart, transform, false, false, false, false, Color.White);
-			m_standaloneBlockMesh.AppendModelMeshPart(meshPart, transform, false, true, false, false, Color.White);
-		}
-		public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
-		{
-			BlocksManager.DrawMeshBlock(primitivesRenderer, m_standaloneBlockMesh, Texture, Color.White, size, ref matrix, environmentData);
 		}
 		public override Vector3 GetIconViewOffset(int value, DrawBlockEnvironmentData environmentData)
 		{

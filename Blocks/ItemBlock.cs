@@ -29,6 +29,18 @@ namespace Game
 			FlyCamera.get_IsEntityControlEnabled1 = True;
 			RandomJumpCamera.get_IsEntityControlEnabled1 = True;
 			StraightFlightCamera.get_IsEntityControlEnabled1 = True;
+			var stream = Utils.GetTargetFile("IndustrialMod_en-us.lng", false);
+			if (stream == null) return;
+			try
+			{
+				var d = new Dictionary<string, string>();
+				Utils.ReadKeyValueFile(d, stream);
+				Utils.TR = d;
+			}
+			finally
+			{
+				stream.Close();
+			}
 		}
 		public static bool True(object obj)
 		{
@@ -62,7 +74,7 @@ namespace Game
 			while (enumerator.MoveNext())
 			{
 				XElement xelement = enumerator.Current;
-				CraftingRecipe craftingRecipe = new CraftingRecipe
+				var craftingRecipe = new CraftingRecipe
 				{
 					Ingredients = new string[36]
 				};
@@ -81,7 +93,7 @@ namespace Game
 					throw new InvalidOperationException($"In recipe for \"{attributeValue}\" ResultCount is larger than max stacking of result block.");
 				if (craftingRecipe.RemainsValue != 0 && craftingRecipe.RemainsCount > BlocksManager.Blocks[Terrain.ExtractContents(craftingRecipe.RemainsValue)].MaxStacking)
 					throw new InvalidOperationException($"In Recipe for \"{attributeValue2}\" RemainsCount is larger than max stacking of remains block.");
-				Dictionary<char, string> dictionary = new Dictionary<char, string>();
+				var dictionary = new Dictionary<char, string>();
 				foreach (XAttribute item in xelement.Attributes().Where(CraftingRecipesManager.c._.Initialize_b__3_1))
 				{
 					CraftingRecipesManager.DecodeIngredient(item.Value, out string craftingId, out int? data);
@@ -126,7 +138,7 @@ namespace Game
 						RemainsCount = craftingRecipe.RemainsCount,
 						RequiredHeatLevel = 1f,
 						Ingredients = (string[])ingredients.Clone(),
-						Description = craftingRecipe.Description + " (temperature too low)"
+						Description = craftingRecipe.Description + Utils.Get(" (温度过低)")
 					});
 				}
 			}
@@ -435,12 +447,20 @@ namespace Game
 			};
 		}
 	}
+	public class ColoredFlatItem : FlatItem
+	{
+		public Color Color;
+		public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
+		{
+			BlocksManager.DrawFlatBlock(primitivesRenderer, value, size, ref matrix, null, Color * color, false, environmentData);
+		}
+	}
 	public class MeshItem : BlockItem
 	{
 		public BlockMesh m_standaloneBlockMesh = new BlockMesh();
 		public MeshItem(string description = null)
 		{
-			DefaultDescription = description;
+			DefaultDescription = Utils.Get(description);
 		}
 		public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
 		{
@@ -468,7 +488,7 @@ namespace Game
 		}
 		public override string GetDescription(int value)
 		{
-			return GetItem(ref value).GetDescription(value);
+			return Utils.Get(GetItem(ref value).GetDescription(value));
 		}
 		public override string GetCategory(int value)
 		{

@@ -57,9 +57,11 @@ namespace Game
 				{
 					ICraftingMachine inventory = Inventory;
 					if (inventory == null)
+					{
 						Inventory = inventory = Utils.GetBlockEntity(Point)?.Entity.FindComponent<ICraftingMachine>();
-					if (inventory == null)
-						return false;
+						if (inventory == null)
+							return false;
+					}
 					int n = (int)MathUtils.Round(connection.NeighborElectricElement.GetOutputVoltage(connection.NeighborConnectorFace) * 15f);
 					if (connection.CellFace.Face == 4)
 						inventory.SlotIndex = n;

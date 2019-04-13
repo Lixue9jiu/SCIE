@@ -98,20 +98,20 @@ namespace Game
 		public override string GetDisplayName(SubsystemTerrain subsystemTerrain, int value)
 		{
 			int type = GetType(value);
-			return type < 3 ? Names[type]: "Soild " + ((Materials)(type - 3)).ToString() + " Block";
+			return type < 3 ? Utils.Get(Names[type]): "Soild " + ((Materials)(type - 3)).ToString() + " Block";
 		}
 		public override string GetDescription(int value)
 		{
 			switch (GetType(value))
 			{
-				case 0: return "The basic case of some machine. Very heavy and durable. Extremely resilient to digging and explosions. Can be crafted from multiple ironplate or steel ingots.";
-				case 1: return "The Secondry case of some machine or device. Very heavy and durable. Extremely resilient to digging and explosions. Can be crafted from multiple steelplate.";
-				case 2: return "Fire Brick wall can be made by combining several fire bricks together and binding them with mortar. It is a versatile, strong and good looking industrial material.";
+				case 0: return Utils.Get("一些机器的基础外壳。 非常重且耐用。对 挖掘和爆炸都非常有抗性。 可以用多个铁板或钢锭制成。");
+				case 1: return Utils.Get("某些机器或设备的高级外壳。 非常重且耐用。 对挖掘和爆炸都有非常有抗性。 可以用多个钢板制作。");
+				case 2: return Utils.Get("防火砖墙可以通过将几块防火砖组合在一起并用砂浆粘合而制成。 它是一种多功能，坚固且美观的工业材料。");
 				default:
 					var type = (Materials)(GetType(value) - 3);
-					return type == Materials.Steel
-						? "The block of steel. Very heavy and durable. Extremely resilient to digging and explosions. Can be crafted from multiple steel ingots."
-						: "The block of pure " + type.ToString() + " Can be crafted from multiple " + type.ToString() + " ingots.";
+					return Utils.Get(type == Materials.Steel
+						? "钢块。 非常重且耐用。 对挖掘和爆炸都有非常好的抗性。 可以用多个钢锭制作。"
+						: "The block of pure " + type.ToString() + " Can be crafted from multiple " + type.ToString() + " ingots.");
 			}
 		}
 		public override void GetDropValues(SubsystemTerrain subsystemTerrain, int oldValue, int newValue, int toolLevel, List<BlockDropValue> dropValues, out bool showDebris)

@@ -125,9 +125,9 @@ namespace Game
 									Vector3 v2 = eyePosition + matrix.Right * 0.3f;
 									matrix = componentMiner.ComponentCreature.ComponentBody.Matrix;
 									Vector3 vector2 = v2 - matrix.Up * 0.2f;
-									Vector3 vector3 = Vector3.Normalize(vector2 + direction * 10f - vector2);
-									Vector3 vector4 = Vector3.Normalize(Vector3.Cross(vector3, Vector3.UnitY));
-									Vector3 v3 = Vector3.Normalize(Vector3.Cross(vector3, vector4));
+									var vector3 = Vector3.Normalize(vector2 + direction * 10f - vector2);
+									var vector4 = Vector3.Normalize(Vector3.Cross(vector3, Vector3.UnitY));
+									var v3 = Vector3.Normalize(Vector3.Cross(vector3, vector4));
 									for (int i = 0; i < num6; i++)
 									{
 										Vector3 v4 = m_random.UniformFloat(0f - vector.X, vector.X) * vector4 + m_random.UniformFloat(0f - vector.Y, vector.Y) * v3 + m_random.UniformFloat(0f - vector.Z, vector.Z) * vector3;

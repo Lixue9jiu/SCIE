@@ -5,7 +5,7 @@ namespace Game
 {
 	public class RefractoryBrick : MeshItem
 	{
-		public RefractoryBrick() : base("A refractory brick is a block of refractory ceramic material used in lining furnaces, kilns, advanced firebox, and fireplaces. It is bulit to withstand high temperature, but also have a low thermal conductivity for great energy efficiency.")
+		public RefractoryBrick() : base("耐火砖是一种耐火陶瓷材料，用于炉衬炉，窑炉，高级燃烧室和壁炉。 它具有耐高温性能，但导热系数低，能效高。")
 		{
 			m_standaloneBlockMesh = Utils.CreateMesh("Models/Brick", "Brick", Matrix.CreateTranslation(0f, -0.02f, 0f) * 1.4f, Matrix.CreateTranslation(-32 % 16 / 16f, -32 / 16 / 16f, 0f), new Color(255, 153, 18));
 		}

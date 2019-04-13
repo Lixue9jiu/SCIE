@@ -16,7 +16,7 @@ namespace Game
 		public override void Initialize()
 		{
 			base.Initialize();
-			BlockMesh mesh = new BlockMesh();
+			var mesh = new BlockMesh();
 			var vertices = new BlockMeshVertex[]
 			{
 				new BlockMeshVertex
@@ -52,8 +52,8 @@ namespace Game
 			flatMesh.AppendBlockMesh(mesh);
 			flatMesh.TransformTextureCoordinates(Matrix.CreateTranslation(new Vector3(238 % 16 / 16f, 238 / 16 / 16f, 0f)));
 
-			Matrix center = Matrix.CreateTranslation(new Vector3(0.5f, 0, 0.5f));
-			Matrix reverseCenter = Matrix.CreateTranslation(new Vector3(-0.5f, 0, -0.5f));
+			var center = Matrix.CreateTranslation(new Vector3(0.5f, 0, 0.5f));
+			var reverseCenter = Matrix.CreateTranslation(new Vector3(-0.5f, 0, -0.5f));
 
 			for (int i = 0; i < 4; i++)
 			{

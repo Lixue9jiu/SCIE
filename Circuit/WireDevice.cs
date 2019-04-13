@@ -125,7 +125,7 @@ namespace Game
 							}
 						}
 						Vector3 vector3 = (connectorDirection != ElectricConnectorDirection.In) ? CellFace.FaceToVector3(tmpConnectionPath.ConnectorFace) : (-Vector3.Normalize(vector2));
-						Vector3 vector4 = Vector3.Cross(vector, vector3);
+						var vector4 = Vector3.Cross(vector, vector3);
 						float s = (centerBoxSize >= 0f) ? MathUtils.Max(0.03125f, centerBoxSize / 2f) : (centerBoxSize / 2f);
 						float num5 = (connectorDirection == ElectricConnectorDirection.In) ? 0.03125f : 0.5f;
 						float num6 = (connectorDirection == ElectricConnectorDirection.In) ? 0f : ((tmpConnectionPath.ConnectorFace == tmpConnectionPath.NeighborFace) ? (num5 + 0.03125f) : ((tmpConnectionPath.ConnectorFace != CellFace.OppositeFace(tmpConnectionPath.NeighborFace)) ? num5 : (num5 - 0.03125f)));
@@ -204,7 +204,7 @@ namespace Game
 					if (i != mountingFace && i != CellFace.OppositeFace(mountingFace) && (num4 & (1 << i)) == 0)
 					{
 						Vector3 vector17 = CellFace.FaceToVector3(i);
-						Vector3 v6 = Vector3.Cross(vector, vector17);
+						var v6 = Vector3.Cross(vector, vector17);
 						Vector3 vector18 = v - v6 * 0.03125f + vector17 * 0.03125f;
 						Vector3 vector19 = v + v6 * 0.03125f + vector17 * 0.03125f;
 						Vector3 vector20 = v + vector * 0.03125f;

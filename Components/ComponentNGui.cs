@@ -1,14 +1,16 @@
 using Engine;
 using GameEntitySystem;
+using TemplatesDatabase;
 
 namespace Game
 {
 	public class ComponentNGui : ComponentGui, IUpdateable
 	{
+		public ComponentGui ComponentGui;
 		public new void Update(float dt)
 		{
 			HandleInput();
-			UpdateWidgets();
+			ComponentGui.UpdateWidgets();
 		}
 
 		public new void HandleInput()
@@ -257,6 +259,12 @@ namespace Game
 			}
 			else if (input.Back || m_backButtonWidget.IsClicked)
 				DialogsManager.ShowDialog(m_componentPlayer.View.GameWidget, new GameMenuDialog(m_componentPlayer));
+		}
+
+		public override void Load(ValuesDictionary valuesDictionary, IdToEntityMap idToEntityMap)
+		{
+			ComponentGui = Entity.FindComponent<ComponentGui>(true);
+			base.Load(valuesDictionary, idToEntityMap);
 		}
 	}
 }

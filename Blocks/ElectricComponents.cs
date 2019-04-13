@@ -3,7 +3,7 @@ using Engine.Graphics;
 
 namespace Game
 {
-	public class Resistor : FlatItem
+	public class Resistor : ColoredFlatItem
 	{
 		public Resistor(Materials type)
 		{
@@ -11,11 +11,8 @@ namespace Game
 			var name = type.ToString();
 			DefaultDisplayName = name + "Resistor";
 			DefaultDescription = name + " Resistor is a kind of resistor obtained by " + name + ".";
-		}
-		public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
-		{
-			BlocksManager.DrawFlatBlock(primitivesRenderer, value, size, ref matrix, null, new Color(55, 55, 55), false, environmentData);
-		}
+            Color = new Color(55, 55, 55);
+        }
 	}
 	public class Fan : CustomTextureItem
 	{
@@ -46,6 +43,11 @@ namespace Game
 		public override string GetCraftingId()
 		{
 			return CraftingId;
+		}
+
+		public override float GetIconViewScale(int value, DrawBlockEnvironmentData environmentData)
+		{
+			return base.GetIconViewScale(value, environmentData) * 0.4f;
 		}
 	}
 }

@@ -16,9 +16,7 @@ public class RottenMeatBlock : FluidBlock
 	public BlockMesh m_standaloneBlockMesh;
 	public BlockMesh StandaloneBlockMesh = new BlockMesh();
 
-	public RottenMeatBlock() : base(1)
-	{
-	}
+	public RottenMeatBlock() : base(1) {}
 	public override void Initialize()
 	{
 		var model = ContentManager.Get<Model>("Models/FullBucket");
@@ -58,9 +56,7 @@ public class RottenMeatBlock : FluidBlock
 	public override void GenerateTerrainVertices(BlockGeometryGenerator generator, TerrainGeometrySubsets geometry, int value, int x, int y, int z)
 	{
 		if (GetType(value) == Type.Oil)
-		{
 			BlocksManager.FluidBlocks[WaterBlock.Index].GenerateFluidTerrainVertices(generator, value, x, y, z, new Color(30, 30, 30), new Color(30, 30, 30), geometry.OpaqueSubsetsByFace);
-		}
 	}
 	public override BlockPlacementData GetPlacementValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, TerrainRaycastResult raycastResult)
 	{

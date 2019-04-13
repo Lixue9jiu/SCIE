@@ -2,51 +2,66 @@ using Engine;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Runtime.CompilerServices;
 
 namespace Game
 {
-#if DEBUG
-	public enum Strings
+	public enum Str
 	{
-		Coalpowder_Desc,
-		CokeCoal_Desc,
-		Cylinder_Desc,
-		LPG_Desc,
-		LNG_Desc,
-		He_Desc,
-		Ar_Desc,
-		CrudeSalt_Desc,
-		RefinedSalt_Desc,
-		Yeast_Desc,
-		Alum_Desc,
-		QuartzPowder_Desc,
-		Lichenin_Desc,
-		MonoSi_Desc,
-		PolySi_Desc,
-		Resistor_Desc,
-		BasicMachineCase_Desc,
-		SecondryMachineCase_Desc,
-		FireBrickWall_Desc,
-		_Desc,
-		Drill_Desc,
-		Tubularis_Desc,
-		Fridge_Desc,
-		Magnetizer_Desc,
-		Separator_Desc,
-		Battery_Desc,
-		Wire_Desc,
-		Fan_Desc,
-		SteamBoat_Desc,
-		Train_Desc,
-		Carriage_Desc,
-		Airship_Desc,
-		RifleBarrel_Desc,
+		/*Coalpowder,
+		CokeCoal,
+		Cylinder,
+		FireBrick,
+		ScrapIron,
+		LPG,
+		LNG,
+		He,
+		Ar,
+		CrudeSalt,
+		RefinedSalt,
+		Yeast,
+		Alum,
+		QuartzPowder,
+		Lichenin,
+		MonoSi,
+		PolySi,
+		Resistor,
+		BasicMachineCase,
+		SecondryMachineCase,
+		FireBrickWall,
+		Temperature,
+		Drill,
+		Tubularis,
+		SteelBlock,
+		Fridge,
+		Magnetizer,
+		Separator,
+		Battery,
+		Wire,
+		DirectCurrentDynamo,
+		ResistanceFurnaceName,
+		ResistanceFurnace,
+		AirBlower,
+		Fan,
+		SteamBoat,
+		Train,
+		Carriage,
+		Airship,
+		RifleBarrel,
+		Unloader,
+		Mine,
+		Torpedo,
+		Incendiary,
+		FL,
+		Sensitive,
+		Tiny,
+		Small,
+		Medium,
+		Large,*/
 	}
-#endif
 	public static partial class Utils
 	{
-#if DEBUG
-		public static string[] TR;
+		public static Dictionary<string, string> TR = new Dictionary<string, string>();
 		/// <summary>
 		/// 读取键值对文件
 		/// </summary>
@@ -69,24 +84,11 @@ namespace Game
 				}
 			}
 		}
-		public static void ReadLanguageFile()
+		[MethodImpl((MethodImplOptions)0x100)]
+		public static string Get(string s)
 		{
-			var d = new Dictionary<string, string>();
-			for (var enumerator = ModsManager.GetEntries(".lng").GetEnumerator(); enumerator.MoveNext();)
-				ReadKeyValueFile(d, enumerator.Current.Stream);
-			TR = new string[d.Count];
-			var type = typeof(Strings);
-			for (var enumerator = d.GetEnumerator(); enumerator.MoveNext();)
-			{
-				var current = enumerator.Current;
-				TR[(int)Enum.Parse(type, current.Key, false)] = current.Value;
-			}
+			return s != null && TR.TryGetValue(s, out string result) ? result: s;
 		}
-		public static string Get(Strings s)
-		{
-			return TR[(int)s];
-		}
-#endif
 		public static Stream GetTargetFile(string name, bool throwIfNotFound = true)
 		{
 			for (var enumerator = ModsManager.GetEntries(Storage.GetExtension(name)).GetEnumerator(); enumerator.MoveNext();)

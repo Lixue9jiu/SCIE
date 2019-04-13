@@ -5,10 +5,8 @@ using System.Text;
 
 namespace Game
 {
-	public class OreChunk : FlatItem
-	{
-		public readonly Color Color;
-
+	public class OreChunk : ColoredFlatItem
+    {
 		protected readonly BlockMesh m_standaloneBlockMesh = new BlockMesh();
 
 		public OreChunk(Matrix transform, Matrix tcTransform, Color color, bool smooth, Materials type)
@@ -47,8 +45,8 @@ namespace Game
 			return 2f;
 		}
 	}
-	public class Powder : FlatItem
-	{
+	public class Powder : ColoredFlatItem
+    {
 		public static readonly Color[] Colors = new[]
 		{
 			Color.White,
@@ -70,8 +68,6 @@ namespace Game
 			new Color(205, 190, 112),
 		};
 
-		public readonly Color Color;
-
 		public Powder(Materials type) : this(type.ToString() + "OrePowder", Colors[(int)type])
 		{
 		}
@@ -83,10 +79,60 @@ namespace Game
 			DefaultTextureSlot = 198;
 			DefaultDescription = description ?? name + " is powder obtained by crushing " + name + ".";
 		}
+	}
+	public class CoalPowder : Powder, IFuel
+	{
+		public readonly float HeatLevel;
+		public readonly float FuelFireDuration;
+
+		public CoalPowder(string name, Color color, float heatLevel = 1700f, float fuelFireDuration = 60f, string description = "煤粉是通过破碎煤块而得到的黑色粉末。它可以用作燃料。") : base(name + "Powder", color)
+		{
+			DefaultDescription = description;
+			HeatLevel = heatLevel;
+			FuelFireDuration = fuelFireDuration;
+		}
 
 		public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
 		{
 			BlocksManager.DrawFlatBlock(primitivesRenderer, value, size, ref matrix, null, Color, false, environmentData);
+		}
+
+		public float GetHeatLevel(int value)
+		{
+			return HeatLevel;
+		}
+
+		public float GetFuelFireDuration(int value)
+		{
+			return FuelFireDuration;
+		}
+	}
+	public class CokeCoal : OreChunk, IFuel
+	{
+		public CokeCoal() : base(Matrix.CreateRotationX(1f) * Matrix.CreateRotationZ(2f), Matrix.CreateTranslation(0.0625f, 0.4375f, 0f), new Color(175, 175, 175), false, Materials.Steel)
+		{
+			DefaultDisplayName = "CokeCoal";
+			DefaultDescription = "焦炭看起来像炼焦煤获得的银块。 它可以用作工业领域中的燃料或还原剂。";
+		}
+
+		public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
+		{
+			BlocksManager.DrawMeshBlock(primitivesRenderer, m_standaloneBlockMesh, color, 2f * size, ref matrix, environmentData);
+		}
+
+		public override string GetCategory(int value)
+		{
+			return "Items";
+		}
+
+		public float GetHeatLevel(int value)
+		{
+			return 2000f;
+		}
+
+		public float GetFuelFireDuration(int value)
+		{
+			return 100f;
 		}
 	}
 }

@@ -57,14 +57,13 @@ namespace Game
 		protected void Driller(Point3 point, int face)
 		{
 			Vector3 vector = CellFace.FaceToVector3(face);
-			Vector3 v = Vector3.Zero;
 			int x = point.X;
 			int y = point.Y;
 			int z = point.Z;
 			int slotValue = GetSlotValue(8);
 			if (!(ComponentEngine.IsPowered(Utils.Terrain, x, y, z) || Utils.SubsystemGameInfo.WorldSettings.GameMode == 0) || BlocksManager.Blocks[Terrain.ExtractContents(slotValue)].Durability <= 0)
 				return;
-			int[] array = new int[9]
+			int[] array = new[]
 			{
 				0,
 				0,
@@ -75,8 +74,7 @@ namespace Game
 				-1,
 				-1,
 				-1
-			};
-			int[] array2 = new int[9]
+			}, array2 = new[]
 			{
 				0,
 				-1,
@@ -89,6 +87,7 @@ namespace Game
 				-1
 			};
 			int num2 = 0;
+			Vector3 v = Vector3.Zero;
 			for (int l = 1; l < 19; l++)
 			{
 				for (int m = 0; m < 9; m++)

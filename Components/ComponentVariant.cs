@@ -127,7 +127,10 @@ namespace Game
 		public float this[Trait index]
 		{
 			get { return DominantGenes[(int)index]; }
-			set { DominantGenes[(int)index] = RecessiveGenes[(int)index] = value; }
+			set {
+				DominantGenes[(int)index] = value;
+				if (RecessiveGenes[(int)index] == 0f) RecessiveGenes[(int)index] = value;
+			}
 		}
 
 		public Genome(float[] dominantGenes, float[] recessiveGenes)
@@ -145,6 +148,7 @@ namespace Game
 				sb.Append(((Trait)i).ToString());
 				sb.Append(": ");
 				sb.Append(DominantGenes[i].ToString());
+				sb.Append("  ");
 				if (i < RecessiveGenes.Length)
 					sb.Append(RecessiveGenes[i].ToString());
 				sb.AppendLine();
@@ -162,7 +166,7 @@ namespace Game
 
 		public static Genome Hybridize(Genome father, Genome mother)
 		{
-			var child = new Genome(new float[67], new float[67]);
+			var child = new Genome(new float[68], new float[68]);
 			int i = 0, len = father.DominantGenes.Length;
 			for (; i < len; i++)
 				child.DominantGenes[i] = ((Utils.Random.Int() & 1) != 0 ? father.DominantGenes : father.RecessiveGenes)[i];
@@ -183,8 +187,9 @@ namespace Game
 		public override void Load(ValuesDictionary valuesDictionary, IdToEntityMap idToEntityMap)
 		{
 			base.Load(valuesDictionary, idToEntityMap);
-			var dGenes = new DynamicArray<float>();
-			var rGenes = new DynamicArray<float>();
+			//var dGenes = new DynamicArray<float>();
+			//var rGenes = new DynamicArray<float>();
+			float[] dGenes = new float[68], rGenes = new float[68];
 			var s = valuesDictionary.GetValue("Genome", string.Empty).Split(new[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
 			if (s.Length == 0)
 			{
@@ -194,16 +199,15 @@ namespace Game
 			for (int i = 0; i < s.Length; i++)
 			{
 				int n = s[i].IndexOf(',');
-				dGenes.Add(float.Parse(n > 0 ? s[i].Substring(0, n) : s[i], CultureInfo.InvariantCulture));
-				if (n > 0)
-					rGenes.Add(float.Parse(s[i].Substring(n + 1), CultureInfo.InvariantCulture));
+				dGenes[i] = float.Parse(n > 0 ? s[i].Substring(0, n) : s[i], CultureInfo.InvariantCulture);
+				rGenes[i] = n > 0 ? float.Parse(s[i].Substring(n + 1), CultureInfo.InvariantCulture) : dGenes[i];
 			}
-			var arr = dGenes.Array;
-			Array.Resize(ref arr, dGenes.Count);
+			/*var arr = dGenes.Array;
+			Array.Resize(ref arr, 68);
 			arr = rGenes.Array;
-			Array.Resize(ref arr, dGenes.Count);
-			Genome = new Genome(dGenes.Array, arr);
-			LastTime = valuesDictionary.GetValue("Genome", 0.0);
+			Array.Resize(ref arr, 68);*/
+			Genome = new Genome(dGenes, rGenes);
+			LastTime = valuesDictionary.GetValue("LastTime", 900.0);
 		}
 
 		public override void Save(ValuesDictionary valuesDictionary, EntityToIdMap entityToIdMap)
@@ -221,7 +225,7 @@ namespace Game
 			for (i = 0; i < s; i++)
 			{
 				sb.Append(Genome.DominantGenes[i].ToString());
-				if (i < r)
+				if (i < r && Genome.DominantGenes[i] != Genome.RecessiveGenes[i])
 				{
 					sb.Append(',');
 					sb.Append(Genome.RecessiveGenes[i].ToString());
@@ -237,6 +241,7 @@ namespace Game
 			if (Genome.DominantGenes == null)
 			{
 				Initialize();
+				return;
 			}
 			var caj = Entity.FindComponent<ComponentAutoJump>();
 			if (caj != null)
@@ -379,7 +384,7 @@ namespace Game
 			var cu = Entity.FindComponent<ComponentUdder>();
 			if (cu != null)
 				cu.m_milkRegenerationTime = Genome[Trait.MilkRegenerationTime];
-			Hybridize();
+			//Hybridize();
 		}
 
 		public void Mutate()
@@ -391,6 +396,11 @@ namespace Game
 			for (t = Trait.WalkSpeed; t <= Trait.TurnSpeed; t++)
 				if ((Utils.Random.Int() & 1) != 0)
 					Genome[t] *= Utils.Random.UniformFloat(1f, 1.1f);
+			for (t = Trait.AttackResilience; t <= Trait.FireResilience; t++)
+				if ((Utils.Random.Int() & 1) != 0)
+					Genome[t] *= Utils.Random.UniformFloat(1f, 1.08f);
+			if ((Utils.Random.Int() & 1) != 0)
+				Genome[Trait.AttackPower] *= Utils.Random.UniformFloat(1f, 1.1f);
 			if ((Utils.Random.Int() & 1) != 0)
 				Genome[Trait.FindPlayer_DayRange] *= Utils.Random.UniformFloat(1f, 1.1f);
 			else
@@ -399,11 +409,12 @@ namespace Game
 				Genome[Trait.DigSpeed] *= Utils.Random.UniformFloat(1f, 1.04f);
 			if ((Utils.Random.Int() & 1) != 0)
 				Genome[Trait.AirCapacity] *= Utils.Random.UniformFloat(1f, 1.04f);
+			OnEntityAdded();
 		}
 
 		public void Initialize()
 		{
-			Genome = new Genome(new float[65], new float[65]);
+			Genome = new Genome(new float[68], new float[68]);
 			var caj = Entity.FindComponent<ComponentAutoJump>();
 			if (caj != null)
 				Genome[Trait.JumpStrength] = caj.m_jumpStrength;
@@ -422,16 +433,18 @@ namespace Game
 			var cb = Entity.FindComponent<ComponentBody>();
 			if (cb != null)
 			{
-				cb.BoxSize = new Vector3(
-					Genome[Trait.BoxSizeX],
-					Genome[Trait.BoxSizeY],
-					Genome[Trait.BoxSizeZ]);
+				var boxSize = cb.BoxSize;
+				Genome[Trait.BoxSizeX] = boxSize.X;
+				Genome[Trait.BoxSizeY] = boxSize.Y;
+				Genome[Trait.BoxSizeZ] = boxSize.Z;
 				Genome[Trait.Mass] = cb.Mass;
 				Genome[Trait.Density] = cb.Density;
-				var vec2 = new Vector2(Genome[Trait.AirDragX], Genome[Trait.AirDragY]);
-				cb.AirDrag = vec2;
-				vec2 = new Vector2(Genome[Trait.WaterDragX], Genome[Trait.WaterDragY]);
-				cb.WaterDrag = vec2;
+				var vec2 = cb.AirDrag;
+				Genome[Trait.AirDragX] = vec2.X;
+				Genome[Trait.AirDragY] = vec2.Y;
+				vec2 = cb.WaterDrag;
+				Genome[Trait.WaterDragX] = vec2.X;
+				Genome[Trait.WaterDragY] = vec2.Y;
 				Genome[Trait.WaterSwayAngle] = cb.WaterSwayAngle;
 				Genome[Trait.WaterTurnSpeed] = cb.WaterTurnSpeed;
 				Genome[Trait.MaxSmoothRiseHeight] = cb.MaxSmoothRiseHeight;
@@ -500,7 +513,7 @@ namespace Game
 				Genome[Trait.LookSpeed] = cl.LookSpeed;
 				Genome[Trait.InAirWalkFactor] = cl.InAirWalkFactor;
 				int v = cl.m_lookAutoLevelX ? 1 : 0;
-				if(cl.m_lookAutoLevelY) v |=2;
+				if (cl.m_lookAutoLevelY) v |= 2;
 				Genome[Trait.LookAutoLevel] = v;
 			}
 			var cloot = Entity.FindComponent<ComponentLoot>();
@@ -536,7 +549,7 @@ namespace Game
 				Genome[Trait.LayFrequency] = cleb.m_layFrequency;
 			var cs = Entity.FindComponent<ComponentShapeshifter>();
 			if (cs != null)
-				cs.IsEnabled = Utils.Random.UniformFloat(0f, 1f) < Genome[Trait.ShapeshifterProbability];
+				Genome[Trait.ShapeshifterProbability] = cs.ValuesDictionary.GetValue<float>("Probability");
 			var cssb = Entity.FindComponent<ComponentStubbornSteedBehavior>();
 			if (cssb != null)
 				Genome[Trait.StubbornProbability] = cssb.m_stubbornProbability;
@@ -544,10 +557,12 @@ namespace Game
 			if (cu != null)
 				Genome[Trait.MilkRegenerationTime] = cu.m_milkRegenerationTime;
 		}
+
 		public override void OnEntityRemoved()
 		{
 			Hybridize();
 		}
+
 		public void Hybridize()
 		{
 			var name = Entity.ValuesDictionary.DatabaseObject.Name;
@@ -567,9 +582,9 @@ namespace Game
 
 		public void Update(float dt)
 		{
-			if (Utils.SubsystemTime.PeriodicGameTimeEvent(7, 0.0))
+			if (Utils.SubsystemTime.PeriodicGameTimeEvent(50, 0.0))
 			{
-				//for (int i = (int)(Utils.SubsystemGameInfo.TotalElapsedGameTime - LastTime) /600; i-- > 0;)
+				for (int i = (int)(Utils.SubsystemGameInfo.TotalElapsedGameTime - LastTime) / 600; i-- > 0;)
 					Mutate();
 				LastTime = Utils.SubsystemGameInfo.TotalElapsedGameTime;
 			}

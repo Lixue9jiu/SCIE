@@ -5,29 +5,51 @@ using System.Text;
 
 namespace Game
 {
-	public class MetalIngot : MeshItem
+	public class Screwdriver : MeshItem
 	{
-		public readonly Color Color;
-
+		public Screwdriver(Color color, string description = "") : base(description)
+		{
+			var model = ContentManager.Get<Model>("Models/Screwdriver");
+			m_standaloneBlockMesh.AppendModelMeshPart(model.FindMesh("obj1", true).MeshParts[0], BlockMesh.GetBoneAbsoluteTransform(model.FindMesh("obj1", true).ParentBone) * Matrix.CreateTranslation(0f, -0.33f, 0f), false, false, false, false, color);
+            m_standaloneBlockMesh.TransformTextureCoordinates(Matrix.CreateTranslation(15f / 16f, 0f, 0f) * Matrix.CreateScale(0.05f));
+        }
+		public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
+		{
+			BlocksManager.DrawMeshBlock(primitivesRenderer, m_standaloneBlockMesh, color, 3.3f * size, ref matrix, environmentData);
+		}
+    }
+    public class Wrench : MeshItem
+    {
+        public Wrench(Color color, string description = "") : base(description)
+        {
+            var model = ContentManager.Get<Model>("Models/Wrench");
+            m_standaloneBlockMesh.AppendModelMeshPart(model.FindMesh("obj1", true).MeshParts[0], BlockMesh.GetBoneAbsoluteTransform(model.FindMesh("obj1", true).ParentBone), false, false, false, false, color);
+            m_standaloneBlockMesh.TransformTextureCoordinates(Matrix.CreateTranslation(15f / 16f, 0f, 0f) * Matrix.CreateScale(0.05f));
+        }
+        public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
+        {
+            BlocksManager.DrawMeshBlock(primitivesRenderer, m_standaloneBlockMesh, color, 6f * size, ref matrix, environmentData);
+        }
+    }
+    public class MetalIngot : MeshItem
+	{
 		public MetalIngot(Materials type)
 		{
-			Color = MetalBlock.GetColor(type);
+			var color = MetalBlock.GetColor(type);
 			string name = type.ToString();
 			DefaultDisplayName = name + "Ingot";
 			DefaultDescription = "An ingot of pure " + name + ". Can be crafted into very durable and strong " + name + " items. Very important in the industrial era.";
 			var model = ContentManager.Get<Model>("Models/Ingots");
-			m_standaloneBlockMesh.AppendModelMeshPart(model.FindMesh("IronIngot", true).MeshParts[0], BlockMesh.GetBoneAbsoluteTransform(model.FindMesh("IronIngot", true).ParentBone) * Matrix.CreateTranslation(0f, -0.1f, 0f), false, false, false, false, Color.White);
+			m_standaloneBlockMesh.AppendModelMeshPart(model.FindMesh("IronIngot", true).MeshParts[0], BlockMesh.GetBoneAbsoluteTransform(model.FindMesh("IronIngot", true).ParentBone) * Matrix.CreateTranslation(0f, -0.1f, 0f), false, false, false, false, color);
 		}
 
 		public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
 		{
-			BlocksManager.DrawMeshBlock(primitivesRenderer, m_standaloneBlockMesh, Color, 2f * size, ref matrix, environmentData);
+			BlocksManager.DrawMeshBlock(primitivesRenderer, m_standaloneBlockMesh, color, 2f * size, ref matrix, environmentData);
 		}
 	}
-	public class MetalLine : CustomTextureItem
-	{
-		public readonly Color Color;
-
+	public class MetalLine : ColoredFlatItem
+    {
 		public MetalLine(Materials type)
 		{
 			DefaultTextureSlot = 212;
@@ -37,7 +59,7 @@ namespace Game
 
 		public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
 		{
-			DrawFlatBlock(primitivesRenderer, value, size, ref matrix, Texture, Color, false, environmentData);
+            CustomTextureItem.DrawFlatBlock(primitivesRenderer, value, size, ref matrix, CustomTextureItem.Texture, Color, false, environmentData);
 		}
 	}
 	public class Rod : FlatItem
@@ -123,18 +145,13 @@ namespace Game
 			return sb.ToString();
 		}
 	}
-	public class GranulatedItem : FlatItem
+	public class GranulatedItem : ColoredFlatItem
 	{
-		public Color Color;
 		public GranulatedItem(string name, Color color)
 		{
 			DefaultDisplayName = name;
 			DefaultTextureSlot = 231;
 			Color = color;
-		}
-		public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
-		{
-			base.DrawBlock(primitivesRenderer, value, Color * color, size, ref matrix, environmentData);
 		}
 	}
 	/*public class Slab : MeshItem

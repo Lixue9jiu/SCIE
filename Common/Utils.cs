@@ -3,6 +3,7 @@ using Engine.Graphics;
 using GameEntitySystem;
 using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using static Game.TerrainBrush;
 
 namespace Game
@@ -65,7 +66,7 @@ namespace Game
 					for (int k = 128; k-- > 0;)
 					{
 						if (BlocksManager.Blocks[Terrain.ExtractContents(chunk.GetCellValueFast(n + k))] is IPaintableBlock block)
-							chunk.SetCellValueFast(n, block.Paint(Utils.SubsystemTerrain, 0, color));
+							chunk.SetCellValueFast(n, block.Paint(SubsystemTerrain, 0, color));
 					}
 				}
 			}
@@ -139,6 +140,7 @@ namespace Game
 			if (num4 == max) return 1;
 			return 0;
 		}
+		[MethodImpl((MethodImplOptions)0x100)]
 		public static ComponentBlockEntity GetBlockEntity(Point3 p)
 		{
 			SubsystemBlockEntities.m_blockEntities.TryGetValue(p, out ComponentBlockEntity entity);
@@ -152,12 +154,12 @@ namespace Game
 			blockMesh.TransformTextureCoordinates(tcTransform, -1);
 			return blockMesh;
 		}
-
+		[MethodImpl((MethodImplOptions)0x100)]
 		public static int GetColor(int value)
 		{
 			return Terrain.ExtractData(value) & 0xF;
 		}
-
+		[MethodImpl((MethodImplOptions)0x100)]
 		public static int SetColor(int data, int color)
 		{
 			return (data & -16) | (color & 0xF);

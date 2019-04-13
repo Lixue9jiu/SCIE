@@ -67,7 +67,7 @@ namespace Game
 					return DefaultDescription;
 				case DrillType.IronTubularis:
 				case DrillType.SteelTubularis:
-					return "Tubularis is the most important part in the liquidpump, you should put it in the machine while using it. Reminding, pumping magma will damage the Tubularis.";
+					return Utils.Get("输液管是液体泵中最重要的部分，您应该在使用它时将其放入机器中。 提醒，泵送岩浆会损坏输液管。");
 			}
 		}
 		public override int GetFaceTextureSlot(int face, int value)

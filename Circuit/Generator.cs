@@ -34,7 +34,7 @@
 		}
 		public override string GetDescription(int value)
 		{
-			return "DirectCurrentDynamo is the fundation of the electricity before the creation of the alternating current generator, it allows you to transfer mechanical energy to electricity so that you can use many electric appliance.";
+			return "发电机是交流发电机产生之前的电力基础，它允许你把机械能转换成电能，这样你就可以使用很多电器了。";
 		}
 		public override BlockPlacementData GetPlacementValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, TerrainRaycastResult raycastResult)
 		{

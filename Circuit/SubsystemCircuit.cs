@@ -15,7 +15,7 @@ namespace Game
 			//public bool IsInProgress;
 			public Element[] Elements;
 		}
-		public Queue<Request> Requests = new Queue<Request>();
+		public LockFreeQueue<Request> Requests = new LockFreeQueue<Request>();
 		protected float m_remainingSimulationTime;
 		protected ElementBlock elementblock;
 		public int UpdateStep;
@@ -197,12 +197,8 @@ namespace Game
 		}
 		public override void Dispose()
 		{
-			lock (Requests)
-			{
-				Requests.Clear();
-				Requests.Enqueue(null);
-				Monitor.Pulse(Requests);
-			}
+			Requests.Clear();
+			Requests.Enqueue(null);
 			Utils.LoadedProject = false;
 		}
 		public void ThreadFunction()
@@ -210,12 +206,9 @@ namespace Game
 			while (true)
 			{
 				Request request = null;
-				lock (Requests)
-				{
-					while (Requests.Count == 0)
-						Monitor.Wait(Requests);
-					request = Requests.Dequeue();
-				}
+				while (Requests.Count == 0)
+					Task.Delay(10).Wait();
+				request = Requests.Dequeue();
 				if (request == null)
 					return;
 				if (UpdatePath)
@@ -234,16 +227,12 @@ namespace Game
 		}
 		public void QueueSimulate(Element[] elements)
 		{
-			lock (Requests)
+			Requests.Enqueue(new Request
 			{
-				Requests.Enqueue(new Request
-				{
-					//IsCompleted = false,
-					//IsInProgress = true,
-					Elements = elements
-				});
-				Monitor.Pulse(Requests);
-			}
+				//IsCompleted = false,
+				//IsInProgress = true,
+				Elements = elements
+			});
 		}
 		/*public static void QuickSort(INode[] R, int Low, int High, int voltage = 0)
 		{

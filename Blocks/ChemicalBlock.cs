@@ -38,51 +38,55 @@ namespace Game
 			new Group("PO₄³⁻"),
 			new Group("F⁻"),
 		};
-		public new static IChemicalItem[] Items = new IChemicalItem[]{
-			new Cylinder("H₂"),
-			new Cylinder("O₂"),
-			new Cylinder("CO₂"),
-			new Cylinder("CO"),
-			new Cylinder("Cl₂"),
-			new Cylinder("N₂"),
-			new Cylinder("NH₃"),
-			new Cylinder("NO₂"),
-			new Cylinder("NO"),
-			new Cylinder("N₂O"),
-			new Cylinder("HCl"),
-			new Cylinder("SO₂"),
-			new Cylinder("H₂S"),
-			new Cylinder("HF"),
-			new Cylinder("PH₃"),
-			new Cylinder("C₂H₂"),
-			new Cylinder("(CN)₂"),
-			new PurePowder("Na₂O", Color.White),
-			new PurePowder("Na₂O₂", Color.LightYellow),
-			new PurePowder("MgO", Color.White),
-			new PurePowder("Al₂O₃", Color.White),
-			new PurePowder("K₂O", Color.White),
-			new PurePowder("CaO", Color.White),
-			new PurePowder("Cr₂O₃", Color.DarkGreen),
-			new PurePowder("MnO", Color.Black),
-			new PurePowder("MnO₂", Color.Black),
-			new PurePowder("Fe₂O₃", Color.DarkRed),
-			new PurePowder("Fe₃O₄", Color.Black),
-			new PurePowder("CuO", Color.Black),
-			new PurePowder("Cu₂O", Color.Red),
-			new PurePowder("ZnO", Color.White),
-			new PurePowder("Ag₂O", Color.White),
-			new PurePowder("HgO", new Color(227, 23, 13)),
-			new PurePowder("PbO", Color.Yellow),
-			new PurePowder("PbO₂", Color.Black),
-			new PurePowder("CaC₂", new Color(25, 25, 25)),
-			new PurePowder("Mg₃N₂", Color.LightYellow),
-			new PurePowder("SiO₂", Color.White),
-			new PurePowder("SiC", new Color(25, 25, 25)),
-			new PurePowder("P₂O₅", Color.White),
-		};
+		public new static IChemicalItem[] Items;
 		static ChemicalBlock()
 		{
-			var list = new List<IChemicalItem>(Items);
+			var list = new List<IChemicalItem>(new IChemicalItem[]{
+				new Cylinder("H₂"),
+				new Cylinder("O₂"),
+				new Cylinder("CO₂"),
+				new Cylinder("CO"),
+				new Cylinder("Cl₂"),
+				new Cylinder("N₂"),
+				new Cylinder("NH₃"),
+				new Cylinder("NO₂"),
+				new Cylinder("NO"),
+				new Cylinder("N₂O"),
+				new Cylinder("HCl"),
+				new Cylinder("SO₂"),
+				new Cylinder("H₂S"),
+				new Cylinder("HF"),
+				new Cylinder("PH₃"),
+				new Cylinder("C₂H₂"),
+				new Cylinder("(CN)₂"),
+				new PurePowder("Na₂O"),
+				new PurePowder("Na₂O₂", Color.LightYellow),
+				new PurePowder("MgO"),
+				new PurePowder("Al₂O₃"),
+				new PurePowder("K₂O"),
+				new PurePowder("CaO"),
+				new PurePowder("Cr₂O₃", Color.DarkGreen),
+				new PurePowder("MnO", Color.Black),
+				new PurePowder("MnO₂", Color.Black),
+				new PurePowder("Fe₂O₃", Color.DarkRed),
+				new PurePowder("Fe₃O₄", Color.Black),
+				new PurePowder("CuO", Color.Black),
+				new PurePowder("Cu₂O", Color.Red),
+				new PurePowder("CuCl"),
+				new PurePowder("ZnO"),
+				new PurePowder("Ag₂O"),
+				new PurePowder("HgO", new Color(227, 23, 13)),
+				new PurePowder("PbO", Color.Yellow),
+				new PurePowder("PbO₂", Color.Black),
+				new PurePowder("CaC₂", new Color(25, 25, 25)),
+				new PurePowder("Mg₃N₂", Color.LightYellow),
+				new PurePowder("SiO₂"),
+				new PurePowder("SiC", new Color(25, 25, 25)),
+				new PurePowder("P₂O₅"),
+				new PurePowder("P₄O₆"),
+				new PurePowder("PCl₃"),
+				new PurePowder("PCl₅"),
+			});
 			for (int i = 0; i < Cations.Length; i++)
 			{
 				AtomKind atom = Cations[i][0].Atom;
@@ -92,16 +96,23 @@ namespace Game
 				for (int j = atom == AtomKind.Ag || Cations[i].Count == 2 ? 1 : 0; j < Anions.Length; j++)
 					list.Add(new PurePowder(Cations[i] + Anions[j], color));
 			}
-			list.Add(new PurePowder("H₂(SiO₃)", Color.White));
-			list.Add(new PurePowder("Na₂(SiO₃)", Color.White));
-			list.Add(new PurePowder("Mg(SiO₃)", Color.White));
-			list.Add(new PurePowder("Ca(SiO₃)", Color.White));
-			list.Add(new PurePowder("Na(HCO₃)", Color.White));
-			list.Add(new PurePowder("Na₂S₂O₃", Color.White));
-			list.Add(new PurePowder("Na(ClO)", Color.White));
-			list.Add(new PurePowder("Ca(ClO)₂", Color.White));
-			list.Add(new PurePowder("K(CN)", Color.White));
-			list.Add(new PurePowder("Na(CN)", Color.White));
+			list.Add(new PurePowder("H₂(SiO₃)"));
+			list.Add(new PurePowder("Na₂(SiO₃)"));
+			list.Add(new PurePowder("Mg(SiO₃)"));
+			list.Add(new PurePowder("Ca(SiO₃)"));
+			list.Add(new PurePowder("Na(HCO₃)"));
+			list.Add(new PurePowder("Na₂S₂O₃"));
+			list.Add(new PurePowder("Na(ClO)"));
+			list.Add(new PurePowder("Ca(ClO)₂"));
+			list.Add(new PurePowder("K(CN)"));
+			list.Add(new PurePowder("Na(CN)"));
+			list.Add(new PurePowder("K₂(HPO₄)"));
+			list.Add(new PurePowder("K(H₂PO₄)"));
+			list.Add(new PurePowder("Na₂(HPO₄)"));
+			list.Add(new PurePowder("Na(H₂PO₄)"));
+			list.Add(new PurePowder("Na₂Cr₂O₇"));
+			list.Add(new PurePowder("K₂Cr₂O₇"));
+			list.Add(new PurePowder("Cu₃P"));
 			Items = list.ToArray();
 		}
 		public override IItem GetItem(ref int value)
@@ -141,6 +152,9 @@ namespace Game
 	{
 		public readonly DispersionSystem System;
 
+		public PurePowder(string name) : this(new DispersionSystem(name), Color.White)
+		{
+		}
 		public PurePowder(string name, Color color) : this(new DispersionSystem(name), color)
 		{
 		}
