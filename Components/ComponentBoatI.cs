@@ -114,7 +114,7 @@ namespace Game
 			}
 		}
 	}
-	public class ComponentSteelTrap : Component
+	/*public class ComponentSteelTrap : Component
 	{
 		public float Damage;
 		public override void Load(ValuesDictionary valuesDictionary, IdToEntityMap idToEntityMap)
@@ -133,10 +133,10 @@ namespace Game
 			Project.RemoveEntity(Entity, true);
 			var health = body.Entity.FindComponent<ComponentHealth>();
 			if (health != null)
-				health.Injure(Damage / health.AttackResilience, null, false, "Train");
+				health.Injure(Damage / health.AttackResilience, null, false, "Trap");
 			else
 				body.Entity.FindComponent<ComponentDamage>()?.Damage(Damage);
 			body.ApplyImpulse(new Vector3 { Y = .2f });
 		}
-	}
+	}*/
 }

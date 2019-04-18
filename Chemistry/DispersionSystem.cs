@@ -1,11 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using System.Text;
 
 namespace Chemistry
 {
+	/// <summary>
+	///     Represents a dispersion system.
+	/// </summary>
 	public struct DispersionSystem : ICloneable, IEquatable<DispersionSystem>
 	{
+		public static readonly CompoundsComparer Comparer = new CompoundsComparer();
 		public Dictionary<Compound, int> Dispersant;
 		public Dictionary<Compound, int> DispersedPhase;
 
@@ -17,29 +22,36 @@ namespace Chemistry
 
 		public DispersionSystem(string s) : this(1)
 		{
-			var arr = s.Split(',');
+			AddCompounds(DispersedPhase, s);
+		}
+
+		public static void AddCompounds(Dictionary<Compound, int> dict, string s, char separator = ',')
+		{
+			var arr = s.Split(separator);
 			for (int i = 0; i < arr.Length; i++)
 			{
-				int x = s.IndexOf('*');
-				if (x >= 0)
+				int n = 0, j = 0;
+				string r = arr[i];
+				for (; j < r.Length && r[j] <= '9' && '0' <= r[j]; j++)
+					n = n * 10 + r[j] - '0';
+				if (n == 0) n = 1;
+				char c = r[r.Length - 1];
+				if (c == '↑' || c == '↓')
 				{
-					if (!int.TryParse(s, out x))
-						x = 1;
+					n = -n;
+					r = r.Substring(0, r.Length - 1);
 				}
-				else
-					x = 1;
-				DispersedPhase.Add(new Compound(arr[i]), x);
+				dict.Add(new Compound(r.Substring(j)), n);
 			}
 		}
 
 		public object Clone()
 		{
-			var ds = new DispersionSystem
+			return new DispersionSystem
 			{
 				Dispersant = new Dictionary<Compound, int>(Dispersant),
 				DispersedPhase = new Dictionary<Compound, int>(DispersedPhase)
 			};
-			return ds;
 		}
 
 		public override bool Equals(object obj)
@@ -47,18 +59,15 @@ namespace Chemistry
 			return obj is DispersionSystem && Equals((DispersionSystem)obj);
 		}
 
+		[MethodImpl((MethodImplOptions)0x100)]
 		public bool Equals(DispersionSystem other)
 		{
-			return EqualityComparer<Dictionary<Compound, int>>.Default.Equals(Dispersant, other.Dispersant) &&
-				   EqualityComparer<Dictionary<Compound, int>>.Default.Equals(DispersedPhase, other.DispersedPhase);
+			return Comparer.Equals(Dispersant, other.Dispersant) && Comparer.Equals(DispersedPhase, other.DispersedPhase);
 		}
 
 		public override int GetHashCode()
 		{
-			var hashCode = -512996931;
-			hashCode = hashCode * -1521134295 + EqualityComparer<Dictionary<Compound, int>>.Default.GetHashCode(Dispersant);
-			hashCode = hashCode * -1521134295 + EqualityComparer<Dictionary<Compound, int>>.Default.GetHashCode(DispersedPhase);
-			return hashCode;
+			return Comparer.GetHashCode(Dispersant) * -1521134295 ^ Comparer.GetHashCode(DispersedPhase);
 		}
 
 		public override string ToString()
@@ -76,20 +85,26 @@ namespace Chemistry
 		{
 			for (var i = DispersedPhase.Keys.GetEnumerator(); i.MoveNext();)
 			{
-				if (i.Current is Ion ion)
+				if (i.Current)
 				{
-					IonReactions.First(ion, this);
-					for (var j = IonReactions.Find(ion).GetEnumerator(); j.MoveNext();)
+					Equation.IonicReactions.Contains();
+					for (var j = Equation.IonicReactions.GetEnumerator(); j.MoveNext();)
 					{
-						j.Current
+						j.Current;
 					}
 				}
 			}
 		}
+		public void Dissolve(Compound c)
+		{
+
+		}
+		[MethodImpl((MethodImplOptions)0x100)]
 		public static implicit operator DispersionSystem(string s)
 		{
 			return new DispersionSystem(s);
 		}*/
+		[MethodImpl((MethodImplOptions)0x100)]
 		public static implicit operator DispersionSystem(Compound c)
 		{
 			var result = new DispersionSystem(1);

@@ -3,6 +3,7 @@ using GameEntitySystem;
 using System;
 using System.Globalization;
 using System.Text;
+using System.Threading.Tasks;
 using TemplatesDatabase;
 
 namespace Game
@@ -141,14 +142,14 @@ namespace Game
 
 		public override string ToString()
 		{
-			var sb = new StringBuilder();
+			var sb = new StringBuilder(DominantGenes.Length);
 			int i;
 			for (i = 0; i < DominantGenes.Length; i++)
 			{
-				sb.Append(((Trait)i).ToString());
-				sb.Append(": ");
-				sb.Append(DominantGenes[i].ToString());
-				sb.Append("  ");
+				sb.Append(((Trait)i).ToString())
+				.Append(": ")
+				.Append(DominantGenes[i].ToString())
+				.Append("  ");
 				if (i < RecessiveGenes.Length)
 					sb.Append(RecessiveGenes[i].ToString());
 				sb.AppendLine();
@@ -161,6 +162,7 @@ namespace Game
 	{
 		public Genome Genome;
 		public double LastTime;
+		public int Period;
 
 		public int UpdateOrder => 0;
 
@@ -202,11 +204,8 @@ namespace Game
 				dGenes[i] = float.Parse(n > 0 ? s[i].Substring(0, n) : s[i], CultureInfo.InvariantCulture);
 				rGenes[i] = n > 0 ? float.Parse(s[i].Substring(n + 1), CultureInfo.InvariantCulture) : dGenes[i];
 			}
-			/*var arr = dGenes.Array;
-			Array.Resize(ref arr, 68);
-			arr = rGenes.Array;
-			Array.Resize(ref arr, 68);*/
 			Genome = new Genome(dGenes, rGenes);
+			Period = valuesDictionary.GetValue("Period", 4000);
 			LastTime = valuesDictionary.GetValue("LastTime", 900.0);
 		}
 
@@ -227,8 +226,7 @@ namespace Game
 				sb.Append(Genome.DominantGenes[i].ToString());
 				if (i < r && Genome.DominantGenes[i] != Genome.RecessiveGenes[i])
 				{
-					sb.Append(',');
-					sb.Append(Genome.RecessiveGenes[i].ToString());
+					sb.Append(',').Append(Genome.RecessiveGenes[i].ToString());
 				}
 				sb.Append(';');
 			}
@@ -240,7 +238,7 @@ namespace Game
 		{
 			if (Genome.DominantGenes == null)
 			{
-				Initialize();
+				Task.Run((Action)Initialize);
 				return;
 			}
 			var caj = Entity.FindComponent<ComponentAutoJump>();
@@ -390,10 +388,37 @@ namespace Game
 		public void Mutate()
 		{
 			Trait t;
+			if (Period < 900)
+			{
+				Initialize();
+				float f = (float)LastTime / 6000;
+				if (f > 2.5f) goto a;
+				f = 1.5f - MathUtils.Cos(f * f / 2) / 2;
+				for (t = Trait.DayChaseRange; t <= Trait.NightChaseTime; t++)
+					if ((Utils.Random.Int() & 1) != 0)
+						Genome[t] *= Utils.Random.UniformFloat(1f, f);
+				for (t = Trait.WalkSpeed; t < Trait.TurnSpeed; t++)
+					if ((Utils.Random.Int() & 1) != 0)
+						Genome[t] *= Utils.Random.UniformFloat(1f, f);
+				for (t = Trait.AttackResilience; t <= Trait.FireResilience; t++)
+					if ((Utils.Random.Int() & 1) != 0)
+						Genome[t] *= Utils.Random.UniformFloat(1f, f);
+				if ((Utils.Random.Int() & 1) != 0)
+					Genome[Trait.AttackPower] *= Utils.Random.UniformFloat(1f, f);
+				if ((Utils.Random.Int() & 1) != 0)
+					Genome[Trait.FindPlayer_DayRange] *= Utils.Random.UniformFloat(1f, f);
+				else
+					Genome[Trait.FindPlayer_NightRange] *= Utils.Random.UniformFloat(1f, f);
+				if ((Utils.Random.Int() & 1) != 0)
+					Genome[Trait.DigSpeed] *= Utils.Random.UniformFloat(1f, f);
+				if ((Utils.Random.Int() & 1) != 0)
+					Genome[Trait.AirCapacity] *= Utils.Random.UniformFloat(1f, f);
+				goto a;
+			}
 			for (t = Trait.DayChaseRange; t <= Trait.NightChaseTime; t++)
 				if ((Utils.Random.Int() & 1) != 0)
 				Genome[t] *= Utils.Random.UniformFloat(1f, 1.1f);
-			for (t = Trait.WalkSpeed; t <= Trait.TurnSpeed; t++)
+			for (t = Trait.WalkSpeed; t < Trait.TurnSpeed; t++)
 				if ((Utils.Random.Int() & 1) != 0)
 					Genome[t] *= Utils.Random.UniformFloat(1f, 1.1f);
 			for (t = Trait.AttackResilience; t <= Trait.FireResilience; t++)
@@ -402,13 +427,14 @@ namespace Game
 			if ((Utils.Random.Int() & 1) != 0)
 				Genome[Trait.AttackPower] *= Utils.Random.UniformFloat(1f, 1.1f);
 			if ((Utils.Random.Int() & 1) != 0)
-				Genome[Trait.FindPlayer_DayRange] *= Utils.Random.UniformFloat(1f, 1.1f);
+				Genome[Trait.FindPlayer_DayRange] *= Utils.Random.UniformFloat(1f, 1.08f);
 			else
-				Genome[Trait.FindPlayer_NightRange] *= Utils.Random.UniformFloat(1f, 1.1f);
+				Genome[Trait.FindPlayer_NightRange] *= Utils.Random.UniformFloat(1f, 1.08f);
 			if ((Utils.Random.Int() & 1) != 0)
 				Genome[Trait.DigSpeed] *= Utils.Random.UniformFloat(1f, 1.04f);
 			if ((Utils.Random.Int() & 1) != 0)
 				Genome[Trait.AirCapacity] *= Utils.Random.UniformFloat(1f, 1.04f);
+			a:
 			OnEntityAdded();
 		}
 
@@ -560,7 +586,9 @@ namespace Game
 
 		public override void OnEntityRemoved()
 		{
-			Hybridize();
+			Task.Run((Action)Hybridize);
+			/*m_task.Wait();
+			m_task = null;*/
 		}
 
 		public void Hybridize()
@@ -582,20 +610,12 @@ namespace Game
 
 		public void Update(float dt)
 		{
-			if (Utils.SubsystemTime.PeriodicGameTimeEvent(50, 0.0))
+			if (Utils.SubsystemTime.PeriodicGameTimeEvent(60, 0.0))
 			{
-				for (int i = (int)(Utils.SubsystemGameInfo.TotalElapsedGameTime - LastTime) / 600; i-- > 0;)
-					Mutate();
+				for (int i = (int)(Utils.SubsystemGameInfo.TotalElapsedGameTime - LastTime) / Period; i-- > 0;)
+					Task.Run((Action)Mutate);
 				LastTime = Utils.SubsystemGameInfo.TotalElapsedGameTime;
 			}
-		}
-	}
-	public class GenomeViewer : FlatItem
-	{
-		public GenomeViewer()
-		{
-			DefaultTextureSlot = 122;
-			DefaultDisplayName = "Genome Viewer";
 		}
 	}
 }

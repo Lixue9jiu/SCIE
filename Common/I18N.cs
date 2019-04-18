@@ -6,9 +6,9 @@ using System.Runtime.CompilerServices;
 
 namespace Game
 {
-	public enum Str
+	/*public enum Str
 	{
-		/*Coalpowder,
+		Coalpowder,
 		CokeCoal,
 		Cylinder,
 		FireBrick,
@@ -57,11 +57,11 @@ namespace Game
 		Tiny,
 		Small,
 		Medium,
-		Large,*/
-	}
+		Large,
+	}*/
 	public static partial class Utils
 	{
-		public static Dictionary<string, string> TR = new Dictionary<string, string>();
+		public static Dictionary<string, string> TR;
 		/// <summary>
 		/// 读取键值对文件
 		/// </summary>
@@ -85,10 +85,7 @@ namespace Game
 			}
 		}
 		[MethodImpl((MethodImplOptions)0x100)]
-		public static string Get(string s)
-		{
-			return s != null && TR.TryGetValue(s, out string result) ? result: s;
-		}
+		public static string Get(string s) => s != null && TR.TryGetValue(s, out string result) ? result : s;
 		public static Stream GetTargetFile(string name, bool throwIfNotFound = true)
 		{
 			for (var enumerator = ModsManager.GetEntries(Storage.GetExtension(name)).GetEnumerator(); enumerator.MoveNext();)

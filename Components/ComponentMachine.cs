@@ -47,14 +47,16 @@ namespace Game
 
 		public override void Load(ValuesDictionary valuesDictionary, IdToEntityMap idToEntityMap)
 		{
-			base.Load(valuesDictionary, idToEntityMap);
+			this.LoadItems(valuesDictionary);
 			m_componentBlockEntity = Entity.FindComponent<ComponentBlockEntity>(false);
 			m_updateSmeltingRecipe = true;
 		}
 
-		public CraftingRecipe GetRecipe()
+		public CraftingRecipe GetRecipe() => throw new NotImplementedException();
+
+		public override void Save(ValuesDictionary valuesDictionary, EntityToIdMap entityToIdMap)
 		{
-			throw new NotImplementedException();
+			this.SaveItems(valuesDictionary);
 		}
 		/*public static float GetFuelHeatLevel(int value)
 		{

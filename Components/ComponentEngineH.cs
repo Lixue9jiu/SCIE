@@ -107,7 +107,7 @@ namespace Game
 			if (chunk != null && chunk.State == TerrainChunkState.Valid)
 			{
 				int cellValue = chunk.GetCellValueFast(coordinates.X & 15, coordinates.Y, coordinates.Z & 15);
-				Utils.SubsystemTerrain.ChangeCell(coordinates.X, coordinates.Y, coordinates.Z, Terrain.ReplaceData(cellValue, FurnaceNBlock.SetHeatLevel(Terrain.ExtractData(cellValue), (HeatLevel > 0f) ? 1 : 0)), true);
+				Utils.SubsystemTerrain.ChangeCell(coordinates.X, coordinates.Y, coordinates.Z, Terrain.ReplaceData(cellValue, FurnaceNBlock.SetHeatLevel(Terrain.ExtractData(cellValue), HeatLevel > 0f ? 1 : 0)), true);
 			}
 		}
 
@@ -121,7 +121,7 @@ namespace Game
 
 		public override void Save(ValuesDictionary valuesDictionary, EntityToIdMap entityToIdMap)
 		{
-			base.Save(valuesDictionary, entityToIdMap);
+			this.SaveItems(valuesDictionary);
 			valuesDictionary.SetValue("FireTimeRemaining", m_fireTimeRemaining);
 			valuesDictionary.SetValue("HeatLevel", HeatLevel);
 		}
@@ -141,7 +141,7 @@ namespace Game
 			if (text != null)
 			{
 				Slot slot = m_slots[ResultSlotIndex];
-				if (slot.Count != 0 && (90 != slot.Value || 1 + slot.Count > 40))
+				if (slot.Count != 0 && (90 != slot.Value || slot.Count >= 40))
 					return null;
 			}
 			return text;

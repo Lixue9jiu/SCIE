@@ -8,7 +8,7 @@ namespace Game
 	{
 		protected string m_smeltingRecipe;
 
-		protected int m_music;
+		//protected int m_music;
 
 		public override int RemainsSlotIndex => SlotsCount - 3;
 
@@ -48,21 +48,21 @@ namespace Game
 				if (text != null)
 				{
 					slot = m_slots[ResultSlotIndex];
-					if (slot.Count != 0 && (90 != slot.Value || 1 + slot.Count > 40))
+					if (slot.Count != 0 && (90 != slot.Value || slot.Count >= 40))
 						text = null;
 				}
 				if (text != m_smeltingRecipe)
 				{
 					m_smeltingRecipe = text;
 					SmeltingProgress = 0f;
-					m_music = 0;
+					//m_music = 0;
 				}
 			}
 			if (m_smeltingRecipe == null)
 			{
 				HeatLevel = 0f;
 				m_fireTimeRemaining = 0f;
-				m_music = -1;
+				//m_music = -1;
 			}
 			if (m_smeltingRecipe != null && m_fireTimeRemaining <= 0f)
 			{
@@ -92,13 +92,13 @@ namespace Game
 			{
 				m_smeltingRecipe = null;
 				SmeltingProgress = 0f;
-				m_music = -1;
+				//m_music = -1;
 			}
 			if (m_smeltingRecipe != null)
 			{
 				SmeltingProgress = MathUtils.Min(SmeltingProgress + 0.02f * dt, 1f);
-				//int num2 = m_music % 360;
-				m_music += 2;
+				//int num2 = m_music % 180;
+				//m_music++;
 				if (SmeltingProgress >= 1f)
 				{
 					if (m_slots[RemainsSlotIndex].Count > 0)
@@ -123,7 +123,7 @@ namespace Game
 
 		public override void Save(ValuesDictionary valuesDictionary, EntityToIdMap entityToIdMap)
 		{
-			base.Save(valuesDictionary, entityToIdMap);
+			this.SaveItems(valuesDictionary);
 			valuesDictionary.SetValue("FireTimeRemaining", m_fireTimeRemaining);
 			valuesDictionary.SetValue("HeatLevel", HeatLevel);
 		}

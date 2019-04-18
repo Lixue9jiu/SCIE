@@ -1,8 +1,22 @@
-﻿using Game;
+﻿using Chemistry;
+using Engine;
+using Game;
 using System;
 using System.Collections.Generic;
 using System.Text;
+/*
+namespace Game
+{
+	public static partial class Utils
+	{
+		public static readonly float[] AtomicWeights = new float[51];
+		public static readonly int[] AtomicNumbers = new int[51];
 
+		public static float AtomicWeight(this AtomKind kind) => AtomicWeights[(int)kind];
+		public static float AtomicNumber(this AtomKind kind) => AtomicNumbers[(int)kind];
+	}
+}
+*/
 namespace Chemistry
 {
 	public enum AtomKind
@@ -10,17 +24,6 @@ namespace Chemistry
 		Nu, H, D, T, Li, Be, B, C, N, O, F, Na, Mg, Al, Si, P, S, Cl, K, Ca, Ti, V, Cr, Mn, Fe, Co, Ni, Cu, Zn, Ga, Ge, As, Br, Zr, Nb, Ag, Cd, In, Sn, Sb, I, Ba, W, Ir, Pt, Au, Hg, Pb, U235, U238
 	}
 
-	/*public class Atom
-	{
-		public static readonly float[] AtomicWeights = new float[51];
-		public static readonly int[] AtomicNumbers = new int[51];
-		public AtomKind Kind;
-
-		public Atom(AtomKind kind)
-		{
-			Kind = kind;
-		}
-	}*/
 
 	public struct Stack : IEquatable<Stack>
 	{
@@ -63,29 +66,28 @@ namespace Chemistry
 				c = s[start];
 				if ('₀' <= c && c <= '₉')
 					n = n * 10 + (c - '₀');
-				else
-				{
-					n = 1;
-					return start;
-				}
+				else if (c <= '9' && '0' <= c)
+					n = n * 10 + (c - '0');
+				else goto a;
 			}
-			else
-			{
-				n = 1;
-				return start;
-			}
+			else goto a;
 			for (start++; start < s.Length; start++)
 			{
 				c = s[start];
 				if ('₀' <= c && c <= '₉')
 					n = n * 10 + (c - '₀');
+				else if (c <= '9' && '0' <= c)
+					n = n * 10 + (c - '0');
 				else return start;
 			}
+			return start;
+			a:
+			n = 1;
 			return start;
 		}
 	}
 
-	public class Group : List<Stack>, IEquatable<Group>
+	public class Group : DynamicArray<Stack>, IEquatable<Group>
 	{
 		public int Charge;
 
@@ -97,7 +99,7 @@ namespace Chemistry
 		{
 		}
 
-		public Group(IEnumerable<Stack> collection) : base(collection)
+		public Group(IEnumerable<Stack> items) : base(items)
 		{
 		}
 
@@ -137,7 +139,7 @@ namespace Chemistry
 					if (i + 1 < s.Length)
 					{
 						c = s[i + 1];
-						count = char.IsLower(c) ? 2 : char.IsDigit(c) ? 4 : 1;
+						count = char.IsLower(c) ? 2 : c == '2' && i < s.Length - 3 ? 4 : 1;
 					}
 					else count = 1;
 					var atom = (AtomKind)Enum.Parse(type, s.Substring(i, count), false);
@@ -191,7 +193,7 @@ namespace Chemistry
 			if (Count != other.Count)
 				return false;
 			for (int i = 0; i < Count; i++)
-				if (!this[i].Equals(other[i]))
+				if (!Array[i].Equals(other.Array[i]))
 					return false;
 			return true;
 		}
@@ -200,7 +202,7 @@ namespace Chemistry
 		{
 			int code = 0;
 			for (int i = 0; i < Count; i++)
-				code += this[i].GetHashCode() * 107;
+				code += Array[i].GetHashCode() * 107;
 			return code ^ Count << 27;
 		}
 
@@ -209,7 +211,7 @@ namespace Chemistry
 			var sb = new StringBuilder();
 			int i = 0;
 			for (; i < Count; i++)
-				sb.Append(this[i].ToString());
+				sb.Append(Array[i].ToString());
 			/*if (Charge != 0)
 			{
 				i = Math.Abs(Charge);
@@ -242,10 +244,10 @@ namespace Chemistry
 			};
 		}
 
-		public static implicit operator Group(string s)
+		/*public static implicit operator Group(string s)
 		{
 			return new Group(s);
-		}
+		}*/
 
 		#endregion Operator overloads
 	}

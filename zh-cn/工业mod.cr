@@ -821,7 +821,7 @@
       "dccd"
       "eaae"
     </Recipe>
-    <Recipe Result="Steam Locomotive" ResultCount="1" RequiredHeatLevel="0" a="SteelPlate" b="SteelWheel" c="sengine" d="SteelRod" e="tank" Description="带有蒸汽机车的蒸汽机车可以让您在铁路上高速行驶">
+    <Recipe Result="Train" ResultCount="1" RequiredHeatLevel="0" a="SteelPlate" b="SteelWheel" c="sengine" d="SteelRod" e="tank" Description="带有蒸汽机车的蒸汽机车可以让您在铁路上高速行驶">
       "eeda"
       "eca"
       "bbbb"
@@ -949,6 +949,9 @@
     </Recipe>
     <Recipe Result="SteelLine" ResultCount="5" RequiredHeatLevel="0" a="clothing:42" Description="拆除钢锁甲">
       "a"
+    </Recipe>
+    <Recipe Result="Wrench" ResultCount="1" RequiredHeatLevel="1500" Remains="ScrapIron" RemainsCount="2" a="SteelRod" Description="制作扳手">
+      "aa"
     </Recipe>
   </Items>
 </IndustrialMod>

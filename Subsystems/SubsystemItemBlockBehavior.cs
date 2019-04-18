@@ -25,36 +25,42 @@ namespace Game
 				return false;
 			var result = componentMiner.PickTerrainForDigging(start, direction);
 			Entity entity;
-			if (activeBlockValue == ItemBlock.IdTable["Steam Locomotive"])
+			Vector3 position;
+			if (activeBlockValue == ItemBlock.IdTable["Wrench"])
 			{
 				var body = componentMiner.PickBody(start, direction);
-				if (body.HasValue && (!result.HasValue || body.Value.Distance < result.Value.Distance) && body.Value.ComponentBody.Entity.FindComponent<ComponentTrain>() != null)
+				Matrix matrix = componentMiner.ComponentCreature.ComponentBody.Matrix;
+				position = matrix.Translation + 1f * matrix.Forward + Vector3.UnitY;
+				if (body.HasValue && (!result.HasValue || body.Value.Distance < result.Value.Distance))
 				{
-					Matrix matrix = componentMiner.ComponentCreature.ComponentBody.Matrix;
-					Vector3 position = matrix.Translation + 1f * matrix.Forward + Vector3.UnitY;
-					for (var i = body.Value.ComponentBody.Entity.FindComponents<IInventory>().GetEnumerator(); i.MoveNext();)
-						i.Current.DropAllItems(position);
-					Project.RemoveEntity(body.Value.ComponentBody.Entity, true);
-					Utils.SubsystemPickables.AddPickable(activeBlockValue, 1, position, null, null);
-				}
-				else if (result.HasValue && Terrain.ExtractContents(result.Value.Value) == RailBlock.Index)
-				{
-					var position = new Vector3(result.Value.CellFace.Point) + new Vector3(0.5f);
-
-					entity = DatabaseManager.CreateEntity(Project, "Train", true);
-					entity.FindComponent<ComponentBody>(true).Position = position;
-					entity.FindComponent<ComponentSpawn>(true).SpawnDuration = 0f;
-
-					var rotation = componentMiner.ComponentCreature.ComponentCreatureModel.EyeRotation.ToForwardVector();
-					entity.FindComponent<ComponentTrain>(true).SetDirectionImmediately(RailBlock.IsDirectionX(RailBlock.GetRailType(Terrain.ExtractData(result.Value.Value)))
-						? rotation.Z < 0 ? 0 : 2
-						: rotation.X < 0 ? 1 : 3);
-					Project.AddEntity(entity);
-					componentMiner.RemoveActiveTool(1);
-					Utils.SubsystemAudio.PlaySound("Audio/BlockPlaced", 1f, 0f, position, 3f, true);
+					entity = body.Value.ComponentBody.Entity;
+					if (entity.FindComponent<ComponentRailEntity>() != null)
+					{
+						for (var i = entity.FindComponents<IInventory>().GetEnumerator(); i.MoveNext();)
+							i.Current.DropAllItems(position);
+						Utils.SubsystemPickables.AddPickable(ItemBlock.IdTable[entity.ValuesDictionary.DatabaseObject.Name.Length == 5 ? "Train" : "Minecart"], 1, position, null, null);
+						Project.RemoveEntity(entity, true);
+						return true;
+					}
 				}
 			}
-			else if (activeBlockValue == ItemBlock.IdTable["Genome Viewer"])
+			else if(activeBlockValue == ItemBlock.IdTable["Train"] && result.HasValue && Terrain.ExtractContents(result.Value.Value) == RailBlock.Index)
+			{
+				position = new Vector3(result.Value.CellFace.Point) + new Vector3(0.5f);
+
+				entity = DatabaseManager.CreateEntity(Project, "Train", true);
+				entity.FindComponent<ComponentBody>(true).Position = position;
+				entity.FindComponent<ComponentSpawn>(true).SpawnDuration = 0f;
+
+				var rotation = componentMiner.ComponentCreature.ComponentCreatureModel.EyeRotation.ToForwardVector();
+				entity.FindComponent<ComponentTrain>(true).SetDirection(RailBlock.IsDirectionX(RailBlock.GetRailType(Terrain.ExtractData(result.Value.Value)))
+					? rotation.Z < 0 ? 0 : 2
+					: rotation.X < 0 ? 1 : 3);
+				Project.AddEntity(entity);
+				componentMiner.RemoveActiveTool(1);
+				Utils.SubsystemAudio.PlaySound("Audio/BlockPlaced", 1f, 0f, position, 3f, true);
+			}
+			else if (activeBlockValue == ItemBlock.IdTable["基因查看器"])
 			{
 				var body = componentMiner.PickBody(start, direction);
 				if (body.HasValue && (!result.HasValue || body.Value.Distance < result.Value.Distance))
@@ -67,7 +73,7 @@ namespace Game
 			}
 			else if (result.HasValue)
 			{
-				Vector3 position = result.Value.RaycastStart + Vector3.Normalize(result.Value.RaycastEnd - result.Value.RaycastStart) * result.Value.Distance;
+				position = result.Value.RaycastStart + Vector3.Normalize(result.Value.RaycastEnd - result.Value.RaycastStart) * result.Value.Distance;
 				if (activeBlockValue == ItemBlock.IdTable["SteamBoat"])
 				{
 					//var result = new DynamicArray<ComponentBody>();
@@ -81,7 +87,7 @@ namespace Game
 					Utils.SubsystemAudio.PlaySound("Audio/BlockPlaced", 1f, 0f, position, 3f, true);
 					return true;
 				}
-				else if (activeBlockValue == ItemBlock.IdTable["Carriage"])
+				else if (activeBlockValue == ItemBlock.IdTable["Minecart"])
 				{
 					entity = DatabaseManager.CreateEntity(Project, "Carriage", true);
 					entity.FindComponent<ComponentFrame>(true).Position = position;
@@ -160,10 +166,10 @@ namespace Game
 			return false;
 		}
 
-		public override void Load(ValuesDictionary valuesDictionary)
+		/*public override void Load(ValuesDictionary valuesDictionary)
 		{
 			base.Load(valuesDictionary);
-			//SubsystemBodies = Project.FindSubsystem<SubsystemBodies>(true);
-		}
+			SubsystemBodies = Project.FindSubsystem<SubsystemBodies>(true);
+		}*/
 	}
 }

@@ -90,11 +90,11 @@ namespace Game
 			new Rod(Materials.Titanium, new Color(253, 253, 253)),
 			new Rod(Materials.Nickel, new Color(253, 253, 253)),
 			new Rod(Materials.Aluminum, new Color(232, 232, 232)),
-			new Mould("Models/Gear", "Gear", Matrix.CreateTranslation(0f, 0f, 0f) * 2f * Matrix.CreateTranslation(new Vector3(0.5f)), Matrix.CreateTranslation(4f, 3.8f, 0f), "A gear made of steel, the neccessary part of all the machine during the initial industrial era.", "SteelGear"),
-			new Mould("Models/Wheel", "Wheel", Matrix.CreateTranslation(0f, 0f, 0f) * 1.2f * Matrix.CreateTranslation(new Vector3(0.5f)), Matrix.CreateTranslation(4f, 3.8f, 0f), "A wheel made of steel, the neccessary part of the steam engine train.", "SteelWheel", 2f),
-			new Mould("Models/WheelMould", "WheelMould", Matrix.CreateTranslation(0f, -0.02f, 0f) * Matrix.CreateTranslation(new Vector3(0.5f)), Matrix.CreateTranslation(2.6f, 1.4f, 0f), "A wheel mould made of dirt and sand, the neccessary part in making steel wheel.", "SteelWheelMould", 1.6f),
-			new Mould("Models/GearMould", "GearMould", Matrix.CreateTranslation(0f, -0.02f, 0f) * 1.6f * Matrix.CreateTranslation(new Vector3(0.5f)), Matrix.CreateTranslation(2.6f, 1.4f, 0f), "A gear mould made of dirt and sand, the neccessary part in making steel gear.", "SteelGearMould"),
-			new Mould("Models/Piston", "Piston", Matrix.CreateTranslation(0f, -0.02f, 0f) * 1.2f * Matrix.CreateTranslation(0.5f, 0.3f, 0.5f), Matrix.CreateTranslation(4f, 3.8f, 0f), "A piston made of iron, copper and steel, the neccessary part of many machine.", "IndustrialPiston", 1.6f),
+			new Mould("Gear", Matrix.CreateTranslation(new Vector3(0.5f)) * 2f, Matrix.CreateTranslation(4f, 3.8f, 0f), "A gear made of steel, the neccessary part of all the machine during the initial industrial era."),
+			new Mould("Wheel", Matrix.CreateTranslation(new Vector3(0.5f)) * 1.2f, Matrix.CreateTranslation(4f, 3.8f, 0f), "A wheel made of steel, the neccessary part of the steam engine train.", 2f),
+			new Mould("WheelMould", Matrix.CreateTranslation(0f, -0.02f, 0f) * Matrix.CreateTranslation(new Vector3(0.5f)), Matrix.CreateTranslation(2.6f, 1.4f, 0f), "A wheel mould made of dirt and sand, the neccessary part in making steel wheel.", 1.6f),
+			new Mould("GearMould", Matrix.CreateTranslation(0f, -0.02f, 0f) * 1.6f * Matrix.CreateTranslation(new Vector3(0.5f)), Matrix.CreateTranslation(2.6f, 1.4f, 0f), "A gear mould made of dirt and sand, the neccessary part in making steel gear."),
+			new Mould("Models/Piston", "Piston", Matrix.CreateTranslation(0.5f, 0.3f, 0.5f) * 1.2f, Matrix.CreateTranslation(4f, 3.8f, 0f), "A piston made of iron, copper and steel, the neccessary part of many machine.", "IndustrialPiston", 1.6f),
 			new Wire("CopperWire"),
 			new Sheet(Materials.Steel),
 			new Sheet(Materials.Iron),
@@ -106,7 +106,7 @@ namespace Game
 			new Sheet(Materials.Stannary),
 			new Sheet(Materials.Platinum),
 			new Sheet(Materials.Aluminum),
-			new Mould("Models/Battery", "Battery", Matrix.CreateRotationX(MathUtils.PI / 2) * Matrix.CreateTranslation(0.5f, 0.5f, 0f), Matrix.CreateTranslation(9f / 16f, -7f / 16f, 0f) * Matrix.CreateScale(20f), "IndustrialMagnet", "IndustrialMagnet"),
+			new Mould("Models/Battery", "Battery", Matrix.CreateRotationX(MathUtils.PI / 2) * Matrix.CreateTranslation(0.5f, 0.5f, 0f), Matrix.CreateTranslation(9f / 16f, -7f / 16f, 0f) * Matrix.CreateScale(20f), "工业磁铁", "IndustrialMagnet"),
 			new RefractoryBrick(),
 			new CokeCoal(),
 			new Fan(Materials.Steel),
@@ -120,11 +120,11 @@ namespace Game
 			new Powder("Sawdust", Color.LightYellow),
 			new Powder("Brickbat", Color.DarkRed),
 			new Powder("Broken Glass", Color.White),
-			new Mould("Models/Cylinder", "obj1", Matrix.CreateScale(70f) * Matrix.CreateTranslation(0.5f, 0f, 0.5f), Matrix.CreateTranslation(9f / 16f, -7f / 16f, 0f), "Cylinder", "Cylinder", 1.5f),
-			new Mould("Models/Cylinder", "obj1", Matrix.CreateScale(70f) * Matrix.CreateTranslation(0.5f, 0f, 0.5f), Matrix.CreateTranslation(9f / 16f, -7f / 16f, 0f), "LPG", "LPG", 1.5f),
-			new Mould("Models/Cylinder", "obj1", Matrix.CreateScale(70f) * Matrix.CreateTranslation(0.5f, 0f, 0.5f), Matrix.CreateTranslation(9f / 16f, -7f / 16f, 0f), "LNG", "LNG", 1.5f),
-			new Mould("Models/Cylinder", "obj1", Matrix.CreateScale(40f, 80f, 40f) * Matrix.CreateTranslation(0.5f, 0f, 0.5f), Matrix.CreateTranslation(9f / 16f, -7f / 16f, 0f), "He", "He", 1.5f),
-			new Mould("Models/Cylinder", "obj1", Matrix.CreateScale(40f, 80f, 40f) * Matrix.CreateTranslation(0.5f, 0f, 0.5f), Matrix.CreateTranslation(9f / 16f, -7f / 16f, 0f), "Ar", "Ar", 1.5f),
+			new Cylinder(Matrix.CreateScale(70f)),
+			new Cylinder(Matrix.CreateScale(70f), "LPG"),
+			new Cylinder(Matrix.CreateScale(70f), "LNG"),
+			new Cylinder(Matrix.CreateScale(40f, 80f, 40f), "He"),
+			new Cylinder(Matrix.CreateScale(40f, 80f, 40f), "Ar"),
 			new Powder("Crude Salt", Color.White),
 			new Powder("Refined Salt", Color.White),
 			new Powder("Yeast", Color.White),
@@ -145,9 +145,15 @@ namespace Game
 				DefaultDisplayName = "Monocrystalline Silicon",
 				DefaultDescription = "Monocrystalline Silicon"
 			},
-			new GenomeViewer(),
-			new Screwdriver(Color.White), //螺丝刀
-			new Wrench(Color.White), //扳手
+			new FlatItem
+			{
+				DefaultTextureSlot = 122,
+				DefaultDisplayName = "基因查看器"
+			},
+			new Screwdriver(Color.White),
+			new Wrench(Color.White),
+			new ABomb(),
+			new HBomb(),
 		};
 		static ItemBlock()
 		{

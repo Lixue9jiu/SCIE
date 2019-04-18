@@ -10,10 +10,7 @@ namespace Game
 	{
 		public int SlotIndex { get; set; }
 
-		public CraftingRecipe GetRecipe()
-		{
-			return m_matchedRecipe;
-		}
+		public CraftingRecipe GetRecipe() => m_matchedRecipe;
 
 		public override void AddSlotItems(int slotIndex, int value, int count)
 		{
@@ -103,23 +100,8 @@ namespace Game
 
 		public override void Load(ValuesDictionary valuesDictionary, IdToEntityMap idToEntityMap)
 		{
-			int count = valuesDictionary.GetValue<int>("SlotsCount");
-			m_slots.Capacity = count;
-			int i;
-			for (i = 0; i < count; i++)
-				m_slots.Add(new Slot());
-			ValuesDictionary value2 = valuesDictionary.GetValue<ValuesDictionary>("Slots");
-			for (i = 0; i < m_slots.Count; i++)
-			{
-				ValuesDictionary value3 = value2.GetValue<ValuesDictionary>("Slot" + i.ToString(CultureInfo.InvariantCulture), null);
-				if (value3 != null)
-				{
-					Slot slot = m_slots[i];
-					slot.Value = value3.GetValue<int>("Contents");
-					slot.Count = value3.GetValue<int>("Count");
-				}
-			}
-			m_craftingGridSize = (int)MathUtils.Sqrt((double)(SlotsCount - 2));
+			this.LoadItems(valuesDictionary);
+			   m_craftingGridSize = (int)MathUtils.Sqrt((double)(SlotsCount - 2));
 			if (m_craftingGridSize < 1 || m_craftingGridSize > 6)
 				throw new InvalidOperationException("Invalid crafting grid size.");
 			m_matchedIngredients = new string[36];
@@ -135,12 +117,10 @@ namespace Game
 					int num2 = i + j * 6;
 					int slotIndex = i + j * m_craftingGridSize;
 					int slotValue = GetSlotValue(slotIndex);
-					int num3 = Terrain.ExtractContents(slotValue);
-					int num4 = Terrain.ExtractData(slotValue);
 					int slotCount = GetSlotCount(slotIndex);
 					if (slotCount > 0)
 					{
-						m_matchedIngredients[num2] = BlocksManager.Blocks[num3].CraftingId + ":" + num4.ToString(CultureInfo.InvariantCulture);
+						m_matchedIngredients[num2] = BlocksManager.Blocks[Terrain.ExtractContents(slotValue)].CraftingId + ":" + Terrain.ExtractData(slotValue).ToString(CultureInfo.InvariantCulture);
 						num = MathUtils.Min(num, slotCount);
 					}
 					else

@@ -98,9 +98,9 @@ namespace Game
 			if (m_smeltingRecipe != null)
 			{
 				SmeltingProgress = MathUtils.Min(SmeltingProgress + 0.02f * dt, 1f);
-				if (m_music % 330 == 0)
+				if (m_music % 165 == 0)
 					Utils.SubsystemAudio.PlaySound("Audio/SteamEngine", 1f, 0f, new Vector3(coordinates), 4f, true);
-				m_music += 2;
+				m_music++;
 				if (SmeltingProgress >= 1.0)
 				{
 					for (int i = 0; i < m_furnaceSize; i++)
@@ -131,7 +131,7 @@ namespace Game
 
 		public override void Save(ValuesDictionary valuesDictionary, EntityToIdMap entityToIdMap)
 		{
-			base.Save(valuesDictionary, entityToIdMap);
+			this.SaveItems(valuesDictionary);
 			valuesDictionary.SetValue("FireTimeRemaining", m_fireTimeRemaining);
 			valuesDictionary.SetValue("HeatLevel", HeatLevel);
 		}
@@ -158,7 +158,7 @@ namespace Game
 			if (text != null)
 			{
 				Slot slot = m_slots[ResultSlotIndex];
-				if (slot.Count != 0 && (90 != slot.Value || 1 + slot.Count > 40))
+				if (slot.Count != 0 && (90 != slot.Value || slot.Count >= 40))
 					text = null;
 			}
 			return text;

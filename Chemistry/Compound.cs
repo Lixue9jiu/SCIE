@@ -1,15 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using System.Text;
 
 namespace Chemistry
 {
 	[Serializable]
-	public class Compound : Dictionary<Group, int>
+	public class Compound : Dictionary<Group, int>, ICloneable, IEquatable<Compound>
 	{
-		public Compound()
+		/*public Compound()
 		{
-		}
+		}*/
 
 		public Compound(int capacity) : base(capacity)
 		{
@@ -40,6 +41,12 @@ namespace Chemistry
 			i = s.LastIndexOf(')') + 1;
 			if (i > 0 && i < s.Length)
 				Add(new Group(s.Substring(i)), 1);
+		}
+
+		[MethodImpl((MethodImplOptions)0x100)]
+		public object Clone()
+		{
+			return new Compound(this);
 		}
 
 		/*public float AtomicWeight
@@ -87,12 +94,22 @@ namespace Chemistry
 
 		public bool Equals(Compound obj)
 		{
-			return Count == obj.Count;
+			if (Count != obj.Count)
+				return false;
+			var j = obj.GetEnumerator();
+			for (var i = GetEnumerator(); i.MoveNext() && j.MoveNext();)
+			{
+				var x = i.Current;
+				var y = j.Current;
+				if(!x.Key.Equals(y.Key) || x.Value != y.Value)
+					return false;
+			}
+			return true;
 		}
 
 		public override int GetHashCode()
 		{
-			int code = -1;
+			int code = 0;
 			for (var i = GetEnumerator(); i.MoveNext();)
 			{
 				var pair = i.Current;
@@ -115,6 +132,14 @@ namespace Chemistry
 			}
 			return result;
 		}
+		
+		[MethodImpl((MethodImplOptions)0x100)]
+		public static Compound operator +(Compound c, Group g)
+		{
+			var result = (Compound)c.Clone();
+			result.Add(g);
+			return result;
+		}
 
 		public static Compound operator -(Compound c1, Compound c2)
 		{
@@ -133,7 +158,32 @@ namespace Chemistry
 			}
 			return result;
 		}
+		
+		[MethodImpl((MethodImplOptions)0x100)]
+		public static Compound operator -(Compound c, Group g)
+		{
+			var result = (Compound)c.Clone();
+			result.Remove(g);
+			return result;
+		}
+		
+		public static Compound operator *(Compound c, int f)
+		{
+			var result = new Compound(c.Count);
+			for (var i = c.Keys.GetEnumerator(); i.MoveNext();)
+				result[i.Current] = c[i.Current] * f;
+			return result;
+		}
+		
+		public static Compound operator /(Compound c, int f)
+		{
+			var result = new Compound(c.Count);
+			for (var i = c.Keys.GetEnumerator(); i.MoveNext();)
+				result[i.Current] = c[i.Current] / f;
+			return result;
+		}
 
+		[MethodImpl((MethodImplOptions)0x100)]
 		public static implicit operator Compound(string s)
 		{
 			return new Compound(s);
@@ -157,6 +207,34 @@ namespace Chemistry
 					sb.Append(pair.Value);
 			}
 			return sb.ToString();
+		}
+	}
+	public class CompoundsComparer : IEqualityComparer<Dictionary<Compound, int>>
+	{
+		public bool Equals(Dictionary<Compound, int> x, Dictionary<Compound, int> y)
+		{
+			if (x.Count != y.Count)
+				return false;
+			var j = y.GetEnumerator();
+			for (var i = x.GetEnumerator(); i.MoveNext() && j.MoveNext();)
+			{
+				var x2 = i.Current;
+				var y2 = j.Current;
+				if (!x2.Key.Equals(y2.Key) || x2.Value != y2.Value)
+					return false;
+			}
+			return true;
+		}
+
+		public int GetHashCode(Dictionary<Compound, int> obj)
+		{
+			int code = 0;
+			for (var i = obj.GetEnumerator(); i.MoveNext();)
+			{
+				var pair = i.Current;
+				code ^= pair.Key.GetHashCode() * 2111 | pair.Value << 24;
+			}
+			return code ^ obj.Count << 28;
 		}
 	}
 }

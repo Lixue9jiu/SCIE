@@ -17,12 +17,10 @@ namespace Game
 			if (type == Materials.Mercury)
 				sb.Append("oxide ");
 			name = char.ToLower(name[0], CultureInfo.CurrentCulture) + name.Substring(1);
-			sb.Append(name);
-			sb.Append(" ore. When smelted in the furnace will turn into pure ");
+			sb.Append(name).Append(" ore. When smelted in the furnace will turn into pure ");
 			if (type == Materials.Mercury)
 				sb.Append("liquid ");
-			sb.Append(name);
-			sb.Append('.');
+			sb.Append(name).Append('.');
 			DefaultDescription = sb.ToString();
 			Color = color;
 			var model = ContentManager.Get<Model>(smooth ? "Models/ChunkSmooth" : "Models/Chunk");
@@ -35,15 +33,9 @@ namespace Game
 			BlocksManager.DrawMeshBlock(primitivesRenderer, m_standaloneBlockMesh, CustomTextureItem.Texture, color, 2f * size, ref matrix, environmentData);
 		}
 
-		public override string GetCategory(int value)
-		{
-			return "Terrain";
-		}
+		public override string GetCategory(int value) => "Terrain";
 
-		public override float GetProjectilePower(int value)
-		{
-			return 2f;
-		}
+		public override float GetProjectilePower(int value) => 2f;
 	}
 	public class Powder : ColoredFlatItem
     {
@@ -97,15 +89,9 @@ namespace Game
 			BlocksManager.DrawFlatBlock(primitivesRenderer, value, size, ref matrix, null, Color, false, environmentData);
 		}
 
-		public float GetHeatLevel(int value)
-		{
-			return HeatLevel;
-		}
+		public float GetHeatLevel(int value) => HeatLevel;
 
-		public float GetFuelFireDuration(int value)
-		{
-			return FuelFireDuration;
-		}
+		public float GetFuelFireDuration(int value) => FuelFireDuration;
 	}
 	public class CokeCoal : OreChunk, IFuel
 	{
@@ -120,19 +106,10 @@ namespace Game
 			BlocksManager.DrawMeshBlock(primitivesRenderer, m_standaloneBlockMesh, color, 2f * size, ref matrix, environmentData);
 		}
 
-		public override string GetCategory(int value)
-		{
-			return "Items";
-		}
+		public override string GetCategory(int value) => "Items";
 
-		public float GetHeatLevel(int value)
-		{
-			return 2000f;
-		}
+		public float GetHeatLevel(int value) => 2000f;
 
-		public float GetFuelFireDuration(int value)
-		{
-			return 100f;
-		}
+		public float GetFuelFireDuration(int value) => 100f;
 	}
 }

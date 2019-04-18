@@ -47,7 +47,7 @@ namespace Game
 		public override int GetFaceTextureSlot(int face, int value)
 		{
 			int direction = GetDirection(value);
-			return face == direction ? 108 : face == CellFace.OppositeFace(direction) ? 110 : 109;
+			return face == direction ? 108 : face == CellFace.OppositeFace(direction) ? 110 : 170;
 		}
 
 		public static MachineMode GetMode(int data)

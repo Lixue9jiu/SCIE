@@ -37,6 +37,7 @@ namespace Game
 			new Group("SiO₃²⁻"),
 			new Group("PO₄³⁻"),
 			new Group("F⁻"),
+			new Group("AsO₄³⁻"),
 		};
 		public new static IChemicalItem[] Items;
 		static ChemicalBlock()
@@ -59,6 +60,8 @@ namespace Game
 				new Cylinder("PH₃"),
 				new Cylinder("C₂H₂"),
 				new Cylinder("(CN)₂"),
+				new Cylinder("Cl₂O"),
+				new Cylinder("ClO₂"),
 				new PurePowder("Na₂O"),
 				new PurePowder("Na₂O₂", Color.LightYellow),
 				new PurePowder("MgO"),
@@ -89,7 +92,7 @@ namespace Game
 			});
 			for (int i = 0; i < Cations.Length; i++)
 			{
-				AtomKind atom = Cations[i][0].Atom;
+				AtomKind atom = Cations[i].Array[0].Atom;
 				Color color = atom == AtomKind.Fe
 					? Cations[i].Charge == 2 ? Color.LightGreen : Color.DarkRed
 					: atom == AtomKind.Cu ? Color.Blue : Color.White;
@@ -102,10 +105,25 @@ namespace Game
 			list.Add(new PurePowder("Ca(SiO₃)"));
 			list.Add(new PurePowder("Na(HCO₃)"));
 			list.Add(new PurePowder("Na₂S₂O₃"));
-			list.Add(new PurePowder("Na(ClO)"));
 			list.Add(new PurePowder("Ca(ClO)₂"));
-			list.Add(new PurePowder("K(CN)"));
+			list.Add(new PurePowder("Na(ClO₂)"));
+			list.Add(new PurePowder("Mg(ClO₂)₂"));
+			list.Add(new PurePowder("K(ClO₂)"));
+			list.Add(new PurePowder("Ca(ClO₂)₂"));
+			list.Add(new PurePowder("Ba(ClO₂)₂"));
+			list.Add(new PurePowder("Na(ClO₃)"));
+			list.Add(new PurePowder("Mg(ClO₃)₂"));
+			list.Add(new PurePowder("K(ClO₃)"));
+			list.Add(new PurePowder("Ca(ClO₃)₂"));
+			list.Add(new PurePowder("Ba(ClO₃)₂"));
+			list.Add(new PurePowder("Na(ClO₄)"));
+			list.Add(new PurePowder("Mg(ClO₄)₂"));
+			list.Add(new PurePowder("K(ClO₄)"));
+			list.Add(new PurePowder("Ca(ClO₄)₂"));
+			list.Add(new PurePowder("Ba(ClO₄)₂"));
 			list.Add(new PurePowder("Na(CN)"));
+			list.Add(new PurePowder("K(CN)"));
+			list.Add(new PurePowder("Ca(CN)"));
 			list.Add(new PurePowder("K₂(HPO₄)"));
 			list.Add(new PurePowder("K(H₂PO₄)"));
 			list.Add(new PurePowder("Na₂(HPO₄)"));
@@ -113,8 +131,22 @@ namespace Game
 			list.Add(new PurePowder("Na₂Cr₂O₇"));
 			list.Add(new PurePowder("K₂Cr₂O₇"));
 			list.Add(new PurePowder("Cu₃P"));
+			list.Add(new PurePowder("NH₄H"));
+			list.Add(new PurePowder("LiH"));
+			list.Add(new PurePowder("NaH"));
+			list.Add(new PurePowder("MgH₂"));
+			//list.Add(new PurePowder("AlH₃"));
+			list.Add(new PurePowder("KH"));
+			list.Add(new PurePowder("CaH₂"));
+			list.Add(new PurePowder("Na₃P"));
+			//list.Add(new Cylinder("B₂H₆"));
+			list.Add(new Cylinder("C₂H₄"));
 			Items = list.ToArray();
 		}
+		/*public override CraftingRecipe GetAdHocCraftingRecipe(SubsystemTerrain subsystemTerrain, string[] ingredients, float heatLevel)
+		{
+			return base.GetAdHocCraftingRecipe(subsystemTerrain, ingredients, heatLevel);
+		}*/
 		public override IItem GetItem(ref int value)
 		{
 			return Terrain.ExtractContents(value) != Index ? base.GetItem(ref value) : Items[Terrain.ExtractData(value)];
@@ -138,6 +170,10 @@ namespace Game
 		public Cylinder(string name) : base("Models/Cylinder", "obj1", Matrix.CreateScale(40f, 80f, 40f) * Matrix.CreateTranslation(0.5f, 0f, 0.5f), Matrix.CreateTranslation(9f / 16f, -7f / 16f, 0f), null, name, 1.5f)
 		{
 			DefaultDescription = DefaultDisplayName = (System = new DispersionSystem(name)).ToString();
+		}
+		public Cylinder(Matrix matrix, string name = "Cylinder") : base("Models/Cylinder", "obj1", matrix * Matrix.CreateTranslation(0.5f, 0f, 0.5f), Matrix.CreateTranslation(9f / 16f, -7f / 16f, 0f), null, name, 1.5f)
+		{
+			DefaultDescription = DefaultDisplayName = name;
 		}
 		public override string GetCategory(int value)
 		{

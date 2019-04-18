@@ -5,6 +5,63 @@ using System.Collections.Generic;
 
 namespace Game
 {
+	public class TEDC : DeviceBlock, IInteractiveBlock
+	{
+		public static Jint.Engine JsEngine;
+		public static ComponentPlayer ComponentPlayer;
+		protected static string lastcode = "";
+		protected bool Powered;
+
+		/*static TEDC()
+		{
+			if (VersionsManager.Platform != Platform.Android)
+				Environment.SetEnvironmentVariable("PATH", Path.GetFullPath(Path.GetDirectoryName(typeof(TEDC).Assembly.Location)) + ";" + Environment.GetEnvironmentVariable("PATH", EnvironmentVariableTarget.Process), EnvironmentVariableTarget.Process);
+		}*/
+
+		public TEDC() : base(60, ElementType.Device | ElementType.Connector)
+		{
+			DefaultDisplayName = DefaultDescription = "晶体管数字电子计算机";
+			JsEngine = new Jint.Engine();
+		}
+
+		public override int GetFaceTextureSlot(int face, int value) => 127;
+
+		public override void Simulate(ref int voltage) => Powered = voltage >= 60;
+
+		public void Execute(string code)
+		{
+			if (!Powered || string.IsNullOrWhiteSpace(code)) return;
+			try
+			{
+				Jint.Engine engine = JsEngine.Execute(code);
+				if (ComponentPlayer != null)
+					ComponentPlayer.ComponentGui.DisplaySmallMessage(engine.GetCompletionValue().ToString(), false, false);
+			}
+			catch (Exception e)
+			{
+				ExceptionManager.ReportExceptionToUser("JS", e);
+			}
+			lastcode = code;
+		}
+
+		public override BlockPlacementData GetPlacementValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, TerrainRaycastResult raycastResult)
+		{
+			return new BlockPlacementData
+			{
+				Value = value,
+				CellFace = raycastResult.CellFace
+			};
+		}
+
+		public bool OnInteract(TerrainRaycastResult raycastResult, ComponentMiner componentMiner)
+		{
+			ComponentPlayer = componentMiner.ComponentPlayer;
+			if (ComponentPlayer == null) return false;
+			DialogsManager.ShowDialog(ComponentPlayer.View.GameWidget, new TextBoxDialog("Enter Code", lastcode, int.MaxValue, Execute));
+			return true;
+		}
+	}
+
 	public class Battery : DeviceBlock, IBlockBehavior, IHarvestingItem, IEquatable<Battery>
 	{
 		public int Factor = 1;
@@ -55,8 +112,9 @@ namespace Game
 			{
 				voltage = Voltage;
 				RemainCount--;
+				return;
 			}
-			else if (voltage >= Voltage)
+			if (voltage >= Voltage)
 			{
 				voltage -= Voltage;
 				RemainCount += Factor;
@@ -86,9 +144,7 @@ namespace Game
 	}
 	public class Fridge : InteractiveEntityDevice<ComponentNewChest>
 	{
-		public Fridge() : base("Freezer", 2000)
-		{
-		}
+		public Fridge() : base("Freezer", 2000) { }
 		public override void Simulate(ref int voltage)
 		{
 			Component.Powered = voltage >= 110;
@@ -126,9 +182,7 @@ namespace Game
 
 	public class Magnetizer : InteractiveEntityDevice<ComponentMagnetizer>
 	{
-		public Magnetizer() : base("Magnetizer", 1000)
-		{
-		}
+		public Magnetizer() : base("Magnetizer", 1000) { }
 		public override void Simulate(ref int voltage)
 		{
 			if (Component.Powered = voltage >= 12)
@@ -167,9 +221,7 @@ namespace Game
 
 	public class Separator : InteractiveEntityDevice<ComponentSeperator>
 	{
-		public Separator() : base("Seperator", 2000)
-		{
-		}
+		public Separator() : base("Seperator", 2000) { }
 		/*public override Device Create(Point3 p)
 		{
 			var other = (Separator)base.Create(p);
@@ -275,9 +327,7 @@ namespace Game
 
 	public class EFurnace : InteractiveEntityDevice<ComponentElectricFurnace>, IElectricElementBlock
 	{
-		public EFurnace() : base("ElectricFurnace", 6000)
-		{
-		}
+		public EFurnace() : base("ElectricFurnace", 6000) { }
 		/*public override Device Create(Point3 p)
 		{
 			var other = (EFurnace)base.Create(p);

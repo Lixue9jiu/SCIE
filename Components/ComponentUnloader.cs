@@ -58,9 +58,14 @@ namespace Game
 
 		public override void Load(ValuesDictionary valuesDictionary, IdToEntityMap idToEntityMap)
 		{
-			base.Load(valuesDictionary, idToEntityMap);
+			this.LoadItems(valuesDictionary);
 			m_componentBlockEntity = Entity.FindComponent<ComponentBlockEntity>(true);
 			SubsystemPlayers = Project.FindSubsystem<SubsystemPlayers>(true);
+		}
+
+		public override void Save(ValuesDictionary valuesDictionary, EntityToIdMap entityToIdMap)
+		{
+			this.SaveItems(valuesDictionary);
 		}
 	}
 }

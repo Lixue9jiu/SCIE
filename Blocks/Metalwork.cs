@@ -9,6 +9,7 @@ namespace Game
 	{
 		public Screwdriver(Color color, string description = "") : base(description)
 		{
+			DefaultDisplayName = "ÂÝË¿µ¶";
 			var model = ContentManager.Get<Model>("Models/Screwdriver");
 			m_standaloneBlockMesh.AppendModelMeshPart(model.FindMesh("obj1", true).MeshParts[0], BlockMesh.GetBoneAbsoluteTransform(model.FindMesh("obj1", true).ParentBone) * Matrix.CreateTranslation(0f, -0.33f, 0f), false, false, false, false, color);
             m_standaloneBlockMesh.TransformTextureCoordinates(Matrix.CreateTranslation(15f / 16f, 0f, 0f) * Matrix.CreateScale(0.05f));
@@ -17,21 +18,38 @@ namespace Game
 		{
 			BlocksManager.DrawMeshBlock(primitivesRenderer, m_standaloneBlockMesh, color, 3.3f * size, ref matrix, environmentData);
 		}
-    }
-    public class Wrench : MeshItem
+		public override string GetCraftingId()
+		{
+			return "Screwdriver";
+		}
+		public override string GetCategory(int value)
+		{
+			return "Tools";
+		}
+	}
+	public class Wrench : MeshItem
     {
         public Wrench(Color color, string description = "") : base(description)
-        {
-            var model = ContentManager.Get<Model>("Models/Wrench");
-            m_standaloneBlockMesh.AppendModelMeshPart(model.FindMesh("obj1", true).MeshParts[0], BlockMesh.GetBoneAbsoluteTransform(model.FindMesh("obj1", true).ParentBone), false, false, false, false, color);
+		{
+			DefaultDisplayName = "°âÊÖ";
+			var model = ContentManager.Get<Model>("Models/Wrench");
+            m_standaloneBlockMesh.AppendModelMeshPart(model.FindMesh("obj1", true).MeshParts[0], BlockMesh.GetBoneAbsoluteTransform(model.FindMesh("obj1", true).ParentBone) * Matrix.CreateScale(1.2f), false, false, false, false, color);
             m_standaloneBlockMesh.TransformTextureCoordinates(Matrix.CreateTranslation(15f / 16f, 0f, 0f) * Matrix.CreateScale(0.05f));
         }
         public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
         {
             BlocksManager.DrawMeshBlock(primitivesRenderer, m_standaloneBlockMesh, color, 6f * size, ref matrix, environmentData);
-        }
+		}
+		public override string GetCraftingId()
+		{
+			return "Wrench";
+		}
+		public override string GetCategory(int value)
+		{
+			return "Tools";
+		}
     }
-    public class MetalIngot : MeshItem
+	public class MetalIngot : MeshItem
 	{
 		public MetalIngot(Materials type)
 		{

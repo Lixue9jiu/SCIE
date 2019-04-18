@@ -51,45 +51,28 @@ namespace Game
 			}
 			if (m_helpButtonWidget.IsClicked)
 				ScreensManager.SwitchScreen("Help");
+			IInventory inventory = m_componentPlayer.ComponentMiner.Inventory;
 			if (playerInput.ToggleInventory || m_inventoryButtonWidget.IsClicked)
 			{
 				if (componentRider.Mount != null && ModalPanelWidget == null)
 				{
-					var componentEngine = m_componentPlayer.ComponentRider.Mount.Entity.FindComponent<ComponentEngine2>();
-					if (componentEngine != null)
+					Widget widget = OpenEntity(inventory, m_componentPlayer.ComponentRider.Mount.Entity);
+					if (widget != null)
 					{
-						ModalPanelWidget = new Engine2Widget(m_componentPlayer.ComponentMiner.Inventory, componentEngine);
-						AudioManager.PlaySound("Audio/UI/ButtonClick", 1f, 0f, 0f);
-						return;
-					}
-					var componentEngine3 = m_componentPlayer.ComponentRider.Mount.Entity.FindComponent<ComponentEngineA>();
-					if (componentEngine3 != null)
-					{
-						ModalPanelWidget = new EngineAWidget(m_componentPlayer.ComponentMiner.Inventory, componentEngine3);
-						AudioManager.PlaySound("Audio/UI/ButtonClick", 1f, 0f, 0f);
-						return;
-					}
-					var componentEngine2 = m_componentPlayer.ComponentRider.Mount.Entity.FindComponent<ComponentTrain>();
-					if (componentEngine2 != null)
-					{
-						ModalPanelWidget = new TrainWidget(m_componentPlayer.ComponentMiner.Inventory, componentEngine2);
+						ModalPanelWidget = widget;
 						AudioManager.PlaySound("Audio/UI/ButtonClick", 1f, 0f, 0f);
 						return;
 					}
 				}
-				if (IsInventoryVisible())
-					ModalPanelWidget = null;
-				else if (m_componentPlayer.ComponentMiner.Inventory is ComponentCreativeInventory)
-					ModalPanelWidget = new CreativeInventoryWidget(m_componentPlayer.Entity);
-				else
-					ModalPanelWidget = new FullInventoryWidget(m_componentPlayer.ComponentMiner.Inventory, m_componentPlayer.Entity.FindComponent<ComponentCraftingTable>(true));
+				ModalPanelWidget = IsInventoryVisible()
+					? null
+					: inventory is ComponentCreativeInventory
+					? new CreativeInventoryWidget(m_componentPlayer.Entity)
+					: (Widget)new FullInventoryWidget(inventory, m_componentPlayer.Entity.FindComponent<ComponentCraftingTable>(true));
 			}
 			if (playerInput.ToggleClothing || m_clothingButtonWidget.IsClicked)
 			{
-				if (IsClothingVisible())
-					ModalPanelWidget = null;
-				else
-					ModalPanelWidget = new ClothingWidget(m_componentPlayer);
+				ModalPanelWidget = IsClothingVisible() ? null : new ClothingWidget(m_componentPlayer);
 			}
 			if (m_sneakButtonWidget.IsClicked || playerInput.ToggleSneak)
 			{
@@ -133,7 +116,6 @@ namespace Game
 			}
 			else if ((m_editItemButton.IsClicked || playerInput.EditItem) && IsActiveSlotEditable())
 			{
-				IInventory inventory = m_componentPlayer.ComponentMiner.Inventory;
 				if (inventory != null)
 				{
 					int activeSlotIndex = inventory.ActiveSlotIndex;
@@ -259,12 +241,37 @@ namespace Game
 			}
 			else if (input.Back || m_backButtonWidget.IsClicked)
 				DialogsManager.ShowDialog(m_componentPlayer.View.GameWidget, new GameMenuDialog(m_componentPlayer));
+			return;
 		}
 
 		public override void Load(ValuesDictionary valuesDictionary, IdToEntityMap idToEntityMap)
 		{
 			ComponentGui = Entity.FindComponent<ComponentGui>(true);
 			base.Load(valuesDictionary, idToEntityMap);
+		}
+		public static Widget OpenEntity(IInventory inventory, Entity entity)
+		{
+			var componentEngine = entity.FindComponent<ComponentEngine2>();
+			if (componentEngine != null)
+			{
+				return new Engine2Widget(inventory, componentEngine);
+			}
+			var componentEngine3 = entity.FindComponent<ComponentEngineA>();
+			if (componentEngine3 != null)
+			{
+				return new EngineAWidget(inventory, componentEngine3);
+			}
+			var componentEngine2 = entity.FindComponent<ComponentTrain>();
+			if (componentEngine2 != null)
+			{
+				return new TrainWidget(inventory, componentEngine2);
+			}
+			var componentCarriage = entity.FindComponent<ComponentCarriage>();
+			if (componentCarriage != null)
+			{
+				return new ChestWidget(inventory, componentCarriage);
+			}
+			return null;
 		}
 	}
 }

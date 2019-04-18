@@ -120,6 +120,13 @@ namespace Game
 			if (item is IHarvestingItem block)
 				block.OnItemHarvested(x, y, z, blockValue, ref dropValue, ref newBlockValue);
 		}
+		/*public override bool OnEditBlock(int x, int y, int z, int value, ComponentPlayer componentPlayer)
+		{
+			var item = elementblock.GetDevice(Utils.Terrain, x, y, z);
+			if (item is IEditableBlock block)
+				block.OnEditBlock(x, y, z, value, componentPlayer);
+			return false;
+		}*/
 		public void Update(float dt)
 		{
 			int i, j;

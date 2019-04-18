@@ -8,13 +8,14 @@ namespace Game
 	public class ComponentRailEntity : ComponentMount
 	{
 	}
-	public class ComponentCarriage : ComponentMachine, IUpdateable
+	public class ComponentCarriage : ComponentChest, IUpdateable
 	{
 		public Vector3 RiderOffset;
 		public float m_outOfMountTime;
 		public static SubsystemBodies m_subsystemBodies;
 		public ComponentBody ComponentBody;
 		public ComponentDamage ComponentDamage;
+		ComponentMount m_componentMount;
 		public ComponentMount Mount => ComponentBody.ParentBody?.Entity.FindComponent<ComponentMount>();
 		public int UpdateOrder => 0;
 		public ComponentRailEntity FindNearestMount()
@@ -26,13 +27,12 @@ namespace Game
 			foreach (ComponentRailEntity componentMount in bodies.Select(GetRailEntity).Where(IsTargetMount))
 			{
 				float score = 0f;
-				const float maxDistance = 2.5f;
+				const float maxDistance = 16f;
 				if (componentMount.ComponentBody.Velocity.LengthSquared() < 1f)
 				{
 					var v = componentMount.ComponentBody.Position + Vector3.Transform(componentMount.MountOffset, componentMount.ComponentBody.Rotation) - ComponentBody.Position;
-					if (v.Length() < maxDistance)
-						if (Vector3.Dot(Vector3.Normalize(v), ComponentBody.Rotation.ToForwardVector()) > 0.33f)
-							score = maxDistance - v.Length();
+					if (v.LengthSquared() < maxDistance)
+						score = maxDistance - v.Length();
 				}
 				if (score > num)
 				{
@@ -44,8 +44,11 @@ namespace Game
 		}
 		public override void Load(ValuesDictionary valuesDictionary, IdToEntityMap idToEntityMap)
 		{
+			this.LoadItems(valuesDictionary);
 			m_subsystemBodies = Project.FindSubsystem<SubsystemBodies>(true);
 			ComponentBody = Entity.FindComponent<ComponentBody>(true);
+			ComponentDamage = Entity.FindComponent<ComponentDamage>(true);
+			m_componentMount = Entity.FindComponent<ComponentMount>(true);
 			RiderOffset = valuesDictionary.GetValue<Vector3>("RiderOffset");
 		}
 		public void StartMounting(ComponentMount componentMount)
@@ -84,12 +87,18 @@ namespace Game
 		}
 		public void Update(float dt)
 		{
-			ComponentMount mount = Mount;
+			ComponentMount mount = m_componentMount;
+			if (mount.Rider != null)
+			{
+				var player = mount.Rider.Entity.FindComponent<ComponentPlayer>();
+				player.ComponentLocomotion.LookOrder = player.ComponentInput.PlayerInput.Look;
+			}
+			mount = Mount;
 			if (mount != null)
 			{
 				ComponentBody componentBody = ComponentBody;
 				ComponentBody parentBody = ComponentBody.ParentBody;
-				m_outOfMountTime = Vector3.DistanceSquared(parentBody.Position + Vector3.Transform(componentBody.ParentBodyPositionOffset, parentBody.Rotation), componentBody.Position) > 0.160000011f
+				m_outOfMountTime = Vector3.DistanceSquared(parentBody.Position + Vector3.Transform(componentBody.ParentBodyPositionOffset, parentBody.Rotation), componentBody.Position) > 6
 					? m_outOfMountTime + dt
 					: 0f;
 				ComponentDamage componentDamage = mount.Entity.FindComponent<ComponentDamage>();
@@ -106,6 +115,11 @@ namespace Game
 		public bool IsTargetMount(ComponentMount m)
 		{
 			return m != null && m.Entity != Entity;
+		}
+
+		public override void Save(ValuesDictionary valuesDictionary, EntityToIdMap entityToIdMap)
+		{
+			this.SaveItems(valuesDictionary);
 		}
 	}
 }

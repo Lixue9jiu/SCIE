@@ -21,6 +21,11 @@ namespace Game
 				blockMesh.CalculateBoundingBox()
 			};
 		}
+		public Mould(string meshName, Matrix boneTransform, Matrix tcTransform, string description = "", float size = 1f) : this("Models/" + meshName, meshName, boneTransform, tcTransform, Color.LightGray, size)
+		{
+			DefaultDisplayName = "Steel" + meshName;
+			DefaultDescription = description;
+		}
 		public Mould(string modelName, string meshName, Matrix boneTransform, Matrix tcTransform, string description = "", string name = "", float size = 1f) : this(modelName, meshName, boneTransform, tcTransform, Color.LightGray, size)
 		{
 			DefaultDisplayName = name;

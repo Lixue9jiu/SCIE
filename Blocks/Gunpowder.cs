@@ -95,4 +95,36 @@ namespace Game
 			return arr;
 		}
 	}
+	public class ABomb : Mould, IFuel
+	{
+		public ABomb() : base("Models/Nuclearbomb", "Nuclearbomb", Matrix.CreateScale(1.9f), Matrix.Identity, "原子弹", "原子弹")
+		{
+		}
+		public override float GetExplosionPressure(int value)
+		{
+			return 8e5f;
+		}
+
+		public float GetFuelFireDuration(int value)
+		{
+			return 1f;
+		}
+
+		public float GetHeatLevel(int value)
+		{
+			return 1e5f;
+		}
+	}
+	public class HBomb : ABomb
+	{
+		public HBomb()
+		{
+			DefaultDescription = DefaultDisplayName = "氢弹";
+		}
+
+		public override float GetExplosionPressure(int value)
+		{
+			return 1.6e6f;
+		}
+	}
 }

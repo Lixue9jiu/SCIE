@@ -6,6 +6,11 @@ using System.Globalization;
 using System.Xml.Linq;
 using XmlUtilities;
 using System;
+using System.IO;
+using Chemistry;
+using System.Threading.Tasks;
+using Engine.Media;
+using Engine.Audio;
 
 namespace Game
 {
@@ -21,7 +26,7 @@ namespace Game
 		{
 			BlocksManager.DamageItem1 = DamageItem;
 			BlocksManager.FindBlocksByCraftingId1 = FindBlocksByCraftingId;
-			CraftingRecipesManager.Initialize1 = CRInitialize;
+			CraftingRecipesManager.Initialize1 = CRInitialize + CraftingRecipesManager.Initialize1;
 			CraftingRecipesManager.DecodeResult1 = DecodeResult;
 			CraftingRecipesManager.MatchRecipe1 = MatchRecipe;
 			CraftingRecipesManager.TransformRecipe1 = TransformRecipe;
@@ -29,13 +34,34 @@ namespace Game
 			FlyCamera.get_IsEntityControlEnabled1 = True;
 			RandomJumpCamera.get_IsEntityControlEnabled1 = True;
 			StraightFlightCamera.get_IsEntityControlEnabled1 = True;
+			AudioManager.PlaySound1 = PlaySound;
+			var d = new Dictionary<string, string>();
+			Utils.TR = d;
+			Task.Run((Action)Load);
+		}
+		static void Load()
+		{
+			/*var stream = Utils.GetTargetFile("IndustrialEquations.txt");
+			Equation.Reactions = new HashSet<Equation>();
+			try
+			{
+				var reader = new StreamReader(stream);
+				while (true)
+				{
+					var line = reader.ReadLine();
+					if (line == null) break;
+					Equation.Reactions.Add(Equation.Parse(line));
+				}
+			}
+			finally
+			{
+				stream.Close();
+			}*/
 			var stream = Utils.GetTargetFile("IndustrialMod_en-us.lng", false);
 			if (stream == null) return;
 			try
 			{
-				var d = new Dictionary<string, string>();
-				Utils.ReadKeyValueFile(d, stream);
-				Utils.TR = d;
+				Utils.ReadKeyValueFile(Utils.TR, stream);
 			}
 			finally
 			{
@@ -45,6 +71,25 @@ namespace Game
 		public static bool True(object obj)
 		{
 			return true;
+		}
+		public static void PlaySound(string name, float volume, float pitch, float pan)
+		{
+			if (SettingsManager.SoundsVolume > 0f)
+			{
+				if (volume * SettingsManager.SoundsVolume > AudioManager.MinAudibleVolume)
+					try
+					{
+						try
+						{
+							new Sound(ContentManager.Get<SoundBuffer>(name), volume * SettingsManager.SoundsVolume, AudioManager.ToEnginePitch(pitch), pan, isLooped: false, disposeOnStop: true).Play();
+						}
+						catch (InvalidOperationException)
+						{
+							new StreamingSound(ContentManager.Get<StreamingSource>(name), volume, 1f, 0f, false, false, 1f).Play();
+						}
+					}
+					catch { }
+			}
 		}
 		public static Block[] FindBlocksByCraftingId(string craftingId)
 		{
@@ -189,9 +234,7 @@ namespace Game
 		{
 			var array = new string[36];
 			for (int i = 0; i < 2; i++)
-			{
 				for (int j = 0; j <= 6; j++)
-				{
 					for (int k = 0; k <= 6; k++)
 					{
 						bool flip = i != 0;
@@ -210,8 +253,6 @@ namespace Game
 								return true;
 						}
 					}
-				}
-			}
 			return false;
 		}
 
@@ -409,11 +450,11 @@ namespace Game
 	public class BlockItem : Item
 	{
 		public string DefaultDisplayName;
-		public string DefaultDescription = string.Empty;
+		public string DefaultDescription;
 
 		public BlockItem()
 		{
-			DefaultDisplayName = GetType().ToString().Substring(5);
+			DefaultDescription = DefaultDisplayName = GetType().ToString().Substring(5);
 		}
 		public override string GetCraftingId()
 		{
@@ -678,8 +719,5 @@ namespace Game
 			return color.HasValue ? (color == 0 ? data : (data | (color.Value & 15) << 10)) : data;
 		}
 	}
-	public class RottenEggBlock : ItemBlock
-	{
-		public new const int Index = 246;
-	}
+	public class RottenEggBlock : ItemBlock { public new const int Index = 246; }
 }

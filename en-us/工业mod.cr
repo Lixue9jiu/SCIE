@@ -833,7 +833,7 @@
       "dccd"
       "eaae"
     </Recipe>
-    <Recipe Result="Steam Locomotive" ResultCount="1" RequiredHeatLevel="0" a="SteelPlate" b="SteelWheel" c="sengine" d="SteelRod" e="tank" Description="A Steam Locomotive with steamengine can let you travel with high speed on railway.">
+    <Recipe Result="Train" ResultCount="1" RequiredHeatLevel="0" a="SteelPlate" b="SteelWheel" c="sengine" d="SteelRod" e="tank" Description="A Steam Locomotive with steamengine can let you travel with high speed on railway.">
       "eeda"
       "eca"
       "bbbb"
@@ -961,6 +961,9 @@
     </Recipe>
     <Recipe Result="SteelLine" ResultCount="5" RequiredHeatLevel="0" a="clothing:42" Description="Dismantle a steel chain">
       "a"
+    </Recipe>
+    <Recipe Result="Wrench" ResultCount="1" RequiredHeatLevel="1500" Remains="ScrapIron" RemainsCount="2" a="SteelRod" Description="Make a wrench">
+      "aa"
     </Recipe>
   </Items>
 </IndustrialMod>

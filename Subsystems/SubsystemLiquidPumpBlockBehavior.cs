@@ -2,10 +2,7 @@ namespace Game
 {
 	public class SubsystemLiquidPumpBlockBehavior : SubsystemDrillerBlockBehavior
 	{
-		public SubsystemLiquidPumpBlockBehavior()
-		{
-			Name = "LiquidPump";
-		}
+		public SubsystemLiquidPumpBlockBehavior() { Name = "LiquidPump"; }
 
 		public override int[] HandledBlocks => new[] { LiquidPumpBlock.Index };
 

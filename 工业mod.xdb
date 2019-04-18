@@ -6,6 +6,9 @@
   <Parameter Name="Class" Guid="794afcc5-7af7-43ee-92c9-a6ba54084068" new-Value="Game.SubsystemNRotBlockBehavior" Type="string" />
   <Parameter Name="Class" Guid="9ef8d250-edd0-4fe5-8979-49f7dd023cdb" new-Value="Game.SubsystemNSoilBlockBehavior" Type="string" />
   <Parameter Name="Class" Guid="5fb21b86-aa45-4991-97cf-0f78ce5ccde3" new-Value="Game.SubsystemSourceOfFireBlockBehavior" Type="string" />
+  <EntityTemplate Name="AICreature" Guid="3f077159-f492-419b-859a-bb051de6339f" InheritanceParent="bc5be211-c1f8-4e50-9ffb-4fde625d2692">
+    <MemberComponentTemplate Name="Variant" Guid="da33b9ad-acfa-4b82-83ac-0eb3bb1dfa11" InheritanceParent="8547d74d-d347-4644-a839-14adf11731d0" />
+  </EntityTemplate>
   <Folder Name="Entities" Guid="5fcdf35f-7001-442c-883e-e0502b15d291">
     <EntityTemplate Name="Freezer" Guid="0855a017-af17-4955-81fa-aafaf97b92bd">
       <MemberComponentTemplate Name="NewChest" Guid="0f193a00-ac7d-4b4c-97c7-df652ca11b51" InheritanceParent="73a2ec8c-10c7-4133-85b4-4a35bd44c956" />
@@ -197,8 +200,9 @@
         <Parameter Name="AutoDespawn" Guid="1daa043d-2b90-4b08-9e97-28ac9cf3e0f6" Value="False" Type="bool" />
       </MemberComponentTemplate>
       <MemberComponentTemplate Name="Mount" Guid="b648807e-1574-4c7a-b40e-42a70b2406a7" InheritanceParent="d0b14127-39ce-4490-af00-fb4111e9c51e">
-        <Parameter Name="MountOffset" Guid="9dd993d6-c4b8-4b7f-99e2-4f70e881f6a2" Value="0,1.00,0.8" Type="Vector3" />
+        <Parameter Name="MountOffset" Guid="9dd993d6-c4b8-4b7f-99e2-4f70e881f6a2" Value="0,1,0.4" Type="Vector3" />
         <Parameter Name="DismountOffset" Guid="f13f69cf-e282-4325-9e7e-bcdd2a04c925" Value="0,0.5,1.2" Type="Vector3" />
+        <Parameter Name="Class" Guid="1c0b89f0-22f9-45aa-aae3-039ba73b52b6" Value="Game.ComponentRailEntity" Type="string" />
       </MemberComponentTemplate>
       <MemberComponentTemplate Name="Body" Guid="4ea59a4b-e96e-4d08-a2f0-3cdd51cf1d4c" InheritanceParent="8edd1986-0dcc-424f-893a-491c089b821e">
         <Parameter Name="WaterSwayAngle" Guid="bbb72996-8999-4b8f-9049-f952e6506936" Value="0.04" Type="float" />
@@ -207,11 +211,39 @@
         <Parameter Name="WaterDrag" Guid="e672da68-8c26-4d74-ac34-7aa49170cc4a" Value="6,4" Type="Vector2" />
         <Parameter Name="Mass" Guid="1ec857e3-35d9-4263-87e0-707aa6f2da6b" Value="1000" Type="float" />
         <Parameter Name="AirDrag" Guid="c30211a1-b724-4646-ad46-98d9d2e97cee" Value="1,0" Type="Vector2" />
-        <Parameter Name="Density" Guid="d195f4f8-e529-4a1b-8e27-8ef95009216e" Value="10" Type="float" />
+        <Parameter Name="Density" Guid="d195f4f8-e529-4a1b-8e27-8ef95009216e" Value="7" Type="float" />
         <!--<Parameter Name="CollisionVelocityChange" Guid="e3377c74-d7de-4aad-a821-8b8b5311e91f" Value="0,0,0" Type="Vector3" />-->
       </MemberComponentTemplate>
       <MemberComponentTemplate Name="Damage" Guid="2f87af25-5887-45a3-8cc6-58f2473b8da6" InheritanceParent="17bb7b53-159c-4eb3-b4bc-137b10bba88a">
         <Parameter Name="AttackResilience" Guid="3d3001e5-e9da-47f6-9985-3838b5649b54" Value="100" Type="float" />
+      </MemberComponentTemplate>
+    </EntityTemplate>
+    <EntityTemplate Name="Carriage" Guid="bad5f71d-3f5e-490c-94fb-144e6596c9fc">
+      <MemberComponentTemplate Name="SimpleModel" Guid="e9f671f9-8113-4d04-9c6d-54a290f730ed" InheritanceParent="cc5a4e72-0df9-4acf-a42e-ecb5a2a7baf4">
+        <Parameter Name="ModelName" Guid="af7158aa-0da7-4131-a87c-90e06e83a27d" Value="Models/Minecart" Type="string" />
+        <Parameter Name="CastsShadow" Guid="1915cbc1-77f5-467a-8d7a-2bfd5c2b0caa" Value="True" Type="bool" />
+        <Parameter Name="TextureOverride" Guid="285e6d7e-b88d-41b8-948a-ac4b81d2de32" Value="Textures/Creatures/Jaguar" Type="string" />
+      </MemberComponentTemplate>
+      <MemberComponentTemplate Name="Carriage" Guid="d21f1d95-2a96-4a12-ad87-a5117736d258" InheritanceParent="73a29f7f-10c7-4133-95b4-4a35bd44c956" />
+      <MemberComponentTemplate Name="Spawn" Guid="d21f1d95-21a6-4a12-ad87-a5117736d258" InheritanceParent="65268743-4076-4ee3-aefe-f02a54d16b36">
+        <Parameter Name="AutoDespawn" Guid="1daa043d-2790-4b08-9e97-28ac9cf3e0f6" Value="False" Type="bool" />
+      </MemberComponentTemplate>
+      <MemberComponentTemplate Name="Mount" Guid="b648807e-1574-4c8a-b40e-42a70b2406a7" InheritanceParent="d0b14127-39ce-4490-af00-fb4111e9c51e">
+        <Parameter Name="MountOffset" Guid="9dd993d6-c4b8-4b7f-99e8-4f70e881f6a2" Value="0,0.5,0" Type="Vector3" />
+        <Parameter Name="DismountOffset" Guid="f13f69cf-e282-4325-8e7e-bcdd2a04c925" Value="0,0.5,1.2" Type="Vector3" />
+        <Parameter Name="Class" Guid="170b89f0-22f9-45aa-aae3-039ba73b52b6" Value="Game.ComponentRailEntity" Type="string" />
+      </MemberComponentTemplate>
+      <MemberComponentTemplate Name="Body" Guid="4ea59a42-e96e-4d08-a2f0-3cdd51cf1d4c" InheritanceParent="8edd1986-0dcc-424f-893a-491c089b821e">
+        <Parameter Name="WaterSwayAngle" Guid="bbb72996-2999-4b8f-9049-f952e6506936" Value="0.04" Type="float" />
+        <Parameter Name="MaxSmoothRiseHeight" Guid="8091272a-6b74-47a5-8cce-d58832253246" Value="0.3" Type="float" />
+        <Parameter Name="BoxSize" Guid="28e2b7f9-e6f8-4e22-a3dc-6302b4cc8622" Value="1.0,0.5,1.3" Type="Vector3" />
+        <Parameter Name="WaterDrag" Guid="e672da68-8c26-2d74-ac34-7aa49170cc4a" Value="6,4" Type="Vector2" />
+        <Parameter Name="Mass" Guid="1ec857e3-35d9-4263-27e0-707aa6f2da6b" Value="100" Type="float" />
+        <Parameter Name="AirDrag" Guid="c30211a1-b724-4626-ad46-98d9d2e97cee" Value="1,0" Type="Vector2" />
+        <Parameter Name="Density" Guid="d195f4f8-e529-4a2b-8e27-8ef95009216e" Value="5" Type="float" />
+      </MemberComponentTemplate>
+      <MemberComponentTemplate Name="Damage" Guid="2f87af25-5807-45a3-8cc6-58f2473b8da6" InheritanceParent="17bb7b53-159c-4eb3-b4bc-137b10bba88a">
+        <Parameter Name="AttackResilience" Guid="3d3001e5-e90a-47f6-9985-3838b5649b54" Value="90" Type="float" />
       </MemberComponentTemplate>
     </EntityTemplate>
     <EntityTemplate Name="Mine" Guid="3f3abb7e-1ce4-43fa-9612-47d69b9788ba">
@@ -421,9 +453,16 @@
       <Parameter Name="HeatLevel" Description="Current heat level in furnace" Guid="c4777196-79c4-409e-b043-f9d3010d7e95" Value="0" Type="float" />
       <Parameter Name="Class" Guid="fa4c666e-1d3c-467e-81bc-1796f686be51" Value="Game.ComponentHearthFurnace" Type="string" />
     </ComponentTemplate>
+    <ComponentTemplate Name="Carriage" Description="Carriage" Guid="73a29f7f-10c7-4133-95b4-4a35bd44c956" InheritanceParent="7312ec8c-10c7-4133-85b4-4a35bd44c956">
+      <Parameter Name="Class" Guid="1c0b89f0-22f9-45aa-aae3-039ba73b12b6" Value="Game.ComponentCarriage" Type="string" />
+      <Parameter Name="RiderOffset" Guid="f13f69c9-e282-4325-8e7e-bcdd2a04c925" Value="0,-0.5,1.3" Type="Vector3" />
+    </ComponentTemplate>
     <ComponentTemplate Name="Mine" Description="A mine" Guid="73a29faf-10c7-4133-95b4-4a35bd44c956" InheritanceParent="b05700ed-7e4e-4679-98f5-b597f421496b">
       <Parameter Name="Class" Guid="1c0b89f0-22f9-45a9-aae3-039ba73b12b6" Value="Game.ComponentMine" Type="string" />
       <Parameter Name="LoadOrder" Guid="159a738a-dd51-43ae-b3d9-16ebdcab85d1" Value="1" Type="int" />
+    </ComponentTemplate>
+    <ComponentTemplate Name="Variant" Description="Defines variants of a creature" Guid="8547d74d-d347-4644-a839-14adf11731d0" InheritanceParent="b05700ed-7e4e-4679-98f5-b597f421496b">
+      <Parameter Name="Class" Guid="6bbdd35e-8db2-4ed0-a99a-7f3c05513941" Value="Game.ComponentVariant" Type="string" />
     </ComponentTemplate>
   </Folder>
 </IndustrialMod>

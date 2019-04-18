@@ -37,7 +37,7 @@ namespace Game
 
 		public override void Load(ValuesDictionary valuesDictionary, IdToEntityMap idToEntityMap)
 		{
-			base.Load(valuesDictionary, idToEntityMap);
+			this.LoadItems(valuesDictionary);
 			m_componentBlockEntity = Entity.FindComponent<ComponentBlockEntity>(true);
 		}
 
@@ -137,6 +137,11 @@ namespace Game
 				return 0;
 			var type = DrillBlock.GetType(value);
 			return (type == DrillType.DiamondDrill || type == DrillType.SteelDrill) ? base.GetSlotCapacity(slotIndex, value) : 0;
+		}
+
+		public override void Save(ValuesDictionary valuesDictionary, EntityToIdMap entityToIdMap)
+		{
+			this.SaveItems(valuesDictionary);
 		}
 	}
 }

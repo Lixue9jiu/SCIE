@@ -4,9 +4,7 @@ namespace Game
 {
 	public class SubsystemMachineToolBlockBehavior : SubsystemInventoryBlockBehavior<ComponentLargeCraftingTable>
 	{
-		public SubsystemMachineToolBlockBehavior() : base("MachineTool")
-		{
-		}
+		public SubsystemMachineToolBlockBehavior() : base("MachineTool") { }
 
 		public override int[] HandledBlocks => new[] { MachineToolBlock.Index };
 

@@ -114,7 +114,7 @@ namespace Game
 
 		public override void Save(ValuesDictionary valuesDictionary, EntityToIdMap entityToIdMap)
 		{
-			base.Save(valuesDictionary, entityToIdMap);
+			this.SaveItems(valuesDictionary);
 			valuesDictionary.SetValue("FireTimeRemaining", m_fireTimeRemaining);
 			valuesDictionary.SetValue("HeatLevel", HeatLevel);
 		}
@@ -151,7 +151,7 @@ namespace Game
 				for (i = 0; i < 3; i++)
 				{
 					Slot slot = m_slots[1 + i];
-					if (slot.Count != 0 && result[i] != 0 && (slot.Value != result[i] || 1 + slot.Count > 40))
+					if (slot.Count != 0 && result[i] != 0 && (slot.Value != result[i] || slot.Count >= 40))
 						text = null;
 				}
 			}

@@ -1,5 +1,4 @@
-﻿using System.Globalization;
-using Engine;
+﻿using Engine;
 using GameEntitySystem;
 using TemplatesDatabase;
 
@@ -7,11 +6,10 @@ namespace Game
 {
 	public class ComponentTrain : ComponentMachine, IUpdateable
 	{
-		protected readonly string[] m_matchedIngredients = new string[9];
 
 		protected string m_smeltingRecipe;
 
-		protected int m_music;
+		//protected int m_music;
 
 		public override int RemainsSlotIndex => SlotsCount - 0;
 
@@ -19,8 +17,8 @@ namespace Game
 
 		public override int FuelSlotIndex => SlotsCount - 2;
 		/* ============================ */
-		static Vector3 center = new Vector3(0.5f, 0, 0.5f);
-		readonly Quaternion[] directions = new Quaternion[]
+		static readonly Vector3 center = new Vector3(0.5f, 0, 0.5f);
+		static readonly Quaternion[] directions = new Quaternion[]
 		{
 			Quaternion.CreateFromAxisAngle(Vector3.UnitY, 0),
 			Quaternion.CreateFromAxisAngle(Vector3.UnitY, MathUtils.PI * 0.5f),
@@ -28,9 +26,9 @@ namespace Game
 			Quaternion.CreateFromAxisAngle(Vector3.UnitY, MathUtils.PI * 1.5f)
 		};
 
-		Quaternion upwardDirection = Quaternion.CreateFromAxisAngle(new Vector3(1, 0, 0), MathUtils.PI * 0.25f);
-		Quaternion downwardDirection = Quaternion.CreateFromAxisAngle(new Vector3(1, 0, 0), MathUtils.PI * -0.25f);
-		readonly Vector3[] forwardVectors = new Vector3[]
+		static readonly Quaternion upwardDirection = Quaternion.CreateFromAxisAngle(new Vector3(1, 0, 0), MathUtils.PI * 0.25f);
+		static readonly Quaternion downwardDirection = Quaternion.CreateFromAxisAngle(new Vector3(1, 0, 0), MathUtils.PI * -0.25f);
+		static readonly Vector3[] forwardVectors = new Vector3[]
 		{
 			new Vector3(0, 0, -1),
 			new Vector3(-1, 0, 0),
@@ -41,7 +39,7 @@ namespace Game
 		ComponentBody m_componentBody;
 		ComponentMount m_componentMount;
 		int m_forwardDirection;
-		Quaternion currentRotation;
+		Quaternion rotation;
 		Vector3 forwardVector;
 
 		public const float Speed = 50f;
@@ -53,7 +51,7 @@ namespace Game
 			{
 				forwardVector = forwardVectors[value];
 				m_forwardDirection = value;
-				currentRotation = directions[value];
+				rotation = directions[value];
 			}
 		}
 
@@ -76,7 +74,7 @@ namespace Game
 
 		public override void Save(ValuesDictionary valuesDictionary, EntityToIdMap entityToIdMap)
 		{
-			base.Save(valuesDictionary, entityToIdMap);
+			this.SaveItems(valuesDictionary);
 			valuesDictionary.SetValue("FireTimeRemaining", m_fireTimeRemaining);
 			valuesDictionary.SetValue("HeatLevel", HeatLevel);
 			valuesDictionary.SetValue("Direction", m_forwardDirection);
@@ -84,19 +82,21 @@ namespace Game
 
 		public void CollidedWithBody(ComponentBody body)
 		{
-			float amount = (body.Velocity - m_componentBody.Velocity).LengthSquared() * 0.5f;
+			Vector3 v = m_componentBody.Velocity;
+			float amount = v.LengthSquared() * 0.5f;
+			if (amount < .02f) return;
 			var health = body.Entity.FindComponent<ComponentHealth>();
 			if (health != null)
 				health.Injure(amount / health.AttackResilience, null, false, "Train");
 			else
 				body.Entity.FindComponent<ComponentDamage>()?.Damage(amount);
-			body.ApplyImpulse(MathUtils.Clamp(1.25f * 6f * MathUtils.Pow(m_componentBody.Mass / body.Mass, 0.33f), 0f, 6f) * Vector3.Normalize(Vector3.Normalize(body.Position - m_componentBody.Position) + 0.2f * Vector3.UnitY));
+			body.ApplyImpulse(MathUtils.Clamp(1.25f * 6f * MathUtils.Pow(m_componentBody.Mass / body.Mass, 0.33f), 0f, 6f) * Vector3.Normalize(body.Position - m_componentBody.Position));
 		}
 
-		public void SetDirectionImmediately(int value)
+		public void SetDirection(int value)
 		{
 			Direction = value;
-			m_componentBody.Rotation = currentRotation;
+			m_componentBody.Rotation = rotation;
 		}
 
 		public void Update(float dt)
@@ -128,14 +128,14 @@ namespace Game
 				{
 					m_smeltingRecipe = text;
 					SmeltingProgress = 0f;
-					m_music = 0;
+					//m_music = 0;
 				}
 			}
 			if (m_smeltingRecipe == null)
 			{
 				HeatLevel = 0f;
 				m_fireTimeRemaining = 0f;
-				m_music = -1;
+				//m_music = -1;
 			}
 			if (m_smeltingRecipe != null && m_fireTimeRemaining <= 0f)
 			{
@@ -165,13 +165,13 @@ namespace Game
 			{
 				m_smeltingRecipe = null;
 				SmeltingProgress = 0f;
-				m_music = -1;
+				//m_music = -1;
 			}
 			if (m_smeltingRecipe != null)
 			{
 				SmeltingProgress = MathUtils.Min(SmeltingProgress + 0.02f * dt, 1f);
 
-				m_music += 2;
+				//m_music++;
 				if (SmeltingProgress >= 1.0)
 				{
 					for (int i = 0; i < m_furnaceSize; i++)
@@ -190,9 +190,6 @@ namespace Game
 				var player = m_componentMount.Rider.Entity.FindComponent<ComponentPlayer>();
 				player.ComponentLocomotion.LookOrder = player.ComponentInput.PlayerInput.Look;
 			}
-			float dt2 = 1f;
-			if (HeatLevel <= 100f)
-				dt2 = 0f;
 
 			switch (Direction)
 			{
@@ -206,15 +203,15 @@ namespace Game
 					break;
 			}
 
-			if (m_componentBody.StandingOnValue.HasValue)
+			if (HeatLevel >= 100f && m_componentBody.StandingOnValue.HasValue)
 			{
 				var result = Utils.SubsystemTerrain.Raycast(m_componentBody.Position, m_componentBody.Position + new Vector3(0, -3.0f, 0), false, true, null);
 
 				if (result.HasValue && Terrain.ExtractContents(result.Value.Value) == RailBlock.Index)
 					if (SimulateRail(RailBlock.GetRailType(Terrain.ExtractData(result.Value.Value))))
-						m_componentBody.Velocity += Speed * dt * dt2 * currentRotation.ToForwardVector();
+						m_componentBody.Velocity += Speed * dt * rotation.ToForwardVector();
 			}
-			m_componentBody.Rotation = Quaternion.Slerp(m_componentBody.Rotation, currentRotation, 0.15f);
+			m_componentBody.Rotation = Quaternion.Slerp(m_componentBody.Rotation, rotation, 0.15f);
 		}
 
 		bool SimulateRail(int railType)
@@ -227,10 +224,9 @@ namespace Game
 			}
 			if (RailBlock.IsDirectionX(railType) ^ !RailBlock.IsDirectionX(m_forwardDirection))
 			{
-				if (railType > 5)
-					currentRotation = railType - 6 != Direction ? directions[Direction] * upwardDirection : directions[Direction] * downwardDirection;
-				else
-					currentRotation = directions[Direction];
+				rotation = railType > 5
+					? railType - 6 != Direction ? directions[Direction] * upwardDirection : directions[Direction] * downwardDirection
+					: directions[Direction];
 				return true;
 			}
 			return false;
@@ -245,15 +241,14 @@ namespace Game
 				m_componentBody.Position = Vector3.Floor(m_componentBody.Position) + center;
 				return true;
 			}
-			else if (((Direction - 1) & 3) == turnType)
+			if (((Direction - 1) & 3) == turnType)
 			{
 				Direction = (Direction + 1) & 3;
 				m_componentBody.Velocity = MathUtils.Abs(m_componentBody.Velocity.X + m_componentBody.Velocity.Z) * forwardVector;
 				m_componentBody.Position = Vector3.Floor(m_componentBody.Position) + center;
 				return true;
 			}
-			else
-				return false;
+			return false;
 		}
 
 		static float GetOffsetOnDirection(Vector3 vec, int direction)
@@ -261,6 +256,7 @@ namespace Game
 			float offset = (direction & 1) == 0 ? vec.Z - MathUtils.Floor(vec.Z) : vec.X - MathUtils.Floor(vec.X);
 			return (direction & 2) == 0 ? 1 - offset : offset;
 		}
+
 		protected string FindSmeltingRecipe(float heatLevel)
 		{
 			if (heatLevel < 100f)
@@ -274,18 +270,14 @@ namespace Game
 				if (GetSlotCount(i) > 0)
 				{
 					var craftingId = BlocksManager.Blocks[num].CraftingId;
-					m_matchedIngredients[i] = craftingId + ":" + num2.ToString(CultureInfo.InvariantCulture);
 					if (craftingId.Equals("waterbucket"))
 						text = "bucket";
 				}
-				else
-					m_matchedIngredients[i] = null;
 			}
 			if (text != null)
 			{
 				Slot slot = m_slots[ResultSlotIndex];
-				//Terrain.ExtractContents(90);
-				if (slot.Count != 0 && (90 != slot.Value || 1 + slot.Count > 40))
+				if (slot.Count != 0 && (90 != slot.Value || slot.Count >= 40))
 					text = null;
 			}
 			return text;

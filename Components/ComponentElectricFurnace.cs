@@ -11,10 +11,7 @@ namespace Game
 		public bool Powered;
 		protected CraftingRecipe m_smeltingRecipe2;
 
-		public CraftingRecipe GetRecipe()
-		{
-			return m_smeltingRecipe;
-		}
+		public CraftingRecipe GetRecipe() => m_smeltingRecipe;
 
 		public new int RemainsSlotIndex => SlotsCount - 3;
 
@@ -122,11 +119,9 @@ namespace Game
 					slot.Count = value3.GetValue<int>("Count");
 				}
 			}
-			//m_subsystemTerrain = Project.FindSubsystem<SubsystemTerrain>(true);
 			//m_subsystemExplosions = Project.FindSubsystem<SubsystemExplosions>(true);
 			m_componentBlockEntity = Entity.FindComponent<ComponentBlockEntity>(true);
 			m_fireTimeRemaining = valuesDictionary.GetValue<float>("FireTimeRemaining");
-			m_heatLevel = valuesDictionary.GetValue<float>("HeatLevel");
 			m_updateSmeltingRecipe = true;
 			m_furnaceSize = SlotsCount - 5;
 			m_fireTimeRemaining = valuesDictionary.GetValue<float>("FireTimeRemaining");
@@ -137,7 +132,6 @@ namespace Game
 		{
 			base.Save(valuesDictionary, entityToIdMap);
 			valuesDictionary.SetValue("FireTimeRemaining", m_fireTimeRemaining);
-			valuesDictionary.SetValue("HeatLevel", HeatLevel);
 		}
 	}
 }

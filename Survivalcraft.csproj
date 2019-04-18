@@ -48,6 +48,11 @@
       <HintPath>D:\Survivalcraft\EntitySystem.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="Jint, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Common\Jint.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="Survivalcraft">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>D:\Survivalcraft\Survivalcraft.exe</HintPath>
@@ -79,6 +84,7 @@
     <Compile Include="Blocks\ElectricComponents.cs" />
     <Compile Include="Chemistry\Compound.cs" />
     <Compile Include="Chemistry\DispersionSystem.cs" />
+    <Compile Include="Chemistry\Equation.cs" />
     <Compile Include="Circuit\LockFreeQueue.cs" />
     <Compile Include="Components\ComponentCarriage.cs" />
     <Compile Include="Components\ComponentAirShip.cs" />

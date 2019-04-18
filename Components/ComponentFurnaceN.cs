@@ -18,10 +18,7 @@ namespace Game
 
 		public int SlotIndex { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
-		public CraftingRecipe GetRecipe()
-		{
-			throw new NotImplementedException();
-		}
+		public CraftingRecipe GetRecipe() => throw new NotImplementedException();
 
 		public new void Update(float dt)
 		{

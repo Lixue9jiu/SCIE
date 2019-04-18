@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 using System.Runtime.Serialization;
 using Engine;
 using Engine.Graphics;
@@ -70,34 +71,33 @@ namespace Game
 		#region implements & overloads
 		public override bool Equals(object obj)
 		{
-			return obj is Element node ? Equals(node) : base.Equals(obj);
+			return Equals(obj as Element);
 		}
 		public override int GetHashCode()
 		{
 			return (int)Type;
 		}
+		[MethodImpl((MethodImplOptions)0x100)]
 		public bool Equals(Element other)
 		{
-			return other.Type != Type ? false : Next == null ? other.Next == null : GetCraftingId().Equals(other.GetCraftingId());
+			return other != null && other.Type == Type && Next == null ? other.Next == null : GetCraftingId().Equals(other.GetCraftingId());
 		}
 		/*public virtual void GetObjectData(SerializationInfo info, StreamingContext context)
 		{
 			info.AddValue("Type", (int)Type);
 			info.AddValue("Next", Next, typeof(DynamicArray<Element>));
-		}*/
+		}
 		public override string ToString()
 		{
 			return Type.ToString();
-		}
+		}*/
 		#endregion
 	}
 	//[Serializable]
 	public abstract class Device : Element, IEquatable<Device>
 	{
 		public Point3 Point;
-		protected Device(ElementType type = ElementType.Device | ElementType.Connector) : base(type)
-		{
-		}
+		protected Device(ElementType type = ElementType.Device | ElementType.Connector) : base(type) { }
 		public virtual Device Create(Point3 p)
 		{
 			if (SubsystemCircuit.Table.TryGetValue(p, out Device device))
@@ -127,7 +127,7 @@ namespace Game
 		}*/
 		public override bool Equals(object obj)
 		{
-			return obj is Device node ? Equals(node) : base.Equals(obj);
+			return Equals(obj as Device);
 		}
 		public bool Equals(Device other)
 		{
@@ -163,18 +163,13 @@ namespace Game
 		}
 		public bool Equals(FixedDevice other)
 		{
-			if (other.Type == Type)
-				return other.Resistance == Resistance && other.GetCraftingId() == GetCraftingId();
-			return false;
+			return other != null && other.Type == Type && other.Resistance == Resistance && other.GetCraftingId() == GetCraftingId();
 		}
 		public override bool Equals(object obj)
 		{
-			return obj is FixedDevice node ? Equals(node) : base.Equals(obj);
+			return Equals(obj as FixedDevice);
 		}
-		public override int GetHashCode()
-		{
-			return base.GetHashCode() ^ Resistance;
-		}
+		public override int GetHashCode() => base.GetHashCode() ^ Resistance;
 		/*public override void GetObjectData(SerializationInfo info, StreamingContext context)
 		{
 			base.GetObjectData(info, context);
@@ -199,18 +194,9 @@ namespace Game
 		{
 			Voltage = voltage;
 		}
-		public override string GetCraftingId()
-		{
-			return DefaultDisplayName;
-		}
-		public override string GetDisplayName(SubsystemTerrain subsystemTerrain, int value)
-		{
-			return DefaultDisplayName;
-		}
-		public override string GetDescription(int value)
-		{
-			return DefaultDescription;
-		}
+		public override string GetCraftingId() => DefaultDisplayName;
+		public override string GetDisplayName(SubsystemTerrain subsystemTerrain, int value) => DefaultDisplayName;
+		public override string GetDescription(int value) => DefaultDescription;
 		/*public int CompareTo(DeviceBlock other)
 		{
 			return Voltage.CompareTo(other.Voltage);
@@ -241,8 +227,7 @@ namespace Game
 		}
 		public virtual void OnBlockAdded(SubsystemTerrain subsystemTerrain, int value, int oldValue)
 		{
-			if (oldValue == -1)
-				return;
+			if (oldValue == -1) return;
 			var vd = new ValuesDictionary();
 			vd.PopulateFromDatabaseObject(subsystemTerrain.Project.GameDatabase.Database.FindDatabaseObject(Name, subsystemTerrain.Project.GameDatabase.EntityTemplateType, true));
 			vd.GetValue<ValuesDictionary>("BlockEntity").SetValue("Coordinates", Point);
@@ -253,20 +238,17 @@ namespace Game
 		public virtual void OnBlockRemoved(SubsystemTerrain subsystemTerrain, int value, int newValue)
 		{
 			var blockEntity = Utils.GetBlockEntity(Point);
-			if (blockEntity != null)
-			{
-				var position = new Vector3(Point) + new Vector3(0.5f);
-				for (var i = blockEntity.Entity.FindComponents<IInventory>().GetEnumerator(); i.MoveNext();)
-					i.Current.DropAllItems(position);
-				subsystemTerrain.Project.RemoveEntity(blockEntity.Entity, true);
-			}
+			if (blockEntity == null) return;
+			var position = new Vector3(Point) + new Vector3(.5f);
+			for (var i = blockEntity.Entity.FindComponents<IInventory>().GetEnumerator(); i.MoveNext();)
+				i.Current.DropAllItems(position);
+			subsystemTerrain.Project.RemoveEntity(blockEntity.Entity, true);
 		}
 	}
 	public abstract class InteractiveEntityDevice<T> : EntityDevice<T>, IInteractiveBlock, IItemAcceptableBlock where T : Component
 	{
-		protected InteractiveEntityDevice(string name, int resistance) : base(name, resistance)
-		{
-		}
+		protected InteractiveEntityDevice(string name, int resistance) : base(name, resistance) { }
+
 		public virtual bool OnInteract(TerrainRaycastResult raycastResult, ComponentMiner componentMiner)
 		{
 			var blockEntity = Utils.GetBlockEntity(raycastResult.CellFace.Point);

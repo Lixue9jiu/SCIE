@@ -1,4 +1,5 @@
 using Engine;
+using GameEntitySystem;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -167,24 +168,10 @@ namespace Game
 				BodyRaycastResult? nullable4 = ComponentMiner.PickBody(viewPosition3, vector);
 				if (nullable4.HasValue)
 				{
-					var componentEngine = nullable4.Value.ComponentBody.Entity.FindComponent<ComponentEngine2>();
-					if (componentEngine != null)
+					Widget widget = ComponentNGui.OpenEntity(ComponentMiner.Inventory, nullable4.Value.ComponentBody.Entity);
+					if (widget != null)
 					{
-						ComponentGui.ModalPanelWidget = new Engine2Widget(ComponentMiner.Inventory, componentEngine);
-						AudioManager.PlaySound("Audio/UI/ButtonClick", 1f, 0f, 0f);
-						return;
-					}
-					var componentEngineA = nullable4.Value.ComponentBody.Entity.FindComponent<ComponentEngineA>();
-					if (componentEngineA != null)
-					{
-						ComponentGui.ModalPanelWidget = new EngineAWidget(ComponentMiner.Inventory, componentEngineA);
-						AudioManager.PlaySound("Audio/UI/ButtonClick", 1f, 0f, 0f);
-						return;
-					}
-					var componentEngine2 = nullable4.Value.ComponentBody.Entity.FindComponent<ComponentTrain>();
-					if (componentEngine2 != null)
-					{
-						ComponentGui.ModalPanelWidget = new TrainWidget(ComponentMiner.Inventory, componentEngine2);
+						ComponentGui.ModalPanelWidget = widget;
 						AudioManager.PlaySound("Audio/UI/ButtonClick", 1f, 0f, 0f);
 						return;
 					}

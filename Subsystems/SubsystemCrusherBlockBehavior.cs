@@ -24,10 +24,10 @@ namespace Game
 			{
 				var list = new List<BlockDropValue>(8);
 				BlocksManager.Blocks[Terrain.ExtractContents(worldItem.Value)].GetDropValues(SubsystemTerrain, worldItem.Value, 0, 3, list, out bool s);
-				for (l = 0; l < (list.Count+1); l++)
+				for (l = 0; l < list.Count; l++)
 				{
 					var blockDropValue = list[l];
-					for (int i = 0; i < blockDropValue.Count; i++)
+					for (int i = 0; i <= blockDropValue.Count; i++)
 						Utils.SubsystemProjectiles.FireProjectile(blockDropValue.Value, position, -20f * v, Vector3.Zero, null);
 				}
 				worldItem.ToRemove = true;
