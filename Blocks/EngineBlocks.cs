@@ -55,11 +55,11 @@ namespace Game
 		}
 		public override string GetDisplayName(SubsystemTerrain subsystemTerrain, int value)
 		{
-			return Terrain.ExtractData(value) >> 10 != 0 ? "SteamTurbine" : DefaultDisplayName;
+			return Terrain.ExtractData(value) >> 10 != 0 ? Utils.Get("蒸汽轮机") : DefaultDisplayName;
 		}
 		public override string GetDescription(int value)
 		{
-			return Terrain.ExtractData(value) >> 10 != 0 ? "SteamTurbine" : DefaultDescription;
+			return Terrain.ExtractData(value) >> 10 != 0 ? Utils.Get("蒸汽轮机") : DefaultDescription;
 		}
 	}
 	public class EngineHBlock : FurnaceNBlock
@@ -123,11 +123,11 @@ namespace Game
 		}
 		public override string GetDisplayName(SubsystemTerrain subsystemTerrain, int value)
 		{
-			return (Terrain.ExtractData(value) & 1024) != 0 ? "GasTurbine" : DefaultDisplayName;
+			return (Terrain.ExtractData(value) & 1024) != 0 ? Utils.Get("燃气轮机") : DefaultDisplayName;
 		}
 		public override string GetDescription(int value)
 		{
-			return (Terrain.ExtractData(value) & 1024) != 0 ? "GasTurbine" : DefaultDescription;
+			return (Terrain.ExtractData(value) & 1024) != 0 ? Utils.Get("燃气轮机") : DefaultDescription;
 		}
 	}
 }

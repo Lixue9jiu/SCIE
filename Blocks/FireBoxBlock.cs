@@ -9,14 +9,14 @@ namespace Game
 		public new const int Index = 532;
 		public static readonly string[] Names = new[]
 		{
-			"Annealing Furnace",
-			"Lifting Furnace",
-			"Box Furnace",
-			"Gas Stove",
-			"Glowing Furnace",
-			"Gas Heating Furnace",
-			"Vacuum Oven",
-			"Lehr",
+			"ÍË»ðÂ¯",
+			"ÕÖÊ½Â¯",
+			"ÏäÊ½Â¯",
+			"ÃºÆøÂ¯",
+			"´ã»ðÂ¯",
+			"È¼Æø¼ÓÈÈÂ¯",
+			"Õæ¿ÕÂ¯",
+			"²£Á§ÍË»ðÒ¤",
 		};
 
 		public override int GetFaceTextureSlot(int face, int value)
@@ -58,7 +58,7 @@ namespace Game
 		public override string GetDescription(int value)
 		{
 			value = Terrain.ExtractData(value) >> 10;
-			return value != 0 ? Names[value - 1] : DefaultDescription;
+			return value != 0 ? Utils.Get(Names[value - 1]) : DefaultDescription;
 		}
 		public override string GetDisplayName(SubsystemTerrain subsystemTerrain, int value)
 		{

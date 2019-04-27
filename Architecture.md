@@ -74,7 +74,6 @@ SCIE
 │  ├─ComponentDriller            挖掘机组件
 │  ├─ComponentElectricFurnace    电阻炉组件
 │  ├─ComponentEngine             蒸汽机组件
-│  ├─ComponentEngine2            蒸汽船发动机组件
 │  ├─ComponentEngineA            飞艇发动机组件
 │  ├─ComponentEngineH            斯特林发动机组件
 │  ├─ComponentFireBox            预热炉组件
@@ -142,8 +141,7 @@ SCIE
 │  ├─NewChestWidget          冰箱界面
 │  ├─NewCraftingRecipeWidget 合成配方界面
 │  ├─PresserWidget           压板机界面
-│  ├─SeperatorWidget         分离机界面
-│  └─TrainWidget             火车界面
+│  └─SeperatorWidget         分离机界面
 │
 ├─zh-cn                 中文资源
 │

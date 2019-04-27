@@ -16,7 +16,7 @@ namespace Game
 
 		protected string m_smeltingRecipe2;
 
-		public override int RemainsSlotIndex => SlotsCount;
+		public override int RemainsSlotIndex => -1;
 
 		public override int ResultSlotIndex => SlotsCount - 1;
 
@@ -151,16 +151,8 @@ namespace Game
 			Powered = false;
 			base.Load(valuesDictionary, idToEntityMap);
 			m_furnaceSize = SlotsCount - 1;
-			m_fireTimeRemaining = valuesDictionary.GetValue<float>("FireTimeRemaining");
-			HeatLevel = valuesDictionary.GetValue<float>("HeatLevel");
-			m_updateSmeltingRecipe = true;
-		}
-
-		public override void Save(ValuesDictionary valuesDictionary, EntityToIdMap entityToIdMap)
-		{
-			this.SaveItems(valuesDictionary);
-			valuesDictionary.SetValue("FireTimeRemaining", m_fireTimeRemaining);
-			valuesDictionary.SetValue("HeatLevel", HeatLevel);
+			m_fireTimeRemaining = valuesDictionary.GetValue("FireTimeRemaining", 0f);
+			HeatLevel = valuesDictionary.GetValue("HeatLevel", 0f);
 		}
 
 		protected string FindSmeltingRecipe(float heatLevel)
@@ -170,14 +162,8 @@ namespace Game
 			string text = null;
 			for (int i = 0; i < 1; i++)
 			{
-				int slotValue = GetSlotValue(i);
-				int num = Terrain.ExtractContents(slotValue);
-				int num2 = Terrain.ExtractData(slotValue);
 				if (GetSlotCount(FuelSlotIndex) > 0 && GetSlotValue(i) == ItemBlock.IdTable["SteelIngot"])
 					text = "IndustrialMagnet";
-				/*else
-				{
-				}*/
 			}
 			if (text != null)
 			{

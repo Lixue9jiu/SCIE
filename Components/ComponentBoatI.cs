@@ -7,8 +7,18 @@ namespace Game
 {
 	public class ComponentBoatI : ComponentBoat, IUpdateable
 	{
+		private ComponentEngine componentEngine;
+
+		public override void Load(ValuesDictionary valuesDictionary, IdToEntityMap idToEntityMap)
+		{
+			base.Load(valuesDictionary, idToEntityMap);
+			componentEngine = Entity.FindComponent<ComponentEngine>();
+		}
+
 		public new void Update(float dt)
 		{
+			if (componentEngine != null)
+				componentEngine.Coordinates = new Point3((int)m_componentBody.Position.X, (int)m_componentBody.Position.Y, (int)m_componentBody.Position.Z);
 			bool flag = m_componentBody.ImmersionFactor > 0f;
 			if (m_componentDamage.Hitpoints < 0.33f)
 			{
@@ -27,7 +37,6 @@ namespace Game
 			m_turnSpeed += 2.5f * m_subsystemTime.GameTimeDelta * (1f * TurnOrder - m_turnSpeed);
 			Quaternion rotation = m_componentBody.Rotation;
 			float num = MathUtils.Atan2(2f * rotation.Y * rotation.W - 2f * rotation.X * rotation.Z, 1f - 2f * rotation.Y * rotation.Y - 2f * rotation.Z * rotation.Z);
-			var componentEngine = Entity.FindComponent<ComponentEngine2>();
 			float num2 = 3f;
 			if (componentEngine != null)
 				num2 = componentEngine.HeatLevel;
@@ -79,8 +88,10 @@ namespace Game
 		{
 			base.Save(valuesDictionary, entityToIdMap);
 			valuesDictionary.SetValue("ExplosionPressure", ExplosionPressure);
-			valuesDictionary.SetValue("Type", (int)MineType);
-			valuesDictionary.SetValue("Delay", Delay);
+			if (MineType != 0)
+				valuesDictionary.SetValue("Type", (int)MineType);
+			if (Delay != 0)
+				valuesDictionary.SetValue("Delay", Delay);
 		}
 		public void CollidedWithBody(ComponentBody body)
 		{

@@ -31,9 +31,9 @@ namespace Game
 		public const int Index = 510;
 		public static readonly string[] Names = new[]
 		{
-			"BasicMachineCase",
-			"SecondryMachineCase",
-			"FireBrickWall"
+			"基础机器外壳",
+			"高级机器外壳",
+			"防火砖墙"
 		};
 		public static readonly Color[] Colors = new[]
 		{

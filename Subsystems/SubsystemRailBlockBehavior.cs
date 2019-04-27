@@ -4,27 +4,22 @@ namespace Game
 {
 	public class SubsystemRailBlockBehavior : SubsystemBlockBehavior
 	{
-		protected Point3[][] m_pointsToUpdate = new Point3[][]
-		{
-			new Point3[]
+		protected Point3[,] m_pointsToUpdate = {
 			{
 				new Point3(0, 0, -1),
 				new Point3(0, 1, -1),
 				new Point3(0, -1, -1)
 			},
-			new Point3[]
 			{
 				new Point3(-1, 0, 0),
 				new Point3(-1, 1, 0),
 				new Point3(-1, -1, 0)
 			},
-			new Point3[]
 			{
 				new Point3(0, 0, 1),
 				new Point3(0, 1, 1),
 				new Point3(0, -1, 1)
 			},
-			new Point3[]
 			{
 				new Point3(1, 0, 0),
 				new Point3(1, 1, 0),
@@ -32,10 +27,7 @@ namespace Game
 			}
 		};
 
-		public override int[] HandledBlocks => new int[]
-		{
-			RailBlock.Index
-		};
+		public override int[] HandledBlocks => new [] { RailBlock.Index };
 
 		public override void OnBlockAdded(int value, int oldValue, int x, int y, int z)
 		{
@@ -45,7 +37,7 @@ namespace Game
 
 		void UpdateCornerState(int value, int x, int y, int z, int step)
 		{
-			int? resultType = default(int?);
+			var resultType = default(int?);
 			var neighbors = new bool[4];
 			var raisedNeighbors = new bool[4];
 			
@@ -53,7 +45,7 @@ namespace Game
 			{
 				for (int k = 0; k < 3; k++)
 				{
-					var p = m_pointsToUpdate[i][k];
+					var p = m_pointsToUpdate[i, k];
 					int val = SubsystemTerrain.Terrain.GetCellValueFastChunkExists(x + p.X, y + p.Y, z + p.Z);
 					if (Terrain.ExtractContents(val) == RailBlock.Index)
 					{

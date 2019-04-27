@@ -12,25 +12,19 @@ namespace Game
 		protected static string lastcode = "";
 		protected bool Powered;
 
-		/*static TEDC()
-		{
-			if (VersionsManager.Platform != Platform.Android)
-				Environment.SetEnvironmentVariable("PATH", Path.GetFullPath(Path.GetDirectoryName(typeof(TEDC).Assembly.Location)) + ";" + Environment.GetEnvironmentVariable("PATH", EnvironmentVariableTarget.Process), EnvironmentVariableTarget.Process);
-		}*/
-
 		public TEDC() : base(60, ElementType.Device | ElementType.Connector)
 		{
 			DefaultDisplayName = DefaultDescription = "晶体管数字电子计算机";
 			JsEngine = new Jint.Engine();
 		}
 
-		public override int GetFaceTextureSlot(int face, int value) => 127;
+		public override int GetFaceTextureSlot(int face, int value) => face > 3 ? 109 : Powered ? 109 : 111;
 
 		public override void Simulate(ref int voltage) => Powered = voltage >= 60;
 
 		public void Execute(string code)
 		{
-			if (!Powered || string.IsNullOrWhiteSpace(code)) return;
+			if (string.IsNullOrWhiteSpace(code)) return;
 			try
 			{
 				Jint.Engine engine = JsEngine.Execute(code);
@@ -56,7 +50,7 @@ namespace Game
 		public bool OnInteract(TerrainRaycastResult raycastResult, ComponentMiner componentMiner)
 		{
 			ComponentPlayer = componentMiner.ComponentPlayer;
-			if (ComponentPlayer == null) return false;
+			if (!Powered || ComponentPlayer == null) return false;
 			DialogsManager.ShowDialog(ComponentPlayer.View.GameWidget, new TextBoxDialog("Enter Code", lastcode, int.MaxValue, Execute));
 			return true;
 		}

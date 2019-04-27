@@ -1,24 +1,15 @@
 ﻿using Engine;
 using GameEntitySystem;
+using System;
+using System.Linq;
 using TemplatesDatabase;
 
 namespace Game
 {
-	public class ComponentTrain : ComponentMachine, IUpdateable
+	public class ComponentTrain : Component, IUpdateable
 	{
-
-		protected string m_smeltingRecipe;
-
-		//protected int m_music;
-
-		public override int RemainsSlotIndex => SlotsCount - 0;
-
-		public override int ResultSlotIndex => SlotsCount - 1;
-
-		public override int FuelSlotIndex => SlotsCount - 2;
-		/* ============================ */
 		static readonly Vector3 center = new Vector3(0.5f, 0, 0.5f);
-		static readonly Quaternion[] directions = new Quaternion[]
+		static readonly Quaternion[] directions = new[]
 		{
 			Quaternion.CreateFromAxisAngle(Vector3.UnitY, 0),
 			Quaternion.CreateFromAxisAngle(Vector3.UnitY, MathUtils.PI * 0.5f),
@@ -28,7 +19,7 @@ namespace Game
 
 		static readonly Quaternion upwardDirection = Quaternion.CreateFromAxisAngle(new Vector3(1, 0, 0), MathUtils.PI * 0.25f);
 		static readonly Quaternion downwardDirection = Quaternion.CreateFromAxisAngle(new Vector3(1, 0, 0), MathUtils.PI * -0.25f);
-		static readonly Vector3[] forwardVectors = new Vector3[]
+		static readonly Vector3[] forwardVectors = new[]
 		{
 			new Vector3(0, 0, -1),
 			new Vector3(-1, 0, 0),
@@ -36,13 +27,15 @@ namespace Game
 			new Vector3(1, 0, 0)
 		};
 		
-		ComponentBody m_componentBody;
+		internal ComponentBody m_componentBody;
+		public ComponentTrain ParentBody;
+		protected ComponentDamage componentDamage;
+		protected float m_outOfMountTime;
 		ComponentMount m_componentMount;
+		public ComponentEngine ComponentEngine;
 		int m_forwardDirection;
 		Quaternion rotation;
 		Vector3 forwardVector;
-
-		public const float Speed = 50f;
 
 		public int Direction
 		{
@@ -61,29 +54,31 @@ namespace Game
 		{
 			base.Load(valuesDictionary, idToEntityMap);
 			m_componentBody = Entity.FindComponent<ComponentBody>(true);
+			componentDamage = Entity.FindComponent<ComponentDamage>();
 			m_componentMount = Entity.FindComponent<ComponentMount>(true);
-
-			m_componentBody.CollidedWithBody += CollidedWithBody;
-
-			m_furnaceSize = SlotsCount - 2;
-			m_fireTimeRemaining = valuesDictionary.GetValue("FireTimeRemaining", 0f);
-			HeatLevel = valuesDictionary.GetValue("HeatLevel", 0f);
+			if ((ComponentEngine = Entity.FindComponent<ComponentEngine>()) != null)
+				m_componentBody.CollidedWithBody += CollidedWithBody;
+			else
+				ParentBody = valuesDictionary.GetValue("ParentBody", default(EntityReference)).GetComponent<ComponentTrain>(Entity, idToEntityMap, false);
+			
 			Direction = valuesDictionary.GetValue("Direction", 0);
-			m_updateSmeltingRecipe = true;
 		}
 
 		public override void Save(ValuesDictionary valuesDictionary, EntityToIdMap entityToIdMap)
 		{
-			this.SaveItems(valuesDictionary);
-			valuesDictionary.SetValue("FireTimeRemaining", m_fireTimeRemaining);
-			valuesDictionary.SetValue("HeatLevel", HeatLevel);
-			valuesDictionary.SetValue("Direction", m_forwardDirection);
+			if (m_forwardDirection != 0)
+				valuesDictionary.SetValue("Direction", m_forwardDirection);
+			var value = EntityReference.FromId(ParentBody, entityToIdMap);
+			if (!value.IsNullOrEmpty())
+				valuesDictionary.SetValue("ParentBody", value);
 		}
 
 		public void CollidedWithBody(ComponentBody body)
 		{
-			Vector3 v = m_componentBody.Velocity;
-			float amount = v.LengthSquared() * 0.5f;
+			if (body.Density - 4.76f <= float.Epsilon)
+				return;
+			Vector2 v = m_componentBody.Velocity.XZ - body.Velocity.XZ;
+			float amount = v.LengthSquared() * .3f;
 			if (amount < .02f) return;
 			var health = body.Entity.FindComponent<ComponentHealth>();
 			if (health != null)
@@ -91,6 +86,32 @@ namespace Game
 			else
 				body.Entity.FindComponent<ComponentDamage>()?.Damage(amount);
 			body.ApplyImpulse(MathUtils.Clamp(1.25f * 6f * MathUtils.Pow(m_componentBody.Mass / body.Mass, 0.33f), 0f, 6f) * Vector3.Normalize(body.Position - m_componentBody.Position));
+		}
+
+		public ComponentTrain FindNearestTrain()
+		{
+			var bodies = new DynamicArray<ComponentBody>();
+			Utils.SubsystemBodies.FindBodiesAroundPoint(m_componentBody.Position.XZ, 2f, bodies);
+			float num = 0f;
+			ComponentTrain result = null;
+			foreach (ComponentTrain train in bodies.Select(GetRailEntity))
+			{
+				if (train == null || train.Entity == Entity) continue;
+				float score = 0f;
+				const float maxDistance = 4f;
+				if (train.m_componentBody.Velocity.LengthSquared() < 1f && train.Direction == Direction)
+				{
+					var v = train.m_componentBody.Position + Vector3.Transform(train.m_componentMount.MountOffset, train.m_componentBody.Rotation) - m_componentBody.Position;
+					if (v.LengthSquared() <= maxDistance)
+						score = maxDistance - v.LengthSquared();
+				}
+				if (score > num)
+				{
+					num = score;
+					result = train;
+				}
+			}
+			return result;
 		}
 
 		public void SetDirection(int value)
@@ -101,94 +122,37 @@ namespace Game
 
 		public void Update(float dt)
 		{
-			if (HeatLevel > 0f)
-			{
-				m_fireTimeRemaining = MathUtils.Max(0f, m_fireTimeRemaining - dt);
-				if (m_fireTimeRemaining == 0f)
-					HeatLevel = 0f;
-			}
-			Slot slot;
-			if (m_updateSmeltingRecipe)
-			{
-				m_updateSmeltingRecipe = false;
-				float heatLevel = 0f;
-				if (HeatLevel > 0f)
-					heatLevel = HeatLevel;
-				else
-				{
-					slot = m_slots[FuelSlotIndex];
-					if (slot.Count > 0)
-					{
-						var block = BlocksManager.Blocks[Terrain.ExtractContents(slot.Value)];
-						heatLevel = block is IFuel fuel ? fuel.GetHeatLevel(slot.Value) : block.FuelHeatLevel;
-					}
-				}
-				string text = FindSmeltingRecipe(heatLevel);
-				if (text != m_smeltingRecipe)
-				{
-					m_smeltingRecipe = text;
-					SmeltingProgress = 0f;
-					//m_music = 0;
-				}
-			}
-			if (m_smeltingRecipe == null)
-			{
-				HeatLevel = 0f;
-				m_fireTimeRemaining = 0f;
-				//m_music = -1;
-			}
-			if (m_smeltingRecipe != null && m_fireTimeRemaining <= 0f)
-			{
-				slot = m_slots[FuelSlotIndex];
-				if (slot.Count > 0)
-				{
-					var block = BlocksManager.Blocks[Terrain.ExtractContents(slot.Value)];
-					if (block.GetExplosionPressure(slot.Value) > 0f)
-						slot.Count = 0;
-					else
-					{
-						slot.Count--;
-						if (block is IFuel fuel)
-						{
-							HeatLevel = fuel.GetHeatLevel(slot.Value);
-							m_fireTimeRemaining = fuel.GetFuelFireDuration(slot.Value);
-						}
-						else
-						{
-							HeatLevel = block.FuelHeatLevel;
-							m_fireTimeRemaining = block.FuelFireDuration;
-						}
-					}
-				}
-			}
-			if (m_fireTimeRemaining <= 0f)
-			{
-				m_smeltingRecipe = null;
-				SmeltingProgress = 0f;
-				//m_music = -1;
-			}
-			if (m_smeltingRecipe != null)
-			{
-				SmeltingProgress = MathUtils.Min(SmeltingProgress + 0.02f * dt, 1f);
-
-				//m_music++;
-				if (SmeltingProgress >= 1.0)
-				{
-					for (int i = 0; i < m_furnaceSize; i++)
-						if (m_slots[i].Count > 0)
-							m_slots[i].Count--;
-					m_slots[ResultSlotIndex].Value = 90;
-					m_slots[ResultSlotIndex].Count++;
-					m_smeltingRecipe = null;
-					SmeltingProgress = 0f;
-					m_updateSmeltingRecipe = true;
-				}
-			}
-
+			if (ComponentEngine != null)
+				ComponentEngine.Coordinates = new Point3((int)m_componentBody.Position.X, (int)m_componentBody.Position.Y, (int)m_componentBody.Position.Z);
 			if (m_componentMount.Rider != null)
 			{
-				var player = m_componentMount.Rider.Entity.FindComponent<ComponentPlayer>();
+				var player = m_componentMount.Rider.Entity.FindComponent<ComponentPlayer>(true);
 				player.ComponentLocomotion.LookOrder = player.ComponentInput.PlayerInput.Look;
+			}
+
+			ComponentTrain t = this;
+			int level = 0;
+			for (; t.ParentBody != null; level++) t = t.ParentBody;
+			if (level > 0)
+			{
+				var body = t.m_componentBody;
+				var pos = body.Position;
+				var r = body.Rotation;
+				Utils.SubsystemTime.QueueGameTimeDelayedExecution(Utils.SubsystemTime.GameTime + 0.23 * level, delegate
+				{
+					if (body.Velocity.XZ.LengthSquared() > 2f)
+					{
+						m_componentBody.Position = pos;
+						m_componentBody.Rotation = r;
+					}
+				});
+				m_outOfMountTime = Vector3.DistanceSquared(ParentBody.m_componentBody.Position, m_componentBody.Position) > 8f
+					? m_outOfMountTime + dt
+					: 0f;
+				ComponentDamage ComponentDamage = ParentBody.Entity.FindComponent<ComponentDamage>();
+				if (m_outOfMountTime > 1f || (componentDamage != null && componentDamage.Hitpoints <= .05f) || ComponentDamage != null && ComponentDamage.Hitpoints <= .05f)
+					ParentBody = null;
+				return;
 			}
 
 			switch (Direction)
@@ -202,34 +166,33 @@ namespace Game
 					m_componentBody.Position = new Vector3(m_componentBody.Position.X, m_componentBody.Position.Y, MathUtils.Floor(m_componentBody.Position.Z) + 0.5f);
 					break;
 			}
-
-			if (HeatLevel >= 100f && m_componentBody.StandingOnValue.HasValue)
+			
+			if (ComponentEngine != null && ComponentEngine.HeatLevel >= 100f && m_componentBody.StandingOnValue.HasValue)
 			{
-				var result = Utils.SubsystemTerrain.Raycast(m_componentBody.Position, m_componentBody.Position + new Vector3(0, -3.0f, 0), false, true, null);
+				var result = Utils.SubsystemTerrain.Raycast(m_componentBody.Position, m_componentBody.Position + new Vector3(0, -2f, 0), false, true, null);
 
-				if (result.HasValue && Terrain.ExtractContents(result.Value.Value) == RailBlock.Index)
-					if (SimulateRail(RailBlock.GetRailType(Terrain.ExtractData(result.Value.Value))))
-						m_componentBody.Velocity += Speed * dt * rotation.ToForwardVector();
+				if (result.HasValue && Terrain.ExtractContents(result.Value.Value) == RailBlock.Index && (dt *= SimulateRail(RailBlock.GetRailType(Terrain.ExtractData(result.Value.Value)))) > 0f)
+					m_componentBody.m_velocity += dt * rotation.ToForwardVector();
 			}
 			m_componentBody.Rotation = Quaternion.Slerp(m_componentBody.Rotation, rotation, 0.15f);
 		}
 
-		bool SimulateRail(int railType)
+		float SimulateRail(int railType)
 		{
 			if (RailBlock.IsCorner(railType))
 			{
 				if (GetOffsetOnDirection(m_componentBody.Position, m_forwardDirection) > 0.5f)
 					Turn(railType);
-				return true;
+				return 50f;
 			}
 			if (RailBlock.IsDirectionX(railType) ^ !RailBlock.IsDirectionX(m_forwardDirection))
 			{
 				rotation = railType > 5
 					? railType - 6 != Direction ? directions[Direction] * upwardDirection : directions[Direction] * downwardDirection
 					: directions[Direction];
-				return true;
+				return railType > 5 && railType - 6 != Direction ? 30f : 50f;
 			}
-			return false;
+			return 0f;
 		}
 
 		bool Turn(int turnType)
@@ -257,30 +220,9 @@ namespace Game
 			return (direction & 2) == 0 ? 1 - offset : offset;
 		}
 
-		protected string FindSmeltingRecipe(float heatLevel)
+		public static ComponentTrain GetRailEntity(Component b)
 		{
-			if (heatLevel < 100f)
-				return null;
-			string text = null;
-			for (int i = 0; i < m_furnaceSize; i++)
-			{
-				int slotValue = GetSlotValue(i);
-				int num = Terrain.ExtractContents(slotValue);
-				int num2 = Terrain.ExtractData(slotValue);
-				if (GetSlotCount(i) > 0)
-				{
-					var craftingId = BlocksManager.Blocks[num].CraftingId;
-					if (craftingId.Equals("waterbucket"))
-						text = "bucket";
-				}
-			}
-			if (text != null)
-			{
-				Slot slot = m_slots[ResultSlotIndex];
-				if (slot.Count != 0 && (90 != slot.Value || slot.Count >= 40))
-					text = null;
-			}
-			return text;
+			return b.Entity.FindComponent<ComponentTrain>();
 		}
 	}
 }

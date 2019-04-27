@@ -86,7 +86,6 @@
     <Compile Include="Chemistry\DispersionSystem.cs" />
     <Compile Include="Chemistry\Equation.cs" />
     <Compile Include="Circuit\LockFreeQueue.cs" />
-    <Compile Include="Components\ComponentCarriage.cs" />
     <Compile Include="Components\ComponentAirShip.cs" />
     <Compile Include="Components\ComponentCoven.cs" />
     <Compile Include="Components\ComponentCReactor.cs" />
@@ -151,7 +150,6 @@
     <Compile Include="Subsystems\SubsystemFireBoxBlockBehavior.cs" />
     <Compile Include="Components\ComponentBoatI.cs" />
     <Compile Include="Components\ComponentEngine.cs" />
-    <Compile Include="Components\ComponentEngine2.cs" />
     <Compile Include="Components\ComponentEngineH.cs" />
     <Compile Include="Components\ComponentFurnaceN.cs" />
     <Compile Include="Components\ComponentNGui.cs" />
@@ -180,7 +178,6 @@
     <Compile Include="Subsystems\SubsystemNRotBlockBehavior.cs" />
     <Compile Include="Subsystems\SubsystemNSoilBlockBehavior.cs" />
     <Compile Include="Blocks\TankBlock.cs" />
-    <Compile Include="Widgets\TrainWidget.cs" />
     <Compile Include="Chemistry\Atom.cs" />
   </ItemGroup>
   <ItemGroup />

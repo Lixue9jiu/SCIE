@@ -16,7 +16,7 @@ namespace Game
 		public virtual int ResultSlotIndex => 0;
 		public virtual int RemainsSlotIndex => SlotsCount - 1;
 
-		public int SlotIndex { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+		public int SlotIndex { get => -1; set => throw new NotImplementedException(); }
 
 		public float HeatLevel;
 
@@ -48,15 +48,19 @@ namespace Game
 		public override void Load(ValuesDictionary valuesDictionary, IdToEntityMap idToEntityMap)
 		{
 			this.LoadItems(valuesDictionary);
-			m_componentBlockEntity = Entity.FindComponent<ComponentBlockEntity>(false);
+			m_componentBlockEntity = Entity.FindComponent<ComponentBlockEntity>();
 			m_updateSmeltingRecipe = true;
 		}
 
-		public CraftingRecipe GetRecipe() => throw new NotImplementedException();
+		public CraftingRecipe GetRecipe() => null;
 
 		public override void Save(ValuesDictionary valuesDictionary, EntityToIdMap entityToIdMap)
 		{
 			this.SaveItems(valuesDictionary);
+			if (m_fireTimeRemaining > 0f)
+				valuesDictionary.SetValue("FireTimeRemaining", m_fireTimeRemaining);
+			if (HeatLevel > 0f)
+				valuesDictionary.SetValue("HeatLevel", HeatLevel);
 		}
 		/*public static float GetFuelHeatLevel(int value)
 		{

@@ -14,7 +14,7 @@ namespace Game
 			var model = ContentManager.Get<Model>(modelName);
 			var blockMesh = new BlockMesh();
 			blockMesh.AppendModelMeshPart(model.FindMesh(meshName, true).MeshParts[0], BlockMesh.GetBoneAbsoluteTransform(model.FindMesh(meshName, true).ParentBone) * boneTransform, false, false, false, false, color);
-			blockMesh.TransformTextureCoordinates(tcTransform * Matrix.CreateScale(0.05f), -1);
+			blockMesh.TransformTextureCoordinates(tcTransform * Matrix.CreateScale(0.05f));
 			m_standaloneBlockMesh.AppendBlockMesh(blockMesh);
 			m_collisionBoxes = new[]
 			{

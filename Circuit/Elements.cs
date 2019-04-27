@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Runtime.CompilerServices;
-using System.Runtime.Serialization;
 using Engine;
 using Engine.Graphics;
 using GameEntitySystem;
@@ -41,6 +40,9 @@ namespace Game
 		Pipe4 = 1 << 24,
 		Pipe5 = 1 << 25,
 		Drive = 1 << 26,
+		Engine = 1 << 27,
+		Rod = 1 << 28,
+		Machine = 1 << 29,
 	}
 	//[Serializable]
 	public abstract class Element : Item, IEquatable<Element>, INode

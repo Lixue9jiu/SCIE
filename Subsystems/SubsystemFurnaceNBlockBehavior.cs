@@ -72,9 +72,7 @@ namespace Game
 
 	public class SubsystemFurnaceNBlockBehavior : SubsystemFurnaceBlockBehavior<ComponentFurnaceN>
 	{
-		public SubsystemFurnaceNBlockBehavior() : base("FurnaceN")
-		{
-		}
+		public SubsystemFurnaceNBlockBehavior() : base("FurnaceN") { }
 
 		public override int[] HandledBlocks => new[] { FurnaceNBlock.Index };
 

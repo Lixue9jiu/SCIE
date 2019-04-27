@@ -25,7 +25,7 @@ namespace Game
 			Color = color;
 			var model = ContentManager.Get<Model>(smooth ? "Models/ChunkSmooth" : "Models/Chunk");
 			m_standaloneBlockMesh.AppendModelMeshPart(model.Meshes[0].MeshParts[0], BlockMesh.GetBoneAbsoluteTransform(model.Meshes[0].ParentBone) * transform, false, false, false, false, color);
-			m_standaloneBlockMesh.TransformTextureCoordinates(tcTransform, -1);
+			m_standaloneBlockMesh.TransformTextureCoordinates(tcTransform);
 		}
 
 		public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
@@ -66,7 +66,7 @@ namespace Game
 
 		public Powder(string name, Color color, string description = null)
 		{
-			DefaultDisplayName = name;
+			DefaultDisplayName = Utils.Get(name);
 			Color = color;
 			DefaultTextureSlot = 198;
 			DefaultDescription = description ?? name + " is powder obtained by crushing " + name + ".";
