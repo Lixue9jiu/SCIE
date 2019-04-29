@@ -27,15 +27,15 @@ namespace Game
 					Matrix.CreateRotationX(3.14159274f / 2f * vector.X) *
 					Matrix.CreateRotationY(3.14159274f / 2f * vector.Y) *
 					Matrix.CreateRotationZ(3.14159274f / 2f * vector.Z), false, false, false, false, Color.LightGray);
-				blockMesh.TransformTextureCoordinates(Matrix.CreateTranslation(-2f / 16f, 4f / 16f, 0f), -1);
+				blockMesh.TransformTextureCoordinates(Matrix.CreateTranslation(-2f / 16f, 4f / 16f, 0f));
 				blockMesh.TransformPositions(Matrix.CreateTranslation(new Vector3(0.5f)));
 				meshes[i] = blockMesh;
 			}
-			for (i = 0; i < 63; i++)
+			for (i = 1; i < 64; i++)
 			{
-				Meshes[i] = new BlockMesh();
+				Meshes[i - 1] = new BlockMesh();
 				for (int j = 0; j < 6; j++)
-					if (((i + 1) & (1 << j)) != 0)
+					if ((i >> j & 1) != 0)
 						Meshes[i].AppendBlockMesh(meshes[j]);
 			}
 		}

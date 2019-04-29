@@ -13,6 +13,7 @@ namespace Game
 		public static Random Random = new Random();
 		public static SubsystemGameInfo SubsystemGameInfo;
 		public static SubsystemAudio SubsystemAudio;
+		public static SubsystemBodies SubsystemBodies;
 		public static SubsystemTerrain SubsystemTerrain;
 		public static SubsystemTime SubsystemTime;
 		public static SubsystemItemsScanner SubsystemItemsScanner;
@@ -31,6 +32,7 @@ namespace Game
 				return;
 			SubsystemGameInfo = Project.FindSubsystem<SubsystemGameInfo>(true);
 			SubsystemAudio = Project.FindSubsystem<SubsystemAudio>(true);
+			SubsystemBodies = Project.FindSubsystem<SubsystemBodies>(true);
 			SubsystemTime = Project.FindSubsystem<SubsystemTime>(true);
 			SubsystemItemsScanner = Project.FindSubsystem<SubsystemItemsScanner>(true);
 			SubsystemMovingBlocks = Project.FindSubsystem<SubsystemMovingBlocks>(true);
@@ -151,7 +153,7 @@ namespace Game
 			var model = ContentManager.Get<Model>(modelName);
 			var blockMesh = new BlockMesh();
 			blockMesh.AppendModelMeshPart(model.FindMesh(meshName, true).MeshParts[0], BlockMesh.GetBoneAbsoluteTransform(model.FindMesh(meshName, true).ParentBone) * boneTransform, false, false, false, false, color);
-			blockMesh.TransformTextureCoordinates(tcTransform, -1);
+			blockMesh.TransformTextureCoordinates(tcTransform);
 			return blockMesh;
 		}
 		[MethodImpl((MethodImplOptions)0x100)]

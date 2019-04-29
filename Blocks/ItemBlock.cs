@@ -79,16 +79,15 @@ namespace Game
 				if (volume * SettingsManager.SoundsVolume > AudioManager.MinAudibleVolume)
 					try
 					{
-						try
-						{
-							new Sound(ContentManager.Get<SoundBuffer>(name), volume * SettingsManager.SoundsVolume, AudioManager.ToEnginePitch(pitch), pan, isLooped: false, disposeOnStop: true).Play();
-						}
-						catch (InvalidOperationException)
-						{
-							new StreamingSound(ContentManager.Get<StreamingSource>(name), volume, 1f, 0f, false, false, 1f).Play();
-						}
+						object obj = ContentManager.Get(name);
+						if (obj is SoundBuffer buffer)
+							new Sound(buffer, volume * SettingsManager.SoundsVolume, AudioManager.ToEnginePitch(pitch), pan, isLooped: false, disposeOnStop: true).Play();
+						else if (obj is StreamingSource source)
+							new StreamingSound(source, volume, 1f, 0f, false, false, 1f).Play();
 					}
-					catch { }
+					catch
+					{
+					}
 			}
 		}
 		public static Block[] FindBlocksByCraftingId(string craftingId)

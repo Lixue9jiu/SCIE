@@ -16,11 +16,11 @@ namespace Game
 
 		protected string m_smeltingRecipe2;
 
-		public override int RemainsSlotIndex => SlotsCount;
+		public override int RemainsSlotIndex => -1;
 
 		public override int ResultSlotIndex => SlotsCount - 1;
 
-		public override int FuelSlotIndex => SlotsCount;
+		public override int FuelSlotIndex => -1;
 
 		public int UpdateOrder => 0;
 
@@ -107,21 +107,14 @@ namespace Game
 		{
 			base.Load(valuesDictionary, idToEntityMap);
 			m_furnaceSize = SlotsCount - 1;
-			m_fireTimeRemaining = valuesDictionary.GetValue<float>("FireTimeRemaining");
-			HeatLevel = valuesDictionary.GetValue<float>("HeatLevel");
+			m_fireTimeRemaining = valuesDictionary.GetValue("FireTimeRemaining", 0f);
+			HeatLevel = valuesDictionary.GetValue("HeatLevel", 0f);
 			m_updateSmeltingRecipe = true;
-		}
-
-		public override void Save(ValuesDictionary valuesDictionary, EntityToIdMap entityToIdMap)
-		{
-			this.SaveItems(valuesDictionary);
-			valuesDictionary.SetValue("FireTimeRemaining", m_fireTimeRemaining);
-			valuesDictionary.SetValue("HeatLevel", HeatLevel);
 		}
 
 		protected string FindSmeltingRecipe()
 		{
-			string text = null;
+			bool text = false;
 			result[0] = 0;
 			result[1] = 0;
 			result[2] = 0;
@@ -135,7 +128,7 @@ namespace Game
 				{
 					if (slotValue == DirtBlock.Index)
 					{
-						text = "success";
+						text = true;
 						result[0] = SandBlock.Index;
 						result[1] = StoneChunkBlock.Index;
 						int num3 = m_random.Int() & 3;
@@ -146,16 +139,16 @@ namespace Game
 					}
 				}
 			}
-			if (text != null)
+			if (text)
 			{
 				for (i = 0; i < 3; i++)
 				{
 					Slot slot = m_slots[1 + i];
 					if (slot.Count != 0 && result[i] != 0 && (slot.Value != result[i] || slot.Count >= 40))
-						text = null;
+						text = false;
 				}
 			}
-			return text;
+			return text ? "AluminumOrePowder" : null;
 		}
 	}
 }

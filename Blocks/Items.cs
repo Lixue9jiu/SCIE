@@ -115,35 +115,35 @@ namespace Game
 			new Airship(),
 			new Sheet(Materials.Titanium),
 			new CoalPowder("Sulphur", Color.Yellow, 1500f, 30f, "Sulphur is powder obtained by crushing sulphur chunk."),
-			new Powder("Ashes", new Color(25, 25, 25)),
-			new Powder("Slag", new Color(25, 25, 25)),
+			new Powder("煤灰", new Color(25, 25, 25)),
+			new Powder("矿渣", new Color(25, 25, 25)),
 			new Powder("Sawdust", Color.LightYellow),
-			new Powder("Brickbat", Color.DarkRed),
-			new Powder("Broken Glass", Color.White),
+			new Powder("碎砖", Color.DarkRed),
+			new Powder("碎玻璃", Color.White),
 			new Cylinder(Matrix.CreateScale(70f)),
-			new Cylinder(Matrix.CreateScale(70f), "LPG"),
-			new Cylinder(Matrix.CreateScale(70f), "LNG"),
+			new Cylinder(Matrix.CreateScale(70f), "液化石油气"),
+			new Cylinder(Matrix.CreateScale(70f), "液化天然气"),
 			new Cylinder(Matrix.CreateScale(40f, 80f, 40f), "He"),
 			new Cylinder(Matrix.CreateScale(40f, 80f, 40f), "Ar"),
-			new Powder("Crude Salt", Color.White),
-			new Powder("Refined Salt", Color.White),
-			new Powder("Yeast", Color.White),
-			new Powder("Coarse Silicon", Color.DarkGray),
-			new Powder("Alum", Color.White),
-			new Powder("Quartz Powder", Color.White),
-			new Powder("Lichenin", Color.DarkGreen),
-			new GranulatedItem("Talcum", Color.White),
-			new Powder("Talcum Powder", Color.White),
-			new Powder("Si", Color.DarkGray),
+			new Powder("粗盐", Color.White),
+			new Powder("精盐", Color.White),
+			new Powder("酵母", Color.White),
+			new Powder("粗硅", Color.DarkGray),
+			new Powder("明矾", Color.White),
+			new Powder("石英砂", Color.White),
+			new Powder("苔粉", Color.DarkGreen),
+			new GranulatedItem("滑石", Color.White),
+			new Powder("滑石粉", Color.White),
+			new Powder("硅", Color.DarkGray),
 			new Sheet(Color.DarkGray)
 			{
-				DefaultDisplayName = "Polycrystalline Silicon",
-				DefaultDescription = "Polycrystalline Silicon"
+				DefaultDisplayName = "多晶硅",
+				DefaultDescription = "多晶硅"
 			},
 			new Sheet(Color.DarkGray)
 			{
-				DefaultDisplayName = "Monocrystalline Silicon",
-				DefaultDescription = "Monocrystalline Silicon"
+				DefaultDisplayName = "单晶硅",
+				DefaultDescription = "单晶硅"
 			},
 			new FlatItem
 			{
@@ -154,6 +154,7 @@ namespace Game
 			new Wrench(Color.White),
 			new ABomb(),
 			new HBomb(),
+			new Powder("聚乙烯", Color.White),
 		};
 		static ItemBlock()
 		{

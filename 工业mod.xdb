@@ -38,7 +38,7 @@
       <MemberComponentTemplate Name="Unloader" Guid="0f173a26-ac7d-4b4c-97c7-df652ca11b51" InheritanceParent="73a2efaf-10c7-4133-85b4-4a35bd44c956" />
       <MemberComponentTemplate Name="BlockEntity" Guid="a1e9dc3e-980d-4601-87ac-4358ed7d41b5" InheritanceParent="09a85cba-d94e-41b8-9497-f20ed942c17e" />
     </EntityTemplate>
-    <EntityTemplate Name="BoatI" Guid="3f3abb7e-1ce4-43fa-9612-47d69bf788ba">
+    <EntityTemplate Name="SteamBoat" Guid="3f3abb7e-1ce4-43fa-9612-47d69bf788ba">
       <MemberComponentTemplate Name="BoatI" Guid="a372d5da-5307-4df6-929e-a51abcd70387" InheritanceParent="572b36f3-6ee6-442a-900f-b4caba94be39" />
       <MemberComponentTemplate Name="BoatITable" Guid="e82420a9-10c6-4a2c-9ea5-725fffee2229" InheritanceParent="98fdc8bb-8ca8-4d0f-af8d-25bfe9b56a19">
         <Parameter Name="SlotsCount" Guid="3ddd5623-a4c0-4ad5-85f8-813ef26dae6b" Value="19" Type="int" />
@@ -69,7 +69,7 @@
         <Parameter Name="AttackResilience" Guid="32e5b809-e2ba-4221-9f06-6b8710a8bcdf" Value="500" Type="float" />
       </MemberComponentTemplate>
     </EntityTemplate>
-    <EntityTemplate Name="AirShip" Guid="3f3abb7e-1ce4-43fa-9614-47d69bf788ba">
+    <EntityTemplate Name="Airship" Guid="3f3abb7e-1ce4-43fa-9614-47d69bf788ba">
       <MemberComponentTemplate Name="SimpleModel" Guid="459a8ad2-0db8-4604-9ee8-8504dbd3c7b1" InheritanceParent="cc5a4e72-0df9-4acf-a42e-ecb5a2a7baf4">
         <Parameter Name="ModelName" Guid="fe4ed217-297f-47ca-950a-930ea7d6e881" Value="Models/Airship" Type="string" />
         <Parameter Name="CastsShadow" Guid="fed4af7d-a7de-46d9-8d02-55d0b08a157b" Value="True" Type="bool" />
@@ -110,9 +110,7 @@
     </EntityTemplate>
     <EntityTemplate Name="SteamEngine" Guid="b4a43056-d37d-455f-9a43-803260a915a9">
       <MemberComponentTemplate Name="BlockEntity" Guid="b2d450cd-8233-4bee-ad3e-bde77df10654" InheritanceParent="09a85cba-d94e-41b8-9497-f20ed942c17e" />
-      <MemberComponentTemplate Name="SteamEngine" Guid="e7b41844-dfe9-4331-900e-4c5f3ce25348" InheritanceParent="c93f7906-de35-4e94-ba6e-90cd55cd19d4">
-        <Parameter Name="SlotsCount" Guid="3dad5622-a4c0-4ad5-85f8-813ef26dae6b" Value="3" Type="int" />
-      </MemberComponentTemplate>
+      <MemberComponentTemplate Name="SteamEngine" Guid="e7b41844-dfe9-4331-900e-4c5f3ce25348" InheritanceParent="c93f7906-de35-4e94-ba6e-90cd55cd19d4" />
       </EntityTemplate>
     <EntityTemplate Name="CastMach" Guid="b4a43058-d37d-455f-9a43-803260a915a9">
       <MemberComponentTemplate Name="BlockEntity" Guid="b2d452cd-8233-4bee-ad3e-bde77df10654" InheritanceParent="09a85cba-d94e-41b8-9497-f20ed942c17e" />
@@ -193,12 +191,10 @@
       </MemberComponentTemplate>
     </EntityTemplate>
     <EntityTemplate Name="Train" Guid="bac5f71d-3f5e-490c-94fb-144e6596c9fc">
-      <MemberComponentTemplate Name="Train" Guid="07ea51e6-f429-42e2-9fa5-fc75c6869333" InheritanceParent="81a44c6a-c30a-4f53-8d64-0c30aabab8f9">
+      <MemberComponentTemplate Name="Train" Guid="07ea51e6-f429-42e2-9fa5-fc75c6869333" InheritanceParent="b05700ed-7e4e-4679-98f5-b597f421496b">
         <Parameter Name="Class" Guid="0b3a344c-3938-47d1-9f5f-add9676d50c6" Value="Game.ComponentTrain" Type="string" />
-        <Parameter Name="SlotsCount" Guid="3ddd5645-a4c0-4ad5-85f8-813ef26dae6b" Value="3" Type="int" />
-        <Parameter Name="FireTimeRemaining" Description="Fire time remaining, in seconds" Guid="4841cd84-3ff3-4165-aad1-19685f751850" Value="0" Type="float" />
-        <Parameter Name="HeatLevel" Description="Current heat level in steamengine" Guid="d4777084-79c4-409e-b043-f9d301fd7e95" Value="0" Type="float" />
       </MemberComponentTemplate>
+      <MemberComponentTemplate Name="SteamEngine" Guid="3ddd5645-a4c0-4ad5-85f8-813ef26dae6b" InheritanceParent="c93f7906-de35-4e94-ba6e-90cd55cd19d4" />
       <MemberComponentTemplate Name="SimpleModel" Guid="e9f671fe-8113-4d04-9c6d-54a290f730ed" InheritanceParent="cc5a4e72-0df9-4acf-a42e-ecb5a2a7baf4">
         <Parameter Name="ModelName" Guid="af7158aa-0da7-4130-a87c-90e06e83a27d" Value="Models/Train" Type="string" />
         <Parameter Name="CastsShadow" Guid="1915cbc1-77f5-4679-8d7a-2bfd5c2b0caa" Value="True" Type="bool" />
@@ -210,12 +206,11 @@
       <MemberComponentTemplate Name="Mount" Guid="b648807e-1574-4c7a-b40e-42a70b2406a7" InheritanceParent="d0b14127-39ce-4490-af00-fb4111e9c51e">
         <Parameter Name="MountOffset" Guid="9dd993d6-c4b8-4b7f-99e2-4f70e881f6a2" Value="0,1,0.4" Type="Vector3" />
         <Parameter Name="DismountOffset" Guid="f13f69cf-e282-4325-9e7e-bcdd2a04c925" Value="0,0.5,1.2" Type="Vector3" />
-        <Parameter Name="Class" Guid="1c0b89f0-22f9-45aa-aae3-039ba73b52b6" Value="Game.ComponentRailEntity" Type="string" />
       </MemberComponentTemplate>
       <MemberComponentTemplate Name="Body" Guid="4ea59a4b-e96e-4d08-a2f0-3cdd51cf1d4c" InheritanceParent="8edd1986-0dcc-424f-893a-491c089b821e">
         <Parameter Name="WaterSwayAngle" Guid="bbb72996-8999-4b8f-9049-f952e6506936" Value="0.04" Type="float" />
         <Parameter Name="MaxSmoothRiseHeight" Guid="8091972a-6b74-47a5-8cce-d58832253246" Value="0.3" Type="float" />
-        <Parameter Name="BoxSize" Guid="28e2b7f9-e6f8-4ed2-a3dc-6302b4cc8622" Value="1.0,0.5,1.0" Type="Vector3" />
+        <Parameter Name="BoxSize" Guid="28e2b7f9-e6f8-4ed2-a3dc-6302b4cc8622" Value="1.0,0.5,1.2" Type="Vector3" />
         <Parameter Name="WaterDrag" Guid="e672da68-8c26-4d74-ac34-7aa49170cc4a" Value="6,4" Type="Vector2" />
         <Parameter Name="Mass" Guid="1ec857e3-35d9-4263-87e0-707aa6f2da6b" Value="1000" Type="float" />
         <Parameter Name="AirDrag" Guid="c30211a1-b724-4646-ad46-98d9d2e97cee" Value="1,0" Type="Vector2" />
@@ -232,23 +227,25 @@
         <Parameter Name="CastsShadow" Guid="1915cbc1-77f5-467a-8d7a-2bfd5c2b0caa" Value="True" Type="bool" />
         <Parameter Name="TextureOverride" Guid="285e6d7e-b88d-41b8-948a-ac4b81d2de32" Value="Textures/Creatures/Jaguar" Type="string" />
       </MemberComponentTemplate>
-      <MemberComponentTemplate Name="Carriage" Guid="d21f1d95-2a96-4a12-ad87-a5117736d258" InheritanceParent="73a29f7f-10c7-4133-95b4-4a35bd44c956" />
+      <MemberComponentTemplate Name="Chest" Guid="d21f1d95-2a96-4a12-ad87-a5117736d258" InheritanceParent="7312ec8c-10c7-4133-85b4-4a35bd44c956" />
       <MemberComponentTemplate Name="Spawn" Guid="d21f1d95-21a6-4a12-ad87-a5117736d258" InheritanceParent="65268743-4076-4ee3-aefe-f02a54d16b36">
         <Parameter Name="AutoDespawn" Guid="1daa043d-2790-4b08-9e97-28ac9cf3e0f6" Value="False" Type="bool" />
+      </MemberComponentTemplate>
+      <MemberComponentTemplate Name="Train" Guid="07ea51e6-f489-42e2-9fa5-fc75c6869333" InheritanceParent="b05700ed-7e4e-4679-98f5-b597f421496b">
+        <Parameter Name="Class" Guid="0b3a344c-3938-47d2-9f5f-add9676d50c6" Value="Game.ComponentTrain" Type="string" />
       </MemberComponentTemplate>
       <MemberComponentTemplate Name="Mount" Guid="b648807e-1574-4c8a-b40e-42a70b2406a7" InheritanceParent="d0b14127-39ce-4490-af00-fb4111e9c51e">
         <Parameter Name="MountOffset" Guid="9dd993d6-c4b8-4b7f-99e8-4f70e881f6a2" Value="0,0.5,0" Type="Vector3" />
         <Parameter Name="DismountOffset" Guid="f13f69cf-e282-4325-8e7e-bcdd2a04c925" Value="0,0.5,1.2" Type="Vector3" />
-        <Parameter Name="Class" Guid="170b89f0-22f9-45aa-aae3-039ba73b52b6" Value="Game.ComponentRailEntity" Type="string" />
       </MemberComponentTemplate>
       <MemberComponentTemplate Name="Body" Guid="4ea59a42-e96e-4d08-a2f0-3cdd51cf1d4c" InheritanceParent="8edd1986-0dcc-424f-893a-491c089b821e">
         <Parameter Name="WaterSwayAngle" Guid="bbb72996-2999-4b8f-9049-f952e6506936" Value="0.04" Type="float" />
         <Parameter Name="MaxSmoothRiseHeight" Guid="8091272a-6b74-47a5-8cce-d58832253246" Value="0.3" Type="float" />
-        <Parameter Name="BoxSize" Guid="28e2b7f9-e6f8-4e22-a3dc-6302b4cc8622" Value="1.0,0.5,1.3" Type="Vector3" />
+        <Parameter Name="BoxSize" Guid="28e2b7f9-e6f8-4e22-a3dc-6302b4cc8622" Value="1,0.6,1" Type="Vector3" />
         <Parameter Name="WaterDrag" Guid="e672da68-8c26-2d74-ac34-7aa49170cc4a" Value="6,4" Type="Vector2" />
-        <Parameter Name="Mass" Guid="1ec857e3-35d9-4263-27e0-707aa6f2da6b" Value="100" Type="float" />
+        <Parameter Name="Mass" Guid="1ec857e3-35d9-4263-27e0-707aa6f2da6b" Value="120" Type="float" />
         <Parameter Name="AirDrag" Guid="c30211a1-b724-4626-ad46-98d9d2e97cee" Value="1,0" Type="Vector2" />
-        <Parameter Name="Density" Guid="d195f4f8-e529-4a2b-8e27-8ef95009216e" Value="5" Type="float" />
+        <Parameter Name="Density" Guid="d195f4f8-e529-4a2b-8e27-8ef95009216e" Value="4.76" Type="float" />
       </MemberComponentTemplate>
       <MemberComponentTemplate Name="Damage" Guid="2f87af25-5807-45a3-8cc6-58f2473b8da6" InheritanceParent="17bb7b53-159c-4eb3-b4bc-137b10bba88a">
         <Parameter Name="AttackResilience" Guid="3d3001e5-e90a-47f6-9985-3838b5649b54" Value="90" Type="float" />
@@ -349,13 +346,9 @@
   </ProjectTemplate>
   <Folder Name="Gameplay" Guid="d3d4b692-acc9-4128-9b99-a5acf1de1fbb">
     <ComponentTemplate Name="BoatI" Description="Takes player inputs and controls a creature with them" Guid="572b36f3-6ee6-442a-900f-b4caba94be39" InheritanceParent="b05700ed-7e4e-4679-98f5-b597f421496b">
-      <Parameter Name="FireTimeRemaining" Description="Fire time remaining, in seconds" Guid="2832cd84-3ff3-4165-aad1-19685e751850" Value="0" Type="float" />
-      <Parameter Name="HeatLevel" Description="Fire time remaining, in seconds" Guid="2832cd94-3ff3-4165-aad1-19685e751850" Value="0" Type="float" />
       <Parameter Name="Class" Guid="5a7229b2-7adc-4d13-8889-d94503c52184" Value="Game.ComponentBoatI" Type="string" />
     </ComponentTemplate>
-      <ComponentTemplate Name="AirShip" Description="Takes player inputs and controls a creature with them" Guid="572b36f4-6ee6-442a-900f-b4caba94be39" InheritanceParent="b05700ed-7e4e-4679-98f5-b597f421496b">
-      <Parameter Name="FireTimeRemaining" Description="Fire time remaining, in seconds" Guid="2834cd84-3ff3-4165-aad1-19685e751850" Value="0" Type="float" />
-      <Parameter Name="HeatLevel" Description="Fire time remaining, in seconds" Guid="2832fd94-3ff3-4165-aad1-19685e751850" Value="0" Type="float" />
+    <ComponentTemplate Name="AirShip" Description="Takes player inputs and controls a creature with them" Guid="572b36f4-6ee6-442a-900f-b4caba94be39" InheritanceParent="b05700ed-7e4e-4679-98f5-b597f421496b">
       <Parameter Name="Class" Guid="5a7249b2-7adc-4d13-8889-d94503c52184" Value="Game.ComponentAirShip" Type="string" />
     </ComponentTemplate>
     <ComponentTemplate Name="NewChest" Description="A chest that you can store items in" Guid="73a2ec8c-10c7-4133-85b4-4a35bd44c956" InheritanceParent="81a44c6a-c30a-4f53-8d64-0c30aabab8f9">
@@ -364,20 +357,14 @@
     </ComponentTemplate>
     <ComponentTemplate Name="Magnetizer" Description="A magnetizer" Guid="73a2ec9e-10c7-4133-85b4-4a35bd44c956" InheritanceParent="81a44c6a-c30a-4f53-8d64-0c30aabab8f9">
       <Parameter Name="SlotsCount" Guid="0b8d574d-f972-431b-9828-d30e0fbf33f1" Value="3" Type="int" />
-      <Parameter Name="FireTimeRemaining" Description="Fire time remaining, in seconds" Guid="3841cd84-3ff3-4165-aad1-19685e751850" Value="0" Type="float" />
-      <Parameter Name="HeatLevel" Description="Current heat level in furnace" Guid="c4678084-79c4-409e-b043-f9d3010d7e95" Value="0" Type="float" />
       <Parameter Name="Class" Guid="1c8a89ff-22f9-45aa-aae3-039ba73b12b6" Value="Game.ComponentMagnetizer" Type="string" />
     </ComponentTemplate>
     <ComponentTemplate Name="ElectricFurnace" Description="A electric furnace" Guid="73a2ecbf-10c7-4133-85b4-4a35bd44c956" InheritanceParent="81a44c6a-c30a-4f53-8d64-0c30aabab8f9">
       <Parameter Name="SlotsCount" Guid="0b8d684d-f972-431b-9828-d30e0fbf33f1" Value="9" Type="int" />
-      <Parameter Name="FireTimeRemaining" Description="Fire time remaining, in seconds" Guid="3852cd84-3ff3-4165-aad1-19685e751850" Value="0" Type="float" />
-      <Parameter Name="HeatLevel" Description="Current heat level in furnace" Guid="c4679184-79c4-409e-b043-f9d3010d7e95" Value="0" Type="float" />
       <Parameter Name="Class" Guid="1c8a9aff-22f9-45aa-aae3-039ba73b12b6" Value="Game.ComponentElectricFurnace" Type="string" />
     </ComponentTemplate>
     <ComponentTemplate Name="Seperator" Description="A chest that you can store items in" Guid="73a2ecaf-10c7-4133-85b4-4a35bd44c956" InheritanceParent="81a44c6a-c30a-4f53-8d64-0c30aabab8f9">
       <Parameter Name="SlotsCount" Guid="1c8d574d-f972-431b-9828-d30e0fbf33f1" Value="6" Type="int" />
-      <Parameter Name="FireTimeRemaining" Description="Fire time remaining, in seconds" Guid="3942cd84-3ff3-4165-aad1-19685e751850" Value="0" Type="float" />
-      <Parameter Name="HeatLevel" Description="Current heat level in furnace" Guid="c5678184-79c4-409e-b043-f9d3010d7e95" Value="0" Type="float" />
       <Parameter Name="Class" Guid="1c9b89ff-22f9-45aa-aae3-039ba73b12b6" Value="Game.ComponentSeperator" Type="string" />
     </ComponentTemplate>
      <ComponentTemplate Name="Canpack" Description="A chest that you can store items in" Guid="73a4ecaf-10c7-4133-85b4-4a35bd44c956" InheritanceParent="81a44c6a-c30a-4f53-8d64-0c30aabab8f9">
@@ -396,53 +383,34 @@
       <Parameter Name="Class" Guid="1c9b89f0-22f9-45aa-aae3-039ba73b12b6" Value="Game.ComponentUnloader" Type="string" />
     </ComponentTemplate>
     <ComponentTemplate Name="SteamEngine" Description="A steamengine" Guid="c93f7906-de35-4e94-ba6e-90cd55cd19d4" InheritanceParent="81a44c6a-c30a-4f53-8d64-0c30aabab8f9">
-      <Parameter Name="FireTimeRemaining" Description="Fire time remaining, in seconds" Guid="4830cd84-3ff3-4165-aad1-19685e751850" Value="0" Type="float" />
-      <Parameter Name="HeatLevel" Description="Current heat level in steamengine" Guid="d4667084-79c4-409e-b043-f9d3010d7e95" Value="0" Type="float" />
       <Parameter Name="Class" Guid="fb4c23fe-1d3c-467e-81bc-1796f686be51" Value="Game.ComponentEngine" Type="string" />
+      <Parameter Name="SlotsCount" Guid="3dad5622-a4c0-4ad5-85f8-813ef26dae6b" Value="3" Type="int" />
     </ComponentTemplate>
     <ComponentTemplate Name="CastMach" Description="A castmach" Guid="c93f7909-de35-4e94-ba6e-90cd55cd19d4" InheritanceParent="81a44c6a-c30a-4f53-8d64-0c30aabab8f9">
-    <Parameter Name="FireTimeRemaining" Description="Fire time remaining, in seconds" Guid="4837cd84-3ff3-4165-aad1-19685e751850" Value="0" Type="float" />
-    <Parameter Name="HeatLevel" Description="Current heat level in steamengine" Guid="d4667784-79c4-409e-b043-f9d3010d7e95" Value="0" Type="float" />
     <Parameter Name="Class" Guid="fb4c27fe-1d3c-467e-81bc-1796f686be51" Value="Game.ComponentCastMach" Type="string" />
     </ComponentTemplate>
     <ComponentTemplate Name="HeatEngine" Description="A heatengine" Guid="c93f7916-de35-4e94-ba6e-90cd55cd19d4" InheritanceParent="81a44c6a-c30a-4f53-8d64-0c30aabab8f9">
-      <Parameter Name="FireTimeRemaining" Description="Fire time remaining, in seconds" Guid="4832cd84-3ff3-4165-aad1-19685e751850" Value="0" Type="float" />
-      <Parameter Name="HeatLevel" Description="Current heat level in steamengine" Guid="d4667284-79c4-409e-b043-f9d3010d7e95" Value="0" Type="float" />
       <Parameter Name="Class" Guid="fb4c23ff-1d3c-467e-81bc-1796f686be51" Value="Game.ComponentEngineH" Type="string" />
     </ComponentTemplate>
     <ComponentTemplate Name="BoatITable" Description="A steamengine" Guid="98fdc8bb-8ca8-4d0f-af8d-25bfe9b56a19" InheritanceParent="81a44c6a-c30a-4f53-8d64-0c30aabab8f9">
-      <Parameter Name="FireTimeRemaining" Description="Fire time remaining, in seconds" Guid="4830cd84-3ff3-4165-aad1-19685f751850" Value="0" Type="float" />
-      <Parameter Name="HeatLevel" Description="Current heat level in steamengine" Guid="d4667084-79c4-409e-b043-f9d301fd7e95" Value="0" Type="float" />
-      <Parameter Name="Class" Guid="fb4c23fe-1d3c-467e-81bc-1796f68fbe51" Value="Game.ComponentEngine2" Type="string" />
+      <Parameter Name="Class" Guid="fb4c23fe-1d3c-467e-81bc-1796f68fbe51" Value="Game.ComponentEngine" Type="string" />
     </ComponentTemplate>
      <ComponentTemplate Name="AirShipTable" Description="A steamengine" Guid="98fdc888-8ca8-4d0f-af8d-25bfe9b56a19" InheritanceParent="81a44c6a-c30a-4f53-8d64-0c30aabab8f9">
-      <Parameter Name="FireTimeRemaining" Description="Fire time remaining, in seconds" Guid="4844cd84-3ff3-4165-aad1-19685f751850" Value="0" Type="float" />
-      <Parameter Name="HeatLevel" Description="Current heat level in steamengine" Guid="d4447084-79c4-409e-b043-f9d301fd7e95" Value="0" Type="float" />
       <Parameter Name="Class" Guid="fb4c44fe-1d3c-467e-81bc-1796f68fbe51" Value="Game.ComponentEngineA" Type="string" />
     </ComponentTemplate>
     <ComponentTemplate Name="Presser" Description="A presser" Guid="c9ff7906-de35-4e94-ba6e-90cd55cd19d4" InheritanceParent="81a44c6a-c30a-4f53-8d64-0c30aabab8f9">
-      <Parameter Name="FireTimeRemaining" Description="Fire time remaining, in seconds" Guid="5830cd84-3ff3-4165-aad1-19685e751850" Value="0" Type="float" />
-      <Parameter Name="HeatLevel" Description="Current heat level in steamengine" Guid="e4667084-79c4-409e-b043-f9d3010d7e95" Value="0" Type="float" />
       <Parameter Name="Class" Guid="fc4c23fe-1d3c-467e-81bc-1796f686be51" Value="Game.ComponentPresser" Type="string" />
     </ComponentTemplate>
     <ComponentTemplate Name="CReactor" Description="A presser" Guid="c9ff7976-de35-4e94-ba6e-90cd55cd19d4" InheritanceParent="81a44c6a-c30a-4f53-8d64-0c30aabab8f9">
-    <Parameter Name="FireTimeRemaining" Description="Fire time remaining, in seconds" Guid="5730cd84-3ff3-4165-aad1-19685e751850" Value="0" Type="float" />
-    <Parameter Name="HeatLevel" Description="Current heat level in steamengine" Guid="e4667074-79c4-409e-b043-f9d3010d7e95" Value="0" Type="float" />
     <Parameter Name="Class" Guid="fd4c23ff-1d3c-467e-81bc-1796f686be51" Value="Game.ComponentCReactor" Type="string" />
     </ComponentTemplate>
     <ComponentTemplate Name="Kibbler" Description="A kibbler" Guid="cfff7906-de35-4e94-ba6e-90cd55cd19d4" InheritanceParent="81a44c6a-c30a-4f53-8d64-0c30aabab8f9">
-      <Parameter Name="FireTimeRemaining" Description="Fire time remaining, in seconds" Guid="6830cd84-3ff3-4165-aad1-19685e751850" Value="0" Type="float" />
-      <Parameter Name="HeatLevel" Description="Current heat level in steamengine" Guid="f4667084-79c4-409e-b043-f9d3010d7e95" Value="0" Type="float" />
       <Parameter Name="Class" Guid="fe4c23fe-1d3c-467e-81bc-1796f686be51" Value="Game.ComponentKibbler" Type="string" />
     </ComponentTemplate>
-    <ComponentTemplate Name="PresserNN" Description="A presserNN" Guid="cfff7916-de35-4e94-ba6e-90cd55cd19d4" InheritanceParent="81a44c6a-c30a-4f53-8d64-0c30aabab8f9">
-      <Parameter Name="FireTimeRemaining" Description="Fire time remaining, in seconds" Guid="6831cd84-3ff3-4165-aad1-19685e751850" Value="0" Type="float" />
-      <Parameter Name="HeatLevel" Description="Current heat level in steamengine" Guid="f4667184-79c4-409e-b043-f9d3010d7e95" Value="0" Type="float" />
+    <ComponentTemplate Name="PresserNN" Description="A presser" Guid="cfff7916-de35-4e94-ba6e-90cd55cd19d4" InheritanceParent="81a44c6a-c30a-4f53-8d64-0c30aabab8f9">
       <Parameter Name="Class" Guid="fe4c23ff-1d3c-467e-81bc-1796f686be51" Value="Game.ComponentPresserNN" Type="string" />
     </ComponentTemplate>
     <ComponentTemplate Name="Squeezer" Description="A squeezer" Guid="cfff7936-de35-4e94-ba6e-90cd55cd19d4" InheritanceParent="81a44c6a-c30a-4f53-8d64-0c30aabab8f9">
-      <Parameter Name="FireTimeRemaining" Description="Fire time remaining, in seconds" Guid="6833cd84-3ff3-4165-aad1-19685e751850" Value="0" Type="float" />
-      <Parameter Name="HeatLevel" Description="Current heat level in steamengine" Guid="f4667384-79c4-409e-b043-f9d3010d7e95" Value="0" Type="float" />
       <Parameter Name="Class" Guid="fe4c25ff-1d3c-467e-81bc-1796f686be51" Value="Game.ComponentSqueezer" Type="string" />
     </ComponentTemplate>
     <ComponentTemplate Name="Driller" Description="A AutoDriller that mining Ore" Guid="aa15e6eb-9078-4abf-873f-4a8da609e287" InheritanceParent="81a44c6a-c30a-4f53-8d64-0c30aabab8f9">
@@ -454,28 +422,19 @@
       <Parameter Name="Class" Guid="bae69ecd-49fc-4c05-b784-424da13f8550" Value="Game.ComponentLiquidPump" Type="string" />
     </ComponentTemplate>
     <ComponentTemplate Name="FireBox" Description="A firebox" Guid="c93f7917-de35-4e94-ba6e-90cd55cd19d4" InheritanceParent="81a44c6a-c30a-4f53-8d64-0c30aabab8f9">
-      <Parameter Name="FireTimeRemaining" Description="Fire time remaining, in seconds" Guid="4833cd84-3ff3-4165-aad1-19685e751850" Value="0" Type="float" />
-      <Parameter Name="HeatLevel" Description="Current heat level in steamengine" Guid="d4667285-79c4-409e-b043-f9d3010d7e95" Value="0" Type="float" />
       <Parameter Name="Class" Guid="fb4c24ff-1d3c-467e-81bc-1796f686be51" Value="Game.ComponentFireBox" Type="string" />
     </ComponentTemplate>
     <ComponentTemplate Name="BlastFurnace" Description="A blastfurnace" Guid="f91f7946-de35-4e94-ba6e-90cd55cd19d4" InheritanceParent="81a44c6a-c30a-4f53-8d64-0c30aabab8f9">
-      <Parameter Name="FireTimeRemaining" Description="Fire time remaining, in seconds" Guid="3831cd84-3ff3-4165-aad1-19685e751850" Value="0" Type="float" />
-      <Parameter Name="HeatLevel" Description="Current heat level in furnace" Guid="c4667184-79c4-409e-b043-f9d3010d7e95" Value="0" Type="float" />
       <Parameter Name="Class" Guid="fa4c53fe-1d3c-467e-81bc-1796f686be51" Value="Game.ComponentBlastFurnace" Type="string" />
     </ComponentTemplate>
     <ComponentTemplate Name="CokeOven" Description="A coke oven" Guid="f91f7957-de35-4e94-ba6e-90cd55cd19d4" InheritanceParent="81a44c6a-c30a-4f53-8d64-0c30aabab8f9">
-      <Parameter Name="FireTimeRemaining" Description="Fire time remaining, in seconds" Guid="3842cd84-3ff3-4165-aad1-19685e751850" Value="0" Type="float" />
-      <Parameter Name="HeatLevel" Description="Current heat level in furnace" Guid="c4667196-79c4-409e-b043-f9d3010d7e95" Value="0" Type="float" />
       <Parameter Name="Class" Guid="fa4c65fe-1d3c-467e-81bc-1796f686be51" Value="Game.ComponentCoven" Type="string" />
     </ComponentTemplate>
     <ComponentTemplate Name="HearthFurnace" Description="A hearthfurnace" Guid="f91f7968-de35-4e94-ba6e-90cd55cd19d4" InheritanceParent="81a44c6a-c30a-4f53-8d64-0c30aabab8f9">
-      <Parameter Name="FireTimeRemaining" Description="Fire time remaining, in seconds" Guid="5942cd84-3ff3-4165-aad1-19685e751850" Value="0" Type="float" />
-      <Parameter Name="HeatLevel" Description="Current heat level in furnace" Guid="c4777196-79c4-409e-b043-f9d3010d7e95" Value="0" Type="float" />
       <Parameter Name="Class" Guid="fa4c666e-1d3c-467e-81bc-1796f686be51" Value="Game.ComponentHearthFurnace" Type="string" />
     </ComponentTemplate>
     <ComponentTemplate Name="Carriage" Description="Carriage" Guid="73a29f7f-10c7-4133-95b4-4a35bd44c956" InheritanceParent="7312ec8c-10c7-4133-85b4-4a35bd44c956">
       <Parameter Name="Class" Guid="1c0b89f0-22f9-45aa-aae3-039ba73b12b6" Value="Game.ComponentCarriage" Type="string" />
-      <Parameter Name="RiderOffset" Guid="f13f69c9-e282-4325-8e7e-bcdd2a04c925" Value="0,-0.5,1.3" Type="Vector3" />
     </ComponentTemplate>
     <ComponentTemplate Name="Mine" Description="A mine" Guid="73a29faf-10c7-4133-95b4-4a35bd44c956" InheritanceParent="b05700ed-7e4e-4679-98f5-b597f421496b">
       <Parameter Name="Class" Guid="1c0b89f0-22f9-45a9-aae3-039ba73b12b6" Value="Game.ComponentMine" Type="string" />

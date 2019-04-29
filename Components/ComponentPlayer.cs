@@ -1,5 +1,4 @@
 using Engine;
-using GameEntitySystem;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -19,7 +18,11 @@ namespace Game
 					ComponentMiner.Inventory.ActiveSlotIndex = MathUtils.Clamp(playerInput.SelectInventorySlot.Value, 0, 5);
 			}
 			if (ComponentBody.ImmersionFluidBlock != null && ComponentBody.ImmersionFluidBlock.BlockIndex == RottenMeatBlock.Index)
+			{
+				//if (ComponentBody.ImmersionDepth > 0.8f)
+					//ComponentScreenOverlays.BlackoutFactor = 1f;
 				ComponentHealth.Air = 1f;
+			}
 			ComponentMount mount = ComponentRider.Mount;
 			if (mount != null)
 			{
@@ -61,7 +64,7 @@ namespace Game
 							componentBoat.MoveOrder = playerInput.Move.Z;
 							ComponentLocomotion.LookOrder = new Vector2(playerInput.Look.X, 0f);
 						}
-						else // if (componentBoatI != null)
+						else
 							ComponentLocomotion.LookOrder = playerInput.Look;
 						ComponentCreatureModel.RowLeftOrder = playerInput.Move.X < -0.2f || playerInput.Move.Z > 0.2f;
 						ComponentCreatureModel.RowRightOrder = playerInput.Move.X > 0.2f || playerInput.Move.Z > 0.2f;
@@ -74,6 +77,8 @@ namespace Game
 						c.TurnOrder = playerInput.Look * new Vector2(1f, 0f);
 						c.JumpOrder = playerInput.Jump ? 1 : 0;
 						c.LookOrder = playerInput.Look;
+						if (playerInput.ToggleCreativeFly)
+							c.IsCreativeFlyEnabled = !c.IsCreativeFlyEnabled;
 					}
 				}
 			}
@@ -214,8 +219,7 @@ namespace Game
 			}
 			if (playerInput.PickBlockType.HasValue && !flag)
 			{
-				var componentCreativeInventory = ComponentMiner.Inventory as ComponentCreativeInventory;
-				if (componentCreativeInventory != null)
+				if (ComponentMiner.Inventory is ComponentCreativeInventory componentCreativeInventory)
 				{
 					Vector3 viewPosition5 = View.ActiveCamera.ViewPosition;
 					Vector3 v4 = View.ActiveCamera.ScreenToWorld(new Vector3(playerInput.PickBlockType.Value, 1f), Matrix.Identity);

@@ -1,5 +1,6 @@
 using Engine;
 using GameEntitySystem;
+using System.Linq;
 using TemplatesDatabase;
 
 namespace Game
@@ -80,10 +81,7 @@ namespace Game
 				m_componentPlayer.ComponentBody.IsSneaking = !isSneaking;
 				if (m_componentPlayer.ComponentBody.IsSneaking != isSneaking)
 				{
-					if (m_componentPlayer.ComponentBody.IsSneaking)
-						DisplaySmallMessage("Sneak mode on", false, false);
-					else
-						DisplaySmallMessage("Sneak mode off", false, false);
+					DisplaySmallMessage(m_componentPlayer.ComponentBody.IsSneaking ? "Sneak mode on" : "Sneak mode off", false, false);
 				}
 			}
 			if (componentRider != null && (m_mountButtonWidget.IsClicked || playerInput.ToggleMount))
@@ -93,16 +91,13 @@ namespace Game
 					componentRider.StartDismounting();
 				else
 				{
-					ComponentMount componentMount = componentRider.FindNearestMount();
+					ComponentMount componentMount = FindNearestMount(componentRider);
 					if (componentMount != null)
 						componentRider.StartMounting(componentMount);
 				}
 				if (componentRider.Mount != null != flag)
 				{
-					if (componentRider.Mount != null)
-						DisplaySmallMessage("Mounted", false, false);
-					else
-						DisplaySmallMessage("Dismounted", false, false);
+					DisplaySmallMessage(componentRider.Mount != null ? "Mounted" : "Dismounted", false, false);
 				}
 			}
 			if ((m_editItemButton.IsClicked || playerInput.EditItem) && m_nearbyEditableCell.HasValue)
@@ -199,8 +194,7 @@ namespace Game
 			}
 			if (isCreative && (m_lightningButtonWidget.IsClicked || playerInput.Lighting))
 			{
-				var matrix = Matrix.CreateFromQuaternion(m_componentPlayer.ComponentCreatureModel.EyeRotation);
-				Project.FindSubsystem<SubsystemWeather>(true).ManualLightingStrike(m_componentPlayer.ComponentCreatureModel.EyePosition, matrix.Forward);
+				Project.FindSubsystem<SubsystemWeather>(true).ManualLightingStrike(m_componentPlayer.ComponentCreatureModel.EyePosition, Matrix.CreateFromQuaternion(m_componentPlayer.ComponentCreatureModel.EyeRotation).Forward);
 			}
 			if (isCreative && (m_timeOfDayButtonWidget.IsClicked || playerInput.TimeOfDay))
 			{
@@ -249,9 +243,52 @@ namespace Game
 			ComponentGui = Entity.FindComponent<ComponentGui>(true);
 			base.Load(valuesDictionary, idToEntityMap);
 		}
+
+		public ComponentMount FindNearestMount(ComponentRider rider)
+		{
+			var bodies = new DynamicArray<ComponentBody>();
+			var body = rider.ComponentCreature.ComponentBody;
+			Utils.SubsystemBodies.FindBodiesAroundPoint(new Vector2(body.Position.X, body.Position.Z), 2.5f, bodies);
+			float num = 0f;
+			ComponentMount result = null;
+			foreach (ComponentMount m in bodies.Select(GetMount))
+			{
+				if (m == null || m.Entity == Entity) continue;
+				ComponentBody p = m.ComponentBody;
+				while (p.ParentBody != null)
+				{
+					p = p.ParentBody;
+					if (p.Entity == Entity) goto b;
+				}
+				float score = 0f;
+				const float maxDistance = 7f;
+				if (m.ComponentBody.Velocity.LengthSquared() < 1f)
+				{
+					var v = m.ComponentBody.Position + Vector3.Transform(m.MountOffset, m.ComponentBody.Rotation) - body.Position;
+					if (v.LengthSquared() < maxDistance)
+						score = maxDistance - v.Length();
+				}
+				if (score > num)
+				{
+					num = score;
+					result = m;
+				}
+				b:;
+			}
+			return result;
+		}
+
 		public static Widget OpenEntity(IInventory inventory, Entity entity)
 		{
-			var componentEngine = entity.FindComponent<ComponentEngine2>();
+			var componentTrain = entity.FindComponent<ComponentTrain>();
+			var componentChest = entity.FindComponent<ComponentChest>();
+			if (componentTrain != null)
+			{
+				return componentChest != null
+					? new NewChestWidget(inventory, componentChest, componentTrain.ParentBody != null ? "车厢（已连接）" : "车厢")
+					: (Widget)new StoveWidget(inventory, componentTrain.ComponentEngine, "Widgets/TrainWidget");
+			}
+			var componentEngine = entity.FindComponent<ComponentEngine>();
 			if (componentEngine != null)
 			{
 				return new Engine2Widget(inventory, componentEngine);
@@ -261,17 +298,11 @@ namespace Game
 			{
 				return new EngineAWidget(inventory, componentEngine3);
 			}
-			var componentEngine2 = entity.FindComponent<ComponentTrain>();
-			if (componentEngine2 != null)
-			{
-				return new TrainWidget(inventory, componentEngine2);
-			}
-			var componentCarriage = entity.FindComponent<ComponentCarriage>();
-			if (componentCarriage != null)
-			{
-				return new ChestWidget(inventory, componentCarriage);
-			}
 			return null;
+		}
+		public static ComponentMount GetMount(Component b)
+		{
+			return b.Entity.FindComponent<ComponentMount>();
 		}
 	}
 }

@@ -23,7 +23,6 @@ namespace Game
 			DefaultDisplayName = "Rotten Egg";
 			var meshes = ContentManager.Get<Model>("Models/RottenEgg").Meshes;
 			m_standaloneBlockMesh.AppendModelMeshPart(meshes[0].MeshParts[0], BlockMesh.GetBoneAbsoluteTransform(meshes[0].ParentBone), false, false, false, false, Color.White);
-			m_standaloneBlockMesh.TransformTextureCoordinates(Matrix.Identity, -1);
 		}
 		public override int GetFaceTextureSlot(int face, int value)
 		{

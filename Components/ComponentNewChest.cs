@@ -1,3 +1,4 @@
+using GameEntitySystem;
 using System.Globalization;
 using System.Text;
 using TemplatesDatabase;
@@ -7,6 +8,16 @@ namespace Game
 	public class ComponentNewChest : ComponentInventoryBase
 	{
 		public bool Powered;
+
+		public override void Load(ValuesDictionary valuesDictionary, IdToEntityMap idToEntityMap)
+		{
+			this.LoadItems(valuesDictionary);
+		}
+
+		public override void Save(ValuesDictionary valuesDictionary, EntityToIdMap entityToIdMap)
+		{
+			this.SaveItems(valuesDictionary);
+		}
 	}
 	public partial class Utils
 	{

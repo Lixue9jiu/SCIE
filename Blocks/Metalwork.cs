@@ -167,7 +167,7 @@ namespace Game
 	{
 		public GranulatedItem(string name, Color color)
 		{
-			DefaultDisplayName = name;
+			DefaultDisplayName = Utils.Get(name);
 			DefaultTextureSlot = 231;
 			Color = color;
 		}

@@ -14,11 +14,11 @@ namespace Game
 
 		protected string m_smeltingRecipe2;
 
-		public override int RemainsSlotIndex => SlotsCount;
+		public override int RemainsSlotIndex => -1;
 
 		public override int ResultSlotIndex => SlotsCount - 1;
 
-		public override int FuelSlotIndex => SlotsCount;
+		public override int FuelSlotIndex => -1;
 
 		public int UpdateOrder => 0;
 
@@ -106,15 +106,8 @@ namespace Game
 		{
 			base.Load(valuesDictionary, idToEntityMap);
 			m_furnaceSize = SlotsCount - 1;
-			m_fireTimeRemaining = valuesDictionary.GetValue<float>("FireTimeRemaining");
-			HeatLevel = valuesDictionary.GetValue<float>("HeatLevel");
-		}
-
-		public override void Save(ValuesDictionary valuesDictionary, EntityToIdMap entityToIdMap)
-		{
-			this.SaveItems(valuesDictionary);
-			valuesDictionary.SetValue("FireTimeRemaining", m_fireTimeRemaining);
-			valuesDictionary.SetValue("HeatLevel", HeatLevel);
+			m_fireTimeRemaining = valuesDictionary.GetValue("FireTimeRemaining", 0f);
+			HeatLevel = valuesDictionary.GetValue("HeatLevel", 0f);
 		}
 
 		protected string FindSmeltingRecipe(float heatLevel)
@@ -132,7 +125,7 @@ namespace Game
 						n |= 1;
 					else if (slotValue == ItemBlock.IdTable["ZincRod"])
 						n |= 2;
-					else if (num == SulphurChunkBlock.Index)
+					else if (num == PaintStripperBucketBlock.Index)
 						n |= 4;
 				}
 				/*else

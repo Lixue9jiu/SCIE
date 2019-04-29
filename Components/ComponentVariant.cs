@@ -189,8 +189,8 @@ namespace Game
 		public override void Load(ValuesDictionary valuesDictionary, IdToEntityMap idToEntityMap)
 		{
 			base.Load(valuesDictionary, idToEntityMap);
-			//var dGenes = new DynamicArray<float>();
-			//var rGenes = new DynamicArray<float>();
+			Period = valuesDictionary.GetValue("Period", 4000);
+			LastTime = valuesDictionary.GetValue("LastTime", 900.0);
 			float[] dGenes = new float[68], rGenes = new float[68];
 			var s = valuesDictionary.GetValue("Genome", string.Empty).Split(new[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
 			if (s.Length == 0)
@@ -205,8 +205,6 @@ namespace Game
 				rGenes[i] = n > 0 ? float.Parse(s[i].Substring(n + 1), CultureInfo.InvariantCulture) : dGenes[i];
 			}
 			Genome = new Genome(dGenes, rGenes);
-			Period = valuesDictionary.GetValue("Period", 4000);
-			LastTime = valuesDictionary.GetValue("LastTime", 900.0);
 		}
 
 		public override void Save(ValuesDictionary valuesDictionary, EntityToIdMap entityToIdMap)
@@ -230,7 +228,10 @@ namespace Game
 				}
 				sb.Append(';');
 			}
-			valuesDictionary.SetValue("Genome", sb.ToString());
+			if (Period <= 900)
+				valuesDictionary.SetValue("Genome", sb.ToString());
+			//else
+				//Genome = new Genome();
 			valuesDictionary.SetValue("LastTime", LastTime);
 		}
 
@@ -388,7 +389,7 @@ namespace Game
 		public void Mutate()
 		{
 			Trait t;
-			if (Period < 900)
+			if (Period > 900)
 			{
 				Initialize();
 				float f = (float)LastTime / 6000;
@@ -586,9 +587,9 @@ namespace Game
 
 		public override void OnEntityRemoved()
 		{
-			Task.Run((Action)Hybridize);
-			/*m_task.Wait();
-			m_task = null;*/
+			Hybridize();
+			//m_task.Wait();
+			//m_task = null;
 		}
 
 		public void Hybridize()

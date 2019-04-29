@@ -1,19 +1,18 @@
 using Engine;
 using GameEntitySystem;
-using System.Globalization;
 using TemplatesDatabase;
 
 namespace Game
 {
 	public class ComponentEngine : ComponentMachine, IUpdateable
 	{
-		protected readonly string[] m_matchedIngredients = new string[9];
-
 		protected string m_smeltingRecipe;
 
 		protected int m_music;
 
-		public override int RemainsSlotIndex => SlotsCount - 1;
+		public Point3 Coordinates;
+
+		public override int RemainsSlotIndex => SlotsCount - 3;
 
 		public override int ResultSlotIndex => SlotsCount - 1;
 
@@ -23,8 +22,7 @@ namespace Game
 
 		public void Update(float dt)
 		{
-			Point3 coordinates = m_componentBlockEntity.Coordinates;
-			if (coordinates.Y < 0 || coordinates.Y > 127)
+			if (Coordinates.Y < 0 || Coordinates.Y > 127)
 				return;
 			if (HeatLevel > 0f)
 			{
@@ -44,7 +42,7 @@ namespace Game
 					slot = m_slots[FuelSlotIndex];
 					if (slot.Count > 0)
 					{
-						Block block = BlocksManager.Blocks[Terrain.ExtractContents(slot.Value)];
+						var block = BlocksManager.Blocks[Terrain.ExtractContents(slot.Value)];
 						heatLevel = block is IFuel fuel ? fuel.GetHeatLevel(slot.Value) : block.FuelHeatLevel;
 					}
 				}
@@ -62,7 +60,7 @@ namespace Game
 				m_fireTimeRemaining = 0f;
 				m_music = -1;
 			}
-			else if (m_fireTimeRemaining <= 0f)
+			else if (m_smeltingRecipe != null && m_fireTimeRemaining <= 0f)
 			{
 				slot = m_slots[FuelSlotIndex];
 				if (slot.Count > 0)
@@ -71,7 +69,7 @@ namespace Game
 					if (block.GetExplosionPressure(slot.Value) > 0f)
 					{
 						slot.Count = 0;
-						Utils.SubsystemExplosions.TryExplodeBlock(coordinates.X, coordinates.Y, coordinates.Z, slot.Value);
+						Utils.SubsystemExplosions.TryExplodeBlock(Coordinates.X, Coordinates.Y, Coordinates.Z, slot.Value);
 					}
 					else
 					{
@@ -98,8 +96,8 @@ namespace Game
 			if (m_smeltingRecipe != null)
 			{
 				SmeltingProgress = MathUtils.Min(SmeltingProgress + 0.02f * dt, 1f);
-				if (m_music % 165 == 0)
-					Utils.SubsystemAudio.PlaySound("Audio/SteamEngine", 1f, 0f, new Vector3(coordinates), 4f, true);
+				if (m_music % 90 == 0)
+					Utils.SubsystemAudio.PlaySound("Audio/SteamEngine", 1f, 0f, new Vector3(Coordinates), 4f, true);
 				m_music++;
 				if (SmeltingProgress >= 1.0)
 				{
@@ -113,27 +111,25 @@ namespace Game
 					m_updateSmeltingRecipe = true;
 				}
 			}
-			TerrainChunk chunk = Utils.Terrain.GetChunkAtCell(coordinates.X, coordinates.Z);
-			if (chunk != null && chunk.State == TerrainChunkState.Valid)
+			if (m_componentBlockEntity != null)
 			{
-				int cellValue = chunk.GetCellValueFast(coordinates.X & 15, coordinates.Y, coordinates.Z & 15);
-				Utils.SubsystemTerrain.ChangeCell(coordinates.X, coordinates.Y, coordinates.Z, Terrain.ReplaceData(cellValue, FurnaceNBlock.SetHeatLevel(Terrain.ExtractData(cellValue), (HeatLevel > 0f) ? 1 : 0)), true);
+				TerrainChunk chunk = Utils.Terrain.GetChunkAtCell(Coordinates.X, Coordinates.Z);
+				if (chunk != null && chunk.State == TerrainChunkState.Valid)
+				{
+					int cellValue = chunk.GetCellValueFast(Coordinates.X & 15, Coordinates.Y, Coordinates.Z & 15);
+					Utils.SubsystemTerrain.ChangeCell(Coordinates.X, Coordinates.Y, Coordinates.Z, Terrain.ReplaceData(cellValue, FurnaceNBlock.SetHeatLevel(Terrain.ExtractData(cellValue), (HeatLevel > 0f) ? 1 : 0)), true);
+				}
 			}
 		}
 
 		public override void Load(ValuesDictionary valuesDictionary, IdToEntityMap idToEntityMap)
 		{
 			base.Load(valuesDictionary, idToEntityMap);
+			if (m_componentBlockEntity != null)
+				Coordinates = m_componentBlockEntity.Coordinates;
 			m_furnaceSize = SlotsCount - 2;
 			m_fireTimeRemaining = valuesDictionary.GetValue("FireTimeRemaining", 0f);
 			HeatLevel = valuesDictionary.GetValue("HeatLevel", 0f);
-		}
-
-		public override void Save(ValuesDictionary valuesDictionary, EntityToIdMap entityToIdMap)
-		{
-			this.SaveItems(valuesDictionary);
-			valuesDictionary.SetValue("FireTimeRemaining", m_fireTimeRemaining);
-			valuesDictionary.SetValue("HeatLevel", HeatLevel);
 		}
 
 		protected string FindSmeltingRecipe(float heatLevel)
@@ -147,13 +143,8 @@ namespace Game
 				int num = Terrain.ExtractContents(slotValue);
 				int num2 = Terrain.ExtractData(slotValue);
 				if (GetSlotCount(i) > 0)
-				{
-					m_matchedIngredients[i] = BlocksManager.Blocks[num].CraftingId + ":" + num2.ToString(CultureInfo.InvariantCulture);
 					if (num == WaterBucketBlock.Index)
 						text = "bucket";
-				}
-				else
-					m_matchedIngredients[i] = null;
 			}
 			if (text != null)
 			{

@@ -115,36 +115,8 @@ namespace Game
 		{
 			base.Load(valuesDictionary, idToEntityMap);
 			m_furnaceSize = SlotsCount - 2;
-			m_fireTimeRemaining = valuesDictionary.GetValue<float>("FireTimeRemaining");
-			HeatLevel = valuesDictionary.GetValue<float>("HeatLevel");
-		}
-
-		public override void Save(ValuesDictionary valuesDictionary, EntityToIdMap entityToIdMap)
-		{
-			this.SaveItems(valuesDictionary);
-			valuesDictionary.SetValue("FireTimeRemaining", m_fireTimeRemaining);
-			valuesDictionary.SetValue("HeatLevel", HeatLevel);
-		}
-
-		protected string FindSmeltingRecipe(float heatLevel)
-		{
-			string text = null;
-			for (int i = 0; i < m_furnaceSize; i++)
-			{
-				int slotValue = GetSlotValue(i);
-				int num = Terrain.ExtractContents(slotValue);
-				int num2 = Terrain.ExtractData(slotValue);
-				if (GetSlotCount(i) > 0)
-					if (BlocksManager.Blocks[num].CraftingId == "waterbucket")
-						text = "bucket";
-			}
-			if (text != null)
-			{
-				Slot slot = m_slots[ResultSlotIndex];
-				if (slot.Count != 0 && (90 != slot.Value || slot.Count >= 40))
-					return null;
-			}
-			return text;
+			m_fireTimeRemaining = valuesDictionary.GetValue("FireTimeRemaining", 0f);
+			HeatLevel = valuesDictionary.GetValue("HeatLevel", 0f);
 		}
 	}
 }
