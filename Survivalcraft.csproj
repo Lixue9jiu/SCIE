@@ -86,12 +86,14 @@
     <Compile Include="Chemistry\DispersionSystem.cs" />
     <Compile Include="Chemistry\Equation.cs" />
     <Compile Include="Circuit\LockFreeQueue.cs" />
+    <Compile Include="Components\ComponentCanpack.cs" />
     <Compile Include="Components\ComponentCarriage.cs" />
     <Compile Include="Components\ComponentAirShip.cs" />
     <Compile Include="Components\ComponentCoven.cs" />
     <Compile Include="Components\ComponentCReactor.cs" />
     <Compile Include="Components\ComponentDriller.cs" />
     <Compile Include="Components\ComponentElectricFurnace.cs" />
+    <Compile Include="Components\ComponentElectrobath.cs" />
     <Compile Include="Components\ComponentEngineA.cs" />
     <Compile Include="Components\ComponentHearthFurnace.cs" />
     <Compile Include="Components\ComponentLargeCraftingTable.cs" />
@@ -125,10 +127,12 @@
     <Compile Include="Subsystems\SubsystemRailBlockBehavior.cs" />
     <Compile Include="Subsystems\SubsystemSourceOfFireBlockBehavior.cs" />
     <Compile Include="Common\Utils.cs" />
+    <Compile Include="Widgets\CanpackWidget.cs" />
     <Compile Include="Widgets\CovenWidget.cs" />
     <Compile Include="Widgets\CReactorWidget.cs" />
     <Compile Include="Widgets\DrillerWidget.cs" />
     <Compile Include="Widgets\ElectricFurnaceWidget.cs" />
+    <Compile Include="Widgets\ElectrobathWidget.cs" />
     <Compile Include="Widgets\EngineAWidget.cs" />
     <Compile Include="Widgets\HearthFurnaceWidget.cs" />
     <Compile Include="Widgets\LiquidPumpWidget.cs" />

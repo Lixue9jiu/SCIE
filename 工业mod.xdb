@@ -26,6 +26,14 @@
       <MemberComponentTemplate Name="Seperator" Guid="0f193a26-ac7d-4b4c-97c7-df652ca11b51" InheritanceParent="73a2ecaf-10c7-4133-85b4-4a35bd44c956" />
       <MemberComponentTemplate Name="BlockEntity" Guid="a1e9dc3e-980d-461e-87ac-4358ed7d41b5" InheritanceParent="09a85cba-d94e-41b8-9497-f20ed942c17e" />
     </EntityTemplate>
+    <EntityTemplate Name="Canpack" Guid="0855a486-af17-4955-81fa-aafaf97b92bd">
+      <MemberComponentTemplate Name="Canpack" Guid="0f193a28-ac7d-4b4c-97c7-df652ca11b51" InheritanceParent="73a4ecaf-10c7-4133-85b4-4a35bd44c956" />
+      <MemberComponentTemplate Name="BlockEntity" Guid="a1e9ff3e-980d-461e-87ac-4358ed7d41b5" InheritanceParent="09a85cba-d94e-41b8-9497-f20ed942c17e" />
+    </EntityTemplate>
+    <EntityTemplate Name="Electrobath" Guid="0855a597-af17-4955-81fa-aafaf97b92bd">
+      <MemberComponentTemplate Name="Electrobath" Guid="0f1a4a26-ac7d-4b4c-97c7-df652ca11b51" InheritanceParent="73a6ecaf-10c7-4133-85b4-4a35bd44c956" />
+      <MemberComponentTemplate Name="BlockEntity" Guid="a1e9df3f-980d-461e-87ac-4358ed7d41b5" InheritanceParent="09a85cba-d94e-41b8-9497-f20ed942c17e" />
+    </EntityTemplate>
     <EntityTemplate Name="Unloader" Guid="2955a387-af17-4955-81fa-aafaf97b92bd">
       <MemberComponentTemplate Name="Unloader" Guid="0f173a26-ac7d-4b4c-97c7-df652ca11b51" InheritanceParent="73a2efaf-10c7-4133-85b4-4a35bd44c956" />
       <MemberComponentTemplate Name="BlockEntity" Guid="a1e9dc3e-980d-4601-87ac-4358ed7d41b5" InheritanceParent="09a85cba-d94e-41b8-9497-f20ed942c17e" />
@@ -371,6 +379,18 @@
       <Parameter Name="FireTimeRemaining" Description="Fire time remaining, in seconds" Guid="3942cd84-3ff3-4165-aad1-19685e751850" Value="0" Type="float" />
       <Parameter Name="HeatLevel" Description="Current heat level in furnace" Guid="c5678184-79c4-409e-b043-f9d3010d7e95" Value="0" Type="float" />
       <Parameter Name="Class" Guid="1c9b89ff-22f9-45aa-aae3-039ba73b12b6" Value="Game.ComponentSeperator" Type="string" />
+    </ComponentTemplate>
+     <ComponentTemplate Name="Canpack" Description="A chest that you can store items in" Guid="73a4ecaf-10c7-4133-85b4-4a35bd44c956" InheritanceParent="81a44c6a-c30a-4f53-8d64-0c30aabab8f9">
+      <Parameter Name="SlotsCount" Guid="1c8d575f-f972-431b-9828-d30e0fbf33f1" Value="2" Type="int" />
+      <Parameter Name="FireTimeRemaining" Description="Fire time remaining, in seconds" Guid="3956cd84-3ff3-4165-aad1-19685e751850" Value="0" Type="float" />
+      <Parameter Name="HeatLevel" Description="Current heat level in furnace" Guid="c5788184-79c4-409e-b043-f9d3010d7e95" Value="0" Type="float" />
+      <Parameter Name="Class" Guid="1c9b89dd-22f9-45aa-aae3-039ba73b12b6" Value="Game.ComponentCanpack" Type="string" />
+    </ComponentTemplate>
+   <ComponentTemplate Name="Electrobath" Description="A chest that you can store items in" Guid="73a6ecaf-10c7-4133-85b4-4a35bd44c956" InheritanceParent="81a44c6a-c30a-4f53-8d64-0c30aabab8f9">
+      <Parameter Name="SlotsCount" Guid="1c8d588d-f972-431b-9828-d30e0fbf33f1" Value="6" Type="int" />
+      <Parameter Name="FireTimeRemaining" Description="Fire time remaining, in seconds" Guid="3953cd84-3ff3-4165-aad1-19685e751850" Value="0" Type="float" />
+      <Parameter Name="HeatLevel" Description="Current heat level in furnace" Guid="c5679284-79c4-409e-b043-f9d3010d7e95" Value="0" Type="float" />
+      <Parameter Name="Class" Guid="1c9b89ff-22f9-45bb-aae3-039ba73b12b6" Value="Game.ComponentElectrobath" Type="string" />
     </ComponentTemplate>
     <ComponentTemplate Name="Unloader" Description="A unloader" Guid="73a2efaf-10c7-4133-85b4-4a35bd44c956" InheritanceParent="73a2ec8c-10c7-4133-85b4-4a35bd44c956">
       <Parameter Name="Class" Guid="1c9b89f0-22f9-45aa-aae3-039ba73b12b6" Value="Game.ComponentUnloader" Type="string" />

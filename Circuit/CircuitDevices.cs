@@ -263,7 +263,88 @@ namespace Game
 		}
 	}
 
-	public class AirBlower : FixedDevice, IBlockBehavior
+
+    public class Canpack : InteractiveEntityDevice<ComponentCanpack>
+    {
+        public Canpack() : base("Canpack", 1900) { }
+        /*public override Device Create(Point3 p)
+		{
+			var other = (Separator)base.Create(p);
+			return other;
+		}*/
+        public override void Simulate(ref int voltage)
+        {
+            if (Component.Powered = voltage >= 80)
+                voltage -= 80;
+        }
+        public override void OnBlockAdded(SubsystemTerrain subsystemTerrain, int value, int oldValue)
+        {
+            base.OnBlockAdded(subsystemTerrain, value, oldValue);
+            Component.Powered = false;
+        }
+        public override int GetFaceTextureSlot(int face, int value)
+        {
+            if (face == 4 || face == 5)
+                return 107;
+            switch (Terrain.ExtractData(value) >> 15)
+            {
+                case 0: return face == 0 ? 235 : 107;
+                case 1: return face == 1 ? 235 : 107;
+                case 2: return face == 2 ? 235 : 107;
+            }
+            return face == 3 ? 235 : 107;
+        }
+        public override BlockPlacementData GetPlacementValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, TerrainRaycastResult raycastResult)
+        {
+            return GetPlacementValue(3, componentMiner, value, raycastResult);
+        }
+        public override string GetDescription(int value)
+        {
+            return "罐装机是一种可以封装液体，变成液体罐头的机器";
+        }
+        public override Widget GetWidget(IInventory inventory, ComponentCanpack component)
+        {
+            return new CanpackWidget(inventory, component);
+        }
+    }
+
+    public class Electrobath : InteractiveEntityDevice<ComponentElectrobath>
+    {
+        public Electrobath() : base("Electrobath", 2500) { }
+        /*public override Device Create(Point3 p)
+		{
+			var other = (Separator)base.Create(p);
+			return other;
+		}*/
+        public override void Simulate(ref int voltage)
+        {
+            if (Component.Powered = voltage >= 200)
+                voltage -= 200;
+        }
+        public override void OnBlockAdded(SubsystemTerrain subsystemTerrain, int value, int oldValue)
+        {
+            base.OnBlockAdded(subsystemTerrain, value, oldValue);
+            Component.Powered = false;
+        }
+        public override int GetFaceTextureSlot(int face, int value)
+        {
+            return face == 4 || face == 5 ? 224 : 107;
+        }
+        public override BlockPlacementData GetPlacementValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, TerrainRaycastResult raycastResult)
+        {
+            return GetPlacementValue(4, componentMiner, value, raycastResult);
+        }
+        public override string GetDescription(int value)
+        {
+            return "电解机是一种可以将电解质进行氧化还原反应的机器，在冶炼一些活泼金属上有重要的作用";
+        }
+        public override Widget GetWidget(IInventory inventory, ComponentElectrobath component)
+        {
+            return new ElectrobathWidget(inventory, component);
+        }
+    }
+
+    public class AirBlower : FixedDevice, IBlockBehavior
 	{
 		public int Level = -1;
 		public AirBlower() : base(3000)

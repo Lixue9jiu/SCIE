@@ -99,7 +99,7 @@ namespace Game
 				new AirBlower(),
 				new WireDevice(),
 				new EFurnace(),
-				new Battery(12, "Models/Battery", "Battery", Matrix.CreateTranslation(0f, -0.5f, 0f) * Matrix.CreateTranslation(new Vector3(0.5f)), Matrix.CreateTranslation(11f / 16f, 4f / 256f, 0f), "CuZnBattery", "CuZnBattery"),
+                new Battery(12, "Models/Battery", "Battery", Matrix.CreateTranslation(0f, -0.5f, 0f) * Matrix.CreateTranslation(new Vector3(0.5f)), Matrix.CreateTranslation(11f / 16f, 4f / 256f, 0f), "CuZnBattery", "CuZnBattery"),
 				new Battery(12, "Models/Battery", "Battery", Matrix.CreateTranslation(0f, -0.5f, 0f) * Matrix.CreateTranslation(new Vector3(0.5f)), Matrix.CreateTranslation(11f / 16f, 4f / 256f, 0f), "Ag-Zn电池", "Ag-Zn电池"),
 				new Battery(12, "Models/Battery", "Battery", Matrix.CreateTranslation(0f, -0.5f, 0f) * Matrix.CreateTranslation(new Vector3(0.5f)), Matrix.CreateTranslation(11f / 16f, 4f / 256f, 0f), "Au-Zn电池", "Au-Zn电池"),
 				new Battery(12, "Models/Battery", "Battery", Matrix.CreateTranslation(0f, -0.5f, 0f) * Matrix.CreateTranslation(new Vector3(0.5f)), Matrix.CreateTranslation(-2f / 16f, 4f / 16f, 0f), "伏打电池", "伏打电池"),
@@ -112,7 +112,9 @@ namespace Game
 				new Pipe(6),
 				new Pipe(7),
 				new TEDC(),
-			};
+                new Canpack(),
+                new Electrobath(),
+            };
 			for (int i = 0; i < Devices.Length; i++)
 				IdTable.Add(Devices[i].GetCraftingId(), Index | i << 14);
 		}
