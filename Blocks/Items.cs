@@ -134,7 +134,6 @@ namespace Game
 			new Powder("苔粉", Color.DarkGreen),
 			new GranulatedItem("滑石", Color.White),
 			new Powder("滑石粉", Color.White),
-			new Powder("硅", Color.DarkGray),
 			new Sheet(Color.DarkGray)
 			{
 				DefaultDisplayName = "多晶硅",

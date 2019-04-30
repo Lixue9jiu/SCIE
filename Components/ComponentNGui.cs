@@ -24,12 +24,12 @@ namespace Game
 				if (!m_keyboardHelpMessageShown && (m_componentPlayer.PlayerData.InputDevice & WidgetInputDevice.Keyboard) != 0 && Time.PeriodicEvent(7.0, 0.0))
 				{
 					m_keyboardHelpMessageShown = true;
-					DisplaySmallMessage("Press H for keyboard controls\n(or see HELP)", true, true);
+					DisplaySmallMessage(Utils.Get("按 H 键查看键盘控制帮助\n(或看帮助)"), true, true);
 				}
 				else if (!m_gamepadHelpMessageShown && (m_componentPlayer.PlayerData.InputDevice & WidgetInputDevice.Gamepads) != 0 && Time.PeriodicEvent(7.0, 0.0))
 				{
 					m_gamepadHelpMessageShown = true;
-					DisplaySmallMessage("Press START/PAUSE for gamepad controls\n(or see HELP)", true, true);
+					DisplaySmallMessage(Utils.Get("按 START/PAUSE 键查看手柄控制帮助\n(或看帮助)"), true, true);
 				}
 			}
 			if (playerInput.KeyboardHelp)
@@ -81,7 +81,7 @@ namespace Game
 				m_componentPlayer.ComponentBody.IsSneaking = !isSneaking;
 				if (m_componentPlayer.ComponentBody.IsSneaking != isSneaking)
 				{
-					DisplaySmallMessage(m_componentPlayer.ComponentBody.IsSneaking ? "Sneak mode on" : "Sneak mode off", false, false);
+					DisplaySmallMessage(Utils.Get(m_componentPlayer.ComponentBody.IsSneaking ? "潜行模式：开" : "潜行模式：关"), false, false);
 				}
 			}
 			if (componentRider != null && (m_mountButtonWidget.IsClicked || playerInput.ToggleMount))
@@ -97,7 +97,7 @@ namespace Game
 				}
 				if (componentRider.Mount != null != flag)
 				{
-					DisplaySmallMessage(componentRider.Mount != null ? "Mounted" : "Dismounted", false, false);
+					DisplaySmallMessage(Utils.Get(componentRider.Mount != null ? "上马" : "下马"), false, false);
 				}
 			}
 			if ((m_editItemButton.IsClicked || playerInput.EditItem) && m_nearbyEditableCell.HasValue)
@@ -134,10 +134,10 @@ namespace Game
 					if (m_componentPlayer.ComponentLocomotion.IsCreativeFlyEnabled)
 					{
 						m_componentPlayer.ComponentLocomotion.JumpOrder = 1f;
-						DisplaySmallMessage("Fly mode on", false, false);
+						DisplaySmallMessage(Utils.Get("飞行模式：开"), false, false);
 					}
 					else
-						DisplaySmallMessage("Fly mode off", false, false);
+						DisplaySmallMessage(Utils.Get("飞行模式：关"), false, false);
 				}
 			}
 			if (m_cameraButtonWidget.IsClicked || playerInput.SwitchCameraMode)
@@ -146,42 +146,42 @@ namespace Game
 				if (view.ActiveCamera.GetType() == typeof(FppCamera))
 				{
 					view.ActiveCamera = view.FindCamera<TppCamera>(true);
-					DisplaySmallMessage("Third person camera", false, false);
+					DisplaySmallMessage(Utils.Get("第三人称视角"), false, false);
 				}
 				else if (view.ActiveCamera.GetType() == typeof(TppCamera))
 				{
 					view.ActiveCamera = view.FindCamera<OrbitCamera>(true);
-					DisplaySmallMessage("Orbit camera", false, false);
+					DisplaySmallMessage(Utils.Get("滑轨视角"), false, false);
 				}
 				else if (view.ActiveCamera.GetType() == typeof(OrbitCamera))
 				{
 					view.ActiveCamera = isCreative ? (Camera)new DebugCamera(view) : view.FindCamera<FixedCamera>(true);
-					DisplaySmallMessage(isCreative ? "Debug camera" : "Fixed camera", false, false);
+					DisplaySmallMessage(Utils.Get(isCreative ? "调试视角" : "固定视角"), false, false);
 				}
 				else if (isCreative && view.ActiveCamera.GetType() == typeof(FixedCamera))
 				{
 					view.ActiveCamera = new FlyCamera(view);
-					DisplaySmallMessage("Fly camera", false, false);
+					DisplaySmallMessage(Utils.Get("飞行视角"), false, false);
 				}
 				else if (view.ActiveCamera.GetType() == typeof(DebugCamera))
 				{
 					view.ActiveCamera = view.FindCamera<FixedCamera>(true);
-					DisplaySmallMessage("Fixed camera", false, false);
+					DisplaySmallMessage(Utils.Get("固定视角"), false, false);
 				}
 				else if (view.ActiveCamera.GetType() == typeof(FlyCamera))
 				{
 					view.ActiveCamera = new RandomJumpCamera(view);
-					DisplaySmallMessage("Random jump camera", false, false);
+					DisplaySmallMessage(Utils.Get("随机跳跃视角"), false, false);
 				}
 				else if (view.ActiveCamera.GetType() == typeof(RandomJumpCamera))
 				{
 					view.ActiveCamera = new StraightFlightCamera(view);
-					DisplaySmallMessage("Straight flight camera", false, false);
+					DisplaySmallMessage(Utils.Get("垂直飞行视角"), false, false);
 				}
 				else
 				{
 					view.ActiveCamera = view.FindCamera<FppCamera>(true);
-					DisplaySmallMessage("First person camera", false, false);
+					DisplaySmallMessage(Utils.Get("第一人称视角"), false, false);
 				}
 			}
 			if (m_photoButtonWidget.IsClicked || playerInput.TakeScreenshot)
@@ -189,7 +189,7 @@ namespace Game
 				ScreenCaptureManager.CapturePhoto();
 				Time.QueueFrameCountDelayedExecution(Time.FrameIndex + 1, delegate
 				{
-					DisplaySmallMessage("Photo saved in pictures library", false, false);
+					DisplaySmallMessage(Utils.Get("照片已保存到图片相册"), false, false);
 				});
 			}
 			if (isCreative && (m_lightningButtonWidget.IsClicked || playerInput.Lighting))
@@ -210,22 +210,22 @@ namespace Game
 				if (num6 == num10)
 				{
 					m_subsystemTimeOfDay.TimeOfDayOffset += num6;
-					DisplaySmallMessage("Dawn", false, false);
+					DisplaySmallMessage(Utils.Get("黎明"), false, false);
 				}
 				else if (num7 == num10)
 				{
 					m_subsystemTimeOfDay.TimeOfDayOffset += num7;
-					DisplaySmallMessage("Noon", false, false);
+					DisplaySmallMessage(Utils.Get("中午"), false, false);
 				}
 				else if (num8 == num10)
 				{
 					m_subsystemTimeOfDay.TimeOfDayOffset += num8;
-					DisplaySmallMessage("Dusk", false, false);
+					DisplaySmallMessage(Utils.Get("黄昏"), false, false);
 				}
 				else if (num9 == num10)
 				{
 					m_subsystemTimeOfDay.TimeOfDayOffset += num9;
-					DisplaySmallMessage("Midnight", false, false);
+					DisplaySmallMessage(Utils.Get("午夜"), false, false);
 				}
 			}
 			if (ModalPanelWidget != null)
@@ -300,6 +300,7 @@ namespace Game
 			}
 			return null;
 		}
+
 		public static ComponentMount GetMount(Component b)
 		{
 			return b.Entity.FindComponent<ComponentMount>();

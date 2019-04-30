@@ -37,7 +37,7 @@ namespace Game
 			CraftingId = craftingId;
 			DefaultTextureSlot = 213;
 			DefaultDisplayName = "Wire";
-			DefaultDescription = "Wire is an important component in electric device, especially electrical generator.";
+			DefaultDescription = "电线是电气设备中的重要组成部分，尤其是发电机。";
 		}
 
 		public override string GetCraftingId()

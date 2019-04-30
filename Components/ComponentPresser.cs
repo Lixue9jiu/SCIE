@@ -6,8 +6,6 @@ namespace Game
 {
 	public class ComponentPresser : ComponentMachine, IUpdateable
 	{
-		//protected readonly string[] m_matchedIngredients = new string[9];
-
 		protected string m_smeltingRecipe;
 
 		//protected int m_music;
@@ -34,7 +32,7 @@ namespace Game
 			if (m_updateSmeltingRecipe)
 			{
 				m_updateSmeltingRecipe = false;
-				string text = m_smeltingRecipe2 = FindSmeltingRecipe(1f);
+				string text = m_smeltingRecipe2 = FindSmeltingRecipe();
 				if (text != m_smeltingRecipe)
 				{
 					m_smeltingRecipe = text;
@@ -89,11 +87,11 @@ namespace Game
 		{
 			base.Load(valuesDictionary, idToEntityMap);
 			m_furnaceSize = SlotsCount - 1;
-			m_fireTimeRemaining = valuesDictionary.GetValue<float>("FireTimeRemaining");
-			HeatLevel = valuesDictionary.GetValue<float>("HeatLevel");
+			m_fireTimeRemaining = valuesDictionary.GetValue("FireTimeRemaining", 0f);
+			HeatLevel = valuesDictionary.GetValue("HeatLevel", 0f);
 		}
 
-		protected string FindSmeltingRecipe(float heatLevel)
+		protected string FindSmeltingRecipe()
 		{
 			string text = null;
 			for (int i = 0; i < m_furnaceSize; i++)

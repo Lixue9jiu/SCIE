@@ -6,8 +6,6 @@ namespace Game
 {
 	public class ComponentFireBox : ComponentMachine, IUpdateable
 	{
-		//protected readonly string[] m_matchedIngredients = new string[9];
-
 		protected string m_smeltingRecipe;
 
 		//protected int m_music;

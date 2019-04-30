@@ -15,6 +15,7 @@ namespace Chemistry
 		UV = 4,
 		H = 8,
 		E = 16,
+		I = 32,
 	}
 	/// <summary>
 	///     Represents a chemical equation.

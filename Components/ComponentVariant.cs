@@ -161,6 +161,7 @@ namespace Game
 	public class ComponentVariant : Component, IUpdateable
 	{
 		public Genome Genome;
+		public float[] OGenome;
 		public double LastTime;
 		public int Period;
 
@@ -383,59 +384,63 @@ namespace Game
 			var cu = Entity.FindComponent<ComponentUdder>();
 			if (cu != null)
 				cu.m_milkRegenerationTime = Genome[Trait.MilkRegenerationTime];
+			OGenome = Genome.DominantGenes;
 			//Hybridize();
 		}
 
 		public void Mutate()
 		{
+			Genome genome;
 			Trait t;
 			if (Period > 900)
 			{
-				Initialize();
+				genome = new Genome(OGenome, new float[OGenome.Length]);
 				float f = (float)LastTime / 6000;
 				if (f > 2.5f) goto a;
 				f = 1.5f - MathUtils.Cos(f * f / 2) / 2;
 				for (t = Trait.DayChaseRange; t <= Trait.NightChaseTime; t++)
 					if ((Utils.Random.Int() & 1) != 0)
-						Genome[t] *= Utils.Random.UniformFloat(1f, f);
+						genome[t] *= Utils.Random.UniformFloat(1f, f);
 				for (t = Trait.WalkSpeed; t < Trait.TurnSpeed; t++)
 					if ((Utils.Random.Int() & 1) != 0)
-						Genome[t] *= Utils.Random.UniformFloat(1f, f);
+						genome[t] *= Utils.Random.UniformFloat(1f, f);
 				for (t = Trait.AttackResilience; t <= Trait.FireResilience; t++)
 					if ((Utils.Random.Int() & 1) != 0)
-						Genome[t] *= Utils.Random.UniformFloat(1f, f);
+						genome[t] *= Utils.Random.UniformFloat(1f, f);
 				if ((Utils.Random.Int() & 1) != 0)
-					Genome[Trait.AttackPower] *= Utils.Random.UniformFloat(1f, f);
+					genome[Trait.AttackPower] *= Utils.Random.UniformFloat(1f, f);
 				if ((Utils.Random.Int() & 1) != 0)
-					Genome[Trait.FindPlayer_DayRange] *= Utils.Random.UniformFloat(1f, f);
+					genome[Trait.FindPlayer_DayRange] *= Utils.Random.UniformFloat(1f, f);
 				else
-					Genome[Trait.FindPlayer_NightRange] *= Utils.Random.UniformFloat(1f, f);
+					genome[Trait.FindPlayer_NightRange] *= Utils.Random.UniformFloat(1f, f);
 				if ((Utils.Random.Int() & 1) != 0)
-					Genome[Trait.DigSpeed] *= Utils.Random.UniformFloat(1f, f);
+					genome[Trait.DigSpeed] *= Utils.Random.UniformFloat(1f, f);
 				if ((Utils.Random.Int() & 1) != 0)
-					Genome[Trait.AirCapacity] *= Utils.Random.UniformFloat(1f, f);
+					genome[Trait.AirCapacity] *= Utils.Random.UniformFloat(1f, f);
 				goto a;
 			}
+			genome = Genome;
 			for (t = Trait.DayChaseRange; t <= Trait.NightChaseTime; t++)
 				if ((Utils.Random.Int() & 1) != 0)
-				Genome[t] *= Utils.Random.UniformFloat(1f, 1.1f);
+				genome[t] *= Utils.Random.UniformFloat(1f, 1.1f);
 			for (t = Trait.WalkSpeed; t < Trait.TurnSpeed; t++)
 				if ((Utils.Random.Int() & 1) != 0)
-					Genome[t] *= Utils.Random.UniformFloat(1f, 1.1f);
+					genome[t] *= Utils.Random.UniformFloat(1f, 1.1f);
 			for (t = Trait.AttackResilience; t <= Trait.FireResilience; t++)
 				if ((Utils.Random.Int() & 1) != 0)
-					Genome[t] *= Utils.Random.UniformFloat(1f, 1.08f);
+					genome[t] *= Utils.Random.UniformFloat(1f, 1.08f);
 			if ((Utils.Random.Int() & 1) != 0)
-				Genome[Trait.AttackPower] *= Utils.Random.UniformFloat(1f, 1.1f);
+				genome[Trait.AttackPower] *= Utils.Random.UniformFloat(1f, 1.1f);
 			if ((Utils.Random.Int() & 1) != 0)
-				Genome[Trait.FindPlayer_DayRange] *= Utils.Random.UniformFloat(1f, 1.08f);
+				genome[Trait.FindPlayer_DayRange] *= Utils.Random.UniformFloat(1f, 1.08f);
 			else
-				Genome[Trait.FindPlayer_NightRange] *= Utils.Random.UniformFloat(1f, 1.08f);
+				genome[Trait.FindPlayer_NightRange] *= Utils.Random.UniformFloat(1f, 1.08f);
 			if ((Utils.Random.Int() & 1) != 0)
-				Genome[Trait.DigSpeed] *= Utils.Random.UniformFloat(1f, 1.04f);
+				genome[Trait.DigSpeed] *= Utils.Random.UniformFloat(1f, 1.04f);
 			if ((Utils.Random.Int() & 1) != 0)
-				Genome[Trait.AirCapacity] *= Utils.Random.UniformFloat(1f, 1.04f);
+				genome[Trait.AirCapacity] *= Utils.Random.UniformFloat(1f, 1.04f);
 			a:
+			Genome = genome;
 			OnEntityAdded();
 		}
 

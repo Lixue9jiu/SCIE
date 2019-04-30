@@ -500,7 +500,7 @@ namespace Game
 		public BlockMesh m_standaloneBlockMesh = new BlockMesh();
 		public MeshItem(string description = null)
 		{
-			DefaultDescription = Utils.Get(description);
+			DefaultDescription = description;
 		}
 		public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
 		{

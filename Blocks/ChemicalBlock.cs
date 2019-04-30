@@ -171,7 +171,7 @@ namespace Game
 		{
 			DefaultDescription = DefaultDisplayName = (System = new DispersionSystem(name)).ToString();
 		}
-		public Cylinder(Matrix matrix, string name = "Cylinder") : base("Models/Cylinder", "obj1", matrix * Matrix.CreateTranslation(0.5f, 0f, 0.5f), Matrix.CreateTranslation(9f / 16f, -7f / 16f, 0f), null, name, 1.5f)
+		public Cylinder(Matrix matrix, string name = "钢瓶") : base("Models/Cylinder", "obj1", matrix * Matrix.CreateTranslation(0.5f, 0f, 0.5f), Matrix.CreateTranslation(9f / 16f, -7f / 16f, 0f), null, name, 1.5f)
 		{
 			DefaultDescription = DefaultDisplayName = Utils.Get(name);
 		}
