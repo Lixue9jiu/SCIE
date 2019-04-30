@@ -95,6 +95,7 @@
     <Compile Include="Components\ComponentElectricFurnace.cs" />
     <Compile Include="Components\ComponentElectrobath.cs" />
     <Compile Include="Components\ComponentEngineA.cs" />
+    <Compile Include="Components\ComponentFractionaltower.cs" />
     <Compile Include="Components\ComponentHearthFurnace.cs" />
     <Compile Include="Components\ComponentLargeCraftingTable.cs" />
     <Compile Include="Components\ComponentLiquidPump.cs" />
@@ -134,6 +135,7 @@
     <Compile Include="Widgets\ElectricFurnaceWidget.cs" />
     <Compile Include="Widgets\ElectrobathWidget.cs" />
     <Compile Include="Widgets\EngineAWidget.cs" />
+    <Compile Include="Widgets\FractionalTowerWidget.cs" />
     <Compile Include="Widgets\HearthFurnaceWidget.cs" />
     <Compile Include="Widgets\LiquidPumpWidget.cs" />
     <Compile Include="Widgets\MachineToolWidget.cs" />
