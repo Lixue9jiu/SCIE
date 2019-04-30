@@ -171,6 +171,12 @@
       <MemberComponentTemplate Name="BlastFurnace" Guid="a7a43844-dfe9-4331-900e-4c5f3ce25348" InheritanceParent="f91f7946-de35-4e94-ba6e-90cd55cd19d4">
         <Parameter Name="SlotsCount" Guid="3dfd5624-a4c0-4ad5-85f8-813ef26dae6b" Value="12" Type="int" />
       </MemberComponentTemplate>
+        </EntityTemplate>
+    <EntityTemplate Name="FractionalTower" Guid="a4a43567-d37d-455f-9a43-803260a915a9">
+      <MemberComponentTemplate Name="BlockEntity" Guid="f2d566cd-8233-4bee-ad3e-bde77df10654" InheritanceParent="09a85cba-d94e-41b8-9497-f20ed942c17e" />
+      <MemberComponentTemplate Name="BlastFurnace" Guid="a7a43955-dfe9-4331-900e-4c5f3ce25348" InheritanceParent="f91f7969-de35-4e94-ba6e-90cd55cd19d4">
+        <Parameter Name="SlotsCount" Guid="3dfd5624-a4d4-4ad5-85f8-813ef26dae6b" Value="6" Type="int" />
+      </MemberComponentTemplate>
     </EntityTemplate>
     <EntityTemplate Name="CokeOven" Guid="a4a43467-d37d-455f-9a43-803260a915a9">
       <MemberComponentTemplate Name="BlockEntity" Guid="f2d466cd-8233-4bee-ad3e-bde77df10654" InheritanceParent="09a85cba-d94e-41b8-9497-f20ed942c17e" />
@@ -429,6 +435,9 @@
     </ComponentTemplate>
     <ComponentTemplate Name="CokeOven" Description="A coke oven" Guid="f91f7957-de35-4e94-ba6e-90cd55cd19d4" InheritanceParent="81a44c6a-c30a-4f53-8d64-0c30aabab8f9">
       <Parameter Name="Class" Guid="fa4c65fe-1d3c-467e-81bc-1796f686be51" Value="Game.ComponentCoven" Type="string" />
+     </ComponentTemplate>
+    <ComponentTemplate Name="FractionalTower" Description="A fractional tower" Guid="f91f7969-de35-4e94-ba6e-90cd55cd19d4" InheritanceParent="81a44c6a-c30a-4f53-8d64-0c30aabab8f9">
+      <Parameter Name="Class" Guid="fa4c77fe-1d3c-467e-81bc-1796f686be51" Value="Game.ComponentFractionalTower" Type="string" />
     </ComponentTemplate>
     <ComponentTemplate Name="HearthFurnace" Description="A hearthfurnace" Guid="f91f7968-de35-4e94-ba6e-90cd55cd19d4" InheritanceParent="81a44c6a-c30a-4f53-8d64-0c30aabab8f9">
       <Parameter Name="Class" Guid="fa4c666e-1d3c-467e-81bc-1796f686be51" Value="Game.ComponentHearthFurnace" Type="string" />

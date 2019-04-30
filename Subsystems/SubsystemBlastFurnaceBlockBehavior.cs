@@ -9,7 +9,8 @@ namespace Game
 		{
 			BlastFurnaceBlock.Index,
 			CovenBlock.Index,
-			HearthFurnaceBlock.Index
+			HearthFurnaceBlock.Index,
+            FractionatingTowerBlock.Index
 		};
 
 		public override void OnBlockAdded(int value, int oldValue, int x, int y, int z)
@@ -20,7 +21,8 @@ namespace Game
 				case BlastFurnaceBlock.Index: name = "BlastFurnace"; break;
 				case CovenBlock.Index: name = "CokeOven"; break;
 				case HearthFurnaceBlock.Index: name = "HearthFurnace"; break;
-				default: return;
+                case FractionatingTowerBlock.Index: name = "FractionalTower"; break;
+                default: return;
 			}
 			var vd = new ValuesDictionary();
 			vd.PopulateFromDatabaseObject(Project.GameDatabase.Database.FindDatabaseObject(name, Project.GameDatabase.EntityTemplateType, true));
@@ -50,7 +52,10 @@ namespace Game
 				case HearthFurnaceBlock.Index:
 					componentMiner.ComponentPlayer.ComponentGui.ModalPanelWidget = new HearthFurnaceWidget(componentMiner.Inventory, blockEntity.Entity.FindComponent<ComponentHearthFurnace>(true));
 					break;
-				default: return false;
+                case FractionatingTowerBlock.Index:
+                    componentMiner.ComponentPlayer.ComponentGui.ModalPanelWidget = new FractionalTowerWidget(componentMiner.Inventory, blockEntity.Entity.FindComponent<ComponentFractionalTower>(true));
+                    break;
+                default: return false;
 			}
 			AudioManager.PlaySound("Audio/UI/ButtonClick", 1f, 0f, 0f);
 			return true;
