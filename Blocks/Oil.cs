@@ -9,6 +9,9 @@ public class RottenMeatBlock : FluidBlock
 	{
 		RottenMeat,
 		Oil,
+        LightOil,
+        HeavyOil,
+        Gasoline,
 		OilBucket,
 		Updraft
 	}
@@ -48,7 +51,19 @@ public class RottenMeatBlock : FluidBlock
 				color = new Color(30, 30, 30);
 				BlocksManager.DrawCubeBlock(primitivesRenderer, Terrain.ReplaceContents(value, 18), new Vector3(size), ref matrix, color, color, environmentData);
 				return;
-			case Type.OilBucket:
+            case Type.LightOil:
+                color = new Color(184, 134, 11);
+                BlocksManager.DrawCubeBlock(primitivesRenderer, Terrain.ReplaceContents(value, 18), new Vector3(size), ref matrix, color, color, environmentData);
+                return;
+            case Type.HeavyOil:
+                color = new Color(160, 82, 45);
+                BlocksManager.DrawCubeBlock(primitivesRenderer, Terrain.ReplaceContents(value, 18), new Vector3(size), ref matrix, color, color, environmentData);
+                return;
+            case Type.Gasoline:
+                color = new Color(255, 231, 186);
+                BlocksManager.DrawCubeBlock(primitivesRenderer, Terrain.ReplaceContents(value, 18), new Vector3(size), ref matrix, color, color, environmentData);
+                return;
+            case Type.OilBucket:
 				BlocksManager.DrawMeshBlock(primitivesRenderer, StandaloneBlockMesh, color, 2f * size, ref matrix, environmentData);
 				return;
 		}
@@ -57,7 +72,13 @@ public class RottenMeatBlock : FluidBlock
 	{
 		if (GetType(value) == Type.Oil)
 			BlocksManager.FluidBlocks[WaterBlock.Index].GenerateFluidTerrainVertices(generator, value, x, y, z, new Color(30, 30, 30), new Color(30, 30, 30), geometry.OpaqueSubsetsByFace);
-	}
+        if (GetType(value) == Type.LightOil)
+            BlocksManager.FluidBlocks[WaterBlock.Index].GenerateFluidTerrainVertices(generator, value, x, y, z, new Color(184, 134, 11), new Color(184, 134, 11), geometry.OpaqueSubsetsByFace);
+        if (GetType(value) == Type.HeavyOil)
+            BlocksManager.FluidBlocks[WaterBlock.Index].GenerateFluidTerrainVertices(generator, value, x, y, z, new Color(160, 82, 45), new Color(160, 82, 45), geometry.OpaqueSubsetsByFace);
+        if (GetType(value) == Type.Gasoline)
+            BlocksManager.FluidBlocks[WaterBlock.Index].GenerateFluidTerrainVertices(generator, value, x, y, z, new Color(255, 231, 186), new Color(255, 231, 186), geometry.OpaqueSubsetsByFace);
+    }
 	public override BlockPlacementData GetPlacementValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, TerrainRaycastResult raycastResult)
 	{
 		return new BlockPlacementData
