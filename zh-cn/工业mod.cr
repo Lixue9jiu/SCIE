@@ -1,4 +1,4 @@
-<IndustrialMod>
+﻿<IndustrialMod>
 <Recipe Result="IronIngotBlock" ResultCount="1" new-RequiredHeatLevel="1500" a="ironorechunk:0" Description="冶炼铁矿石以获得铁" />
 <Recipe Result="CopperIngotBlock" ResultCount="1" new-RequiredHeatLevel="1000" a="malachitechunk:0" Description="冶炼铜矿石以获得铜" />
 <Recipe Result="GermaniumChunkBlock" ResultCount="1" new-RequiredHeatLevel="900" a="germaniumorechunk:0" Description="冶炼锗矿石以获得锗晶体" />
@@ -316,13 +316,15 @@
       "a a"
       "aa"
     </Recipe>
-    <Recipe Result="MetalBlock:0" ResultCount="3" RequiredHeatLevel="1400" a="metalblock:96" Description="将钢锻造成基本机箱">
-      "aa"
+     <Recipe Result="MetalBlock:0" ResultCount="1" RequiredHeatLevel="0" a="SteelIngot" b="ironhammer" Description="结合许多钢锭用敲击来获得基本的机箱">
+      "aaa"
+      "aba"
+      "aaa"
     </Recipe>
     <Recipe Result="MetalBlock:32" ResultCount="1" RequiredHeatLevel="0" a="SteelPlate" b="CopperPlate" Description="结合许多钢板来获得高级机箱">
       "aaaa"
-      "abba"
-      "abba"
+      "b  b"
+      "b  b"
       "aaaa"
     </Recipe>
     <Recipe Result="MetalBlock:64" ResultCount="1" RequiredHeatLevel="0" a="RefractoryBrick" Description="结合许多防火砖来获得防火砖墙">

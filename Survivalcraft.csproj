@@ -155,7 +155,6 @@
     <Compile Include="Subsystems\SubsystemFireBoxBlockBehavior.cs" />
     <Compile Include="Components\ComponentBoatI.cs" />
     <Compile Include="Components\ComponentEngine.cs" />
-    <Compile Include="Components\ComponentEngine2.cs" />
     <Compile Include="Components\ComponentEngineH.cs" />
     <Compile Include="Components\ComponentFurnaceN.cs" />
     <Compile Include="Components\ComponentNGui.cs" />
@@ -184,7 +183,6 @@
     <Compile Include="Subsystems\SubsystemNRotBlockBehavior.cs" />
     <Compile Include="Subsystems\SubsystemNSoilBlockBehavior.cs" />
     <Compile Include="Blocks\TankBlock.cs" />
-    <Compile Include="Widgets\TrainWidget.cs" />
     <Compile Include="Chemistry\Atom.cs" />
   </ItemGroup>
   <ItemGroup />
