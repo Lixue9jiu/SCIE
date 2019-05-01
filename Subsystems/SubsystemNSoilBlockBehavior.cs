@@ -16,7 +16,7 @@ namespace Game
 						int cellValueFast = SubsystemTerrain.Terrain.GetCellValueFast(cellFace.X + i, cellFace.Y, cellFace.Z + j);
 						if (Terrain.ExtractContents(cellValueFast) == 168)
 						{
-							SubsystemTerrain.ChangeCell(cellFace.X + i, cellFace.Y, cellFace.Z + j, 168 | SoilBlock.SetNitrogen(Terrain.ExtractData(cellValueFast), 3) << 14, true);
+							SubsystemTerrain.ChangeCell(cellFace.X + i, cellFace.Y, cellFace.Z + j, 168 | SoilBlock.SetNitrogen(Terrain.ExtractData(cellValueFast), 3) << 14);
 							worldItem.ToRemove = true;
 						}
 					}
@@ -54,7 +54,7 @@ namespace Game
 				}
 				if (value != 0)
 				{
-					SubsystemTerrain.ChangeCell(cellFace.X, cellFace.Y + 1, cellFace.Z, value, true);
+					SubsystemTerrain.ChangeCell(cellFace.X, cellFace.Y + 1, cellFace.Z, value);
 					worldItem.ToRemove = true;
 				}
 			}

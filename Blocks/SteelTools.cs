@@ -230,7 +230,7 @@ namespace Game
 						ResultCount = 1,
 						ResultValue = Terrain.MakeBlockValue(index, 0, SetColor(Terrain.ExtractData(num3), 0)),
 						RemainsCount = 1,
-						RemainsValue = BlocksManager.DamageItem(Terrain.MakeBlockValue(128), BlocksManager.Blocks[128].GetDamage(num2) + 1),
+						RemainsValue = BlocksManager.DamageItem(128, BlocksManager.Blocks[128].GetDamage(num2) + 1),
 						RequiredHeatLevel = 1f,
 						Description = "Undye tool",
 						Ingredients = (string[])ingredients.Clone()

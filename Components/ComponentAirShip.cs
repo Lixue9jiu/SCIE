@@ -4,7 +4,7 @@ using TemplatesDatabase;
 
 namespace Game
 {
-	public class ComponentAirShip : ComponentBoatI, IUpdateable
+	public class ComponentAirship : ComponentBoatI, IUpdateable
 	{
 		protected ComponentEngineA componentEngine;
 

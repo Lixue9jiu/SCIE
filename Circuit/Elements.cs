@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Runtime.CompilerServices;
+using System.Runtime.Serialization;
 using Engine;
 using Engine.Graphics;
 using GameEntitySystem;
@@ -54,11 +55,6 @@ namespace Game
 		{
 			Type = type;
 		}
-		/*protected Element(SerializationInfo info, StreamingContext context)
-		{
-			Type = (ElementType)info.GetInt32("Type");
-			Next = (Element[])info.GetValue("Next", typeof(DynamicArray<Element>));
-		}*/
 		public virtual void Simulate(ref int value)
 		{
 		}
@@ -84,15 +80,7 @@ namespace Game
 		{
 			return other != null && other.Type == Type && Next == null ? other.Next == null : GetCraftingId().Equals(other.GetCraftingId());
 		}
-		/*public virtual void GetObjectData(SerializationInfo info, StreamingContext context)
-		{
-			info.AddValue("Type", (int)Type);
-			info.AddValue("Next", Next, typeof(DynamicArray<Element>));
-		}
-		public override string ToString()
-		{
-			return Type.ToString();
-		}*/
+		//public override string ToString() => Type.ToString();
 		#endregion
 	}
 	//[Serializable]
@@ -123,60 +111,36 @@ namespace Game
 			color = Color.LightGray * SubsystemPalette.GetColor(environmentData, PaintableItemBlock.GetColor(Terrain.ExtractData(value)));
 			BlocksManager.DrawCubeBlock(primitivesRenderer, value, new Vector3(size), ref matrix, color, color, environmentData);
 		}
-		/*protected Device(SerializationInfo info, StreamingContext context) : base(info, context)
-		{
-			Point = (Point3)info.GetValue("Point", typeof(Point3));
-		}*/
-		public override bool Equals(object obj)
-		{
-			return Equals(obj as Device);
-		}
-		public bool Equals(Device other)
-		{
-			return base.Equals(other) && Point.Equals(other.Point);
-		}
+		public override bool Equals(object obj) => Equals(obj as Device);
+		public bool Equals(Device other) => base.Equals(other) && Point.Equals(other.Point);
 		public override int GetHashCode()
 		{
 			return Point.X | Point.Z << 10 | (base.GetHashCode() ^ Point.Y) << 20;
 		}
-		/*public override void GetObjectData(SerializationInfo info, StreamingContext context)
-		{
-			base.GetObjectData(info, context);
-			info.AddValue("Point", Point, typeof(Point3));
-		}*/
 	}
 	[Serializable]
 	public abstract class FixedDevice : Device, IEquatable<FixedDevice>
 	{
 		public readonly int Resistance;
-		protected FixedDevice(int resistance)
+		public string DefaultDisplayName;
+		public string DefaultDescription;
+
+		protected FixedDevice(string name, string description = "", int resistance = 1000)
 		{
-			//if (resistance < 1)
-				//throw new ArgumentOutOfRangeException("resistance", resistance, "Device has Resistance < 1");
+			//if (resistance < 1) throw new ArgumentOutOfRangeException("resistance", resistance, "Device has Resistance < 1");
+			DefaultDisplayName = name;
+			DefaultDescription = description;
 			Resistance = resistance;
 		}
-		/*public FixedDevice(SerializationInfo info, StreamingContext context) : base(info, context)
-		{
-			Resistance = info.GetInt32("Resistance");
-		}*/
-		public override int GetWeight(int value)
-		{
-			return Resistance;
-		}
+		public override string GetDisplayName(SubsystemTerrain subsystemTerrain, int value) => DefaultDisplayName;
+		public override string GetDescription(int value) => DefaultDescription;
+		public override int GetWeight(int value) => Resistance;
 		public bool Equals(FixedDevice other)
 		{
 			return other != null && other.Type == Type && other.Resistance == Resistance && other.GetCraftingId() == GetCraftingId();
 		}
-		public override bool Equals(object obj)
-		{
-			return Equals(obj as FixedDevice);
-		}
+		public override bool Equals(object obj) => Equals(obj as FixedDevice);
 		public override int GetHashCode() => base.GetHashCode() ^ Resistance;
-		/*public override void GetObjectData(SerializationInfo info, StreamingContext context)
-		{
-			base.GetObjectData(info, context);
-			info.AddValue("Resistance", Resistance);
-		}*/
 		public static BlockPlacementData GetPlacementValue(int index, ComponentMiner componentMiner, int value, TerrainRaycastResult raycastResult)
 		{
 			return new BlockPlacementData
@@ -192,29 +156,24 @@ namespace Game
 		public string DefaultDescription;
 		public readonly int Voltage;
 
-		protected DeviceBlock(int voltage, ElementType type = ElementType.Device | ElementType.Connector) : base(type)
+		protected DeviceBlock(int voltage, string name = "", string description = "", ElementType type = ElementType.Device | ElementType.Connector) : base(type)
 		{
+			DefaultDisplayName = name;
+			DefaultDescription = description;
 			Voltage = voltage;
 		}
-		public override string GetCraftingId() => DefaultDisplayName;
 		public override string GetDisplayName(SubsystemTerrain subsystemTerrain, int value) => DefaultDisplayName;
 		public override string GetDescription(int value) => DefaultDescription;
-		/*public int CompareTo(DeviceBlock other)
-		{
-			return Voltage.CompareTo(other.Voltage);
-		}*/
-		public bool Equals(DeviceBlock other)
-		{
-			return base.Equals(other) && Voltage == other.Voltage;
-		}
+		// public int CompareTo(DeviceBlock other) => Voltage.CompareTo(other.Voltage);
+		public bool Equals(DeviceBlock other) => base.Equals(other) && Voltage == other.Voltage;
 	}
-	public class EntityDevice<T> : FixedDevice, IBlockBehavior where T : Component
+	public class EntityDevice<T> : FixedDevice, IBlockBehavior, IItemAcceptableBlock where T : Component
 	{
 		public T Component;
 		public string Name;
-		public EntityDevice(string name, int resistance) : base(resistance)
+		public EntityDevice(string ename, string name, string description = "") : base(name, description)
 		{
-			Name = name;
+			Name = ename;
 		}
 		public override Device Create(Point3 p)
 		{
@@ -222,10 +181,6 @@ namespace Game
 			device.Component = Utils.GetBlockEntity(p)?.Entity.FindComponent<T>(true);
 			device.Name = Name;
 			return device;
-		}
-		public override string GetDisplayName(SubsystemTerrain subsystemTerrain, int value)
-		{
-			return Name;
 		}
 		public virtual void OnBlockAdded(SubsystemTerrain subsystemTerrain, int value, int oldValue)
 		{
@@ -246,10 +201,11 @@ namespace Game
 				i.Current.DropAllItems(position);
 			subsystemTerrain.Project.RemoveEntity(blockEntity.Entity, true);
 		}
+		public void OnHitByProjectile(CellFace cellFace, WorldItem worldItem) => Utils.OnHitByProjectile(cellFace, worldItem);
 	}
-	public abstract class InteractiveEntityDevice<T> : EntityDevice<T>, IInteractiveBlock, IItemAcceptableBlock where T : Component
+	public abstract class InteractiveEntityDevice<T> : EntityDevice<T>, IInteractiveBlock where T : Component
 	{
-		protected InteractiveEntityDevice(string name, int resistance) : base(name, resistance) { }
+		protected InteractiveEntityDevice(string ename, string name, string description) : base(ename, name, description) { }
 
 		public virtual bool OnInteract(TerrainRaycastResult raycastResult, ComponentMiner componentMiner)
 		{
@@ -259,10 +215,6 @@ namespace Game
 			componentMiner.ComponentPlayer.ComponentGui.ModalPanelWidget = GetWidget(componentMiner.Inventory, blockEntity.Entity.FindComponent<T>(true));
 			AudioManager.PlaySound("Audio/UI/ButtonClick", 1f, 0f, 0f);
 			return true;
-		}
-		public virtual void OnHitByProjectile(CellFace cellFace, WorldItem worldItem)
-		{
-			Utils.OnHitByProjectile(cellFace, worldItem);
 		}
 		public abstract Widget GetWidget(IInventory inventory, T component);
 	}

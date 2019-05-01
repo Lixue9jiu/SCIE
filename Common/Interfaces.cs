@@ -42,6 +42,7 @@ namespace Game
 		string GetDisplayName(SubsystemTerrain subsystemTerrain, int value);
 		string GetDescription(int value);
 		string GetCategory(int value);
+		string GetCraftingId();
 		int GetFaceTextureSlot(int face, int value);
 		void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData);
 		Vector3 GetIconBlockOffset(int value, DrawBlockEnvironmentData environmentData);

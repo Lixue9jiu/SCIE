@@ -20,7 +20,7 @@ namespace Game
 			return new StoveWidget(inventory, component, "Widgets/EngineWidget");
 		}
 	}
-	public class SubsystemEngineHBlockBehavior : SubsystemFurnaceBlockBehavior<ComponentEngineH>
+	public class SubsystemEngineHBlockBehavior : SubsystemFurnaceBlockBehavior<ComponentMachine>
 	{
 		public override int[] HandledBlocks => new[] { EngineHBlock.Index };
 
@@ -33,9 +33,9 @@ namespace Game
 			return (Terrain.ExtractData(Utils.Terrain.GetCellValueFast(raycastResult.CellFace.X, raycastResult.CellFace.Y, raycastResult.CellFace.Z)) & 1024) == 0 && base.OnInteract(raycastResult, componentMiner);
 		}
 
-		public override Widget GetWidget(IInventory inventory, ComponentEngineH component)
+		public override Widget GetWidget(IInventory inventory, ComponentMachine component)
 		{
-			return new FireBoxWidget<ComponentEngineH>(inventory, component, "Widgets/EngineHWidget");
+			return new FireBoxWidget<ComponentMachine>(inventory, component, "Widgets/EngineHWidget");
 		}
 	}
 }

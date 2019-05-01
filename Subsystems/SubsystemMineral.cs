@@ -162,7 +162,7 @@ namespace Game
 				OilPocketCells[i] = new TerrainBrush.Cell[j = cells.Length];
 				while (j-- != 0)
 				{
-					if (cells[j].Value != 0)
+					if ((cells[j].Value & random.Int()) != 0)
 					{
 						OilPocketCells[i][j] = cells[j];
 						OilPocketCells[i][j].Value = RottenMeatBlock.Index | 1 << 4 << 14;
@@ -294,7 +294,7 @@ namespace Game
 					for (i = 0; i < list.Count; i++)
 					{
 						Point3 point = list[i].Offset;
-						SubsystemTerrain.ChangeCell(point.X + x, point.Y + y, point.Z + z, 0, true);
+						SubsystemTerrain.ChangeCell(point.X + x, point.Y + y, point.Z + z, 0);
 					}
 			}
 		}

@@ -6,8 +6,6 @@ using System.Globalization;
 using System.Xml.Linq;
 using XmlUtilities;
 using System;
-using System.IO;
-using Chemistry;
 using System.Threading.Tasks;
 using Engine.Media;
 using Engine.Audio;
@@ -498,7 +496,7 @@ namespace Game
 	public class MeshItem : BlockItem
 	{
 		public BlockMesh m_standaloneBlockMesh = new BlockMesh();
-		public MeshItem(string description = null)
+		public MeshItem(string description = "")
 		{
 			DefaultDescription = description;
 		}

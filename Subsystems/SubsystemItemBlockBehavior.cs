@@ -20,8 +20,6 @@ namespace Game
 		public override bool OnUse(Vector3 start, Vector3 direction, ComponentMiner componentMiner)
 		{
 			int activeBlockValue = componentMiner.ActiveBlockValue;
-			if (!(BlocksManager.Blocks[Terrain.ExtractContents(activeBlockValue)] is ItemBlock itemblock))
-				return false;
 			var result = componentMiner.PickTerrainForDigging(start, direction);
 			Entity entity;
 			Vector3 position;
@@ -125,7 +123,7 @@ namespace Game
 					entity.FindComponent<ComponentFrame>(true).Rotation = Quaternion.CreateFromAxisAngle(Vector3.UnitY, m_random.UniformFloat(0f, 6.283185f));
 					goto put;
 				}
-				else if (itemblock.GetItem(ref activeBlockValue) is Mine mine)
+				else if (BlocksManager.Blocks[Terrain.ExtractContents(activeBlockValue)] is ItemBlock itemblock && itemblock.GetItem(ref activeBlockValue) is Mine mine)
 				{
 					entity = DatabaseManager.CreateEntity(Project, "Mine", new ValuesDictionary
 					{
@@ -138,36 +136,33 @@ namespace Game
 					goto put;
 				}
 			}
-			else
+			IInventory inventory = componentMiner.Inventory;
+			TerrainRaycastResult? result2;
+			if (Terrain.ExtractContents(activeBlockValue) == 90)
 			{
-				IInventory inventory = componentMiner.Inventory;
-				TerrainRaycastResult? result2;
-				if (Terrain.ExtractContents(activeBlockValue) == 90)
+				result2 = componentMiner.PickTerrainForGathering(start, direction);
+				if (result2.HasValue)
 				{
-					result2 = componentMiner.PickTerrainForGathering(start, direction);
-					if (result2.HasValue)
-					{
-						CellFace cellFace = result2.Value.CellFace;
-						int cellValue = Terrain.ReplaceLight(Utils.Terrain.GetCellValue(cellFace.X, cellFace.Y, cellFace.Z), 0);
-						if (cellValue != (RottenMeatBlock.Index | 1 << 4 << 14))
-							return false;
-						inventory.RemoveSlotItems(inventory.ActiveSlotIndex, inventory.GetSlotCount(inventory.ActiveSlotIndex));
-						if (inventory.GetSlotCount(inventory.ActiveSlotIndex) == 0)
-							inventory.AddSlotItems(inventory.ActiveSlotIndex, RottenMeatBlock.Index | 2 << 4 << 14, 1);
-						Utils.SubsystemTerrain.DestroyCell(0, cellFace.X, cellFace.Y, cellFace.Z, 0, false, false);
-						return true;
-					}
+					CellFace cellFace = result2.Value.CellFace;
+					int cellValue = Terrain.ReplaceLight(Utils.Terrain.GetCellValue(cellFace.X, cellFace.Y, cellFace.Z), 0);
+					if (cellValue != (RottenMeatBlock.Index | 1 << 4 << 14))
+						return false;
+					inventory.RemoveSlotItems(inventory.ActiveSlotIndex, inventory.GetSlotCount(inventory.ActiveSlotIndex));
+					if (inventory.GetSlotCount(inventory.ActiveSlotIndex) == 0)
+						inventory.AddSlotItems(inventory.ActiveSlotIndex, RottenMeatBlock.Index | 2 << 4 << 14, 1);
+					Utils.SubsystemTerrain.DestroyCell(0, cellFace.X, cellFace.Y, cellFace.Z, 0, false, false);
+					return true;
 				}
-				if (activeBlockValue == (RottenMeatBlock.Index | 2 << 4 << 14))
+			}
+			if (activeBlockValue == (RottenMeatBlock.Index | 2 << 4 << 14))
+			{
+				result2 = componentMiner.PickTerrainForInteraction(start, direction);
+				if (result2.HasValue && componentMiner.Place(result2.Value, RottenMeatBlock.Index | 1 << 4 << 14))
 				{
-					result2 = componentMiner.PickTerrainForInteraction(start, direction);
-					if (result2.HasValue && componentMiner.Place(result2.Value, RottenMeatBlock.Index | 1 << 4 << 14))
-					{
-						inventory.RemoveSlotItems(inventory.ActiveSlotIndex, 1);
-						if (inventory.GetSlotCount(inventory.ActiveSlotIndex) == 0)
-							inventory.AddSlotItems(inventory.ActiveSlotIndex, Terrain.ReplaceContents(activeBlockValue, 90), 1);
-						return true;
-					}
+					inventory.RemoveSlotItems(inventory.ActiveSlotIndex, 1);
+					if (inventory.GetSlotCount(inventory.ActiveSlotIndex) == 0)
+						inventory.AddSlotItems(inventory.ActiveSlotIndex, Terrain.ReplaceContents(activeBlockValue, 90), 1);
+					return true;
 				}
 			}
 			return false;

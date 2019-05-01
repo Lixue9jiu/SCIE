@@ -171,22 +171,22 @@ namespace Game
 				var vector = Vector3.Normalize(View.ActiveCamera.ScreenToWorld(new Vector3(playerInput.Hit.Value, 1f), Matrix.Identity) - viewPosition3);
 				TerrainRaycastResult? nullable3 = ComponentMiner.PickTerrainForInteraction(viewPosition3, vector);
 				BodyRaycastResult? nullable4 = ComponentMiner.PickBody(viewPosition3, vector);
-				if (nullable4.HasValue)
+				if (nullable4.HasValue && (!nullable3.HasValue || nullable3.Value.Distance > nullable4.Value.Distance))
 				{
-					Widget widget = ComponentNGui.OpenEntity(ComponentMiner.Inventory, nullable4.Value.ComponentBody.Entity);
-					if (widget != null)
+					if (ComponentMiner.ActiveBlockValue == 0)
 					{
-						ComponentGui.ModalPanelWidget = widget;
-						AudioManager.PlaySound("Audio/UI/ButtonClick", 1f, 0f, 0f);
-						return;
+						Widget widget = ComponentNGui.OpenEntity(ComponentMiner.Inventory, nullable4.Value.ComponentBody.Entity);
+						if (widget != null)
+						{
+							ComponentGui.ModalPanelWidget = widget;
+							AudioManager.PlaySound("Audio/UI/ButtonClick", 1f, 0f, 0f);
+							return;
+						}
 					}
-					if (!nullable3.HasValue || nullable3.Value.Distance > nullable4.Value.Distance)
-					{
-						flag = true;
-						m_isDigBlocked = true;
-						if (Vector3.Distance(viewPosition3 + vector * nullable4.Value.Distance, ComponentCreatureModel.EyePosition) <= 2f)
-							ComponentMiner.Hit(nullable4.Value.ComponentBody, vector);
-					}
+					flag = true;
+					m_isDigBlocked = true;
+					if (Vector3.Distance(viewPosition3 + vector * nullable4.Value.Distance, ComponentCreatureModel.EyePosition) <= 2f)
+						ComponentMiner.Hit(nullable4.Value.ComponentBody, vector);
 				}
 			}
 			if (playerInput.Dig.HasValue && !flag && !m_isDigBlocked && m_subsystemTime.GameTime - m_lastActionTime > 0.33000001311302185)

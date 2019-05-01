@@ -15,7 +15,7 @@ namespace Game
 				Check(x, y, z + 1) ||
 				Check(x, y, z - 1)))
 				value |= FurnaceNBlock.SetHeatLevel(Terrain.ExtractData(Utils.Terrain.GetCellValue(x, y, z)), 1) << 14;
-			Utils.SubsystemTerrain.ChangeCell(x, y, z, value, true);
+			Utils.SubsystemTerrain.ChangeCell(x, y, z, value);
 		}
 
 		public override void OnNeighborBlockChanged(int x, int y, int z, int neighborX, int neighborY, int neighborZ)

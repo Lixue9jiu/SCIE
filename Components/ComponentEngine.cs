@@ -117,7 +117,7 @@ namespace Game
 				if (chunk != null && chunk.State == TerrainChunkState.Valid)
 				{
 					int cellValue = chunk.GetCellValueFast(Coordinates.X & 15, Coordinates.Y, Coordinates.Z & 15);
-					Utils.SubsystemTerrain.ChangeCell(Coordinates.X, Coordinates.Y, Coordinates.Z, Terrain.ReplaceData(cellValue, FurnaceNBlock.SetHeatLevel(Terrain.ExtractData(cellValue), (HeatLevel > 0f) ? 1 : 0)), true);
+					Utils.SubsystemTerrain.ChangeCell(Coordinates.X, Coordinates.Y, Coordinates.Z, Terrain.ReplaceData(cellValue, FurnaceNBlock.SetHeatLevel(Terrain.ExtractData(cellValue), HeatLevel > 0f ? 1 : 0)));
 				}
 			}
 		}

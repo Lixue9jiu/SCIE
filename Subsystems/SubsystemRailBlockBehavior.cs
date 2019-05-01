@@ -31,7 +31,6 @@ namespace Game
 
 		public override void OnBlockAdded(int value, int oldValue, int x, int y, int z)
 		{
-			base.OnBlockAdded(value, oldValue, x, y, z);
 			UpdateCornerState(value, x, y, z, 1);
 		}
 

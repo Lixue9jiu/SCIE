@@ -101,10 +101,10 @@ namespace Game
 				new EFurnace(),
                 new Canpack(),
                 new Electrobath(),
-                new Battery(12, "Models/Battery", "Battery", Matrix.CreateTranslation(0f, -0.5f, 0f) * Matrix.CreateTranslation(new Vector3(0.5f)), Matrix.CreateTranslation(11f / 16f, 4f / 256f, 0f), "CuZnBattery", "CuZnBattery"),
-				new Battery(12, "Models/Battery", "Battery", Matrix.CreateTranslation(0f, -0.5f, 0f) * Matrix.CreateTranslation(new Vector3(0.5f)), Matrix.CreateTranslation(11f / 16f, 4f / 256f, 0f), "Ag-Zn电池", "Ag-Zn电池"),
-				new Battery(12, "Models/Battery", "Battery", Matrix.CreateTranslation(0f, -0.5f, 0f) * Matrix.CreateTranslation(new Vector3(0.5f)), Matrix.CreateTranslation(11f / 16f, 4f / 256f, 0f), "Au-Zn电池", "Au-Zn电池"),
-				new Battery(12, "Models/Battery", "Battery", Matrix.CreateTranslation(0f, -0.5f, 0f) * Matrix.CreateTranslation(new Vector3(0.5f)), Matrix.CreateTranslation(-2f / 16f, 4f / 16f, 0f), "伏打电池", "伏打电池"),
+                new Battery(Matrix.CreateTranslation(0f, -0.5f, 0f) * Matrix.CreateTranslation(new Vector3(0.5f)), Matrix.CreateTranslation(11f / 16f, 4f / 256f, 0f), "Cu-Zn电池", "Cu-Zn电池", "CuZnBattery"),
+				new Battery(Matrix.CreateTranslation(0f, -0.5f, 0f) * Matrix.CreateTranslation(new Vector3(0.5f)), Matrix.CreateTranslation(11f / 16f, 4f / 256f, 0f), "Ag-Zn电池", "Ag-Zn电池", "AgZnBattery"),
+				new Battery(Matrix.CreateTranslation(0f, -0.5f, 0f) * Matrix.CreateTranslation(new Vector3(0.5f)), Matrix.CreateTranslation(11f / 16f, 4f / 256f, 0f), "Au-Zn电池", "Au-Zn电池", "AuZnBattery"),
+				new Battery(Matrix.CreateTranslation(0f, -0.5f, 0f) * Matrix.CreateTranslation(new Vector3(0.5f)), Matrix.CreateTranslation(-2f / 16f, 4f / 16f, 0f), "伏打电池", "伏打电池", "VBattery"),
 				new Pipe(),
 				new Pipe(1),
 				new Pipe(2),
@@ -114,7 +114,6 @@ namespace Game
 				new Pipe(6),
 				new Pipe(7),
 				new TEDC(),
-               
             };
 			for (int i = 0; i < Devices.Length; i++)
 				IdTable.Add(Devices[i].GetCraftingId(), Index | i << 14);
@@ -130,7 +129,7 @@ namespace Game
 					list.Add(Paint(null, value, j));
 				value += 1 << 14;
 			}
-			for (i = 11; i < 18; i++)
+			for (i = 13; i < 20; i++)
 			{
 				for (j = 0; j < (16 << 3); j++)
 				{

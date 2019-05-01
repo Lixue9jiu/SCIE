@@ -9,15 +9,15 @@ public class RottenMeatBlock : FluidBlock
 	{
 		RottenMeat,
 		Oil,
+		OilBucket, //Updraft
         LightOil,
         HeavyOil,
-        Gasoline,
-		OilBucket,
-		Updraft
+        Gasoline
 	}
 	public const int Index = 240;
 	public BlockMesh m_standaloneBlockMesh;
 	public BlockMesh StandaloneBlockMesh = new BlockMesh();
+	public Color[] Colors = new[] { new Color(30, 30, 30), default(Color), new Color(184, 134, 11), new Color(160, 82, 45), new Color(255, 231, 186) };
 
 	public RottenMeatBlock() : base(1) {}
 	public override void Initialize()
@@ -38,11 +38,12 @@ public class RottenMeatBlock : FluidBlock
 	}
 	public override IEnumerable<int> GetCreativeValues()
 	{
-		return new int[] { Index, Index | 1 << 4 << 14, Index | 2 << 4 << 14, Index | 3 << 4 << 14 };
+		return new int[] { Index, Index | 1 << 4 << 14, Index | 2 << 4 << 14, Index | 3 << 4 << 14, Index | 4 << 4 << 14, Index | 5 << 4 << 14 };
 	}
 	public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
 	{
-		switch (GetType(value))
+		Type type = GetType(value);
+		switch (type)
 		{
 			case Type.RottenMeat:
 				BlocksManager.DrawMeshBlock(primitivesRenderer, m_standaloneBlockMesh, color, 2f * size, ref matrix, environmentData);
@@ -51,34 +52,23 @@ public class RottenMeatBlock : FluidBlock
 				color = new Color(30, 30, 30);
 				BlocksManager.DrawCubeBlock(primitivesRenderer, Terrain.ReplaceContents(value, 18), new Vector3(size), ref matrix, color, color, environmentData);
 				return;
-            case Type.LightOil:
-                color = new Color(184, 134, 11);
-                BlocksManager.DrawCubeBlock(primitivesRenderer, Terrain.ReplaceContents(value, 18), new Vector3(size), ref matrix, color, color, environmentData);
-                return;
-            case Type.HeavyOil:
-                color = new Color(160, 82, 45);
-                BlocksManager.DrawCubeBlock(primitivesRenderer, Terrain.ReplaceContents(value, 18), new Vector3(size), ref matrix, color, color, environmentData);
-                return;
-            case Type.Gasoline:
-                color = new Color(255, 231, 186);
-                BlocksManager.DrawCubeBlock(primitivesRenderer, Terrain.ReplaceContents(value, 18), new Vector3(size), ref matrix, color, color, environmentData);
-                return;
-            case Type.OilBucket:
+			case Type.OilBucket:
 				BlocksManager.DrawMeshBlock(primitivesRenderer, StandaloneBlockMesh, color, 2f * size, ref matrix, environmentData);
+				return;
+			default:
+				color = Colors[(int)type - 1];
+				BlocksManager.DrawCubeBlock(primitivesRenderer, Terrain.ReplaceContents(value, 18), new Vector3(size), ref matrix, color, color, environmentData);
 				return;
 		}
 	}
 	public override void GenerateTerrainVertices(BlockGeometryGenerator generator, TerrainGeometrySubsets geometry, int value, int x, int y, int z)
 	{
-		if (GetType(value) == Type.Oil)
-			BlocksManager.FluidBlocks[WaterBlock.Index].GenerateFluidTerrainVertices(generator, value, x, y, z, new Color(30, 30, 30), new Color(30, 30, 30), geometry.OpaqueSubsetsByFace);
-        if (GetType(value) == Type.LightOil)
-            BlocksManager.FluidBlocks[WaterBlock.Index].GenerateFluidTerrainVertices(generator, value, x, y, z, new Color(184, 134, 11), new Color(184, 134, 11), geometry.OpaqueSubsetsByFace);
-        if (GetType(value) == Type.HeavyOil)
-            BlocksManager.FluidBlocks[WaterBlock.Index].GenerateFluidTerrainVertices(generator, value, x, y, z, new Color(160, 82, 45), new Color(160, 82, 45), geometry.OpaqueSubsetsByFace);
-        if (GetType(value) == Type.Gasoline)
-            BlocksManager.FluidBlocks[WaterBlock.Index].GenerateFluidTerrainVertices(generator, value, x, y, z, new Color(255, 231, 186), new Color(255, 231, 186), geometry.OpaqueSubsetsByFace);
-    }
+		Type type = GetType(value);
+		if (type < Type.Oil || type > Type.Gasoline || type == Type.OilBucket)
+			return;
+		Color color = Colors[(int)type - 1];
+		BlocksManager.FluidBlocks[WaterBlock.Index].GenerateFluidTerrainVertices(generator, value, x, y, z, color, color, geometry.OpaqueSubsetsByFace);
+	}
 	public override BlockPlacementData GetPlacementValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, TerrainRaycastResult raycastResult)
 	{
 		return new BlockPlacementData
@@ -107,8 +97,4 @@ public class RottenMeatBlock : FluidBlock
 	{
 		return (Type)(Terrain.ExtractData(value) >> 4);
 	}
-	/*public static int SetType(int value, Type type)
-	{
-		return Terrain.ReplaceData(value, Terrain.ExtractData(value) & 15 | (int)type << 4);
-	}*/
 }

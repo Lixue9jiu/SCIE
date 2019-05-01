@@ -69,11 +69,7 @@ namespace Game
 				//m_music = -1;
 			}
 			if (m_smeltingRecipe != null)
-			{
-				m_fireTimeRemaining = 0f;
-				float fireTimeRemaining = m_fireTimeRemaining;
 				m_fireTimeRemaining = 100f;
-			}
 			if (m_fireTimeRemaining <= 0f)
 			{
 				m_smeltingRecipe = null;
@@ -107,21 +103,13 @@ namespace Game
 		{
 			base.Load(valuesDictionary, idToEntityMap);
 			m_furnaceSize = SlotsCount - 1;
-			m_fireTimeRemaining = valuesDictionary.GetValue<float>("FireTimeRemaining");
-			HeatLevel = valuesDictionary.GetValue<float>("HeatLevel");
-			m_updateSmeltingRecipe = true;
-		}
-
-		public override void Save(ValuesDictionary valuesDictionary, EntityToIdMap entityToIdMap)
-		{
-			this.SaveItems(valuesDictionary);
-			valuesDictionary.SetValue("FireTimeRemaining", m_fireTimeRemaining);
-			valuesDictionary.SetValue("HeatLevel", HeatLevel);
+			m_fireTimeRemaining = valuesDictionary.GetValue("FireTimeRemaining", 0f);
+			HeatLevel = valuesDictionary.GetValue("HeatLevel", 0f);
 		}
 
 		protected string FindSmeltingRecipe()
 		{
-			string text = null;
+			bool text = false;
 			result[0] = 0;
 			result[1] = 0;
 			result[2] = 0;
@@ -129,33 +117,31 @@ namespace Game
 			for (i = 0; i < m_furnaceSize; i++)
 			{
 				int slotValue = GetSlotValue(i);
-				//int num = Terrain.ExtractContents(slotValue);
-				//int num2 = Terrain.ExtractData(slotValue);
 				if (GetSlotCount(i) > 0)
 				{
 					if (slotValue == DirtBlock.Index)
 					{
-						text = "success";
+						text = true;
 						result[0] = SandBlock.Index;
 						result[1] = StoneChunkBlock.Index;
-						int num3 = m_random.Int() & 3;
-						if (num3 == 0)
+						int x = m_random.Int() & 3;
+						if (x == 0)
 							result[2] = SaltpeterChunkBlock.Index;
-						if (num3 == 1)
+						if (x == 1)
 							result[2] = ItemBlock.IdTable["AluminumOrePowder"];
 					}
 				}
 			}
-			if (text != null)
+			if (text)
 			{
 				for (i = 0; i < 3; i++)
 				{
 					Slot slot = m_slots[1 + i];
 					if (slot.Count != 0 && result[i] != 0 && (slot.Value != result[i] || slot.Count >= 40))
-						text = null;
+						return null;
 				}
 			}
-			return text;
+			return text ? "AluminumOrePowder" : null;
 		}
 	}
 }

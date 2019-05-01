@@ -1,4 +1,5 @@
-﻿using GameEntitySystem;
+﻿using Engine;
+using GameEntitySystem;
 using System;
 using TemplatesDatabase;
 
@@ -67,5 +68,95 @@ namespace Game
 			Block block = BlocksManager.Blocks[Terrain.ExtractContents(value)];
 			return block is IFuel fuel ? fuel.GetHeatLevel(value) : block.FuelHeatLevel;
 		}*/
+	}
+	public abstract class ComponentPMach : ComponentMachine, IUpdateable
+	{
+		protected int m_count;
+		protected float m_speed;
+		protected string m_smeltingRecipe;
+
+		//protected int m_music;
+
+		protected string m_smeltingRecipe2;
+
+		public override int RemainsSlotIndex => -1;
+
+		public override int ResultSlotIndex => SlotsCount - 1;
+
+		public override int FuelSlotIndex => -1;
+
+		public int UpdateOrder => 0;
+
+		public void Update(float dt)
+		{
+			if (HeatLevel > 0f)
+			{
+				m_fireTimeRemaining = MathUtils.Max(0f, m_fireTimeRemaining - dt);
+				if (m_fireTimeRemaining == 0f)
+					HeatLevel = 0f;
+			}
+			if (m_updateSmeltingRecipe)
+			{
+				m_updateSmeltingRecipe = false;
+				m_smeltingRecipe2 = FindSmeltingRecipe();
+				if (m_smeltingRecipe2 != m_smeltingRecipe)
+				{
+					m_smeltingRecipe = m_smeltingRecipe2;
+					SmeltingProgress = 0f;
+					//m_music = 0;
+				}
+			}
+			if (m_smeltingRecipe2 != null)
+			{
+				Point3 coordinates = m_componentBlockEntity.Coordinates;
+				m_smeltingRecipe = ComponentEngine.IsPowered(Utils.Terrain, coordinates.X, coordinates.Y, coordinates.Z) ? m_smeltingRecipe2 : null;
+			}
+			if (m_smeltingRecipe == null)
+			{
+				HeatLevel = 0f;
+				m_fireTimeRemaining = 0f;
+				//m_music = -1;
+			}
+			else
+				m_fireTimeRemaining = 100f;
+			if (m_fireTimeRemaining <= 0f)
+			{
+				m_smeltingRecipe = null;
+				SmeltingProgress = 0f;
+				//m_music = -1;
+			}
+			if (m_smeltingRecipe != null)
+			{
+				SmeltingProgress = MathUtils.Min(SmeltingProgress + m_speed * dt, 1f);
+				if (SmeltingProgress >= 1f)
+				{
+					for (int l = 0; l < m_furnaceSize; l++)
+						if (m_slots[l].Count > 0)
+							m_slots[l].Count--;
+					m_slots[ResultSlotIndex].Value = ItemBlock.IdTable[m_smeltingRecipe];
+					m_slots[ResultSlotIndex].Count += m_count;
+					m_smeltingRecipe = null;
+					SmeltingProgress = 0f;
+					m_updateSmeltingRecipe = true;
+				}
+			}
+		}
+
+		public override void Load(ValuesDictionary valuesDictionary, IdToEntityMap idToEntityMap)
+		{
+			base.Load(valuesDictionary, idToEntityMap);
+			m_furnaceSize = SlotsCount - 1;
+			m_fireTimeRemaining = valuesDictionary.GetValue("FireTimeRemaining", 0f);
+			HeatLevel = valuesDictionary.GetValue("HeatLevel", 0f);
+			//m_speed = valuesDictionary.GetValue("Speed", 0.1f);
+			//m_count = valuesDictionary.GetValue("Count", 1);
+			m_speed = 0.1f;
+			m_count = 1;
+		}
+
+		protected virtual string FindSmeltingRecipe()
+		{
+			return null;
+		}
 	}
 }

@@ -140,7 +140,7 @@ namespace Game
 				var r = body.Rotation;
 				Utils.SubsystemTime.QueueGameTimeDelayedExecution(Utils.SubsystemTime.GameTime + 0.23 * level, delegate
 				{
-					if (body.Velocity.XZ.LengthSquared() > 2f)
+					if (body.Velocity.XZ.LengthSquared() > 10f)
 					{
 						m_componentBody.Position = pos;
 						m_componentBody.Rotation = r;
@@ -169,7 +169,7 @@ namespace Game
 			
 			if (ComponentEngine != null && ComponentEngine.HeatLevel >= 100f && m_componentBody.StandingOnValue.HasValue)
 			{
-				var result = Utils.SubsystemTerrain.Raycast(m_componentBody.Position, m_componentBody.Position + new Vector3(0, -2f, 0), false, true, null);
+				var result = Utils.SubsystemTerrain.Raycast(m_componentBody.Position, m_componentBody.Position + new Vector3(0, -3f, 0), false, true, null);
 
 				if (result.HasValue && Terrain.ExtractContents(result.Value.Value) == RailBlock.Index && (dt *= SimulateRail(RailBlock.GetRailType(Terrain.ExtractData(result.Value.Value)))) > 0f)
 					m_componentBody.m_velocity += dt * rotation.ToForwardVector();

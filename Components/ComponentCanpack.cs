@@ -87,13 +87,13 @@ namespace Game
 				{
 					if (m_slots[0].Count > 0)
 						m_slots[0].Count--;
-					for (int jk = 0; jk < 3; jk++)
+					for (int j = 0; j < 3; j++)
 					{
-						if (result[jk] != 0)
+						if (result[j] != 0)
 						{
-							int value = result[jk];
-							m_slots[1 + jk].Value = value;
-							m_slots[1 + jk].Count++;
+							int value = result[j];
+							m_slots[1 + j].Value = value;
+							m_slots[1 + j].Count++;
 							m_smeltingRecipe = null;
 							SmeltingProgress = 0f;
 							m_updateSmeltingRecipe = true;
@@ -107,16 +107,8 @@ namespace Game
 		{
 			base.Load(valuesDictionary, idToEntityMap);
 			m_furnaceSize = SlotsCount - 1;
-			m_fireTimeRemaining = valuesDictionary.GetValue<float>("FireTimeRemaining");
-			HeatLevel = valuesDictionary.GetValue<float>("HeatLevel");
-			m_updateSmeltingRecipe = true;
-		}
-
-		public override void Save(ValuesDictionary valuesDictionary, EntityToIdMap entityToIdMap)
-		{
-			this.SaveItems(valuesDictionary);
-			valuesDictionary.SetValue("FireTimeRemaining", m_fireTimeRemaining);
-			valuesDictionary.SetValue("HeatLevel", HeatLevel);
+			m_fireTimeRemaining = valuesDictionary.GetValue("FireTimeRemaining", 0f);
+			HeatLevel = valuesDictionary.GetValue("HeatLevel", 0f);
 		}
 
 		protected string FindSmeltingRecipe()
@@ -152,7 +144,7 @@ namespace Game
 				{
 					Slot slot = m_slots[1 + i];
 					if (slot.Count != 0 && result[i] != 0 && (slot.Value != result[i] || slot.Count >= 40))
-						text = null;
+						return null;
 				}
 			}
 			return text;

@@ -164,5 +164,4 @@ namespace Game
 			BlocksManager.DrawCubeBlock(primitivesRenderer, value, new Vector3(size), ref matrix, color, color, environmentData);
 		}
 	}
-    
 }

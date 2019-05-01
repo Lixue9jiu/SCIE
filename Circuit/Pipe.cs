@@ -6,36 +6,30 @@ namespace Game
 {
 	public class Pipe : FixedDevice
 	{
-		public readonly int Id;
 		public BlockMesh[] Meshes = new BlockMesh[63];
-		//public readonly BoundingBox[][] m_collisionBoxes = new BoundingBox[63][];
-		public Pipe(int id = 0) : base(8)
+		public Pipe(int id = 0) : base("Pipe" + id.ToString())
 		{
-			Id = id;
 			var model = ContentManager.Get<Model>("Models/Battery");
-			const string meshName = "Battery";
 			var meshes = new BlockMesh[6];
 			int i;
 			BlockMesh blockMesh;
-			ModelMeshPart meshPart = model.FindMesh(meshName, true).MeshParts[0];
-			Matrix boneAbsoluteTransform = BlockMesh.GetBoneAbsoluteTransform(model.FindMesh(meshName, true).ParentBone);
+			ModelMeshPart meshPart = model.FindMesh("Battery", true).MeshParts[0];
+			Matrix boneAbsoluteTransform = BlockMesh.GetBoneAbsoluteTransform(model.FindMesh("Battery", true).ParentBone);
 			for (i = 0; i < 6; i++)
 			{
 				blockMesh = new BlockMesh();
 				var vector = CellFace.FaceToVector3(i);
 				blockMesh.AppendModelMeshPart(meshPart, boneAbsoluteTransform * Matrix.CreateTranslation(0f, -0.2f, 0f) * Matrix.CreateScale(1f, 0.66f, 1f) *
-					Matrix.CreateRotationX(3.14159274f / 2f * vector.X) *
-					Matrix.CreateRotationY(3.14159274f / 2f * vector.Y) *
-					Matrix.CreateRotationZ(3.14159274f / 2f * vector.Z), false, false, false, false, Color.LightGray);
+					((i < 4) ? (Matrix.CreateTranslation(0f, -0.5f, 0f) * Matrix.CreateRotationX(i * 3.14159274f / 2f + 3.14159274f) * Matrix.CreateTranslation(0.5f, 0.5f, 0.5f)) : ((i != 4) ? (Matrix.CreateTranslation(0f, -0.5f, 0f) * Matrix.CreateRotationZ(-1.57079637f) * Matrix.CreateTranslation(0.5f, 0.5f, 0.5f)) : (Matrix.CreateTranslation(0f, -0.5f, 0f) * Matrix.CreateRotationZ(1.57079637f) * Matrix.CreateTranslation(0.5f, 0.5f, 0.5f)))), false, false, false, false, Color.LightGray);
 				blockMesh.TransformTextureCoordinates(Matrix.CreateTranslation(-2f / 16f, 4f / 16f, 0f));
 				blockMesh.TransformPositions(Matrix.CreateTranslation(new Vector3(0.5f)));
 				meshes[i] = blockMesh;
 			}
-			for (i = 1; i < 64; i++)
+			for (i = 0; i < 63; i++)
 			{
-				Meshes[i - 1] = new BlockMesh();
+				Meshes[i] = new BlockMesh();
 				for (int j = 0; j < 6; j++)
-					if ((i >> j & 1) != 0)
+					if (((i + 1) >> j & 1) != 0)
 						Meshes[i].AppendBlockMesh(meshes[j]);
 			}
 		}
@@ -53,10 +47,7 @@ namespace Game
 				CellFace = raycastResult.CellFace
 			};
 		}
-		public override string GetCraftingId()
-		{
-			return base.GetCraftingId() + Id.ToString();
-		}
+		public override string GetCraftingId() => DefaultDisplayName;
 		public override void GenerateTerrainVertices(Block block, BlockGeometryGenerator generator, TerrainGeometrySubsets geometry, int value, int x, int y, int z)
 		{
 			int data = Terrain.ExtractData(value);
@@ -79,7 +70,7 @@ namespace Game
 		}
 		public override string GetCategory(int value)
 		{
-			return "Pipe";
+			return Utils.Get("管道");
 		}
 		public static int GetType(int data)
 		{

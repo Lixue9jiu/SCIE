@@ -10,7 +10,7 @@ namespace Game
 			BlastFurnaceBlock.Index,
 			CovenBlock.Index,
 			HearthFurnaceBlock.Index,
-            FractionatingTowerBlock.Index
+			TankBlock.Index
 		};
 
 		public override void OnBlockAdded(int value, int oldValue, int x, int y, int z)
@@ -21,8 +21,11 @@ namespace Game
 				case BlastFurnaceBlock.Index: name = "BlastFurnace"; break;
 				case CovenBlock.Index: name = "CokeOven"; break;
 				case HearthFurnaceBlock.Index: name = "HearthFurnace"; break;
-                case FractionatingTowerBlock.Index: name = "FractionalTower"; break;
-                default: return;
+                case TankBlock.Index:
+					if (TankBlock.GetType(value) == TankBlock.Type.FractionatingTower)
+					{ name = "FractionalTower"; break; }
+					return;
+				default: return;
 			}
 			var vd = new ValuesDictionary();
 			vd.PopulateFromDatabaseObject(Project.GameDatabase.Database.FindDatabaseObject(name, Project.GameDatabase.EntityTemplateType, true));
@@ -44,7 +47,6 @@ namespace Game
 			{
 				case BlastFurnaceBlock.Index:
 					componentMiner.ComponentPlayer.ComponentGui.ModalPanelWidget = new BlastFurnaceWidget(componentMiner.Inventory, blockEntity.Entity.FindComponent<ComponentBlastFurnace>(true));
-					AudioManager.PlaySound("Audio/UI/ButtonClick", 1f, 0f, 0f);
 					break;
 				case CovenBlock.Index:
 					componentMiner.ComponentPlayer.ComponentGui.ModalPanelWidget = new CovenWidget(componentMiner.Inventory, blockEntity.Entity.FindComponent<ComponentCoven>(true));
@@ -52,10 +54,14 @@ namespace Game
 				case HearthFurnaceBlock.Index:
 					componentMiner.ComponentPlayer.ComponentGui.ModalPanelWidget = new HearthFurnaceWidget(componentMiner.Inventory, blockEntity.Entity.FindComponent<ComponentHearthFurnace>(true));
 					break;
-                case FractionatingTowerBlock.Index:
-                    componentMiner.ComponentPlayer.ComponentGui.ModalPanelWidget = new FractionalTowerWidget(componentMiner.Inventory, blockEntity.Entity.FindComponent<ComponentFractionalTower>(true));
-                    break;
-                default: return false;
+                case TankBlock.Index:
+					if (TankBlock.GetType(raycastResult.Value) == TankBlock.Type.FractionatingTower)
+					{ 
+						componentMiner.ComponentPlayer.ComponentGui.ModalPanelWidget = new FractionalTowerWidget(componentMiner.Inventory, blockEntity.Entity.FindComponent<ComponentFractionalTower>(true));
+						break;
+					}
+					return false;
+				default: return false;
 			}
 			AudioManager.PlaySound("Audio/UI/ButtonClick", 1f, 0f, 0f);
 			return true;

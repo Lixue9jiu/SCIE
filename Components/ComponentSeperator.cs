@@ -26,7 +26,6 @@ namespace Game
 
 		public void Update(float dt)
 		{
-			Point3 coordinates = m_componentBlockEntity.Coordinates;
 			if (HeatLevel > 0f)
 			{
 				m_fireTimeRemaining = MathUtils.Max(0f, m_fireTimeRemaining - dt);
@@ -36,11 +35,10 @@ namespace Game
 			if (m_updateSmeltingRecipe)
 			{
 				m_updateSmeltingRecipe = false;
-				string text = m_smeltingRecipe2 = FindSmeltingRecipe();
-				if (text != m_smeltingRecipe)
+				m_smeltingRecipe2 = FindSmeltingRecipe();
+				if (m_smeltingRecipe2 != m_smeltingRecipe)
 				{
-					m_smeltingRecipe = text;
-					m_smeltingRecipe2 = text;
+					m_smeltingRecipe = m_smeltingRecipe2;
 					SmeltingProgress = 0f;
 					//m_music = 0;
 				}
@@ -57,23 +55,15 @@ namespace Game
 					m_smeltingRecipe = m_smeltingRecipe2;
 			}
 			if (!Powered)
-			{
-				SmeltingProgress = 0f;
-				HeatLevel = 0f;
 				m_smeltingRecipe = null;
-			}
 			if (m_smeltingRecipe == null)
 			{
 				HeatLevel = 0f;
 				m_fireTimeRemaining = 0f;
 				//m_music = -1;
 			}
-			if (m_smeltingRecipe != null)
-			{
-				m_fireTimeRemaining = 0f;
-				float fireTimeRemaining = m_fireTimeRemaining;
+			else
 				m_fireTimeRemaining = 100f;
-			}
 			if (m_fireTimeRemaining <= 0f)
 			{
 				m_smeltingRecipe = null;
@@ -87,13 +77,13 @@ namespace Game
 				{
 					if (m_slots[0].Count > 0)
 						m_slots[0].Count--;
-					for (int jk = 0; jk < 3; jk++)
+					for (int j = 0; j < 3; j++)
 					{
-						if (result[jk] != 0)
+						if (result[j] != 0)
 						{
-							int value = result[jk];
-							m_slots[1 + jk].Value = value;
-							m_slots[1 + jk].Count++;
+							int value = result[j];
+							m_slots[1 + j].Value = value;
+							m_slots[1 + j].Count++;
 							m_smeltingRecipe = null;
 							SmeltingProgress = 0f;
 							m_updateSmeltingRecipe = true;
@@ -109,7 +99,6 @@ namespace Game
 			m_furnaceSize = SlotsCount - 1;
 			m_fireTimeRemaining = valuesDictionary.GetValue("FireTimeRemaining", 0f);
 			HeatLevel = valuesDictionary.GetValue("HeatLevel", 0f);
-			m_updateSmeltingRecipe = true;
 		}
 
 		protected string FindSmeltingRecipe()
@@ -122,8 +111,6 @@ namespace Game
 			for (i = 0; i < m_furnaceSize; i++)
 			{
 				int slotValue = GetSlotValue(i);
-				//int num = Terrain.ExtractContents(slotValue);
-				//int num2 = Terrain.ExtractData(slotValue);
 				if (GetSlotCount(i) > 0)
 				{
 					if (slotValue == DirtBlock.Index)
@@ -131,10 +118,10 @@ namespace Game
 						text = true;
 						result[0] = SandBlock.Index;
 						result[1] = StoneChunkBlock.Index;
-						int num3 = m_random.Int() & 3;
-						if (num3 == 0)
+						int x = m_random.Int() & 3;
+						if (x == 0)
 							result[2] = SaltpeterChunkBlock.Index;
-						if (num3 == 1)
+						if (x == 1)
 							result[2] = ItemBlock.IdTable["AluminumOrePowder"];
 					}
 				}

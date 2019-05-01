@@ -42,7 +42,9 @@ namespace Game
 		public new static IChemicalItem[] Items;
 		static ChemicalBlock()
 		{
-			var list = new List<IChemicalItem>(new IChemicalItem[]{
+			var list = new DynamicArray<IChemicalItem>
+			{
+			Array = new IChemicalItem[]{
 				new Cylinder("H₂"),
 				new Cylinder("O₂"),
 				new Cylinder("CO₂"),
@@ -89,7 +91,8 @@ namespace Game
 				new PurePowder("P₄O₆"),
 				new PurePowder("PCl₃"),
 				new PurePowder("PCl₅"),
-			});
+				}
+			};
 			for (int i = 0; i < Cations.Length; i++)
 			{
 				AtomKind atom = Cations[i].Array[0].Atom;
@@ -141,7 +144,8 @@ namespace Game
 			list.Add(new PurePowder("Na₃P"));
 			//list.Add(new Cylinder("B₂H₆"));
 			list.Add(new Cylinder("C₂H₄"));
-			Items = list.ToArray();
+			list.Capacity = list.m_count;
+			Items = list.Array;
 		}
 		/*public override CraftingRecipe GetAdHocCraftingRecipe(SubsystemTerrain subsystemTerrain, string[] ingredients, float heatLevel)
 		{
@@ -175,14 +179,8 @@ namespace Game
 		{
 			DefaultDescription = DefaultDisplayName = Utils.Get(name);
 		}
-		public override string GetCategory(int value)
-		{
-			return Utils.Get("化学");
-		}
-		public DispersionSystem GetDispersionSystem()
-		{
-			return System;
-		}
+		public override string GetCategory(int value) => Utils.Get("化学");
+		public DispersionSystem GetDispersionSystem() => System;
 	}
 	public class PurePowder : Powder, IChemicalItem
 	{
@@ -194,17 +192,24 @@ namespace Game
 		public PurePowder(string name, Color color) : this(new DispersionSystem(name), color)
 		{
 		}
-		public PurePowder(DispersionSystem system, Color color) : base("", color)
+		public PurePowder(DispersionSystem system, Color color) : base("", color) => DefaultDescription = DefaultDisplayName = (System = system).ToString();
+		public override string GetCategory(int value) => Utils.Get("化学");
+		public DispersionSystem GetDispersionSystem() => System;
+	}
+	public class FuelPowder : PurePowder, IFuel
+	{
+		public readonly float HeatLevel;
+		public readonly float FuelFireDuration;
+
+		public FuelPowder(string name, Color color, float heatLevel = 1700f, float fuelFireDuration = 60f, string description = "") : base(name, color)
 		{
-			DefaultDescription = DefaultDisplayName = (System = system).ToString();
+			DefaultDescription = description;
+			HeatLevel = heatLevel;
+			FuelFireDuration = fuelFireDuration;
 		}
-		public override string GetCategory(int value)
-		{
-			return "Chemical";
-		}
-		public DispersionSystem GetDispersionSystem()
-		{
-			return System;
-		}
+
+		public float GetHeatLevel(int value) => HeatLevel;
+
+		public float GetFuelFireDuration(int value) => FuelFireDuration;
 	}
 }

@@ -6,8 +6,6 @@ namespace Game
 {
 	public class ComponentCastMach : ComponentMachine, IUpdateable
 	{
-		//protected readonly string[] m_matchedIngredients = new string[9];
-
 		protected string m_smeltingRecipe;
 
 		//protected int m_music;
@@ -113,7 +111,7 @@ namespace Game
 			if (Utils.Terrain.GetCellContents(coordinates.X, coordinates.Y, coordinates.Z) != 0)
 			{
 				int cellValue = Utils.Terrain.GetCellValue(coordinates.X, coordinates.Y, coordinates.Z);
-				Utils.SubsystemTerrain.ChangeCell(coordinates.X, coordinates.Y, coordinates.Z, Terrain.ReplaceData(cellValue, FurnaceNBlock.SetHeatLevel(Terrain.ExtractData(cellValue), (HeatLevel > 0f) ? 1 : 0)), true);
+				Utils.SubsystemTerrain.ChangeCell(coordinates.X, coordinates.Y, coordinates.Z, Terrain.ReplaceData(cellValue, FurnaceNBlock.SetHeatLevel(Terrain.ExtractData(cellValue), HeatLevel > 0f ? 1 : 0)));
 			}
 		}
 
@@ -133,7 +131,7 @@ namespace Game
 				int slotValue = GetSlotValue(i);
 				int num = Terrain.ExtractContents(slotValue);
 				int num2 = Terrain.ExtractData(slotValue);
-				if (GetSlotCount(i) > 0 && GetSlotValue(1) > 0)
+				if (GetSlotCount(i) > 0 && GetSlotValue(1) != 0)
 				{
 					if (slotValue == ItemBlock.IdTable["SteelIngot"])
 					{
@@ -149,14 +147,12 @@ namespace Game
 						}
 					}
 				}
-				//else
-					//m_matchedIngredients[i] = null;
 			}
 			if (text != null)
 			{
 				Slot slot = m_slots[ResultSlotIndex];
 				if (slot.Count != 0 && (slot.Value != ItemBlock.IdTable[text] || slot.Count >= 40))
-					text = null;
+					return null;
 			}
 			return text;
 		}

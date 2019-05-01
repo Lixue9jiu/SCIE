@@ -12,9 +12,8 @@ namespace Game
 		protected static string lastcode = "";
 		protected bool Powered;
 
-		public TEDC() : base(60, ElementType.Device | ElementType.Connector)
+		public TEDC() : base(60, "晶体管数字电子计算机", "晶体管数字电子计算机", ElementType.Device | ElementType.Connector)
 		{
-			DefaultDisplayName = DefaultDescription = "晶体管数字电子计算机";
 			JsEngine = new Jint.Engine();
 		}
 
@@ -58,14 +57,12 @@ namespace Game
 
 	public class Battery : DeviceBlock, IBlockBehavior, IHarvestingItem, IEquatable<Battery>
 	{
-		public int Factor = 1;
+		public int Factor = 0;
 		public readonly BoundingBox[] m_collisionBoxes;
 		public readonly BlockMesh m_standaloneBlockMesh = new BlockMesh();
 		public int RemainCount = 500;
-		public Battery(int voltage, string modelName, string meshName, Matrix boneTransform, Matrix tcTransform, string description = "", string name = "") : base(voltage, ElementType.Connector | ElementType.Container)
+		public Battery(Matrix boneTransform, Matrix tcTransform, string name = "", string description = "", string id = "", int voltage = 12, string modelName = "Models/Battery", string meshName = "Battery") : base(voltage, name, description, ElementType.Connector | ElementType.Container)
 		{
-			DefaultDisplayName = name;
-			DefaultDescription = description;
 			var blockMesh = Utils.CreateMesh(modelName, meshName, boneTransform, tcTransform, Color.LightGray);
 			m_standaloneBlockMesh.AppendBlockMesh(blockMesh);
 			m_collisionBoxes = new BoundingBox[] { blockMesh.CalculateBoundingBox() };
@@ -96,10 +93,7 @@ namespace Game
 				Count = 1
 			});
 		}
-		public override BoundingBox[] GetCustomCollisionBoxes(SubsystemTerrain terrain, int value)
-		{
-			return m_collisionBoxes;
-		}
+		public override BoundingBox[] GetCustomCollisionBoxes(SubsystemTerrain terrain, int value) => m_collisionBoxes;
 		public override void Simulate(ref int voltage)
 		{
 			if (voltage == 0 && RemainCount > 0)
@@ -118,10 +112,8 @@ namespace Game
 		{
 			return base.Equals(other) && Factor == other.Factor;
 		}
-		public override bool IsFaceTransparent(SubsystemTerrain subsystemTerrain, int face, int value)
-		{
-			return true;
-		}
+		public override string GetCraftingId() => DefaultDisplayName;
+		public override bool IsFaceTransparent(SubsystemTerrain subsystemTerrain, int face, int value) => true;
 		public void OnItemHarvested(int x, int y, int z, int blockValue, ref BlockDropValue dropValue, ref int newBlockValue)
 		{
 			if (RemainCount <= 0)
@@ -138,7 +130,7 @@ namespace Game
 	}
 	public class Fridge : InteractiveEntityDevice<ComponentNewChest>
 	{
-		public Fridge() : base("Freezer", 2000) { }
+		public Fridge() : base("Freezer", "冰箱", "冰箱是保护食物的好地方，可以延缓食物的腐烂。 它最多可容纳16件物品。") { }
 		public override void Simulate(ref int voltage)
 		{
 			Component.Powered = voltage >= 110;
@@ -164,10 +156,6 @@ namespace Game
 		{
 			return GetPlacementValue(0, componentMiner, value, raycastResult);
 		}
-		public override string GetDescription(int value)
-		{
-			return "冰箱是保护食物的好地方，可以延缓食物的腐烂。 它最多可容纳16件物品。";
-		}
 		public override Widget GetWidget(IInventory inventory, ComponentNewChest component)
 		{
 			return new NewChestWidget(inventory, component);
@@ -176,7 +164,7 @@ namespace Game
 
 	public class Magnetizer : InteractiveEntityDevice<ComponentMagnetizer>
 	{
-		public Magnetizer() : base("Magnetizer", 1000) { }
+		public Magnetizer() : base("Magnetizer", "磁化机", "磁化机是通过在由线提供的强磁场中熔化钢锭来制造工业磁体的装置。") { }
 		public override void Simulate(ref int voltage)
 		{
 			if (Component.Powered = voltage >= 12)
@@ -203,10 +191,6 @@ namespace Game
 		{
 			return GetPlacementValue(2, componentMiner, value, raycastResult);
 		}
-		public override string GetDescription(int value)
-		{
-			return "磁化器是通过在由线提供的强磁场中熔化钢锭来制造工业磁体的装置。";
-		}
 		public override Widget GetWidget(IInventory inventory, ComponentMagnetizer component)
 		{
 			return new StoveWidget(inventory, component, "Widgets/MagnetizerWidget");
@@ -215,7 +199,7 @@ namespace Game
 
 	public class Separator : InteractiveEntityDevice<ComponentSeperator>
 	{
-		public Separator() : base("Seperator", 2000) { }
+		public Separator() : base("Seperator", "分离器", "分离器是通过高频旋转分离处材料的装置，它是离心机的缩小版本。") { }
 		/*public override Device Create(Point3 p)
 		{
 			var other = (Separator)base.Create(p);
@@ -247,25 +231,15 @@ namespace Game
 		{
 			return GetPlacementValue(3, componentMiner, value, raycastResult);
 		}
-		public override string GetDescription(int value)
-		{
-			return "分离器是通过高频旋转分离处材料的装置，它是离心机的缩小版本。";
-		}
 		public override Widget GetWidget(IInventory inventory, ComponentSeperator component)
 		{
 			return new SeperatorWidget(inventory, component);
 		}
 	}
-
-
+	
     public class Canpack : InteractiveEntityDevice<ComponentCanpack>
     {
-        public Canpack() : base("Canpack", 1900) { }
-        /*public override Device Create(Point3 p)
-		{
-			var other = (Separator)base.Create(p);
-			return other;
-		}*/
+        public Canpack() : base("Canpack", "罐装机", "罐装机是一种可以封装液体，变成液体罐头的机器") { }
         public override void Simulate(ref int voltage)
         {
             if (Component.Powered = voltage >= 80)
@@ -290,11 +264,7 @@ namespace Game
         }
         public override BlockPlacementData GetPlacementValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, TerrainRaycastResult raycastResult)
         {
-            return GetPlacementValue(3, componentMiner, value, raycastResult);
-        }
-        public override string GetDescription(int value)
-        {
-            return "罐装机是一种可以封装液体，变成液体罐头的机器";
+            return GetPlacementValue(7, componentMiner, value, raycastResult);
         }
         public override Widget GetWidget(IInventory inventory, ComponentCanpack component)
         {
@@ -304,12 +274,7 @@ namespace Game
 
     public class Electrobath : InteractiveEntityDevice<ComponentElectrobath>
     {
-        public Electrobath() : base("Electrobath", 2500) { }
-        /*public override Device Create(Point3 p)
-		{
-			var other = (Separator)base.Create(p);
-			return other;
-		}*/
+        public Electrobath() : base("Electrobath", "电解机", "电解机是一种可以将电解质进行氧化还原反应的机器，在冶炼一些活泼金属上有重要的作用") { }
         public override void Simulate(ref int voltage)
         {
             if (Component.Powered = voltage >= 200)
@@ -326,11 +291,7 @@ namespace Game
         }
         public override BlockPlacementData GetPlacementValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, TerrainRaycastResult raycastResult)
         {
-            return GetPlacementValue(4, componentMiner, value, raycastResult);
-        }
-        public override string GetDescription(int value)
-        {
-            return "电解机是一种可以将电解质进行氧化还原反应的机器，在冶炼一些活泼金属上有重要的作用";
+            return GetPlacementValue(8, componentMiner, value, raycastResult);
         }
         public override Widget GetWidget(IInventory inventory, ComponentElectrobath component)
         {
@@ -341,7 +302,7 @@ namespace Game
     public class AirBlower : FixedDevice, IBlockBehavior
 	{
 		public int Level = -1;
-		public AirBlower() : base(3000)
+		public AirBlower() : base("鼓风机", "鼓风机是一种将空气输送到需要大量热空气的大型机器中的装置。")
 		{
 		}
 		public override void Simulate(ref int voltage)
@@ -369,9 +330,9 @@ namespace Game
 					p.X &= 15; p.Z &= 15;
 					int i;
 					for (i = 1; i <= level && chunk.GetCellContentsFast(p.X, p.Y + i, p.Z) == 0; i++)
-						chunk.SetCellValueFast(p.X, p.Y + i, p.Z, RottenMeatBlock.Index | 3 << 4 << 14);
+						chunk.SetCellValueFast(p.X, p.Y + i, p.Z, RottenMeatBlock.Index | 2 << 4 << 14);
 					for (; i < 8 && p.Y < 127; i++)
-						if (Terrain.ReplaceLight(chunk.GetCellValueFast(p.X, ++p.Y, p.Z), 0) == (RottenMeatBlock.Index | 3 << 4 << 14))
+						if (Terrain.ReplaceLight(chunk.GetCellValueFast(p.X, ++p.Y, p.Z), 0) == (RottenMeatBlock.Index | 2 << 4 << 14))
 							chunk.SetCellValueFast(p.X, p.Y, p.Z, 0);
 					Level = level;
 				}
@@ -384,10 +345,6 @@ namespace Game
 		public override BlockPlacementData GetPlacementValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, TerrainRaycastResult raycastResult)
 		{
 			return GetPlacementValue(4, componentMiner, value, raycastResult);
-		}
-		public override string GetDescription(int value)
-		{
-			return "鼓风机是一种将空气输送到需要大量热空气的大型机器中的装置。";
 		}
 		public void OnBlockAdded(SubsystemTerrain terrain, int value, int oldValue)
 		{
@@ -402,7 +359,7 @@ namespace Game
 
 	public class EFurnace : InteractiveEntityDevice<ComponentElectricFurnace>, IElectricElementBlock
 	{
-		public EFurnace() : base("ElectricFurnace", 6000) { }
+		public EFurnace() : base("ElectricFurnace", "电阻炉", "电阻炉是一种通过电阻器加热物品的装置，它可以达到很高的温度，但需要大量的热量。") { }
 		/*public override Device Create(Point3 p)
 		{
 			var other = (EFurnace)base.Create(p);
@@ -432,14 +389,6 @@ namespace Game
 		public override BlockPlacementData GetPlacementValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, TerrainRaycastResult raycastResult)
 		{
 			return GetPlacementValue(6, componentMiner, value, raycastResult);
-		}
-		public override string GetDisplayName(SubsystemTerrain subsystemTerrain, int value)
-		{
-			return "电阻炉";
-		}
-		public override string GetDescription(int value)
-		{
-			return "电阻炉是一种通过电阻器加热物品的装置，它可以达到很高的温度，但需要大量的热量。";
 		}
 		public override Widget GetWidget(IInventory inventory, ComponentElectricFurnace component)
 		{

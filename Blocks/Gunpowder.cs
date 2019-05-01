@@ -1,6 +1,7 @@
 ﻿using Engine;
 using Engine.Graphics;
 using System.Collections.Generic;
+using System.Text;
 
 namespace Game
 {
@@ -96,6 +97,60 @@ namespace Game
 		{
 			base.Initialize();
 			Items[0] = new Gunpowder();
+		}
+	}
+	public class Mine : Mould
+	{
+		public static Mine[] Mines = new Mine[2048];
+		public float ExplosionPressure;
+		public double Delay;
+		public MineType MineType;
+		static Mine()
+		{
+			for (int i = 0; i < 2048; i++)
+				Mines[i] = new Mine((MineType)(i & 63), (i >> 6) / 4.0);
+		}
+		public Mine(MineType type = MineType.Medium, double delay = 0, string description = "Mine") : base("Models/Snowball", "Snowball", Matrix.CreateTranslation(Vector3.Zero), Matrix.CreateTranslation(Vector3.Zero) * Matrix.CreateScale(20f), (type & MineType.Incendiary) != 0 ? Color.DarkRed : Color.LightGray, description, "", 2.5f)
+		{
+			switch (MineType & MineType.Large)
+			{
+				case MineType.Tiny: ExplosionPressure = 50f; break;
+				case MineType.Small: ExplosionPressure = 80f; break;
+				case MineType.Medium: ExplosionPressure = 120f; break;
+				case MineType.Large: ExplosionPressure = 300f; break;
+			}
+			if ((type & MineType.Incendiary) != 0)
+				ExplosionPressure *= 0.9f;
+			Delay = delay;
+			MineType = type;
+		}
+		public override string GetDisplayName(SubsystemTerrain subsystemTerrain, int value) => GetCraftingId();
+		public override string GetCategory(int value) => Utils.Get("地雷");
+		public override string GetCraftingId()
+		{
+			var sb = new StringBuilder();
+			string s;
+			switch (MineType & MineType.Large)
+			{
+				case MineType.Tiny: s = "微型"; break;
+				case MineType.Small: s = "小型"; break;
+				case MineType.Medium: s = "中型"; break;
+				default: s = "大型"; break;
+			}
+			sb.Append(Utils.Get(s));
+			if ((MineType & MineType.Incendiary) != 0)
+				sb.Append(Utils.Get("易燃"));
+			if ((MineType & MineType.Sensitive) != 0)
+				sb.Append(Utils.Get("敏感"));
+			if ((MineType & MineType.FL) != 0)
+				sb.Append(Utils.Get("松发"));
+			if (Delay > 0.0)
+			{
+				sb.Append(Delay.ToString());
+				sb.Append(Utils.Get("秒延迟"));
+			}
+			sb.Append(Utils.Get((MineType & MineType.Torpedo) == 0 ? "地雷" : "水雷"));
+			return sb.ToString();
 		}
 	}
 	public class ABomb : Mould, IFuel

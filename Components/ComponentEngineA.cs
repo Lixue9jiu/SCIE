@@ -6,8 +6,6 @@ namespace Game
 {
 	public class ComponentEngineA : ComponentMachine, IUpdateable
 	{
-		protected readonly string[] m_matchedIngredients = new string[9];
-
 		protected string m_smeltingRecipe;
 
 		//protected int m_music;
@@ -16,7 +14,7 @@ namespace Game
 
 		public override int ResultSlotIndex => SlotsCount - 1;
 
-		public override int FuelSlotIndex => SlotsCount;
+		public override int FuelSlotIndex => -1;
 
 		public int UpdateOrder => 0;
 
@@ -27,24 +25,22 @@ namespace Game
 				m_updateSmeltingRecipe = false;
 
 				string text = null;
-				int remainsSlotIndex = RemainsSlotIndex;
-				int num = Terrain.ExtractContents(GetSlotValue(remainsSlotIndex));
-
-				if (GetSlotCount(remainsSlotIndex) > 0 && num == WaterBucketBlock.Index)
+				if (base.GetSlotCount(RemainsSlotIndex) > 0 && Terrain.ExtractContents(base.GetSlotValue(RemainsSlotIndex)) == (RottenMeatBlock.Index | 2 << 14))
 					text = "bucket";
 				//while (text != null && SmeltingProgress <= 900f)
 				//{
 				if (text != null)
 				{
-					if (m_slots[ResultSlotIndex].Count != 0 && (90 != m_slots[ResultSlotIndex].Value || 1 + m_slots[ResultSlotIndex].Count > 40))
+					int resultSlotIndex = ResultSlotIndex;
+					if (m_slots[resultSlotIndex].Count != 0 && (90 != m_slots[resultSlotIndex].Value || m_slots[resultSlotIndex].Count >= 40))
 						text = null;
 					else
 					{
-						if (m_slots[remainsSlotIndex].Count > 0)
+						if (m_slots[RemainsSlotIndex].Count > 0)
 						{
-							m_slots[ResultSlotIndex].Value = 90;
-							m_slots[ResultSlotIndex].Count += 1;
-							m_slots[remainsSlotIndex].Count = 0;
+							m_slots[resultSlotIndex].Value = 90;
+							m_slots[resultSlotIndex].Count += 1;
+							m_slots[RemainsSlotIndex].Count = 0;
 							SmeltingProgress += 50f;
 						}
 						m_fireTimeRemaining = SmeltingProgress;
@@ -69,16 +65,15 @@ namespace Game
 			m_furnaceSize = SlotsCount - 3;
 			m_fireTimeRemaining = valuesDictionary.GetValue("FireTimeRemaining", 0f);
 			HeatLevel = valuesDictionary.GetValue("HeatLevel", 0f);
-			m_updateSmeltingRecipe = true;
 		}
 
 		public override int GetSlotCapacity(int slotIndex, int value)
 		{
-			if ((slotIndex == RemainsSlotIndex && Terrain.ExtractContents(value) == WaterBucketBlock.Index) ||
+			return (slotIndex == RemainsSlotIndex && Terrain.ExtractContents(value) == WaterBucketBlock.Index) ||
 				(slotIndex == ResultSlotIndex && Terrain.ExtractContents(value) == EmptyBucketBlock.Index) ||
-				(slotIndex != RemainsSlotIndex && slotIndex != ResultSlotIndex))
-				return base.GetSlotCapacity(slotIndex, value);
-			return 0;
+				(slotIndex != RemainsSlotIndex && slotIndex != ResultSlotIndex)
+				? base.GetSlotCapacity(slotIndex, value)
+				: 0;
 		}
 	}
 }

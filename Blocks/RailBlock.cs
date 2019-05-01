@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Engine;
 using Engine.Graphics;
 
@@ -17,7 +16,7 @@ namespace Game
 		{
 			base.Initialize();
 			var mesh = new BlockMesh();
-			var vertices = new BlockMeshVertex[]
+			var vertices = new[]
 			{
 				new BlockMeshVertex
 				{
@@ -116,7 +115,7 @@ namespace Game
 				m_blockMeshes[i].TransformPositions(reverseCenter * Matrix.CreateRotationY(MathUtils.PI * 0.5f * i) * center);
 			}
 
-			var boxes = new BoundingBox[]
+			var boxes = new []
 			{
 				new BoundingBox(0, 0, 0, 1, 0.01f, 1)
 			};
@@ -157,10 +156,10 @@ namespace Game
 			return boundingBoxes[GetRailType(Terrain.ExtractData(value))];
 		}
 
-		static int GetTextureSlot(int value)
+		/*static int GetTextureSlot(int value)
 		{
 			return IsCorner(GetRailType(Terrain.ExtractData(value))) ? 238 : 237;
-		}
+		}*/
 
 		public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
 		{
@@ -207,7 +206,7 @@ namespace Game
 			showDebris = true;
 			dropValues.Add(new BlockDropValue
 			{
-				Value = Terrain.MakeBlockValue(Index),
+				Value = Index,
 				Count = 1
 			});
 		}

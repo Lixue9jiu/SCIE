@@ -130,7 +130,7 @@ namespace Game
 												RemoveSlotItems(8, 1);
 												AddSlotItems(8, BlocksManager.DamageItem(slotValue, 1), 1);
 											}
-											Utils.SubsystemTerrain.ChangeCell(x, y, z, 0, true);
+											Utils.SubsystemTerrain.ChangeCell(x, y, z, 0);
 											return;
 										}
 										if (block == 18 && (Terrain.ExtractContents(GetSlotValue(num7)) == 91 || GetSlotCount(num7) == 0))
@@ -140,14 +140,14 @@ namespace Game
 												RemoveSlotItems(num6, 1);
 												AddSlotItems(num7, 91, 1);
 											}
-											Utils.SubsystemTerrain.ChangeCell(x, y, z, 0, true);
+											Utils.SubsystemTerrain.ChangeCell(x, y, z, 0);
 											return;
 										}
 										if (Terrain.ReplaceLight(cellValue, 0) == (RottenMeatBlock.Index | 1 << 4 << 14) && (Terrain.ReplaceLight(GetSlotValue(num7), 0) == (RottenMeatBlock.Index | 2 << 4 << 14) || GetSlotCount(num7) == 0))
 										{
 											RemoveSlotItems(num6, 1);
 											AddSlotItems(num7, RottenMeatBlock.Index | 2 << 4 << 14, 1);
-											Utils.SubsystemTerrain.ChangeCell(x, y, z, 0, true);
+											Utils.SubsystemTerrain.ChangeCell(x, y, z, 0);
 											return;
 										}
 									}

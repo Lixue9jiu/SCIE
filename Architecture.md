@@ -18,9 +18,8 @@ SCIE
 │  ├─ElementBlock              电路元素方块
 │  ├─EngineBlocks              发动机
 │  ├─FireBoxBlock              预热炉
-│  ├─FractionatingTowerBlock   分馏塔
 │  ├─FurnaceNBlock             铁炉
-│  ├─Gunpowder                 火药
+│  ├─Gunpowder                 火药类
 │  ├─ItemBlock                 物品系统
 │  ├─Items                     所有物品
 │  ├─LiquidPumpElectricElement 液体泵电路元素
@@ -34,12 +33,11 @@ SCIE
 │  ├─OresAndPowder             矿石和粉末
 │  ├─PlateAndSheet             板、片
 │  ├─RailBlock                 铁轨方块
-│  ├─ReductorBlock             减压器方块
 │  ├─RefractoryBrick           耐火砖
 │  ├─Scraps                    废料
 │  ├─SixDirectionalMachines    6方向机器
 │  ├─SteelTools                钢工具
-│  ├─TankBlock                 油箱方块
+│  ├─TankBlock                 油箱、分馏塔、减压器方块
 │  └─Vehicles                  交通工具
 │
 ├─Chemistry                化学模块
@@ -64,10 +62,9 @@ SCIE
 │  └─WireDevice            电线相关
 │
 ├─Components               组件
-│  ├─ComponentAirShip            飞艇组件
+│  ├─ComponentAirship            飞艇组件
 │  ├─ComponentBlastFurnace       高炉组件
 │  ├─ComponentBoatI              蒸汽船组件
-│  ├─ComponentCarriage           车厢组件
 │  ├─ComponentCastMach           铸造机组件
 │  ├─ComponentCoven              焦炉组件
 │  ├─ComponentCReactor           化学反应舱组件
@@ -75,7 +72,6 @@ SCIE
 │  ├─ComponentElectricFurnace    电阻炉组件
 │  ├─ComponentEngine             蒸汽机组件
 │  ├─ComponentEngineA            飞艇发动机组件
-│  ├─ComponentEngineH            斯特林发动机组件
 │  ├─ComponentFireBox            预热炉组件
 │  ├─ComponentFurnaceN           铁炉组件
 │  ├─ComponentHearthFurnace      平炉组件
@@ -91,7 +87,7 @@ SCIE
 │  ├─ComponentPresserNN          枪管机组件
 │  ├─ComponentSeperator          分离机组件
 │  ├─ComponentSqueezer           压榨机组件
-│  ├─ComponentTrain              火车组件
+│  ├─ComponentTrain              火车及车厢组件
 │  ├─ComponentUnloader           放置机组件
 │  └─ComponentVariant            生物变异相关组件
 │

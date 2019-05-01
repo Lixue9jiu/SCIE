@@ -1,7 +1,6 @@
 using Engine;
 using Engine.Graphics;
 using System.Globalization;
-using System.Text;
 
 namespace Game
 {
@@ -18,14 +17,8 @@ namespace Game
 		{
 			BlocksManager.DrawMeshBlock(primitivesRenderer, m_standaloneBlockMesh, color, 3.3f * size, ref matrix, environmentData);
 		}
-		public override string GetCraftingId()
-		{
-			return "Screwdriver";
-		}
-		public override string GetCategory(int value)
-		{
-			return "Tools";
-		}
+		public override string GetCraftingId() => "Screwdriver";
+		public override string GetCategory(int value) => "Tools";
 	}
 	public class Wrench : MeshItem
     {
@@ -40,15 +33,9 @@ namespace Game
         {
             BlocksManager.DrawMeshBlock(primitivesRenderer, m_standaloneBlockMesh, color, 6f * size, ref matrix, environmentData);
 		}
-		public override string GetCraftingId()
-		{
-			return "Wrench";
-		}
-		public override string GetCategory(int value)
-		{
-			return "Tools";
-		}
-    }
+		public override string GetCraftingId() => "Wrench";
+		public override string GetCategory(int value) => "Tools";
+	}
 	public class MetalIngot : MeshItem
 	{
 		public MetalIngot(Materials type)
@@ -96,10 +83,7 @@ namespace Game
 			m_standaloneBlockMesh.AppendModelMeshPart(model.FindMesh("SteelRod", true).MeshParts[0], BlockMesh.GetBoneAbsoluteTransform(model.FindMesh("SteelRod", true).ParentBone) * Matrix.CreateTranslation(0f, -0.5f, 0f), false, false, false, false, color);
 		}
 
-		public override Vector3 GetIconViewOffset(int value, DrawBlockEnvironmentData environmentData)
-		{
-			return new Vector3(-1, 0.5f, 0);
-		}
+		public override Vector3 GetIconViewOffset(int value, DrawBlockEnvironmentData environmentData) => new Vector3(-1, 0.5f, 0);
 
 		public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
 		{
@@ -109,58 +93,6 @@ namespace Game
 		public override float GetMeleePower(int value)
 		{
 			return 2f;
-		}
-	}
-	public class Mine : Mould
-	{
-		public static Mine[] Mines = new Mine[2048];
-		public float ExplosionPressure;
-		public double Delay;
-		public MineType MineType;
-		static Mine()
-		{
-			for (int i = 0; i < 2048; i++)
-				Mines[i] = new Mine((MineType)(i & 63), (i >> 6) / 4.0);
-		}
-		public Mine(MineType type = MineType.Medium, double delay = 0, string description = "Mine") : base("Models/Snowball", "Snowball", Matrix.CreateTranslation(Vector3.Zero), Matrix.CreateTranslation(Vector3.Zero) * Matrix.CreateScale(20f), (type & MineType.Incendiary) != 0 ? Color.DarkRed : Color.LightGray, description, "", 2.5f)
-		{
-			switch (MineType & MineType.Large)
-			{
-				case MineType.Tiny: ExplosionPressure = 50f; break;
-				case MineType.Small: ExplosionPressure = 80f; break;
-				case MineType.Medium: ExplosionPressure = 120f; break;
-				case MineType.Large: ExplosionPressure = 300f; break;
-			}
-			if ((type & MineType.Incendiary) != 0)
-				ExplosionPressure *= 0.9f;
-			Delay = delay;
-			MineType = type;
-		}
-		public override string GetDisplayName(SubsystemTerrain subsystemTerrain, int value)
-		{
-			return GetCraftingId();
-		}
-		public override string GetCategory(int value)
-		{
-			return "Mine";
-		}
-		public override string GetCraftingId()
-		{
-			var sb = new StringBuilder((MineType & MineType.Large).ToString());
-			sb.Append(' ');
-			if ((MineType & MineType.Incendiary) != 0)
-				sb.Append("Incendiary ");
-			if ((MineType & MineType.FL) != 0)
-				sb.Append("FL ");
-			if ((MineType & MineType.Sensitive) != 0)
-				sb.Append("Sensitive ");
-			if (Delay > 0.0)
-			{
-				sb.Append(Delay.ToString());
-				sb.Append("s-Delayed ");
-			}
-			sb.Append((MineType & MineType.Torpedo) == 0 ? "Mine" : "Torpedo");
-			return sb.ToString();
 		}
 	}
 	public class GranulatedItem : ColoredFlatItem

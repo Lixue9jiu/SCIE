@@ -6,8 +6,6 @@ namespace Game
 {
 	public class ComponentCReactor : ComponentMachine, IUpdateable
 	{
-		//protected readonly int[] m_matchedIngredients = new int[9];
-
 		protected string m_smeltingRecipe;
 
 		//protected int m_music;
@@ -34,7 +32,7 @@ namespace Game
 			if (m_updateSmeltingRecipe)
 			{
 				m_updateSmeltingRecipe = false;
-				string text = m_smeltingRecipe2 = FindSmeltingRecipe(1f);
+				string text = m_smeltingRecipe2 = FindSmeltingRecipe(0f);
 				if (text != m_smeltingRecipe)
 				{
 					m_smeltingRecipe = text;
@@ -72,12 +70,8 @@ namespace Game
 				m_fireTimeRemaining = 0f;
 				//m_music = -1;
 			}
-			if (m_smeltingRecipe != null)
-			{
-				m_fireTimeRemaining = 0f;
-				float fireTimeRemaining = m_fireTimeRemaining;
+			else
 				m_fireTimeRemaining = 100f;
-			}
 			if (m_fireTimeRemaining <= 0f)
 			{
 				m_smeltingRecipe = null;
@@ -118,7 +112,6 @@ namespace Game
 			{
 				int slotValue = GetSlotValue(i);
 				int num = Terrain.ExtractContents(slotValue);
-				//int num2 = Terrain.ExtractData(slotValue);
 				if (GetSlotCount(i) > 0)
 				{
 					if (num == TankBlock.Index)
@@ -128,20 +121,13 @@ namespace Game
 					else if (num == PaintStripperBucketBlock.Index)
 						n |= 4;
 				}
-				/*else
-				{
-				}*/
 			}
 			if (n == 7)
 			{
 				text = "CuZnBattery";
-			//}
-			//if (text != null)
-			//{
 				Slot slot = m_slots[ResultSlotIndex];
-				//int num3 = Terrain.ExtractContents(GetSlotValue(1));
 				if (slot.Count != 0 && (slot.Value != ItemBlock.IdTable[text] || slot.Count >= 40))
-					text = null;
+					return null;
 			}
 			return text;
 		}
