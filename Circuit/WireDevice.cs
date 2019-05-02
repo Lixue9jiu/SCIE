@@ -19,7 +19,7 @@ namespace Game
 		}
 		public override string GetDisplayName(SubsystemTerrain subsystemTerrain, int value)
 		{
-			return "IndustrialWire";
+			return Utils.Get("工业电线");
 		}
 	}
 	public class WireDevice : WireElement

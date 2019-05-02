@@ -90,10 +90,7 @@ namespace Game
 			BlocksManager.DrawMeshBlock(primitivesRenderer, m_standaloneBlockMesh, color, 1.6f * size, ref matrix, environmentData);
 		}
 
-		public override float GetMeleePower(int value)
-		{
-			return 2f;
-		}
+		public override float GetMeleePower(int value) => 2f;
 	}
 	public class GranulatedItem : ColoredFlatItem
 	{

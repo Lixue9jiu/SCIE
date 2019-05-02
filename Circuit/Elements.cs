@@ -132,8 +132,8 @@ namespace Game
 			DefaultDescription = description;
 			Resistance = resistance;
 		}
-		public override string GetDisplayName(SubsystemTerrain subsystemTerrain, int value) => DefaultDisplayName;
-		public override string GetDescription(int value) => DefaultDescription;
+		public override string GetDisplayName(SubsystemTerrain subsystemTerrain, int value) => Utils.Get(DefaultDisplayName);
+		public override string GetDescription(int value) => Utils.Get(DefaultDescription);
 		public override int GetWeight(int value) => Resistance;
 		public bool Equals(FixedDevice other)
 		{

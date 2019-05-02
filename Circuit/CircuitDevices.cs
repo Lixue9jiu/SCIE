@@ -236,8 +236,32 @@ namespace Game
 			return new SeperatorWidget(inventory, component);
 		}
 	}
-	
-    public class Canpack : InteractiveEntityDevice<ComponentCanpack>
+
+	public class UThickener : Separator
+	{
+		public UThickener()
+		{
+			DefaultDisplayName = DefaultDescription = "铀浓缩机";
+		}
+		public override int GetFaceTextureSlot(int face, int value)
+		{
+			if (face == 4 || face == 5)
+				return 221;
+			switch (Terrain.ExtractData(value) >> 15)
+			{
+				case 0: return face == 0 ? 131 : 221;
+				case 1: return face == 1 ? 131 : 221;
+				case 2: return face == 2 ? 131 : 221;
+			}
+						return face == 3 ? 131 : 221;
+		}
+		public override BlockPlacementData GetPlacementValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, TerrainRaycastResult raycastResult)
+		{
+			return GetPlacementValue(21, componentMiner, value, raycastResult);
+		}
+	}
+
+	public class Canpack : InteractiveEntityDevice<ComponentCanpack>
     {
         public Canpack() : base("Canpack", "罐装机", "罐装机是一种可以封装液体，变成液体罐头的机器") { }
         public override void Simulate(ref int voltage)
@@ -354,6 +378,21 @@ namespace Game
 			Level = -1;
 			value = 0;
 			Simulate(ref value);
+		}
+	}
+	public class AirCompressor : FixedDevice
+	{
+		public AirCompressor() : base("空气压缩机", "空气压缩机")
+		{
+		}
+		public override int GetFaceTextureSlot(int face, int value)
+		{
+			int direction = Terrain.ExtractData(value) >> 15;
+			return face == 4 || face == 5 ? 170 : face == direction ? 120 : face == CellFace.OppositeFace(direction) ? 110 : 170;
+		}
+		public override BlockPlacementData GetPlacementValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, TerrainRaycastResult raycastResult)
+		{
+			return GetPlacementValue(20, componentMiner, value, raycastResult);
 		}
 	}
 

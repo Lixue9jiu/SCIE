@@ -117,7 +117,7 @@ namespace Game
 			new CoalPowder("Sulphur", Color.Yellow, 1500f, 30f, "Sulphur is powder obtained by crushing sulphur chunk."),
 			new Powder("煤灰", new Color(25, 25, 25)),
 			new Powder("矿渣", new Color(25, 25, 25)),
-			new Powder("Sawdust", Color.LightYellow),
+			new Powder("木屑", Color.LightYellow),
 			new Powder("碎砖", Color.DarkRed),
 			new Powder("碎玻璃", Color.White),
 			new Cylinder(Matrix.CreateScale(70f)),
@@ -154,6 +154,52 @@ namespace Game
 			new ABomb(),
 			new HBomb(),
 			new Powder("聚乙烯", Color.White),
+			new Powder("聚丙烯", Color.White),
+			new Plate(Color.White)
+			{
+				DefaultDisplayName = "聚乙烯板",
+				DefaultDescription = "聚乙烯板"
+			},
+			new Sheet(Color.White)
+			{
+				DefaultDisplayName = "聚乙烯片",
+				DefaultDescription = "聚乙烯片"
+			},
+			new Sheet(Color.DarkGreen)
+			{
+				DefaultDisplayName = "128K RAM",
+				DefaultDescription = "128K RAM"
+			},
+			new Sheet(Color.DarkGreen)
+			{
+				DefaultDisplayName = "256K RAM",
+				DefaultDescription = "256K RAM"
+			},
+			new Sheet(Color.DarkGreen)
+			{
+				DefaultDisplayName = "512K RAM",
+				DefaultDescription = "512K RAM"
+			},
+			new Sheet(Color.DarkGray)
+			{
+				DefaultDisplayName = "Intel 4004",
+				DefaultDescription = "Intel 4004"
+			},
+			new Sheet(Color.DarkGray)
+			{
+				DefaultDisplayName = "Intel 8008",
+				DefaultDescription = "Intel 8008"
+			},
+			new Sheet(Color.DarkGray)
+			{
+				DefaultDisplayName = "Intel 8086",
+				DefaultDescription = "Intel 8086"
+			},
+			new Sheet(Color.DarkGray)
+			{
+				DefaultDisplayName = "TMX 1795",
+				DefaultDescription = "TMX 1795"
+			},
 		};
 		static ItemBlock()
 		{

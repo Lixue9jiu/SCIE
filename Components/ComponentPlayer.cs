@@ -17,11 +17,15 @@ namespace Game
 				if (playerInput.SelectInventorySlot.HasValue)
 					ComponentMiner.Inventory.ActiveSlotIndex = MathUtils.Clamp(playerInput.SelectInventorySlot.Value, 0, 5);
 			}
-			if (ComponentBody.ImmersionFluidBlock != null && ComponentBody.ImmersionFluidBlock.BlockIndex == RottenMeatBlock.Index)
+			if (m_subsystemTime.PeriodicGameTimeEvent(0.5, 0))
 			{
-				//if (ComponentBody.ImmersionDepth > 0.8f)
-					//ComponentScreenOverlays.BlackoutFactor = 1f;
-				ComponentHealth.Air = 1f;
+				ReadOnlyList<int> readOnlyList = ComponentClothing.GetClothes(ClothingSlot.Head);
+				if (ClothingBlock.GetClothingData(readOnlyList[readOnlyList.Count - 1]).DisplayName == Utils.Get("Ç±Ë®Í·¿ø") || (ComponentBody.ImmersionFluidBlock != null && ComponentBody.ImmersionFluidBlock.BlockIndex == RottenMeatBlock.Index))
+				{
+					//if (ComponentBody.ImmersionDepth > 0.8f)
+						//ComponentScreenOverlays.BlackoutFactor = 1f;
+					ComponentHealth.Air = 1f;
+				}
 			}
 			ComponentMount mount = ComponentRider.Mount;
 			if (mount != null)
