@@ -20,7 +20,7 @@ namespace Game
 			if (m_subsystemTime.PeriodicGameTimeEvent(0.5, 0))
 			{
 				ReadOnlyList<int> readOnlyList = ComponentClothing.GetClothes(ClothingSlot.Head);
-				if (ClothingBlock.GetClothingData(readOnlyList[readOnlyList.Count - 1]).DisplayName == Utils.Get("潜水头盔") || (ComponentBody.ImmersionFluidBlock != null && ComponentBody.ImmersionFluidBlock.BlockIndex == RottenMeatBlock.Index))
+				if ((readOnlyList.Count > 0 && ClothingBlock.GetClothingData(readOnlyList[readOnlyList.Count - 1]).DisplayName == Utils.Get("潜水头盔")) || (ComponentBody.ImmersionFluidBlock != null && ComponentBody.ImmersionFluidBlock.BlockIndex == RottenMeatBlock.Index))
 				{
 					//if (ComponentBody.ImmersionDepth > 0.8f)
 						//ComponentScreenOverlays.BlackoutFactor = 1f;

@@ -38,11 +38,12 @@ namespace Game
 			m_progress = Children.Find<ValueBarWidget>("Progress");
 
 			int num = 6, y, x;
+			InventorySlotWidget inventorySlotWidget;
 			for (y = 0; y < m_inventoryGrid.RowsCount; y++)
 			{
 				for (x = 0; x < m_inventoryGrid.ColumnsCount; x++)
 				{
-					var inventorySlotWidget = new InventorySlotWidget();
+					inventorySlotWidget = new InventorySlotWidget();
 					inventorySlotWidget.AssignInventorySlot(inventory, num++);
 					m_inventoryGrid.Children.Add(inventorySlotWidget);
 					m_inventoryGrid.SetWidgetCell(inventorySlotWidget, new Point2(x, y));
@@ -54,10 +55,10 @@ namespace Game
 			{
 				for (x = 0; x < m_furnaceGrid.ColumnsCount; x++)
 				{
-					var inventorySlotWidget2 = new InventorySlotWidget();
-					inventorySlotWidget2.AssignInventorySlot(componentFurnace, num++);
-					m_furnaceGrid.Children.Add(inventorySlotWidget2);
-					m_furnaceGrid.SetWidgetCell(inventorySlotWidget2, new Point2(x, y));
+					inventorySlotWidget = new InventorySlotWidget();
+					inventorySlotWidget.AssignInventorySlot(componentFurnace, num++);
+					m_furnaceGrid.Children.Add(inventorySlotWidget);
+					m_furnaceGrid.SetWidgetCell(inventorySlotWidget, new Point2(x, y));
 				}
 			}
 			m_result1.AssignInventorySlot(componentFurnace, num++);

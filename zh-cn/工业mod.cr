@@ -821,7 +821,7 @@
       "abba"
       "aaaa"
     </Recipe>
-    <Recipe Result="tank：1" ResultCount="1" RequiredHeatLevel="0" a="tank" b="Pipe" Description="制作一个裂解塔来处理原油">
+    <Recipe Result="TankBlock:1" ResultCount="1" RequiredHeatLevel="0" a="tank" b="Pipe0" Description="制作一个裂解塔来处理原油">
       "baab"
       "bbbb"
       "bbbb"
@@ -890,13 +890,13 @@
       "aeba"
       "cffc"
     </Recipe>
-    <Recipe Result="AirCompresser" ResultCount="1" RequiredHeatLevel="0" a="SteelFan" b="SteelRod" c="SteelPlate" d="IndustrialPiston" e="metalblock:32" f="Piston" g="tank" Description="制作一台空气压缩机">
+    <Recipe Result="AirCompressor" ResultCount="1" RequiredHeatLevel="0" a="SteelFan" b="SteelRod" c="SteelPlate" d="IndustrialPiston" e="metalblock:32" f="IndustrialPiston" g="tank" Description="制作一台空气压缩机">
       "caac"
       "dgfd"
       "bddb"
       "ccec"
     </Recipe>
-    <Recipe Result="UThickener" ResultCount="1" RequiredHeatLevel="0" a="SteelFan" b="SteelRod" c="SteelPlate" d="IndustrialPiston" e="metalblock:32" f="Piston" g="tank" Description="制作一台铀浓缩机">
+    <Recipe Result="UThickener" ResultCount="1" RequiredHeatLevel="0" a="SteelFan" b="SteelRod" c="SteelPlate" d="IndustrialPiston" e="metalblock:32" f="IndustrialPiston" g="tank" Description="制作一台铀浓缩机">
       "cffc"
       "cddc"
       "dbed"

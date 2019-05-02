@@ -41,7 +41,7 @@ namespace Game
 		public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
 		{
 			var type = GetType(value);
-			CustomTextureItem.DrawFlatBlock(primitivesRenderer, value, size, ref matrix, CustomTextureItem.Texture,
+			ItemBlock.DrawFlatBlock(primitivesRenderer, value, size, ref matrix, ItemBlock.Texture,
 				(type == DrillType.DiamondDrill ? Color.Cyan : type == DrillType.SteelTubularis ? color = Color.Gray : color) * SubsystemPalette.GetColor(environmentData, Terrain.ExtractData(value) >> 13 & 15), false, environmentData);
 		}
 		public static DrillType GetType(int value)

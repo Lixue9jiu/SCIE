@@ -148,13 +148,12 @@ namespace Game
 			SubsystemBlockEntities.m_blockEntities.TryGetValue(p, out ComponentBlockEntity entity);
 			return entity;
 		}
-		public static BlockMesh CreateMesh(string modelName, string meshName, Matrix boneTransform, Matrix tcTransform, Color color)
+		public static void AppendMesh(this BlockMesh blockMesh, string modelName, string meshName, Matrix boneTransform, Matrix tcTransform, Color color)
 		{
 			var model = ContentManager.Get<Model>(modelName);
-			var blockMesh = new BlockMesh();
-			blockMesh.AppendModelMeshPart(model.FindMesh(meshName, true).MeshParts[0], BlockMesh.GetBoneAbsoluteTransform(model.FindMesh(meshName, true).ParentBone) * boneTransform, false, false, false, false, color);
-			blockMesh.TransformTextureCoordinates(tcTransform);
-			return blockMesh;
+			blockMesh.AppendModelMeshPart(model.FindMesh(meshName).MeshParts[0], BlockMesh.GetBoneAbsoluteTransform(model.FindMesh(meshName).ParentBone) * boneTransform, false, false, false, false, color);
+			if (tcTransform != Matrix.Identity)
+				blockMesh.TransformTextureCoordinates(tcTransform);
 		}
 		[MethodImpl((MethodImplOptions)0x100)]
 		public static int GetColor(int value)

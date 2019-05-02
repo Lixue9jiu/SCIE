@@ -13,8 +13,7 @@ namespace Game
 				WidgetsList.Enumerator enumerator;
 				if (m_recipe != null)
 				{
-					var block = BlocksManager.Blocks[Terrain.ExtractContents(m_recipe.ResultValue)];
-					m_nameWidget.Text = block.GetDisplayName(null, m_recipe.ResultValue) + ((!string.IsNullOrEmpty(NameSuffix)) ? NameSuffix : string.Empty);
+					m_nameWidget.Text = BlocksManager.Blocks[Terrain.ExtractContents(m_recipe.ResultValue)].GetDisplayName(null, m_recipe.ResultValue) + ((!string.IsNullOrEmpty(NameSuffix)) ? NameSuffix : string.Empty);
 					m_descriptionWidget.Text = m_recipe.Description;
 					m_nameWidget.IsVisible = true;
 					m_descriptionWidget.IsVisible = true;

@@ -1,29 +1,97 @@
 ﻿using Engine;
 using Engine.Graphics;
+using System.Threading.Tasks;
 
 namespace Game
 {
-	public class CustomTextureItem : FlatItem
+	public class BlockItem : Item
 	{
-		public static Texture2D Texture;
+		public string DefaultDisplayName;
+		public string DefaultDescription;
 
-		static CustomTextureItem()
+		public BlockItem()
 		{
-			var stream = Utils.GetTargetFile("IndustrialMod.png");
-			try
-			{
-				Texture = Texture2D.Load(stream);
-			}
-			finally
-			{
-				stream.Close();
-			}
+			DefaultDescription = DefaultDisplayName = GetType().ToString().Substring(5);
+		}
+		public override string GetCraftingId() => DefaultDisplayName;
+		public override string GetDisplayName(SubsystemTerrain subsystemTerrain, int value) => DefaultDisplayName;
+		public override string GetDescription(int value) => DefaultDescription;
+	}
+	public class FlatItem : BlockItem
+	{
+		public Color Color = Color.White;
+		public int DefaultTextureSlot;
+		public override int GetFaceTextureSlot(int face, int value) => DefaultTextureSlot;
+		public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
+		{
+			BlocksManager.DrawFlatBlock(primitivesRenderer, value, size, ref matrix, null, Color * color, false, environmentData);
+		}
+		public override Vector3 GetIconViewOffset(int value, DrawBlockEnvironmentData environmentData) => new Vector3 { Z = 1 };
+	}
+	public class MeshItem : BlockItem
+	{
+		public BlockMesh m_standaloneBlockMesh = new BlockMesh();
+		public MeshItem(string description = "") => DefaultDescription = description;
+		public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
+		{
+			BlocksManager.DrawMeshBlock(primitivesRenderer, m_standaloneBlockMesh, color, size, ref matrix, environmentData);
+		}
+		public override float GetIconViewScale(int value, DrawBlockEnvironmentData environmentData) => 0.85f;
+		public override bool IsFaceTransparent(SubsystemTerrain subsystemTerrain, int face, int value) => true;
+	}
+	public class GranulatedItem : FlatItem
+	{
+		public GranulatedItem(string name, Color color)
+		{
+			DefaultDisplayName = Utils.Get(name);
+			DefaultTextureSlot = 231;
+			Color = color;
+		}
+	}
+	public class Mould : MeshItem
+	{
+		public readonly float Size;
+		public readonly BoundingBox[] m_collisionBoxes;
+
+		public Mould(string modelName, string meshName, Matrix boneTransform, Matrix tcTransform, Color color, float size = 1f) : base("")
+		{
+			Size = size;
+			var model = ContentManager.Get<Model>(modelName);
+			m_standaloneBlockMesh.AppendMesh(modelName, meshName, boneTransform, tcTransform * Matrix.CreateScale(0.05f), color);
+			m_collisionBoxes = new[] { m_standaloneBlockMesh.CalculateBoundingBox() };
+		}
+		public Mould(string meshName, Matrix boneTransform, Matrix tcTransform, string description = "", float size = 1f) : this("Models/" + meshName, meshName, boneTransform, tcTransform, Color.LightGray, size)
+		{
+			DefaultDisplayName = "Steel" + meshName;
+			DefaultDescription = description;
+		}
+		public Mould(string modelName, string meshName, Matrix boneTransform, Matrix tcTransform, string description = "", string name = "", float size = 1f) : this(modelName, meshName, boneTransform, tcTransform, Color.LightGray, size)
+		{
+			DefaultDisplayName = name;
+			DefaultDescription = description;
+		}
+
+		public override void GenerateTerrainVertices(Block block, BlockGeometryGenerator generator, TerrainGeometrySubsets geometry, int value, int x, int y, int z)
+		{
+			generator.GenerateMeshVertices(block, x, y, z, m_standaloneBlockMesh, Color.White, null, geometry.SubsetOpaque);
 		}
 
 		public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
 		{
-			DrawFlatBlock(primitivesRenderer, value, 1f, ref matrix, Texture, color, false, environmentData);
+			BlocksManager.DrawMeshBlock(primitivesRenderer, m_standaloneBlockMesh, color, size * Size, ref matrix, environmentData);
 		}
+
+		public override BlockPlacementData GetPlacementValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, TerrainRaycastResult raycastResult)
+		{
+			return new BlockPlacementData { Value = value, CellFace = raycastResult.CellFace };
+		}
+
+		public override BoundingBox[] GetCustomCollisionBoxes(SubsystemTerrain terrain, int value) => m_collisionBoxes;
+	}
+	public partial class ItemBlock
+	{
+		public static Texture2D Texture;
+		public static Task Task;
 
 		/*public static void DrawCubeBlock(PrimitivesRenderer3D primitivesRenderer, int value, Texture2D texture, Vector3 size, ref Matrix matrix, Color color, Color topColor, DrawBlockEnvironmentData environmentData)
 		{

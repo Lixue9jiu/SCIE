@@ -6,6 +6,18 @@ namespace Game
 {
 	public abstract class FourDirectionalBlock : CubeBlock, IPaintableBlock, IElectricElementBlock
 	{
+		protected int Front, Back;
+		protected FourDirectionalBlock()
+		{
+		}
+
+		protected FourDirectionalBlock(int front, int back = 107)
+		{
+			Front = front;
+			Back = back;
+		}
+
+
 		public override void GenerateTerrainVertices(BlockGeometryGenerator generator, TerrainGeometrySubsets geometry, int value, int x, int y, int z)
 		{
 			generator.GenerateCubeVertices(this, value, x, y, z, SubsystemPalette.GetColor(generator, GetPaintColor(value)), geometry.OpaqueSubsetsByFace);
@@ -60,6 +72,11 @@ namespace Game
 		public override string GetCategory(int value)
 		{
 			return GetPaintColor(value).HasValue ? "Painted" : base.GetCategory(value);
+		}
+
+		public override int GetFaceTextureSlot(int face, int value)
+		{
+			return face != 4 && face != 5 && face == GetDirection(value) ? Front : Back;
 		}
 
 		public int? GetPaintColor(int value)

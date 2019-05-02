@@ -132,10 +132,11 @@ namespace Game
 				{
 					Slot slot = m_slots[1 + i];
 					if (slot.Count != 0 && result[i] != 0 && (slot.Value != result[i] || slot.Count >= 40))
-						text = false;
+						return null;
 				}
+				return "AluminumOrePowder";
 			}
-			return text ? "AluminumOrePowder" : null;
+			return null;
 		}
 	}
 }

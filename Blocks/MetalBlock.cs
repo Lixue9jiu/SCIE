@@ -61,11 +61,7 @@ namespace Game
 
 		public override BlockPlacementData GetPlacementValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, TerrainRaycastResult raycastResult)
 		{
-			return new BlockPlacementData
-			{
-				Value = value,
-				CellFace = raycastResult.CellFace
-			};
+			return new BlockPlacementData { Value = value, CellFace = raycastResult.CellFace };
 		}
 		public override void GenerateTerrainVertices(BlockGeometryGenerator generator, TerrainGeometrySubsets geometry, int value, int x, int y, int z)
 		{
@@ -98,7 +94,7 @@ namespace Game
 		public override string GetDisplayName(SubsystemTerrain subsystemTerrain, int value)
 		{
 			int type = GetType(value);
-			return type < 3 ? Utils.Get(Names[type]): "Soild " + ((Materials)(type - 3)).ToString() + " Block";
+			return type < 3 ? Utils.Get(Names[type]): "Soild " + ((Materials)(type - 3)).ToStr() + " Block";
 		}
 		public override string GetDescription(int value)
 		{
@@ -111,7 +107,7 @@ namespace Game
 					var type = (Materials)(GetType(value) - 3);
 					return Utils.Get(type == Materials.Steel
 						? "钢块。 非常重且耐用。 对挖掘和爆炸都有非常好的抗性。 可以用多个钢锭制作。"
-						: "The block of pure " + type.ToString() + " Can be crafted from multiple " + type.ToString() + " ingots.");
+						: Utils.Get("一块纯") + type.ToStr() + Utils.Get("能由多块") + type.ToStr() + Utils.Get("锭制得。"));
 			}
 		}
 		public override void GetDropValues(SubsystemTerrain subsystemTerrain, int oldValue, int newValue, int toolLevel, List<BlockDropValue> dropValues, out bool showDebris)

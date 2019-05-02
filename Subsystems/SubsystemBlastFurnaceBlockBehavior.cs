@@ -52,7 +52,7 @@ namespace Game
 					componentMiner.ComponentPlayer.ComponentGui.ModalPanelWidget = new CovenWidget(componentMiner.Inventory, blockEntity.Entity.FindComponent<ComponentCoven>(true));
 					break;
 				case HearthFurnaceBlock.Index:
-					componentMiner.ComponentPlayer.ComponentGui.ModalPanelWidget = new HearthFurnaceWidget(componentMiner.Inventory, blockEntity.Entity.FindComponent<ComponentHearthFurnace>(true));
+					componentMiner.ComponentPlayer.ComponentGui.ModalPanelWidget = new CovenWidget(componentMiner.Inventory, blockEntity.Entity.FindComponent<ComponentHearthFurnace>(true), "Widgets/HearthFurnaceWidget");
 					break;
                 case TankBlock.Index:
 					if (TankBlock.GetType(raycastResult.Value) == TankBlock.Type.FractionatingTower)

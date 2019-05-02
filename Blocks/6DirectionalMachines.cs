@@ -83,14 +83,5 @@ namespace Game
 		{
 			return face == GetDirection(value) ? 203 : 107;
 		}
-
-		/*public static MachineMode GetMode(int data)
-		{
-			return (data & 8) == 0 ? MachineMode.Dispense : MachineMode.Shoot;
-		}
-		public static int SetMode(int data, MachineMode mode)
-		{
-			return (data & -9) | ((mode != 0) ? 8 : 0);
-		}*/
 	}
 }

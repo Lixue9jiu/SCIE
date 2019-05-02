@@ -103,34 +103,18 @@ namespace Game
 		{
 			//base.Load(valuesDictionary, idToEntityMap);
 			m_matchedIngredients = new string[36];
-			int count = valuesDictionary.GetValue<int>("SlotsCount");
-			m_slots.Capacity = count;
-			int i;
-			for (i = 0; i < count; i++)
-				m_slots.Add(new Slot());
-			ValuesDictionary value2 = valuesDictionary.GetValue<ValuesDictionary>("Slots");
-			for (i = 0; i < m_slots.Count; i++)
-			{
-				ValuesDictionary value3 = value2.GetValue<ValuesDictionary>("Slot" + i.ToString(CultureInfo.InvariantCulture), null);
-				if (value3 != null)
-				{
-					Slot slot = m_slots[i];
-					slot.Value = value3.GetValue<int>("Contents");
-					slot.Count = value3.GetValue<int>("Count");
-				}
-			}
+			this.LoadItems(valuesDictionary);
 			//m_subsystemExplosions = Project.FindSubsystem<SubsystemExplosions>(true);
 			m_componentBlockEntity = Entity.FindComponent<ComponentBlockEntity>(true);
-			m_fireTimeRemaining = valuesDictionary.GetValue<float>("FireTimeRemaining");
-			m_updateSmeltingRecipe = true;
+			m_fireTimeRemaining = valuesDictionary.GetValue("FireTimeRemaining", 0f);
 			m_furnaceSize = SlotsCount - 5;
-			m_fireTimeRemaining = valuesDictionary.GetValue<float>("FireTimeRemaining");
+			m_fireTimeRemaining = valuesDictionary.GetValue("FireTimeRemaining", 0f);
 			m_updateSmeltingRecipe = true;
 		}
 
 		public override void Save(ValuesDictionary valuesDictionary, EntityToIdMap entityToIdMap)
 		{
-			base.Save(valuesDictionary, entityToIdMap);
+			this.SaveItems(valuesDictionary);
 			valuesDictionary.SetValue("FireTimeRemaining", m_fireTimeRemaining);
 		}
 	}

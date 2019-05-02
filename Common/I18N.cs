@@ -61,6 +61,28 @@ namespace Game
 	}*/
 	public static partial class Utils
 	{
+		public static readonly string[] Strings =
+		{
+			"钢",
+			"金",
+			"银",
+			"铅",
+			"铂",
+			"锌",
+			"锡",
+			"铬",
+			"钛",
+			"镍",
+			"铝",
+			"铀",
+			"磷",
+			"铁",
+			"铜",
+			"汞",
+			"锗",
+			"Fe-Al-Cr合金",
+			"塑料",
+		};
 		public static Dictionary<string, string> TR;
 		/// <summary>
 		/// 读取键值对文件
@@ -94,6 +116,11 @@ namespace Game
 			if (throwIfNotFound)
 				throw new InvalidOperationException(name + " not found.");
 			return null;
+		}
+		[MethodImpl((MethodImplOptions)0x100)]
+		public static string ToStr(this Materials m)
+		{
+			return Strings[(int)m];
 		}
 	}
 }
