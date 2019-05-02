@@ -113,6 +113,7 @@ namespace Game
 				new Pipe(5),
 				new Pipe(6),
 				new Pipe(7),
+				new UThickener(),
 				new TEDC(),
             };
 			for (int i = 0; i < Devices.Length; i++)
