@@ -7,9 +7,7 @@ namespace Game
 	public class SteelAxeBlock : AxeBlock
 	{
 		public const int Index = 511;
-		public SteelAxeBlock() : base(47, 180)
-		{
-		}
+		public SteelAxeBlock() : base(47, 180) { }
 		public override string GetCategory(int value)
 		{
 			return Utils.GetColor(value) != 0 ? "Painted" : base.GetCategory(value);
@@ -18,10 +16,7 @@ namespace Game
 		{
 			return SubsystemPalette.GetName(subsystemTerrain, Utils.GetColor(value), DefaultDisplayName);
 		}
-		public override IEnumerable<int> GetCreativeValues()
-		{
-			return Utils.GetCreativeValues(Index);
-		}
+		public override IEnumerable<int> GetCreativeValues() => Utils.GetCreativeValues(Index);
 		public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
 		{
 			BlocksManager.DrawMeshBlock(primitivesRenderer, m_standaloneBlockMesh, color * SubsystemPalette.GetColor(environmentData, Utils.GetColor(value)), 2f * size, ref matrix, environmentData);
@@ -34,9 +29,7 @@ namespace Game
 	public class SteelMacheteBlock : MacheteBlock
 	{
 		public const int Index = 516;
-		public SteelMacheteBlock() : base(47, 180)
-		{
-		}
+		public SteelMacheteBlock() : base(47, 180) { }
 		public override string GetCategory(int value)
 		{
 			return Utils.GetColor(value) != 0 ? "Painted" : base.GetCategory(value);
@@ -45,10 +38,7 @@ namespace Game
 		{
 			return SubsystemPalette.GetName(subsystemTerrain, Utils.GetColor(value), DefaultDisplayName);
 		}
-		public override IEnumerable<int> GetCreativeValues()
-		{
-			return Utils.GetCreativeValues(Index);
-		}
+		public override IEnumerable<int> GetCreativeValues() => Utils.GetCreativeValues(Index);
 		public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
 		{
 			BlocksManager.DrawMeshBlock(primitivesRenderer, m_standaloneBlockMesh, color * SubsystemPalette.GetColor(environmentData, Utils.GetColor(value)), 2f * size, ref matrix, environmentData);
@@ -61,10 +51,7 @@ namespace Game
 	public class SteelPickaxeBlock : PickaxeBlock
 	{
 		public const int Index = 512;
-		public SteelPickaxeBlock()
-			: base(47, 180)
-		{
-		}
+		public SteelPickaxeBlock() : base(47, 180) { }
 		public override string GetCategory(int value)
 		{
 			return Utils.GetColor(value) != 0 ? "Painted" : base.GetCategory(value);
@@ -73,10 +60,7 @@ namespace Game
 		{
 			return SubsystemPalette.GetName(subsystemTerrain, Utils.GetColor(value), DefaultDisplayName);
 		}
-		public override IEnumerable<int> GetCreativeValues()
-		{
-			return Utils.GetCreativeValues(Index);
-		}
+		public override IEnumerable<int> GetCreativeValues() => Utils.GetCreativeValues(Index);
 		public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
 		{
 			BlocksManager.DrawMeshBlock(primitivesRenderer, m_standaloneBlockMesh, color * SubsystemPalette.GetColor(environmentData, Utils.GetColor(value)), 2f * size, ref matrix, environmentData);
@@ -89,9 +73,7 @@ namespace Game
 	public class SteelShovelBlock : ShovelBlock
 	{
 		public const int Index = 514;
-		public SteelShovelBlock() : base(47, 180)
-		{
-		}
+		public SteelShovelBlock() : base(47, 180) { }
 		public override string GetCategory(int value)
 		{
 			return Utils.GetColor(value) != 0 ? "Painted" : base.GetCategory(value);
@@ -100,10 +82,7 @@ namespace Game
 		{
 			return SubsystemPalette.GetName(subsystemTerrain, Utils.GetColor(value), DefaultDisplayName);
 		}
-		public override IEnumerable<int> GetCreativeValues()
-		{
-			return Utils.GetCreativeValues(Index);
-		}
+		public override IEnumerable<int> GetCreativeValues() => Utils.GetCreativeValues(Index);
 		public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
 		{
 			BlocksManager.DrawMeshBlock(primitivesRenderer, m_standaloneBlockMesh, color * SubsystemPalette.GetColor(environmentData, Utils.GetColor(value)), 2f * size, ref matrix, environmentData);
@@ -116,17 +95,12 @@ namespace Game
 	public class SteelSpearBlock : SpearBlock
 	{
 		public const int Index = 515;
-		public SteelSpearBlock() : base(47, 180)
-		{
-		}
+		public SteelSpearBlock() : base(47, 180) { }
 		public override string GetCategory(int value)
 		{
 			return Utils.GetColor(value) != 0 ? "Painted" : base.GetCategory(value);
 		}
-		public override IEnumerable<int> GetCreativeValues()
-		{
-			return Utils.GetCreativeValues(Index);
-		}
+		public override IEnumerable<int> GetCreativeValues() => Utils.GetCreativeValues(Index);
 		public override string GetDisplayName(SubsystemTerrain subsystemTerrain, int value)
 		{
 			return SubsystemPalette.GetName(subsystemTerrain, Utils.GetColor(value), DefaultDisplayName);
@@ -143,9 +117,7 @@ namespace Game
 	public class SteelRakeBlock : RakeBlock
 	{
 		public const int Index = 513;
-		public SteelRakeBlock() : base(47, 180)
-		{
-		}
+		public SteelRakeBlock() : base(47, 180) { }
 		public override string GetCategory(int value)
 		{
 			return Utils.GetColor(value) != 0 ? "Painted" : base.GetCategory(value);
@@ -154,10 +126,7 @@ namespace Game
 		{
 			return SubsystemPalette.GetName(subsystemTerrain, Utils.GetColor(value), DefaultDisplayName);
 		}
-		public override IEnumerable<int> GetCreativeValues()
-		{
-			return Utils.GetCreativeValues(Index);
-		}
+		public override IEnumerable<int> GetCreativeValues() => Utils.GetCreativeValues(Index);
 		public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
 		{
 			BlocksManager.DrawMeshBlock(primitivesRenderer, m_standaloneBlockMesh, color * SubsystemPalette.GetColor(environmentData, Utils.GetColor(value)), 2f * size, ref matrix, environmentData);

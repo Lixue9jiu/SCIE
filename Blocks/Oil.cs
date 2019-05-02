@@ -17,17 +17,18 @@ public class RottenMeatBlock : FluidBlock
 	public const int Index = 240;
 	public BlockMesh m_standaloneBlockMesh;
 	public BlockMesh StandaloneBlockMesh = new BlockMesh();
-	public Color[] Colors = new[] { new Color(30, 30, 30), default(Color), new Color(184, 134, 11), new Color(160, 82, 45), new Color(255, 231, 186) };
+	public static Color[] Colors;
 
 	public RottenMeatBlock() : base(1) {}
 	public override void Initialize()
 	{
+		Colors = new[] { new Color(30, 30, 30), default(Color), new Color(184, 134, 11), new Color(160, 82, 45), new Color(255, 231, 186) };
 		var model = ContentManager.Get<Model>("Models/FullBucket");
-		var meshParts = model.FindMesh("Contents", true).MeshParts;
-		StandaloneBlockMesh.AppendModelMeshPart(meshParts[0], BlockMesh.GetBoneAbsoluteTransform(model.FindMesh("Contents", true).ParentBone) * Matrix.CreateRotationY(MathUtils.DegToRad(180f)) * Matrix.CreateTranslation(0f, -0.3f, 0f), false, false, false, false, new Color(30, 30, 30));
+		var meshParts = model.FindMesh("Contents").MeshParts;
+		StandaloneBlockMesh.AppendModelMeshPart(meshParts[0], BlockMesh.GetBoneAbsoluteTransform(model.FindMesh("Contents").ParentBone) * Matrix.CreateRotationY(MathUtils.DegToRad(180f)) * Matrix.CreateTranslation(0f, -0.3f, 0f), false, false, false, false, new Color(30, 30, 30));
 		StandaloneBlockMesh.TransformTextureCoordinates(Matrix.CreateTranslation(0.8125f, 0.6875f, 0f));
-		meshParts = model.FindMesh("Bucket", true).MeshParts;
-		StandaloneBlockMesh.AppendModelMeshPart(meshParts[0], BlockMesh.GetBoneAbsoluteTransform(model.FindMesh("Bucket", true).ParentBone) * Matrix.CreateRotationY(MathUtils.DegToRad(180f)) * Matrix.CreateTranslation(0f, -0.3f, 0f), false, false, false, false, Color.White);
+		meshParts = model.FindMesh("Bucket").MeshParts;
+		StandaloneBlockMesh.AppendModelMeshPart(meshParts[0], BlockMesh.GetBoneAbsoluteTransform(model.FindMesh("Bucket").ParentBone) * Matrix.CreateRotationY(MathUtils.DegToRad(180f)) * Matrix.CreateTranslation(0f, -0.3f, 0f), false, false, false, false, Color.White);
 		var rottenMeatBlock = new Game.RottenMeatBlock()
 		{
 			DefaultShadowStrength = -1
@@ -38,7 +39,7 @@ public class RottenMeatBlock : FluidBlock
 	}
 	public override IEnumerable<int> GetCreativeValues()
 	{
-		return new int[] { Index, Index | 1 << 4 << 14, Index | 2 << 4 << 14, Index | 3 << 4 << 14, Index | 4 << 4 << 14, Index | 5 << 4 << 14 };
+		return new[] { Index, Index | 1 << 4 << 14, Index | 2 << 4 << 14, Index | 3 << 4 << 14, Index | 4 << 4 << 14, Index | 5 << 4 << 14 };
 	}
 	public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
 	{
@@ -93,8 +94,5 @@ public class RottenMeatBlock : FluidBlock
 	{
 		return GetType(value) != 0 ? Vector3.One : DefaultIconViewOffset;
 	}
-	public static Type GetType(int value)
-	{
-		return (Type)(Terrain.ExtractData(value) >> 4);
-	}
+	public static Type GetType(int value) => (Type)(Terrain.ExtractData(value) >> 4);
 }

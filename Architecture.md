@@ -7,41 +7,35 @@
 SCIE
 ├─Blocks                       方块物品类
 │  ├─4DirectionalMachines      4方向机器
+│  ├─6DirectionalMachines      6方向机器
 │  ├─BasaltBlock               矿物相关
 │  ├─Bullet2Block              步枪子弹
 │  ├─BulletBlock               子弹
-│  ├─ChemicalBlock             化学相关方块
-│  ├─CustomTextureItem         外置材质物品
+│  ├─CommonItems               基础物品
 │  ├─DrillBlock                挖掘机
 │  ├─DrillerElectricElement    挖掘机电路元素
 │  ├─ElectricComponents        电子元件
 │  ├─ElementBlock              电路元素方块
-│  ├─EngineBlocks              发动机
-│  ├─FireBoxBlock              预热炉
-│  ├─FurnaceNBlock             铁炉
 │  ├─Gunpowder                 火药类
 │  ├─ItemBlock                 物品系统
 │  ├─Items                     所有物品
 │  ├─LiquidPumpElectricElement 液体泵电路元素
 │  ├─MachineToolBlock          机床方块
+│  ├─Materials                 基本材料
 │  ├─MetalBlock                金属块
-│  ├─Metalwork                 金属制品
-│  ├─Moulds                    模具类
 │  ├─MultiDirectionalBlock     多方向方块
 │  ├─Musket2Block              步枪
 │  ├─Oil                       石油相关
 │  ├─OresAndPowder             矿石和粉末
-│  ├─PlateAndSheet             板、片
 │  ├─RailBlock                 铁轨方块
-│  ├─RefractoryBrick           耐火砖
 │  ├─Scraps                    废料
-│  ├─SixDirectionalMachines    6方向机器
 │  ├─SteelTools                钢工具
 │  ├─TankBlock                 油箱、分馏塔、减压器方块
 │  └─Vehicles                  交通工具
 │
 ├─Chemistry                化学模块
 │  ├─Atom                  原子相关
+│  ├─ChemicalBlock         化学相关方块
 │  ├─Compound              单质和化合物类
 │  ├─DispersionSystem      分散系相关
 │  └─Equation              方程式相关
@@ -75,7 +69,7 @@ SCIE
 │  ├─ComponentFireBox            预热炉组件
 │  ├─ComponentFurnaceN           铁炉组件
 │  ├─ComponentHearthFurnace      平炉组件
-│  ├─ComponentKibbler            粉碎机组件
+│  ├─ComponentPMachs             加工类机器组件
 │  ├─ComponentLargeCraftingTable 机床组件
 │  ├─ComponentLiquidPump         液体泵组件
 │  ├─ComponentMachine            机器基础组件
@@ -104,10 +98,7 @@ SCIE
 │  ├─SubsystemCrusherBlockBehavior         矿物处理机方块行为
 │  ├─SubsystemDiversionBlockBehavior       换向器方块行为
 │  ├─SubsystemDrillerBlockBehavior         挖掘机方块行为
-│  ├─SubsystemEnergy                       能源系统（待测试）
-│  ├─SubsystemEngineBlocksBehavior         发动机方块行为
-│  ├─SubsystemFireBoxBlockBehavior         预热炉方块行为
-│  ├─SubsystemFurnaceNBlockBehavior        铁炉方块行为
+│  ├─SubsystemFurnaceNBlockBehavior        炉类方块行为
 │  ├─SubsystemInventoryBlockBehavior       容器实体方块行为
 │  ├─SubsystemItemBlockBehavior            物品方块行为
 │  ├─SubsystemLiquidPumpBlockBehavior      液体泵方块行为
@@ -144,6 +135,6 @@ SCIE
 ├─Architecture.md       本文件
 ├─IndustrialMod.png     外置材质
 ├─README.md             说明
-├─Survivalcraft.csproj  C#项目
-└─Survivalcraft.sln     解决方案
+├─SCIE.csproj  C#项目
+└─SCIE.sln     解决方案
 ~~~

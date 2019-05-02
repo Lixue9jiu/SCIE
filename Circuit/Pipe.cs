@@ -13,8 +13,8 @@ namespace Game
 			var meshes = new BlockMesh[6];
 			int i;
 			BlockMesh blockMesh;
-			ModelMeshPart meshPart = model.FindMesh("Battery", true).MeshParts[0];
-			Matrix boneAbsoluteTransform = BlockMesh.GetBoneAbsoluteTransform(model.FindMesh("Battery", true).ParentBone);
+			ModelMeshPart meshPart = model.FindMesh("Battery").MeshParts[0];
+			Matrix boneAbsoluteTransform = BlockMesh.GetBoneAbsoluteTransform(model.FindMesh("Battery").ParentBone);
 			for (i = 0; i < 6; i++)
 			{
 				blockMesh = new BlockMesh();
@@ -36,16 +36,12 @@ namespace Game
 		public override Device Create(Point3 p)
 		{
 			var device = base.Create(p);
-			device.Type = (ElementType)(GetType(Terrain.ExtractData(Utils.Terrain.GetCellValue(p.X, p.Y, p.Z))) << 20);
+			device.Type = ElementType.Supply | (ElementType)(GetType(Terrain.ExtractData(Utils.Terrain.GetCellValue(p.X, p.Y, p.Z))) << 20);
 			return device;
 		}
 		public override BlockPlacementData GetPlacementValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, TerrainRaycastResult raycastResult)
 		{
-			return new BlockPlacementData
-			{
-				Value = Terrain.ReplaceLight(value, 0),
-				CellFace = raycastResult.CellFace
-			};
+			return new BlockPlacementData { Value = Terrain.ReplaceLight(value, 0), CellFace = raycastResult.CellFace };
 		}
 		public override string GetCraftingId() => DefaultDisplayName;
 		public override void GenerateTerrainVertices(Block block, BlockGeometryGenerator generator, TerrainGeometrySubsets geometry, int value, int x, int y, int z)
@@ -62,24 +58,11 @@ namespace Game
 		public override void GetDropValues(SubsystemTerrain subsystemTerrain, int oldValue, int newValue, int toolLevel, List<BlockDropValue> dropValues, out bool showDebris)
 		{
 			showDebris = true;
-			dropValues.Add(new BlockDropValue
-			{
-				Value = Terrain.ReplaceLight(oldValue, 0),
-				Count = 1
-			});
+			dropValues.Add(new BlockDropValue { Value = Terrain.ReplaceLight(oldValue, 0), Count = 1 });
 		}
-		public override string GetCategory(int value)
-		{
-			return Utils.Get("管道");
-		}
-		public static int GetType(int data)
-		{
-			return ((data >> (15 - 3)) | ((data & 1023) - 11)) + 1;
-		}
-		public override bool IsFaceTransparent(SubsystemTerrain subsystemTerrain, int face, int value)
-		{
-			return true;
-		}
+		public override string GetCategory(int value) => Utils.Get("管道");
+		public static int GetType(int data) => ((data >> (15 - 3)) | ((data & 1023) - 13)) + 1;
+		public override bool IsFaceTransparent(SubsystemTerrain subsystemTerrain, int face, int value) => true;
 	}
 	/*public class Diode : Device
 	{

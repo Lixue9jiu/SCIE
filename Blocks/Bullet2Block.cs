@@ -13,14 +13,11 @@ namespace Game
 
 		public const int Index = 521;
 
-		protected static readonly string[] m_displayNames = new[] { "IronFixedBullet" };
-		protected static readonly float[] m_sizes = new[] { 1f };
-		protected static readonly int[] m_textureSlots = new[] { 209 };
+		protected static readonly string[] m_displayNames = { "IronFixedBullet" };
+		protected static readonly float[] m_sizes = { 1f };
+		protected static readonly int[] m_textureSlots = { 209 };
 
-		public override IEnumerable<int> GetCreativeValues()
-		{
-			return new int[] { Index, Index | 1 << 10 << 14 };
-		}
+		public override IEnumerable<int> GetCreativeValues() => new[] { Index, Index | 1 << 10 << 14 };
 
 		public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
 		{
@@ -31,7 +28,7 @@ namespace Game
 			}
 			int bulletType = (int)GetBulletType(Terrain.ExtractData(value));
 			float size2 = (bulletType >= 0 && bulletType < m_sizes.Length) ? (size * m_sizes[bulletType]) : size;
-			CustomTextureItem.DrawFlatBlock(primitivesRenderer, value, size2, ref matrix, CustomTextureItem.Texture, color, false, environmentData);
+			ItemBlock.DrawFlatBlock(primitivesRenderer, value, size2, ref matrix, ItemBlock.Texture, color, false, environmentData);
 		}
 
 		public override BlockPlacementData GetPlacementValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, TerrainRaycastResult raycastResult)

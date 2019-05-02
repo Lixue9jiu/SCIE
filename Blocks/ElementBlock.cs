@@ -1,5 +1,7 @@
 using Engine;
+using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Game
 {
@@ -23,6 +25,8 @@ namespace Game
 			Block = (ElementBlock)BlocksManager.Blocks[Index];
 			WireBlock = (WireBlock)BlocksManager.Blocks[WireBlock.Index];
 			base.Initialize();
+			if (!Task.IsFaulted && !Task.IsCompleted)
+				Task.Wait();
 		}
 		public override IItem GetItem(ref int value)
 		{
@@ -88,41 +92,9 @@ namespace Game
 				list.Add(elem);
 		}
 		public new const int Index = 501;
-		static ElementBlock()
-		{
-			Devices = new Device[]
-			{
-				new Fridge(),
-				new Generator(),
-				new Magnetizer(),
-				new Separator(),
-				new AirBlower(),
-				new WireDevice(),
-				new EFurnace(),
-                new Canpack(),
-                new Electrobath(),
-                new Battery(Matrix.CreateTranslation(0f, -0.5f, 0f) * Matrix.CreateTranslation(new Vector3(0.5f)), Matrix.CreateTranslation(11f / 16f, 4f / 256f, 0f), "Cu-Zn电池", "Cu-Zn电池", "CuZnBattery"),
-				new Battery(Matrix.CreateTranslation(0f, -0.5f, 0f) * Matrix.CreateTranslation(new Vector3(0.5f)), Matrix.CreateTranslation(11f / 16f, 4f / 256f, 0f), "Ag-Zn电池", "Ag-Zn电池", "AgZnBattery"),
-				new Battery(Matrix.CreateTranslation(0f, -0.5f, 0f) * Matrix.CreateTranslation(new Vector3(0.5f)), Matrix.CreateTranslation(11f / 16f, 4f / 256f, 0f), "Au-Zn电池", "Au-Zn电池", "AuZnBattery"),
-				new Battery(Matrix.CreateTranslation(0f, -0.5f, 0f) * Matrix.CreateTranslation(new Vector3(0.5f)), Matrix.CreateTranslation(-2f / 16f, 4f / 16f, 0f), "伏打电池", "伏打电池", "VBattery"),
-				new Pipe(),
-				new Pipe(1),
-				new Pipe(2),
-				new Pipe(3),
-				new Pipe(4),
-				new Pipe(5),
-				new Pipe(6),
-				new Pipe(7),
-				new AirCompressor(),
-				new UThickener(),
-				new TEDC(),
-            };
-			for (int i = 0; i < Devices.Length; i++)
-				IdTable.Add(Devices[i].GetCraftingId(), Index | i << 14);
-		}
 		public override IEnumerable<int> GetCreativeValues()
 		{
-			var list = new List<int>(Devices.Length << 4);
+			var list = new DynamicArray<int>(Devices.Length << 4);
 			int value = Index, i = 0, j;
 			for (; i < Devices.Length; i++)
 			{

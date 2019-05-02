@@ -12,7 +12,7 @@ namespace Game
 	public enum ElementType
 	{
 		None = 0,
-		Supply = 1, // Power
+		Supply = 1, // Power / Engine
 		Device = 2, // Resistor
 		Container = 3, // Battery
 		Connector0 = 4,
@@ -41,9 +41,11 @@ namespace Game
 		Pipe4 = 1 << 24,
 		Pipe5 = 1 << 25,
 		Drive = 1 << 26,
-		Engine = 1 << 27,
-		Rod = 1 << 28,
-		Machine = 1 << 29,
+		Machine = 1 << 27,
+		RodX = 1 << 28,
+		RodY = 1 << 29,
+		RodZ = 1 << 30,
+		Rod = RodX | RodY | RodZ
 	}
 	//[Serializable]
 	public abstract class Element : Item, IEquatable<Element>, INode
@@ -135,10 +137,7 @@ namespace Game
 		public override string GetDisplayName(SubsystemTerrain subsystemTerrain, int value) => Utils.Get(DefaultDisplayName);
 		public override string GetDescription(int value) => Utils.Get(DefaultDescription);
 		public override int GetWeight(int value) => Resistance;
-		public bool Equals(FixedDevice other)
-		{
-			return other != null && other.Type == Type && other.Resistance == Resistance && other.GetCraftingId() == GetCraftingId();
-		}
+		public bool Equals(FixedDevice other) => other != null && other.Type == Type && other.Resistance == Resistance && other.GetCraftingId() == GetCraftingId();
 		public override bool Equals(object obj) => Equals(obj as FixedDevice);
 		public override int GetHashCode() => base.GetHashCode() ^ Resistance;
 		public static BlockPlacementData GetPlacementValue(int index, ComponentMiner componentMiner, int value, TerrainRaycastResult raycastResult)

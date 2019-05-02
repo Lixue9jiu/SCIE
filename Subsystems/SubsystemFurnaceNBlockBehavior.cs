@@ -11,9 +11,7 @@ namespace Game
 
 		public static SubsystemParticles m_subsystemParticles;
 
-		protected SubsystemFurnaceBlockBehavior(string name) : base(name)
-		{
-		}
+		protected SubsystemFurnaceBlockBehavior(string name) : base(name) { }
 
 		public override void OnBlockAdded(int value, int oldValue, int x, int y, int z)
 		{
@@ -79,6 +77,51 @@ namespace Game
 		public override Widget GetWidget(IInventory inventory, ComponentFurnaceN component)
 		{
 			return new FurnaceNWidget(inventory, component);
+		}
+	}
+	public class SubsystemFireBoxBlockBehavior : SubsystemFurnaceBlockBehavior<ComponentFireBox>
+	{
+		public override int[] HandledBlocks => new[] { FireBoxBlock.Index };
+
+		public SubsystemFireBoxBlockBehavior() : base("FireBox") { }
+
+		public override Widget GetWidget(IInventory inventory, ComponentFireBox component)
+		{
+			return new FireBoxWidget<ComponentFireBox>(inventory, component, "Widgets/FireBoxWidget");
+		}
+	}
+	public class SubsystemEngineBlockBehavior : SubsystemFurnaceBlockBehavior<ComponentEngine>
+	{
+		public override int[] HandledBlocks => new[] { EngineBlock.Index };
+
+		public SubsystemEngineBlockBehavior() : base("SteamEngine") { }
+
+		public override bool OnInteract(TerrainRaycastResult raycastResult, ComponentMiner componentMiner)
+		{
+			if (base.OnInteract(raycastResult, componentMiner) && Terrain.ExtractData(Utils.Terrain.GetCellValueFast(raycastResult.CellFace.X, raycastResult.CellFace.Y, raycastResult.CellFace.Z)) >> 10 != 0 && componentMiner.ComponentPlayer.ComponentGui.ModalPanelWidget is StoveWidget widget)
+				widget.Children.Find<LabelWidget>("Label", false).Text = "SteamTurbine";
+			return true;
+		}
+
+		public override Widget GetWidget(IInventory inventory, ComponentEngine component)
+		{
+			return new StoveWidget(inventory, component, "Widgets/EngineWidget");
+		}
+	}
+	public class SubsystemEngineHBlockBehavior : SubsystemFurnaceBlockBehavior<ComponentMachine>
+	{
+		public override int[] HandledBlocks => new[] { EngineHBlock.Index };
+
+		public SubsystemEngineHBlockBehavior() : base("HeatEngine") { }
+
+		public override bool OnInteract(TerrainRaycastResult raycastResult, ComponentMiner componentMiner)
+		{
+			return (Terrain.ExtractData(Utils.Terrain.GetCellValueFast(raycastResult.CellFace.X, raycastResult.CellFace.Y, raycastResult.CellFace.Z)) & 1024) == 0 && base.OnInteract(raycastResult, componentMiner);
+		}
+
+		public override Widget GetWidget(IInventory inventory, ComponentMachine component)
+		{
+			return new FireBoxWidget<ComponentMachine>(inventory, component, "Widgets/EngineHWidget");
 		}
 	}
 }

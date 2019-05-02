@@ -1,17 +1,22 @@
 ﻿using Engine;
-using Engine.Serialization;
+using Engine.Graphics;
 using System;
 using System.Collections.Generic;
-using System.Reflection;
+using System.Threading.Tasks;
 
 namespace Game
 {
-	public partial class ItemBlock : CubeBlock, IItemBlock
+	public partial class ItemBlock
 	{
-		public static Dictionary<string, int> IdTable;
-
-		public static Item[] Items = new Item[]
+		protected ItemBlock()
 		{
+			if (Task == null)
+				Task = Task.Run((Action)Load);
+		}
+
+		internal static void Load()
+		{
+			Items = new Item[] {
 			new RottenEgg(),
 			new MetalLine(Materials.Iron),
 			new MetalLine(Materials.Copper),
@@ -25,11 +30,7 @@ namespace Game
 			new MetalLine(Materials.Aluminum),
 			new MetalLine(Materials.FeAlCrAlloy),
 			new Resistor(Materials.FeAlCrAlloy),
-			new Rod(Color.Gray)
-			{
-				DefaultDisplayName = "RifleBarrel",
-				DefaultDescription = "Rifle Barrel are made by Rifling Machine. They are useful for making guns."
-			},
+			new Rod("RifleBarrel", "Rifle Barrel are made by Rifling Machine. They are useful for making guns.", Color.Gray),
 			new ScrapIron(),
 			new OreChunk(Matrix.CreateRotationX(4f) * Matrix.CreateRotationZ(2f), Matrix.CreateTranslation(32 % 16 / 16f, 32 / 16 / 16f, 0f), Color.White, false, Materials.Gold),
 			new OreChunk(Matrix.CreateRotationX(5f) * Matrix.CreateRotationZ(2f), Matrix.CreateTranslation(33 % 16 / 16f, 33 / 16 / 16f, 0f), Color.White, false, Materials.Silver),
@@ -134,16 +135,8 @@ namespace Game
 			new Powder("苔粉", Color.DarkGreen),
 			new GranulatedItem("滑石", Color.White),
 			new Powder("滑石粉", Color.White),
-			new Sheet(Color.DarkGray)
-			{
-				DefaultDisplayName = "多晶硅",
-				DefaultDescription = "多晶硅"
-			},
-			new Sheet(Color.DarkGray)
-			{
-				DefaultDisplayName = "单晶硅",
-				DefaultDescription = "单晶硅"
-			},
+			new Sheet("多晶硅", Color.DarkGray),
+			new Sheet("单晶硅", Color.DarkGray),
 			new FlatItem
 			{
 				DefaultTextureSlot = 122,
@@ -155,58 +148,97 @@ namespace Game
 			new HBomb(),
 			new Powder("聚乙烯", Color.White),
 			new Powder("聚丙烯", Color.White),
-			new Plate(Color.White)
+			new Plate("聚乙烯板", Color.White),
+			new Sheet("聚乙烯片", Color.White),
+			new Sheet("128K RAM", Color.DarkGreen),
+			new Sheet("256K RAM", Color.DarkGreen),
+			new Sheet("512K RAM", Color.DarkGreen),
+			new Sheet("Intel 4004", Color.DarkGray),
+			new Sheet("Intel 8008", Color.DarkGray),
+			new Sheet("Intel 8086", Color.DarkGray),
+			new Sheet("TMX 1795", Color.DarkGray),
+			};
+			ElementBlock.Devices = new Device[]
 			{
-				DefaultDisplayName = "聚乙烯板",
-				DefaultDescription = "聚乙烯板"
-			},
-			new Sheet(Color.White)
-			{
-				DefaultDisplayName = "聚乙烯片",
-				DefaultDescription = "聚乙烯片"
-			},
-			new Sheet(Color.DarkGreen)
-			{
-				DefaultDisplayName = "128K RAM",
-				DefaultDescription = "128K RAM"
-			},
-			new Sheet(Color.DarkGreen)
-			{
-				DefaultDisplayName = "256K RAM",
-				DefaultDescription = "256K RAM"
-			},
-			new Sheet(Color.DarkGreen)
-			{
-				DefaultDisplayName = "512K RAM",
-				DefaultDescription = "512K RAM"
-			},
-			new Sheet(Color.DarkGray)
-			{
-				DefaultDisplayName = "Intel 4004",
-				DefaultDescription = "Intel 4004"
-			},
-			new Sheet(Color.DarkGray)
-			{
-				DefaultDisplayName = "Intel 8008",
-				DefaultDescription = "Intel 8008"
-			},
-			new Sheet(Color.DarkGray)
-			{
-				DefaultDisplayName = "Intel 8086",
-				DefaultDescription = "Intel 8086"
-			},
-			new Sheet(Color.DarkGray)
-			{
-				DefaultDisplayName = "TMX 1795",
-				DefaultDescription = "TMX 1795"
-			},
-		};
-		static ItemBlock()
-		{
+				new Fridge(),
+				new Generator(),
+				new Magnetizer(),
+				new Separator(),
+				new AirBlower(),
+				new WireDevice(),
+				new EFurnace(),
+				new Canpack(),
+				new Electrobath(), //8
+				new Battery(Matrix.CreateTranslation(0f, -0.5f, 0f) * Matrix.CreateTranslation(new Vector3(0.5f)), Matrix.CreateTranslation(11f / 16f, 4f / 256f, 0f), "Cu-Zn电池", "Cu-Zn电池", "CuZnBattery"),
+				new Battery(Matrix.CreateTranslation(0f, -0.5f, 0f) * Matrix.CreateTranslation(new Vector3(0.5f)), Matrix.CreateTranslation(11f / 16f, 4f / 256f, 0f), "Ag-Zn电池", "Ag-Zn电池", "AgZnBattery"),
+				new Battery(Matrix.CreateTranslation(0f, -0.5f, 0f) * Matrix.CreateTranslation(new Vector3(0.5f)), Matrix.CreateTranslation(11f / 16f, 4f / 256f, 0f), "Au-Zn电池", "Au-Zn电池", "AuZnBattery"),
+				new Battery(Matrix.CreateTranslation(0f, -0.5f, 0f) * Matrix.CreateTranslation(new Vector3(0.5f)), Matrix.CreateTranslation(-2f / 16f, 4f / 16f, 0f), "伏打电池", "伏打电池", "VBattery"),
+				new Pipe(),
+				new Pipe(1),
+				new Pipe(2),
+				new Pipe(3),
+				new Pipe(4),
+				new Pipe(5),
+				new Pipe(6),
+				new Pipe(7),
+				new AirCompressor(),
+				new UThickener(),
+				new TEDC(),
+			};
+			int i;
 			IdTable = new Dictionary<string, int>(Items.Length);
-			for (int i = 0; i < Items.Length; i++)
+			for (i = 0; i < Items.Length; i++)
 				IdTable.Add(Items[i].GetCraftingId(), Index | i << 14);
+			for (i = 0; i < ElementBlock.Devices.Length; i++)
+				IdTable.Add(ElementBlock.Devices[i].GetCraftingId(), Index | i << 14);
+			var list = new DynamicArray<Item>(GunpowderBlock.Items)
+			{
+				Capacity = GunpowderBlock.Items.Length
+			};
+			for (i = 0; i < 2048; i++)
+				list.Add(new Mine((MineType)(i & 63), (i >> 6) / 4.0));
+			list.Capacity = list.Count;
+			GunpowderBlock.Items = list.Array;
+			for (i = 1; i < GunpowderBlock.Items.Length; i++)
+				IdTable.Add(GunpowderBlock.Items[i].GetCraftingId(), Index | i << 14);
+			/*var stream = Utils.GetTargetFile("IndustrialEquations.txt");
+			Equation.Reactions = new HashSet<Equation>();
+			try
+			{
+				var reader = new StreamReader(stream);
+				while (true)
+				{
+					var line = reader.ReadLine();
+					if (line == null) break;
+					Equation.Reactions.Add(Equation.Parse(line));
+				}
+			}
+			finally
+			{
+				stream.Close();
+			}*/
+			var stream = Utils.GetTargetFile("IndustrialMod.png");
+			try
+			{
+				Texture = Texture2D.Load(stream);
+			}
+			finally
+			{
+				stream.Close();
+			}
+			stream = Utils.GetTargetFile("IndustrialMod_en-us.lng", false);
+			if (stream == null) return;
+			try
+			{
+				Utils.ReadKeyValueFile(Utils.TR, stream);
+			}
+			finally
+			{
+				stream.Close();
+			}
 		}
+		public static Dictionary<string, int> IdTable;
+		public static Item[] Items;
 		/*public override void Initialize()
 		{
 			var reader = new StreamReader(Utils.GetTargetFile("IndustrialMod.icsv"));

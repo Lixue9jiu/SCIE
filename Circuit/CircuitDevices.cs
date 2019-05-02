@@ -39,11 +39,7 @@ namespace Game
 
 		public override BlockPlacementData GetPlacementValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, TerrainRaycastResult raycastResult)
 		{
-			return new BlockPlacementData
-			{
-				Value = value,
-				CellFace = raycastResult.CellFace
-			};
+			return new BlockPlacementData { Value = value, CellFace = raycastResult.CellFace };
 		}
 
 		public bool OnInteract(TerrainRaycastResult raycastResult, ComponentMiner componentMiner)
@@ -61,11 +57,12 @@ namespace Game
 		public readonly BoundingBox[] m_collisionBoxes;
 		public readonly BlockMesh m_standaloneBlockMesh = new BlockMesh();
 		public int RemainCount = 500;
+		readonly string Id;
 		public Battery(Matrix boneTransform, Matrix tcTransform, string name = "", string description = "", string id = "", int voltage = 12, string modelName = "Models/Battery", string meshName = "Battery") : base(voltage, name, description, ElementType.Connector | ElementType.Container)
 		{
-			var blockMesh = Utils.CreateMesh(modelName, meshName, boneTransform, tcTransform, Color.LightGray);
-			m_standaloneBlockMesh.AppendBlockMesh(blockMesh);
-			m_collisionBoxes = new BoundingBox[] { blockMesh.CalculateBoundingBox() };
+			m_standaloneBlockMesh.AppendMesh(modelName, meshName, boneTransform, tcTransform, Color.LightGray);
+			m_collisionBoxes = new BoundingBox[] { m_standaloneBlockMesh.CalculateBoundingBox() };
+			Id = id;
 		}
 		public override void GenerateTerrainVertices(Block block, BlockGeometryGenerator generator, TerrainGeometrySubsets geometry, int value, int x, int y, int z)
 		{
@@ -112,7 +109,7 @@ namespace Game
 		{
 			return base.Equals(other) && Factor == other.Factor;
 		}
-		public override string GetCraftingId() => DefaultDisplayName;
+		public override string GetCraftingId() => Id;
 		public override bool IsFaceTransparent(SubsystemTerrain subsystemTerrain, int face, int value) => true;
 		public void OnItemHarvested(int x, int y, int z, int blockValue, ref BlockDropValue dropValue, ref int newBlockValue)
 		{
@@ -142,15 +139,7 @@ namespace Game
 		}
 		public override int GetFaceTextureSlot(int face, int value)
 		{
-			if (face == 4 || face == 5)
-				return 107;
-			switch (Terrain.ExtractData(value) >> 15)
-			{
-				case 0: return face == 0 ? 106 : 107;
-				case 1: return face == 1 ? 106 : 107;
-				case 2: return face == 2 ? 106 : 107;
-			}
-						return face == 3 ? 106 : 107;
+			return face == 4 || face == 5 ? 107 : face == (Terrain.ExtractData(value) >> 15) ? 106 : 107;
 		}
 		public override BlockPlacementData GetPlacementValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, TerrainRaycastResult raycastResult)
 		{
@@ -177,15 +166,7 @@ namespace Game
 		}
 		public override int GetFaceTextureSlot(int face, int value)
 		{
-			if (face == 4 || face == 5)
-				return 107;
-			switch (Terrain.ExtractData(value) >> 15)
-			{
-				case 0: return face == 0 ? 239 : 107;
-				case 1: return face == 1 ? 239 : 107;
-				case 2: return face == 2 ? 239 : 107;
-			}
-						return face == 3 ? 239 : 107;
+			return face != 4 && face != 5 && face == (Terrain.ExtractData(value) >> 15) ? 239 : 107;
 		}
 		public override BlockPlacementData GetPlacementValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, TerrainRaycastResult raycastResult)
 		{
@@ -217,15 +198,7 @@ namespace Game
 		}
 		public override int GetFaceTextureSlot(int face, int value)
 		{
-			if (face == 4 || face == 5)
-				return 107;
-			switch (Terrain.ExtractData(value) >> 15)
-			{
-				case 0: return face == 0 ? 240 : 107;
-				case 1: return face == 1 ? 240 : 107;
-				case 2: return face == 2 ? 240 : 107;
-			}
-						return face == 3 ? 240 : 107;
+			return face != 4 && face != 5 && face == (Terrain.ExtractData(value) >> 15) ? 240 : 107;
 		}
 		public override BlockPlacementData GetPlacementValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, TerrainRaycastResult raycastResult)
 		{
@@ -245,19 +218,11 @@ namespace Game
 		}
 		public override int GetFaceTextureSlot(int face, int value)
 		{
-			if (face == 4 || face == 5)
-				return 221;
-			switch (Terrain.ExtractData(value) >> 15)
-			{
-				case 0: return face == 0 ? 131 : 221;
-				case 1: return face == 1 ? 131 : 221;
-				case 2: return face == 2 ? 131 : 221;
-			}
-						return face == 3 ? 131 : 221;
+			return face != 4 && face != 5 && face == (Terrain.ExtractData(value) >> 15) ? 131 : 221;
 		}
 		public override BlockPlacementData GetPlacementValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, TerrainRaycastResult raycastResult)
 		{
-			return GetPlacementValue(21, componentMiner, value, raycastResult);
+			return GetPlacementValue(20, componentMiner, value, raycastResult);
 		}
 	}
 
@@ -276,17 +241,9 @@ namespace Game
         }
         public override int GetFaceTextureSlot(int face, int value)
         {
-            if (face == 4 || face == 5)
-                return 107;
-            switch (Terrain.ExtractData(value) >> 15)
-            {
-                case 0: return face == 0 ? 235 : 107;
-                case 1: return face == 1 ? 235 : 107;
-                case 2: return face == 2 ? 235 : 107;
-            }
-            return face == 3 ? 235 : 107;
-        }
-        public override BlockPlacementData GetPlacementValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, TerrainRaycastResult raycastResult)
+			return face != 4 && face != 5 && face == (Terrain.ExtractData(value) >> 15) ? 235 : 107;
+		}
+		public override BlockPlacementData GetPlacementValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, TerrainRaycastResult raycastResult)
         {
             return GetPlacementValue(7, componentMiner, value, raycastResult);
         }
@@ -416,14 +373,7 @@ namespace Game
 		}
 		public override int GetFaceTextureSlot(int face, int value)
 		{
-			if (face == 4 || face == 5) return 107;
-			switch (Terrain.ExtractData(value) >> 15)
-			{
-				case 0: return face == 0 ? 164 : 107;
-				case 1: return face == 1 ? 164 : 107;
-				case 2: return face == 2 ? 164 : 107;
-			}
-						return face == 3 ? 164 : 107;
+			return face != 4 && face != 5 && face == (Terrain.ExtractData(value) >> 15) ? 164 : 107;
 		}
 		public override BlockPlacementData GetPlacementValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, TerrainRaycastResult raycastResult)
 		{

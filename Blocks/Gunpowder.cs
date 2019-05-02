@@ -68,21 +68,13 @@ namespace Game
 			new PureGunpowder("木炸药", Color.DarkYellow, 90f),
 		};
 
-		static GunpowderBlock()
-		{
-			var list = new List<Item>(Items);
-			list.AddRange(Mine.Mines);
-			Items = list.ToArray();
-			for (int i = 1; i < Items.Length; i++)
-				IdTable.Add(Items[i].GetCraftingId(), Index | i << 14);
-		}
-
 		public override IItem GetItem(ref int value)
 		{
 			return Terrain.ExtractContents(value) != Index ? base.GetItem(ref value) : Items[Terrain.ExtractData(value)];
 		}
 		public override IEnumerable<int> GetCreativeValues()
 		{
+			Items[0] = new Gunpowder();
 			var arr = new int[Items.Length];
 			int value = Index;
 			for (int i = 0; i < Items.Length; i++)
@@ -92,26 +84,15 @@ namespace Game
 			}
 			return arr;
 		}
-
-		public override void Initialize()
-		{
-			base.Initialize();
-			Items[0] = new Gunpowder();
-		}
 	}
 	public class Mine : Mould
 	{
-		public static Mine[] Mines = new Mine[2048];
 		public float ExplosionPressure;
 		public double Delay;
 		public MineType MineType;
-		static Mine()
+		public Mine(MineType type = MineType.Medium, double delay = 0, string description = "Mine") : base("Models/Snowball", "Snowball", Matrix.CreateTranslation(Vector3.Zero), Matrix.CreateTranslation(Vector3.Zero) * Matrix.CreateScale(20f), (type & MineType.Incendiary) != 0 ? Color.DarkRed : Color.LightGray, 2.5f)
 		{
-			for (int i = 0; i < 2048; i++)
-				Mines[i] = new Mine((MineType)(i & 63), (i >> 6) / 4.0);
-		}
-		public Mine(MineType type = MineType.Medium, double delay = 0, string description = "Mine") : base("Models/Snowball", "Snowball", Matrix.CreateTranslation(Vector3.Zero), Matrix.CreateTranslation(Vector3.Zero) * Matrix.CreateScale(20f), (type & MineType.Incendiary) != 0 ? Color.DarkRed : Color.LightGray, description, "", 2.5f)
-		{
+			DefaultDescription = description;
 			switch (MineType & MineType.Large)
 			{
 				case MineType.Tiny: ExplosionPressure = 50f; break;
@@ -159,9 +140,7 @@ namespace Game
 		{
 		}
 		public override float GetExplosionPressure(int value) => 8e5f;
-
 		public float GetFuelFireDuration(int value) => .1f;
-
 		public float GetHeatLevel(int value) => 1e5f;
 	}
 	public class HBomb : ABomb
@@ -170,7 +149,6 @@ namespace Game
 		{
 			DefaultDescription = DefaultDisplayName = "氢弹";
 		}
-
 		public override float GetExplosionPressure(int value) => 1.6e6f;
 	}
 }

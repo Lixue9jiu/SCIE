@@ -6,7 +6,6 @@ using System.Globalization;
 using System.Xml.Linq;
 using XmlUtilities;
 using System;
-using System.Threading.Tasks;
 using Engine.Media;
 using Engine.Audio;
 
@@ -16,10 +15,6 @@ namespace Game
 	public class Item : IItem
 	{
 		public static ItemBlock ItemBlock;
-		internal static readonly BoundingBox[] m_defaultCollisionBoxes = new BoundingBox[]
-		{
-			new BoundingBox(Vector3.Zero, Vector3.One)
-		};
 		static void Initialize()
 		{
 			BlocksManager.DamageItem1 = DamageItem;
@@ -35,41 +30,8 @@ namespace Game
 			AudioManager.PlaySound1 = PlaySound;
 			var d = new Dictionary<string, string>();
 			Utils.TR = d;
-			Task.Run((Action)Load);
 		}
-		static void Load()
-		{
-			/*var stream = Utils.GetTargetFile("IndustrialEquations.txt");
-			Equation.Reactions = new HashSet<Equation>();
-			try
-			{
-				var reader = new StreamReader(stream);
-				while (true)
-				{
-					var line = reader.ReadLine();
-					if (line == null) break;
-					Equation.Reactions.Add(Equation.Parse(line));
-				}
-			}
-			finally
-			{
-				stream.Close();
-			}*/
-			var stream = Utils.GetTargetFile("IndustrialMod_en-us.lng", false);
-			if (stream == null) return;
-			try
-			{
-				Utils.ReadKeyValueFile(Utils.TR, stream);
-			}
-			finally
-			{
-				stream.Close();
-			}
-		}
-		public static bool True(object obj)
-		{
-			return true;
-		}
+		public static bool True(object obj) => true;
 		public static void PlaySound(string name, float volume, float pitch, float pan)
 		{
 			if (SettingsManager.SoundsVolume > 0f)
@@ -92,10 +54,7 @@ namespace Game
 		{
 			if (ItemBlock.IdTable.TryGetValue(craftingId, out int value))
 				return new Block[] { BlocksManager.Blocks[ItemBlock.Index] };
-			var c__DisplayClass = new BlocksManager.c__DisplayClass14_0
-			{
-				craftingId = craftingId
-			};
+			var c__DisplayClass = new BlocksManager.c__DisplayClass14_0 { craftingId = craftingId };
 			return BlocksManager.Blocks.Where(c__DisplayClass.FindBlocksByCraftingId_b__0).ToArray();
 		}
 		public static int DamageItem(int value, int damageCount)
@@ -329,19 +288,11 @@ namespace Game
 		}
 		public virtual BlockPlacementData GetPlacementValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, TerrainRaycastResult raycastResult)
 		{
-			return new BlockPlacementData
-			{
-				//Value = 0,
-				CellFace = raycastResult.CellFace
-			};
+			return new BlockPlacementData { CellFace = raycastResult.CellFace };
 		}
 		public virtual BlockPlacementData GetDigValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, int toolValue, TerrainRaycastResult raycastResult)
 		{
-			return new BlockPlacementData
-			{
-				//Value = 0,
-				CellFace = raycastResult.CellFace
-			};
+			return new BlockPlacementData { CellFace = raycastResult.CellFace };
 		}
 		public virtual void GetDropValues(SubsystemTerrain subsystemTerrain, int oldValue, int newValue, int toolLevel, List<BlockDropValue> dropValues, out bool showDebris)
 		{
@@ -417,7 +368,7 @@ namespace Game
 		}
 		public virtual BoundingBox[] GetCustomCollisionBoxes(SubsystemTerrain terrain, int value)
 		{
-			return m_defaultCollisionBoxes;
+			return Block.m_defaultCollisionBoxes;
 		}
 		public virtual BoundingBox[] GetCustomInteractionBoxes(SubsystemTerrain terrain, int value)
 		{
@@ -440,75 +391,6 @@ namespace Game
 			return true;
 		}
 		public virtual bool IsHeatBlocker(int value)
-		{
-			return true;
-		}
-	}
-	public class BlockItem : Item
-	{
-		public string DefaultDisplayName;
-		public string DefaultDescription;
-
-		public BlockItem()
-		{
-			DefaultDescription = DefaultDisplayName = GetType().ToString().Substring(5);
-		}
-		public override string GetCraftingId()
-		{
-			return DefaultDisplayName;
-		}
-		public override string GetDisplayName(SubsystemTerrain subsystemTerrain, int value)
-		{
-			return DefaultDisplayName;
-		}
-		public override string GetDescription(int value)
-		{
-			return DefaultDescription;
-		}
-	}
-	public class FlatItem : BlockItem
-	{
-		public int DefaultTextureSlot;
-		public override int GetFaceTextureSlot(int face, int value)
-		{
-			return DefaultTextureSlot;
-		}
-		public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
-		{
-			BlocksManager.DrawFlatBlock(primitivesRenderer, value, size, ref matrix, null, color, false, environmentData);
-		}
-		public override Vector3 GetIconViewOffset(int value, DrawBlockEnvironmentData environmentData)
-		{
-			return new Vector3
-			{
-				Z = 1
-			};
-		}
-	}
-	public class ColoredFlatItem : FlatItem
-	{
-		public Color Color;
-		public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
-		{
-			BlocksManager.DrawFlatBlock(primitivesRenderer, value, size, ref matrix, null, Color * color, false, environmentData);
-		}
-	}
-	public class MeshItem : BlockItem
-	{
-		public BlockMesh m_standaloneBlockMesh = new BlockMesh();
-		public MeshItem(string description = "")
-		{
-			DefaultDescription = description;
-		}
-		public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
-		{
-			BlocksManager.DrawMeshBlock(primitivesRenderer, m_standaloneBlockMesh, color, size, ref matrix, environmentData);
-		}
-		public override float GetIconViewScale(int value, DrawBlockEnvironmentData environmentData)
-		{
-			return 0.85f;
-		}
-		public override bool IsFaceTransparent(SubsystemTerrain subsystemTerrain, int face, int value)
 		{
 			return true;
 		}
