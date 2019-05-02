@@ -947,6 +947,11 @@
       " a"
       "a a"
     </Recipe>
+    <Recipe Result="ClothingBlock:43" ResultCount="1" RequiredHeatLevel="0" a="CopperPlate" b="glass" Description="用铜制造潜水头盔">
+      "aaa"
+      "aba"
+      "a a"
+    </Recipe>
     <Recipe Result="SteelIngot" ResultCount="1" RequiredHeatLevel="1400" a="SteelGear" Description="拆除钢制齿轮">
       "a"
     </Recipe>
