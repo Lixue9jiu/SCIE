@@ -1,69 +1,54 @@
-using System;
-using System.Xml.Linq;
 using Engine;
+using System.Xml.Linq;
 
 namespace Game
 {
-	// Token: 0x02000619 RID: 1561
-	public class FireBoxWidget : CanvasWidget
+	public class FireBoxWidget<T> : CanvasWidget where T : ComponentMachine
 	{
-		// Token: 0x0600219A RID: 8602 RVA: 0x000E2334 File Offset: 0x000E0534
-		public FireBoxWidget(IInventory inventory, ComponentFireBox componentFurnace)
+		protected readonly T m_componentFurnace;
+
+		protected readonly FireWidget m_fire;
+
+		protected readonly InventorySlotWidget m_fuelSlot;
+
+		//protected readonly GridPanelWidget m_furnaceGrid;
+
+		protected readonly GridPanelWidget m_inventoryGrid;
+
+		protected readonly ValueBarWidget m_progress;
+
+		//protected readonly InventorySlotWidget m_remainsSlot;
+
+		//protected readonly InventorySlotWidget m_resultSlot;
+
+		public FireBoxWidget(IInventory inventory, T component, string path)
 		{
-			this.m_componentFurnace = componentFurnace;
-			WidgetsManager.LoadWidgetContents(this, this, ContentManager.Get<XElement>("Widgets/FireBoxWidget"));
-			this.m_inventoryGrid = this.Children.Find<GridPanelWidget>("InventoryGrid", true);
-			this.m_fire = this.Children.Find<FireWidget>("Fire", true);
-			this.m_progress = this.Children.Find<ValueBarWidget>("Progress", true);
-			this.m_fuelSlot = this.Children.Find<InventorySlotWidget>("FuelSlot", true);
+			m_componentFurnace = component;
+			WidgetsManager.LoadWidgetContents(this, this, ContentManager.Get<XElement>(path));
+			m_inventoryGrid = Children.Find<GridPanelWidget>("InventoryGrid");
+			m_fire = Children.Find<FireWidget>("Fire");
+			m_progress = Children.Find<ValueBarWidget>("Progress");
+			m_fuelSlot = Children.Find<InventorySlotWidget>("FuelSlot");
 			int num = 6;
-			for (int i = 0; i < this.m_inventoryGrid.RowsCount; i++)
+			for (int i = 0; i < m_inventoryGrid.RowsCount; i++)
 			{
-				for (int j = 0; j < this.m_inventoryGrid.ColumnsCount; j++)
+				for (int j = 0; j < m_inventoryGrid.ColumnsCount; j++)
 				{
-					InventorySlotWidget inventorySlotWidget = new InventorySlotWidget();
+					var inventorySlotWidget = new InventorySlotWidget();
 					inventorySlotWidget.AssignInventorySlot(inventory, num++);
-					this.m_inventoryGrid.Children.Add(inventorySlotWidget);
-					this.m_inventoryGrid.SetWidgetCell(inventorySlotWidget, new Point2(j, i));
+					m_inventoryGrid.Children.Add(inventorySlotWidget);
+					m_inventoryGrid.SetWidgetCell(inventorySlotWidget, new Point2(j, i));
 				}
 			}
-			this.m_fuelSlot.AssignInventorySlot(componentFurnace, componentFurnace.FuelSlotIndex);
+			m_fuelSlot.AssignInventorySlot(component, component.FuelSlotIndex);
 		}
 
-		// Token: 0x0600219B RID: 8603 RVA: 0x000E2434 File Offset: 0x000E0634
 		public override void Update()
 		{
-			this.m_fire.ParticlesPerSecond = (((double)this.m_componentFurnace.HeatLevel > 0.0) ? 24f : 0f);
-			this.m_progress.Value = this.m_componentFurnace.SmeltingProgress;
-			if (this.m_componentFurnace.IsAddedToProject)
-			{
-				return;
-			}
-			base.ParentWidget.Children.Remove(this);
+			m_fire.ParticlesPerSecond = m_componentFurnace.HeatLevel > 0f ? 24f : 0f;
+			m_progress.Value = m_componentFurnace.SmeltingProgress;
+			if (!m_componentFurnace.IsAddedToProject)
+				ParentWidget.Children.Remove(this);
 		}
-
-		// Token: 0x040019A2 RID: 6562
-		private readonly ComponentFireBox m_componentFurnace;
-
-		// Token: 0x040019A3 RID: 6563
-		private readonly FireWidget m_fire;
-
-		// Token: 0x040019A4 RID: 6564
-		private readonly InventorySlotWidget m_fuelSlot;
-
-		// Token: 0x040019A5 RID: 6565
-		private readonly GridPanelWidget m_furnaceGrid;
-
-		// Token: 0x040019A6 RID: 6566
-		private readonly GridPanelWidget m_inventoryGrid;
-
-		// Token: 0x040019A7 RID: 6567
-		private readonly ValueBarWidget m_progress;
-
-		// Token: 0x040019A8 RID: 6568
-		private readonly InventorySlotWidget m_remainsSlot;
-
-		// Token: 0x040019A9 RID: 6569
-		private readonly InventorySlotWidget m_resultSlot;
 	}
 }

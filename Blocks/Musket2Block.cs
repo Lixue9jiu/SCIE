@@ -3,7 +3,7 @@ using Engine.Graphics;
 
 namespace Game
 {
-	public class Musket2Block : Block
+	public class Musket2Block : FlatBlock
 	{
 		public enum LoadState
 		{
@@ -13,60 +13,44 @@ namespace Game
 			Loaded
 		}
 
-		public const int Index = 524;
+		public const int Index = 520;
 
-		private BlockMesh m_standaloneBlockMeshLoaded;
+		protected BlockMesh m_standaloneBlockMeshLoaded;
 
-		private BlockMesh m_standaloneBlockMeshUnloaded;
-
-		public int[] bullet = new int[2];
+		protected BlockMesh m_standaloneBlockMeshUnloaded;
 
 		public override void Initialize()
 		{
 			Model model = ContentManager.Get<Model>("Models/Musket");
-			Matrix boneAbsoluteTransform = BlockMesh.GetBoneAbsoluteTransform(model.FindMesh("Musket", true).ParentBone);
-			Matrix boneAbsoluteTransform2 = BlockMesh.GetBoneAbsoluteTransform(model.FindMesh("Hammer", true).ParentBone);
+			Matrix boneAbsoluteTransform = BlockMesh.GetBoneAbsoluteTransform(model.FindMesh("Musket").ParentBone);
+			Matrix boneAbsoluteTransform2 = BlockMesh.GetBoneAbsoluteTransform(model.FindMesh("Hammer").ParentBone);
 			m_standaloneBlockMeshUnloaded = new BlockMesh();
 			BlockMesh standaloneBlockMeshUnloaded = m_standaloneBlockMeshUnloaded;
-			ReadOnlyList<ModelMeshPart> meshParts = model.FindMesh("Musket", true).MeshParts;
+			ReadOnlyList<ModelMeshPart> meshParts = model.FindMesh("Musket").MeshParts;
 			standaloneBlockMeshUnloaded.AppendModelMeshPart(meshParts[0], boneAbsoluteTransform, false, false, false, false, Color.Gray);
 			BlockMesh standaloneBlockMeshUnloaded2 = m_standaloneBlockMeshUnloaded;
-			meshParts = model.FindMesh("Hammer", true).MeshParts;
+			meshParts = model.FindMesh("Hammer").MeshParts;
 			standaloneBlockMeshUnloaded2.AppendModelMeshPart(meshParts[0], boneAbsoluteTransform2, false, false, false, false, Color.Gray);
 			m_standaloneBlockMeshLoaded = new BlockMesh();
 			BlockMesh standaloneBlockMeshLoaded = m_standaloneBlockMeshLoaded;
-			meshParts = model.FindMesh("Musket", true).MeshParts;
+			meshParts = model.FindMesh("Musket").MeshParts;
 			standaloneBlockMeshLoaded.AppendModelMeshPart(meshParts[0], boneAbsoluteTransform, false, false, false, false, Color.Gray);
 			BlockMesh standaloneBlockMeshLoaded2 = m_standaloneBlockMeshLoaded;
-			meshParts = model.FindMesh("Hammer", true).MeshParts;
+			meshParts = model.FindMesh("Hammer").MeshParts;
 			standaloneBlockMeshLoaded2.AppendModelMeshPart(meshParts[0], Matrix.CreateRotationX(0.7f) * boneAbsoluteTransform2, false, false, false, false, Color.Gray);
 			base.Initialize();
 		}
 
-		public override void GenerateTerrainVertices(BlockGeometryGenerator generator, TerrainGeometrySubsets geometry, int value, int x, int y, int z)
-		{
-		}
-
 		public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
 		{
-			if (GetHammerState(Terrain.ExtractData(value)))
-			{
-				BlocksManager.DrawMeshBlock(primitivesRenderer, m_standaloneBlockMeshLoaded, color, 2f * size, ref matrix, environmentData);
-			}
-			else
-			{
-				BlocksManager.DrawMeshBlock(primitivesRenderer, m_standaloneBlockMeshUnloaded, color, 2f * size, ref matrix, environmentData);
-			}
+			BlocksManager.DrawMeshBlock(primitivesRenderer, GetHammerState(Terrain.ExtractData(value)) ? m_standaloneBlockMeshLoaded : m_standaloneBlockMeshUnloaded, color, 2f * size, ref matrix, environmentData);
 		}
 
 		public override bool IsSwapAnimationNeeded(int oldValue, int newValue)
 		{
-			if (Terrain.ExtractContents(oldValue) != 524)
-			{
-				return true;
-			}
-			int data = Terrain.ExtractData(oldValue);
-			return SetHammerState(Terrain.ExtractData(newValue), true) != SetHammerState(data, true);
+			return Terrain.ExtractContents(oldValue) != Index
+				? true
+				: SetHammerState(Terrain.ExtractData(newValue), true) != SetHammerState(Terrain.ExtractData(oldValue), true);
 		}
 
 		public override int GetDamage(int value)
@@ -76,8 +60,7 @@ namespace Game
 
 		public override int SetDamage(int value, int damage)
 		{
-			int data = (Terrain.ExtractData(value) & -65281) | (MathUtils.Clamp(damage, 0, 255) << 8);
-			return Terrain.ReplaceData(value, data);
+			return Terrain.ReplaceData(value, (Terrain.ExtractData(value) & -65281) | (MathUtils.Clamp(damage, 0, 255) << 8));
 		}
 
 		public static LoadState GetLoadState(int data)
@@ -100,15 +83,13 @@ namespace Game
 			return (data & -5) | ((state ? 1 : 0) << 2);
 		}
 
-		public static Bullet2Block.BulletType? GetBulletType(int data)
+		/*public static Bullet2Block.BulletType? GetBulletType(int data)
 		{
 			int num = (data >> 4) & 0xF;
 			if (num != 0)
-			{
 				return (Bullet2Block.BulletType)(num - 1);
-			}
 			return null;
-		}
+		}*/
 
 		public static int SetBulletType(int data, Bullet2Block.BulletType? bulletType)
 		{

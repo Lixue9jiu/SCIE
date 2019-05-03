@@ -1,0 +1,5 @@
+<Variant>
+	<MemberComponentTemplate Name="Variant" Guid="da33b9ad-acfa-4b82-83ac-0eb3bb1dfa11" >
+		<Parameter Name="Period" Guid="da33b9ad-5ef9-44c5-881e-a724610e3cd5" Value="600" Type="int" />
+	</MemberComponentTemplate>
+</Variant>

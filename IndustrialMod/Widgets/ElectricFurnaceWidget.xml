@@ -1,0 +1,38 @@
+<FurnaceWidget xmlns="runtime-namespace:Game">
+  <BevelledRectangleWidget Size="686, 382" BevelSize="3" />
+  <CanvasWidget CanvasWidget.Position="28, 52" Size="216, 72">
+    <LabelWidget Text="Batch" Font="{Fonts/Pericles24}" FontSpacing="8, 0" Color="0, 0, 0, 64" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+  </CanvasWidget>
+  <GridPanelWidget Name="InventoryGrid" CanvasWidget.Position="358, 52" ColumnsCount="4" RowsCount="4"/>
+  <GridPanelWidget Name="FurnaceGrid" CanvasWidget.Position="28, 52" ColumnsCount="4" RowsCount="1"/>
+  <CanvasWidget CanvasWidget.Position="64, 130" >
+    <FireWidget Name="Fire" Size="168, 40" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+    <StackPanelWidget Direction="Horizontal">
+      <BevelledRectangleWidget Size="24, 44" BevelSize="-2" CenterColor="0, 0, 0, 0" />
+      <BevelledRectangleWidget Size="24, 44" BevelSize="-2" CenterColor="0, 0, 0, 0" />
+      <BevelledRectangleWidget Size="24, 44" BevelSize="-2" CenterColor="0, 0, 0, 0" />
+      <BevelledRectangleWidget Size="24, 44" BevelSize="-2" CenterColor="0, 0, 0, 0" />
+      <BevelledRectangleWidget Size="24, 44" BevelSize="-2" CenterColor="0, 0, 0, 0" />
+      <BevelledRectangleWidget Size="24, 44" BevelSize="-2" CenterColor="0, 0, 0, 0" />
+    </StackPanelWidget>
+  </CanvasWidget>
+  <CanvasWidget CanvasWidget.Position="12, 330" Size="228, 60" >
+    <StackPanelWidget Direction="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
+      <CheckboxWidget Name="AcceptsElectBox" Text="Electric Control" />
+    </StackPanelWidget>
+  </CanvasWidget>
+  <ValueBarWidget Name="Progress" CanvasWidget.Position="280, 120" LayoutDirection="Vertical" BarsCount="8" FlipDirection="false" LitBarColor="96, 48, 0" UnlitBarColor="48, 48, 48, 80" BarSize="12, 12" BarSubtexture="{Textures/Atlas/ProgressBar}"/>
+  <InventorySlotWidget Name="ResultSlot" CanvasWidget.Position="250, 268" />
+  <InventorySlotWidget Name="RemainsSlot" CanvasWidget.Position="178, 268" >
+    <LabelWidget Text="..." Font="{Fonts/Pericles24}" Color="0, 0, 0, 64" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+  </InventorySlotWidget>
+  <InventorySlotWidget Name="CircuitSlot" CanvasWidget.Position="28, 268" >
+    <LabelWidget Text="Circuit" Font="{Fonts/Pericles24}" Color="0, 0, 0, 64" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+  </InventorySlotWidget>
+  <InventorySlotWidget Name="Circuit2Slot" CanvasWidget.Position="28, 196" >
+    <LabelWidget Text="Circuit" Font="{Fonts/Pericles24}" Color="0, 0, 0, 64" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+  </InventorySlotWidget>
+  <LabelWidget CanvasWidget.Position="28, 14" Text="ElectricFurnace" Font="{Fonts/Pericles24}" Color="255, 255, 255, 192"/>
+  <LabelWidget CanvasWidget.Position="358, 14" Text="Inventory" Font="{Fonts/Pericles24}" Color="255, 255, 255, 192"/>
+  <ArrowLineWidget Color="0, 0, 0, 96" Width="8" ArrowWidth="24" PointsString="286, 218; 286, 248" AbsoluteCoordinates="true"/>
+</FurnaceWidget>

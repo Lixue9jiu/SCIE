@@ -5,53 +5,54 @@ namespace Game
 {
 	public class FurnaceNWidget : CanvasWidget
 	{
-		private readonly ComponentFurnaceN m_componentFurnace;
+		protected readonly ComponentFurnaceN m_componentFurnace;
 
-		private readonly FireWidget m_fire;
+		protected readonly FireWidget m_fire;
 
-		private readonly InventorySlotWidget m_fuelSlot;
+		protected readonly InventorySlotWidget m_fuelSlot;
 
-		private readonly GridPanelWidget m_furnaceGrid;
+		protected readonly GridPanelWidget m_furnaceGrid;
 
-		private readonly GridPanelWidget m_inventoryGrid;
+		protected readonly GridPanelWidget m_inventoryGrid;
 
-		private readonly ValueBarWidget m_progress;
+		protected readonly ValueBarWidget m_progress;
 
-		private readonly InventorySlotWidget m_remainsSlot;
+		protected readonly InventorySlotWidget m_remainsSlot;
 
-		private readonly InventorySlotWidget m_resultSlot;
+		protected readonly InventorySlotWidget m_resultSlot;
 
 		public FurnaceNWidget(IInventory inventory, ComponentFurnaceN componentFurnace)
 		{
 			m_componentFurnace = componentFurnace;
 			WidgetsManager.LoadWidgetContents(this, this, ContentManager.Get<XElement>("Widgets/FurnaceNWidget"));
-			m_inventoryGrid = Children.Find<GridPanelWidget>("InventoryGrid", true);
-			m_furnaceGrid = Children.Find<GridPanelWidget>("FurnaceGrid", true);
-			m_fire = Children.Find<FireWidget>("Fire", true);
-			m_progress = Children.Find<ValueBarWidget>("Progress", true);
-			m_resultSlot = Children.Find<InventorySlotWidget>("ResultSlot", true);
-			m_remainsSlot = Children.Find<InventorySlotWidget>("RemainsSlot", true);
-			m_fuelSlot = Children.Find<InventorySlotWidget>("FuelSlot", true);
-			int num = 6;
-			for (int i = 0; i < m_inventoryGrid.RowsCount; i++)
+			m_inventoryGrid = Children.Find<GridPanelWidget>("InventoryGrid");
+			m_furnaceGrid = Children.Find<GridPanelWidget>("FurnaceGrid");
+			m_fire = Children.Find<FireWidget>("Fire");
+			m_progress = Children.Find<ValueBarWidget>("Progress");
+			m_resultSlot = Children.Find<InventorySlotWidget>("ResultSlot");
+			m_remainsSlot = Children.Find<InventorySlotWidget>("RemainsSlot");
+			m_fuelSlot = Children.Find<InventorySlotWidget>("FuelSlot");
+			int num = 6, y, x;
+			InventorySlotWidget inventorySlotWidget;
+			for (y = 0; y < m_inventoryGrid.RowsCount; y++)
 			{
-				for (int j = 0; j < m_inventoryGrid.ColumnsCount; j++)
+				for (x = 0; x < m_inventoryGrid.ColumnsCount; x++)
 				{
-					InventorySlotWidget inventorySlotWidget = new InventorySlotWidget();
+					inventorySlotWidget = new InventorySlotWidget();
 					inventorySlotWidget.AssignInventorySlot(inventory, num++);
 					m_inventoryGrid.Children.Add(inventorySlotWidget);
-					m_inventoryGrid.SetWidgetCell(inventorySlotWidget, new Point2(j, i));
+					m_inventoryGrid.SetWidgetCell(inventorySlotWidget, new Point2(x, y));
 				}
 			}
-			int num3 = 0;
-			for (int k = 0; k < m_furnaceGrid.RowsCount; k++)
+			num = 0;
+			for (y = 0; y < m_furnaceGrid.RowsCount; y++)
 			{
-				for (int l = 0; l < m_furnaceGrid.ColumnsCount; l++)
+				for (x = 0; x < m_furnaceGrid.ColumnsCount; x++)
 				{
-					InventorySlotWidget inventorySlotWidget2 = new InventorySlotWidget();
-					inventorySlotWidget2.AssignInventorySlot(componentFurnace, num3++);
-					m_furnaceGrid.Children.Add(inventorySlotWidget2);
-					m_furnaceGrid.SetWidgetCell(inventorySlotWidget2, new Point2(l, k));
+					inventorySlotWidget = new InventorySlotWidget();
+					inventorySlotWidget.AssignInventorySlot(componentFurnace, num++);
+					m_furnaceGrid.Children.Add(inventorySlotWidget);
+					m_furnaceGrid.SetWidgetCell(inventorySlotWidget, new Point2(x, y));
 				}
 			}
 			m_fuelSlot.AssignInventorySlot(componentFurnace, componentFurnace.FuelSlotIndex);
@@ -61,12 +62,10 @@ namespace Game
 
 		public override void Update()
 		{
-			m_fire.ParticlesPerSecond = (((double)m_componentFurnace.HeatLevel > 0.0) ? 24f : 0f);
+			m_fire.ParticlesPerSecond = m_componentFurnace.HeatLevel > 0f ? 24f : 0f;
 			m_progress.Value = m_componentFurnace.SmeltingProgress;
 			if (!m_componentFurnace.IsAddedToProject)
-			{
-				base.ParentWidget.Children.Remove(this);
-			}
+				ParentWidget.Children.Remove(this);
 		}
 	}
 }

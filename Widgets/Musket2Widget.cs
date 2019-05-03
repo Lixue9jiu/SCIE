@@ -5,42 +5,39 @@ namespace Game
 {
 	public class Musket2Widget : CanvasWidget
 	{
-		private readonly LabelWidget m_instructionsLabel;
+		protected readonly LabelWidget m_instructionsLabel;
 
-		private readonly IInventory m_inventory;
+		protected readonly IInventory m_inventory;
 
-		private readonly GridPanelWidget m_inventoryGrid;
+		protected readonly GridPanelWidget m_inventoryGrid;
 
-		private readonly InventorySlotWidget m_inventorySlotWidget;
+		protected readonly InventorySlotWidget m_inventorySlotWidget;
 
-		private readonly int m_slotIndex;
+		protected readonly int m_slotIndex;
 
 		public Musket2Widget(IInventory inventory, int slotIndex)
 		{
 			m_inventory = inventory;
 			m_slotIndex = slotIndex;
 			WidgetsManager.LoadWidgetContents(this, this, ContentManager.Get<XElement>("Widgets/Musket2Widget"));
-			m_inventoryGrid = Children.Find<GridPanelWidget>("InventoryGrid", true);
-			m_inventorySlotWidget = Children.Find<InventorySlotWidget>("InventorySlot", true);
-			m_instructionsLabel = Children.Find<LabelWidget>("InstructionsLabel", true);
-			for (int i = 0; i < m_inventoryGrid.RowsCount; i++)
+			m_inventoryGrid = Children.Find<GridPanelWidget>("InventoryGrid");
+			m_inventorySlotWidget = Children.Find<InventorySlotWidget>("InventorySlot");
+			m_instructionsLabel = Children.Find<LabelWidget>("InstructionsLabel");
+			int i = 0, num;
+			for (; i < m_inventoryGrid.RowsCount; i++)
 			{
-				for (int j = 0; j < m_inventoryGrid.ColumnsCount; j++)
+				for (num = 0; num < m_inventoryGrid.ColumnsCount; num++)
 				{
-					InventorySlotWidget widget = new InventorySlotWidget();
+					var widget = new InventorySlotWidget();
 					m_inventoryGrid.Children.Add(widget);
-					m_inventoryGrid.SetWidgetCell(widget, new Point2(j, i));
+					m_inventoryGrid.SetWidgetCell(widget, new Point2(num, i));
 				}
 			}
-			int num = 6;
-			foreach (Widget child in m_inventoryGrid.Children)
-			{
-				InventorySlotWidget inventorySlotWidget = child as InventorySlotWidget;
-				if (inventorySlotWidget != null)
-				{
+			num = 6;
+			i = 0;
+			for (int count = m_inventoryGrid.Children.Count; i < count; i++)
+				if (m_inventoryGrid.Children[i] is InventorySlotWidget inventorySlotWidget)
 					inventorySlotWidget.AssignInventorySlot(inventory, num++);
-				}
-			}
 			m_inventorySlotWidget.AssignInventorySlot(inventory, slotIndex);
 			m_inventorySlotWidget.CustomViewMatrix = Matrix.CreateLookAt(new Vector3(1f, 0f, 0f), new Vector3(0f, 0f, 0f), -Vector3.UnitZ);
 		}
@@ -48,8 +45,7 @@ namespace Game
 		public override void Update()
 		{
 			int slotValue = m_inventory.GetSlotValue(m_slotIndex);
-			int slotCount = m_inventory.GetSlotCount(m_slotIndex);
-			if (Terrain.ExtractContents(slotValue) == 524 && slotCount > 0)
+			if (Terrain.ExtractContents(slotValue) == Musket2Block.Index && m_inventory.GetSlotCount(m_slotIndex) > 0)
 			{
 				switch (Musket2Block.GetLoadState(Terrain.ExtractData(slotValue)))
 				{
@@ -68,9 +64,7 @@ namespace Game
 				}
 			}
 			else
-			{
-				base.ParentWidget.Children.Remove(this);
-			}
+				ParentWidget.Children.Remove(this);
 		}
 	}
 }

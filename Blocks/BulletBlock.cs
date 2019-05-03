@@ -16,39 +16,18 @@ namespace Game
 
 		public const int Index = 214;
 
-		private static readonly string[] m_displayNames = new string[4]
+		protected static readonly string[] m_displayNames = new string[4]
 		{
-			"Musket Ball",
-			"Buckshot",
-			"Buckshot Ball",
-			"ironBullet"
+			"Musket Ball", "Buckshot", "Buckshot Ball", "IronBullet"
 		};
 
-		private static readonly float[] m_sizes = new float[4]
-		{
-			1f,
-			1f,
-			0.33f,
-			1f
-		};
+		protected static readonly float[] m_sizes = new float[4] { 1f, 1f, 0.33f, 1f };
 
-		private static readonly int[] m_textureSlots = new int[4]
-		{
-			229,
-			231,
-			229,
-			229
-		};
+		protected static readonly int[] m_textureSlots = new int[4] { 229, 231, 229, 229 };
 
-		private static readonly float[] m_weaponPowers = new float[4]
-		{
-			60f,
-			0f,
-			3.6f,
-			90f
-		};
+		protected static readonly float[] m_weaponPowers = new float[4] { 60f, 0f, 3.6f, 90f };
 
-		private static readonly float[] m_explosionPressures = new float[3];
+		protected static readonly float[] m_explosionPressures = new float[4] { 0f,0f,0f,1f};
 
 		public override void GenerateTerrainVertices(BlockGeometryGenerator generator, TerrainGeometrySubsets geometry, int value, int x, int y, int z)
 		{
@@ -64,38 +43,27 @@ namespace Game
 		public override float GetProjectilePower(int value)
 		{
 			int bulletType = (int)GetBulletType(Terrain.ExtractData(value));
-			if (bulletType < 0 || bulletType >= m_weaponPowers.Length)
-			{
-				return 0f;
-			}
-			return m_weaponPowers[bulletType];
+			return bulletType < 0 || bulletType >= m_weaponPowers.Length ? 0f : m_weaponPowers[bulletType];
 		}
 
 		public override float GetExplosionPressure(int value)
 		{
 			int bulletType = (int)GetBulletType(Terrain.ExtractData(value));
-			if (bulletType < 0 || bulletType >= m_explosionPressures.Length)
-			{
-				return 0f;
-			}
-			return m_explosionPressures[bulletType];
+			return bulletType < 0 || bulletType >= m_explosionPressures.Length ? 0f : m_explosionPressures[bulletType];
 		}
 
 		public override IEnumerable<int> GetCreativeValues()
 		{
-			foreach (int enumValue in EnumUtils.GetEnumValues(typeof(BulletType)))
-			{
-				yield return Terrain.MakeBlockValue(214, 0, SetBulletType(0, (BulletType)enumValue));
-			}
+			var list = EnumUtils.GetEnumValues(typeof(BulletType));
+			for (int i = 0; i < list.Count; i++)
+				yield return Terrain.MakeBlockValue(214, 0, SetBulletType(0, (BulletType)list[i]));
 		}
 
 		public override string GetDisplayName(SubsystemTerrain subsystemTerrain, int value)
 		{
 			int bulletType = (int)GetBulletType(Terrain.ExtractData(value));
 			if (bulletType < 0 || bulletType >= m_displayNames.Length)
-			{
 				return string.Empty;
-			}
 			return m_displayNames[bulletType];
 		}
 
@@ -103,9 +71,7 @@ namespace Game
 		{
 			int bulletType = (int)GetBulletType(Terrain.ExtractData(value));
 			if (bulletType < 0 || bulletType >= m_textureSlots.Length)
-			{
 				return 229;
-			}
 			return m_textureSlots[bulletType];
 		}
 

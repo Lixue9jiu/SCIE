@@ -1,183 +1,319 @@
-﻿using System;
+﻿using Engine;
+using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Text;
-using Engine;
-using Game;
 using TemplatesDatabase;
+
 namespace Game
 {
 	[Flags]
-	public enum Mineral : long
+	public enum Metal : short
 	{
-		None = 0,
-		Li = 1,
-		Al = 1<<1, P = 1<<2, S = 1<<3, Sc = 1<<4, Ti = 1<<5, V = 1<<6, Cr = 1<<7, Mn = 1<<8,
-		Fe = 1<<9, Co = 1<<10, Ni = 1<<11, Cu = 1<<12, Zn = 1<<13, Ga = 1<<14, Ge = 1<<15, As = 1<<16,
-		Ag = 1<<17, Cd = 1<<18, Sn = 1<<19, Sb = 1<<20,
-		Ba = 21, W = 1<<22, Pt = 1<<23, Au = 1<<24, Hg = 1<<25, Pb = 1<<26,
-		U = 1<<31
+		None, Al = 1, Cr = 1<<6, Mn = 1<<7,
+		Fe = 1<<8, Co = 1<<9, Ni = 1<<10, Cu = 1<<11, Zn = 1<<12, Ga = 1<<13,
+		Used = -32768
 	}
-	public abstract class MineralBlock : StoneChunkBlock
+	public enum BrushType
 	{
-		//public new const int Index = 79;
-		public override void GetDropValues(SubsystemTerrain subsystemTerrain, int oldValue, int newValue, int toolLevel, List<BlockDropValue> dropValues, out bool showDebris)
-		{
-			showDebris = true;
-		}
-		public virtual Mineral OnItemHarvested(SubsystemTerrain subsystemTerrain, int x, int y, int z, int value, ref BlockDropValue dropValue, ref int newValue)
-		{
-			var result = Mineral.None;
-			var terrain = subsystemTerrain.Terrain;
-			int v = terrain.GetCellValueFast(x ,y + 1, z);
-			switch(Terrain.ExtractContents(value))
-			{
-				case DirtBlock.Index:
-				if (Terrain.ExtractContents(v) != GrassBlock.Index)
-				{
-					if (y > 56 && (x + z - y) % 5 == 0)
-						result |= Mineral.P;
-				}
-				break;
-				case GraniteBlock.Index:
-				if (y > 2 && y < 30 && (((x ^ y * 10007) + z) % 5 == 4 || (x * 89 - z) % y == 1))
-					result |= Mineral.Ag;
-				break;
-				case SandstoneBlock.Index:
-				break;
-				case SandBlock.Index:
-				if (Terrain.ExtractContents(v) == WaterBlock.Index && FluidBlock.GetIsTop(Terrain.ExtractData(v)) && (x + z * y) % 11 == 3)
-					result |= Mineral.Au;
-				break;
-				case LimestoneBlock.Index:
-				case BasaltBlock.Index:
-				break;
-				case SaltpeterOreBlock.Index:
-				if ((int)SimplexNoise.Hash(y) % 3 == 1 && (x + z ^ 0xbcbabdc) > 262144)
-				{
-					result |= Mineral.As;
-				}
-				break;
-			}
-			return result;
-		}
+		Au,
+		Ag,
+		Pt,
+		Pb,
+		Zn,
+		Sn,
+		Hg,
+		Cr,
+		Ti,
+		Ni,
+		U,
+		P
 	}
-	public class SubsystemMineral : SubsystemRotBlockBehavior
+	public partial class SubsystemMineral : SubsystemBlockBehavior
 	{
-		public SubsystemTime SubsystemTime;
+		public static TerrainBrush[] SmallBrushes;
+		public static TerrainBrush[] PtBrushes;
+		public static TerrainBrush[] ABrushes;
+		public static TerrainBrush[] BBrushes;
+		public static TerrainBrush.Cell[][] OilPocketCells;
+		//public static TerrainBrush[] NaturalGasBrushes;
+		//public static Dictionary<long, int> MinesData;
+		public static DynamicArray<Metal> AlloysData;
 
-		public static DynamicArray<long> MinesData;
-
-		public static byte[] Used;
-
-		public static HashSet<int> Handled;
-
-		public override int[] HandledBlocks
+		public override int[] HandledBlocks => new int[]
 		{
-			get {
-				return new []
-				{
-					DirtBlock.Index,
-					GraniteBlock.Index,
-					SandstoneBlock.Index,
-					GravelBlock.Index,
-					SandBlock.Index,
-					LimestoneBlock.Index,
-					BasaltBlock.Index,
-					ClayBlock.Index,
-					MagmaBlock.Index,
-					CoalOreBlock.Index,
-					CopperOreBlock.Index,
-					IronOreBlock.Index,
-					SulphurOreBlock.Index,
-					DiamondOreBlock.Index,
-					GermaniumOreBlock.Index,
-					SaltpeterOreBlock.Index,
-					CoalBlock.Index,
-				};
-			}
-		}
+			BasaltBlock.Index,
+			/*DirtBlock.Index,
+			GraniteBlock.Index,
+			SandstoneBlock.Index,
+			GravelBlock.Index,
+			SandBlock.Index,
+			LimestoneBlock.Index,
+			BasaltBlock.Index,
+			ClayBlock.Index,
+			MagmaBlock.Index,
+			CoalOreBlock.Index,
+			CopperOreBlock.Index,
+			IronOreBlock.Index,
+			SulphurOreBlock.Index,
+			DiamondOreBlock.Index,
+			GermaniumOreBlock.Index,
+			SaltpeterOreBlock.Index,
+			CoalBlock.Index*/
+		};
 
-		public static int StoreItemData(long value)
+		public static int StoreItemData(Metal key)
 		{
 			int i;
-			var array = MinesData.Array;
-			for (i = 1; i < array.Length; i++)
-				if (array[i] == 0 || array[i] == value)
-					break;
-			if (i == 262144)
-				for (i = 1; i < 262144; i++)
-					if (Used[i] == 0)
-						break;
+			var arr = AlloysData.Array;
+			for (i = 1; i < AlloysData.Count; i++)
+				if (arr[i] == 0)
+				{
+					arr[i] = key;
+					return i;
+				}
+				if (arr[i] == key || (arr[i] & Metal.Used) == 0)
+					return i;
 			if (i == 262144)
 				return 0;
-			array[i] = value;
-			MinesData.set_Count(MinesData.get_Count() + 1);
+			AlloysData.Add(key);
 			return i;
+			//MinesData.TryGetValue(key, out int count);
+			//MinesData[key] = count + 1;
 		}
 
 		public override void Load(ValuesDictionary valuesDictionary)
 		{
 			base.Load(valuesDictionary);
-			m_subsystemItemsScanner.ItemsScanned += GarbageCollectItems;
-			SubsystemTime = Project.FindSubsystem<SubsystemTime>(true);
-			var arr = valuesDictionary.GetValue<string>("MinesData", "0").Split(',');
-			int i = arr.Length + 1;
-			MinesData = new DynamicArray<long>(i);
-			MinesData.set_Count(i);
-			var array = MinesData.Array;
-			for (i = 0; i < arr.Length;)
-				long.TryParse(arr[i], out array[++i]);
-			Used = new byte[262144];
-			Handled = new HashSet<int>();
-			var handledBlocks = HandledBlocks;
-			for (i = 0; i < handledBlocks.Length; i++)
-				Handled.Add(handledBlocks[i]);
+			Utils.Load(Project);
+			//Utils.SubsystemItemsScanner.ItemsScanned += GarbageCollectItems;
+			var arr = valuesDictionary.GetValue("AlloysData", "0").Split(',');
+			AlloysData = new DynamicArray<Metal>(arr.Length);
+			int i;
+			for (i = 0; i < arr.Length; i++)
+				if (short.TryParse(arr[i], NumberStyles.Integer, NumberFormatInfo.CurrentInfo, out short value))
+					AlloysData.Add((Metal)value);
+			SmallBrushes = new TerrainBrush[16];
+			PtBrushes = new TerrainBrush[16];
+			BBrushes = new TerrainBrush[16];
+			ABrushes = new TerrainBrush[16];
+			//NaruralGasBrushes = new TerrainBrush[16];
+			OilPocketCells = new TerrainBrush.Cell[16][];
+			//MinCounts = new int[12, 16];
+			var random = new Random(17034);
+			TerrainBrush brush;
+			int j, k;
+			for (i = 0; i < 16; i++)
+			{
+				brush = new TerrainBrush();
+				Vector3 v, vec;
+				for (j = random.Int() & 1; j-- != 0;)
+				{
+					v = 0.5f * Vector3.Normalize(new Vector3(random.UniformFloat(-1f, 1f), random.UniformFloat(-1f, 1f), random.UniformFloat(-1f, 1f)));
+					vec = Vector3.Zero;
+					for (k = random.UniformInt(2, 5); k-- != 0;)
+					{
+						brush.AddBox((int)MathUtils.Floor(vec.X), (int)MathUtils.Floor(vec.Y), (int)MathUtils.Floor(vec.Z), 1, 1, 1, 1); //Ag
+						vec += v;
+					}
+				}
+				brush.Compile();
+				SmallBrushes[i] = brush;
+				brush = new TerrainBrush();
+				for (j = random.UniformInt(1, 3); j-- != 0;)
+				{
+					v = 0.5f * Vector3.Normalize(new Vector3(random.UniformFloat(-1f, 1f), random.UniformFloat(-2f, 2f), random.UniformFloat(-1f, 1f)));
+					vec = Vector3.Zero;
+					for (k = random.UniformInt(2, 3); k-- != 0;)
+					{
+						brush.AddBox((int)MathUtils.Floor(vec.X), (int)MathUtils.Floor(vec.Y), (int)MathUtils.Floor(vec.Z), 1, 1, 1, 2); //Pt
+						vec += v;
+					}
+				}
+				brush.Compile();
+				PtBrushes[i] = brush;
+				brush = new TerrainBrush();
+				for (j = random.UniformInt(2, 4); j-- != 0;)
+				{
+					v = 0.5f * Vector3.Normalize(new Vector3(random.UniformFloat(-1f, 1f), random.UniformFloat(-0.25f, 0.25f), random.UniformFloat(-1f, 1f)));
+					vec = Vector3.Zero;
+					for (k = random.UniformInt(3, 5); k-- != 0;)
+					{
+						brush.AddBox((int)MathUtils.Floor(vec.X), (int)MathUtils.Floor(vec.Y), (int)MathUtils.Floor(vec.Z), 1, 1, 1, 8); //Ti
+						vec += v;
+					}
+				}
+				brush.Compile();
+				ABrushes[i] = brush;
+				brush = new TerrainBrush();
+				for (j = random.UniformInt(3, 5); j-- != 0;)
+				{
+					v = 0.5f * Vector3.Normalize(new Vector3(random.UniformFloat(-1f, 1f), random.UniformFloat(-1f, 1f), random.UniformFloat(-1f, 1f)));
+					vec = Vector3.Zero;
+					for (k = random.UniformInt(2, 5); k-- != 0;)
+					{
+						brush.AddBox((int)MathUtils.Floor(vec.X), (int)MathUtils.Floor(vec.Y), (int)MathUtils.Floor(vec.Z), 1, 1, 1, 5); //Sn
+						vec += v;
+					}
+				}
+				brush.Compile();
+				BBrushes[i] = brush;
+				var cells = TerrainContentsGenerator.m_basaltPocketBrushes[i].Cells;
+				OilPocketCells[i] = new TerrainBrush.Cell[j = cells.Length];
+				while (j-- != 0)
+				{
+					if ((cells[j].Value & random.Int()) != 0)
+					{
+						OilPocketCells[i][j] = cells[j];
+						OilPocketCells[i][j].Value = RottenMeatBlock.Index | 1 << 4 << 14;
+					}
+				}
+			}
 		}
 
 		public override void Save(ValuesDictionary valuesDictionary)
 		{
 			base.Save(valuesDictionary);
-			var values = MinesData.Array;
-			var stringBuilder = new StringBuilder(values.Length);
-			stringBuilder.Append(values[0].ToString());
-			for (int i = 1; i < values.Length; i++)
+			/*var sb = new StringBuilder(MinesData.Count * 3);
+			for (var i = MinesData.GetEnumerator(); i.MoveNext();)
 			{
-				stringBuilder.Append(',');
-				stringBuilder.Append(values[i].ToString());
+				var data = i.Current;
+				sb.Append(',');
+				sb.Append(data.Key.ToString());
+				sb.Append('=');
+				sb.Append(data.Value.ToString());
+			}*/
+			var sb = new StringBuilder(AlloysData.Count);
+			var values = AlloysData.Array;
+			if (values.Length == 0)
+				return;
+			sb.Append(values[0].ToString());
+			for (int i = 1; i < AlloysData.Count; i++)
+			{
+				sb.Append(',');
+				sb.Append(values[i].ToString());
 			}
-			valuesDictionary.SetValue("MinesData", stringBuilder.ToString());
+			valuesDictionary.SetValue("AlloysData", sb.ToString());
 		}
 
-		public override void OnBlockGenerated(int value, int x, int y, int z, bool isLoaded)
+		public override void OnChunkInitialized(TerrainChunk chunk)
 		{
-			Used[Terrain.ExtractData(value)] = 2;
+			if (!(Utils.SubsystemTerrain.TerrainContentsGenerator is TerrainContentsGenerator generator) || chunk.IsLoaded)
+				return;
+			int x = chunk.Coords.X - 1;
+			int y = chunk.Coords.Y - 1;
+			const int
+				f1 = 0x63721054,
+				f2 = 0x04317562,
+				f3 = 0x52473601,
+				f4 = 0x61234057,
+				f5 = 0x07142563,
+				f6 = 0x53721604,
+				f7 = 0x64317052,
+				f8 = 0x02473561,
+				f9 = 0x51234607,
+				fa = 0x67142053,
+				fb = 0x03721564,
+				fc = 0x54317602,
+				fd = 0x62473051,
+				fe = 0x01234567,
+				ff = 0x57142603;
+			Random random;
+			for (int i = x; i < x + 2; i++)
+			{
+				int k, ix16 = i << 4;
+				for (int j = y; j < y + 2; j++)
+				{
+					random = new Random(generator.m_seed + i + (f1 ^ f4 ^ f5 ^ f7 ^ fa ^ fc ^ fd) * j);
+					int jx16 = j << 4;
+					float num2 = generator.CalculateMountainRangeFactor(ix16, jx16);
+					const int index = BasaltBlock.Index, index2 = BasaltBlock.Index;
+					for (k = 1 + (int)(2f * num2 * SimplexNoise.OctavedNoise(i ^ fe, j ^ ff, 0.33f, 1, 1f, 1f)); k-- != 0;)
+						chunk.PaintFastSelective(SmallBrushes[random.Int() & 15].Cells, ix16 | (random.Int() & 15), random.UniformInt(2, 30), jx16 | (random.Int() & 15), index2 | (int)BrushType.Au << 15);
+					for (k = 1 + (int)(2f * num2 * SimplexNoise.OctavedNoise(i + 713, j + f3, 0.33f, 1, 1f, 1f)); k-- != 0;)
+						chunk.PaintFastSelective(SmallBrushes[random.Int() & 15].Cells, ix16 | (random.Int() & 15), random.UniformInt(2, 30), jx16 | (random.Int() & 15), index2 | (int)BrushType.Ag << 15);
+					for (k = 1 + (int)(2f * num2 * SimplexNoise.OctavedNoise(i + f2, j + 396, 0.33f, 1, 1f, 1f)); k-- != 0;)
+						chunk.PaintFastSelective(PtBrushes[random.Int() & 15].Cells, ix16 | (random.Int() & 15), random.UniformInt(2, 15), jx16 | (random.Int() & 15), index2 | (int)BrushType.Pt << 15);
+					for (k = 3 + (int)(2f * num2 * SimplexNoise.OctavedNoise(i + f6, j + 131, 0.33f, 1, 1f, 1f)); k-- != 0;)
+						chunk.PaintFastSelective(ABrushes[random.Int() & 15].Cells, ix16 | (random.Int() & 15), random.UniformInt(2, 50), jx16 | (random.Int() & 15), index | (int)BrushType.Pb << 15);
+					for (k = (int)(0.5f + 2f * num2 * SimplexNoise.OctavedNoise(i + 432, j + f9, 0.33f, 1, 1f, 1f)); k-- != 0;)
+						chunk.PaintFastSelective(BBrushes[random.Int() & 15].Cells, ix16 | (random.Int() & 15), random.UniformInt(2, 15), jx16 | (random.Int() & 15), index | (int)BrushType.Hg << 15);
+					for (k = 3 + (int)(2f * num2 * SimplexNoise.OctavedNoise(i + 711, j + fb, 0.33f, 1, 1f, 1f)); k-- != 0;)
+						chunk.PaintFastSelective(BBrushes[random.Int() & 15].Cells, ix16 | (random.Int() & 15), random.UniformInt(2, 40), jx16 | (random.Int() & 15), index | (int)BrushType.Sn << 15);
+					for (k = 2 + (int)(2f * num2 * SimplexNoise.OctavedNoise(i + f8, j + 272, 0.33f, 1, 1f, 1f)); k-- != 0;)
+						chunk.PaintFastSelective(ABrushes[random.Int() & 15].Cells, ix16 | (random.Int() & 15), random.UniformInt(2, 50), jx16 | (random.Int() & 15), index | (int)BrushType.Ti << 15);
+					for (k = 2 + (int)(2f * num2 * SimplexNoise.OctavedNoise(i + fa, j + fc, 0.33f, 1, 1f, 1f)); k-- != 0;)
+						chunk.PaintFastSelective(BBrushes[random.Int() & 15].Cells, ix16 | (random.Int() & 15), random.UniformInt(2, 50), jx16 | (random.Int() & 15), index | (int)BrushType.Cr << 15);
+					for (k = 2 + (int)(2f * num2 * SimplexNoise.OctavedNoise(i + f3, j + f6, 0.33f, 1, 1f, 1f)); k-- != 0;)
+						chunk.PaintFastSelective(ABrushes[random.Int() & 15].Cells, ix16 | (random.Int() & 15), random.UniformInt(2, 50), jx16 | (random.Int() & 15), index | (int)BrushType.Ni << 15);
+					for (k = 20 + (int)(8f * num2 * SimplexNoise.OctavedNoise(i + fa ^ f5 + f1, j + fc - f9, 0.33f, 1, 1f, 1f)); k-- != 0;)
+						chunk.PaintMaskSelective(ABrushes[random.Int() & 15].Cells, ix16 | (random.Int() & 15), random.UniformInt(2, 50), jx16 | (random.Int() & 15), index | 65536 << 14);
+					for (k = 9 + (int)(8f * num2 * SimplexNoise.OctavedNoise(i + f5 ^ f8 + f1, j + f9 - fc, 0.33f, 1, 1f, 1f)); k-- != 0;)
+						chunk.PaintMaskSelective(ABrushes[random.Int() & 15].Cells, ix16 | (random.Int() & 15), random.UniformInt(2, 50), jx16 | (random.Int() & 15), index | 32768 << 14);
+					for (k = 1 + (int)(2f * num2 * SimplexNoise.OctavedNoise(i + fc, j + f9, 0.33f, 1, 1f, 1f)); k-- != 0;)
+						chunk.PaintFastSelective(SmallBrushes[random.Int() & 15].Cells, ix16 | (random.Int() & 15), random.UniformInt(2, 20), jx16 | (random.Int() & 15), index2 | (int)BrushType.U << 15);
+					for (k = 3 + (int)(2f * num2 * SimplexNoise.OctavedNoise(i + f3, j + f1, 0.33f, 1, 1f, 1f)); k-- != 0;)
+						chunk.PaintFastSelective(ABrushes[random.Int() & 15].Cells, ix16 | (random.Int() & 15), random.UniformInt(45, 70), jx16 | (random.Int() & 15), 3 | (int)BrushType.P << 15);
+					if (generator.CalculateOceanShoreDistance(ix16, y << 4) < -90f)
+					{
+						int n = TerrainChunk.CalculateCellIndex(random.Int() & 15, 35, random.Int() & 15);
+						for (k = 0; k < 45; k++)
+							if (Terrain.ExtractContents(chunk.GetCellValueFast(n + k)) == WaterBlock.Index && BlocksManager.Blocks[Terrain.ExtractContents(chunk.GetCellValueFast(n + k - 1))].IsCollidable)
+							{
+								chunk.SetCellValueFast(n + k, IceBlock.Index | 32 << 14);
+								break;
+							}
+					}
+				}
+				random = new Random(generator.m_seed ^ (x << 16 | y));
+				if ((random.Int() & 1) != 0)
+					chunk.PaintSelective(OilPocketCells[random.Int() & 15], x << 16 | (random.Int() & 15), random.UniformInt(40, 70), y << 16 | (random.Int() & 15), 3);
+			}
+		}
+		public override void OnNeighborBlockChanged(int x, int y, int z, int neighborX, int neighborY, int neighborZ)
+		{
+			if (Utils.SubsystemGameInfo.WorldSettings.EnvironmentBehaviorMode != EnvironmentBehaviorMode.Living || y <= 0)
+				return;
+			int value = Utils.Terrain.GetCellValue(x, y - 1, z);
+			if (!Utils.SubsystemCollapsingBlockBehavior.IsCollapseSupportBlock(value))
+			{
+				var list = new List<MovingBlock>();
+				int i;
+				for (i = y; i < 128; i++)
+				{
+					value = Utils.Terrain.GetCellValue(x, i, z);
+					if (Terrain.ExtractContents(value) != 67 || (Terrain.ExtractData(value) & 65536) == 0)
+						break;
+					list.Add(new MovingBlock
+					{
+						Value = value,
+						Offset = new Point3(0, i - y, 0)
+					});
+				}
+				if (list.Count != 0 && Utils.SubsystemMovingBlocks.AddMovingBlockSet(new Vector3(x, y, z), new Vector3(x, -list.Count - 1, z), 0f, 10f, 0.7f, new Vector2(0f), list, "CollapsingBlock", null, true) != null)
+					for (i = 0; i < list.Count; i++)
+					{
+						Point3 point = list[i].Offset;
+						SubsystemTerrain.ChangeCell(point.X + x, point.Y + y, point.Z + z, 0);
+					}
+			}
 		}
 
-		public override void OnItemPlaced(int x, int y, int z, ref BlockPlacementData placementData, int itemValue)
+		/*public override void OnItemPlaced(int x, int y, int z, ref BlockPlacementData placementData, int itemValue)
 		{
+			if (Terrain.ExtractContents(itemValue) == AlloyBlock.Index)
+				AlloysData.Array[Terrain.ExtractData(itemValue)] |= Metal.Used;
 			placementData.Value = itemValue;
-		}
-
-		public override void OnItemHarvested(int x, int y, int z, int blockValue, ref BlockDropValue dropValue, ref int newBlockValue)
-		{
-			if (Terrain.ExtractData(blockValue) == 0)
-				dropValue.Value = Terrain.ReplaceData(dropValue.Value, StoreItemData((long)((MineralBlock)BlocksManager.Blocks[79]).OnItemHarvested(SubsystemTerrain, x, y, z, blockValue, ref dropValue, ref newBlockValue)));
 		}
 
 		public void GarbageCollectItems(ReadOnlyList<ScannedItemData> allExistingItems)
 		{
-			if (!SubsystemTime.PeriodicGameTimeEvent(120.0, 0.0))
-				return;
-			int i;
-			for (i = 1; i < MinesData.get_Count(); i++)
-				if (Used[i] == 1)
-					Used[i] = 0;
-			for (i = 0; i < allExistingItems.Count; i++)
+			for (int i = 0; i < allExistingItems.Count; i++)
 			{
 				int value = allExistingItems[i].Value;
-				if (Handled.Contains(Terrain.ExtractContents(value)))
-					Used[Terrain.ExtractData(value)] = 1;
+				if (Terrain.ExtractContents(value) == BasaltBlock.Index)
+					AlloysData.Array[Terrain.ExtractData(value)] |= Metal.Used;
 			}
-		}
+		}*/
 	}
 }
