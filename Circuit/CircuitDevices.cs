@@ -217,7 +217,7 @@ namespace Game
 
 	public class Canpack : InteractiveEntityDevice<ComponentCanpack>
     {
-        public Canpack() : base("Canpack", "罐装机", "罐装机是一种可以封装液体，变成液体罐头的机器") { }
+        public Canpack() : base("Canpack", "灌装机", "灌装机是一种可以封装液体，变成液体罐头的机器") { }
         public override void Simulate(ref int voltage)
         {
             if (Component.Powered = voltage >= 80)

@@ -166,17 +166,8 @@
     <Recipe Result="IronIngotBlock" ResultCount="1" RequiredHeatLevel="1500" a="rod:0" Description="Smelt rod ore to obtain iron">
       "aa"
     </Recipe>
-    <Recipe Result="IronIngotBlock" ResultCount="1" RequiredHeatLevel="1500" a="ironorechunk:0" Description="Smelt iron ore to obtain iron">
-      "a"
-    </Recipe>
     <Recipe Result="IronIngotBlock" ResultCount="4" RequiredHeatLevel="1500" a="ironorechunk:0" Description="Smelt iron ore to obtain iron">
       "aaa"
-    </Recipe>
-    <Recipe Result="CopperIngotBlock" ResultCount="1" RequiredHeatLevel="1000" a="malachitechunk:0" Description="Smelt Copper ore to obtain copper">
-      "a"
-    </Recipe>
-    <Recipe Result="GermaniumChunkBlock" ResultCount="1" RequiredHeatLevel="900" a="germaniumorechunk" Description="Smelt germanium ore to obtain germanium crystals">
-      "a"
     </Recipe>
     <Recipe Result="SteelIngot" ResultCount="1" RequiredHeatLevel="1500" Remains="ScrapIron" RemainsCount="2" a="ironingot" Description="Smelt iron ingot to obtain steel and get rid of sulphur">
       "aaa"
@@ -201,9 +192,6 @@
     </Recipe>
     <Recipe Result="GermaniumChunkBlock" ResultCount="4" RequiredHeatLevel="900" a="germaniumorechunk:0" Description="Smelt germanium ore to obtain germanium crystals">
       "aaa"
-    </Recipe>
-    <Recipe Result="RodBlock" ResultCount="4" RequiredHeatLevel="1500" a="ironingot:0" Description="Forge an iron ingot into rods">
-      "aa"
     </Recipe>
     <Recipe Result="SteelRod" ResultCount="2" RequiredHeatLevel="1500" a="SteelIngot" Description="Forge a steel ingot into rods">
       "aa"
@@ -328,13 +316,25 @@
       "a a"
       "aa"
     </Recipe>
-    <Recipe Result="MetalBlock:0" ResultCount="3" RequiredHeatLevel="1400" a="metalblock:96" Description="Forge steel into basic machine case">
+    <Recipe Result="Screwdriver" ResultCount="1" RequiredHeatLevel="0" a="SteelPlate" b="SteelRod" Description="Make a screwdriver with steel plates">
+      "b"
+      "b"
       "aa"
+    </Recipe>
+    <Recipe Result="Wrench" ResultCount="1" RequiredHeatLevel="0" a="SteelIngot" b="SteelRod" c="SteelPlate" Description="Make a wrench with steel">
+      "a"
+      "b"
+      "bc"
+    </Recipe>
+     <Recipe Result="MetalBlock:0" ResultCount="1" RequiredHeatLevel="0" a="SteelIngot" b="ironhammer" c="ironingot" Description="Combine many steel to get the basic machine case">
+      "aca"
+      "aba"
+      "aca"
     </Recipe>
     <Recipe Result="MetalBlock:32" ResultCount="1" RequiredHeatLevel="0" a="SteelPlate" b="CopperPlate" Description="Combine many SteelPlate to get the Secondery machine case">
       "aaaa"
-      "abba"
-      "abba"
+      "b  b"
+      "b  b"
       "aaaa"
     </Recipe>
     <Recipe Result="MetalBlock:64" ResultCount="1" RequiredHeatLevel="0" a="RefractoryBrick" Description="Combine many fire brick to get fire brick wall">
@@ -821,6 +821,17 @@
       "abba"
       "aaaa"
     </Recipe>
+    <Recipe Result="TankBlock:1" ResultCount="1" RequiredHeatLevel="0" a="tank" b="Pipe0" Description="Make an fractionating tower to process oil">
+      "baab"
+      "bbbb"
+      "bbbb"
+      "baab"
+    </Recipe>
+    <Recipe Result="Canpack" ResultCount="1" RequiredHeatLevel="0" a="SteelIngot" b="metalblock:32" c="IndustrialPiston" d="tank" e="SteelRod" Description="Make a canpack">
+      "ada"
+      "ece"
+      "aba"
+    </Recipe>
     <Recipe Result="FeAlCrAlloyResistor" ResultCount="1" RequiredHeatLevel="0" a="IronLine" b="FeAlCrAlloyLine" Description="Make a FeAlCrAlloyResistor by FeCrAlloy Line and Iron Line.">
       "bbbb"
       "abba"
@@ -836,6 +847,13 @@
     <Recipe Result="Train" ResultCount="1" RequiredHeatLevel="0" a="SteelPlate" b="SteelWheel" c="sengine" d="SteelRod" e="tank" Description="A Steam Locomotive with steamengine can let you travel with high speed on railway.">
       "eeda"
       "eca"
+      "dd"
+      "bbbb"
+    </Recipe>
+    <Recipe Result="Minecart" ResultCount="1" RequiredHeatLevel="0" a="SteelPlate" b="SteelWheel" d="SteelRod" Description="The carriage can be connected to the locomotive to carry more goods.">
+      "a  a"
+      "aaaa"
+      " dd "
       "bbbb"
     </Recipe>
     <Recipe Result="RailBlock" ResultCount="2" RequiredHeatLevel="0" a="SteelRod" b="stick" Description="Train can travel on the railway.">
@@ -854,6 +872,12 @@
       "aeba"
       "caac"
     </Recipe>
+    <Recipe Result="Electrobath" ResultCount="1" RequiredHeatLevel="0" a="CopperWire" b="metalblock:32" c="SteelPlate" d="tank" e="CopperWire" Description="Make an electrobath">
+      "ceec"
+      "aada"
+      "aeba"
+      "caac"
+    </Recipe>
     <Recipe Result="Separator" ResultCount="1" RequiredHeatLevel="0" a="SteelRod" b="SteelPlate" c="SteelGear" d="metalblock:32" e="Generator" f="tank" Description="Make a Seperator to seperate raw material.">
       "bffb"
       "baab"
@@ -865,6 +889,18 @@
       "daad"
       "aeba"
       "cffc"
+    </Recipe>
+    <Recipe Result="AirCompressor" ResultCount="1" RequiredHeatLevel="0" a="SteelFan" b="SteelRod" c="SteelPlate" d="IndustrialPiston" e="metalblock:32" f="IndustrialPiston" g="tank" Description="Make an air compressor">
+      "caac"
+      "dgfd"
+      "bddb"
+      "ccec"
+    </Recipe>
+    <Recipe Result="UThickener" ResultCount="1" RequiredHeatLevel="0" a="SteelFan" b="SteelRod" c="SteelPlate" d="IndustrialPiston" e="metalblock:32" f="IndustrialPiston" g="tank" Description="Make a U235 Thickener">
+      "cffc"
+      "cddc"
+      "dbed"
+      "cgec"
     </Recipe>
     <Recipe Result="SteelFan" ResultCount="1" RequiredHeatLevel="0" a="SteelPlate" b="SteelRod" Description="Make a Steel Fan by steel plate and steel rod.">
       " aa"
@@ -909,6 +945,11 @@
     <Recipe Result="ClothingBlock:42" ResultCount="1" RequiredHeatLevel="0" a="SteelLine" Description="Make steel chain mail from steel">
       "a a"
       " a"
+      "a a"
+    </Recipe>
+    <Recipe Result="ClothingBlock:43" ResultCount="1" RequiredHeatLevel="0" a="CopperPlate" b="glass" Description="Make a Diving Helmet from copper">
+      "aaa"
+      "aba"
       "a a"
     </Recipe>
     <Recipe Result="SteelIngot" ResultCount="1" RequiredHeatLevel="1400" a="SteelGear" Description="Dismantle the steel gear">
