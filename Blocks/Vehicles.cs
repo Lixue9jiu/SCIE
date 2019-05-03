@@ -5,6 +5,7 @@ namespace Game
 {
 	public class TexturedMeshItem : MeshItem
 	{
+		public static Texture2D WhiteTexture;
 		public Texture2D Texture;
 		private readonly string ModelName;
 
@@ -51,8 +52,6 @@ namespace Game
 	}
 	public class Airship : TexturedMeshItem
     {
-		public static readonly Texture2D WhiteTexture = new Texture2D(1, 1, false, ColorFormat.Rgba8888);
-		static Airship() { WhiteTexture.SetData(0, new byte[] { 255, 255, 255, 255 }); }
 		public Airship() : base("飞艇", "Airship", "Airship", WhiteTexture, 0.08f, "使用比空气更轻的气体来产生浮力并使其飞行的工艺，其驱动动力源来自通过燃烧航空汽油的往复式发动机。")
 		{
 		}

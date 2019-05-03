@@ -45,9 +45,7 @@ namespace Game
 						else if (obj is StreamingSource source)
 							new StreamingSound(source, volume, 1f, 0f, false, false, 1f).Play();
 					}
-					catch
-					{
-					}
+					catch { }
 			}
 		}
 		public static Block[] FindBlocksByCraftingId(string craftingId)

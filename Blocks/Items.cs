@@ -10,6 +10,23 @@ namespace Game
 	{
 		static ItemBlock()
 		{
+			if (Task == null)
+				Task = Task.Run((Action)Load);
+			TexturedMeshItem.WhiteTexture = new Texture2D(1, 1, false, ColorFormat.Rgba8888);
+			TexturedMeshItem.WhiteTexture.SetData(0, new byte[] { 255, 255, 255, 255 });
+			var stream = Utils.GetTargetFile("IndustrialMod.png");
+			try
+			{
+				Texture = Texture2D.Load(stream);
+			}
+			finally
+			{
+				stream.Close();
+			}
+		}
+
+		internal static void Load()
+		{
 			Items = new Item[] {
 			new RottenEgg(),
 			new MetalLine(Materials.Iron),
@@ -195,21 +212,6 @@ namespace Game
 			GunpowderBlock.Items = list.Array;
 			for (i = 1; i < GunpowderBlock.Items.Length; i++)
 				IdTable.Add(GunpowderBlock.Items[i].GetCraftingId(), GunpowderBlock.Index | i << 14);
-			if (Task == null)
-				Task = Task.Run((Action)Load);
-		}
-
-		internal static void Load()
-		{
-			var stream = Utils.GetTargetFile("IndustrialMod.png");
-			try
-			{
-				Texture = Texture2D.Load(stream);
-			}
-			finally
-			{
-				stream.Close();
-			}
 			/*var stream = Utils.GetTargetFile("IndustrialEquations.txt");
 			Equation.Reactions = new HashSet<Equation>();
 			try
@@ -226,7 +228,7 @@ namespace Game
 			{
 				stream.Close();
 			}*/
-			stream = Utils.GetTargetFile("IndustrialMod_en-us.lng", false);
+			var stream = Utils.GetTargetFile("IndustrialMod_en-us.lng", false);
 			if (stream == null) return;
 			try
 			{
