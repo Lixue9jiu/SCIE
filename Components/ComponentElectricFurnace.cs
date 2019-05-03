@@ -78,7 +78,7 @@ namespace Game
 			}
 			if (m_smeltingRecipe != null)
 			{
-				m_smeltingProgress = MathUtils.Min(SmeltingProgress + 0.15f * dt, 1f);
+				m_smeltingProgress = MathUtils.Min(SmeltingProgress + 0.2f * dt, 1f);
 				if (SmeltingProgress >= 1f)
 				{
 					for (int i = 0; i < m_furnaceSize; i++)

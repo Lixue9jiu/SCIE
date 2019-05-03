@@ -890,13 +890,13 @@
       "aeba"
       "cffc"
     </Recipe>
-    <Recipe Result="AirCompressor" ResultCount="1" RequiredHeatLevel="0" a="SteelFan" b="SteelRod" c="SteelPlate" d="IndustrialPiston" e="metalblock:32" f="IndustrialPiston" g="tank" Description="制作一台空气压缩机">
+    <Recipe Result="AirCompressor" ResultCount="1" RequiredHeatLevel="0" a="SteelFan" b="SteelRod" c="SteelPlate" d="IndustrialPiston" e="metalblock:32" f="piston" g="tank" Description="制作一台空气压缩机">
       "caac"
       "dgfd"
       "bddb"
       "ccec"
     </Recipe>
-    <Recipe Result="UThickener" ResultCount="1" RequiredHeatLevel="0" a="SteelFan" b="SteelRod" c="SteelPlate" d="IndustrialPiston" e="metalblock:32" f="IndustrialPiston" g="tank" Description="制作一台铀浓缩机">
+    <Recipe Result="UThickener" ResultCount="1" RequiredHeatLevel="0" a="SteelFan" b="SteelRod" c="SteelPlate" d="IndustrialPiston" e="metalblock:32" f="piston" g="tank" Description="制作一台铀浓缩机">
       "cffc"
       "cddc"
       "dbed"

@@ -284,7 +284,7 @@ namespace Game
 			var componentChest = entity.FindComponent<ComponentChest>();
 			if (componentTrain != null)
 				return componentChest != null
-					? new NewChestWidget(inventory, componentChest, componentTrain.ParentBody != null ? "车厢（已连接）" : "车厢")
+					? new NewChestWidget(inventory, componentChest, Utils.Get(componentTrain.ParentBody != null ? "车厢（已连接）" : "车厢"))
 					: (Widget)new StoveWidget(inventory, componentTrain.ComponentEngine, "Widgets/TrainWidget");
 			var componentEngine = entity.FindComponent<ComponentEngine>();
 			if (componentEngine != null)

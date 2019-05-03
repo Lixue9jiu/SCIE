@@ -691,7 +691,7 @@
       "aaa"
       "aaa"
     </Recipe>
-    <Recipe Result="KibblerBlock" ResultCount="1" RequiredHeatLevel="0" a="IronPlate" b="IndustrialPiston" c="metalblock:0" d="SteelGear" Description="Make a Kinbbler to create ore powder">
+    <Recipe Result="KibblerBlock" ResultCount="1" RequiredHeatLevel="0" a="IronPlate" b="IndustrialPiston" c="metalblock:0" d="SteelGear" Description="Make a Kibbler to create ore powder">
       "bab"
       "dcd"
       "aba"
@@ -890,13 +890,13 @@
       "aeba"
       "cffc"
     </Recipe>
-    <Recipe Result="AirCompressor" ResultCount="1" RequiredHeatLevel="0" a="SteelFan" b="SteelRod" c="SteelPlate" d="IndustrialPiston" e="metalblock:32" f="IndustrialPiston" g="tank" Description="Make an air compressor">
+    <Recipe Result="AirCompressor" ResultCount="1" RequiredHeatLevel="0" a="SteelFan" b="SteelRod" c="SteelPlate" d="IndustrialPiston" e="metalblock:32" f="piston" g="tank" Description="Make an air compressor">
       "caac"
       "dgfd"
       "bddb"
       "ccec"
     </Recipe>
-    <Recipe Result="UThickener" ResultCount="1" RequiredHeatLevel="0" a="SteelFan" b="SteelRod" c="SteelPlate" d="IndustrialPiston" e="metalblock:32" f="IndustrialPiston" g="tank" Description="Make a U235 Thickener">
+    <Recipe Result="UThickener" ResultCount="1" RequiredHeatLevel="0" a="SteelFan" b="SteelRod" c="SteelPlate" d="IndustrialPiston" e="metalblock:32" f="piston" g="tank" Description="Make a U235 Thickener">
       "cffc"
       "cddc"
       "dbed"
