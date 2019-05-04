@@ -295,11 +295,7 @@ namespace Game
 		public virtual void GetDropValues(SubsystemTerrain subsystemTerrain, int oldValue, int newValue, int toolLevel, List<BlockDropValue> dropValues, out bool showDebris)
 		{
 			showDebris = true;
-			dropValues.Add(new BlockDropValue
-			{
-				Value = Terrain.ReplaceLight(oldValue, 0),
-				Count = 1
-			});
+			dropValues.Add(new BlockDropValue { Value = Terrain.ReplaceLight(oldValue, 0), Count = 1 });
 		}
 		public virtual int GetDamage(int value)
 		{

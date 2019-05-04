@@ -38,6 +38,12 @@ namespace Game
 			return Description[Terrain.ExtractData(value)];
 		}
 
+		public override void GetDropValues(SubsystemTerrain subsystemTerrain, int oldValue, int newValue, int toolLevel, List<BlockDropValue> dropValues, out bool showDebris)
+		{
+			showDebris = true;
+			dropValues.Add(new BlockDropValue { Value = oldValue, Count = 1 });
+		}
+
 		public static Type GetType(int value)
 		{
 			return (Type)Terrain.ExtractData(value);

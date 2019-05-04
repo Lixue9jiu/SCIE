@@ -113,11 +113,7 @@ namespace Game
 		public override void GetDropValues(SubsystemTerrain subsystemTerrain, int oldValue, int newValue, int toolLevel, List<BlockDropValue> dropValues, out bool showDebris)
 		{
 			showDebris = true;
-			dropValues.Add(new BlockDropValue
-			{
-				Value = oldValue,
-				Count = 1
-			});
+			dropValues.Add(new BlockDropValue { Value = oldValue, Count = 1 });
 		}
 		public override int GetFaceTextureSlot(int face, int value)
 		{

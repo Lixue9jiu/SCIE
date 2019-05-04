@@ -51,7 +51,7 @@ namespace Game
 		}
 	}
 
-	public class Battery : DeviceBlock, IBlockBehavior, IHarvestingItem, IEquatable<Battery>
+	public class Battery : DeviceBlock, IHarvestingItem, IEquatable<Battery>
 	{
 		public int Factor = 0;
 		public readonly BoundingBox[] m_collisionBoxes;
@@ -66,6 +66,8 @@ namespace Game
 		}
 		public override void GenerateTerrainVertices(Block block, BlockGeometryGenerator generator, TerrainGeometrySubsets geometry, int value, int x, int y, int z)
 		{
+			if ((Terrain.ExtractData(value) & 16384) != 0)
+				RemainCount = 0;
 			generator.GenerateMeshVertices(block, x, y, z, m_standaloneBlockMesh, SubsystemPalette.GetColor(generator, PaintableItemBlock.GetColor(Terrain.ExtractData(value))), null, geometry.SubsetOpaque);
 			WireDevice.GenerateWireVertices(generator, value, x, y, z, 4, 0f, Vector2.Zero, geometry.SubsetOpaque);
 		}
@@ -104,14 +106,6 @@ namespace Game
 		{
 			if (RemainCount <= 0)
 				dropValue.Value = Terrain.ReplaceData(Terrain.ReplaceLight(blockValue, 0), Terrain.ExtractData(blockValue) | 16384);
-		}
-		public void OnBlockAdded(SubsystemTerrain terrain, int value, int oldValue)
-		{
-			if ((Terrain.ExtractData(value) & 16384) != 0)
-				RemainCount = 0;
-		}
-		public void OnBlockRemoved(SubsystemTerrain terrain, int value, int newValue)
-		{
 		}
 	}
 	public class Fridge : InteractiveEntityDevice<ComponentNewChest>

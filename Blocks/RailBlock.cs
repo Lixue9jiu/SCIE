@@ -8,7 +8,7 @@ namespace Game
 	{
 		public const int Index = 528;
 
-		BoundingBox[][] boundingBoxes = new BoundingBox[10][];
+		internal static BoundingBox[][] boundingBoxes = new BoundingBox[10][];
 
 		BlockMesh[] m_blockMeshes = new BlockMesh[10];
 
@@ -204,11 +204,7 @@ namespace Game
 		public override void GetDropValues(SubsystemTerrain subsystemTerrain, int oldValue, int newValue, int toolLevel, List<BlockDropValue> dropValues, out bool showDebris)
 		{
 			showDebris = true;
-			dropValues.Add(new BlockDropValue
-			{
-				Value = Index,
-				Count = 1
-			});
+			dropValues.Add(new BlockDropValue { Value = Index, Count = 1 });
 		}
 
 		public static bool CanConnectTo(int railType, int direction)

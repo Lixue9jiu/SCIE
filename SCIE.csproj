@@ -63,6 +63,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Chemistry\ChemicalBlock.cs" />
+    <Compile Include="BeltTransport\FactorioTransportBeltBlock.cs" />
+    <Compile Include="BeltTransport\SubsystemFactorioBeltTransportBLockBehavior.cs" />
     <Compile Include="Blocks\CommonItems.cs" />
     <Compile Include="Blocks\DrillBlock.cs" />
     <Compile Include="Blocks\DrillerElectricElement.cs" />
