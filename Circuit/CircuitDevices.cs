@@ -7,14 +7,14 @@ namespace Game
 {
 	public class TEDC : DeviceBlock, IInteractiveBlock
 	{
-		public static Jint.Engine JsEngine;
+		//public static Jint.Engine JsEngine;
 		public static ComponentPlayer ComponentPlayer;
 		protected static string lastcode = "";
 		protected bool Powered;
 
 		public TEDC() : base(60, "晶体管数字电子计算机", "晶体管数字电子计算机")
 		{
-			JsEngine = new Jint.Engine();
+			//JsEngine = new Jint.Engine();
 		}
 
 		public override int GetFaceTextureSlot(int face, int value) => face > 3 ? 109 : Powered ? 109 : 111;
@@ -23,7 +23,7 @@ namespace Game
 
 		public void Execute(string code)
 		{
-			if (string.IsNullOrWhiteSpace(code)) return;
+			/*if (string.IsNullOrWhiteSpace(code)) return;
 			try
 			{
 				Jint.Engine engine = JsEngine.Execute(code);
@@ -33,7 +33,7 @@ namespace Game
 			catch (Exception e)
 			{
 				ExceptionManager.ReportExceptionToUser("JS", e);
-			}
+			}*/
 			lastcode = code;
 		}
 
