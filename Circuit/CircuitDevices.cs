@@ -12,7 +12,7 @@ namespace Game
 		protected static string lastcode = "";
 		protected bool Powered;
 
-		public TEDC() : base(60, "晶体管数字电子计算机", "晶体管数字电子计算机", ElementType.Device | ElementType.Connector)
+		public TEDC() : base(60, "晶体管数字电子计算机", "晶体管数字电子计算机")
 		{
 			JsEngine = new Jint.Engine();
 		}

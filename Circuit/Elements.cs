@@ -40,11 +40,9 @@ namespace Game
 		Pipe3 = 1 << 23,
 		Pipe4 = 1 << 24,
 		Pipe5 = 1 << 25,
-		Drive = 1 << 26,
-		Machine = 1 << 27,
-		RodX = 1 << 28,
-		RodY = 1 << 29,
-		RodZ = 1 << 30,
+		RodX = 1 << 26,
+		RodY = 1 << 27,
+		RodZ = 1 << 28,
 		Rod = RodX | RodY | RodZ
 	}
 	//[Serializable]
@@ -157,8 +155,8 @@ namespace Game
 
 		protected DeviceBlock(int voltage, string name = "", string description = "", ElementType type = ElementType.Device | ElementType.Connector) : base(type)
 		{
-			DefaultDisplayName = name;
-			DefaultDescription = description;
+			DefaultDisplayName = Utils.Get(name);
+			DefaultDescription = Utils.Get(description);
 			Voltage = voltage;
 		}
 		public override string GetDisplayName(SubsystemTerrain subsystemTerrain, int value) => DefaultDisplayName;
