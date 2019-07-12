@@ -1,5 +1,6 @@
 using Engine;
 using GameEntitySystem;
+using System;
 using TemplatesDatabase;
 
 namespace Game
@@ -54,30 +55,32 @@ namespace Game
 				int num5 = coordinates.Z;
 				for (int i = -1; i < 2; i++)
 				{
-					for (int j = -1; j < 2; j++)
+					for (int j = 0; j < 4; j++)
 					{
-						for (int k = 0; k < 4; k++)
+						for (int k = -1; k < 2; k++)
 						{
 							int cellContents = Utils.Terrain.GetCellContents(num3 + i, num4 + j, num5 + k);
-							if (k != 0 && cellContents != MetalBlock.Index)
+							if (j != 0 && cellContents != MetalBlock.Index)
 							{
 								num = 0;
+                               
 								break;
 							}
-							if (k == 0 && i * i + j * j > 1 && cellContents != MetalBlock.Index)
+							if (j == 0 && i * i + k * k > 1 && cellContents != MetalBlock.Index)
 							{
 								num = 0;
-								break;
+                               
+                                break;
 							}
 						}
 					}
 				}
-				int cellValue = Utils.Terrain.GetCellValue(num3, num4, num5 - 1);
+				int cellValue = Utils.Terrain.GetCellValue(num3, num4-1, num5);
 				if ((Terrain.ExtractContents(cellValue) != FireBoxBlock.Index) || FurnaceNBlock.GetHeatLevel(cellValue) == 0)
-					num = 0;
-				if (num == 0 || num2 == 0)
+					num = 0; 
+                if (num == 0 || num2 == 0)
 					m_smeltingRecipe = null;
-				if (num == 1 && num2 >= 1 && m_smeltingRecipe == null)
+				if (num == 1 && m_smeltingRecipe == null)
 					m_smeltingRecipe = m_smeltingRecipe2;
 			}
 			if (m_smeltingRecipe == null)
@@ -138,15 +141,17 @@ namespace Game
 				int slotValue = GetSlotValue(i);
 				if (GetSlotCount(i) > 0)
 				{
-					if (slotValue == 240 + 16384)
+                   
+					if (slotValue == 262384)
 					{
 						text = true;
-						result[0] = 240 + 16384 * 3;
-						result[1] = 240 + 16384 * 4;
-						result[2] = 240 + 16384 * 5;
+						result[0] = 786672;
+						result[1] = 1048816;
+						result[2] = 1310960;
 					}
 				}
 			}
+           
 			if (text)
 			{
 				for (i = 0; i < 3; i++)

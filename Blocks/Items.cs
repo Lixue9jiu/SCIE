@@ -19,10 +19,7 @@ namespace Game
 			{
 				Texture = Texture2D.Load(stream);
 			}
-			finally
-			{
-				stream.Close();
-			}
+			finally { stream.Close(); }
 		}
 
 		internal static void Load()
@@ -224,20 +221,14 @@ namespace Game
 					Equation.Reactions.Add(Equation.Parse(line));
 				}
 			}
-			finally
-			{
-				stream.Close();
-			}*/
+			finally { stream.Close(); }*/
 			var stream = Utils.GetTargetFile("IndustrialMod_en-us.lng", false);
 			if (stream == null) return;
 			try
 			{
 				Utils.ReadKeyValueFile(Utils.TR, stream);
 			}
-			finally
-			{
-				stream.Close();
-			}
+			finally { stream.Close(); }
 		}
 		public static Dictionary<string, int> IdTable;
 		public static Item[] Items;
