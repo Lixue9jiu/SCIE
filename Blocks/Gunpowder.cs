@@ -51,7 +51,7 @@ namespace Game
 		}
 		public float GetFuelFireDuration(int value) => .1f;
 	}
-	public class GunpowderBlock : ItemBlock
+	public class GunpowderBlock : ItemBlock, IElectricElementBlock
 	{
 		public new const int Index = 109;
 		public new static Item[] Items = new Item[]
@@ -66,7 +66,19 @@ namespace Game
 			new PureGunpowder("立德炸药", Color.Gray),
 			new PureGunpowder("罗必赖特炸药", new Color(72, 72, 72), 90f),
 			new PureGunpowder("木炸药", Color.DarkYellow, 90f),
+			new ABomb(),
+			new HBomb(),
+			new HABomb(),
+			new NBomb(),
 		};
+
+		public override void Initialize()
+		{
+			IsTransparent = true;
+			IsPlaceable = true;
+			Behaviors += ",ElectricBlockBehavior";
+			base.Initialize();
+		}
 
 		public override IItem GetItem(ref int value)
 		{
@@ -83,6 +95,21 @@ namespace Game
 				value += 1 << 14;
 			}
 			return arr;
+		}
+
+		public ElectricElement CreateElectricElement(SubsystemElectricity subsystemElectricity, int value, int x, int y, int z)
+		{
+			return GetItem(ref value) is ABomb aBomb ? new ABombElectricElement(aBomb, subsystemElectricity, new CellFace(x, y, z, 4)) : null;
+		}
+
+		public ElectricConnectorType? GetConnectorType(SubsystemTerrain terrain, int value, int face, int connectorFace, int x, int y, int z)
+		{
+			return face == 4 ? (ElectricConnectorType?)ElectricConnectorType.Input : null;
+		}
+
+		public int GetConnectionMask(int value)
+		{
+			return 2147483647;
 		}
 	}
 	public class Mine : Mould
@@ -139,16 +166,91 @@ namespace Game
 		public ABomb() : base("Models/Nuclearbomb", "Nuclearbomb", Matrix.CreateTranslation(0.2f, -0.2f, 0.2f) * Matrix.CreateScale(2f), Matrix.Identity, "原子弹", "原子弹")
 		{
 		}
-		public override float GetExplosionPressure(int value) => 8e5f;
-		public float GetFuelFireDuration(int value) => .1f;
-		public float GetHeatLevel(int value) => 1e5f;
+		public float GetFuelFireDuration(int value) => 28f;
+		public float GetHeatLevel(int value) => 7.5e3f;
+		public override float GetExplosionPressure(int value) => 150f;
+		public override BlockPlacementData GetPlacementValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, TerrainRaycastResult raycastResult)
+		{
+			return new BlockPlacementData { Value = value, CellFace = raycastResult.CellFace };
+		}
 	}
-	public class HBomb : ABomb
+
+	public class HBomb : ABomb, IFuel
 	{
 		public HBomb()
 		{
 			DefaultDescription = DefaultDisplayName = "氢弹";
 		}
-		public override float GetExplosionPressure(int value) => 1.6e6f;
+		public new float GetFuelFireDuration(int value) => 32f;
+		public new float GetHeatLevel(int value) => 1.5e4f;
+	}
+
+	public class HABomb : ABomb, IFuel
+	{
+		public HABomb()
+		{
+			DefaultDescription = DefaultDisplayName = "三相弹";
+		}
+		public new float GetFuelFireDuration(int value) => 48f;
+		public new float GetHeatLevel(int value) => 2.5e4f;
+	}
+
+	public class NBomb : ABomb
+	{
+		public NBomb()
+		{
+			DefaultDescription = DefaultDisplayName = "中子弹";
+		}
+	}
+
+	public class ABombElectricElement : ElectricElement
+	{
+		IFuel Bomb;
+		public ABombElectricElement(IFuel fuel, SubsystemElectricity subsystemElectricity, CellFace cellFace) : base(subsystemElectricity, cellFace) { Bomb = fuel; }
+
+		public override bool Simulate()
+		{
+			if (CalculateHighInputsCount() <= 0)
+				return false;
+			var cellFace = CellFaces[0];
+			int x = cellFace.X, y = cellFace.Y, z = cellFace.Z;
+			float pressure = Bomb.GetHeatLevel(0);
+			if (Bomb is NBomb)
+			{
+				Explode(x, y, z, 3e3f, 8);
+				var e = Utils.SubsystemBodies.Bodies.GetEnumerator();
+				while (e.MoveNext())
+				{
+					var entity = e.Current.Entity;
+					var componentHealth = entity.FindComponent<ComponentHealth>();
+					if (componentHealth != null)
+						componentHealth.Injure(1f, null, false, "Killed by radiation");
+					else
+						Utils.SubsystemBodies.Project.RemoveEntity(entity, true);
+				}
+				if(!(Bomb is HABomb)) return false;
+			}
+			int r = (int)Bomb.GetFuelFireDuration(0);
+			Explode(x, y + (r >> 1), z, pressure, r);
+			pressure *= 1.5f;
+			Explode(x, y - (r >> 1), z, pressure * 1.5f, r);
+			Explode(x + r, y, z, pressure, r);
+			Explode(x - r, y, z, pressure, r);
+			Explode(x, y, z + r, pressure, r);
+			Explode(x, y, z - r, pressure, r);
+			return false;
+		}
+
+		public static void Explode(int x, int y, int z, float pressure, int r)
+		{
+			var se = Utils.SubsystemExplosions;
+			r >>= 1;
+			//se.AddExplosion(x, y + r, z, pressure, false, false);
+			//se.AddExplosion(x, y - r, z, pressure, false, false);
+			se.AddExplosion(x + r, y, z, pressure, false, false);
+			se.AddExplosion(x - r, y, z, pressure, false, false);
+			se.AddExplosion(x, y, z + r, pressure, false, false);
+			se.AddExplosion(x, y, z - r, pressure, false, false);
+		}
 	}
 }

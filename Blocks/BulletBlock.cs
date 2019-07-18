@@ -1,6 +1,7 @@
 using Engine;
 using Engine.Graphics;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Game
 {
@@ -54,10 +55,10 @@ namespace Game
 
 		public override IEnumerable<int> GetCreativeValues()
 		{
-			var list = EnumUtils.GetEnumValues(typeof(BulletType));
-			for (int i = 0; i < list.Count; i++)
-				list[i] = Terrain.MakeBlockValue(214, 0, SetBulletType(0, (BulletType)list[i]));
-			return list;
+			var arr = EnumUtils.GetEnumValues(typeof(BulletType)).ToArray();
+			for (int i = 0; i < arr.Length; i++)
+				arr[i] = Terrain.MakeBlockValue(214, 0, SetBulletType(0, (BulletType)arr[i]));
+			return arr;
 		}
 
 		public override string GetDisplayName(SubsystemTerrain subsystemTerrain, int value)

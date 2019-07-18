@@ -220,9 +220,6 @@ namespace Game
 			return (direction & 2) == 0 ? 1 - offset : offset;
 		}
 
-		public static ComponentTrain GetRailEntity(Component b)
-		{
-			return b.Entity.FindComponent<ComponentTrain>();
-		}
+		public static ComponentTrain GetRailEntity(Component c) => c.Entity.FindComponent<ComponentTrain>();
 	}
 }

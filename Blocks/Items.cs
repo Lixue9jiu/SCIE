@@ -152,8 +152,6 @@ namespace Game
 			},
 			new Screwdriver(Color.White),
 			new Wrench(Color.White),
-			new ABomb(),
-			new HBomb(),
 			new Powder("聚乙烯", Color.White),
 			new Powder("聚丙烯", Color.White),
 			new Plate("聚乙烯板", Color.White),
@@ -161,10 +159,8 @@ namespace Game
 			new Sheet("128K RAM", Color.DarkGreen),
 			new Sheet("256K RAM", Color.DarkGreen),
 			new Sheet("512K RAM", Color.DarkGreen),
-			new Sheet("Intel 4004", Color.DarkGray),
-			new Sheet("Intel 8008", Color.DarkGray),
-			new Sheet("Intel 8086", Color.DarkGray),
-			new Sheet("TMX 1795", Color.DarkGray),
+			new Sheet("RISC CPU", Color.DarkGray),
+			new Sheet("CISC CPU", Color.DarkGray),
 			};
 			ElementBlock.Devices = new Device[]
 			{
@@ -243,10 +239,7 @@ namespace Game
 			{
 				Log.Warning("\"IndustrialMod.icsv\": " + e);
 			}
-			finally
-			{
-				reader.Dispose();
-			}
+			finally { reader.Dispose(); }
 			base.Initialize();
 		}*/
 	}

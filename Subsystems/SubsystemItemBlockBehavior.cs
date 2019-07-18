@@ -6,7 +6,7 @@ namespace Game
 {
 	public class SubsystemItemBlockBehavior : SubsystemThrowableBlockBehavior
 	{
-		public override int[] HandledBlocks => new int[] { 90, GunpowderBlock.Index, RottenMeatBlock.Index, ItemBlock.Index };
+		public override int[] HandledBlocks => new int[] { 90, RottenMeatBlock.Index, ItemBlock.Index };
 
 		public override bool OnAim(Vector3 start, Vector3 direction, ComponentMiner componentMiner, AimState state)
 		{
@@ -123,7 +123,7 @@ namespace Game
 					entity.FindComponent<ComponentFrame>(true).Rotation = Quaternion.CreateFromAxisAngle(Vector3.UnitY, m_random.UniformFloat(0f, 6.283185f));
 					goto put;
 				}
-				else if (BlocksManager.Blocks[Terrain.ExtractContents(activeBlockValue)] is ItemBlock itemblock && itemblock.GetItem(ref activeBlockValue) is Mine mine)
+				else if (BlocksManager.Blocks[Terrain.ExtractContents(activeBlockValue)] is ItemBlock item && item.GetItem(ref activeBlockValue) is Mine mine)
 				{
 					entity = DatabaseManager.CreateEntity(Project, "Mine", new ValuesDictionary
 					{

@@ -114,7 +114,7 @@ namespace Game
 						v = new Vector3(array[m] / (float)l, array2[m] / (float)l, 0f);
 					}
 					int cellValue = Terrain.ReplaceLight(Utils.Terrain.GetCellValue(x, y, z), 0);
-					Block block = BlocksManager.Blocks[Terrain.ExtractContents(cellValue)];
+					var block = BlocksManager.Blocks[Terrain.ExtractContents(cellValue)];
 					if (num2 == 0 && block.BlockIndex == 92)
 						num2 = 9;
 					if (block.IsPlaceable && !block.IsDiggingTransparent && !block.DefaultIsInteractive)

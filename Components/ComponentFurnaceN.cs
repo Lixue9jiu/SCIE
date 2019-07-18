@@ -5,10 +5,7 @@ namespace Game
 {
 	public class ComponentFurnaceN : ComponentFurnace, IUpdateable, ICraftingMachine
 	{
-		public ComponentFurnaceN()
-		{
-			m_matchedIngredients = new string[36];
-		}
+		public ComponentFurnaceN() { m_matchedIngredients = new string[36]; }
 
 		public new int RemainsSlotIndex => SlotsCount - 1;
 
@@ -31,6 +28,7 @@ namespace Game
 				if (m_fireTimeRemaining == 0f)
 					m_heatLevel = 0f;
 			}
+			Slot slot;
 			if (m_updateSmeltingRecipe)
 			{
 				m_updateSmeltingRecipe = false;
@@ -39,10 +37,10 @@ namespace Game
 					heatLevel = HeatLevel;
 				else
 				{
-					Slot slot = m_slots[FuelSlotIndex];
+					slot = m_slots[FuelSlotIndex];
 					if (slot.Count > 0)
 					{
-						Block block = BlocksManager.Blocks[Terrain.ExtractContents(slot.Value)];
+						var block = BlocksManager.Blocks[Terrain.ExtractContents(slot.Value)];
 						heatLevel = block is IFuel fuel ? fuel.GetHeatLevel(slot.Value) : block.FuelHeatLevel;
 					}
 				}
@@ -60,22 +58,22 @@ namespace Game
 			}
 			if (m_smeltingRecipe != null && m_fireTimeRemaining <= 0f)
 			{
-				Slot slot2 = m_slots[FuelSlotIndex];
-				if (slot2.Count > 0)
+				slot = m_slots[FuelSlotIndex];
+				if (slot.Count > 0)
 				{
-					Block block = BlocksManager.Blocks[Terrain.ExtractContents(slot2.Value)];
-					if (block.GetExplosionPressure(slot2.Value) > 0f)
+					var block = BlocksManager.Blocks[Terrain.ExtractContents(slot.Value)];
+					if (block.GetExplosionPressure(slot.Value) > 0f)
 					{
-						slot2.Count = 0;
-						m_subsystemExplosions.TryExplodeBlock(coordinates.X, coordinates.Y, coordinates.Z, slot2.Value);
+						slot.Count = 0;
+						m_subsystemExplosions.TryExplodeBlock(coordinates.X, coordinates.Y, coordinates.Z, slot.Value);
 					}
 					else
 					{
-						slot2.Count--;
+						slot.Count--;
 						if (block is IFuel fuel)
 						{
-							m_heatLevel = fuel.GetHeatLevel(slot2.Value);
-							m_fireTimeRemaining = fuel.GetFuelFireDuration(slot2.Value);
+							m_heatLevel = fuel.GetHeatLevel(slot.Value);
+							m_fireTimeRemaining = fuel.GetFuelFireDuration(slot.Value);
 						}
 						else
 						{
