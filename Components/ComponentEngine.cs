@@ -97,7 +97,7 @@ namespace Game
 			{
 				SmeltingProgress = MathUtils.Min(SmeltingProgress + 0.02f * dt, 1f);
 				if (m_music % 90 == 0)
-					Utils.SubsystemAudio.PlaySound("Audio/SteamEngine", 1f, 0f, new Vector3(Coordinates), 4f, true);
+					//Utils.SubsystemAudio.PlaySound("Audio/SteamEngine", 1f, 0f, new Vector3(Coordinates), 4f, true);
 				m_music++;
 				if (SmeltingProgress >= 1.0)
 				{
