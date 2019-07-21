@@ -1,7 +1,9 @@
 ﻿using Engine;
 using Engine.Graphics;
+using Engine.Serialization;
 using System;
 using System.Collections.Generic;
+using System.Text;
 using TemplatesDatabase;
 
 namespace Game
@@ -13,7 +15,6 @@ namespace Game
         public DrawBlockEnvironmentData m_drawBlockEnvironmentData = new DrawBlockEnvironmentData();
         public Dictionary<Point3, FTBandItems> m_blocks = new Dictionary<Point3, FTBandItems>();
         public Texture2D[] m_textures;
-        public float m_visibilityRange;
         public double m_lastDrawtime = 0;
         public int[] m_drawedTime = new int[4] { 0, 0, 0, 0 };
         public int FTBGeneratedCount = 0;
@@ -227,9 +228,7 @@ namespace Game
         public override void Load(ValuesDictionary valuesDictionary)
         {
             base.Load(valuesDictionary);
-            string value = valuesDictionary.GetValue<string>("FactorioTransportBelt");
-            //this.m_blocks = new DynamicArray<Point3>(HumanReadableConverter.ValuesListFromString<Point3>(';', value));
-            m_subsystemTime = Project.FindSubsystem<SubsystemTime>(true);
+			m_subsystemTime = Project.FindSubsystem<SubsystemTime>(true);
             m_textures = new Texture2D[3]
             {
                 ContentManager.Get<Texture2D>("Textures/Factorio/Transport-belt_sprite"),
@@ -237,37 +236,68 @@ namespace Game
                 ContentManager.Get<Texture2D>("Textures/Factorio/Express-transport-belt_sprite")
             };
             m_primitivesRenderer = Project.FindSubsystem<SubsystemModelsRenderer>(true).PrimitivesRenderer;
-            m_visibilityRange = SettingsManager.VisibilityRange;
-        }
+            var values = valuesDictionary.GetValue("FactorioTransportBelt", string.Empty).Split('|');
+			if (values[0].Length > 0)
+			try
+			{
+				for (int i = 0; i < values.Length; i++)
+				{
+					var s = values[i].Split(';');
+					int l = s[0].IndexOf(':');
+					Point3 point = HumanReadableConverter.ConvertFromString<Point3>(s[0].Substring(0, l));
+					s[0] = s[0].Substring(l + 1);
+					var fTBandItems = new FTBandItems(new FactorioTransportBelt(point, 0), ++FTBGeneratedCount);
+					var items = fTBandItems.items;
+					for (int j = 0; j < s.Length; j++)
+						if(s[j].Length > 0)
+							items[j & 1, j >> 1] = new Item(int.Parse(s[j]));
+					m_blocks[point] = fTBandItems;
+				}
+			}
+			catch (Exception e)
+			{
+				Log.Warning(e);
+			}
+		}
 
         public override void Save(ValuesDictionary valuesDictionary)
         {
             base.Save(valuesDictionary);
-            //string value = HumanReadableConverter.ValuesListToString<Point3>(';', this.m_blocks.ToArray<Point3>());
-            //valuesDictionary.SetValue<string>("FactorioBeltTransport", value);
+			var e = m_blocks.GetEnumerator();
+			var sb = new StringBuilder();
+			while (e.MoveNext())
+			{
+				sb.Append(HumanReadableConverter.ConvertToString(e.Current.Key)).Append(':');
+				var items = e.Current.Value.items;
+				for (int i = 0; i < 5; i++)
+				{
+					if (items[0, i].value != 0)
+						sb.Append(items[0, i].value);
+					sb.Append(';');
+					if (items[1, i].value != 0)
+						sb.Append(items[1, i].value);
+					sb.Append(i != 4 ? ';' : '|');
+				}
+			}
+			if (sb.Length > 0)
+				valuesDictionary.SetValue("FactorioTransportBelt", sb.ToString(0, sb.Length - 1));
         }
 
         public override void OnBlockAdded(int value, int oldValue, int x, int y, int z)
         {
             var point = new Point3(x, y, z);
             UpdateFTB(value, oldValue, point);
-            if (!m_blocks.ContainsKey(point))
-            {
-                m_blocks.Add(point, new FTBandItems(new FactorioTransportBelt(point, value), ++FTBGeneratedCount));
-            }
-        }
+			m_blocks[point] = new FTBandItems(new FactorioTransportBelt(point, value), ++FTBGeneratedCount, m_blocks.TryGetValue(point, out FTBandItems items) ? items.items : null);
+		}
 
         public override void OnBlockGenerated(int value, int x, int y, int z, bool isLoaded)
         {
             var point = new Point3(x, y, z);
             UpdateFTB(value, value, point);
-            if (!m_blocks.ContainsKey(point))
-            {
-                m_blocks.Add(point, new FTBandItems(new FactorioTransportBelt(point, value), ++FTBGeneratedCount));
-            }
-        }
+			m_blocks[point] = new FTBandItems(new FactorioTransportBelt(point, value), ++FTBGeneratedCount, m_blocks.TryGetValue(point, out FTBandItems items) ? items.items : null);
+		}
 
-        public static Point3[] m_surroundDirections = new Point3[4]
+        public static Point3[] m_surroundDirections = new Point3[]
         {
             new Point3(1,0,0),
             new Point3(-1,0,0),
@@ -275,7 +305,7 @@ namespace Game
             new Point3(0,0,-1)
         };
 
-        public static Point3[] m_surroundDownDirections = new Point3[4]
+        public static Point3[] m_surroundDownDirections = new Point3[]
         {
             new Point3(1,-1,0),
             new Point3(-1,-1,0),
@@ -287,10 +317,7 @@ namespace Game
         {
             var point = new Point3(x, y, z);
             UpdateFTB(newValue, value, point);
-            if (m_blocks.ContainsKey(point))
-            {
-                m_blocks.Remove(point);
-            }
+            m_blocks.Remove(point);
         }
 
         public override void OnBlockModified(int value, int oldValue, int x, int y, int z)
@@ -298,25 +325,21 @@ namespace Game
             var point = new Point3(x, y, z);
             UpdateFTB(value, oldValue, point);
             if (m_blocks.ContainsKey(point))
-            {
                 m_blocks[point].FTB = new FactorioTransportBelt(point, value);
-            }
             else
-            {
                 m_blocks.Add(point, new FTBandItems(new FactorioTransportBelt(point, value), ++FTBGeneratedCount));
-            }
         }
 
-        public override void OnNeighborBlockChanged(int x, int y, int z, int neighborX, int neighborY, int neighborZ)
+        /*public override void OnNeighborBlockChanged(int x, int y, int z, int neighborX, int neighborY, int neighborZ)
         {
-            /*int value = SubsystemTerrain.Terrain.GetCellValue(x, y, z);
+            int value = SubsystemTerrain.Terrain.GetCellValue(x, y, z);
             if (y - 1 == neighborY)
             {
                 int cellContents = SubsystemTerrain.Terrain.GetCellContents(x, neighborY, z);
                 if (BlocksManager.Blocks[cellContents].IsTransparent)
                     SubsystemTerrain.DestroyCell(0, x, y, z, 0, false, false);
-            }*/
-        }
+            }
+        }*/
 
 		public override void OnHitByProjectile(CellFace cellFace, WorldItem worldItem)
 		{
@@ -355,215 +378,211 @@ namespace Game
 
 		public void Draw(Camera camera, int drawOrder)
         {
+			if (drawOrder != 10) return;
             try
             {
-                if (drawOrder == 10)
+                double nowTime = m_subsystemTime.GameTime;
+                if (nowTime - m_lastDrawtime >= 0.02)
                 {
-                    double nowTime = m_subsystemTime.GameTime;
-                    if (nowTime - m_lastDrawtime >= 0.01)
+                    m_drawedTime[3]++;
+                    m_drawedTime[2]++;
+                    if (m_drawedTime[3] == 2)
                     {
-                        m_drawedTime[3]++;
-                        m_drawedTime[2]++;
-                        if (m_drawedTime[3] == 2)
-                        {
-                            m_drawedTime[1]++;
-                        }
-                        else if (m_drawedTime[3] > 3)
-                        {
-                            m_drawedTime[0]++;
-                            m_drawedTime[1]++;
-                            m_drawedTime[3] = 0;
-                        }
-                        for (int i = 0; i < 3; i++)
-                        {
-                            if (m_drawedTime[i] > 15)
-                            {
-                                m_drawedTime[i] = 0;
-                            }
-                        }
-                        m_lastDrawtime = nowTime;
+                        m_drawedTime[1]++;
                     }
-                    foreach (FTBandItems block in m_blocks.Values)
+                    else if (m_drawedTime[3] > 3)
                     {
-                        FactorioTransportBelt FTB = block.FTB;
-                        var FTBdisplayPosition = new Vector3(FTB.position.X + 0.5f, FTB.position.Y + (FTB.slopeType.HasValue ? 0.5f : 0.01f), FTB.position.Z + 0.5f);
-                        if (Vector3.Distance(FTBdisplayPosition, camera.ViewPosition) < m_visibilityRange + 10)
+                        m_drawedTime[0]++;
+                        m_drawedTime[1]++;
+                        m_drawedTime[3] = 0;
+                    }
+                    for (int i = 0; i < 3; i++)
+                    {
+                        if (m_drawedTime[i] > 15)
+                            m_drawedTime[i] = 0;
+                    }
+                    m_lastDrawtime = nowTime;
+                }
+                foreach (FTBandItems block in m_blocks.Values)
+                {
+                    FactorioTransportBelt FTB = block.FTB;
+					Point3 position = FTB.position;
+					var FTBdisplayPosition = new Vector3(position.X + 0.5f, position.Y + (FTB.slopeType.HasValue ? 0.5f : 0.01f), position.Z + 0.5f);
+                    if (Vector3.Distance(FTBdisplayPosition, camera.ViewPosition) < SettingsManager.VisibilityRange + 10)
+                    {
+                        TexturedBatch3D FTBtexturedBatch3D = m_primitivesRenderer.TexturedBatch(m_textures[FTB.color], true, 0, null, RasterizerState.CullCounterClockwiseScissor, null, SamplerState.PointClamp);
+                        var FTBdisplayVertices = new Vector3[4];
+						int side;
+                        for (side = 0; side < 4; side++)
                         {
-                            TexturedBatch3D FTBtexturedBatch3D = m_primitivesRenderer.TexturedBatch(m_textures[FTB.color], true, 0, null, RasterizerState.CullCounterClockwiseScissor, null, SamplerState.PointClamp);
-                            var FTBdisplayVertices = new Vector3[4];
-                            for (int i = 0; i < 4; i++)
+                            FTBdisplayVertices[side] = Vector3.Transform(FTBdisplayPosition + (FTB.slopeType.HasValue ? m_slopeOffset[FTB.rotation, FTB.slopeType.Value ? 1 : 0, side] : m_floorOffset[side]), camera.ViewMatrix);
+                        }
+						int x = position.X, y = position.Y, z = position.Z;
+						TerrainChunk chunkAtCell = SubsystemTerrain.Terrain.GetChunkAtCell(x, z);
+						if (chunkAtCell != null && chunkAtCell.State >= TerrainChunkState.InvalidVertices1 && y >= 0 && y < 127)
+						{
+							m_drawBlockEnvironmentData.Humidity = SubsystemTerrain.Terrain.GetHumidity(x, z);
+							m_drawBlockEnvironmentData.Temperature = SubsystemTerrain.Terrain.GetTemperature(x, z);
+							m_drawBlockEnvironmentData.Light = SubsystemTerrain.Terrain.GetCellLightFast(x, y, z);
+						}
+                        Vector4 FTBtextureVertices = FactorioTransportBeltBlock.m_texCoords[FTB.cornerType.HasValue ? FTB.cornerType.Value + 4 : FTB.rotation, m_drawedTime[FTB.color]];
+                        FTBtexturedBatch3D.QueueQuad(FTBdisplayVertices[0], FTBdisplayVertices[1], FTBdisplayVertices[2], FTBdisplayVertices[3], new Vector2(FTBtextureVertices.X, FTBtextureVertices.Y), new Vector2(FTBtextureVertices.Z, FTBtextureVertices.Y), new Vector2(FTBtextureVertices.Z, FTBtextureVertices.W), new Vector2(FTBtextureVertices.X, FTBtextureVertices.W), new Color(new Vector3(LightingManager.LightIntensityByLightValue[m_drawBlockEnvironmentData.Light])));
+                        //Log.Information(FTB.color + " " + m_drawedTime[FTB.color] + " " + m_drawedTime[3]);
+                        for (side = 0; side < 2; side++)
+                        {
+                            for (int process = 4; process >= 0; process--)
                             {
-                                FTBdisplayVertices[i] = Vector3.Transform(FTBdisplayPosition + (FTB.slopeType.HasValue ? m_slopeOffset[FTB.rotation, FTB.slopeType.Value ? 1 : 0, i] : m_floorOffset[i]), camera.ViewMatrix);
-                            }
-                            Vector4 FTBtextureVertices = FactorioTransportBeltBlock.m_texCoords[FTB.cornerType.HasValue ? FTB.cornerType.Value + 4 : FTB.rotation, m_drawedTime[FTB.color]];
-                            FTBtexturedBatch3D.QueueQuad(FTBdisplayVertices[0], FTBdisplayVertices[1], FTBdisplayVertices[2], FTBdisplayVertices[3], new Vector2(FTBtextureVertices.X, FTBtextureVertices.Y), new Vector2(FTBtextureVertices.Z, FTBtextureVertices.Y), new Vector2(FTBtextureVertices.Z, FTBtextureVertices.W), new Vector2(FTBtextureVertices.X, FTBtextureVertices.W), Color.White);
-                            //Log.Information(FTB.color + " " + m_drawedTime[FTB.color] + " " + m_drawedTime[3]);
-                            for (int side = 0; side <= 1; side++)
-                            {
-                                for (int process = 4; process >= 0; process--)
+                                Item item = block.items[side, process];
+                                if (item.value != 0)
                                 {
-                                    Item item = block.items[side, process];
-                                    if (item.value != 0)
+									Point3 direction = FactorioTransportBeltBlock.RotationToDirection(FTB.rotation);
+                                    var matrix = new Matrix(1f, 0f, 0f, 0f, 0f, 1f, 0f, 0f, 0f, 0f, 1f, 0f, FTBdisplayPosition.X, FTBdisplayPosition.Y, FTBdisplayPosition.Z, 1f);
+                                    if (FTB.cornerType.HasValue && process < 4)
                                     {
-										Point3 direction = FactorioTransportBeltBlock.RotationToDirection(FTB.rotation);
-                                        var matrix = new Matrix(1f, 0f, 0f, 0f, 0f, 1f, 0f, 0f, 0f, 0f, 1f, 0f, FTBdisplayPosition.X, FTBdisplayPosition.Y, FTBdisplayPosition.Z, 1f);
-                                        if (FTB.cornerType.HasValue && process < 4)
+                                        matrix.Translation += m_cornerItemOffset[FTB.cornerType.Value, side, process];
+                                        if (!item.stop && !block.justAddedItem.Contains(side * 5 + process))
                                         {
-                                            matrix.Translation += m_cornerItemOffset[FTB.cornerType.Value, side, process];
-                                            if (!item.stop && !block.justAddedItem.Contains(side * 5 + process))
+                                            matrix.Translation += (m_cornerItemOffset[FTB.cornerType.Value, side, process + 1] - m_cornerItemOffset[FTB.cornerType.Value, side, process]) * (m_drawedTime[2] % m_colorDrawScale[FTB.color]) / m_colorDrawScale[FTB.color];
+                                        }
+                                    }
+                                    else
+                                    {
+                                        if (FTB.slopeType.HasValue)
+                                        {
+                                            if (FTB.slopeType.Value)
                                             {
-                                                matrix.Translation += (m_cornerItemOffset[FTB.cornerType.Value, side, process + 1] - m_cornerItemOffset[FTB.cornerType.Value, side, process]) * (m_drawedTime[2] % m_colorDrawScale[FTB.color]) / m_colorDrawScale[FTB.color];
+                                                matrix.M42 += process * 0.25f - 0.25f;
+                                            }
+                                            else
+                                            {
+                                                matrix.M42 += 0.5f - process * 0.25f;
                                             }
                                         }
                                         else
                                         {
-                                            if (FTB.slopeType.HasValue)
-                                            {
-                                                if (FTB.slopeType.Value)
-                                                {
-                                                    matrix.M42 += process * 0.25f - 0.25f;
-                                                }
-                                                else
-                                                {
-                                                    matrix.M42 += 0.5f - process * 0.25f;
-                                                }
-                                            }
-                                            else
-                                            {
-                                                matrix.M42 += 0.25f;
-                                            }
-											matrix.Translation += (process * 0.25f - 0.5f + (item.stop || block.justAddedItem.Contains(side * 5 + process) ? 0 : (m_drawedTime[2] % m_colorDrawScale[FTB.color] * 0.25f / m_colorDrawScale[FTB.color]))) * new Vector3(direction) + (side == 1 ? 0.15f : (-0.15f)) * new Vector3(FactorioTransportBeltBlock.RotationToDirection(TurnRight(FTB.rotation)));
+                                            matrix.M42 += 0.25f;
                                         }
-										BlocksManager.Blocks[Terrain.ExtractContents(item.value)].DrawBlock(m_primitivesRenderer, item.value, Color.White, 0.18f, ref matrix, m_drawBlockEnvironmentData);
-                                        if ((m_drawedTime[FTB.color] & 3) == 3 && m_drawedTime[3] == 3)
+										matrix.Translation += (process * 0.25f - 0.5f + (item.stop || block.justAddedItem.Contains(side * 5 + process) ? 0 : (m_drawedTime[2] % m_colorDrawScale[FTB.color] * 0.25f / m_colorDrawScale[FTB.color]))) * new Vector3(direction) + (side == 1 ? 0.15f : (-0.15f)) * new Vector3(FactorioTransportBeltBlock.RotationToDirection(TurnRight(FTB.rotation)));
+									}
+									m_drawBlockEnvironmentData.BillboardDirection = camera.ViewDirection;
+									BlocksManager.Blocks[Terrain.ExtractContents(item.value)].DrawBlock(m_primitivesRenderer, item.value, Color.White, 0.18f, ref matrix, m_drawBlockEnvironmentData);
+                                    if ((m_drawedTime[FTB.color] & 3) == 3 && m_drawedTime[3] == 3)
+                                    {
+                                        item.stop = false;
+                                        if (process >= 3)
                                         {
-                                            item.stop = false;
-                                            if (process >= 3)
+                                            Point3 frontPosition = position + direction;
+                                            if (FTB.slopeType.HasValue && FTB.slopeType.Value)
                                             {
-                                                Point3 frontPosition = FTB.position + direction;
-                                                if (FTB.slopeType.HasValue && FTB.slopeType.Value)
+                                                frontPosition += Point3.UnitY;
+                                            }
+                                            else if (!m_blocks.ContainsKey(frontPosition))
+                                            {
+                                                frontPosition -= Point3.UnitY;
+                                            }
+                                            if (m_blocks.ContainsKey(frontPosition))
+                                            {
+                                                FTBandItems frontBlock = m_blocks[frontPosition];
+                                                if (frontBlock.FTB.cornerType.HasValue || FTB.rotation == frontBlock.FTB.rotation)
                                                 {
-                                                    frontPosition += Point3.UnitY;
-                                                }
-                                                else if (!m_blocks.ContainsKey(frontPosition))
-                                                {
-                                                    frontPosition -= Point3.UnitY;
-                                                }
-                                                if (m_blocks.ContainsKey(frontPosition))
-                                                {
-                                                    FTBandItems frontBlock = m_blocks[frontPosition];
-                                                    if (frontBlock.FTB.cornerType.HasValue || FTB.rotation == frontBlock.FTB.rotation)
+                                                    if (frontBlock.items[side, 0].value == 0)
                                                     {
-                                                        if (frontBlock.items[side, 0].value == 0)
+                                                        frontBlock.items[side, 0] = new Item(item.value);
+                                                        if (frontBlock.drawIndex > block.drawIndex) { frontBlock.justAddedItem.Add(side * 5); }
+                                                        block.items[side, process] = new Item();
+                                                    }
+                                                    else
+                                                        block.items[side, process].stop = true;
+                                                }
+                                                else if (frontBlock.FTB.rotation != TurnBack(FTB.rotation))
+                                                {
+													int frontPorcess;
+													if (process == 3)
+                                                    {
+                                                        if (block.items[side, process + 1].value == 0)
                                                         {
-                                                            frontBlock.items[side, 0] = new Item(item.value);
-                                                            if (frontBlock.drawIndex > block.drawIndex) { frontBlock.justAddedItem.Add(side * 5); }
+                                                            block.items[side, process + 1] = new Item(item.value);
                                                             block.items[side, process] = new Item();
                                                         }
                                                         else
-                                                        {
                                                             block.items[side, process].stop = true;
-                                                        }
                                                     }
-                                                    else if (frontBlock.FTB.rotation != TurnBack(FTB.rotation))
+                                                    else if (frontBlock.FTB.rotation == TurnLeft(FTB.rotation))
                                                     {
-                                                        if (process == 3)
+                                                        frontPorcess = side == 0 ? 3 : 2;
+                                                        if (frontBlock.items[0, frontPorcess].value == 0)
                                                         {
-                                                            if (block.items[side, process + 1].value == 0)
-                                                            {
-                                                                block.items[side, process + 1] = new Item(item.value);
-                                                                block.items[side, process] = new Item();
-                                                            }
-                                                            else
-                                                            {
-                                                                block.items[side, process].stop = true;
-                                                            }
-                                                        }
-                                                        else if (frontBlock.FTB.rotation == TurnLeft(FTB.rotation))
-                                                        {
-                                                            int frontPorcess = side == 0 ? 3 : 2;
-                                                            if (frontBlock.items[0, frontPorcess].value == 0)
-                                                            {
-                                                                frontBlock.items[0, frontPorcess] = new Item(item.value);
-                                                                if (frontBlock.drawIndex > block.drawIndex) { frontBlock.justAddedItem.Add(frontPorcess); }
-                                                                block.items[side, process] = new Item();
-                                                            }
-                                                            else
-                                                            {
-                                                                block.items[side, process].stop = true;
-                                                            }
-                                                        }
-                                                        else if (frontBlock.FTB.rotation == TurnRight(FTB.rotation))
-                                                        {
-                                                            int frontPorcess = side == 0 ? 2 : 3;
-                                                            if (frontBlock.items[1, frontPorcess].value == 0)
-                                                            {
-                                                                frontBlock.items[1, frontPorcess] = new Item(item.value);
-                                                                if (frontBlock.drawIndex > block.drawIndex) { frontBlock.justAddedItem.Add(5 + frontPorcess); }
-                                                                block.items[side, process] = new Item();
-                                                            }
-                                                            else
-                                                            {
-                                                                block.items[side, process].stop = true;
-                                                            }
+                                                            frontBlock.items[0, frontPorcess] = new Item(item.value);
+                                                            if (frontBlock.drawIndex > block.drawIndex) { frontBlock.justAddedItem.Add(frontPorcess); }
+                                                            block.items[side, process] = new Item();
                                                         }
                                                         else
-                                                        {
                                                             block.items[side, process].stop = true;
+                                                    }
+                                                    else if (frontBlock.FTB.rotation == TurnRight(FTB.rotation))
+                                                    {
+                                                        frontPorcess = side == 0 ? 2 : 3;
+                                                        if (frontBlock.items[1, frontPorcess].value == 0)
+                                                        {
+                                                            frontBlock.items[1, frontPorcess] = new Item(item.value);
+                                                            if (frontBlock.drawIndex > block.drawIndex) { frontBlock.justAddedItem.Add(5 + frontPorcess); }
+                                                            block.items[side, process] = new Item();
                                                         }
+                                                        else
+                                                            block.items[side, process].stop = true;
                                                     }
                                                     else
-                                                    {
                                                         block.items[side, process].stop = true;
-                                                    }
-                                                }
-                                                else if (process == 3 && block.items[side, process + 1].value == 0)
-                                                {
-                                                    if (!block.justAddedItem.Contains(side * 5 + process))
-                                                    {
-                                                        block.items[side, 4] = new Item(item.value);
-                                                        block.items[side, process] = new Item();
-                                                    }
                                                 }
                                                 else
-                                                {
-													var p = new Vector3(FTB.position) + new Vector3(0.5f);
-													SubsystemTerrain.m_subsystemPickables.AddPickable(block.items[side, process].value, 0, p, null, null);
-                                                    block.items[side, process].value = 0;
-                                                    //block.items[side, process].stop = true;
-                                                }
+                                                    block.items[side, process].stop = true;
                                             }
-                                            else if (block.items[side, process + 1].value == 0)
+                                            else if (process == 3 && block.items[side, process + 1].value == 0)
                                             {
                                                 if (!block.justAddedItem.Contains(side * 5 + process))
                                                 {
-                                                    block.items[side, process + 1] = new Item(item.value);
+                                                    block.items[side, 4] = new Item(item.value);
                                                     block.items[side, process] = new Item();
                                                 }
                                             }
                                             else
                                             {
-												//Log.Information(block.justAddedItem.Contains(side * 5 + process));
-												block.items[side, process].stop = true;
+												var p = new Vector3(position) + new Vector3(0.5f);
+												SubsystemTerrain.m_subsystemPickables.AddPickable(block.items[side, process].value, 0, p, null, null);
+                                                block.items[side, process].value = 0;
+                                                //block.items[side, process].stop = true;
                                             }
+                                        }
+                                        else if (block.items[side, process + 1].value == 0)
+                                        {
+                                            if (!block.justAddedItem.Contains(side * 5 + process))
+                                            {
+                                                block.items[side, process + 1] = new Item(item.value);
+                                                block.items[side, process] = new Item();
+                                            }
+                                        }
+                                        else
+                                        {
+											//Log.Information(block.justAddedItem.Contains(side * 5 + process));
+											block.items[side, process].stop = true;
                                         }
                                     }
                                 }
                             }
-                            /*if (block.justAddedItem.Count > 0)
-                            {
-                                string a = "";
-                                foreach(int i in block.justAddedItem)
-                                {
-                                    a += i / 5 + "," + i % 5 + ";";
-                                }
-                                Log.Information(a);
-                            }*/
-                            block.justAddedItem.Clear();
                         }
+                        /*if (block.justAddedItem.Count > 0)
+                        {
+                            string a = "";
+                            foreach(int i in block.justAddedItem)
+                            {
+                                a += i / 5 + "," + i % 5 + ";";
+                            }
+                            Log.Information(a);
+                        }*/
+                        block.justAddedItem.Clear();
                     }
-                    m_primitivesRenderer.Flush(camera.ViewProjectionMatrix, false, int.MaxValue);
                 }
+                m_primitivesRenderer.Flush(camera.ViewProjectionMatrix, false, int.MaxValue);
             }
             catch (Exception e)
             {
@@ -705,38 +724,17 @@ namespace Game
 
         public static int TurnLeft(int rotation)
         {
-            switch (rotation)
-            {
-                case 0: return 1;
-                case 1: return 2;
-                case 2: return 3;
-                case 3: return 0;
-                default: return (rotation + 1) & 3;
-            }
+            return (rotation + 1) & 3;
         }
 
         public static int TurnRight(int rotation)
         {
-            switch (rotation)
-            {
-                case 0: return 3;
-                case 1: return 0;
-                case 2: return 1;
-                case 3: return 2;
-                default: return (rotation + 3) & 3;
-            }
+            return (rotation + 3) & 3;
         }
 
         public static int TurnBack(int rotation)
         {
-            switch (rotation)
-            {
-                case 0: return 2;
-                case 1: return 3;
-                case 2: return 0;
-                case 3: return 1;
-                default: return (rotation + 2) & 3;
-            }
+            return (rotation + 2) & 3;
         }
 
         public class FactorioTransportBelt
@@ -748,9 +746,9 @@ namespace Game
             public int? cornerType;
             public bool? slopeType;
 
-            public FactorioTransportBelt(Point3 position, int value)
+            public FactorioTransportBelt(Point3 p, int value)
             {
-                this.position = position;
+                position = p;
                 if (Terrain.ExtractContents(value) == FactorioTransportBeltBlock.Index)
                 {
                     int data = Terrain.ExtractData(value);
@@ -795,33 +793,30 @@ namespace Game
             public int value;
             public bool stop;
 
-            public Item(int val)
-            {
-                value = val;
-                stop = false;
-            }
+            public Item(int val) { value = val; stop = false; }
         }
 
         public class FTBandItems
         {
             public FactorioTransportBelt FTB;
-            public Item[,] items = new Item[2, 5]; //side, process
+            public Item[,] items; //side, process
             public List<int> justAddedItem = new List<int>();
             public int drawIndex = 0;
 
-            public FTBandItems(FactorioTransportBelt ftb, int DrawIndex)
+            public FTBandItems(FactorioTransportBelt ftb, int DrawIndex, Item[,] item = null)
             {
                 FTB = ftb;
                 drawIndex = DrawIndex;
-                //items[0, 0] = new Item(9);
-                //items[1, 1] = new Item(10);
-            }
+				items = item ?? new Item[2, 5];
+				//items[0, 0] = new Item(9);
+				//items[1, 1] = new Item(10);
+			}
 
-            public FTBandItems(FactorioTransportBelt ftb, Item[,] itemss)
+            /*public FTBandItems(FactorioTransportBelt ftb, Item[,] itemss)
             {
                 FTB = ftb;
                 items = itemss;
-            }
+            }*/
         }
     }
 }

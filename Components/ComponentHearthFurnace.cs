@@ -36,10 +36,10 @@ namespace Game
 					m_time = 0;
 				}
 			}
+			int num = 1, m = 0;
 			if (m_smeltingRecipe2 && Utils.SubsystemTime.PeriodicGameTimeEvent(0.2, 0.0))
 			{
-				int num = 1;
-				int num2 = 0;
+				num = 1;
 				var point = CellFace.FaceToPoint3(FourDirectionalBlock.GetDirection(Utils.Terrain.GetCellValue(coordinates.X, coordinates.Y, coordinates.Z)));
 				int num3 = coordinates.X - point.X;
 				int num4 = coordinates.Y - point.Y;
@@ -63,7 +63,7 @@ namespace Game
 								break;
 							}
 							if (i * i + k * k == 1 && j == 0 && cellContents2 == 0)
-								num2++;
+								m++;
 							if (i * i + k * k == 1 && j == 0 && cellContents2 != 0 && cellValue != (MetalBlock.Index | 96 << 14) && (num3 + i != coordinates.X || num5 + k != coordinates.Z))
 							{
 								num = 0;
@@ -82,9 +82,9 @@ namespace Game
 						}
 					}
 				}
-				if (num == 0 || num2 == 0)
+				if (num == 0 || m == 0)
 					m_smeltingRecipe = false;
-				if (num == 1 && num2 >= 2 && !m_smeltingRecipe)
+				if (num == 1 && m >= 2 && !m_smeltingRecipe)
 					m_smeltingRecipe = m_smeltingRecipe2;
 			}
 
@@ -101,7 +101,7 @@ namespace Game
 				SmeltingProgress = MathUtils.Min(SmeltingProgress + 0.1f * dt, 1f);
 				if (SmeltingProgress >= 1f)
 				{
-					int[] array = new int[]
+					int[] array =
 					{
 						IronIngotBlock.Index,
 						ItemBlock.IdTable["ScrapIron"],
@@ -113,10 +113,10 @@ namespace Game
 					{
 						if (m_matchedIngredients[l] > 0)
 						{
-							int b = array[l];
-							for (int m = 0; m < m_furnaceSize; m++)
+							num = array[l];
+							for (m = 0; m < m_furnaceSize; m++)
 							{
-								if (m_slots[m].Count > 0 && GetSlotValue(m) == b)
+								if (m_slots[m].Count > 0 && GetSlotValue(m) == num)
 								{
 									if (m_slots[m].Count >= m_matchedIngredients[l])
 									{
@@ -198,14 +198,14 @@ namespace Game
 				{
 					m_matchedIngredients[5] = 4;
 					m_matchedIngredients[0] = 4;
-					m_matchedIngredients[4] = 2;
+					m_matchedIngredients[4] = 1;
 					flag = true;
 				}
 				if (m_matchedIngredients2[1] >= 4 && m_matchedIngredients2[4] >= 2 && m_matchedIngredients2[0] + m_matchedIngredients2[2] + m_matchedIngredients2[3] <= 0)
 				{
 					m_matchedIngredients[6] = 4;
 					m_matchedIngredients[1] = 4;
-					m_matchedIngredients[4] = 2;
+					m_matchedIngredients[4] = 1;
 					flag = true;
 				}
 				if (m_matchedIngredients2[0] >= 2 && m_matchedIngredients2[2] >= 1 && m_matchedIngredients2[3] >= 1 && m_matchedIngredients2[4] >= 2 && m_matchedIngredients2[1] <= 0)

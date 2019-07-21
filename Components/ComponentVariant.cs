@@ -392,7 +392,7 @@ namespace Game
 		{
 			Genome genome;
 			Trait t;
-			if (Period > 900)
+			if (Period > 900 && OGenome != null)
 			{
 				genome = new Genome(OGenome, new float[OGenome.Length]);
 				float f = (float)LastTime / 6000;

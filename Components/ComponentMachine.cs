@@ -27,7 +27,7 @@ namespace Game
 		{
 			if (slotIndex == FuelSlotIndex)
 			{
-				Block block = BlocksManager.Blocks[Terrain.ExtractContents(value)];
+				var block = BlocksManager.Blocks[Terrain.ExtractContents(value)];
 				if ((block is IFuel fuel ? fuel.GetHeatLevel(value) : block.FuelHeatLevel) < 1f)
 					return 0;
 			}

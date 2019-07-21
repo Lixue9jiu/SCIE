@@ -48,11 +48,6 @@
       <HintPath>D:\Survivalcraft\EntitySystem.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="Jint, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>Common\Jint.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
     <Reference Include="Survivalcraft">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>D:\Survivalcraft\Survivalcraft.exe</HintPath>

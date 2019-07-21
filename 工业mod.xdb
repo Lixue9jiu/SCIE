@@ -346,7 +346,6 @@
       <Parameter Name="Class" Guid="ff8971da-4268-41d7-90a9-9a066f2feea8" Value="Game.SubsystemCircuit" Type="string" />
     </MemberSubsystemTemplate>
     <MemberSubsystemTemplate Name="FactorioTransportBeltBlockBehavior" Guid="886af16d-6a33-4182-a334-9e287aa334a8" InheritanceParent="fefb9590-4972-4893-b02a-76063611b745">
-      <Parameter Name="FactorioTransportBelt" Description="List of FactorioTransportBelt positions in the world" Guid="372653e2-854a-4805-ace9-e64bd00de984" Value="" Type="string" />
       <Parameter Name="Class" Guid="417571da-4268-41d7-90a9-9a066f2feea8" Value="Game.SubsystemFactorioTransportBeltBLockBehavior" Type="string" />
     </MemberSubsystemTemplate>
   </ProjectTemplate>

@@ -95,7 +95,6 @@ namespace Game
 			}
 			ComponentLocomotion.LookOrder += playerInput.Look * (SettingsManager.FlipVerticalAxis ? new Vector2(0f, -1f) : new Vector2(0f, 1f));
 			int num = Terrain.ExtractContents(ComponentMiner.ActiveBlockValue);
-			Block block = BlocksManager.Blocks[num];
 			bool flag = false;
 			if (playerInput.Interact.HasValue && !flag && m_subsystemTime.GameTime - m_lastActionTime > 0.33000001311302185)
 			{
@@ -131,6 +130,7 @@ namespace Game
 					m_isAimBlocked = true;
 				}
 			}
+			var block = BlocksManager.Blocks[num];
 			float num2 = (m_subsystemGameInfo.WorldSettings.GameMode == GameMode.Creative || block.BlockIndex == Musket2Block.Index) ? 0.1f : 1.4f;
 			Vector3 viewPosition2 = View.ActiveCamera.ViewPosition;
 			if (playerInput.Aim.HasValue && block.IsAimable && m_subsystemTime.GameTime - m_lastActionTime > num2)
@@ -233,7 +233,7 @@ namespace Game
 						int value3 = nullable6.Value.Value;
 						value3 = Terrain.ReplaceLight(value3, 0);
 						int num4 = Terrain.ExtractContents(value3);
-						Block block2 = BlocksManager.Blocks[num4];
+						var block2 = BlocksManager.Blocks[num4];
 						int num5 = 0;
 						var creativeValues = block2.GetCreativeValues();
 						if (block2.GetCreativeValues().Contains(value3))
