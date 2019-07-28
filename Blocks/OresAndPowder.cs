@@ -83,17 +83,12 @@ namespace Game
 		public readonly float HeatLevel;
 		public readonly float FuelFireDuration;
 
-		public CoalPowder(string name, Color color, float heatLevel = 1700f, float fuelFireDuration = 60f, string description = "煤粉是通过破碎煤块而得到的黑色粉末。它可以用作燃料。") : base(name + Utils.Get("粉"), color)
+		public CoalPowder(string name, Color color, float heatLevel = 1700f, float fuelFireDuration = 60f, string description = "煤粉是通过破碎煤块而得到的黑色粉末。它可以用作燃料。") : base(Utils.Get(name) + Utils.Get("粉"), color)
 		{
 			Id = name + "Powder";
 			DefaultDescription = description;
 			HeatLevel = heatLevel;
 			FuelFireDuration = fuelFireDuration;
-		}
-
-		public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
-		{
-			BlocksManager.DrawFlatBlock(primitivesRenderer, value, size, ref matrix, null, Color, false, environmentData);
 		}
 
 		public float GetHeatLevel(int value) => HeatLevel;
@@ -106,11 +101,6 @@ namespace Game
 			Id = "CokeCoal";
 			DefaultDisplayName = Utils.Get("焦炭");
 			DefaultDescription = "焦炭看起来像炼焦煤获得的银块。 它可以用作工业领域中的燃料或还原剂。";
-		}
-
-		public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
-		{
-			BlocksManager.DrawMeshBlock(primitivesRenderer, m_standaloneBlockMesh, color, 2f * size, ref matrix, environmentData);
 		}
 
 		public override string GetCategory(int value) => "Items";

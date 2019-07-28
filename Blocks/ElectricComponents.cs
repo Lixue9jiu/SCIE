@@ -13,7 +13,7 @@ namespace Game
 			Id = type.ToString() + "Resistor";
 			DefaultDisplayName = name + Utils.Get("µç×è");
 			DefaultDescription = name + " Resistor is a kind of resistor obtained by " + name + ".";
-            Color = new Color(55, 55, 55);
+			Color = new Color(55, 55, 55);
 		}
 		public override string GetCraftingId() => Id;
 	}

@@ -9,11 +9,9 @@ namespace Game
 	{
 		protected int m_time;
 
-		protected readonly int[] m_matchedIngredients2 = new int[9];
-		protected readonly int[] m_matchedIngredients = new int[10];
+		protected readonly int[] m_matchedIngredients = new int[10], m_matchedIngredients2 = new int[9];
 
-		protected bool m_smeltingRecipe;
-		protected bool m_smeltingRecipe2;
+		protected bool m_smeltingRecipe, m_smeltingRecipe2;
 
 		protected readonly int[] result = new int[3];
 
@@ -31,7 +29,7 @@ namespace Game
 				result[0] = m_matchedIngredients[7];
 				result[1] = m_matchedIngredients[8];
 				result[2] = m_matchedIngredients[9];
-				bool flag = FindSmeltingRecipe(5f);
+				bool flag = FindSmeltingRecipe();
 				if (result[0] != m_matchedIngredients[7] || result[1] != m_matchedIngredients[8] || result[2] != m_matchedIngredients[9])
 				{
 					SmeltingProgress = 0f;
@@ -109,7 +107,7 @@ namespace Game
 				SmeltingProgress = MathUtils.Min(SmeltingProgress + 0.1f * dt, 1f);
 				if (SmeltingProgress >= 1f)
 				{
-					int[] array =
+					int[] arr =
 					{
 						IronOreChunkBlock.Index,
 						ItemBlock.IdTable["IronOrePowder"],
@@ -123,7 +121,7 @@ namespace Game
 					{
 						if (m_matchedIngredients[l] > 0)
 						{
-							int b = array[l];
+							int b = arr[l];
 							for (int m = 0; m < m_furnaceSize; m++)
 							{
 								if (m_slots[m].Count > 0 && GetSlotValue(m) == b)
@@ -181,110 +179,107 @@ namespace Game
 			HeatLevel = valuesDictionary.GetValue("HeatLevel", 0f);
 		}
 
-		protected bool FindSmeltingRecipe(float heatLevel)
+		protected bool FindSmeltingRecipe()
 		{
-			if (heatLevel <= 0f)
-				return false;
 			Array.Clear(m_matchedIngredients2, 0, m_matchedIngredients2.Length);
 			Array.Clear(m_matchedIngredients, 0, m_matchedIngredients.Length);
 			for (int i = 0; i < m_furnaceSize; i++)
 			{
-				int slotValue = GetSlotValue(i);
-				int contents = Terrain.ExtractContents(slotValue);
 				int slotCount = GetSlotCount(i);
-				if (GetSlotCount(i) > 0)
-				{
-					if (slotValue == IronOreChunkBlock.Index)
-						m_matchedIngredients2[0] += slotCount;
-					else if (slotValue == ItemBlock.IdTable["IronOrePowder"])
-						m_matchedIngredients2[1] += slotCount;
-					else if (contents == CoalChunkBlock.Index)
-						m_matchedIngredients2[2] += slotCount;
-					else if (slotValue == ItemBlock.IdTable["CoalPowder"] || slotValue == ItemBlock.IdTable["CokeCoalPowder"])
-						m_matchedIngredients2[3] += slotCount;
-					else if (contents == SandBlock.Index)
-						m_matchedIngredients2[4] += slotCount;
-					else if (contents == PigmentBlock.Index)
-						m_matchedIngredients2[5] += slotCount;
-					else if (contents == IronIngotBlock.Index)
-						m_matchedIngredients2[6] += slotCount;
-					else
-						m_matchedIngredients2[7] += slotCount;
-				}
+				if (slotCount <= 0) continue;
+				int value = GetSlotValue(i);
+				int contents = Terrain.ExtractContents(value);
+				if (value == IronOreChunkBlock.Index)
+					m_matchedIngredients2[0] += slotCount;
+				else if (value == ItemBlock.IdTable["IronOrePowder"])
+					m_matchedIngredients2[1] += slotCount;
+				else if (contents == CoalChunkBlock.Index)
+					m_matchedIngredients2[2] += slotCount;
+				else if (value == ItemBlock.IdTable["CoalPowder"] || value == ItemBlock.IdTable["CokeCoalPowder"])
+					m_matchedIngredients2[3] += slotCount;
+				else if (contents == SandBlock.Index)
+					m_matchedIngredients2[4] += slotCount;
+				else if (contents == PigmentBlock.Index)
+					m_matchedIngredients2[5] += slotCount;
+				else if (contents == IronIngotBlock.Index)
+					m_matchedIngredients2[6] += slotCount;
+				else
+					m_matchedIngredients2[7] += slotCount;
 			}
 			bool flag = false;
+			int N;
 			if (m_matchedIngredients2[7] == 0)
 			{
 				if (m_matchedIngredients2[0] >= 7 && (m_matchedIngredients2[2] >= 1 || m_matchedIngredients2[3] >= 1) && m_matchedIngredients2[1] + m_matchedIngredients2[4] + m_matchedIngredients2[5] + m_matchedIngredients2[6] <= 0)
 				{
-					int num2 = m_random.UniformInt(8, 11);
-					m_matchedIngredients[9] = num2;
+					N = m_random.UniformInt(8, 11);
+					m_matchedIngredients[9] = N;
 					m_matchedIngredients[0] = 7;
 					m_matchedIngredients[2] = 1;
 					m_matchedIngredients[3] = 1;
-					m_matchedIngredients[7] = 14 - num2;
+					m_matchedIngredients[7] = 14 - N;
 					flag = true;
 				}
 				if (m_matchedIngredients2[1] >= 7 && (m_matchedIngredients2[2] >= 1 || m_matchedIngredients2[3] >= 1) && m_matchedIngredients2[0] + m_matchedIngredients2[4] + m_matchedIngredients2[5] + m_matchedIngredients2[6] <= 0)
 				{
-					int num3 = m_random.UniformInt(10, 12);
-					m_matchedIngredients[9] = num3;
+					N = m_random.UniformInt(10, 12);
+					m_matchedIngredients[9] = N;
 					m_matchedIngredients[1] = 7;
 					m_matchedIngredients[2] = 1;
 					m_matchedIngredients[3] = 1;
-					m_matchedIngredients[7] = 15 - num3;
+					m_matchedIngredients[7] = 15 - N;
 					flag = true;
 				}
 				if (m_matchedIngredients2[1] >= 6 && (m_matchedIngredients2[2] >= 1 || m_matchedIngredients2[3] >= 1) && m_matchedIngredients2[4] >= 1 && m_matchedIngredients2[0] + m_matchedIngredients2[5] + m_matchedIngredients2[6] <= 0)
 				{
-					const int num4 = 11;
-					m_matchedIngredients[9] = num4;
+					const int C = 11;
+					m_matchedIngredients[9] = C;
 					m_matchedIngredients[1] = 6;
 					m_matchedIngredients[2] = 1;
 					m_matchedIngredients[3] = 1;
 					m_matchedIngredients[4] = 1;
-					m_matchedIngredients[7] = 12 - num4;
+					m_matchedIngredients[7] = 12 - C;
 					flag = true;
 				}
 				if (m_matchedIngredients2[1] >= 6 && (m_matchedIngredients2[2] >= 1 || m_matchedIngredients2[3] >= 1) && m_matchedIngredients2[5] >= 1 && m_matchedIngredients2[0] + m_matchedIngredients2[4] + m_matchedIngredients2[6] <= 0)
 				{
-					const int num5 = 11;
-					m_matchedIngredients[9] = num5;
+					const int C = 11;
+					m_matchedIngredients[9] = C;
 					m_matchedIngredients[1] = 6;
 					m_matchedIngredients[2] = 1;
 					m_matchedIngredients[3] = 1;
 					m_matchedIngredients[5] = 1;
-					m_matchedIngredients[7] = 12 - num5;
+					m_matchedIngredients[7] = 12 - C;
 					flag = true;
 				}
 				if (m_matchedIngredients2[1] >= 5 && (m_matchedIngredients2[2] >= 1 || m_matchedIngredients2[3] >= 1) && m_matchedIngredients2[4] >= 1 && m_matchedIngredients2[5] >= 1 && m_matchedIngredients2[0] + m_matchedIngredients2[6] <= 0)
 				{
-					const int num6 = 10;
+					const int C = 10;
 					m_matchedIngredients[1] = 5;
 					m_matchedIngredients[2] = 1;
 					m_matchedIngredients[3] = 1;
 					m_matchedIngredients[4] = 1;
 					m_matchedIngredients[5] = 1;
-					m_matchedIngredients[9] = num6;
+					m_matchedIngredients[9] = C;
 					m_matchedIngredients[7] = 0;
 					flag = true;
 				}
 				if (m_matchedIngredients2[6] >= 6 && m_matchedIngredients2[3] >= 2 && m_matchedIngredients2[0] + m_matchedIngredients2[1] + m_matchedIngredients2[2] + m_matchedIngredients2[4] + m_matchedIngredients2[5] <= 0)
 				{
-					int num7 = m_random.UniformInt(2, 4);
+					N = m_random.UniformInt(2, 4);
 					m_matchedIngredients[6] = 6;
 					m_matchedIngredients[3] = 2;
-					m_matchedIngredients[8] = num7;
-					m_matchedIngredients[7] = 6 - num7;
+					m_matchedIngredients[8] = N;
+					m_matchedIngredients[7] = 6 - N;
 					flag = true;
 				}
 				if (m_matchedIngredients2[6] >= 5 && m_matchedIngredients2[3] >= 2 && m_matchedIngredients2[5] >= 1 && m_matchedIngredients2[0] + m_matchedIngredients2[1] + m_matchedIngredients2[2] + m_matchedIngredients2[4] <= 0)
 				{
-					int num7 = m_random.UniformInt(3, 5);
+					N = m_random.UniformInt(3, 5);
 					m_matchedIngredients[6] = 6;
 					m_matchedIngredients[3] = 2;
-					m_matchedIngredients[8] = num7;
-					m_matchedIngredients[7] = 6 - num7;
+					m_matchedIngredients[8] = N;
+					m_matchedIngredients[7] = 6 - N;
 					flag = true;
 				}
 			}

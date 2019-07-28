@@ -36,6 +36,10 @@ namespace Game
 		{
 			BlocksManager.DrawMeshBlock(primitivesRenderer, m_standaloneBlockMesh, color, size, ref matrix, environmentData);
 		}
+		public override void GenerateTerrainVertices(Block block, BlockGeometryGenerator generator, TerrainGeometrySubsets geometry, int value, int x, int y, int z)
+		{
+			generator.GenerateMeshVertices(block, x, y, z, m_standaloneBlockMesh, Color.White, null, geometry.SubsetOpaque);
+		}
 		public override float GetIconViewScale(int value, DrawBlockEnvironmentData environmentData) => 0.85f;
 		public override bool IsFaceTransparent(SubsystemTerrain subsystemTerrain, int face, int value) => true;
 	}

@@ -10,12 +10,10 @@ namespace Game
 
 		protected readonly int[] result = new int[3];
 
-		protected string m_smeltingRecipe;
+		protected string m_smeltingRecipe, m_smeltingRecipe2;
 
 		//protected int m_music;
-
-		protected string m_smeltingRecipe2;
-
+		
 		public override int RemainsSlotIndex => -1;
 
 		public override int ResultSlotIndex => SlotsCount - 1;
@@ -81,8 +79,7 @@ namespace Game
 					{
 						if (result[j] != 0)
 						{
-							int value = result[j];
-							m_slots[1 + j].Value = value;
+							m_slots[1 + j].Value = result[j];
 							m_slots[1 + j].Count++;
 							m_smeltingRecipe = null;
 							SmeltingProgress = 0f;
@@ -110,33 +107,28 @@ namespace Game
 			int i;
 			for (i = 0; i < m_furnaceSize; i++)
 			{
-				int slotValue = GetSlotValue(i);
-				if (GetSlotCount(i) > 0)
+				if (GetSlotCount(i) <= 0) continue;
+				if (GetSlotValue(i) == DirtBlock.Index)
 				{
-					if (slotValue == DirtBlock.Index)
-					{
-						text = true;
-						result[0] = SandBlock.Index;
-						result[1] = StoneChunkBlock.Index;
-						int x = m_random.Int() & 3;
-						if (x == 0)
-							result[2] = SaltpeterChunkBlock.Index;
-						if (x == 1)
-							result[2] = ItemBlock.IdTable["AluminumOrePowder"];
-					}
+					text = true;
+					result[0] = SandBlock.Index;
+					result[1] = StoneChunkBlock.Index;
+					int x = m_random.Int() & 3;
+					if (x == 0)
+						result[2] = SaltpeterChunkBlock.Index;
+					else if (x == 1)
+						result[2] = ItemBlock.IdTable["AluminumOrePowder"];
 				}
 			}
-			if (text)
+			if (!text)
+				return null;
+			for (i = 0; i < 3; i++)
 			{
-				for (i = 0; i < 3; i++)
-				{
-					Slot slot = m_slots[1 + i];
-					if (slot.Count != 0 && result[i] != 0 && (slot.Value != result[i] || slot.Count >= 40))
-						return null;
-				}
-				return "AluminumOrePowder";
+				Slot slot = m_slots[1 + i];
+				if (slot.Count != 0 && result[i] != 0 && (slot.Value != result[i] || slot.Count >= 40))
+					return null;
 			}
-			return null;
+			return "1";
 		}
 	}
 }

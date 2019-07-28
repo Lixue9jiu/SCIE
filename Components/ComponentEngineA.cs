@@ -23,7 +23,6 @@ namespace Game
 			if (m_updateSmeltingRecipe)
 			{
 				m_updateSmeltingRecipe = false;
-
 				string text = null;
 				if (base.GetSlotCount(RemainsSlotIndex) > 0 && Terrain.ExtractContents(base.GetSlotValue(RemainsSlotIndex)) == (RottenMeatBlock.Index | 2 << 14))
 					text = "bucket";

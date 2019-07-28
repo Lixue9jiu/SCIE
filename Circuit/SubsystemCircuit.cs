@@ -1,7 +1,6 @@
 ﻿using Engine;
 using System;
 using System.Collections.Generic;
-using System.Threading;
 using System.Threading.Tasks;
 using TemplatesDatabase;
 
@@ -9,13 +8,7 @@ namespace Game
 {
 	public class SubsystemCircuit : SubsystemBlockBehavior, IUpdateable
 	{
-		public class Request
-		{
-			//public volatile bool IsCompleted;
-			//public bool IsInProgress;
-			public Element[] Elements;
-		}
-		public LockFreeQueue<Request> Requests = new LockFreeQueue<Request>();
+		public LockFreeQueue<Element[]> Requests = new LockFreeQueue<Element[]>();
 		protected float m_remainingSimulationTime;
 		protected ElementBlock elementblock;
 		public int UpdateStep;
@@ -212,10 +205,9 @@ namespace Game
 		{
 			while (true)
 			{
-				Request request = null;
 				while (Requests.Count == 0)
 					Task.Delay(10).Wait();
-				request = Requests.Dequeue();
+				var request = Requests.Dequeue();
 				if (request == null)
 					return;
 				if (UpdatePath)
@@ -224,7 +216,7 @@ namespace Game
 				{
 					//request.IsInProgress = false;
 					//request.IsCompleted = true;
-					var elements = request.Elements;
+					var elements = request;
 					int voltage = 0;
 					for (int i = 0; i < elements.Length; i++)
 						elements[i].Simulate(ref voltage);
@@ -234,12 +226,7 @@ namespace Game
 		}
 		public void QueueSimulate(Element[] elements)
 		{
-			Requests.Enqueue(new Request
-			{
-				//IsCompleted = false,
-				//IsInProgress = true,
-				Elements = elements
-			});
+			Requests.Enqueue(elements);
 		}
 		/*public static void QuickSort(INode[] R, int Low, int High, int voltage = 0)
 		{

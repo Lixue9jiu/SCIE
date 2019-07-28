@@ -15,14 +15,14 @@ namespace Game
 			int direction = FourDirectionalBlock.GetDirection(Utils.Terrain.GetCellValue(coordinates.X, coordinates.Y, coordinates.Z));
 			Driller(coordinates, direction);
 			int num = 0;
-			int slotValue;
+			int value;
 			while (true)
 			{
 				if (num >= SlotsCount - 1)
 					return;
-				slotValue = GetSlotValue(num);
+				value = GetSlotValue(num);
 				int slotCount = GetSlotCount(num);
-				if (slotValue != 0 && slotCount > 0)
+				if (value != 0 && slotCount > 0)
 					break;
 				num++;
 			}
@@ -31,7 +31,7 @@ namespace Game
 			{
 				int num2 = RemoveSlotItems(num, 1);
 				for (int i = 0; i < num2; i++)
-					DispenseItem(coordinates, direction, slotValue, mode);
+					DispenseItem(coordinates, direction, value, mode);
 			}
 		}
 
@@ -43,12 +43,12 @@ namespace Game
 
 		protected void DispenseItem(Point3 point, int face, int value, MachineMode mode)
 		{
-			Vector3 vector = CellFace.FaceToVector3(face);
-			var vector2 = new Vector3(point) + new Vector3(0.5f) + 0.6f * vector;
+			Vector3 vec = CellFace.FaceToVector3(face);
+			var vec2 = new Vector3(point) + new Vector3(0.5f) + 0.6f * vec;
 			if (mode != 0)
 			{
-				if (Utils.SubsystemProjectiles.FireProjectile(value, vector2, 1f * m_random.UniformFloat(39f, 41f) * (vector + m_random.Vector3(0.025f, false) + new Vector3(0f, 0.05f, 0f)), Vector3.Zero, null) != null)
-					Utils.SubsystemAudio.PlaySound("Audio/DispenserShoot", 1f, 0f, vector2, 4f, true);
+				if (Utils.SubsystemProjectiles.FireProjectile(value, vec2, 1f * m_random.UniformFloat(39f, 41f) * (vec + m_random.Vector3(0.025f, false) + new Vector3(0f, 0.05f, 0f)), Vector3.Zero, null) != null)
+					Utils.SubsystemAudio.PlaySound("Audio/DispenserShoot", 1f, 0f, vec2, 4f, true);
 				else
 					DispenseItem(point, face, value, MachineMode.Dispense);
 			}
@@ -60,8 +60,8 @@ namespace Game
 			int x = point.X;
 			int y = point.Y;
 			int z = point.Z;
-			int slotValue = GetSlotValue(8);
-			if (!(ComponentEngine.IsPowered(Utils.Terrain, x, y, z) || Utils.SubsystemGameInfo.WorldSettings.GameMode == 0) || BlocksManager.Blocks[Terrain.ExtractContents(slotValue)].Durability <= 0)
+			int value = GetSlotValue(8);
+			if (!(ComponentEngine.IsPowered(Utils.Terrain, x, y, z) || Utils.SubsystemGameInfo.WorldSettings.GameMode == 0) || BlocksManager.Blocks[Terrain.ExtractContents(value)].Durability <= 0)
 				return;
 			int[] array = new[]
 			{
@@ -122,7 +122,7 @@ namespace Game
 						Utils.SubsystemTerrain.ChangeCell(x, y, z, 0, true);
 						Utils.SubsystemProjectiles.FireProjectile(cellValue, new Vector3(x + 0.5f, y + 0.5f, z + 0.5f) - 0.25f * vector, 60f * (vector - v), Vector3.Zero, null);
 						RemoveSlotItems(8, 1);
-						AddSlotItems(8, BlocksManager.DamageItem(slotValue, 1 + num2), 1);
+						AddSlotItems(8, BlocksManager.DamageItem(value, 1 + num2), 1);
 						return;
 					}
 				}

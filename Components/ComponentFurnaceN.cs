@@ -13,7 +13,7 @@ namespace Game
 
 		public new int FuelSlotIndex => SlotsCount - 3;
 
-		public int SlotIndex { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+		public int SlotIndex { get => throw new NotSupportedException(); set => throw new NotImplementedException(); }
 
 		public CraftingRecipe GetRecipe() => throw new NotImplementedException();
 

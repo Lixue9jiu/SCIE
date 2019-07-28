@@ -110,30 +110,25 @@ namespace Game
 			int i;
 			for (i = 0; i < m_furnaceSize; i++)
 			{
-				int slotValue = GetSlotValue(i);
-				if (GetSlotCount(i) > 0)
+				if (GetSlotCount(i) <= 0) continue;
+				int value = GetSlotValue(i);
+				if (value == ItemBlock.IdTable["AluminumOrePowder"])
 				{
-					if (slotValue == ItemBlock.IdTable["AluminumOrePowder"])
-					{
-						text = true;
-						result[0] = ItemBlock.IdTable["AluminumIngot"];
-                                                result[1]=0;
-                                                result[2]=0;
-						
-					}
+					text = true;
+					result[0] = ItemBlock.IdTable["AluminumIngot"];
+					result[1]=0;
+					result[2]=0;
 				}
 			}
-			if (text)
+			if (!text)
+				return null;
+			for (i = 0; i < 3; i++)
 			{
-				for (i = 0; i < 3; i++)
-				{
-					Slot slot = m_slots[1 + i];
-					if (slot.Count != 0 && result[i] != 0 && (slot.Value != result[i] || slot.Count >= 40))
-						return null;
-				}
-				return "AluminumOrePowder";
+				Slot slot = m_slots[1 + i];
+				if (slot.Count != 0 && result[i] != 0 && (slot.Value != result[i] || slot.Count >= 40))
+					return null;
 			}
-			return null;
+			return "AluminumOrePowder";
 		}
 	}
 }

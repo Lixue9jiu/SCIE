@@ -10,7 +10,7 @@ namespace Game
 		{
 			DefaultDisplayName = "ÂÝË¿µ¶";
 			m_standaloneBlockMesh.AppendMesh("Models/Screwdriver", "obj1", Matrix.CreateTranslation(0f, -0.33f, 0f), Matrix.CreateTranslation(15f / 16f, 0f, 0f) * Matrix.CreateScale(0.05f), color);
-        }
+		}
 		public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
 		{
 			BlocksManager.DrawMeshBlock(primitivesRenderer, m_standaloneBlockMesh, color, 3.3f * size, ref matrix, environmentData);
@@ -19,15 +19,15 @@ namespace Game
 		public override string GetCategory(int value) => "Tools";
 	}
 	public class Wrench : MeshItem
-    {
-        public Wrench(Color color, string description = "") : base(description)
+	{
+		public Wrench(Color color, string description = "") : base(description)
 		{
 			DefaultDisplayName = "°âÊÖ";
 			m_standaloneBlockMesh.AppendMesh("Models/Wrench", "obj1", Matrix.CreateScale(1.2f), Matrix.CreateTranslation(15f / 16f, 0f, 0f) * Matrix.CreateScale(0.05f), color);
-        }
-        public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
-        {
-            BlocksManager.DrawMeshBlock(primitivesRenderer, m_standaloneBlockMesh, color, 6f * size, ref matrix, environmentData);
+		}
+		public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
+		{
+			BlocksManager.DrawMeshBlock(primitivesRenderer, m_standaloneBlockMesh, color, 6f * size, ref matrix, environmentData);
 		}
 		public override string GetCraftingId() => "Wrench";
 		public override string GetCategory(int value) => "Tools";
@@ -63,7 +63,7 @@ namespace Game
 
 		public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
 		{
-            ItemBlock.DrawFlatBlock(primitivesRenderer, value, size, ref matrix, ItemBlock.Texture, Color, false, environmentData);
+			ItemBlock.DrawFlatBlock(primitivesRenderer, value, size, ref matrix, ItemBlock.Texture, Color, false, environmentData);
 		}
 		public override string GetCraftingId() => Id;
 	}
@@ -71,7 +71,7 @@ namespace Game
 	{
 		protected string Id;
 
-		public Rod(Materials type, Color color) : this(type.ToString() + "Rod", null, color)
+		public Rod(Materials type) : this(type.ToString() + "Rod", null, MetalBlock.GetColor(type))
 		{
 			string name = type.ToStr();
 			DefaultDisplayName = name + Utils.Get("°ô");
@@ -97,8 +97,8 @@ namespace Game
 	{
 		public Sheet(Materials type) : base(type)
 		{
-			string name = type.ToStr();
 			Id = type.ToString() + "Sheet";
+			string name = type.ToStr();
 			DefaultDisplayName = name + Utils.Get("Æ¬");
 			DefaultDescription = "A sheet of pure " + name + ". Can be crafted into very durable and strong " + name + " items.";
 		}
@@ -116,7 +116,7 @@ namespace Game
 		{
 			Id = DefaultDisplayName = DefaultDescription = name;
 			Color = color;
-			m_standaloneBlockMesh.AppendMesh("Models/Ingots", "IronPlate", Matrix.CreateTranslation(0.5f, 0f, 0.5f), Matrix.Identity, Color.White);
+			m_standaloneBlockMesh.AppendMesh("Models/Ingots", "IronPlate", Matrix.CreateTranslation(0.5f, 0f, 0.5f), Matrix.Identity, color);
 			m_collisionBoxes = new BoundingBox[] { m_standaloneBlockMesh.CalculateBoundingBox() };
 		}
 
@@ -126,16 +126,10 @@ namespace Game
 			DefaultDisplayName = name + Utils.Get("°å");
 			DefaultDescription = "A plate of pure " + name + ". Can be crafted into very durable and strong " + name + " items. Very important in the industrial era.";
 		}
-
-		public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
+		/*public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
 		{
 			BlocksManager.DrawMeshBlock(primitivesRenderer, m_standaloneBlockMesh, Color, size * 1.5f, ref matrix, environmentData);
-		}
-
-		public override void GenerateTerrainVertices(Block block, BlockGeometryGenerator generator, TerrainGeometrySubsets geometry, int value, int x, int y, int z)
-		{
-			generator.GenerateMeshVertices(block, x, y, z, m_standaloneBlockMesh, Color, null, geometry.SubsetOpaque);
-		}
+		}*/
 		public override BlockPlacementData GetPlacementValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, TerrainRaycastResult raycastResult)
 		{
 			return new BlockPlacementData { Value = value, CellFace = raycastResult.CellFace };

@@ -31,17 +31,14 @@ namespace Game
 		public const int Index = 510;
 		public static readonly string[] Names = new[]
 		{
-			"基础机器外壳",
-			"高级机器外壳",
+			"基础机器外壳", "高级机器外壳",
 			"防火砖墙"
 		};
 		public static readonly Color[] Colors = new[]
 		{
 			Color.White, Color.LightGray, new Color(255, 153, 18)
 		};
-		public MetalBlock() : base(0)
-		{
-		}
+		public MetalBlock() : base(0) { }
 		public override IEnumerable<int> GetCreativeValues()
 		{
 			var arr = new int[15 * (16 + 1)];
@@ -94,7 +91,7 @@ namespace Game
 		public override string GetDisplayName(SubsystemTerrain subsystemTerrain, int value)
 		{
 			int type = GetType(value);
-			return type < 3 ? Utils.Get(Names[type]): "Soild " + ((Materials)(type - 3)).ToStr() + " Block";
+			return type < 3 ? Utils.Get(Names[type]): Utils.Get("固态") + ((Materials)(type - 3)).ToStr() + Utils.Get("块");
 		}
 		public override string GetDescription(int value)
 		{

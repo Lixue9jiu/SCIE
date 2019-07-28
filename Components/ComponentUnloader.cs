@@ -17,14 +17,14 @@ namespace Game
 			if (Terrain.ExtractContents(cellValue) != Bullet2Block.Index || (Terrain.ExtractData(cellValue) >> 10) == 0)
 				return false;
 			int num = 0;
-			int slotValue;
+			int value;
 			while (true)
 			{
 				if (num >= SlotsCount - 1)
 					return false;
-				slotValue = GetSlotValue(num);
+				value = GetSlotValue(num);
 				int slotCount = GetSlotCount(num);
-				if (slotValue != 0 && slotCount > 0)
+				if (value != 0 && slotCount > 0)
 					break;
 				num++;
 			}
@@ -33,10 +33,10 @@ namespace Game
 			{
 				var position = new Vector3(coordinates) + new Vector3(0.5f);
 				Vector3 vector = CellFace.FaceToVector3(face);
-				if (!Place(position + vector, face, slotValue) && DispenseItem)
+				if (!Place(position + vector, face, value) && DispenseItem)
 				{
 					Vector3 vector2 = position + 0.6f * vector;
-					Utils.SubsystemPickables.AddPickable(slotValue, 1, vector2, 1.8f * (vector + m_random.Vector3(0.2f, false)), null);
+					Utils.SubsystemPickables.AddPickable(value, 1, vector2, 1.8f * (vector + m_random.Vector3(0.2f, false)), null);
 					Utils.SubsystemAudio.PlaySound("Audio/DispenserDispense", 1f, 0f, new Vector3(vector2.X, vector2.Y, vector2.Z), 3f, true);
 				}
 			}

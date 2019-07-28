@@ -6,10 +6,8 @@ namespace Game
 {
 	public enum DrillType
 	{
-		SteelDrill,
-		DiamondDrill,
-		IronTubularis,
-		SteelTubularis
+		SteelDrill, DiamondDrill,
+		IronTubularis, SteelTubularis
 	}
 	public class DrillBlock : FlatBlock, IDurability
 	{

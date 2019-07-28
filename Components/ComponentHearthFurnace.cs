@@ -7,6 +7,14 @@ namespace Game
 {
 	public class ComponentHearthFurnace : ComponentMachine, IUpdateable
 	{
+		protected int m_time;
+
+		protected readonly int[] m_matchedIngredients2 = new int[9];
+
+		protected readonly int[] m_matchedIngredients = new int[10];
+
+		protected bool m_smeltingRecipe, m_smeltingRecipe2;
+		protected readonly int[] result = new int[3];
 		public override int RemainsSlotIndex => SlotsCount - 1;
 
 		public override int ResultSlotIndex => SlotsCount - 2;
@@ -172,24 +180,22 @@ namespace Game
 			Array.Clear(m_matchedIngredients, 0, m_matchedIngredients.Length);
 			for (int i = 0; i < m_furnaceSize; i++)
 			{
+				if (GetSlotCount(i) <= 0) continue;
 				int slotValue = GetSlotValue(i);
 				int num = Terrain.ExtractContents(slotValue);
 				int slotCount = GetSlotCount(i);
-				if (GetSlotCount(i) > 0)
-				{
-					if (num == IronIngotBlock.Index)
-						m_matchedIngredients2[0] += slotCount;
-					else if (slotValue == ItemBlock.IdTable["ScrapIron"])
-						m_matchedIngredients2[1] += slotCount;
-					else if (slotValue == ItemBlock.IdTable["AluminumOrePowder"])
-						m_matchedIngredients2[2] += slotCount;
-					else if (slotValue == ItemBlock.IdTable["ChromiumOrePowder"])
-						m_matchedIngredients2[3] += slotCount;
-					else if (slotValue == ItemBlock.IdTable["CokeCoalPowder"])
-						m_matchedIngredients2[4] += slotCount;
-					else
-						m_matchedIngredients2[5] += slotCount;
-				}
+				if (num == IronIngotBlock.Index)
+					m_matchedIngredients2[0] += slotCount;
+				else if (slotValue == ItemBlock.IdTable["ScrapIron"])
+					m_matchedIngredients2[1] += slotCount;
+				else if (slotValue == ItemBlock.IdTable["AluminumOrePowder"])
+					m_matchedIngredients2[2] += slotCount;
+				else if (slotValue == ItemBlock.IdTable["ChromiumOrePowder"])
+					m_matchedIngredients2[3] += slotCount;
+				else if (slotValue == ItemBlock.IdTable["CokeCoalPowder"])
+					m_matchedIngredients2[4] += slotCount;
+				else
+					m_matchedIngredients2[5] += slotCount;
 			}
 			bool flag = false;
 			if (m_matchedIngredients2[5] == 0)
@@ -224,16 +230,5 @@ namespace Game
 				return false;
 			return flag;
 		}
-
-		protected int m_time;
-
-		protected readonly int[] m_matchedIngredients2 = new int[9];
-
-		protected readonly int[] m_matchedIngredients = new int[10];
-
-		protected bool m_smeltingRecipe;
-
-		protected bool m_smeltingRecipe2;
-		protected readonly int[] result = new int[3];
 	}
 }

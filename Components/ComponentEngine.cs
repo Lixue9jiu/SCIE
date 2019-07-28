@@ -104,7 +104,7 @@ namespace Game
 					for (int i = 0; i < m_furnaceSize; i++)
 						if (m_slots[i].Count > 0)
 							m_slots[i].Count--;
-					m_slots[ResultSlotIndex].Value = 90;
+					m_slots[ResultSlotIndex].Value = EmptyBucketBlock.Index;
 					m_slots[ResultSlotIndex].Count++;
 					m_smeltingRecipe = null;
 					SmeltingProgress = 0f;
@@ -139,11 +139,8 @@ namespace Game
 			string text = null;
 			for (int i = 0; i < m_furnaceSize; i++)
 			{
-				int slotValue = GetSlotValue(i);
-				int num = Terrain.ExtractContents(slotValue);
-				int num2 = Terrain.ExtractData(slotValue);
 				if (GetSlotCount(i) > 0)
-					if (num == WaterBucketBlock.Index)
+					if (Terrain.ExtractContents(base.GetSlotValue(i)) == WaterBucketBlock.Index)
 						text = "bucket";
 			}
 			if (text != null)

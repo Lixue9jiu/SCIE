@@ -36,14 +36,17 @@ namespace Game
 		{
 			if (SettingsManager.SoundsVolume > 0f)
 			{
-				if (volume * SettingsManager.SoundsVolume > AudioManager.MinAudibleVolume)
+				volume *= SettingsManager.SoundsVolume;
+				if (volume > AudioManager.MinAudibleVolume)
 					try
 					{
 						object obj = ContentManager.Get(name);
 						if (obj is SoundBuffer buffer)
-							new Sound(buffer, volume * SettingsManager.SoundsVolume, AudioManager.ToEnginePitch(pitch), pan, isLooped: false, disposeOnStop: true).Play();
+							new Sound(buffer, volume, AudioManager.ToEnginePitch(pitch), pan, false, true).Play();
+						else if (obj is BaseSound sound)
+							sound.Play();
 						else if (obj is StreamingSource source)
-							new StreamingSound(source, volume, 1f, 0f, false, false, 1f).Play();
+							new StreamingSound(source, volume, AudioManager.ToEnginePitch(pitch), pan, false, true, 0f).Play();
 					}
 					catch { }
 			}

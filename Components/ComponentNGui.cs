@@ -273,7 +273,7 @@ namespace Game
 					num = score;
 					result = m;
 				}
-				b:;
+			b:;
 			}
 			return result;
 		}

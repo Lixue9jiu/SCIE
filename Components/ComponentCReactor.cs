@@ -32,19 +32,19 @@ namespace Game
 			if (m_updateSmeltingRecipe)
 			{
 				m_updateSmeltingRecipe = false;
-				string text = m_smeltingRecipe2 = FindSmeltingRecipe(0f);
-				if (text != m_smeltingRecipe)
+				m_smeltingRecipe2 = FindSmeltingRecipe(0f);
+				if (m_smeltingRecipe2 != m_smeltingRecipe)
 				{
-					m_smeltingRecipe = text;
-					m_smeltingRecipe2 = text;
+					m_smeltingRecipe = m_smeltingRecipe2;
 					SmeltingProgress = 0f;
 					//m_music = 0;
 				}
 			}
+			int i;
 			if (m_smeltingRecipe2 != null)
 			{
 				int num = 0;
-				for (int i = -1; i < 2; i++)
+				for (i = -1; i < 2; i++)
 				{
 					for (int j = -1; j < 2; j++)
 					{
@@ -83,11 +83,10 @@ namespace Game
 				SmeltingProgress = MathUtils.Min(SmeltingProgress + 0.1f * dt, 1f);
 				if (SmeltingProgress >= 1f)
 				{
-					for (int i = 0; i < 3; i++)
+					for (i = 0; i < 3; i++)
 						if (m_slots[i].Count > 0)
 							m_slots[i].Count--;
-					int value = ItemBlock.IdTable[m_smeltingRecipe];
-					m_slots[ResultSlotIndex].Value = value;
+					m_slots[ResultSlotIndex].Value = ItemBlock.IdTable[m_smeltingRecipe];
 					m_slots[ResultSlotIndex].Count++;
 					m_smeltingRecipe = null;
 					SmeltingProgress = 0f;
@@ -110,13 +109,12 @@ namespace Game
 			int n = 1;
 			for (int i = 0; i < m_furnaceSize; i++)
 			{
-				int slotValue = GetSlotValue(i);
-				int num = Terrain.ExtractContents(slotValue);
+				int value = GetSlotValue(i);
 				if (GetSlotCount(i) > 0)
 				{
-					if (slotValue == ItemBlock.IdTable["ZincRod"])
+					if (value == ItemBlock.IdTable["ZincRod"])
 						n <<= 1;
-					else if (num == PaintStripperBucketBlock.Index)
+					else if (Terrain.ExtractContents(value) == PaintStripperBucketBlock.Index)
 						n = -n;
 				}
 			}

@@ -106,9 +106,7 @@ namespace Game
 
 		public static int? GetColor(int data)
 		{
-			if ((data & 0x10) != 0)
-				return (data >> 5) & 0xF;
-			return null;
+			return (data & 0x10) != 0 ? (data >> 5) & 0xF : (int?)null;
 		}
 
 		public static int SetColor(int data, int? color)
