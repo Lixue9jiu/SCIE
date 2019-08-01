@@ -15,7 +15,7 @@ namespace Game
 
 		protected static readonly string[] m_displayNames = { "IronFixedBullet" };
 		protected static readonly float[] m_sizes = { 1f };
-		protected static readonly int[] m_textureSlots = { 209 };
+		protected static readonly int[] m_textureSlots = { 177 };
 
 		public override IEnumerable<int> GetCreativeValues() => new[] { Index, Index | 1 << 10 << 14 };
 
@@ -61,7 +61,7 @@ namespace Game
 			if ((Terrain.ExtractData(value) >> 10) != 0)
 				return face == GetDirection(value) ? 111 : 170;
 			int bulletType = (int)GetBulletType(Terrain.ExtractData(value));
-			return bulletType < 0 || bulletType >= m_textureSlots.Length ? 209 : m_textureSlots[bulletType];
+			return bulletType < 0 || bulletType >= m_textureSlots.Length ? 177 : m_textureSlots[bulletType];
 		}
 
 		public static BulletType GetBulletType(int data)

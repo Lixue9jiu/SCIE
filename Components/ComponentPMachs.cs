@@ -1,3 +1,4 @@
+using Engine;
 using GameEntitySystem;
 using TemplatesDatabase;
 
@@ -21,19 +22,28 @@ namespace Game
 					int value = GetSlotValue(i);
 					switch (value)
 					{
-						case IronOreChunkBlock.Index: text = "IronOrePowder"; break;
+						case SandBlock.Index: text = "Ê¯Ó¢É°"; break;
+						case PlanksBlock.Index: text = "Ä¾Ð¼"; break;
+						case BrickBlock.Index: text = "Ëé×©"; break;
+						case GlassBlock.Index:
+						case FramedGlassBlock.Index:
+						case WindowBlock.Index: text = "Ëé²£Á§"; break;
 						case MalachiteChunkBlock.Index: text = "CopperOrePowder"; break;
-						case GermaniumOreChunkBlock.Index: text = "GermaniumOrePowder"; break;
-						case CoalChunkBlock.Index: text = "CoalPowder"; break;
-						case SulphurChunkBlock.Index: text = "SulphurPowder"; break;
 						default:
-							var item = Item.ItemBlock.GetItem(ref value);
-							if (item is OreChunk)
+							if (BlocksManager.Blocks[Terrain.ExtractContents(value)] is ChunkBlock block)
 							{
-								text = item.GetCraftingId().Replace("Chunk", "Powder");
-								if (!ItemBlock.IdTable.TryGetValue(text, out value))
-									return null;
+								text = block.GetType().Name.Replace("ChunkBlock", "Powder");
 							}
+							else if (value == ItemBlock.IdTable["»¬Ê¯"])
+								text = "»¬Ê¯·Û";
+							else
+							{
+								var item = Item.ItemBlock.GetItem(ref value);
+								if (item is OreChunk)
+									text = item.GetCraftingId().Replace("Chunk", "Powder");
+							}
+							if (!ItemBlock.IdTable.ContainsKey(text))
+								return null;
 							break;
 					}
 				}
@@ -80,6 +90,13 @@ namespace Game
 				if (GetSlotCount(i) > 0)
 				{
 					int value = GetSlotValue(i);
+					var block = BlocksManager.Blocks[Terrain.ExtractContents(value)];
+					if (block.GetExplosionPressure(value) > 0f)
+					{
+						Point3 coordinates = m_componentBlockEntity.Coordinates;
+						Utils.SubsystemExplosions.TryExplodeBlock(coordinates.X, coordinates.Y, coordinates.Z, value);
+						return null;
+					}
 					if (value == IronIngotBlock.Index)
 						text = "IronPlate";
 					else if (value == CopperIngotBlock.Index)
@@ -90,7 +107,7 @@ namespace Game
 						if (item is MetalIngot)
 						{
 							text = item.GetCraftingId().Replace("Ingot", "Plate");
-							if (!ItemBlock.IdTable.TryGetValue(text, out value))
+							if (!ItemBlock.IdTable.ContainsKey(text))
 								return null;
 						}
 					}
@@ -130,7 +147,7 @@ namespace Game
 					if (item is MetalIngot)
 					{
 						text = item.GetDisplayName(Utils.SubsystemTerrain, value).Replace("Ingot", "Line");
-						if (!ItemBlock.IdTable.TryGetValue(text, out value))
+						if (!ItemBlock.IdTable.ContainsKey(text))
 							return null;
 					}
 				}

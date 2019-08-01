@@ -1,4 +1,5 @@
 using Engine;
+using Engine.Graphics;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -127,8 +128,8 @@ namespace Game
 		}
 		public ElectricElement CreateElectricElement(SubsystemElectricity subsystemElectricity, int value, int x, int y, int z)
 		{
-			return GetDevice(x, y, z, value) is IElectricElementBlock electricElementBlock
-				? electricElementBlock.CreateElectricElement(subsystemElectricity, value, x, y, z)
+			return GetDevice(x, y, z, value) is IElectricElementBlock block
+				? block.CreateElectricElement(subsystemElectricity, value, x, y, z)
 				: null;
 		}
 
@@ -142,6 +143,11 @@ namespace Game
 		public int GetConnectionMask(int value)
 		{
 			return GetItem(ref value) is IElectricElementBlock electricElementBlock ? electricElementBlock.GetConnectionMask(value) : 0;
+		}
+
+		public override void GenerateTerrainVertices(BlockGeometryGenerator generator, TerrainGeometrySubsets geometry, int value, int x, int y, int z)
+		{
+			base.GenerateTerrainVertices(Utils.BlockGeometryGenerator, Utils.GTV(x, z, geometry), value, x, y, z);
 		}
 	}
 }

@@ -1,15 +1,25 @@
 using Engine;
+using Engine.Graphics;
 
 namespace Game
 {
 	public enum MachineMode
 	{
-		Dispense,
-		Shoot
+		Dispense, Shoot
 	}
 	public class DiversionBlock : SixDirectionalBlock
 	{
 		public const int Index = 505;
+
+		public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
+		{
+			BlocksManager.DrawCubeBlock(primitivesRenderer, value, new Vector3(size), ref matrix, color, color, environmentData);
+		}
+
+		public override void GenerateTerrainVertices(BlockGeometryGenerator generator, TerrainGeometrySubsets geometry, int value, int x, int y, int z)
+		{
+			generator.GenerateCubeVertices(this, value, x, y, z, SubsystemPalette.GetColor(generator, PaintableItemBlock.GetColor(Terrain.ExtractData(value))), geometry.OpaqueSubsetsByFace);
+		}
 
 		public override int GetFaceTextureSlot(int face, int value)
 		{

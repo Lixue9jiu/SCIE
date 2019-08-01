@@ -25,7 +25,7 @@ namespace Game
 
 		public new void Update(float dt)
 		{
-			Point3 coordinates = m_componentBlockEntity.Coordinates;
+			//Point3 coordinates = m_componentBlockEntity.Coordinates;
 			if (HeatLevel > 0f)
 			{
 				m_fireTimeRemaining = MathUtils.Max(0f, m_fireTimeRemaining - dt);
@@ -35,7 +35,7 @@ namespace Game
 			if (m_updateSmeltingRecipe)
 			{
 				m_updateSmeltingRecipe = false;
-				float heatLevel = HeatLevel > 0f ? HeatLevel : 2000f;
+				//float heatLevel = HeatLevel > 0f ? HeatLevel : 2000f;
 				CraftingRecipe craftingRecipe = FindSmeltingRecipe(2000f);
 				if (craftingRecipe != m_smeltingRecipe)
 				{

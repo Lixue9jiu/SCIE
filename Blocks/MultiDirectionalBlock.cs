@@ -7,9 +7,7 @@ namespace Game
 	public abstract class FourDirectionalBlock : CubeBlock, IPaintableBlock, IElectricElementBlock
 	{
 		protected int Front, Back;
-		protected FourDirectionalBlock()
-		{
-		}
+		protected FourDirectionalBlock() { }
 
 		protected FourDirectionalBlock(int front, int back = 107)
 		{
@@ -17,16 +15,15 @@ namespace Game
 			Back = back;
 		}
 
-
 		public override void GenerateTerrainVertices(BlockGeometryGenerator generator, TerrainGeometrySubsets geometry, int value, int x, int y, int z)
 		{
-			generator.GenerateCubeVertices(this, value, x, y, z, SubsystemPalette.GetColor(generator, GetPaintColor(value)), geometry.OpaqueSubsetsByFace);
+			Utils.BlockGeometryGenerator.GenerateCubeVertices(this, value, x, y, z, SubsystemPalette.GetColor(generator, GetPaintColor(value)), Utils.GTV(x, z, geometry).OpaqueSubsetsByFace);
 		}
 
 		public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
 		{
 			color *= SubsystemPalette.GetColor(environmentData, GetPaintColor(value));
-			BlocksManager.DrawCubeBlock(primitivesRenderer, value, new Vector3(size), ref matrix, color, color, environmentData);
+			ItemBlock.DrawCubeBlock(primitivesRenderer, value, new Vector3(size), ref matrix, color, color, environmentData);
 		}
 		public override IEnumerable<int> GetCreativeValues()
 		{

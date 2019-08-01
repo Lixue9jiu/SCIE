@@ -1,5 +1,4 @@
 ﻿using Engine;
-using Engine.Graphics;
 using System.Collections.Generic;
 
 namespace Game
@@ -8,9 +7,7 @@ namespace Game
 	{
 		public const int Index = 67;
 
-		public BasaltBlock() : base(40)
-		{
-		}
+		public BasaltBlock() : base(40) { }
 		public override void GetDropValues(SubsystemTerrain subsystemTerrain, int oldValue, int newValue, int toolLevel, List<BlockDropValue> dropValues, out bool showDebris)
 		{
 			int data = Terrain.ExtractData(oldValue);
@@ -46,8 +43,8 @@ namespace Game
 		{
 			return new BlockPlacementData
 			{
-				Value = (Terrain.ExtractData(value) & 65536) != 0 ? Terrain.ReplaceData(MagmaBlock.Index
-					, FluidBlock.SetIsTop(FluidBlock.SetLevel(0, 4), toolValue == MagmaBucketBlock.Index)) : 0,
+				Value = (Terrain.ExtractData(value) & 65536) != 0 ? Terrain.ReplaceData(MagmaBlock.Index,
+					FluidBlock.SetIsTop(FluidBlock.SetLevel(0, 4), toolValue == MagmaBucketBlock.Index)) : 0,
 				CellFace = raycastResult.CellFace
 			};
 		}

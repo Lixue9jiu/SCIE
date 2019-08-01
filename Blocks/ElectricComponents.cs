@@ -22,7 +22,7 @@ namespace Game
 		protected readonly string Id;
 		public Fan(Materials type)
 		{
-			DefaultTextureSlot = 210;
+			DefaultTextureSlot = 178;
 			var name = type.ToStr();
 			Id = type.ToString() + "Fan";
 			DefaultDisplayName = name + Utils.Get("их");
@@ -50,7 +50,7 @@ namespace Game
 		
 		public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
 		{
-			ItemBlock.DrawFlatBlock(primitivesRenderer, value, size, ref matrix, ItemBlock.Texture, Color.White, false, environmentData);
+			ItemBlock.DrawFlatBlock(primitivesRenderer, value, size, ref matrix, ItemBlock.Texture, color, false, environmentData);
 		}
 	}
 }

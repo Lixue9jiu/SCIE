@@ -285,6 +285,9 @@
     <MemberSubsystemTemplate Name="Musket2BlockBehavior" Guid="6bf6bba1-4ac1-44a9-9e83-b4c659038fc8" InheritanceParent="fefb9590-4972-4893-b02a-76063611b745">
       <Parameter Name="Class" Guid="f1d1cefa-29ad-42ed-ad2e-ae59da4dbd62" Value="Game.SubsystemMusket2BlockBehavior" Type="string" />
     </MemberSubsystemTemplate>
+    <MemberSubsystemTemplate Name="Musket3BlockBehavior" Guid="6bf6bba1-4ac1-44a9-9e83-b4c659038fcf" InheritanceParent="fefb9590-4972-4893-b02a-76063611b745">
+      <Parameter Name="Class" Guid="f1d1fefa-29ad-42ed-ad2e-ae59da4dbd62" Value="Game.SubsystemMusket3BlockBehavior" Type="string" />
+    </MemberSubsystemTemplate>
     <MemberSubsystemTemplate Name="EngineBlockBehavior" Guid="c07ffe62-402f-4b96-987a-6050eb7ed2d4" InheritanceParent="fefb9590-4972-4893-b02a-76063611b745">
       <Parameter Name="Class" Guid="9618532b-5607-40f1-8704-4c42f35ec016" Value="Game.SubsystemEngineBlockBehavior" Type="string" />
     </MemberSubsystemTemplate>

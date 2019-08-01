@@ -28,8 +28,7 @@ namespace Game
 			RandomJumpCamera.get_IsEntityControlEnabled1 = True;
 			StraightFlightCamera.get_IsEntityControlEnabled1 = True;
 			AudioManager.PlaySound1 = PlaySound;
-			var d = new Dictionary<string, string>();
-			Utils.TR = d;
+			Utils.TR = new Dictionary<string, string>();
 		}
 		public static bool True(object obj) => true;
 		public static void PlaySound(string name, float volume, float pitch, float pan)
@@ -233,11 +232,11 @@ namespace Game
 		}
 		public virtual string GetDisplayName(SubsystemTerrain subsystemTerrain, int value)
 		{
-			return GetType().ToString().Substring(5);
+			return GetType().Name;
 		}
 		public virtual string GetCraftingId()
 		{
-			return GetType().ToString().Substring(5);
+			return GetType().Name;
 		}
 		public virtual string GetDescription(int value)
 		{

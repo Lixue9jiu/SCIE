@@ -163,12 +163,12 @@ namespace Game
 
 		public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
 		{
-			BlocksManager.DrawFlatBlock(primitivesRenderer, value, size, ref matrix, null, color, false, environmentData);
+			ItemBlock.DrawFlatBlock(primitivesRenderer, value, size, ref matrix, ItemBlock.Texture, color, false, environmentData);
 		}
 
 		public override void GenerateTerrainVertices(BlockGeometryGenerator generator, TerrainGeometrySubsets geometry, int value, int x, int y, int z)
 		{
-			generator.GenerateMeshVertices(this, x, y, z, m_blockMeshes[GetRailType(Terrain.ExtractData(value))], Color.White, null, geometry.SubsetAlphaTest);
+			Utils.BlockGeometryGenerator.GenerateMeshVertices(this, x, y, z, m_blockMeshes[GetRailType(Terrain.ExtractData(value))], Color.White, null, Utils.GTV(x, z, geometry).SubsetAlphaTest);
 		}
 
 		public static int GetRailType(int data)

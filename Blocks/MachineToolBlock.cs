@@ -1,4 +1,5 @@
 using Engine;
+using Engine.Graphics;
 using System.Collections.Generic;
 
 namespace Game
@@ -7,13 +8,21 @@ namespace Game
 	{
 		public const int Index = 508;
 
-		public MachineToolBlock() : base(0)
-		{
-		}
+		public MachineToolBlock() : base(0) { }
 
 		public override int GetFaceTextureSlot(int face, int value)
 		{
 			return face == 4 ? 146 : 107;
+		}
+
+		public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
+		{
+			ItemBlock.DrawCubeBlock(primitivesRenderer, value, new Vector3(size), ref matrix, color, color, environmentData);
+		}
+
+		public override void GenerateTerrainVertices(BlockGeometryGenerator generator, TerrainGeometrySubsets geometry, int value, int x, int y, int z)
+		{
+			Utils.BlockGeometryGenerator.GenerateCubeVertices(this, value, x, y, z, SubsystemPalette.GetColor(generator, GetPaintColor(value)), Utils.GTV(x, z, geometry).OpaqueSubsetsByFace);
 		}
 
 		public ElectricElement CreateElectricElement(SubsystemElectricity subsystemElectricity, int value, int x, int y, int z)

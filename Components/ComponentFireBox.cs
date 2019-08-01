@@ -46,9 +46,9 @@ namespace Game
 						HeatLevel = block is IFuel fuel ? fuel.GetHeatLevel(slot.Value) : block.FuelHeatLevel;
 					}
 				}
-				if (!"text".Equals(m_smeltingRecipe))
+				if (!"CoalPowder".Equals(m_smeltingRecipe))
 				{
-					m_smeltingRecipe = "text";
+					m_smeltingRecipe = "CoalPowder";
 					SmeltingProgress = 0f;
 					//m_music = 0;
 				}

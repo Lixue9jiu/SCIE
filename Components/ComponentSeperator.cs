@@ -1,5 +1,6 @@
 using Engine;
 using GameEntitySystem;
+using System;
 using TemplatesDatabase;
 
 namespace Game
@@ -100,17 +101,16 @@ namespace Game
 
 		protected string FindSmeltingRecipe()
 		{
-			bool text = false;
-			result[0] = 0;
-			result[1] = 0;
-			result[2] = 0;
+			Array.Clear(result, 0, 3);
+			string text = null;
 			int i;
 			for (i = 0; i < m_furnaceSize; i++)
 			{
 				if (GetSlotCount(i) <= 0) continue;
-				if (GetSlotValue(i) == DirtBlock.Index)
+				int value = GetSlotValue(i);
+				if (value == DirtBlock.Index)
 				{
-					text = true;
+					text = "AluminumOrePowder";
 					result[0] = SandBlock.Index;
 					result[1] = StoneChunkBlock.Index;
 					int x = m_random.Int() & 3;
@@ -119,8 +119,27 @@ namespace Game
 					else if (x == 1)
 						result[2] = ItemBlock.IdTable["AluminumOrePowder"];
 				}
+				else if (value == GraniteBlock.Index)
+				{
+					text = "Ã÷·¯";
+					result[0] = SandBlock.Index;
+					result[1] = StoneChunkBlock.Index;
+					int x = m_random.Int() & 7;
+					if (x == 0)
+						result[2] = PigmentBlock.Index;
+					else if (x == 1)
+						result[2] = ItemBlock.IdTable["Ã÷·¯"];
+				}
+				else if (value == BasaltBlock.Index)
+				{
+					text = "ScrapIron";
+					result[0] = BasaltStairsBlock.Index;
+					int x = m_random.Int() & 7;
+					if (x == 1)
+						result[1] = ItemBlock.IdTable["»¬Ê¯"];
+				}
 			}
-			if (!text)
+			if (text == null)
 				return null;
 			for (i = 0; i < 3; i++)
 			{
@@ -128,7 +147,7 @@ namespace Game
 				if (slot.Count != 0 && result[i] != 0 && (slot.Value != result[i] || slot.Count >= 40))
 					return null;
 			}
-			return "1";
+			return "";
 		}
 	}
 }
