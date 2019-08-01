@@ -13,7 +13,7 @@ namespace Game
 			Loaded
 		}
 
-		public const int Index = 520;
+		public const int Index = 523;
 
 		protected BlockMesh m_standaloneBlockMeshLoaded;
 
@@ -34,7 +34,7 @@ namespace Game
 			m_standaloneBlockMeshLoaded = new BlockMesh();
 			BlockMesh standaloneBlockMeshLoaded = m_standaloneBlockMeshLoaded;
 			meshParts = model.FindMesh("Musket").MeshParts;
-			standaloneBlockMeshLoaded.AppendModelMeshPart(meshParts[0], boneAbsoluteTransform, false, false, false, false, Color.Gray);
+			standaloneBlockMeshLoaded.AppendModelMeshPart(meshParts[0], boneAbsoluteTransform, false, false, false, false, Color.DarkGray);
 			BlockMesh standaloneBlockMeshLoaded2 = m_standaloneBlockMeshLoaded;
 			meshParts = model.FindMesh("Hammer").MeshParts;
 			standaloneBlockMeshLoaded2.AppendModelMeshPart(meshParts[0], Matrix.CreateRotationX(0.7f) * boneAbsoluteTransform2, false, false, false, false, Color.Gray);
