@@ -57,6 +57,7 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Blocks\Musket3Block.cs" />
     <Compile Include="Chemistry\ChemicalBlock.cs" />
     <Compile Include="BeltTransport\FactorioTransportBeltBlock.cs" />
     <Compile Include="BeltTransport\SubsystemFactorioBeltTransportBLockBehavior.cs" />
@@ -116,6 +117,7 @@
     <Compile Include="Subsystems\SubsystemLiquidPumpBlockBehavior.cs" />
     <Compile Include="Subsystems\SubsystemMachineToolBlockbehavior.cs" />
     <Compile Include="Subsystems\SubsystemMineral.cs" />
+    <Compile Include="Subsystems\SubsystemMusket3BlockBehavior.cs" />
     <Compile Include="Subsystems\SubsystemRailBlockBehavior.cs" />
     <Compile Include="Subsystems\SubsystemSourceOfFireBlockBehavior.cs" />
     <Compile Include="Common\Utils.cs" />
@@ -128,6 +130,7 @@
     <Compile Include="Widgets\FractionalTowerWidget.cs" />
     <Compile Include="Widgets\LiquidPumpWidget.cs" />
     <Compile Include="Widgets\MachineToolWidget.cs" />
+    <Compile Include="Widgets\Musket3Widget.cs" />
     <Compile Include="Widgets\NewChestWidget.cs" />
     <Compile Include="Widgets\NewCraftingRecipeWidget.cs" />
     <Compile Include="Widgets\SeperatorWidget.cs" />
