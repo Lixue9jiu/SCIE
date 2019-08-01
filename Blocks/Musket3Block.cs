@@ -13,7 +13,7 @@ namespace Game
 			Loaded
 		}
 
-		public const int Index = 523;
+		public const int Index = 538;
 
 		protected BlockMesh m_standaloneBlockMeshLoaded;
 
