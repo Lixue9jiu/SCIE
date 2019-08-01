@@ -1,4 +1,5 @@
 ﻿using Engine;
+using Engine.Graphics;
 using System.Collections.Generic;
 
 namespace Game
@@ -73,8 +74,22 @@ namespace Game
 		{
 			return (Terrain.ExtractData(value) & 32768) != 0 ? 10f : base.GetExplosionPressure(value);
 		}
+		public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
+		{
+			if (GetFaceTextureSlot(0, value) >= 243)
+			{
+				ItemBlock.DrawCubeBlock(primitivesRenderer, value, new Vector3(size), ref matrix, color, color, environmentData);
+				return;
+			}
+			base.DrawBlock(primitivesRenderer, value, color, size, ref matrix, environmentData);
+		}
 		public override void GenerateTerrainVertices(BlockGeometryGenerator generator, TerrainGeometrySubsets geometry, int value, int x, int y, int z)
 		{
+			if (GetFaceTextureSlot(0, value) >= 243)
+			{
+				Utils.BlockGeometryGenerator.GenerateCubeVertices(this, value, x, y, z, IsColored(Terrain.ExtractData(value) & 16383) ? SubsystemPalette.GetColor(generator, GetColor(Terrain.ExtractData(value))) : Color.White, Utils.GTV(x, z, geometry).OpaqueSubsetsByFace);
+				return;
+			}
 			generator.GenerateCubeVertices(this, value, x, y, z, IsColored(Terrain.ExtractData(value) & 16383) ? SubsystemPalette.GetColor(generator, GetColor(Terrain.ExtractData(value))) : Color.White, geometry.OpaqueSubsetsByFace);
 		}
 		public override IEnumerable<int> GetCreativeValues()
