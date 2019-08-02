@@ -43,9 +43,9 @@ namespace Game
             Model model2 = ContentManager.Get<Model>("Models/Battery");
             Matrix boneAbsoluteTransform3 = BlockMesh.GetBoneAbsoluteTransform(model2.FindMesh("Battery").ParentBone);
 
-          //  BlockMesh standaloneBlockMeshUnloaded3 = m_standaloneBlockMeshUnloaded;
-          //  meshParts = model2.FindMesh("Battery").MeshParts;
-          //  standaloneBlockMeshUnloaded3.AppendModelMeshPart(meshParts[0], Matrix.CreateRotationX(-1.6f) * Matrix.CreateScale(0.3f)* boneAbsoluteTransform3 * Matrix.CreateTranslation(0f, -0.08f, +0.15f), false, false, false, false, Color.Gray);
+            BlockMesh standaloneBlockMeshUnloaded3 = m_standaloneBlockMeshUnloaded;
+            meshParts = model2.FindMesh("Battery").MeshParts;
+            standaloneBlockMeshUnloaded3.AppendModelMeshPart(meshParts[0], Matrix.CreateRotationX(-1.6f) * Matrix.CreateScale(0.3f)* boneAbsoluteTransform3 * Matrix.CreateTranslation(0f, -0.08f, +0.15f), false, false, false, false, Color.Gray);
             BlockMesh standaloneBlockMeshUnloaded4 = m_standaloneBlockMeshLoaded;
             meshParts = model2.FindMesh("Battery").MeshParts;
             standaloneBlockMeshUnloaded4.AppendModelMeshPart(meshParts[0], Matrix.CreateRotationX(-1.6f) * Matrix.CreateScale(0.3f) * boneAbsoluteTransform3 * Matrix.CreateTranslation(0f, -0.08f, +0.15f), false, false, false, false, Color.Gray);
