@@ -39,6 +39,17 @@ namespace Game
 							Y = SimplexNoise.OctavedNoise(num5 + 100f, 2f, 3, 2f, 0.5f),
 							Z = SimplexNoise.OctavedNoise(num5 + 200f, 2f, 3, 2f, 0.5f)
 						};
+                        if (num4>1f)
+                        {
+                            if (0.2f * num4 < 1.2f)
+                            {
+                                direction.Y += 0.1f * (num4 - 1f);
+                            }else
+                            {
+                                direction.Y += 0.5f;
+                            }
+                            
+                        }
 						direction = Vector3.Normalize(direction + v*2f);
                         int n = 1;
 						switch (state)
