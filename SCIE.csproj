@@ -95,6 +95,7 @@
     <Compile Include="Components\ComponentMachine.cs" />
     <Compile Include="Components\ComponentMagnetizer.cs" />
     <Compile Include="Components\ComponentNewChest.cs" />
+    <Compile Include="Components\ComponentPlayer.cs" />
     <Compile Include="Components\ComponentSeperator.cs" />
     <Compile Include="Components\ComponentTrain.cs" />
     <Compile Include="Components\ComponentUnloader.cs" />
@@ -149,7 +150,6 @@
     <Compile Include="Components\ComponentEngine.cs" />
     <Compile Include="Components\ComponentFurnaceN.cs" />
     <Compile Include="Components\ComponentNGui.cs" />
-    <Compile Include="Components\ComponentPlayer.cs" />
     <Compile Include="Components\ComponentPMachs.cs" />
     <Compile Include="Blocks\6DirectionalMachines.cs" />
     <Compile Include="Widgets\Engine2Widget.cs" />
