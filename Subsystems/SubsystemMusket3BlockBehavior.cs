@@ -39,7 +39,7 @@ namespace Game
 							Y = SimplexNoise.OctavedNoise(num5 + 100f, 2f, 3, 2f, 0.5f),
 							Z = SimplexNoise.OctavedNoise(num5 + 200f, 2f, 3, 2f, 0.5f)
 						};
-						direction = Vector3.Normalize(direction + v);
+						direction = Vector3.Normalize(direction + v*2f);
                         int n = 1;
 						switch (state)
 						{
@@ -64,9 +64,9 @@ namespace Game
                                     {
                                         n++;
                                         Vector3 vector = Vector3.Zero;
-                                        if (componentMiner.ComponentCreature.ComponentBody.ImmersionFactor > 0.4f)
-                                            m_subsystemAudio.PlaySound("Audio/MusketMisfire", 1f, m_random.UniformFloat(-0.1f, 0.1f), componentMiner.ComponentCreature.ComponentCreatureModel.EyePosition, 3f, true);
-                                        else
+                                      //  if (componentMiner.ComponentCreature.ComponentBody.ImmersionFactor > 0.4f)
+                                        //    m_subsystemAudio.PlaySound("Audio/MusketMisfire", 1f, m_random.UniformFloat(-0.1f, 0.1f), componentMiner.ComponentCreature.ComponentCreatureModel.EyePosition, 3f, true);
+                                     //   else
                                         {
                                             Vector3 eyePosition = componentMiner.ComponentCreature.ComponentCreatureModel.EyePosition;
                                             Matrix matrix = componentMiner.ComponentCreature.ComponentBody.Matrix;
@@ -80,16 +80,24 @@ namespace Game
                                             vector = new Vector3(0.01f, 0.01f, 0.05f);
                                             for (int i = 0; i < num6; i++)
                                             {
-                                                int value2 = Terrain.MakeBlockValue(214, 0, BulletBlock.SetBulletType(0, BulletBlock.BulletType.IronBullet));
+                                                int value2 = Terrain.MakeBlockValue(214, 0, BulletBlock.SetBulletType(0, BulletBlock.BulletType.CBullet));
                                                 Vector3 v4 = m_random.UniformFloat(0f - vector.X, vector.X) * vector4 + m_random.UniformFloat(0f - vector.Y, vector.Y) * v3 + m_random.UniformFloat(0f - vector.Z, vector.Z) * vector3;
-                                                Projectile projectile = m_subsystemProjectiles.FireProjectile(value2, vector2, 320f * (vector3 + v4), Vector3.Zero, componentMiner.ComponentCreature);
+                                                Projectile projectile = m_subsystemProjectiles.FireProjectile(value2, vector2, 280f * (vector3 + v4), Vector3.Zero, componentMiner.ComponentCreature);
                                                 if (projectile != null)
                                                     projectile.ProjectileStoppedAction = ProjectileStoppedAction.Disappear;
                                             }
                                             m_subsystemAudio.PlaySound("Audio/MusketFire", 1f, m_random.UniformFloat(-0.1f, 0.1f), componentMiner.ComponentCreature.ComponentCreatureModel.EyePosition, 10f, true);
-                                            // m_subsystemParticles.AddParticleSystem(new GunSmokeParticleSystem(SubsystemTerrain, vector2 + 0.3f * vector3, vector3));
+                                           // m_subsystemParticles.AddParticleSystem(new GunSmokeParticleSystem(SubsystemTerrain, vector2 + 0.3f * vector3, vector3));
                                             m_subsystemNoise.MakeNoise(vector2, 1f, 40f);
-                                          
+                                            Vector3 v21 = (float)((componentMiner.ComponentCreature.ComponentBody.IsSneaking ? 0.00999999977648258 : 0.0299999993294477) + 0.200000002980232 * MathUtils.Saturate((num4 - 1.5f) / 40f)) * new Vector3
+                                            {
+                                                X = SimplexNoise.OctavedNoise(num5, 2f, 3, 2f, 0.5f),
+                                                Y = SimplexNoise.OctavedNoise(num5 + 100f, 2f, 3, 2f, 0.5f),
+                                                Z = SimplexNoise.OctavedNoise(num5 + 200f, 2f, 3, 2f, 0.5f)
+                                            };
+                                            //direction.Y += 5f;
+                                            direction = Vector3.Normalize(direction + v21*50f);
+                                            
                                             // componentMiner.ComponentCreature.ComponentBody.ApplyImpulse(-1f * vector3);
                                         }
                                     } 

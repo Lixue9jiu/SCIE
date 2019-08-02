@@ -12,23 +12,24 @@ namespace Game
 			MusketBall,
 			Buckshot,
 			BuckshotBall,
-			IronBullet
+			IronBullet,
+            CBullet
 		}
 
 		public const int Index = 214;
 
-		protected static readonly string[] m_displayNames = new string[4]
+		protected static readonly string[] m_displayNames = new string[5]
 		{
-			"Musket Ball", "Buckshot", "Buckshot Ball", "IronBullet"
+			"Musket Ball", "Buckshot", "Buckshot Ball", "IronBullet","C-Bullet"
 		};
 
-		protected static readonly float[] m_sizes = new[] { 1f, 1f, 0.33f, 1f };
+		protected static readonly float[] m_sizes = new[] { 1f, 1f, 0.33f, 1f ,0.5f};
 
-		protected static readonly int[] m_textureSlots = new[] { 229, 231, 229, 229 };
+		protected static readonly int[] m_textureSlots = new[] { 229, 231, 229, 229 ,229};
 
-		protected static readonly float[] m_weaponPowers = new[] { 60f, 0f, 3.6f, 90f };
+		protected static readonly float[] m_weaponPowers = new[] { 60f, 0f, 3.6f, 90f ,50f};
 
-		protected static readonly float[] m_explosionPressures = new[] { 0f, 0f, 0f, 1f };
+		protected static readonly float[] m_explosionPressures = new[] { 0f, 0f, 0f, 0.1f ,0.1f};
 
 		public override void GenerateTerrainVertices(BlockGeometryGenerator generator, TerrainGeometrySubsets geometry, int value, int x, int y, int z)
 		{
@@ -56,7 +57,7 @@ namespace Game
 		public override IEnumerable<int> GetCreativeValues()
 		{
 			var arr = EnumUtils.GetEnumValues(typeof(BulletType)).ToArray();
-			for (int i = 0; i < arr.Length; i++)
+			for (int i = 0; i < arr.Length-1; i++)
 				arr[i] = Terrain.MakeBlockValue(214, 0, SetBulletType(0, (BulletType)arr[i]));
 			return arr;
 		}

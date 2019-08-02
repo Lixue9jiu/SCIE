@@ -19,7 +19,8 @@ namespace Game
 
 		protected BlockMesh m_standaloneBlockMeshUnloaded;
 
-		public override void Initialize()
+
+        public override void Initialize()
 		{
 			Model model = ContentManager.Get<Model>("Models/Musket");
 			Matrix boneAbsoluteTransform = BlockMesh.GetBoneAbsoluteTransform(model.FindMesh("Musket").ParentBone);
@@ -38,12 +39,25 @@ namespace Game
 			BlockMesh standaloneBlockMeshLoaded2 = m_standaloneBlockMeshLoaded;
 			meshParts = model.FindMesh("Hammer").MeshParts;
 			standaloneBlockMeshLoaded2.AppendModelMeshPart(meshParts[0], Matrix.CreateRotationX(0.7f) * boneAbsoluteTransform2, false, false, false, false, Color.Gray);
-			base.Initialize();
+
+            Model model2 = ContentManager.Get<Model>("Models/Battery");
+            Matrix boneAbsoluteTransform3 = BlockMesh.GetBoneAbsoluteTransform(model2.FindMesh("Battery").ParentBone);
+
+          //  BlockMesh standaloneBlockMeshUnloaded3 = m_standaloneBlockMeshUnloaded;
+          //  meshParts = model2.FindMesh("Battery").MeshParts;
+          //  standaloneBlockMeshUnloaded3.AppendModelMeshPart(meshParts[0], Matrix.CreateRotationX(-1.6f) * Matrix.CreateScale(0.3f)* boneAbsoluteTransform3 * Matrix.CreateTranslation(0f, -0.08f, +0.15f), false, false, false, false, Color.Gray);
+            BlockMesh standaloneBlockMeshUnloaded4 = m_standaloneBlockMeshLoaded;
+            meshParts = model2.FindMesh("Battery").MeshParts;
+            standaloneBlockMeshUnloaded4.AppendModelMeshPart(meshParts[0], Matrix.CreateRotationX(-1.6f) * Matrix.CreateScale(0.3f) * boneAbsoluteTransform3 * Matrix.CreateTranslation(0f, -0.08f, +0.15f), false, false, false, false, Color.Gray);
+
+            //new Mould("Models/Battery", "Battery", Matrix.CreateRotationX(MathUtils.PI / 2) * Matrix.CreateTranslation(0.5f, 0.5f, 0f), Matrix.CreateTranslation(9f / 16f, -7f / 16f, 0f) * Matrix.CreateScale(20f), "¹¤Òµ´ÅÌú", "IndustrialMagnet"),
+
+            base.Initialize();
 		}
 
 		public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
 		{
-			BlocksManager.DrawMeshBlock(primitivesRenderer, GetHammerState(Terrain.ExtractData(value)) ? m_standaloneBlockMeshLoaded : m_standaloneBlockMeshUnloaded, color, 2f * size, ref matrix, environmentData);
+			BlocksManager.DrawMeshBlock(primitivesRenderer, GetLoadState2(Terrain.ExtractData(value)) ? m_standaloneBlockMeshLoaded : m_standaloneBlockMeshUnloaded, color, 2f * size, ref matrix, environmentData);
 		}
 
 		public override bool IsSwapAnimationNeeded(int oldValue, int newValue)
@@ -68,7 +82,13 @@ namespace Game
 			return (LoadState)(data & 3);
 		}
 
-		public static int SetLoadState(int data, LoadState loadState)
+        public static bool GetLoadState2(int data)
+        {
+            
+            return data != ((data & -4) | (int)(LoadState.Empty & LoadState.Loaded));
+        }
+
+        public static int SetLoadState(int data, LoadState loadState)
 		{
 			return (data & -4) | (int)(loadState & LoadState.Loaded);
 		}

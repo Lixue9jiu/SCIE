@@ -132,7 +132,7 @@ var result = ComponentMiner.PickTerrainForInteraction(viewPosition, direction);
 				}
 			}
 			var block = BlocksManager.Blocks[num];
-float num2 = (m_subsystemGameInfo.WorldSettings.GameMode == GameMode.Creative || block.BlockIndex == Musket2Block.Index) ? 0.1f : 1.4f;
+float num2 = (m_subsystemGameInfo.WorldSettings.GameMode == GameMode.Creative || (block.BlockIndex == Musket2Block.Index || block.BlockIndex == Musket3Block.Index)) ? 0.1f : 1.4f;
 Vector3 viewPosition2 = View.ActiveCamera.ViewPosition;
 			if (playerInput.Aim.HasValue && block.IsAimable && m_subsystemTime.GameTime - m_lastActionTime > num2)
 			{
