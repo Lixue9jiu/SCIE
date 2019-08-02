@@ -42,21 +42,6 @@ namespace Game
 						slot.Count = x > 0 ? int.Parse(s.Substring(x + 1)) : 1;
 					}
 				}
-				return;
-			}
-			count = valuesDictionary.GetValue<int>("SlotsCount");
-			inventory.m_slots.Capacity = count;
-			ValuesDictionary value2 = valuesDictionary.GetValue<ValuesDictionary>("Slots");
-			for (i = 0; i < count; i++)
-			{
-				slot = new ComponentInventoryBase.Slot();
-				inventory.m_slots.Add(slot);
-				ValuesDictionary value3 = value2.GetValue<ValuesDictionary>("Slot" + i.ToString(CultureInfo.InvariantCulture), null);
-				if (value3 != null)
-				{
-					slot.Value = value3.GetValue<int>("Contents");
-					slot.Count = value3.GetValue<int>("Count");
-				}
 			}
 		}
 
