@@ -13,7 +13,7 @@ namespace Game
 
 		public new int FuelSlotIndex => SlotsCount - 3;
 
-		public int SlotIndex { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+		public int SlotIndex { get => throw new NotSupportedException(); set => throw new NotImplementedException(); }
 
 		public CraftingRecipe GetRecipe() => throw new NotImplementedException();
 
@@ -102,6 +102,11 @@ namespace Game
 					{
 						m_slots[RemainsSlotIndex].Value = m_smeltingRecipe.RemainsValue;
 						m_slots[RemainsSlotIndex].Count += m_smeltingRecipe.RemainsCount;
+					}
+					else if (m_smeltingRecipe.Ingredients[2].Contains("item") && m_smeltingRecipe.Ingredients[0].Contains("item"))
+					{
+						m_slots[RemainsSlotIndex].Value = ItemBlock.IdTable["¿óÔü"];
+						m_slots[RemainsSlotIndex].Count += m_smeltingRecipe.ResultCount >> 1;
 					}
 					m_smeltingRecipe = null;
 					m_smeltingProgress = 0f;

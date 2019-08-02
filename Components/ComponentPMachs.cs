@@ -1,3 +1,4 @@
+using Engine;
 using GameEntitySystem;
 using TemplatesDatabase;
 
@@ -18,22 +19,31 @@ namespace Game
 			{
 				if (GetSlotCount(i) > 0)
 				{
-					int slotValue = GetSlotValue(i);
-					switch (slotValue)
+					int value = GetSlotValue(i);
+					switch (value)
 					{
-						case IronOreChunkBlock.Index: text = "IronOrePowder"; break;
+						case SandBlock.Index: text = "Ê¯Ó¢É°"; break;
+						case PlanksBlock.Index: text = "Ä¾Ð¼"; break;
+						case BrickBlock.Index: text = "Ëé×©"; break;
+						case GlassBlock.Index:
+						case FramedGlassBlock.Index:
+						case WindowBlock.Index: text = "Ëé²£Á§"; break;
 						case MalachiteChunkBlock.Index: text = "CopperOrePowder"; break;
-						case GermaniumOreChunkBlock.Index: text = "GermaniumOrePowder"; break;
-						case CoalChunkBlock.Index: text = "CoalPowder"; break;
-						case SulphurChunkBlock.Index: text = "SulphurPowder"; break;
 						default:
-							var item = Item.ItemBlock.GetItem(ref slotValue);
-							if (item is OreChunk)
+							if (BlocksManager.Blocks[Terrain.ExtractContents(value)] is ChunkBlock block)
 							{
-								text = item.GetCraftingId().Replace("Chunk", "Powder");
-								if (!ItemBlock.IdTable.TryGetValue(text, out slotValue))
-									return null;
+								text = block.GetType().Name.Replace("ChunkBlock", "Powder");
 							}
+							else if (value == ItemBlock.IdTable["»¬Ê¯"])
+								text = "»¬Ê¯·Û";
+							else
+							{
+								var item = Item.ItemBlock.GetItem(ref value);
+								if (item is OreChunk)
+									text = item.GetCraftingId().Replace("Chunk", "Powder");
+							}
+							if (!ItemBlock.IdTable.ContainsKey(text))
+								return null;
 							break;
 					}
 				}
@@ -52,7 +62,7 @@ namespace Game
 		public override void Load(ValuesDictionary valuesDictionary, IdToEntityMap idToEntityMap)
 		{
 			base.Load(valuesDictionary, idToEntityMap);
-			m_speed = 0.01f;
+			m_speed = .01f;
 		}
 
 		protected override string FindSmeltingRecipe()
@@ -79,18 +89,25 @@ namespace Game
 			{
 				if (GetSlotCount(i) > 0)
 				{
-					int slotValue = GetSlotValue(i);
-					if (slotValue == IronIngotBlock.Index)
+					int value = GetSlotValue(i);
+					var block = BlocksManager.Blocks[Terrain.ExtractContents(value)];
+					if (block.GetExplosionPressure(value) > 0f)
+					{
+						Point3 coordinates = m_componentBlockEntity.Coordinates;
+						Utils.SubsystemExplosions.TryExplodeBlock(coordinates.X, coordinates.Y, coordinates.Z, value);
+						return null;
+					}
+					if (value == IronIngotBlock.Index)
 						text = "IronPlate";
-					else if (slotValue == CopperIngotBlock.Index)
+					else if (value == CopperIngotBlock.Index)
 						text = "CopperPlate";
 					else
 					{
-						var item = Item.ItemBlock.GetItem(ref slotValue);
+						var item = Item.ItemBlock.GetItem(ref value);
 						if (item is MetalIngot)
 						{
 							text = item.GetCraftingId().Replace("Ingot", "Plate");
-							if (!ItemBlock.IdTable.TryGetValue(text, out slotValue))
+							if (!ItemBlock.IdTable.ContainsKey(text))
 								return null;
 						}
 					}
@@ -110,7 +127,7 @@ namespace Game
 		public override void Load(ValuesDictionary valuesDictionary, IdToEntityMap idToEntityMap)
 		{
 			base.Load(valuesDictionary, idToEntityMap);
-			m_speed = 0.06f;
+			m_speed = .06f;
 		}
 
 		protected override string FindSmeltingRecipe()
@@ -118,22 +135,20 @@ namespace Game
 			string text = null;
 			for (int i = 0; i < m_furnaceSize; i++)
 			{
-				if (GetSlotCount(i) > 0)
+				if (GetSlotCount(i) <= 0) continue;
+				int value = GetSlotValue(i);
+				if (value == IronIngotBlock.Index)
+					text = "IronLine";
+				else if (value == CopperIngotBlock.Index)
+					text = "CopperLine";
+				else
 				{
-					int slotValue = GetSlotValue(i);
-					if (slotValue == IronIngotBlock.Index)
-						text = "IronLine";
-					else if (slotValue == CopperIngotBlock.Index)
-						text = "CopperLine";
-					else
+					var item = Item.ItemBlock.GetItem(ref value);
+					if (item is MetalIngot)
 					{
-						var item = Item.ItemBlock.GetItem(ref slotValue);
-						if (item is MetalIngot)
-						{
-							text = item.GetDisplayName(Utils.SubsystemTerrain, slotValue).Replace("Ingot", "Line");
-							if (!ItemBlock.IdTable.TryGetValue(text, out slotValue))
-								return null;
-						}
+						text = item.GetDisplayName(Utils.SubsystemTerrain, value).Replace("Ingot", "Line");
+						if (!ItemBlock.IdTable.ContainsKey(text))
+							return null;
 					}
 				}
 			}

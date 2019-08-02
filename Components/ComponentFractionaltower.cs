@@ -10,12 +10,10 @@ namespace Game
 		protected int m_time;
 		protected readonly int[] result = new int[3];
 
-		protected string m_smeltingRecipe;
+		protected string m_smeltingRecipe, m_smeltingRecipe2;
 
 		//protected int m_music;
-
-		protected string m_smeltingRecipe2;
-
+		
 		public override int RemainsSlotIndex => -1;
 
 		public override int ResultSlotIndex => SlotsCount - 1;
@@ -45,11 +43,9 @@ namespace Game
 					//m_music = 0;
 				}
 			}
-
 			if (m_smeltingRecipe2 != null && Utils.SubsystemTime.PeriodicGameTimeEvent(0.2, 0.0))
 			{
-				int num = 1;
-				int num2 = 0;
+				int num = 1, num2 = 0;
 				int num3 = coordinates.X;
 				int num4 = coordinates.Y;
 				int num5 = coordinates.Z;
@@ -63,19 +59,17 @@ namespace Game
 							if (j != 0 && cellContents != MetalBlock.Index)
 							{
 								num = 0;
-                               
 								break;
 							}
 							if (j == 0 && i * i + k * k > 1 && cellContents != MetalBlock.Index)
 							{
 								num = 0;
-                               
                                 break;
 							}
 						}
 					}
 				}
-				int cellValue = Utils.Terrain.GetCellValue(num3, num4-1, num5);
+				int cellValue = Utils.Terrain.GetCellValue(num3, num4 - 1, num5);
 				if ((Terrain.ExtractContents(cellValue) != FireBoxBlock.Index) || FurnaceNBlock.GetHeatLevel(cellValue) == 0)
 					num = 0; 
                 if (num == 0 || num2 == 0)
@@ -138,31 +132,24 @@ namespace Game
 			int i;
 			for (i = 0; i < m_furnaceSize; i++)
 			{
-				int slotValue = GetSlotValue(i);
-				if (GetSlotCount(i) > 0)
+				if (GetSlotCount(i) <= 0) continue;
+				if (GetSlotValue(i) == 262384)
 				{
-                   
-					if (slotValue == 262384)
-					{
-						text = true;
-						result[0] = 786672;
-						result[1] = 1048816;
-						result[2] = 1310960;
-					}
+					text = true;
+					result[0] = 786672;
+					result[1] = 1048816;
+					result[2] = 1310960;
 				}
 			}
-           
-			if (text)
+			if (!text)
+				return null;
+			for (i = 0; i < 3; i++)
 			{
-				for (i = 0; i < 3; i++)
-				{
-					Slot slot = m_slots[1 + i];
-					if (slot.Count != 0 && result[i] != 0 && (slot.Value != result[i] || slot.Count >= 40))
-						return null;
-				}
-				return "AluminumOrePowder";
+				Slot slot = m_slots[1 + i];
+				if (slot.Count != 0 && result[i] != 0 && (slot.Value != result[i] || slot.Count >= 40))
+					return null;
 			}
-			return null;
+			return "AluminumOrePowder";
 		}
 	}
 }

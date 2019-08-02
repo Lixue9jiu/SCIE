@@ -8,11 +8,9 @@ namespace Game
 	{
 		public bool Powered;
 
-		protected string m_smeltingRecipe;
+		protected string m_smeltingRecipe, m_smeltingRecipe2;
 
 		//protected int m_music;
-
-		protected string m_smeltingRecipe2;
 
 		public override int RemainsSlotIndex => -1;
 
@@ -47,10 +45,10 @@ namespace Game
 						heatLevel = block is IFuel fuel ? fuel.GetHeatLevel(slot.Value) : block.FuelHeatLevel;
 					}
 				}
-				string text = m_smeltingRecipe2 = FindSmeltingRecipe(heatLevel);
-				if (text != m_smeltingRecipe)
+				m_smeltingRecipe2 = FindSmeltingRecipe(heatLevel);
+				if (m_smeltingRecipe2 != m_smeltingRecipe)
 				{
-					m_smeltingRecipe = m_smeltingRecipe2 = text;
+					m_smeltingRecipe = m_smeltingRecipe2;
 					SmeltingProgress = 0f;
 					//m_music = 0;
 				}
@@ -111,8 +109,7 @@ namespace Game
 				if (SmeltingProgress >= 1f)
 				{
 					m_slots[0].Count--;
-					int value = ItemBlock.IdTable[m_smeltingRecipe];
-					m_slots[ResultSlotIndex].Value = value;
+					m_slots[ResultSlotIndex].Value = ItemBlock.IdTable[m_smeltingRecipe];
 					m_slots[ResultSlotIndex].Count++;
 					m_smeltingRecipe = null;
 					SmeltingProgress = 0f;
@@ -130,18 +127,6 @@ namespace Game
 					return 0;
 			}
 			return base.GetSlotCapacity(slotIndex, value);
-		}
-
-		public override void AddSlotItems(int slotIndex, int value, int count)
-		{
-			base.AddSlotItems(slotIndex, value, count);
-			m_updateSmeltingRecipe = true;
-		}
-
-		public override int RemoveSlotItems(int slotIndex, int count)
-		{
-			m_updateSmeltingRecipe = true;
-			return base.RemoveSlotItems(slotIndex, count);
 		}
 
 		public override void Load(ValuesDictionary valuesDictionary, IdToEntityMap idToEntityMap)

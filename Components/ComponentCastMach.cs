@@ -128,18 +128,15 @@ namespace Game
 			string text = null;
 			for (int i = 0; i < m_furnaceSize; i++)
 			{
-				int slotValue = GetSlotValue(i);
-				int num = Terrain.ExtractContents(slotValue);
-				int num2 = Terrain.ExtractData(slotValue);
-				if (GetSlotCount(i) > 0 && GetSlotValue(1) != 0)
+				int slotvalue = GetSlotValue(1);
+				if (GetSlotCount(i) > 0 && slotvalue != 0)
 				{
-					if (slotValue == ItemBlock.IdTable["SteelIngot"])
+					if (GetSlotValue(i) == ItemBlock.IdTable["SteelIngot"])
 					{
 						if (heatLevel < 1500f)
 							text = "ScrapIron";
 						else
 						{
-							int slotvalue = base.GetSlotValue(1);
 							if (slotvalue == ItemBlock.IdTable["SteelGearMould"])
 								text = "SteelGear";
 							else if (slotvalue == ItemBlock.IdTable["SteelWheelMould"])

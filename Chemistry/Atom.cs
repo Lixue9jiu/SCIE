@@ -24,7 +24,6 @@ namespace Chemistry
 		Nu, H, D, T, Li, Be, B, C, N, O, F, Na, Mg, Al, Si, P, S, Cl, K, Ca, Ti, V, Cr, Mn, Fe, Co, Ni, Cu, Zn, Ga, Ge, As, Br, Zr, Nb, Ag, Cd, In, Sn, Sb, I, Ba, W, Ir, Pt, Au, Hg, Pb, U235, U238
 	}
 
-
 	public struct Stack : IEquatable<Stack>
 	{
 		public AtomKind Atom;
@@ -91,17 +90,11 @@ namespace Chemistry
 	{
 		public int Charge;
 
-		public Group()
-		{
-		}
+		public Group() { }
 
-		public Group(int capacity) : base(capacity)
-		{
-		}
+		public Group(int capacity) : base(capacity) { }
 
-		public Group(IEnumerable<Stack> items) : base(items)
-		{
-		}
+		public Group(IEnumerable<Stack> items) : base(items) { }
 
 		public Group(string s)
 		{

@@ -6,10 +6,8 @@ namespace Game
 {
 	public enum DrillType
 	{
-		SteelDrill,
-		DiamondDrill,
-		IronTubularis,
-		SteelTubularis
+		SteelDrill, DiamondDrill,
+		IronTubularis, SteelTubularis
 	}
 	public class DrillBlock : FlatBlock, IDurability
 	{
@@ -42,7 +40,7 @@ namespace Game
 		{
 			var type = GetType(value);
 			ItemBlock.DrawFlatBlock(primitivesRenderer, value, size, ref matrix, ItemBlock.Texture,
-				(type == DrillType.DiamondDrill ? Color.Cyan : type == DrillType.SteelTubularis ? color = Color.Gray : color) * SubsystemPalette.GetColor(environmentData, Terrain.ExtractData(value) >> 13 & 15), false, environmentData);
+				(type == DrillType.DiamondDrill ? Color.Cyan : type == DrillType.SteelTubularis ? Color.Gray : color) * SubsystemPalette.GetColor(environmentData, Terrain.ExtractData(value) >> 13 & 15), false, environmentData);
 		}
 		public static DrillType GetType(int value)
 		{
@@ -72,7 +70,7 @@ namespace Game
 		}
 		public override int GetFaceTextureSlot(int face, int value)
 		{
-			return (uint)(GetType(value) - 2) > 1u ? 211 : 208;
+			return (uint)(GetType(value) - 2) > 1u ? 179 : 176;
 		}
 		public int GetDurability(int value)
 		{

@@ -101,7 +101,7 @@ namespace Chemistry
 			{
 				var x = i.Current;
 				var y = j.Current;
-				if(!x.Key.Equals(y.Key) || x.Value != y.Value)
+				if (!x.Key.Equals(y.Key) || x.Value != y.Value)
 					return false;
 			}
 			return true;

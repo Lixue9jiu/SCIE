@@ -166,6 +166,12 @@ namespace Game
 		public ABomb() : base("Models/Nuclearbomb", "Nuclearbomb", Matrix.CreateTranslation(0.2f, -0.2f, 0.2f) * Matrix.CreateScale(2f), Matrix.Identity, "原子弹", "原子弹")
 		{
 		}
+
+		public ABomb(string name) : this()
+		{
+			DefaultDescription = DefaultDisplayName = name;
+		}
+
 		public float GetFuelFireDuration(int value) => 28f;
 		public float GetHeatLevel(int value) => 7.5e3f;
 		public override float GetExplosionPressure(int value) => 150f;
@@ -177,30 +183,21 @@ namespace Game
 
 	public class HBomb : ABomb, IFuel
 	{
-		public HBomb()
-		{
-			DefaultDescription = DefaultDisplayName = "氢弹";
-		}
+		public HBomb() : base("氢弹") { }
 		public new float GetFuelFireDuration(int value) => 32f;
 		public new float GetHeatLevel(int value) => 1.5e4f;
 	}
 
 	public class HABomb : ABomb, IFuel
 	{
-		public HABomb()
-		{
-			DefaultDescription = DefaultDisplayName = "三相弹";
-		}
+		public HABomb() : base("三相弹") { }
 		public new float GetFuelFireDuration(int value) => 48f;
 		public new float GetHeatLevel(int value) => 2.5e4f;
 	}
 
 	public class NBomb : ABomb
 	{
-		public NBomb()
-		{
-			DefaultDescription = DefaultDisplayName = "中子弹";
-		}
+		public NBomb() : base("中子弹") { }
 	}
 
 	public class ABombElectricElement : ElectricElement
@@ -222,11 +219,7 @@ namespace Game
 				while (e.MoveNext())
 				{
 					var entity = e.Current.Entity;
-					var componentHealth = entity.FindComponent<ComponentHealth>();
-					if (componentHealth != null)
-						componentHealth.Injure(1f, null, false, "Killed by radiation");
-					else
-						Utils.SubsystemBodies.Project.RemoveEntity(entity, true);
+					entity.FindComponent<ComponentHealth>()?.Injure(1f, null, false, "Killed by radiation");
 				}
 				if(!(Bomb is HABomb)) return false;
 			}

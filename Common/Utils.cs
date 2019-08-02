@@ -10,6 +10,7 @@ namespace Game
 {
 	public static partial class Utils
 	{
+		public static BlockGeometryGenerator BlockGeometryGenerator;
 		public static Random Random = new Random();
 		public static SubsystemGameInfo SubsystemGameInfo;
 		public static SubsystemAudio SubsystemAudio;
@@ -42,6 +43,7 @@ namespace Game
 			SubsystemPickables = Project.FindSubsystem<SubsystemPickables>(true);
 			SubsystemProjectiles = Project.FindSubsystem<SubsystemProjectiles>(true);
 			Terrain = (SubsystemTerrain = Project.FindSubsystem<SubsystemTerrain>(true)).Terrain;
+			BlockGeometryGenerator = new BlockGeometryGenerator(Terrain, SubsystemTerrain, Project.FindSubsystem<SubsystemElectricity>(true), SubsystemTerrain.SubsystemFurnitureBlockBehavior, Project.FindSubsystem<SubsystemMetersBlockBehavior>(true), SubsystemTerrain.SubsystemPalette);
 			LoadedProject = true;
 		}
 		public static void RemoveElementsInChunk(TerrainChunk chunk, IEnumerable<Point3> elements, Action<Point3> action)

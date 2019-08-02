@@ -13,7 +13,7 @@ namespace Game
 			Id = type.ToString() + "Resistor";
 			DefaultDisplayName = name + Utils.Get("µÁ◊Ë");
 			DefaultDescription = name + " Resistor is a kind of resistor obtained by " + name + ".";
-            Color = new Color(55, 55, 55);
+			Color = new Color(55, 55, 55);
 		}
 		public override string GetCraftingId() => Id;
 	}
@@ -22,7 +22,7 @@ namespace Game
 		protected readonly string Id;
 		public Fan(Materials type)
 		{
-			DefaultTextureSlot = 210;
+			DefaultTextureSlot = 178;
 			var name = type.ToStr();
 			Id = type.ToString() + "Fan";
 			DefaultDisplayName = name + Utils.Get("…»");
@@ -50,7 +50,7 @@ namespace Game
 		
 		public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
 		{
-			ItemBlock.DrawFlatBlock(primitivesRenderer, value, size, ref matrix, ItemBlock.Texture, Color.White, false, environmentData);
+			ItemBlock.DrawFlatBlock(primitivesRenderer, value, size, ref matrix, ItemBlock.Texture, color, false, environmentData);
 		}
 	}
 }

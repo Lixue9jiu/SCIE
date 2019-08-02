@@ -17,12 +17,13 @@ namespace Game
 				ParentWidget.Children.Remove(this);
 		}
 
-		public NewChestWidget(IInventory inventory, ComponentInventoryBase component, string text = null)
+		public NewChestWidget(IInventory inventory, ComponentInventoryBase component, string text = "Freezer")
 		{
 			Component = component;
 			WidgetsManager.LoadWidgetContents(this, this, ContentManager.Get<XElement>("Widgets/NewChestWidget"));
-			if (text != null)
-				Children.Find<LabelWidget>("ChestLabel").Text = text;
+			Children.Find<LabelWidget>("ChestLabel").Text = text;
+			if (Utils.TR.Count != 0)
+				Children.Find<LabelWidget>("InventoryLabel").Text = "±³°ü";
 			m_inventoryGrid = Children.Find<GridPanelWidget>("InventoryGrid");
 			m_chestNewGrid = Children.Find<GridPanelWidget>("ChestGrid");
 			int num = 0, y, x;

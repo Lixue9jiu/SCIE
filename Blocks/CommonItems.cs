@@ -36,6 +36,10 @@ namespace Game
 		{
 			BlocksManager.DrawMeshBlock(primitivesRenderer, m_standaloneBlockMesh, color, size, ref matrix, environmentData);
 		}
+		public override void GenerateTerrainVertices(Block block, BlockGeometryGenerator generator, TerrainGeometrySubsets geometry, int value, int x, int y, int z)
+		{
+			generator.GenerateMeshVertices(block, x, y, z, m_standaloneBlockMesh, Color.White, null, geometry.SubsetOpaque);
+		}
 		public override float GetIconViewScale(int value, DrawBlockEnvironmentData environmentData) => 0.85f;
 		public override bool IsFaceTransparent(SubsystemTerrain subsystemTerrain, int face, int value) => true;
 	}
@@ -93,11 +97,10 @@ namespace Game
 		public static Texture2D Texture;
 		public static Task Task;
 
-		/*public static void DrawCubeBlock(PrimitivesRenderer3D primitivesRenderer, int value, Texture2D texture, Vector3 size, ref Matrix matrix, Color color, Color topColor, DrawBlockEnvironmentData environmentData)
+		public static void DrawCubeBlock(PrimitivesRenderer3D primitivesRenderer, int value, Vector3 size, ref Matrix matrix, Color color, Color topColor, DrawBlockEnvironmentData environmentData)
 		{
 			environmentData = (environmentData ?? BlocksManager.m_defaultEnvironmentData);
-			TexturedBatch3D texturedBatch3D = primitivesRenderer.TexturedBatch(texture ??
-					(environmentData.SubsystemTerrain != null ? environmentData.SubsystemTerrain.SubsystemAnimatedTextures.AnimatedBlocksTexture : BlocksTexturesManager.DefaultBlocksTexture), true, 0, null, RasterizerState.CullCounterClockwiseScissor, null, SamplerState.PointClamp);
+			TexturedBatch3D texturedBatch3D = primitivesRenderer.TexturedBatch(ItemBlock.Texture, true, 0, null, RasterizerState.CullCounterClockwiseScissor, null, SamplerState.PointClamp);
 			float s = LightingManager.LightIntensityByLightValue[environmentData.Light];
 			color = Color.MultiplyColorOnly(color, s);
 			topColor = Color.MultiplyColorOnly(topColor, s);
@@ -144,7 +147,7 @@ namespace Game
 			Vector4 vector7 = BlocksManager.m_slotTexCoords[block.GetFaceTextureSlot(3, value)];
 			Color color7 = Color.MultiplyColorOnly(color, LightingManager.CalculateLighting(matrix.Right));
 			texturedBatch3D.QueueQuad(v4, v6, v10, v8, new Vector2(vector7.X, vector7.W), new Vector2(vector7.X, vector7.Y), new Vector2(vector7.Z, vector7.Y), new Vector2(vector7.Z, vector7.W), color7);
-		}*/
+		}
 
 		public static void DrawFlatBlock(PrimitivesRenderer3D primitivesRenderer, int value, float size, ref Matrix matrix, Texture2D texture, Color color, bool isEmissive, DrawBlockEnvironmentData environmentData)
 		{

@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using Engine;
+using Engine.Graphics;
 
 namespace Game
 {
@@ -47,6 +49,16 @@ namespace Game
 		public static Type GetType(int value)
 		{
 			return (Type)Terrain.ExtractData(value);
+		}
+
+		public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
+		{
+			ItemBlock.DrawCubeBlock(primitivesRenderer, value, new Vector3(size), ref matrix, color, color, environmentData);
+		}
+
+		public override void GenerateTerrainVertices(BlockGeometryGenerator generator, TerrainGeometrySubsets geometry, int value, int x, int y, int z)
+		{
+			Utils.BlockGeometryGenerator.GenerateCubeVertices(this, value, x, y, z, Color.White, Utils.GTV(x, z, geometry).OpaqueSubsetsByFace);
 		}
 	}
 }

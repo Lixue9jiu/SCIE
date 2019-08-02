@@ -28,22 +28,24 @@ namespace Game
 			RandomJumpCamera.get_IsEntityControlEnabled1 = True;
 			StraightFlightCamera.get_IsEntityControlEnabled1 = True;
 			AudioManager.PlaySound1 = PlaySound;
-			var d = new Dictionary<string, string>();
-			Utils.TR = d;
+			Utils.TR = new Dictionary<string, string>();
 		}
 		public static bool True(object obj) => true;
 		public static void PlaySound(string name, float volume, float pitch, float pan)
 		{
 			if (SettingsManager.SoundsVolume > 0f)
 			{
-				if (volume * SettingsManager.SoundsVolume > AudioManager.MinAudibleVolume)
+				volume *= SettingsManager.SoundsVolume;
+				if (volume > AudioManager.MinAudibleVolume)
 					try
 					{
 						object obj = ContentManager.Get(name);
 						if (obj is SoundBuffer buffer)
-							new Sound(buffer, volume * SettingsManager.SoundsVolume, AudioManager.ToEnginePitch(pitch), pan, isLooped: false, disposeOnStop: true).Play();
+							new Sound(buffer, volume, AudioManager.ToEnginePitch(pitch), pan, false, true).Play();
+						else if (obj is BaseSound sound)
+							sound.Play();
 						else if (obj is StreamingSource source)
-							new StreamingSound(source, volume, 1f, 0f, false, false, 1f).Play();
+							new StreamingSound(source, volume, AudioManager.ToEnginePitch(pitch), pan, false, true, 0f).Play();
 					}
 					catch { }
 			}
@@ -230,11 +232,11 @@ namespace Game
 		}
 		public virtual string GetDisplayName(SubsystemTerrain subsystemTerrain, int value)
 		{
-			return GetType().ToString().Substring(5);
+			return GetType().Name;
 		}
 		public virtual string GetCraftingId()
 		{
-			return GetType().ToString().Substring(5);
+			return GetType().Name;
 		}
 		public virtual string GetDescription(int value)
 		{

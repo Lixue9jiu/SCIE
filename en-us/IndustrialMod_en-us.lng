@@ -41,6 +41,8 @@
 锭=Ingot
 棒=Rod
 丝=Line
+固态=Soild 
+块= Block
 一块=A chunk of 
 一块纯=The block of pure 
 能由多块=  Can be crafted from multiple 
@@ -101,6 +103,8 @@ Au-Zn电池=Au-Zn Battery
 木屑=Sawdust
 碎砖=Brickbat
 碎玻璃=Broken Glass
+煤=Coal
+硫=Sulphur
 粗盐=Crude Salt
 精盐=Refined Salt
 酵母=Yeast

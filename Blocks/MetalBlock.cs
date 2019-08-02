@@ -31,17 +31,14 @@ namespace Game
 		public const int Index = 510;
 		public static readonly string[] Names = new[]
 		{
-			"基础机器外壳",
-			"高级机器外壳",
+			"基础机器外壳", "高级机器外壳",
 			"防火砖墙"
 		};
 		public static readonly Color[] Colors = new[]
 		{
 			Color.White, Color.LightGray, new Color(255, 153, 18)
 		};
-		public MetalBlock() : base(0)
-		{
-		}
+		public MetalBlock() : base(0) { }
 		public override IEnumerable<int> GetCreativeValues()
 		{
 			var arr = new int[15 * (16 + 1)];
@@ -56,7 +53,7 @@ namespace Game
 		{
 			int type = GetType(value);
 			color = (type < 3 ? Colors[type] : GetColor((Materials)(type - 3))) * SubsystemPalette.GetColor(environmentData, GetPaintColor(value));
-			BlocksManager.DrawCubeBlock(primitivesRenderer, value, new Vector3(size), ref matrix, color, color, environmentData);
+			ItemBlock.DrawCubeBlock(primitivesRenderer, value, new Vector3(size), ref matrix, color, color, environmentData);
 		}
 
 		public override BlockPlacementData GetPlacementValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, TerrainRaycastResult raycastResult)
@@ -66,7 +63,7 @@ namespace Game
 		public override void GenerateTerrainVertices(BlockGeometryGenerator generator, TerrainGeometrySubsets geometry, int value, int x, int y, int z)
 		{
 			int type = GetType(value);
-			generator.GenerateCubeVertices(this, value, x, y, z, (type < 3 ? Colors[type] : GetColor((Materials)(type - 3))) * SubsystemPalette.GetColor(generator, GetPaintColor(value)), geometry.OpaqueSubsetsByFace);
+			Utils.BlockGeometryGenerator.GenerateCubeVertices(this, value, x, y, z, (type < 3 ? Colors[type] : GetColor((Materials)(type - 3))) * SubsystemPalette.GetColor(generator, GetPaintColor(value)), Utils.GTV(x, z, geometry).OpaqueSubsetsByFace);
 		}
 		public static int GetType(int value)
 		{
@@ -94,7 +91,7 @@ namespace Game
 		public override string GetDisplayName(SubsystemTerrain subsystemTerrain, int value)
 		{
 			int type = GetType(value);
-			return type < 3 ? Utils.Get(Names[type]): "Soild " + ((Materials)(type - 3)).ToStr() + " Block";
+			return type < 3 ? Utils.Get(Names[type]): Utils.Get("固态") + ((Materials)(type - 3)).ToStr() + Utils.Get("块");
 		}
 		public override string GetDescription(int value)
 		{
@@ -121,7 +118,7 @@ namespace Game
 			{
 				case 0:
 				case 1: return 107;
-				case 2: return 39;
+				case 2: return 69;
 			}
 			return 180;
 		}

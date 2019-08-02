@@ -19,7 +19,7 @@ public class RottenMeatBlock : FluidBlock
 	public BlockMesh StandaloneBlockMesh = new BlockMesh();
 	public static Color[] Colors;
 
-	public RottenMeatBlock() : base(1) {}
+	public RottenMeatBlock() : base(1) { }
 	public override void Initialize()
 	{
 		Colors = new[] { new Color(30, 30, 30), default(Color), new Color(184, 134, 11), new Color(160, 82, 45), new Color(255, 231, 186) };
@@ -80,7 +80,7 @@ public class RottenMeatBlock : FluidBlock
 	}
 	public override string GetDisplayName(SubsystemTerrain subsystemTerrain, int value)
 	{
-		return Terrain.ExtractData(value) != 0 ? GetType(value).ToString(): DefaultDisplayName;
+		return Terrain.ExtractData(value) != 0 ? GetType(value).ToString() : DefaultDisplayName;
 	}
 	public override string GetDescription(int value)
 	{

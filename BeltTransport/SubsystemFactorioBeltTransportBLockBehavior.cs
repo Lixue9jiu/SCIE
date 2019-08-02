@@ -547,8 +547,8 @@ namespace Game
                                             }
                                             else
                                             {
-												var p = new Vector3(position) + new Vector3(0.5f);
-												SubsystemTerrain.m_subsystemPickables.AddPickable(block.items[side, process].value, 0, p, null, null);
+												var p = new Vector3(position) + new Vector3(0.5f) + new Vector3(direction);
+												SubsystemTerrain.m_subsystemPickables.AddPickable(block.items[side, process].value, 1, p, null, null);
                                                 block.items[side, process].value = 0;
                                                 //block.items[side, process].stop = true;
                                             }

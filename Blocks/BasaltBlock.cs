@@ -8,9 +8,7 @@ namespace Game
 	{
 		public const int Index = 67;
 
-		public BasaltBlock() : base(40)
-		{
-		}
+		public BasaltBlock() : base(40) { }
 		public override void GetDropValues(SubsystemTerrain subsystemTerrain, int oldValue, int newValue, int toolLevel, List<BlockDropValue> dropValues, out bool showDebris)
 		{
 			int data = Terrain.ExtractData(oldValue);
@@ -46,8 +44,8 @@ namespace Game
 		{
 			return new BlockPlacementData
 			{
-				Value = (Terrain.ExtractData(value) & 65536) != 0 ? Terrain.ReplaceData(MagmaBlock.Index
-					, FluidBlock.SetIsTop(FluidBlock.SetLevel(0, 4), toolValue == MagmaBucketBlock.Index)) : 0,
+				Value = (Terrain.ExtractData(value) & 65536) != 0 ? Terrain.ReplaceData(MagmaBlock.Index,
+					FluidBlock.SetIsTop(FluidBlock.SetLevel(0, 4), toolValue == MagmaBucketBlock.Index)) : 0,
 				CellFace = raycastResult.CellFace
 			};
 		}
@@ -76,8 +74,22 @@ namespace Game
 		{
 			return (Terrain.ExtractData(value) & 32768) != 0 ? 10f : base.GetExplosionPressure(value);
 		}
+		public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
+		{
+			if (GetFaceTextureSlot(0, value) >= 243)
+			{
+				ItemBlock.DrawCubeBlock(primitivesRenderer, value, new Vector3(size), ref matrix, color, color, environmentData);
+				return;
+			}
+			base.DrawBlock(primitivesRenderer, value, color, size, ref matrix, environmentData);
+		}
 		public override void GenerateTerrainVertices(BlockGeometryGenerator generator, TerrainGeometrySubsets geometry, int value, int x, int y, int z)
 		{
+			if (GetFaceTextureSlot(0, value) >= 243)
+			{
+				Utils.BlockGeometryGenerator.GenerateCubeVertices(this, value, x, y, z, IsColored(Terrain.ExtractData(value) & 16383) ? SubsystemPalette.GetColor(generator, GetColor(Terrain.ExtractData(value))) : Color.White, Utils.GTV(x, z, geometry).OpaqueSubsetsByFace);
+				return;
+			}
 			generator.GenerateCubeVertices(this, value, x, y, z, IsColored(Terrain.ExtractData(value) & 16383) ? SubsystemPalette.GetColor(generator, GetColor(Terrain.ExtractData(value))) : Color.White, geometry.OpaqueSubsetsByFace);
 		}
 		public override IEnumerable<int> GetCreativeValues()
