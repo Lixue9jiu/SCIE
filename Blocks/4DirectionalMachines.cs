@@ -115,14 +115,9 @@ namespace Game
 	{
 		public const int Index = 507;
 
-		public FurnaceNBlock() { }
+		public FurnaceNBlock() : base(191, 107) { }
 
 		public FurnaceNBlock(int front, int back = 107) : base(front, back) { }
-
-		public override int GetFaceTextureSlot(int face, int value)
-		{
-			return face == GetDirection(value) ? 191 : 107;
-		}
 
 		public override int GetEmittedLightAmount(int value)
 		{

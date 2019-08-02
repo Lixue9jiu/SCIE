@@ -103,7 +103,7 @@ namespace Game
 						m_slots[RemainsSlotIndex].Value = m_smeltingRecipe.RemainsValue;
 						m_slots[RemainsSlotIndex].Count += m_smeltingRecipe.RemainsCount;
 					}
-					else if (m_smeltingRecipe.Ingredients.Length > 2 && m_smeltingRecipe.Ingredients[2].Contains("item") && m_smeltingRecipe.Ingredients[0].Contains("item"))
+					else if (m_smeltingRecipe.Ingredients[0] == m_smeltingRecipe.Ingredients[2] && m_smeltingRecipe.Ingredients[2].Contains("item") && m_smeltingRecipe.Ingredients[0] != null)
 					{
 						m_slots[RemainsSlotIndex].Value = ItemBlock.IdTable["¿óÔü"];
 						m_slots[RemainsSlotIndex].Count += m_smeltingRecipe.ResultCount >> 1;
