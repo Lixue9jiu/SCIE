@@ -60,7 +60,7 @@ namespace Game
 								componentFirstPersonModel.ItemOffsetOrder = new Vector3(-0.21f, 0.15f, 0.08f);
 								componentFirstPersonModel.ItemRotationOrder = new Vector3(-0.7f, 0f, 0f);
 							}
-                                    if (m_subsystemTime.PeriodicGameTimeEvent(0.15, 0))
+                                    if (m_subsystemTime.PeriodicGameTimeEvent(0.17, 0))
                                     {
                                         n++;
                                         Vector3 vector = Vector3.Zero;
@@ -87,7 +87,7 @@ namespace Game
                                                     projectile.ProjectileStoppedAction = ProjectileStoppedAction.Disappear;
                                             }
                                             m_subsystemAudio.PlaySound("Audio/MusketFire", 1f, m_random.UniformFloat(-0.1f, 0.1f), componentMiner.ComponentCreature.ComponentCreatureModel.EyePosition, 10f, true);
-                                           // m_subsystemParticles.AddParticleSystem(new GunSmokeParticleSystem(SubsystemTerrain, vector2 + 0.3f * vector3, vector3));
+                                            m_subsystemParticles.AddParticleSystem(new GunSmokeParticleSystem(SubsystemTerrain, vector2 + 1.3f * vector3, vector3));
                                             m_subsystemNoise.MakeNoise(vector2, 1f, 40f);
                                             Vector3 v21 = (float)((componentMiner.ComponentCreature.ComponentBody.IsSneaking ? 0.00999999977648258 : 0.0299999993294477) + 0.200000002980232 * MathUtils.Saturate((num4 - 1.5f) / 40f)) * new Vector3
                                             {
