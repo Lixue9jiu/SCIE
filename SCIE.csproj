@@ -57,6 +57,7 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Blocks\GunSmoke2.cs" />
     <Compile Include="Blocks\Musket3Block.cs" />
     <Compile Include="Chemistry\ChemicalBlock.cs" />
     <Compile Include="BeltTransport\FactorioTransportBeltBlock.cs" />
@@ -88,6 +89,7 @@
     <Compile Include="Components\ComponentCReactor.cs" />
     <Compile Include="Components\ComponentDriller.cs" />
     <Compile Include="Components\ComponentElectricFurnace.cs" />
+    <Compile Include="Components\ComponentElectricIFurnace.cs" />
     <Compile Include="Components\ComponentElectrobath.cs" />
     <Compile Include="Components\ComponentEngineA.cs" />
     <Compile Include="Components\ComponentFractionaltower.cs" />
@@ -129,6 +131,7 @@
     <Compile Include="Widgets\CReactorWidget.cs" />
     <Compile Include="Widgets\DrillerWidget.cs" />
     <Compile Include="Widgets\ElectricFurnaceWidget.cs" />
+    <Compile Include="Widgets\ElectricIFurnaceWidget.cs" />
     <Compile Include="Widgets\EngineAWidget.cs" />
     <Compile Include="Widgets\FractionalTowerWidget.cs" />
     <Compile Include="Widgets\LiquidPumpWidget.cs" />

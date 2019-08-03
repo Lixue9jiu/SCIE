@@ -1,6 +1,7 @@
 using Engine;
 using Engine.Graphics;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Game
 {
@@ -8,18 +9,27 @@ namespace Game
 	{
 		public enum BulletType
 		{
-			IronBullet
+			IronBullet,
+            HandBullet,
 		}
 
 		public const int Index = 521;
 
-		protected static readonly string[] m_displayNames = { "IronFixedBullet" };
-		protected static readonly float[] m_sizes = { 1f };
-		protected static readonly int[] m_textureSlots = { 177 };
+		protected static readonly string[] m_displayNames = { "LeadBullet","HandBullet" };
+		protected static readonly float[] m_sizes = { 1f,1f };
+		protected static readonly int[] m_textureSlots = { 177,193 };
 
-		public override IEnumerable<int> GetCreativeValues() => new[] { Index, Index | 1 << 10 << 14 };
+		public override IEnumerable<int> GetCreativeValues() => new[] { Terrain.MakeBlockValue(521, 0, SetBulletType(0,BulletType.IronBullet)), Terrain.MakeBlockValue(521, 0, SetBulletType(0, BulletType.HandBullet)), Index | 1 << 10 << 14 };
 
-		public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
+        //public override IEnumerable<int> GetCreativeValues()
+       // {
+        //    var arr = EnumUtils.GetEnumValues(typeof(BulletType)).ToArray();
+       //     for (int i = 0; i < arr.Length ; i++)
+       //         arr[i] = Terrain.MakeBlockValue(521, 0, SetBulletType(0, (BulletType)arr[i]));
+       //     return arr;
+       // }
+        
+        public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
 		{
 			if ((Terrain.ExtractData(value) >> 10) != 0)
 			{
@@ -40,8 +50,8 @@ namespace Game
 		{
 			return (Terrain.ExtractData(value) >> 10) != 0 ? Utils.Get("放置机") : DefaultDisplayName;
 		}
-
-		public override string GetDescription(int value)
+        
+        public override string GetDescription(int value)
 		{
 			return (Terrain.ExtractData(value) >> 10) != 0 ? Utils.Get("放置机") : DefaultDescription;
 		}
@@ -69,10 +79,10 @@ namespace Game
 			return (BulletType)(data & 0xF);
 		}
 
-		/*public static int SetBulletType(int data, BulletType bulletType)
+		public static int SetBulletType(int data, BulletType bulletType)
 		{
 			return (data & -16) | (int)(bulletType & (BulletType)15);
-		}*/
+		}
 
 		public new ElectricElement CreateElectricElement(SubsystemElectricity subsystemElectricity, int value, int x, int y, int z)
 		{
