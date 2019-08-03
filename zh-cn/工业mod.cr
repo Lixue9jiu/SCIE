@@ -175,13 +175,13 @@
     <Recipe Result="SteelIngot" ResultCount="1" RequiredHeatLevel="1500" Remains="ScrapIron" RemainsCount="2" a="ironingot" Description="冶炼铁锭以获得钢并去除硫">
       "aaa"
     </Recipe>
-    <Recipe Result="MeltingSteel" ResultCount="1" RequiredHeatLevel="2800" a="ironingot" Description="加热铁锭以获得融化的铁">
+    <Recipe Result="MeltingIron" ResultCount="1" RequiredHeatLevel="2800" a="ironingot" Description="加热铁锭以获得融化的铁">
       "a"
     </Recipe>
-    <Recipe Result="MeltingSteel" ResultCount="1" RequiredHeatLevel="2800" a="SteelIngot" Description="加热钢锭以获得融化的铁">
+    <Recipe Result="MeltingIron" ResultCount="1" RequiredHeatLevel="2800" a="SteelIngot" Description="加热钢锭以获得融化的铁">
       "a"
     </Recipe>
-    <Recipe Result="MeltingSteel" ResultCount="1" RequiredHeatLevel="2800" a="ScrapIron" Description="加热废铁以获得融化的铁">
+    <Recipe Result="MeltingIron" ResultCount="1" RequiredHeatLevel="2800" a="ScrapIron" Description="加热废铁以获得融化的铁">
       "a"
     </Recipe>
     <Recipe Result="SteelIngot" ResultCount="2" RequiredHeatLevel="1900" Remains="ScrapIron" RemainsCount="1" a="ironingot" Description="冶炼铁锭以获得钢并去除硫磺">

@@ -25,7 +25,7 @@ public class RottenMeatBlock : FluidBlock
 	public RottenMeatBlock() : base(1) { }
 	public override void Initialize()
 	{
-		Colors = new[] { new Color(30, 30, 30), default(Color), new Color(184, 134, 11), new Color(160, 82, 45), new Color(255, 231, 186), new Color(32, 80, 224), new Color(32, 80, 224) };
+		Colors = new[] { new Color(30, 30, 30), Color.White, new Color(184, 134, 11), new Color(160, 82, 45), new Color(255, 231, 186), new Color(32, 80, 224), new Color(32, 80, 224) };
 		var model = ContentManager.Get<Model>("Models/FullBucket");
 		var meshParts = model.FindMesh("Contents").MeshParts;
 		StandaloneBlockMesh.AppendModelMeshPart(meshParts[0], BlockMesh.GetBoneAbsoluteTransform(model.FindMesh("Contents").ParentBone) * Matrix.CreateRotationY(MathUtils.DegToRad(180f)) * Matrix.CreateTranslation(0f, -0.3f, 0f), false, false, false, false, new Color(30, 30, 30));
@@ -57,7 +57,9 @@ public class RottenMeatBlock : FluidBlock
 				BlocksManager.DrawCubeBlock(primitivesRenderer, Terrain.ReplaceContents(value, 18), new Vector3(size), ref matrix, color, color, environmentData);
 				return;
 			case Type.OilBucket:
-				BlocksManager.DrawMeshBlock(primitivesRenderer, StandaloneBlockMesh, color, 2f * size, ref matrix, environmentData);
+			case Type.D2O:
+			case Type.T2O:
+				BlocksManager.DrawMeshBlock(primitivesRenderer, StandaloneBlockMesh, color * Colors[(int)type - 1], 2f * size, ref matrix, environmentData);
 				return;
 			default:
 				color = Colors[(int)type - 1];
