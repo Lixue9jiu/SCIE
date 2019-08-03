@@ -52,7 +52,7 @@ namespace Game
 			for (int j = 0; j < 6; j++)
 			{
 				int num = j;
-				Matrix m = (j < 4) ? (Matrix.CreateTranslation(0f, -0.5f, 0f) * Matrix.CreateRotationY((float)j * (float)Math.PI / 2f + (float)Math.PI) * Matrix.CreateTranslation(0.5f, 0.5f, 0.5f)) : ((j != 4) ? (Matrix.CreateTranslation(0f, -0.5f, 0f) * Matrix.CreateRotationX(-(float)Math.PI / 2f) * Matrix.CreateTranslation(0.5f, 0.5f, 0.5f)) : (Matrix.CreateTranslation(0f, -0.5f, 0f) * Matrix.CreateRotationX((float)Math.PI / 2f) * Matrix.CreateTranslation(0.5f, 0.5f, 0.5f)));
+				Matrix m = j < 4 ? (Matrix.CreateTranslation(0f, -0.5f, 0f) * Matrix.CreateRotationY(j * (float)Math.PI / 2f + (float)Math.PI) * Matrix.CreateTranslation(0.5f, 0.5f, 0.5f)) : ((j != 4) ? (Matrix.CreateTranslation(0f, -0.5f, 0f) * Matrix.CreateRotationX(-(float)Math.PI / 2f) * Matrix.CreateTranslation(0.5f, 0.5f, 0.5f)) : (Matrix.CreateTranslation(0f, -0.5f, 0f) * Matrix.CreateRotationX((float)Math.PI / 2f) * Matrix.CreateTranslation(0.5f, 0.5f, 0.5f)));
 				m_blockMeshesByData[num] = new BlockMesh();
 				m_blockMeshesByData[num].AppendModelMeshPart(model.FindMesh(name).MeshParts[0], boneAbsoluteTransform * m, false, false, false, false, Color.White);
 			}
@@ -61,13 +61,13 @@ namespace Game
 	public class SolarPanel : DeviceBlock
 	{
 		public BlockMesh m_standaloneBlockMesh = new BlockMesh();
-		public BoundingBox[] m_collisionBoxesByData;
+		public BoundingBox[] m_collisionBoxes;
 		public SolarPanel() : base(120, "太阳能电池板", "太阳能电池板", ElementType.Supply | ElementType.Connector)
 		{
 			Model model = ContentManager.Get<Model>("Models/CellTrapdoor");
 			Matrix boneAbsoluteTransform = BlockMesh.GetBoneAbsoluteTransform(model.FindMesh("Trapdoor").ParentBone);
 			m_standaloneBlockMesh.AppendModelMeshPart(model.FindMesh("Trapdoor").MeshParts[0], boneAbsoluteTransform * Matrix.CreateTranslation(0.5f, 0, 0.5f), false, false, false, false, Color.White);
-			m_collisionBoxesByData = new[]
+			m_collisionBoxes = new[]
 			{
 				m_standaloneBlockMesh.CalculateBoundingBox()
 			};
@@ -94,7 +94,7 @@ namespace Game
 			return new BlockPlacementData { Value = value, CellFace = raycastResult.CellFace };
 		}
 		public override bool IsFaceTransparent(SubsystemTerrain subsystemTerrain, int face, int value) => true;
-		public override BoundingBox[] GetCustomCollisionBoxes(SubsystemTerrain terrain, int value) => m_collisionBoxesByData;
+		public override BoundingBox[] GetCustomCollisionBoxes(SubsystemTerrain terrain, int value) => m_collisionBoxes;
 	}
 	/*public class Voltmeter : DeviceBlock
 	{

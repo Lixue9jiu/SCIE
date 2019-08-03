@@ -149,8 +149,8 @@ namespace Game
 			DefaultDisplayName = DefaultDescription = name;
             Color = color;
             DefaultDisplayName = name1 + Utils.Get("ºÏ½ð");
-            m_standaloneBlockMesh.AppendMesh("Models/Alloy", "Torch", Matrix.CreateTranslation(0.5f, 0f, 0.5f), Matrix.Identity, color);
-            m_collisionBoxes = new BoundingBox[] { m_standaloneBlockMesh.CalculateBoundingBox() };
+            m_standaloneBlockMesh.AppendMesh("Models/Alloy", "Torch", Matrix.CreateTranslation(0.5f, 0f, 0.5f) * Matrix.CreateScale(1.1f), Matrix.Identity, color);
+            m_collisionBoxes = new[] { m_standaloneBlockMesh.CalculateBoundingBox() };
         }
 
         public Alloy(Materials type, string name) : this(type.ToString() + "Alloy", name, MetalBlock.GetColor(type))

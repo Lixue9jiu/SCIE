@@ -53,10 +53,7 @@ namespace Game
 				m_collisionBoxesByFace[i] = new BoundingBox(Vector3.Min(v4, v5), Vector3.Max(v4, v5));
 			}
 		}
-		public override int GetWeight(int voltage)
-		{
-			return 1;
-		}
+		public override int GetWeight(int voltage) => 1;
 		public override void GenerateTerrainVertices(Block block, BlockGeometryGenerator generator, TerrainGeometrySubsets geometry, int value, int x, int y, int z)
 		{
 			GenerateWireVertices(generator, value, x, y, z, 4, 0f, Vector2.Zero, geometry.SubsetOpaque);

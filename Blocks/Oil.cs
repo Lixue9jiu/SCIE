@@ -57,9 +57,7 @@ public class RottenMeatBlock : FluidBlock
 				BlocksManager.DrawCubeBlock(primitivesRenderer, Terrain.ReplaceContents(value, 18), new Vector3(size), ref matrix, color, color, environmentData);
 				return;
 			case Type.OilBucket:
-			case Type.D2O:
-			case Type.T2O:
-				BlocksManager.DrawMeshBlock(primitivesRenderer, StandaloneBlockMesh, color * Colors[(int)type - 1], 2f * size, ref matrix, environmentData);
+				BlocksManager.DrawMeshBlock(primitivesRenderer, StandaloneBlockMesh, color, 2f * size, ref matrix, environmentData);
 				return;
 			default:
 				color = Colors[(int)type - 1];
