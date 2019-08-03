@@ -24,7 +24,8 @@ namespace Game
 					int data = Terrain.ExtractData(slotValue);
 					int num2 = slotValue;
 					int num3 = 0;
-					if (num == Musket3Block.Index && slotCount > 0)
+                    FireParticleSystem fireParticleSystem = null;
+                    if (num == Musket3Block.Index && slotCount > 0)
 					{
 						if (!m_aimStartTimes.TryGetValue(componentMiner, out double value))
 						{
@@ -71,14 +72,17 @@ namespace Game
 								componentFirstPersonModel.ItemOffsetOrder = new Vector3(-0.21f, 0.15f, 0.08f);
 								componentFirstPersonModel.ItemRotationOrder = new Vector3(-0.7f, 0f, 0f);
 							}
+                                    
                                     if (m_subsystemTime.PeriodicGameTimeEvent(0.17, 0))
                                     {
+                                        //
                                         n++;
                                         Vector3 vector = Vector3.Zero;
                                       //  if (componentMiner.ComponentCreature.ComponentBody.ImmersionFactor > 0.4f)
                                         //    m_subsystemAudio.PlaySound("Audio/MusketMisfire", 1f, m_random.UniformFloat(-0.1f, 0.1f), componentMiner.ComponentCreature.ComponentCreatureModel.EyePosition, 3f, true);
                                      //   else
                                         {
+                                            
                                             Vector3 eyePosition = componentMiner.ComponentCreature.ComponentCreatureModel.EyePosition;
                                             Matrix matrix = componentMiner.ComponentCreature.ComponentBody.Matrix;
                                             Vector3 v2 = eyePosition + matrix.Right * 0.3f;
@@ -97,17 +101,14 @@ namespace Game
                                                 if (projectile != null)
                                                     projectile.ProjectileStoppedAction = ProjectileStoppedAction.Disappear;
                                             }
+                                          //  m_subsystemAudio.Dispose();
                                             m_subsystemAudio.PlaySound("Audio/MusketFire", 1f, m_random.UniformFloat(-0.1f, 0.1f), componentMiner.ComponentCreature.ComponentCreatureModel.EyePosition, 10f, true);
-                                            m_subsystemParticles.AddParticleSystem(new GunSmokeParticleSystem(SubsystemTerrain, vector2 + 1.3f * vector3, vector3));
+                                            //m_subsystemParticles.AddParticleSystem(new BurntDebrisParticleSystem(base.SubsystemTerrain, (vector2 + 0.3f * vector3)));
+                                            //fireParticleSystem = new FireParticleSystem(vector2 + 1.3f * vector3, 0.3f, 3f);
+                                            //m_subsystemParticles.AddParticleSystem(fireParticleSystem);m_random.UniformFloat(-0.1f, 0.1f)
+                                            m_subsystemParticles.AddParticleSystem(new GunSmokeParticleSystem2(SubsystemTerrain, vector2 + 1.3f * vector3, vector3));
                                             m_subsystemNoise.MakeNoise(vector2, 1f, 40f);
-                                            Vector3 v21 = (float)((componentMiner.ComponentCreature.ComponentBody.IsSneaking ? 0.00999999977648258 : 0.0299999993294477) + 0.200000002980232 * MathUtils.Saturate((num4 - 1.5f) / 40f)) * new Vector3
-                                            {
-                                                X = SimplexNoise.OctavedNoise(num5, 2f, 3, 2f, 0.5f),
-                                                Y = SimplexNoise.OctavedNoise(num5 + 100f, 2f, 3, 2f, 0.5f),
-                                                Z = SimplexNoise.OctavedNoise(num5 + 200f, 2f, 3, 2f, 0.5f)
-                                            };
-                                            //direction.Y += 5f;
-                                            direction = Vector3.Normalize(direction + v21*50f);
+                                            
                                             
                                             // componentMiner.ComponentCreature.ComponentBody.ApplyImpulse(-1f * vector3);
                                         }

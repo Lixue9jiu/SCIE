@@ -57,6 +57,7 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Blocks\GunSmoke2.cs" />
     <Compile Include="Blocks\Musket3Block.cs" />
     <Compile Include="Chemistry\ChemicalBlock.cs" />
     <Compile Include="BeltTransport\FactorioTransportBeltBlock.cs" />
