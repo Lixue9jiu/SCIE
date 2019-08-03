@@ -180,11 +180,12 @@ namespace Game
             new Ball("Models/Snowball", "Snowball", Matrix.CreateTranslation(0.5f, 0.4f, 0.5f) * 1.2f, Matrix.CreateTranslation(12f / 16f, 3f / 16f, 0f), "A Ball of Melting Copper.", "MeltingCopper", 2.9f),
             new Ball("Models/Snowball", "Snowball", Matrix.CreateTranslation(0.5f, 0.4f, 0.5f) * 1.2f, Matrix.CreateTranslation(12f / 16f, 3f / 16f, 0f), "A Ball of Melting Zinc.", "MeltingZinc", 2.9f),
             new Alloy(Materials.Steel,"Stainless Steel"),
-            new Alloy(Materials.Steel, "Super Aluminium"),
+            new Alloy(Materials.Iron, "Super Aluminium"),
             new Alloy(Materials.Steel, "Si-Steel"),
             new Alloy(Materials.Steel,"Industrial Steel"),
+            new Alloy(Materials.Copper,"Industrial Copper"),
             new Alloy(Materials.Steel,"Titanium Steel"),
-            new Alloy(Materials.Steel,"Gun-Steel"),
+            new Alloy(Materials.Chromium,"Gun-Steel"),
             new Ball("Models/Snowball", "Snowball", Matrix.CreateTranslation(0.5f, 0.4f, 0.5f) * 1.2f, Matrix.CreateTranslation(12f / 16f, -1f / 16f, 0f), "A Ball of Rubber, a important component in the advanced industry", "Rubber", 2.6f),
             };
 			ElementBlock.Devices = new Device[]
