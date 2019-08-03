@@ -193,6 +193,7 @@ namespace Game
 				new AirCompressor(),
 				new UThickener(),
 				new TEDC(),
+				new SolarPanel()
 			};
 			IdTable = new Dictionary<string, int>(Items.Length);
 			int i;

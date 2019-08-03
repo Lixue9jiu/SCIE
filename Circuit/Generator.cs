@@ -31,9 +31,7 @@ namespace Game
 		{
 			Powered = ComponentEngine.IsPowered(subsystemTerrain.Terrain, Point.X, Point.Y, Point.Z);
 		}
-		public void OnBlockRemoved(SubsystemTerrain subsystemTerrain, int value, int newValue)
-		{
-		}
+		public void OnBlockRemoved(SubsystemTerrain subsystemTerrain, int value, int newValue) { }
 		public void OnNeighborBlockChanged(SubsystemTerrain subsystemTerrain, int neighborX, int neighborY, int neighborZ)
 		{
 			Powered = ComponentEngine.IsPowered(subsystemTerrain.Terrain, Point.X, Point.Y, Point.Z);
@@ -59,6 +57,44 @@ namespace Game
 				m_blockMeshesByData[num].AppendModelMeshPart(model.FindMesh(name).MeshParts[0], boneAbsoluteTransform * m, false, false, false, false, Color.White);
 			}
 		}
+	}
+	public class SolarPanel : DeviceBlock
+	{
+		public BlockMesh m_standaloneBlockMesh = new BlockMesh();
+		public BoundingBox[] m_collisionBoxesByData;
+		public SolarPanel() : base(120, "太阳能电池板", "太阳能电池板", ElementType.Supply | ElementType.Connector)
+		{
+			Model model = ContentManager.Get<Model>("Models/CellTrapdoor");
+			Matrix boneAbsoluteTransform = BlockMesh.GetBoneAbsoluteTransform(model.FindMesh("Trapdoor").ParentBone);
+			m_standaloneBlockMesh.AppendModelMeshPart(model.FindMesh("Trapdoor").MeshParts[0], boneAbsoluteTransform * Matrix.CreateTranslation(0.5f, 0, 0.5f), false, false, false, false, Color.White);
+			m_collisionBoxesByData = new[]
+			{
+				m_standaloneBlockMesh.CalculateBoundingBox()
+			};
+		}
+
+		public override void Simulate(ref int voltage)
+		{
+			int x = Point.X, z = Point.Z;
+			if (Utils.SubsystemWeather.m_subsystemSky.SkyLightValue < 15 || Utils.Terrain.GetCellLight(x, Point.Y + 1, z) < 15)
+				return;
+			PrecipitationShaftInfo precipitationShaftInfo = Utils.SubsystemWeather.GetPrecipitationShaftInfo(x, z);
+			voltage += precipitationShaftInfo.Intensity > 0f && Point.Y >= precipitationShaftInfo.YLimit - 1 ? 20 : Voltage;
+		}
+		public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
+		{
+			BlocksManager.DrawMeshBlock(primitivesRenderer, m_standaloneBlockMesh, ItemBlock.Texture, color, size, ref matrix, environmentData);
+		}
+		public override void GenerateTerrainVertices(Block block, BlockGeometryGenerator generator, TerrainGeometrySubsets geometry, int value, int x, int y, int z)
+		{
+			generator.GenerateMeshVertices(block, x, y, z, m_standaloneBlockMesh, Color.White, null, geometry.SubsetOpaque);
+		}
+		public override BlockPlacementData GetPlacementValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, TerrainRaycastResult raycastResult)
+		{
+			return new BlockPlacementData { Value = value, CellFace = raycastResult.CellFace };
+		}
+		public override bool IsFaceTransparent(SubsystemTerrain subsystemTerrain, int face, int value) => true;
+		public override BoundingBox[] GetCustomCollisionBoxes(SubsystemTerrain terrain, int value) => m_collisionBoxesByData;
 	}
 	/*public class Voltmeter : DeviceBlock
 	{

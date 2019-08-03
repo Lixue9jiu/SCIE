@@ -1,7 +1,4 @@
 ﻿using Engine;
-using Engine.Graphics;
-using System;
-using System.Collections.Generic;
 
 namespace Game
 {
@@ -163,9 +160,7 @@ namespace Game
     public class AirBlower : FixedDevice, IBlockBehavior
 	{
 		public int Level = -1;
-		public AirBlower() : base("鼓风机", "鼓风机是一种将空气输送到需要大量热空气的大型机器中的装置。")
-		{
-		}
+		public AirBlower() : base("鼓风机", "鼓风机是一种将空气输送到需要大量热空气的大型机器中的装置。") { }
 		public override void Simulate(ref int voltage)
 		{
 			int level;

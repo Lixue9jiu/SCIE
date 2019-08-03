@@ -24,6 +24,7 @@ namespace Game
 		public static SubsystemCollapsingBlockBehavior SubsystemCollapsingBlockBehavior;
 		public static SubsystemPickables SubsystemPickables;
 		public static SubsystemProjectiles SubsystemProjectiles;
+		public static SubsystemWeather SubsystemWeather;
 		public static Terrain Terrain;
 		public static bool LoadedProject;
 
@@ -42,6 +43,7 @@ namespace Game
 			SubsystemCollapsingBlockBehavior = Project.FindSubsystem<SubsystemCollapsingBlockBehavior>(true);
 			SubsystemPickables = Project.FindSubsystem<SubsystemPickables>(true);
 			SubsystemProjectiles = Project.FindSubsystem<SubsystemProjectiles>(true);
+			SubsystemWeather = Project.FindSubsystem<SubsystemWeather>(true);
 			Terrain = (SubsystemTerrain = Project.FindSubsystem<SubsystemTerrain>(true)).Terrain;
 			BlockGeometryGenerator = new BlockGeometryGenerator(Terrain, SubsystemTerrain, Project.FindSubsystem<SubsystemElectricity>(true), SubsystemTerrain.SubsystemFurnitureBlockBehavior, Project.FindSubsystem<SubsystemMetersBlockBehavior>(true), SubsystemTerrain.SubsystemPalette);
 			LoadedProject = true;

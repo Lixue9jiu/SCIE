@@ -77,10 +77,7 @@ namespace Game
 					arr[i] = m_collisionBoxesByFace[i];
 			return arr;
 		}
-		public override bool IsFaceTransparent(SubsystemTerrain subsystemTerrain, int face, int value)
-		{
-			return true;
-		}
+		public override bool IsFaceTransparent(SubsystemTerrain subsystemTerrain, int face, int value) => true;
 		public static void GenerateWireVertices(BlockGeometryGenerator generator, int value, int x, int y, int z, int mountingFace, float centerBoxSize, Vector2 centerOffset, TerrainGeometrySubset subset)
 		{
 			var terrain = generator.Terrain;

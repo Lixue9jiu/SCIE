@@ -51,7 +51,7 @@ namespace Game
 							}
 						}
 						direction = Vector3.Normalize(direction + v * 2f);
-						int n = 1;
+						//int n = 1;
 						switch (state)
 						{
 							case AimState.InProgress:

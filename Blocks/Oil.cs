@@ -9,10 +9,13 @@ public class RottenMeatBlock : FluidBlock
 	{
 		RottenMeat,
 		Oil,
-		OilBucket, //Updraft
+		OilBucket,
+		//Updraft = OilBucket,
 		LightOil,
 		HeavyOil,
-		Gasoline
+		Gasoline,
+		D2O,
+		T2O
 	}
 	public const int Index = 240;
 	public BlockMesh m_standaloneBlockMesh;
@@ -22,7 +25,7 @@ public class RottenMeatBlock : FluidBlock
 	public RottenMeatBlock() : base(1) { }
 	public override void Initialize()
 	{
-		Colors = new[] { new Color(30, 30, 30), default(Color), new Color(184, 134, 11), new Color(160, 82, 45), new Color(255, 231, 186) };
+		Colors = new[] { new Color(30, 30, 30), default(Color), new Color(184, 134, 11), new Color(160, 82, 45), new Color(255, 231, 186), new Color(32, 80, 224), new Color(32, 80, 224) };
 		var model = ContentManager.Get<Model>("Models/FullBucket");
 		var meshParts = model.FindMesh("Contents").MeshParts;
 		StandaloneBlockMesh.AppendModelMeshPart(meshParts[0], BlockMesh.GetBoneAbsoluteTransform(model.FindMesh("Contents").ParentBone) * Matrix.CreateRotationY(MathUtils.DegToRad(180f)) * Matrix.CreateTranslation(0f, -0.3f, 0f), false, false, false, false, new Color(30, 30, 30));
@@ -39,7 +42,7 @@ public class RottenMeatBlock : FluidBlock
 	}
 	public override IEnumerable<int> GetCreativeValues()
 	{
-		return new[] { Index, Index | 1 << 4 << 14, Index | 2 << 4 << 14, Index | 3 << 4 << 14, Index | 4 << 4 << 14, Index | 5 << 4 << 14 };
+		return new[] { Index, Index | 1 << 14 + 4, Index | 2 << 14 + 4, Index | 3 << 14 + 4, Index | 4 << 14 + 4, Index | 5 << 14 + 4, Index | 6 << 14 + 4, Index | 7 << 14 + 4 };
 	}
 	public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
 	{
