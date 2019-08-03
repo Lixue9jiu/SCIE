@@ -26,7 +26,7 @@ namespace Game
 			//		ComponentScreenOverlays.BlackoutFactor = 1f;
 			//			ComponentHealth.Air = 1f;
 			//	}
-			//	}
+			//}
 			ComponentMount mount = ComponentRider.Mount;
 			if (mount != null)
 			{

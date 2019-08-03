@@ -67,10 +67,7 @@ namespace Game
 			Model model = ContentManager.Get<Model>("Models/CellTrapdoor");
 			Matrix boneAbsoluteTransform = BlockMesh.GetBoneAbsoluteTransform(model.FindMesh("Trapdoor").ParentBone);
 			m_standaloneBlockMesh.AppendModelMeshPart(model.FindMesh("Trapdoor").MeshParts[0], boneAbsoluteTransform * Matrix.CreateTranslation(0.5f, 0, 0.5f), false, false, false, false, Color.White);
-			m_collisionBoxes = new[]
-			{
-				m_standaloneBlockMesh.CalculateBoundingBox()
-			};
+			m_collisionBoxes = new[] { m_standaloneBlockMesh.CalculateBoundingBox() };
 		}
 
 		public override void Simulate(ref int voltage)

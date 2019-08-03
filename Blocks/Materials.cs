@@ -149,7 +149,7 @@ namespace Game
 			DefaultDisplayName = DefaultDescription = name;
             Color = color;
             DefaultDisplayName = name1 + Utils.Get("ºÏ½ð");
-            m_standaloneBlockMesh.AppendMesh("Models/Alloy", "Torch", Matrix.CreateTranslation(0.5f, -0.0f, 0.5f) * Matrix.CreateScale(1.1f), Matrix.Identity, color);
+            m_standaloneBlockMesh.AppendMesh("Models/Alloy", "Torch", Matrix.CreateTranslation(0.5f, 0f, 0.5f) * Matrix.CreateScale(1.1f), Matrix.Identity, color);
             m_collisionBoxes = new BoundingBox[] { m_standaloneBlockMesh.CalculateBoundingBox() };
         }
 
