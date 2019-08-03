@@ -68,7 +68,7 @@ namespace Game
 			}
 			if (m_smeltingRecipe != null && m_fireTimeRemaining <= 0f)
 			{
-				m_heatLevel = 2000f;
+				m_heatLevel = 3000f;
 				m_fireTimeRemaining = 100f;
 			}
 			if (m_fireTimeRemaining <= 0f)
@@ -78,7 +78,7 @@ namespace Game
 			}
 			if (m_smeltingRecipe != null)
 			{
-				m_smeltingProgress = MathUtils.Min(SmeltingProgress + 0.2f * dt, 1f);
+				m_smeltingProgress = MathUtils.Min(SmeltingProgress + 0.3f * dt, 1f);
 				if (SmeltingProgress >= 1f)
 				{
 					for (int i = 0; i < m_furnaceSize; i++)
