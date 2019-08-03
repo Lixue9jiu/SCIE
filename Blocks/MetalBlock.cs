@@ -25,6 +25,7 @@ namespace Game
 		Germanium,
 		FeAlCrAlloy,
 		Plastic,
+        Brass,
 	}
 	public class MetalBlock : PaintedCubeBlock
 	{
@@ -85,7 +86,8 @@ namespace Game
 				case Materials.Iron: return Color.White;
 				case Materials.Copper: return new Color(255, 127, 80);
 				case Materials.FeAlCrAlloy: return new Color(200, 200, 200);
-			}
+                case Materials.Brass: return new Color(255, 228, 196);
+            }
 			return new Color(232, 232, 232);
 		}
 		public override string GetDisplayName(SubsystemTerrain subsystemTerrain, int value)

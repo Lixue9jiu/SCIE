@@ -1,4 +1,4 @@
-<IndustrialMod>
+﻿<IndustrialMod>
 <Recipe Result="IronIngotBlock" ResultCount="1" new-RequiredHeatLevel="1500" a="ironorechunk:0" Description="冶炼铁矿石以获得铁" />
 <Recipe Result="CopperIngotBlock" ResultCount="1" new-RequiredHeatLevel="1000" a="malachitechunk:0" Description="冶炼铜矿石以获得铜" />
 <Recipe Result="GermaniumChunkBlock" ResultCount="1" new-RequiredHeatLevel="900" a="germaniumorechunk:0" Description="冶炼锗矿石以获得锗晶体" />
@@ -144,6 +144,9 @@
     </Recipe>
     <Recipe Result="ZincIngot" ResultCount="1" RequiredHeatLevel="800" a="ZincOrePowder" b="CoalPowder" Description="冶炼锌矿粉获得锌">
       "abb"
+    </Recipe>
+    <Recipe Result="BrassIngot" ResultCount="1" RequiredHeatLevel="1200" a="CopperOrePowder" b="CoalPowder" c="NickelOrePowder" Description="冶炼铜矿粉镍矿粉碳粉获得黄铜">
+      "acb"
     </Recipe>
     <Recipe Result="NickelIngot" ResultCount="1" RequiredHeatLevel="1200" a="NickelOrePowder" b="CoalPowder" c="pigment" Description="冶炼镍矿粉获得镍">
       "abc"
@@ -515,7 +518,12 @@
       "a"
       "a"
     </Recipe>
-    <Recipe Result="Bullet2Block" ResultCount="6" RequiredHeatLevel="0" a="ironingot" b="CopperSheet" c="gunpowder" d="detonator" Description="制作定装子弹">
+    <Recipe Result="Bullet2Block:0" ResultCount="6" RequiredHeatLevel="0" a="LeadIngot" b="CopperSheet" c="gunpowder" d="detonator" Description="制作定装子弹">
+      " a"
+      "bcb"
+      " d"
+    </Recipe>
+     <Recipe Result="Bullet2Block:1" ResultCount="6" RequiredHeatLevel="0" a="LeadIngot" b="BrassSheet" c="TNT" d="detonator" Description="制作定装子弹">
       " a"
       "bcb"
       " d"

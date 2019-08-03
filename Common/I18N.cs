@@ -82,6 +82,7 @@ namespace Game
 			"锗",
 			"Fe-Al-Cr合金",
 			"塑料",
+            "黄铜",
 		};
 		public static Dictionary<string, string> TR;
 		/// <summary>
