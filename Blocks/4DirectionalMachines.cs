@@ -8,49 +8,37 @@ namespace Game
 	{
 		public const int Index = 509;
 
-		public PresserBlock() : base(207)
-		{
-		}
+		public PresserBlock() : base(207) { }
 	}
 	public class KibblerBlock : FourDirectionalBlock
 	{
 		public const int Index = 518;
 
-		public KibblerBlock() : base(208)
-		{
-		}
+		public KibblerBlock() : base(208) { }
 	}
 	public class PresserNNBlock : FourDirectionalBlock
 	{
 		public const int Index = 519;
 		
-		public PresserNNBlock() : base(209)
-		{
-		}
+		public PresserNNBlock() : base(209) { }
 	}
 	public class SqueezerBlock : FourDirectionalBlock
 	{
 		public const int Index = 527;
 		
-		public SqueezerBlock() : base(236)
-		{
-		}
+		public SqueezerBlock() : base(236) { }
 	}
 	public class CastMachBlock : FurnaceNBlock
 	{
 		public new const int Index = 530;
 
-		public CastMachBlock() : base(234)
-		{
-		}
+		public CastMachBlock() : base(234) { }
 	}
 	public class CReactorBlock : PaintedCubeBlock
 	{
 		public const int Index = 524;
 
-		public CReactorBlock() : base(107)
-		{
-		}
+		public CReactorBlock() : base(107) { }
 
 		public override int GetFaceTextureSlot(int face, int value)
 		{
@@ -71,9 +59,7 @@ namespace Game
 	{
 		public const int Index = 531;
 
-		public BlastFurnaceBlock() : base(219, 70)
-		{
-		}
+		public BlastFurnaceBlock() : base(219, 70) { }
 	}
 	public class BlastBlowerBlock : FourDirectionalBlock
 	{
@@ -127,20 +113,11 @@ namespace Game
 	}
 	public class FurnaceNBlock : FourDirectionalBlock
 	{
-		public const int Index = 506;
+		public const int Index = 507;
 
-		public FurnaceNBlock()
-		{
-		}
+		public FurnaceNBlock() : base(191, 107) { }
 
-		public FurnaceNBlock(int front, int back = 107) : base(front, back)
-		{
-		}
-
-		public override int GetFaceTextureSlot(int face, int value)
-		{
-			return face == GetDirection(value) ? 191 : 107;
-		}
+		public FurnaceNBlock(int front, int back = 107) : base(front, back) { }
 
 		public override int GetEmittedLightAmount(int value)
 		{

@@ -36,6 +36,8 @@ namespace Game
 							}
 							else if (value == ItemBlock.IdTable["滑石"])
 								text = "滑石粉";
+							else if (value == ItemBlock.IdTable["石膏"])
+								text = "石膏粉";
 							else
 							{
 								var item = Item.ItemBlock.GetItem(ref value);

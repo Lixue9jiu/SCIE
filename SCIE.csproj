@@ -81,6 +81,7 @@
     <Compile Include="Chemistry\DispersionSystem.cs" />
     <Compile Include="Chemistry\Equation.cs" />
     <Compile Include="Circuit\LockFreeQueue.cs" />
+    <Compile Include="Circuit\TEDC.cs" />
     <Compile Include="Components\ComponentAirship.cs" />
     <Compile Include="Components\ComponentCanpack.cs" />
     <Compile Include="Components\ComponentCoven.cs" />
