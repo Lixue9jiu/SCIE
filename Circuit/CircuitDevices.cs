@@ -263,5 +263,54 @@ namespace Game
 			int? color = PaintableItemBlock.GetColor(Terrain.ExtractData(value));
 			return color.HasValue ? 1 << color.Value : 2147483647;
 		}
+
+
+
 	}
+    public class EIFurnace : InteractiveEntityDevice<ComponentElectricIFurnace>, IElectricElementBlock
+    {
+        public EIFurnace() : base("ElectricIFurnace", "电磁感应炉", "电磁感应炉是一种通过电磁感应加热物品的装置，它可以达到很高的温度，但需要大量的电量。") { }
+        /*public override Device Create(Point3 p)
+		{
+			var other = (EFurnace)base.Create(p);
+			return other;
+		}*/
+        public override void Simulate(ref int voltage)
+        {
+            if (Component.Powered = voltage >= 400)
+                voltage -= 400;
+        }
+        public override void OnBlockAdded(SubsystemTerrain subsystemTerrain, int value, int oldValue)
+        {
+            base.OnBlockAdded(subsystemTerrain, value, oldValue);
+            Component.Powered = false;
+        }
+        public override int GetFaceTextureSlot(int face, int value)
+        {
+            return face != 4 && face != 5 && face == (Terrain.ExtractData(value) >> 15) ? 165 : 107;
+        }
+        public override BlockPlacementData GetPlacementValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, TerrainRaycastResult raycastResult)
+        {
+            return GetPlacementValue(24, componentMiner, value, raycastResult);
+        }
+        public override Widget GetWidget(IInventory inventory, ComponentElectricIFurnace component)
+        {
+            return new ElectricIFurnaceWidget(inventory, component);
+        }
+        public ElectricElement CreateElectricElement(SubsystemElectricity subsystemElectricity, int value, int x, int y, int z)
+        {
+            return new CraftingMachineElectricElement(subsystemElectricity, new Point3(x, y, z));
+        }
+
+        public ElectricConnectorType? GetConnectorType(SubsystemTerrain terrain, int value, int face, int connectorFace, int x, int y, int z)
+        {
+            return face == 4 || face == 5 ? (ElectricConnectorType?)ElectricConnectorType.Input : null;
+        }
+
+        public int GetConnectionMask(int value)
+        {
+            int? color = PaintableItemBlock.GetColor(Terrain.ExtractData(value));
+            return color.HasValue ? 1 << color.Value : 2147483647;
+        }
+    }
 }

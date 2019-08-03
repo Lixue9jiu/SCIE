@@ -201,7 +201,7 @@ namespace Game
 				new AirCompressor(),
 				new UThickener(),
 				new TEDC(),
-                
+                new EIFurnace(),
             };
 			IdTable = new Dictionary<string, int>(Items.Length);
 			int i;
