@@ -61,8 +61,8 @@ namespace Game
 			new MetalIngot(Materials.Aluminum),
 			new MetalIngot(Materials.Stannary),
 			new MetalIngot(Materials.FeAlCrAlloy),
-            new MetalIngot(Materials.Brass),
-            new Powder(Materials.Iron),
+			new MetalIngot(Materials.Brass),
+			new Powder(Materials.Iron),
 			new Powder(Materials.Copper),
 			new Powder(Materials.Germanium),
 			new Powder(Materials.Gold),
@@ -87,8 +87,8 @@ namespace Game
 			new Plate(Materials.Stannary),
 			new Plate(Materials.Platinum),
 			new Plate(Materials.Aluminum),
-            new Plate(Materials.Brass),
-            new SteamBoat(),
+			new Plate(Materials.Brass),
+			new SteamBoat(),
 			new Train(),
 			new Rod(Materials.Steel),
 			new Rod(Materials.Copper),
@@ -102,8 +102,8 @@ namespace Game
 			new Rod(Materials.Titanium),
 			new Rod(Materials.Nickel),
 			new Rod(Materials.Aluminum),
-            new Rod(Materials.Brass),
-            new Mould("Gear", Matrix.CreateTranslation(new Vector3(0.5f)) * 2f, Matrix.CreateTranslation(4f, 3.8f, 0f), "A gear made of steel, the neccessary part of all the machine during the initial industrial era."),
+			new Rod(Materials.Brass),
+			new Mould("Gear", Matrix.CreateTranslation(new Vector3(0.5f)) * 2f, Matrix.CreateTranslation(4f, 3.8f, 0f), "A gear made of steel, the neccessary part of all the machine during the initial industrial era."),
 			new Mould("Wheel", Matrix.CreateTranslation(new Vector3(0.5f)) * 1.2f, Matrix.CreateTranslation(4f, 3.8f, 0f), "A wheel made of steel, the neccessary part of the steam engine train.", 2f),
 			new Mould("WheelMould", Matrix.CreateTranslation(0f, -0.02f, 0f) * Matrix.CreateTranslation(new Vector3(0.5f)), Matrix.CreateTranslation(2.6f, 1.4f, 0f), "A wheel mould made of dirt and sand, the neccessary part in making steel wheel.", 1.6f),
 			new Mould("GearMould", Matrix.CreateTranslation(0f, -0.02f, 0f) * 1.6f * Matrix.CreateTranslation(new Vector3(0.5f)), Matrix.CreateTranslation(2.6f, 1.4f, 0f), "A gear mould made of dirt and sand, the neccessary part in making steel gear."),
@@ -119,8 +119,8 @@ namespace Game
 			new Sheet(Materials.Stannary),
 			new Sheet(Materials.Platinum),
 			new Sheet(Materials.Aluminum),
-            new Sheet(Materials.Brass),
-            new Mould("Models/Battery", "Battery", Matrix.CreateRotationX(MathUtils.PI / 2) * Matrix.CreateTranslation(0.5f, 0.5f, 0f), Matrix.CreateTranslation(9f / 16f, -7f / 16f, 0f) * Matrix.CreateScale(20f), "工业磁铁", "IndustrialMagnet"),
+			new Sheet(Materials.Brass),
+			new Mould("Models/Battery", "Battery", Matrix.CreateRotationX(MathUtils.PI / 2) * Matrix.CreateTranslation(0.5f, 0.5f, 0f), Matrix.CreateTranslation(9f / 16f, -7f / 16f, 0f) * Matrix.CreateScale(20f), "工业磁铁", "IndustrialMagnet"),
 			new RefractoryBrick(),
 			new CokeCoal(),
 			new Fan(Materials.Steel),
@@ -214,8 +214,9 @@ namespace Game
 				new AirCompressor(),
 				new UThickener(),
 				new TEDC(),
-                new EIFurnace(),
-            };
+				new EIFurnace(),
+				new SolarPanel()
+			};
 			IdTable = new Dictionary<string, int>(Items.Length);
 			int i;
 			for (i = 0; i < Items.Length; i++)
@@ -253,6 +254,7 @@ namespace Game
 			}
 			finally { stream.Close(); }
 		}
+
 		public static Dictionary<string, int> IdTable;
 		public static Item[] Items;
 		/*public override void Initialize()

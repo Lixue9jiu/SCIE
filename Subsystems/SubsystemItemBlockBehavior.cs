@@ -17,11 +17,10 @@ namespace Game
 			if (!flag)
 			{
 				var tgs = new TerrainGeometrySubset(new DynamicArray<TerrainVertex>(), new DynamicArray<ushort>());
-				var tgs2 = new TerrainGeometrySubset(new DynamicArray<TerrainVertex>(), new DynamicArray<ushort>());
 				geometry = new TerrainGeometrySubsets
 				{
 					SubsetOpaque = tgs,
-					SubsetAlphaTest = tgs2,
+					SubsetAlphaTest = tgs,
 					OpaqueSubsetsByFace = new[]
 					{
 						tgs, tgs, tgs,
@@ -29,8 +28,8 @@ namespace Game
 					},
 					AlphaTestSubsetsByFace = new[]
 					{
-						tgs2, tgs2, tgs2,
-						tgs2, tgs2, tgs2
+						tgs, tgs, tgs,
+						tgs, tgs, tgs
 					}
 				};
 				SubsystemItemBlockBehavior.Data[chunk.Coords] = geometry;
@@ -252,17 +251,6 @@ namespace Game
 					entity.FindComponent<ComponentFrame>(true).Rotation = Quaternion.CreateFromAxisAngle(Vector3.UnitY, m_random.UniformFloat(0f, 6.283185f));
 					goto put;
 				}
-				/*else if (activeBlockValue == ItemBlock.IdTable["Minecart"])
-				{
-					entity = DatabaseManager.CreateEntity(Project, "Carriage", true);
-					entity.FindComponent<ComponentFrame>(true).Position = position;
-					entity.FindComponent<ComponentSpawn>(true).SpawnDuration = 0f;
-					var componentTrain = entity.FindComponent<ComponentTrain>(true);
-					var componentMount = componentTrain.FindNearestTrain();
-					if (componentMount != null)
-						componentTrain.ParentBody = componentMount.m_componentBody;
-					goto put;
-				}*/
 				else if (activeBlockValue == ItemBlock.IdTable["Airship"])
 				{
 					entity = DatabaseManager.CreateEntity(Project, "Airship", true);

@@ -115,34 +115,34 @@ namespace Game
 				m_blockMeshes[i].TransformPositions(reverseCenter * Matrix.CreateRotationY(MathUtils.PI * 0.5f * i) * center);
 			}
 
-			var boxes = new []
+			var boxes = new[]
 			{
 				new BoundingBox(0, 0, 0, 1, 0.01f, 1)
 			};
 			for (int i = 0; i < 6; i++)
 				boundingBoxes[i] = boxes;
-			boundingBoxes[6] = new BoundingBox[]
+			boundingBoxes[6] = new[]
 			{
 				new BoundingBox(0, 0, 0, 1, 0.01f, 1),
 				new BoundingBox(0, 0, 0.25f, 1, 0.25f, 1),
 				new BoundingBox(0, 0, 0.5f, 1, 0.5f, 1),
 				new BoundingBox(0, 0, 0.75f, 1, 0.75f, 1)
 			};
-			boundingBoxes[7] = new BoundingBox[]
+			boundingBoxes[7] = new[]
 			{
 				new BoundingBox(0, 0, 0, 1, 0.01f, 1),
 				new BoundingBox(0.25f, 0, 0, 1, 0.25f, 1),
 				new BoundingBox(0.5f, 0, 0, 1, 0.5f, 1),
 				new BoundingBox(0.75f, 0, 0, 1, 0.75f, 1)
 			};
-			boundingBoxes[8] = new BoundingBox[]
+			boundingBoxes[8] = new[]
 			{
 				new BoundingBox(0, 0, 0, 1, 0.01f, 1),
 				new BoundingBox(0, 0, 0, 1, 0.25f, 0.75f),
 				new BoundingBox(0, 0, 0, 1, 0.5f, 0.5f),
 				new BoundingBox(0, 0, 0, 1, 0.75f, 0.25f)
 			};
-			boundingBoxes[9] = new BoundingBox[]
+			boundingBoxes[9] = new[]
 			{
 				new BoundingBox(0, 0, 0, 1, 0.01f, 1),
 				new BoundingBox(0, 0, 0, 0.75f, 0.25f, 1),
@@ -155,11 +155,6 @@ namespace Game
 		{
 			return boundingBoxes[GetRailType(Terrain.ExtractData(value))];
 		}
-
-		/*static int GetTextureSlot(int value)
-		{
-			return IsCorner(GetRailType(Terrain.ExtractData(value))) ? 238 : 237;
-		}*/
 
 		public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
 		{

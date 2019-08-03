@@ -144,9 +144,9 @@ namespace Game
         protected BoundingBox[] m_collisionBoxes;
         public readonly Color Color;
         protected string Id;
-        public Alloy(string name,  string name1, Color color)
+        private Alloy(string name, string name1, Color color)
         {
-            Id = DefaultDisplayName = DefaultDescription = name;
+			DefaultDisplayName = DefaultDescription = name;
             Color = color;
             DefaultDisplayName = name1 + Utils.Get("合金");
             m_standaloneBlockMesh.AppendMesh("Models/Alloy", "Torch", Matrix.CreateTranslation(0.5f, -0.0f, 0.5f), Matrix.Identity, color);
@@ -155,9 +155,9 @@ namespace Game
 
         public Alloy(Materials type, string name) : this(type.ToString() + "Alloy", name, MetalBlock.GetColor(type))
         {
-            string name1 = name;
-           // DefaultDisplayName = name + Utils.Get("合金");
-            DefaultDescription = "Alloy of " + name1 + ". Can be crafted into very durable and strong " + name1 + " items. Very important in the industrial era.";
+			Id = name;
+			// DefaultDisplayName = name + Utils.Get("合金");
+			DefaultDescription = "Alloy of " + name + ". Can be crafted into very durable and strong " + name + " items. Very important in the industrial era.";
         }
         /*public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
 		{
