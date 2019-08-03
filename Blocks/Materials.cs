@@ -138,7 +138,41 @@ namespace Game
 		public override Vector3 GetIconBlockOffset(int value, DrawBlockEnvironmentData environmentData) => new Vector3 { Y = 0.45f };
 		public override BoundingBox[] GetCustomCollisionBoxes(SubsystemTerrain terrain, int value) => m_collisionBoxes;
 	}
-	public class RefractoryBrick : MeshItem
+
+    public class Alloy : MeshItem
+    {
+        protected BoundingBox[] m_collisionBoxes;
+        public readonly Color Color;
+        protected string Id;
+        public Alloy(string name,  string name1, Color color)
+        {
+            Id = DefaultDisplayName = DefaultDescription = name;
+            Color = color;
+            DefaultDisplayName = name1 + Utils.Get("合金");
+            m_standaloneBlockMesh.AppendMesh("Models/Alloy", "Torch", Matrix.CreateTranslation(0.5f, 0f, 0.5f), Matrix.Identity, color);
+            m_collisionBoxes = new BoundingBox[] { m_standaloneBlockMesh.CalculateBoundingBox() };
+        }
+
+        public Alloy(Materials type, string name) : this(type.ToString() + "Alloy", name, MetalBlock.GetColor(type))
+        {
+            string name1 = name;
+           // DefaultDisplayName = name + Utils.Get("合金");
+            DefaultDescription = "Alloy of " + name1 + ". Can be crafted into very durable and strong " + name1 + " items. Very important in the industrial era.";
+        }
+        /*public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
+		{
+			BlocksManager.DrawMeshBlock(primitivesRenderer, m_standaloneBlockMesh, Color, size * 1.5f, ref matrix, environmentData);
+		}*/
+        public override BlockPlacementData GetPlacementValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, TerrainRaycastResult raycastResult)
+        {
+            return new BlockPlacementData { Value = value, CellFace = raycastResult.CellFace };
+        }
+        public override string GetCraftingId() => Id;
+        public override Vector3 GetIconBlockOffset(int value, DrawBlockEnvironmentData environmentData) => new Vector3 { Y = 0.45f };
+        public override BoundingBox[] GetCustomCollisionBoxes(SubsystemTerrain terrain, int value) => m_collisionBoxes;
+    }
+
+    public class RefractoryBrick : MeshItem
 	{
 		public RefractoryBrick() : base(Utils.Get("耐火砖是一种耐火陶瓷材料，用于炉衬炉，窑炉，高级燃烧室和壁炉。 它具有耐高温性能，但导热系数低，能效高。"))
 		{

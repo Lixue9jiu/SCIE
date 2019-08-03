@@ -32,7 +32,7 @@
   <InventorySlotWidget Name="Circuit2Slot" CanvasWidget.Position="28, 196" >
     <LabelWidget Text="Circuit" Font="{Fonts/Pericles24}" Color="0, 0, 0, 64" HorizontalAlignment="Center" VerticalAlignment="Center"/>
   </InventorySlotWidget>
-  <LabelWidget CanvasWidget.Position="28, 14" Text="ElectricInductionFurnace" Font="{Fonts/Pericles24}" Color="255, 255, 255, 192"/>
+  <LabelWidget CanvasWidget.Position="28, 14" Text="InductionFurnace" Font="{Fonts/Pericles24}" Color="255, 255, 255, 192"/>
   <LabelWidget CanvasWidget.Position="358, 14" Text="Inventory" Font="{Fonts/Pericles24}" Color="255, 255, 255, 192"/>
   <ArrowLineWidget Color="0, 0, 0, 96" Width="8" ArrowWidth="24" PointsString="286, 218; 286, 248" AbsoluteCoordinates="true"/>
 </FurnaceWidget>
