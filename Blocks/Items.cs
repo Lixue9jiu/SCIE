@@ -172,6 +172,8 @@ namespace Game
 			new Sheet("RISC CPU", Color.DarkGray),
 			new Sheet("CISC CPU", Color.DarkGray),
             new Mould("Models/Piston", "Piston", Matrix.CreateTranslation(0.5f, 0.3f, 0.5f) * 1.2f, Matrix.CreateTranslation(4f, 3.8f, 0f), "A Cylinder made of alloy, Aluminum and steel, the neccessary part of many machine.", "Cylinder", 1.6f),
+            new Ball("Models/Snowball", "Snowball", Matrix.CreateTranslation(0.5f, 0.4f, 0.5f) * 1.2f, Matrix.CreateTranslation(12f / 16f, 3f / 16f, 0f), "A Ball of Melting Steel.", "MeltingSteel", 2.9f),
+            new Ball("Models/Snowball", "Snowball", Matrix.CreateTranslation(0.5f, 0.4f, 0.5f) * 1.2f, Matrix.CreateTranslation(12f / 16f, -1f / 16f, 0f), "A Ball of Rubber, a important component in the advanced industry", "Rubber", 2.6f),
             };
 			ElementBlock.Devices = new Device[]
 			{
@@ -199,7 +201,8 @@ namespace Game
 				new AirCompressor(),
 				new UThickener(),
 				new TEDC(),
-			};
+                
+            };
 			IdTable = new Dictionary<string, int>(Items.Length);
 			int i;
 			for (i = 0; i < Items.Length; i++)

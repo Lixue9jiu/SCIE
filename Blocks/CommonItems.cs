@@ -92,7 +92,53 @@ namespace Game
 
 		public override BoundingBox[] GetCustomCollisionBoxes(SubsystemTerrain terrain, int value) => m_collisionBoxes;
 	}
-	public partial class ItemBlock
+
+
+    public class Ball : MeshItem
+    {
+        public readonly float Size;
+        public readonly BoundingBox[] m_collisionBoxes;
+
+        public Ball(string modelName, string meshName, Matrix boneTransform, Matrix tcTransform, Color color, float size = 1f) : base("")
+        {
+            Size = size;
+            var model = ContentManager.Get<Model>(modelName);
+            m_standaloneBlockMesh.AppendMesh(modelName, meshName, boneTransform, tcTransform , color);
+            m_collisionBoxes = new[] { m_standaloneBlockMesh.CalculateBoundingBox() };
+
+        }
+        public Ball(string meshName, Matrix boneTransform, Matrix tcTransform, string description = "", float size = 1f) : this("Models/" + meshName, meshName, boneTransform, tcTransform, Color.White, size)
+        {
+            DefaultDisplayName = meshName;
+            DefaultDescription = description;
+        }
+        public Ball(string modelName, string meshName, Matrix boneTransform, Matrix tcTransform, string description = "", string name = "", float size = 1f) : this(modelName, meshName, boneTransform, tcTransform, Color.LightGray, size)
+        {
+            DefaultDisplayName = name;
+            DefaultDescription = description;
+        }
+
+        public override void GenerateTerrainVertices(Block block, BlockGeometryGenerator generator, TerrainGeometrySubsets geometry, int value, int x, int y, int z)
+        {
+            generator.GenerateMeshVertices(block, x, y, z, m_standaloneBlockMesh,Color.White, null, geometry.SubsetOpaque);
+        }
+
+        public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
+        {
+            BlocksManager.DrawMeshBlock(primitivesRenderer, m_standaloneBlockMesh, color, size * Size, ref matrix, environmentData);
+        }
+
+        public override BlockPlacementData GetPlacementValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, TerrainRaycastResult raycastResult)
+        {
+            return new BlockPlacementData { Value = value, CellFace = raycastResult.CellFace };
+        }
+
+        public override BoundingBox[] GetCustomCollisionBoxes(SubsystemTerrain terrain, int value) => m_collisionBoxes;
+    }
+
+
+
+    public partial class ItemBlock
 	{
 		public static Texture2D Texture;
 		public static Task Task;
