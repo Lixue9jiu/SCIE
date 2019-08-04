@@ -150,60 +150,81 @@ namespace Game
 			return text;
 		}
 
-		public static bool IsPowered(Terrain terrain, int x, int y, int z)
-		{
-			var chunk = terrain.GetChunkAtCell(x, z);
-			if (y < 0 || y > 127 || chunk == null)
-				return false;
-			int cellValue = terrain.GetCellValueFast(x + 1, y, z);
-			if (FurnaceNBlock.GetHeatLevel(cellValue) != 0)
-			{
-				cellValue = Terrain.ExtractContents(cellValue);
-				if (cellValue == EngineBlock.Index || cellValue == EngineHBlock.Index)
-					return true;
-			}
-			cellValue = terrain.GetCellValueFast(x - 1, y, z);
-			if (FurnaceNBlock.GetHeatLevel(cellValue) != 0)
-			{
-				cellValue = Terrain.ExtractContents(cellValue);
-				if (cellValue == EngineBlock.Index || cellValue == EngineHBlock.Index)
-					return true;
-			}
-			if (y < 127)
-			{
-				cellValue = chunk.GetCellValueFast(x & 15, y + 1, z & 15);
-				if (FurnaceNBlock.GetHeatLevel(cellValue) != 0)
-				{
-					cellValue = Terrain.ExtractContents(cellValue);
-					if (cellValue == EngineBlock.Index || cellValue == EngineHBlock.Index)
-						return true;
-				}
-			}
-			if (y > 0)
-			{
-				cellValue = chunk.GetCellValueFast(x & 15, y - 1, z & 15);
-				if (FurnaceNBlock.GetHeatLevel(cellValue) != 0)
-				{
-					cellValue = Terrain.ExtractContents(cellValue);
-					if (cellValue == EngineBlock.Index || cellValue == EngineHBlock.Index)
-						return true;
-				}
-			}
-			cellValue = terrain.GetCellValueFast(x, y, z + 1);
-			if (FurnaceNBlock.GetHeatLevel(cellValue) != 0)
-			{
-				cellValue = Terrain.ExtractContents(cellValue);
-				if (cellValue == EngineBlock.Index || cellValue == EngineHBlock.Index)
-					return true;
-			}
-			cellValue = terrain.GetCellValueFast(x, y, z - 1);
-			if (FurnaceNBlock.GetHeatLevel(cellValue) != 0)
-			{
-				cellValue = Terrain.ExtractContents(cellValue);
-				if (cellValue == EngineBlock.Index || cellValue == EngineHBlock.Index)
-					return true;
-			}
-			return false;
-		}
-	}
+        public static bool IsPowered(Terrain terrain, int x, int y, int z)
+        {
+            var chunk = terrain.GetChunkAtCell(x, z);
+            if (y < 0 || y > 127 || chunk == null)
+                return false;
+            int cellValue = terrain.GetCellValueFast(x + 1, y, z);
+            
+            if (ElementBlock.Block.GetDevice(x + 1, y, z, cellValue) is ElectricMotor abb && abb.EPowered)
+                 return true;
+            
+            if (FurnaceNBlock.GetHeatLevel(cellValue) != 0)
+            {
+                cellValue = Terrain.ExtractContents(cellValue);
+                if (cellValue == EngineBlock.Index || cellValue == EngineHBlock.Index)
+                    return true;
+            }
+
+            cellValue = terrain.GetCellValueFast(x - 1, y, z);
+            if (ElementBlock.Block.GetDevice(x - 1, y, z, cellValue) is ElectricMotor abc && abc.EPowered)
+                return true;
+
+            if (FurnaceNBlock.GetHeatLevel(cellValue) != 0)
+            {
+                cellValue = Terrain.ExtractContents(cellValue);
+                if (cellValue == EngineBlock.Index || cellValue == EngineHBlock.Index)
+                    return true;
+            }
+            if (y < 127)
+            {
+                cellValue = chunk.GetCellValueFast(x & 15, y + 1, z & 15);
+                if (ElementBlock.Block.GetDevice(x & 15, y + 1, z & 15, cellValue) is ElectricMotor abd && abd.EPowered)
+                    return true;
+
+                if (FurnaceNBlock.GetHeatLevel(cellValue) != 0)
+                {
+                    cellValue = Terrain.ExtractContents(cellValue);
+                    if (cellValue == EngineBlock.Index || cellValue == EngineHBlock.Index)
+                        return true;
+                }
+            }
+            if (y > 0)
+            {
+                cellValue = chunk.GetCellValueFast(x & 15, y - 1, z & 15);
+                if (ElementBlock.Block.GetDevice(x & 15, y - 1, z & 15, cellValue) is ElectricMotor abe && abe.EPowered)
+                    return true;
+
+                if (FurnaceNBlock.GetHeatLevel(cellValue) != 0)
+                {
+                    cellValue = Terrain.ExtractContents(cellValue);
+                    if (cellValue == EngineBlock.Index || cellValue == EngineHBlock.Index)
+                        return true;
+                }
+            }
+            cellValue = terrain.GetCellValueFast(x, y, z + 1);
+            if (ElementBlock.Block.GetDevice(x, y , z +1, cellValue) is ElectricMotor abf && abf.EPowered)
+                return true;
+
+            if (FurnaceNBlock.GetHeatLevel(cellValue) != 0)
+            {
+                cellValue = Terrain.ExtractContents(cellValue);
+                if (cellValue == EngineBlock.Index || cellValue == EngineHBlock.Index)
+                    return true;
+            }
+            cellValue = terrain.GetCellValueFast(x, y, z - 1);
+            if (ElementBlock.Block.GetDevice(x, y , z -1, cellValue) is ElectricMotor abq && abq.EPowered)
+                return true;
+
+            if (FurnaceNBlock.GetHeatLevel(cellValue) != 0)
+            {
+                cellValue = Terrain.ExtractContents(cellValue);
+                if (cellValue == EngineBlock.Index || cellValue == EngineHBlock.Index)
+                    return true;
+            }
+            return false;
+        }
+
+    }
 }

@@ -74,6 +74,8 @@ namespace Game
 			new Powder(Materials.Chromium),
 			new Powder(Materials.Nickel),
 			new Powder(Materials.Aluminum),
+            new Powder(Materials.Titanium),
+            new Powder(Materials.Uranium),
          //   new Powder(Materials.Brass),
             new CoalPowder("Coal", new Color(28, 28, 28)),
 			new CoalPowder("CokeCoal", Color.DarkGray, 2000f, 100f, "焦炭粉看起来像银粉，通过压碎焦炭获得。 它可以用作工业领域中的燃料或还原剂。"),
@@ -180,7 +182,7 @@ namespace Game
             new Ball("Models/Snowball", "Snowball", Matrix.CreateTranslation(0.5f, 0.4f, 0.5f) * 1.2f, Matrix.CreateTranslation(12f / 16f, 3f / 16f, 0f), "A Ball of Melting Copper.", "MeltingCopper", 2.9f),
             new Ball("Models/Snowball", "Snowball", Matrix.CreateTranslation(0.5f, 0.4f, 0.5f) * 1.2f, Matrix.CreateTranslation(12f / 16f, 3f / 16f, 0f), "A Ball of Melting Zinc.", "MeltingZinc", 2.9f),
             new Alloy(Materials.Steel,"Stainless Steel"),
-            new Alloy(Materials.Iron, "Super Aluminium"),
+            new Alloy(Materials.Aluminum, "Super Aluminium"),
             new Alloy(Materials.Steel, "Si-Steel"),
             new Alloy(Materials.Steel,"Industrial Steel"),
             new Alloy(Materials.Copper,"Industrial Copper"),
@@ -215,7 +217,8 @@ namespace Game
 				new UThickener(),
 				new TEDC(),
 				new EIFurnace(),
-				new SolarPanel()
+				new SolarPanel(),
+                new ElectricMotor(),
 			};
 			IdTable = new Dictionary<string, int>(Items.Length);
 			int i;

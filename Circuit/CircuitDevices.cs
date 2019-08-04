@@ -350,4 +350,38 @@ namespace Game
 			return color.HasValue ? 1 << color.Value : 2147483647;
 		}
 	}
+
+    public class ElectricMotor : FixedDevice, IBlockBehavior
+    {
+        public ElectricMotor() : base("电动机", "电动机是一种可以把电能转化为动能的机器") { }
+        public bool EPowered;
+        public void OnBlockAdded(SubsystemTerrain subsystemTerrain, int value, int oldValue)
+        {
+           
+        }
+
+        public override int GetFaceTextureSlot(int face, int value)
+        {
+            
+            return face == 4 || face == 5 ? 107 : 147;
+        }
+
+        public override BlockPlacementData GetPlacementValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, TerrainRaycastResult raycastResult)
+        {
+            return GetPlacementValue(26, componentMiner, value, raycastResult);
+        }
+        public override void Simulate(ref int voltage)
+        {
+            if (EPowered = voltage >= 310)
+                voltage -= 310;
+        }
+        public void OnBlockRemoved(SubsystemTerrain terrain, int value, int newValue)
+        {
+         
+            value = 0;
+            Simulate(ref value);
+        }
+
+    }
+
 }
