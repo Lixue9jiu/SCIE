@@ -34,7 +34,17 @@ namespace Game
 
 		public CastMachBlock() : base(234) { }
 	}
-	public class CReactorBlock : PaintedCubeBlock
+    public class SourBlock : PaintedCubeBlock
+    {
+        public const int Index = 539;
+
+        public SourBlock() : base(186) { }
+        public override int GetFaceTextureSlot(int face, int value)
+        {
+            return face == 4 ? 115 : 116;
+        }
+    }
+    public class CReactorBlock : PaintedCubeBlock
 	{
 		public const int Index = 524;
 

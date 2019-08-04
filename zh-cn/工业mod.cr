@@ -949,6 +949,12 @@
       "aeba"
       "caac"
     </Recipe>
+    <Recipe Result="Generator" ResultCount="1" RequiredHeatLevel="0" a="ElectricMotor" Description="制作直流电动发电机进入电力时代">
+      "a"
+    </Recipe>
+    <Recipe Result="ElectricMotor" ResultCount="1" RequiredHeatLevel="0" a="Generator" Description="制作直流电动发动机进入电力时代">
+      "a"
+    </Recipe>
     <Recipe Result="Electrobath" ResultCount="1" RequiredHeatLevel="0" a="CopperWire" b="metalblock:32" c="SteelPlate" d="tank" e="CopperWire" Description="制作电解机">
       "ceec"
       "aada"
