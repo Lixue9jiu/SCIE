@@ -43,10 +43,10 @@ namespace Game
 		static ChemicalBlock()
 		{
 			var list = new DynamicArray<IChemicalItem>(new IChemicalItem[]{
-				new Cylinder("H₂"),
+				new FuelCylinder("H₂", 900, 180),
 				new Cylinder("O₂"),
 				new Cylinder("CO₂"),
-				new Cylinder("CO"),
+				new FuelCylinder("CO", 1100, 50),
 				new Cylinder("Cl₂"),
 				new Cylinder("N₂"),
 				new Cylinder("NH₃"),
@@ -55,10 +55,10 @@ namespace Game
 				new Cylinder("N₂O"),
 				new Cylinder("HCl"),
 				new Cylinder("SO₂"),
-				new Cylinder("H₂S"),
+				new FuelCylinder("H₂S", 900, 30),
 				new Cylinder("HF"),
-				new Cylinder("PH₃"),
-				new Cylinder("C₂H₂"),
+				new FuelCylinder("PH₃", 900, 30),
+				new FuelCylinder("C₂H₂", 3000, 30),
 				new Cylinder("(CN)₂"),
 				new Cylinder("Cl₂O"),
 				new Cylinder("ClO₂"),
@@ -180,6 +180,29 @@ namespace Game
 		}
 		public override string GetCategory(int value) => Utils.Get("化学");
 		public DispersionSystem GetDispersionSystem() => System;
+
+		public override int GetDamageDestructionValue(int value)
+		{
+			return ItemBlock.IdTable[""];
+		}
+	}
+	public class FuelCylinder : Cylinder, IFuel
+	{
+		public readonly float HeatLevel;
+		public readonly float FuelFireDuration;
+		public FuelCylinder(string name, float heatLevel, float fuelFireDuration) : base(name)
+		{
+			HeatLevel = heatLevel;
+			FuelFireDuration = fuelFireDuration;
+		}
+		public FuelCylinder(Matrix matrix, string name, float heatLevel, float fuelFireDuration) : base(matrix, name)
+		{
+			HeatLevel = heatLevel;
+			FuelFireDuration = fuelFireDuration;
+		}
+
+		public float GetHeatLevel(int value) => HeatLevel;
+		public float GetFuelFireDuration(int value) => FuelFireDuration;
 	}
 	public class PurePowder : Powder, IChemicalItem
 	{
@@ -208,7 +231,6 @@ namespace Game
 		}
 
 		public float GetHeatLevel(int value) => HeatLevel;
-
 		public float GetFuelFireDuration(int value) => FuelFireDuration;
 	}
 }

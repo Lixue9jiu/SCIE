@@ -47,9 +47,9 @@ namespace Game
 				RemainCount--;
 				if (RemainCount <= 0)
 				{
-					int x = Point.X;
-					int y = Point.Y;
-					int z = Point.Z;
+					int x = Point.X,
+						y = Point.Y,
+						z = Point.Z;
 					Utils.Terrain.SetCellValueFast(x, y, z, Utils.Terrain.GetCellValueFast(x, y, z) | 16384 << 14);
 				}
 				return;

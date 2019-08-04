@@ -24,8 +24,8 @@ namespace Game
 		Mercury,
 		Germanium,
 		FeAlCrAlloy,
-		Plastic,
         Brass,
+		Plastic,
 	}
 	public class MetalBlock : PaintedCubeBlock
 	{

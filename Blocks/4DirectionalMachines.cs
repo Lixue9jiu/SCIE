@@ -113,7 +113,7 @@ namespace Game
 	}
 	public class FurnaceNBlock : FourDirectionalBlock
 	{
-		public const int Index = 507;
+		public const int Index = 506;
 
 		public FurnaceNBlock() : base(191, 107) { }
 

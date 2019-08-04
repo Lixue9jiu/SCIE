@@ -45,6 +45,17 @@ namespace Game
 			m_updateSmeltingRecipe = true;
 			return base.RemoveSlotItems(slotIndex, count);
 		}
+		public override void ProcessSlotItems(int slotIndex, int value, int count, int processCount, out int processedValue, out int processedCount)
+		{
+			IItem item = Item.Block.GetItem(ref value);
+			if (slotIndex == FuelSlotIndex && item is FuelCylinder fuel)
+			{
+				HeatLevel = fuel.GetHeatLevel(value);
+				m_fireTimeRemaining = fuel.GetFuelFireDuration(value);
+				processedValue = fuel.GetDamageDestructionValue(value);
+			}
+			base.ProcessSlotItems(slotIndex, value, count, processCount, out processedValue, out processedCount);
+		}
 
 		public override void Load(ValuesDictionary valuesDictionary, IdToEntityMap idToEntityMap)
 		{
@@ -63,6 +74,7 @@ namespace Game
 			if (HeatLevel > 0f)
 				valuesDictionary.SetValue("HeatLevel", HeatLevel);
 		}
+
 		/*public static float GetFuelHeatLevel(int value)
 		{
 			Block block = BlocksManager.Blocks[Terrain.ExtractContents(value)];

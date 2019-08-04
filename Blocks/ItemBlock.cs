@@ -14,7 +14,7 @@ namespace Game
 	[PluginLoader("IndustrialMod", "", 0u)]
 	public class Item : IItem
 	{
-		public static ItemBlock ItemBlock;
+		public static ElementBlock Block;
 		static void Initialize()
 		{
 			BlocksManager.DamageItem1 = DamageItem;
@@ -280,7 +280,7 @@ namespace Game
 		}
 		public virtual void GenerateTerrainVertices(Block block, BlockGeometryGenerator generator, TerrainGeometrySubsets geometry, int value, int x, int y, int z)
 		{
-			generator.GenerateCubeVertices(ItemBlock, value, x, y, z, Color.White, geometry.OpaqueSubsetsByFace);
+			generator.GenerateCubeVertices(Block, value, x, y, z, Color.White, geometry.OpaqueSubsetsByFace);
 		}
 		public virtual void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
 		{
@@ -364,7 +364,7 @@ namespace Game
 		}
 		public virtual BoundingBox[] GetCustomCollisionBoxes(SubsystemTerrain terrain, int value)
 		{
-			return Block.m_defaultCollisionBoxes;
+			return Game.Block.m_defaultCollisionBoxes;
 		}
 		public virtual BoundingBox[] GetCustomInteractionBoxes(SubsystemTerrain terrain, int value)
 		{

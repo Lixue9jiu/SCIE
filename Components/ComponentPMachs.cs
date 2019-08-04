@@ -40,7 +40,7 @@ namespace Game
 								text = "Ê¯¸à·Û";
 							else
 							{
-								var item = Item.ItemBlock.GetItem(ref value);
+								var item = Item.Block.GetItem(ref value);
 								if (item is OreChunk)
 									text = item.GetCraftingId().Replace("Chunk", "Powder");
 							}
@@ -105,7 +105,7 @@ namespace Game
 						text = "CopperPlate";
 					else
 					{
-						var item = Item.ItemBlock.GetItem(ref value);
+						var item = Item.Block.GetItem(ref value);
 						if (item is MetalIngot)
 						{
 							text = item.GetCraftingId().Replace("Ingot", "Plate");
@@ -145,7 +145,7 @@ namespace Game
 					text = "CopperLine";
 				else
 				{
-					var item = Item.ItemBlock.GetItem(ref value);
+					var item = Item.Block.GetItem(ref value);
 					if (item is MetalIngot)
 					{
 						text = item.GetDisplayName(Utils.SubsystemTerrain, value).Replace("Ingot", "Line");

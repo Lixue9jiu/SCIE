@@ -21,7 +21,7 @@ namespace Game
 		};
 		public override void Initialize()
 		{
-			Item.ItemBlock = new ElementBlock { BlockIndex = -1 };
+			Item.Block = new ElementBlock { BlockIndex = -1 };
 			Block = (ElementBlock)BlocksManager.Blocks[Index];
 			WireBlock = (WireBlock)BlocksManager.Blocks[WireBlock.Index];
 			base.Initialize();

@@ -357,12 +357,10 @@ namespace Game
         public bool EPowered;
         public void OnBlockAdded(SubsystemTerrain subsystemTerrain, int value, int oldValue)
         {
-           
         }
 
         public override int GetFaceTextureSlot(int face, int value)
         {
-            
             return face == 4 || face == 5 ? 107 : 147;
         }
 
@@ -377,11 +375,25 @@ namespace Game
         }
         public void OnBlockRemoved(SubsystemTerrain terrain, int value, int newValue)
         {
-         
             value = 0;
             Simulate(ref value);
         }
+	}
+	public class WaterExtractor : Separator
+	{
+		public WaterExtractor()
+		{
+			DefaultDisplayName = DefaultDescription = "重水提取机";
+		}
 
-    }
+		public override int GetFaceTextureSlot(int face, int value)
+		{
+			return face != 4 && face != 5 && face == (Terrain.ExtractData(value) >> 15) ? 224 : 236;
+		}
 
+		public override BlockPlacementData GetPlacementValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, TerrainRaycastResult raycastResult)
+		{
+			return GetPlacementValue(27, componentMiner, value, raycastResult);
+		}
+	}
 }
