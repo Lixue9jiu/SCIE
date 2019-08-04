@@ -34,7 +34,27 @@ namespace Game
 
 		public CastMachBlock() : base(234) { }
 	}
-	public class CReactorBlock : PaintedCubeBlock
+    public class SourBlock : PaintedCubeBlock
+    {
+        public const int Index = 507;
+
+        public SourBlock() : base(186) { }
+        public override int GetFaceTextureSlot(int face, int value)
+        {
+            return face == 4 ? 116 : 115;
+		}
+
+		public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
+		{
+			ItemBlock.DrawCubeBlock(primitivesRenderer, value, new Vector3(size), ref matrix, color, color, environmentData);
+		}
+
+		public override void GenerateTerrainVertices(BlockGeometryGenerator generator, TerrainGeometrySubsets geometry, int value, int x, int y, int z)
+		{
+			Utils.BlockGeometryGenerator.GenerateCubeVertices(this, value, x, y, z, SubsystemPalette.GetColor(generator, GetPaintColor(value)), Utils.GTV(x, z, geometry).OpaqueSubsetsByFace);
+		}
+	}
+    public class CReactorBlock : PaintedCubeBlock
 	{
 		public const int Index = 524;
 

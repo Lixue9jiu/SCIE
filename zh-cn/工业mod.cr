@@ -1,4 +1,4 @@
-﻿<IndustrialMod>
+<IndustrialMod>
 <Recipe Result="IronIngotBlock" ResultCount="1" new-RequiredHeatLevel="1500" a="ironorechunk:0" Description="冶炼铁矿石以获得铁" />
 <Recipe Result="CopperIngotBlock" ResultCount="1" new-RequiredHeatLevel="1000" a="malachitechunk:0" Description="冶炼铜矿石以获得铜" />
 <Recipe Result="GermaniumChunkBlock" ResultCount="1" new-RequiredHeatLevel="900" a="germaniumorechunk:0" Description="冶炼锗矿石以获得锗晶体" />
@@ -948,6 +948,12 @@
       "adda"
       "aeba"
       "caac"
+    </Recipe>
+    <Recipe Result="Generator" ResultCount="1" RequiredHeatLevel="0" a="ElectricMotor" Description="制作直流电动发电机进入电力时代">
+      "a"
+    </Recipe>
+    <Recipe Result="ElectricMotor" ResultCount="1" RequiredHeatLevel="0" a="Generator" Description="制作直流电动发动机进入电力时代">
+      "a"
     </Recipe>
     <Recipe Result="Electrobath" ResultCount="1" RequiredHeatLevel="0" a="CopperWire" b="metalblock:32" c="SteelPlate" d="tank" e="CopperWire" Description="制作电解机">
       "ceec"

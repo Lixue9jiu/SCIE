@@ -13,36 +13,50 @@ namespace Game
 		{
 			DefaultDescription = DefaultDisplayName = GetType().ToString().Substring(5);
 		}
+
 		public override string GetCraftingId() => DefaultDisplayName;
+
 		public override string GetDisplayName(SubsystemTerrain subsystemTerrain, int value) => DefaultDisplayName;
+
 		public override string GetDescription(int value) => DefaultDescription;
 	}
+
 	public class FlatItem : BlockItem
 	{
 		public Color Color = Color.White;
 		public int DefaultTextureSlot;
+
 		public override int GetFaceTextureSlot(int face, int value) => DefaultTextureSlot;
+
 		public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
 		{
 			BlocksManager.DrawFlatBlock(primitivesRenderer, value, size, ref matrix, null, Color * color, false, environmentData);
 		}
+
 		public override Vector3 GetIconViewOffset(int value, DrawBlockEnvironmentData environmentData) => new Vector3 { Z = 1 };
 	}
+
 	public class MeshItem : BlockItem
 	{
 		public BlockMesh m_standaloneBlockMesh = new BlockMesh();
+
 		public MeshItem(string description = "") => DefaultDescription = description;
+
 		public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
 		{
 			BlocksManager.DrawMeshBlock(primitivesRenderer, m_standaloneBlockMesh, color, size, ref matrix, environmentData);
 		}
+
 		public override void GenerateTerrainVertices(Block block, BlockGeometryGenerator generator, TerrainGeometrySubsets geometry, int value, int x, int y, int z)
 		{
 			generator.GenerateMeshVertices(block, x, y, z, m_standaloneBlockMesh, Color.White, null, geometry.SubsetOpaque);
 		}
+
 		public override float GetIconViewScale(int value, DrawBlockEnvironmentData environmentData) => 0.85f;
+
 		public override bool IsFaceTransparent(SubsystemTerrain subsystemTerrain, int face, int value) => true;
 	}
+
 	public class GranulatedItem : FlatItem
 	{
 		public GranulatedItem(string name, Color color)
@@ -52,6 +66,7 @@ namespace Game
 			Color = color;
 		}
 	}
+
 	public class Mould : MeshItem
 	{
 		public readonly float Size;
@@ -60,15 +75,16 @@ namespace Game
 		public Mould(string modelName, string meshName, Matrix boneTransform, Matrix tcTransform, Color color, float size = 1f) : base("")
 		{
 			Size = size;
-			var model = ContentManager.Get<Model>(modelName);
 			m_standaloneBlockMesh.AppendMesh(modelName, meshName, boneTransform, tcTransform * Matrix.CreateScale(0.05f), color);
 			m_collisionBoxes = new[] { m_standaloneBlockMesh.CalculateBoundingBox() };
 		}
+
 		public Mould(string meshName, Matrix boneTransform, Matrix tcTransform, string description = "", float size = 1f) : this("Models/" + meshName, meshName, boneTransform, tcTransform, Color.LightGray, size)
 		{
 			DefaultDisplayName = "Steel" + meshName;
 			DefaultDescription = description;
 		}
+
 		public Mould(string modelName, string meshName, Matrix boneTransform, Matrix tcTransform, string description = "", string name = "", float size = 1f) : this(modelName, meshName, boneTransform, tcTransform, Color.LightGray, size)
 		{
 			DefaultDisplayName = name;
@@ -93,52 +109,72 @@ namespace Game
 		public override BoundingBox[] GetCustomCollisionBoxes(SubsystemTerrain terrain, int value) => m_collisionBoxes;
 	}
 
+	public class Bucket : MeshItem
+	{
+		public readonly float Size;
+		public readonly BoundingBox[] m_collisionBoxes;
 
-    public class Ball : MeshItem
-    {
-        public readonly float Size;
-        public readonly BoundingBox[] m_collisionBoxes;
+		public Bucket(string name, Color color) : base(name)
+		{
+			DefaultDisplayName = name;
+			var model = ContentManager.Get<Model>("Models/FullBucket");
+			var meshParts = model.FindMesh("Contents").MeshParts;
+			m_standaloneBlockMesh.AppendModelMeshPart(meshParts[0], BlockMesh.GetBoneAbsoluteTransform(model.FindMesh("Contents").ParentBone) * Matrix.CreateRotationY(MathUtils.DegToRad(180f)) * Matrix.CreateTranslation(0f, -0.3f, 0f), false, false, false, false, color);
+			m_standaloneBlockMesh.TransformTextureCoordinates(Matrix.CreateTranslation(0.8125f, 0.6875f, 0f));
+			meshParts = model.FindMesh("Bucket").MeshParts;
+			m_standaloneBlockMesh.AppendModelMeshPart(meshParts[0], BlockMesh.GetBoneAbsoluteTransform(model.FindMesh("Bucket").ParentBone) * Matrix.CreateRotationY(MathUtils.DegToRad(180f)) * Matrix.CreateTranslation(0f, -0.3f, 0f), false, false, false, false, Color.White);
+		}
 
-        public Ball(string modelName, string meshName, Matrix boneTransform, Matrix tcTransform, Color color, float size = 1f) : base("")
-        {
-            Size = size;
-            var model = ContentManager.Get<Model>(modelName);
-            m_standaloneBlockMesh.AppendMesh(modelName, meshName, boneTransform, tcTransform , color);
-            m_collisionBoxes = new[] { m_standaloneBlockMesh.CalculateBoundingBox() };
+		public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
+		{
+			BlocksManager.DrawMeshBlock(primitivesRenderer, m_standaloneBlockMesh, color, 2f * size, ref matrix, environmentData);
+		}
+	}
+	public class Ball : MeshItem
+	{
+		public readonly float Size;
+		public readonly BoundingBox[] m_collisionBoxes;
 
-        }
-        public Ball(string meshName, Matrix boneTransform, Matrix tcTransform, string description = "", float size = 1f) : this("Models/" + meshName, meshName, boneTransform, tcTransform, Color.White, size)
-        {
-            DefaultDisplayName = meshName;
-            DefaultDescription = description;
-        }
-        public Ball(string modelName, string meshName, Matrix boneTransform, Matrix tcTransform, string description = "", string name = "", float size = 1f) : this(modelName, meshName, boneTransform, tcTransform, Color.LightGray, size)
-        {
-            DefaultDisplayName = name;
-            DefaultDescription = description;
-        }
+		public Ball(string modelName, string meshName, Matrix boneTransform, Matrix tcTransform, float size = 1f) : base("")
+		{
+			Size = size;
+			var model = ContentManager.Get<Model>(modelName);
+			m_standaloneBlockMesh.AppendModelMeshPart(model.FindMesh(meshName).MeshParts[0], BlockMesh.GetBoneAbsoluteTransform(model.FindMesh(meshName).ParentBone) * boneTransform, true, false, false, false, Color.White);
+			m_standaloneBlockMesh.TransformTextureCoordinates(tcTransform);
+			m_collisionBoxes = new[] { m_standaloneBlockMesh.CalculateBoundingBox() };
+		}
 
-        public override void GenerateTerrainVertices(Block block, BlockGeometryGenerator generator, TerrainGeometrySubsets geometry, int value, int x, int y, int z)
-        {
-            generator.GenerateMeshVertices(block, x, y, z, m_standaloneBlockMesh,Color.White, null, geometry.SubsetOpaque);
-        }
+		public Ball(string meshName, Matrix boneTransform, Matrix tcTransform, string description = "", float size = 1f) : this("Models/" + meshName, meshName, boneTransform, tcTransform, size)
+		{
+			DefaultDisplayName = meshName;
+			DefaultDescription = description;
+		}
 
-        public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
-        {
-            BlocksManager.DrawMeshBlock(primitivesRenderer, m_standaloneBlockMesh, color, size * Size, ref matrix, environmentData);
-        }
+		public Ball(string modelName, string meshName, Matrix boneTransform, Matrix tcTransform, string description = "", string name = "", float size = 1f) : this(modelName, meshName, boneTransform, tcTransform, size)
+		{
+			DefaultDisplayName = name;
+			DefaultDescription = description;
+		}
 
-        public override BlockPlacementData GetPlacementValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, TerrainRaycastResult raycastResult)
-        {
-            return new BlockPlacementData { Value = value, CellFace = raycastResult.CellFace };
-        }
+		public override void GenerateTerrainVertices(Block block, BlockGeometryGenerator generator, TerrainGeometrySubsets geometry, int value, int x, int y, int z)
+		{
+			generator.GenerateMeshVertices(block, x, y, z, m_standaloneBlockMesh, Color.White, null, geometry.SubsetOpaque);
+		}
 
-        public override BoundingBox[] GetCustomCollisionBoxes(SubsystemTerrain terrain, int value) => m_collisionBoxes;
-    }
+		public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
+		{
+			BlocksManager.DrawMeshBlock(primitivesRenderer, m_standaloneBlockMesh, color, size * Size, ref matrix, environmentData);
+		}
 
+		public override BlockPlacementData GetPlacementValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, TerrainRaycastResult raycastResult)
+		{
+			return new BlockPlacementData { Value = value, CellFace = raycastResult.CellFace };
+		}
 
+		public override BoundingBox[] GetCustomCollisionBoxes(SubsystemTerrain terrain, int value) => m_collisionBoxes;
+	}
 
-    public partial class ItemBlock
+	public partial class ItemBlock
 	{
 		public static Texture2D Texture;
 		public static Task Task;
@@ -176,22 +212,22 @@ namespace Game
 			}
 			Block block = BlocksManager.Blocks[Terrain.ExtractContents(value)];
 			Vector4 vector2 = BlocksManager.m_slotTexCoords[block.GetFaceTextureSlot(0, value)];
-			Color color2 = Color.MultiplyColorOnly(color, LightingManager.CalculateLighting(-matrix.Forward));
+			var color2 = Color.MultiplyColorOnly(color, LightingManager.CalculateLighting(-matrix.Forward));
 			texturedBatch3D.QueueQuad(v3, v5, v6, v4, new Vector2(vector2.X, vector2.W), new Vector2(vector2.X, vector2.Y), new Vector2(vector2.Z, vector2.Y), new Vector2(vector2.Z, vector2.W), color2);
 			Vector4 vector3 = BlocksManager.m_slotTexCoords[block.GetFaceTextureSlot(2, value)];
-			Color color3 = Color.MultiplyColorOnly(color, LightingManager.CalculateLighting(matrix.Forward));
+			var color3 = Color.MultiplyColorOnly(color, LightingManager.CalculateLighting(matrix.Forward));
 			texturedBatch3D.QueueQuad(v7, v8, v10, v9, new Vector2(vector3.Z, vector3.W), new Vector2(vector3.X, vector3.W), new Vector2(vector3.X, vector3.Y), new Vector2(vector3.Z, vector3.Y), color3);
 			Vector4 vector4 = BlocksManager.m_slotTexCoords[block.GetFaceTextureSlot(5, value)];
-			Color color4 = Color.MultiplyColorOnly(color, LightingManager.CalculateLighting(-matrix.Up));
+			var color4 = Color.MultiplyColorOnly(color, LightingManager.CalculateLighting(-matrix.Up));
 			texturedBatch3D.QueueQuad(v3, v4, v8, v7, new Vector2(vector4.X, vector4.Y), new Vector2(vector4.Z, vector4.Y), new Vector2(vector4.Z, vector4.W), new Vector2(vector4.X, vector4.W), color4);
 			Vector4 vector5 = BlocksManager.m_slotTexCoords[block.GetFaceTextureSlot(4, value)];
-			Color color5 = Color.MultiplyColorOnly(topColor, LightingManager.CalculateLighting(matrix.Up));
+			var color5 = Color.MultiplyColorOnly(topColor, LightingManager.CalculateLighting(matrix.Up));
 			texturedBatch3D.QueueQuad(v5, v9, v10, v6, new Vector2(vector5.X, vector5.W), new Vector2(vector5.X, vector5.Y), new Vector2(vector5.Z, vector5.Y), new Vector2(vector5.Z, vector5.W), color5);
 			Vector4 vector6 = BlocksManager.m_slotTexCoords[block.GetFaceTextureSlot(1, value)];
-			Color color6 = Color.MultiplyColorOnly(color, LightingManager.CalculateLighting(-matrix.Right));
+			var color6 = Color.MultiplyColorOnly(color, LightingManager.CalculateLighting(-matrix.Right));
 			texturedBatch3D.QueueQuad(v3, v7, v9, v5, new Vector2(vector6.Z, vector6.W), new Vector2(vector6.X, vector6.W), new Vector2(vector6.X, vector6.Y), new Vector2(vector6.Z, vector6.Y), color6);
 			Vector4 vector7 = BlocksManager.m_slotTexCoords[block.GetFaceTextureSlot(3, value)];
-			Color color7 = Color.MultiplyColorOnly(color, LightingManager.CalculateLighting(matrix.Right));
+			var color7 = Color.MultiplyColorOnly(color, LightingManager.CalculateLighting(matrix.Right));
 			texturedBatch3D.QueueQuad(v4, v6, v10, v8, new Vector2(vector7.X, vector7.W), new Vector2(vector7.X, vector7.Y), new Vector2(vector7.Z, vector7.Y), new Vector2(vector7.Z, vector7.W), color7);
 		}
 
