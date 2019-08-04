@@ -27,6 +27,7 @@ namespace Game
 			Table = new Dictionary<Point3, Device>(valuesDictionary.GetValue("Count", 0));
 			elementblock = BlocksManager.Blocks[ElementBlock.Index] as ElementBlock;
 			Task.Run((Action)ThreadFunction);
+			BlocksManager.Blocks[IceBlock.Index].HasCollisionBehavior = true;
 		}
 		public override void OnBlockGenerated(int value, int x, int y, int z, bool isLoaded)
 		{

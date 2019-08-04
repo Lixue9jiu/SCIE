@@ -17,16 +17,8 @@ namespace Game
 
 		public new void Update(float dt)
 		{
-			int x = (int)m_componentBody.Position.X,
-				y = (int)m_componentBody.Position.Y,
-				z = (int)m_componentBody.Position.Z;
 			if (componentEngine != null)
-				componentEngine.Coordinates = new Point3(x, y, z);
-			if (m_componentBody.Mass > 999f && m_componentBody.StandingOnValue == new int?(IceBlock.Index) )
-			{
-				var st = Utils.SubsystemTerrain;
-				st.DestroyCell(1, x, y - 1, z, WaterBlock.Index, false, false);
-			}
+				componentEngine.Coordinates = new Point3((int)m_componentBody.Position.X, (int)m_componentBody.Position.Y, (int)m_componentBody.Position.Z);
 			bool flag = m_componentBody.ImmersionFactor > 0f;
 			if (m_componentDamage.Hitpoints < 0.33f)
 			{
