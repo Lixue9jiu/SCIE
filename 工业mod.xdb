@@ -131,6 +131,12 @@
         <Parameter Name="SlotsCount" Guid="3ded5622-a4c0-4ad5-85f8-813ef26dae6b" Value="2" Type="int" />
       </MemberComponentTemplate>
     </EntityTemplate>
+	<EntityTemplate Name="Sour" Guid="b4f43a67-d37d-455f-9a43-803260a915a9">
+      <MemberComponentTemplate Name="BlockEntity" Guid="b2f45fcd-8133-4bee-ad3e-bde77df10654" InheritanceParent="09a85cba-d94e-41b8-9497-f20ed942c17e" />
+      <MemberComponentTemplate Name="Sour" Guid="e7f4187a-dfe9-4331-900e-4c5f3ce25348" InheritanceParent="c9af7916-de35-4e94-ba6e-90cd55cd19d4">
+        <Parameter Name="SlotsCount" Guid="3ded56f6-a4c0-4ad5-85f8-813ef26dae6b" Value="4" Type="int" />
+      </MemberComponentTemplate>
+    </EntityTemplate>
     <EntityTemplate Name="CReactor" Guid="b4f43059-d37d-455f-9a43-803260a915a9">
     <MemberComponentTemplate Name="BlockEntity" Guid="b2f453dd-8233-4bee-ad3e-bde77df10654" InheritanceParent="09a85cba-d94e-41b8-9497-f20ed942c17e" />
     <MemberComponentTemplate Name="CReactor" Guid="e9f43844-dfe9-4331-900e-4c5f3ce25348" InheritanceParent="c9ff7976-de35-4e94-ba6e-90cd55cd19d4">
@@ -301,6 +307,9 @@
     <MemberSubsystemTemplate Name="PresserBlockBehavior" Guid="c0fffe62-402f-4b96-987a-6050eb7ed2d4" InheritanceParent="fefb9590-4972-4893-b02a-76063611b745">
       <Parameter Name="Class" Guid="a618532b-5607-40f1-8704-4c42f35ec016" Value="Game.SubsystemPresserBlockBehavior" Type="string" />
     </MemberSubsystemTemplate>
+	<MemberSubsystemTemplate Name="SourBlockBehavior" Guid="c1affe62-402f-4b96-987a-6050eb7ed2d4" InheritanceParent="fefb9590-4972-4893-b02a-76063611b745">
+      <Parameter Name="Class" Guid="a62f532b-5607-40f1-8704-4c42f35ec016" Value="Game.SubsystemSourBlockBehavior" Type="string" />
+    </MemberSubsystemTemplate>
     <MemberSubsystemTemplate Name="CReactorBlockBehavior" Guid="c0fffe92-402f-4b96-987a-6050eb7ed2d4" InheritanceParent="fefb9590-4972-4893-b02a-76063611b745">
       <Parameter Name="Class" Guid="a618537b-5607-40f1-8704-4c42f35ec016" Value="Game.SubsystemCReactorBlockBehavior" Type="string" />
     </MemberSubsystemTemplate>
@@ -412,6 +421,9 @@
     </ComponentTemplate>
     <ComponentTemplate Name="Presser" Description="A presser" Guid="c9ff7906-de35-4e94-ba6e-90cd55cd19d4" InheritanceParent="81a44c6a-c30a-4f53-8d64-0c30aabab8f9">
       <Parameter Name="Class" Guid="fc4c23fe-1d3c-467e-81bc-1796f686be51" Value="Game.ComponentPresser" Type="string" />
+    </ComponentTemplate>
+	<ComponentTemplate Name="Sour" Description="A Sour" Guid="c9af7916-de35-4e94-ba6e-90cd55cd19d4" InheritanceParent="81a44c6a-c30a-4f53-8d64-0c30aabab8f9">
+      <Parameter Name="Class" Guid="fc4f46fe-1d3c-467e-81bc-1796f686be51" Value="Game.ComponentSour" Type="string" />
     </ComponentTemplate>
     <ComponentTemplate Name="CReactor" Description="A presser" Guid="c9ff7976-de35-4e94-ba6e-90cd55cd19d4" InheritanceParent="81a44c6a-c30a-4f53-8d64-0c30aabab8f9">
     <Parameter Name="Class" Guid="fd4c23ff-1d3c-467e-81bc-1796f686be51" Value="Game.ComponentCReactor" Type="string" />

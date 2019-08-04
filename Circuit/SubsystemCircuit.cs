@@ -113,6 +113,17 @@ namespace Game
 			if (item is IHarvestingItem block)
 				block.OnItemHarvested(x, y, z, blockValue, ref dropValue, ref newBlockValue);
 		}
+		public override void OnCollide(CellFace cellFace, float velocity, ComponentBody componentBody)
+		{
+			if (componentBody.Mass < 50f)
+				return;
+			int x = cellFace.X,
+				y = cellFace.Y,
+				z = cellFace.Z;
+			var item = elementblock.GetDevice(x, y, z, Utils.Terrain.GetCellValueFast(x, y, z));
+			if (item is SolarPanel)
+				SubsystemTerrain.DestroyCell(0, x, y, z, 0, true, false);
+		}
 		/*public override bool OnEditBlock(int x, int y, int z, int value, ComponentPlayer componentPlayer)
 		{
 			var item = elementblock.GetDevice(Utils.Terrain, x, y, z);

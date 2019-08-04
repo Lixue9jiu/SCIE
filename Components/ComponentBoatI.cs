@@ -24,7 +24,8 @@ namespace Game
 				componentEngine.Coordinates = new Point3(x, y, z);
 			if (m_componentBody.Mass > 999f && m_componentBody.StandingOnValue == new int?(IceBlock.Index) )
 			{
-				Utils.SubsystemTerrain.DestroyCell(1, x, y - 1, z, WaterBlock.Index, false, false);
+				var st = Utils.SubsystemTerrain;
+				st.DestroyCell(1, x, y - 1, z, WaterBlock.Index, false, false);
 			}
 			bool flag = m_componentBody.ImmersionFactor > 0f;
 			if (m_componentDamage.Hitpoints < 0.33f)

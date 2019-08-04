@@ -32,9 +32,9 @@ namespace Game
 			m_result1 = Children.Find<InventorySlotWidget>("ResultSlot1");
 			m_result2 = Children.Find<InventorySlotWidget>("ResultSlot2");
 			m_result3 = Children.Find<InventorySlotWidget>("ResultSlot3");
-			m_cir1 = Children.Find<InventorySlotWidget>("CircuitSlot1");
-			m_cir2 = Children.Find<InventorySlotWidget>("CircuitSlot2");
-			m_acceptsDropsBox = Children.Find<CheckboxWidget>("AcceptsElectBox");
+			m_cir1 = Children.Find<InventorySlotWidget>("CircuitSlot1", false);
+			m_cir2 = Children.Find<InventorySlotWidget>("CircuitSlot2", false);
+			m_acceptsDropsBox = Children.Find<CheckboxWidget>("AcceptsElectBox", false);
 			m_progress = Children.Find<ValueBarWidget>("Progress");
 
 			int num = 6, y, x;
@@ -64,8 +64,8 @@ namespace Game
 			m_result1.AssignInventorySlot(componentFurnace, num++);
 			m_result2.AssignInventorySlot(componentFurnace, num++);
 			m_result3.AssignInventorySlot(componentFurnace, num++);
-			m_cir1.AssignInventorySlot(componentFurnace, num++);
-			m_cir2.AssignInventorySlot(componentFurnace, num++);
+			m_cir1?.AssignInventorySlot(componentFurnace, num++);
+			m_cir2?.AssignInventorySlot(componentFurnace, num++);
 		}
 
 		public override void Update()
