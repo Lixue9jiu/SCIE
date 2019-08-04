@@ -26,7 +26,20 @@ namespace Game
 			return new PresserWidget<ComponentKibbler>(inventory, component, "Widgets/KibblerWidget");
 		}
 	}
-	public class SubsystemPresserNNBlockBehavior : SubsystemInventoryBlockBehavior<ComponentPresserNN>
+    public class SubsystemSourBlockBehavior : SubsystemInventoryBlockBehavior<ComponentSour>
+    {
+        public SubsystemSourBlockBehavior() : base("Sour")
+        {
+        }
+
+        public override int[] HandledBlocks => new[] { SourBlock.Index };
+
+        public override Widget GetWidget(IInventory inventory, ComponentSour component)
+        {
+            return new SeperatorWidget(inventory, component, "Widgets/SourWidget");
+        }
+    }
+    public class SubsystemPresserNNBlockBehavior : SubsystemInventoryBlockBehavior<ComponentPresserNN>
 	{
 		public SubsystemPresserNNBlockBehavior() : base("PresserNN")
 		{

@@ -101,6 +101,7 @@
     <Compile Include="Components\ComponentNewChest.cs" />
     <Compile Include="Components\ComponentPlayer.cs" />
     <Compile Include="Components\ComponentSeperator.cs" />
+    <Compile Include="Components\ComponentSour.cs" />
     <Compile Include="Components\ComponentTrain.cs" />
     <Compile Include="Components\ComponentUnloader.cs" />
     <Compile Include="Common\I18N.cs" />
