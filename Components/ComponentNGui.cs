@@ -235,7 +235,6 @@ namespace Game
 			}
 			else if (input.Back || m_backButtonWidget.IsClicked)
 				DialogsManager.ShowDialog(m_componentPlayer.View.GameWidget, new GameMenuDialog(m_componentPlayer));
-			return;
 		}
 
 		public override void Load(ValuesDictionary valuesDictionary, IdToEntityMap idToEntityMap)

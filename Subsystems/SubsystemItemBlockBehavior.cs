@@ -251,6 +251,12 @@ namespace Game
 					entity.FindComponent<ComponentFrame>(true).Rotation = Quaternion.CreateFromAxisAngle(Vector3.UnitY, m_random.UniformFloat(0f, 6.283185f));
 					goto put;
 				}
+				else if (activeBlockValue == ItemBlock.IdTable["Icebreaker"])
+				{
+					entity = DatabaseManager.CreateEntity(Project, "Icebreaker", true);
+					entity.FindComponent<ComponentFrame>(true).Rotation = Quaternion.CreateFromAxisAngle(Vector3.UnitY, m_random.UniformFloat(0f, 6.283185f));
+					goto put;
+				}
 				else if (activeBlockValue == ItemBlock.IdTable["Airship"])
 				{
 					entity = DatabaseManager.CreateEntity(Project, "Airship", true);

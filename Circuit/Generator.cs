@@ -62,7 +62,7 @@ namespace Game
 	{
 		public BlockMesh m_standaloneBlockMesh = new BlockMesh();
 		public BoundingBox[] m_collisionBoxes;
-		public SolarPanel() : base(120, "太阳能电池板", "太阳能电池板", ElementType.Supply | ElementType.Connector)
+		public SolarPanel(string name, int voltage = 100) : base(voltage, name, name, ElementType.Supply | ElementType.Connector)
 		{
 			Model model = ContentManager.Get<Model>("Models/CellTrapdoor");
 			Matrix boneAbsoluteTransform = BlockMesh.GetBoneAbsoluteTransform(model.FindMesh("Trapdoor").ParentBone);
@@ -92,6 +92,7 @@ namespace Game
 		}
 		public override bool IsFaceTransparent(SubsystemTerrain subsystemTerrain, int face, int value) => true;
 		public override BoundingBox[] GetCustomCollisionBoxes(SubsystemTerrain terrain, int value) => m_collisionBoxes;
+		public override string GetCraftingId() => DefaultDisplayName + Voltage.ToString();
 	}
 	/*public class Voltmeter : DeviceBlock
 	{

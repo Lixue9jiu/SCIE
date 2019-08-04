@@ -366,7 +366,7 @@ namespace Game
 
         public override BlockPlacementData GetPlacementValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, TerrainRaycastResult raycastResult)
         {
-            return GetPlacementValue(26, componentMiner, value, raycastResult);
+            return GetPlacementValue(27, componentMiner, value, raycastResult);
         }
         public override void Simulate(ref int voltage)
         {
@@ -393,7 +393,7 @@ namespace Game
 
 		public override BlockPlacementData GetPlacementValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, TerrainRaycastResult raycastResult)
 		{
-			return GetPlacementValue(27, componentMiner, value, raycastResult);
+			return GetPlacementValue(28, componentMiner, value, raycastResult);
 		}
 	}
 }

@@ -60,17 +60,14 @@
         <Parameter Name="MountOffset" Guid="36b000ca-89e1-4412-be70-a6b4aae705bc" Value="0,0.85,-0.8" Type="Vector3" />
         <Parameter Name="DismountOffset" Guid="bac5cce4-b009-4fe1-b840-93843edd05b6" Value="0,0.5,0.4" Type="Vector3" />
       </MemberComponentTemplate>
-      <MemberComponentTemplate Name="Body" Guid="b6800015-ddd6-407b-bd4d-7be14c05d3eb" InheritanceParent="8edd1986-0dcc-424f-893a-491c089b821e">
-        <Parameter Name="WaterSwayAngle" Guid="00cc6408-eb39-4058-850f-a12f2a86c16a" Value="0.04" Type="float" />
-        <Parameter Name="MaxSmoothRiseHeight" Guid="110519b4-e6f6-4604-aae9-7d0a3273c987" Value="0.3" Type="float" />
-        <Parameter Name="BoxSize" Guid="5323f9ba-8c20-4667-a19e-605afa72e335" Value="2.00,0.5,4.50" Type="Vector3" />
-        <Parameter Name="WaterDrag" Guid="6547df11-9d00-410f-b0b0-4cdf89dcdae4" Value="6,4" Type="Vector2" />
-        <Parameter Name="Mass" Guid="ae127d38-1576-4901-a319-b21a8dc22175" Value="250" Type="float" />
-        <Parameter Name="AirDrag" Guid="d850431d-da38-409b-9b32-aadf09fc82a4" Value="0.25,0.5" Type="Vector2" />
-        <Parameter Name="Density" Guid="f2894d7d-5ef9-44c5-881e-a724610e3cd5" Value="0.2" Type="float" />
-      </MemberComponentTemplate>
+      <MemberComponentTemplate Name="Body" Guid="b6800016-ddd6-407b-bd4d-7be14c05d3eb" InheritanceParent="b6800015-ddd6-407b-bd4d-7be14c05d3eb" />
       <MemberComponentTemplate Name="Damage" Guid="eb61209d-8903-41bd-b663-545dea83af91" InheritanceParent="17bb7b53-159c-4eb3-b4bc-137b10bba88a">
         <Parameter Name="AttackResilience" Guid="32e5b809-e2ba-4221-9f06-6b8710a8bcdf" Value="500" Type="float" />
+      </MemberComponentTemplate>
+    </EntityTemplate>
+    <EntityTemplate Name="Icebreaker" Guid="3f3abb7e-2ce4-43fa-9612-47d69bf788ba" InheritanceParent="3f3abb7e-1ce4-43fa-9612-47d69bf788ba">
+      <MemberComponentTemplate Name="Body" Guid="b6800017-ddd6-407b-bd4d-7be14c05d3eb">
+        <Parameter Name="Mass" Guid="ae127d38-1570-4901-a319-b21a8dc22175" Value="1000" Type="float" />
       </MemberComponentTemplate>
     </EntityTemplate>
     <EntityTemplate Name="Airship" Guid="3f3abb7e-1ce4-43fa-9614-47d69bf788ba">
@@ -97,7 +94,7 @@
         <Parameter Name="WaterDrag" Guid="6549df11-9d10-410f-b0b0-4cdf89dcdae4" Value="6,4" Type="Vector2" />
         <Parameter Name="Mass" Guid="ae129d38-1576-4911-a319-b21a8dc22175" Value="250" Type="float" />
         <Parameter Name="AirDrag" Guid="d851439d-da38-409b-9b32-aadf09fc82a4" Value="0.25,0.5" Type="Vector2" />
-        <Parameter Name="Density" Guid="f2894d8d-5ef9-44c5-881e-a724611e3cd5" Value="-1.0" Type="float" />
+        <Parameter Name="Density" Guid="f2894d8d-5ef9-44c5-881e-a724611e3cd5" Value="0.1" Type="float" />
       </MemberComponentTemplate>
       <MemberComponentTemplate Name="Damage" Guid="eb61229d-8903-41bd-b663-545dea83af91" InheritanceParent="17bb7b53-159c-4eb3-b4bc-137b10bba88a">
         <Parameter Name="AttackResilience" Guid="32e5b819-e2ba-4221-9f06-6b8710a8bcdf" Value="200" Type="float" />
@@ -357,6 +354,15 @@
     </MemberSubsystemTemplate>
   </ProjectTemplate>
   <Folder Name="Gameplay" Guid="d3d4b692-acc9-4128-9b99-a5acf1de1fbb">
+    <ComponentTemplate Name="BoatBody" Guid="b6800015-ddd6-407b-bd4d-7be14c05d3eb" InheritanceParent="8edd1986-0dcc-424f-893a-491c089b821e">
+      <Parameter Name="WaterSwayAngle" Guid="00cc6408-eb39-4058-850f-a12f2a86c16a" Value="0.04" Type="float" />
+      <Parameter Name="MaxSmoothRiseHeight" Guid="110519b4-e6f6-4604-aae9-7d0a3273c987" Value="0.3" Type="float" />
+      <Parameter Name="BoxSize" Guid="5323f9ba-8c20-4667-a19e-605afa72e335" Value="2.00,0.5,4.50" Type="Vector3" />
+      <Parameter Name="WaterDrag" Guid="6547df11-9d00-410f-b0b0-4cdf89dcdae4" Value="6,4" Type="Vector2" />
+      <Parameter Name="Mass" Guid="ae127d38-1576-4901-a319-b21a8dc22175" Value="250" Type="float" />
+      <Parameter Name="AirDrag" Guid="d850431d-da38-409b-9b32-aadf09fc82a4" Value="0.25,0.5" Type="Vector2" />
+      <Parameter Name="Density" Guid="f2894d7d-5ef9-44c5-881e-a724610e3cd5" Value="0.2" Type="float" />
+    </ComponentTemplate>
     <ComponentTemplate Name="BoatI" Description="Takes player inputs and controls a creature with them" Guid="572b36f3-6ee6-442a-900f-b4caba94be39" InheritanceParent="b05700ed-7e4e-4679-98f5-b597f421496b">
       <Parameter Name="Class" Guid="5a7229b2-7adc-4d13-8889-d94503c52184" Value="Game.ComponentBoatI" Type="string" />
     </ComponentTemplate>

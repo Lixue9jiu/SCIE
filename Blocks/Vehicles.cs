@@ -34,6 +34,15 @@ namespace Game
 		public override Vector3 GetIconViewOffset(int value, DrawBlockEnvironmentData environmentData) => new Vector3(-0.7f, 0.8f, -1);
 		public override float GetIconViewScale(int value, DrawBlockEnvironmentData environmentData) => 0.45f;
 	}
+	public class Icebreaker : TexturedMeshItem
+	{
+		public Icebreaker() : base("破冰船", "SteamBoat", "Cylinder", ContentManager.Get<Texture2D>("Textures/SteamBoat"), 1f, "破冰船")
+		{
+		}
+		public override Vector3 GetIconViewOffset(int value, DrawBlockEnvironmentData environmentData) => new Vector3(-0.7f, 0.4f, -1);
+		public override float GetIconViewScale(int value, DrawBlockEnvironmentData environmentData) => 0.5f;
+		public override string GetCraftingId() => "Icebreaker";
+	}
 	public class Train : TexturedMeshItem
 	{
 		public Train() : base("蒸汽机车", "Train", "Cylinder", ContentManager.Get<Texture2D>("Textures/Train"), 1f, "蒸汽机车是一种通过蒸汽机产生牵引力的铁路机车。 这些机车通过燃烧可燃材料（通常是煤）在锅炉中产生蒸汽来加燃料。 蒸汽移动往复活塞，机械连接到机车的主轮。 燃料和水供应都由机车携带。")

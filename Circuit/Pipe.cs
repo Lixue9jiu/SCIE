@@ -20,7 +20,9 @@ namespace Game
 				blockMesh = new BlockMesh();
 				var vector = CellFace.FaceToVector3(i);
 				blockMesh.AppendModelMeshPart(meshPart, boneAbsoluteTransform * Matrix.CreateTranslation(0f, -0.2f, 0f) * Matrix.CreateScale(1f, 0.66f, 1f) *
-					((i < 4) ? (Matrix.CreateTranslation(0f, -0.5f, 0f) * Matrix.CreateRotationX(i * 3.14159274f / 2f + 3.14159274f) * Matrix.CreateTranslation(0.5f, 0.5f, 0.5f)) : ((i != 4) ? (Matrix.CreateTranslation(0f, -0.5f, 0f) * Matrix.CreateRotationZ(-1.57079637f) * Matrix.CreateTranslation(0.5f, 0.5f, 0.5f)) : (Matrix.CreateTranslation(0f, -0.5f, 0f) * Matrix.CreateRotationZ(1.57079637f) * Matrix.CreateTranslation(0.5f, 0.5f, 0.5f)))), false, false, false, false, Color.LightGray);
+					Matrix.CreateRotationX(3.14159274f / 2f * vector.X) *
+					Matrix.CreateRotationY(3.14159274f / 2f * vector.Y) *
+					Matrix.CreateRotationZ(3.14159274f / 2f * vector.Z), false, false, false, false, Color.LightGray);
 				blockMesh.TransformTextureCoordinates(Matrix.CreateTranslation(-2f / 16f, 4f / 16f, 0f));
 				blockMesh.TransformPositions(Matrix.CreateTranslation(new Vector3(0.5f)));
 				meshes[i] = blockMesh;
