@@ -1,4 +1,4 @@
-<IndustrialMod>
+﻿<IndustrialMod>
 <Recipe Result="IronIngotBlock" ResultCount="1" new-RequiredHeatLevel="1500" a="ironorechunk:0" Description="冶炼铁矿石以获得铁" />
 <Recipe Result="CopperIngotBlock" ResultCount="1" new-RequiredHeatLevel="1000" a="malachitechunk:0" Description="冶炼铜矿石以获得铜" />
 <Recipe Result="GermaniumChunkBlock" ResultCount="1" new-RequiredHeatLevel="900" a="germaniumorechunk:0" Description="冶炼锗矿石以获得锗晶体" />
@@ -181,7 +181,67 @@
     <Recipe Result="MeltingIron" ResultCount="1" RequiredHeatLevel="2800" a="SteelIngot" Description="加热钢锭以获得融化的铁">
       "a"
     </Recipe>
+    <Recipe Result="MeltingIron" ResultCount="1" RequiredHeatLevel="2800" a="SteelLine" Description="加热钢线以获得融化的铁">
+      "a"
+    </Recipe>
+    <Recipe Result="MeltingIron" ResultCount="1" RequiredHeatLevel="2800" a="IronLine" Description="加热钢线以获得融化的铁">
+      "a"
+    </Recipe>
+    <Recipe Result="MeltingIron" ResultCount="1" RequiredHeatLevel="2800" a="SteelPlate" Description="加热钢线以获得融化的铁">
+      "a"
+    </Recipe>
+    <Recipe Result="MeltingIron" ResultCount="1" RequiredHeatLevel="2800" a="IronPlate" Description="加热钢线以获得融化的铁">
+      "a"
+    </Recipe>
     <Recipe Result="MeltingIron" ResultCount="1" RequiredHeatLevel="2800" a="ScrapIron" Description="加热废铁以获得融化的铁">
+      "a"
+    </Recipe>
+    <Recipe Result="MeltingIron" ResultCount="1" RequiredHeatLevel="2800" a="IronOrePowder" Description="加热铁粉以获得融化的铁">
+      "a"
+    </Recipe>
+    <Recipe Result="MeltingIron" ResultCount="2" RequiredHeatLevel="2800" a="rod:0" Description="加热铁粉以获得融化的铁">
+      "a"
+    </Recipe>
+    <Recipe Result="MeltingChromium" ResultCount="1" RequiredHeatLevel="2800" a="ChromiumIngot" Description="加热铬锭以获得融化的铬">
+      "a"
+    </Recipe>
+    <Recipe Result="MeltingChromium" ResultCount="2" RequiredHeatLevel="2800" a="ChromiumRod" Description="加热铬粉以获得融化的铬">
+      "a"
+    </Recipe>
+    <Recipe Result="MeltingChromium" ResultCount="1" RequiredHeatLevel="2800" a="ChromiumLine" Description="加热铬线以获得融化的铬">
+      "a"
+    </Recipe>
+    <Recipe Result="MeltingCopper" ResultCount="1" RequiredHeatLevel="2800" a="copperingot" Description="加热铜锭以获得融化的铜">
+      "a"
+    </Recipe>
+    <Recipe Result="MeltingCopper" ResultCount="2" RequiredHeatLevel="2800" a="CopperRod" Description="加热铜粉以获得融化的铜">
+      "a"
+    </Recipe>
+    <Recipe Result="MeltingCopper" ResultCount="1" RequiredHeatLevel="2800" a="CopperLine" Description="加热铜线以获得融化的铜">
+      "a"
+    </Recipe>
+    <Recipe Result="MeltingCopper" ResultCount="1" RequiredHeatLevel="2800" a="CopperPlate" Description="加热铜片以获得融化的铜">
+      "a"
+    </Recipe>
+    <Recipe Result="MeltingNickel" ResultCount="1" RequiredHeatLevel="2800" a="NickelIngot" Description="加热镍锭以获得融化的镍">
+      "a"
+    </Recipe>
+    <Recipe Result="MeltingNickel" ResultCount="2" RequiredHeatLevel="2800" a="NickelRod" Description="加热镍粉以获得融化的镍">
+      "a"
+    </Recipe>
+    <Recipe Result="MeltingTitanium" ResultCount="1" RequiredHeatLevel="2800" a="TitaniumOrePowder" Description="加热钛锭以获得融化的钛">
+      "a"
+    </Recipe>
+    <Recipe Result="MeltingZinc" ResultCount="1" RequiredHeatLevel="2800" a="ZincIngot" Description="加热镍锭以获得融化的镍">
+      "a"
+    </Recipe>
+    <Recipe Result="MeltingZinc" ResultCount="2" RequiredHeatLevel="2800" a="ZincRod" Description="加热镍粉以获得融化的镍">
+      "a"
+    </Recipe>
+    <Recipe Result="MeltingZinc" ResultCount="1" RequiredHeatLevel="2800" a="ZincPlate" Description="加热镍片以获得融化的镍">
+      "a"
+    </Recipe>
+    <Recipe Result="MeltingAluminium" ResultCount="1" RequiredHeatLevel="2800" a="AluminumIngot" Description="加热镍锭以获得融化的镍">
       "a"
     </Recipe>
     <Recipe Result="SteelIngot" ResultCount="2" RequiredHeatLevel="1900" Remains="ScrapIron" RemainsCount="1" a="ironingot" Description="冶炼铁锭以获得钢并去除硫磺">
