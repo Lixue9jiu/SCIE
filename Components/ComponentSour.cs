@@ -25,12 +25,7 @@ namespace Game
 
         public void Update(float dt)
         {
-            if (HeatLevel > 0f)
-            {
-                m_fireTimeRemaining = MathUtils.Max(0f, m_fireTimeRemaining - dt);
-                if (m_fireTimeRemaining == 0f)
-                    HeatLevel = 0f;
-            }
+           
             if (m_updateSmeltingRecipe)
             {
                 m_updateSmeltingRecipe = false;
@@ -39,6 +34,8 @@ namespace Game
                 {
                     m_smeltingRecipe = m_smeltingRecipe2;
                     SmeltingProgress = 0f;
+                    if (m_fireTimeRemaining == 0f)
+                    m_fireTimeRemaining = 1f; 
                     //m_music = 0;
                 }
             }
@@ -51,20 +48,18 @@ namespace Game
             if (m_smeltingRecipe == null)
             {
                 HeatLevel = 0f;
-                m_fireTimeRemaining = 0f;
+                
                 //m_music = -1;
             }
             else
-                m_fireTimeRemaining = 100f;
-            if (m_fireTimeRemaining <= 0f)
-            {
-                m_smeltingRecipe = null;
-                SmeltingProgress = 0f;
-                //m_music = -1;
-            }
+               
+            
             if (m_smeltingRecipe != null)
             {
-                SmeltingProgress = MathUtils.Min(SmeltingProgress + 0.1f * dt, 1f);
+                m_fireTimeRemaining = MathUtils.Min(m_fireTimeRemaining - 0.001f * dt, 1f);
+                SmeltingProgress = 1f - m_fireTimeRemaining;
+                //SmeltingProgress = MathUtils.Min(SmeltingProgress + 0.001f * dt, 1f);
+                //m_fireTimeRemaining = SmeltingProgress;
                 if (SmeltingProgress >= 1f)
                 {
                     if (m_slots[0].Count > 0)
@@ -79,6 +74,7 @@ namespace Game
                             m_smeltingRecipe = null;
                             SmeltingProgress = 0f;
                             m_updateSmeltingRecipe = true;
+                            m_fireTimeRemaining = 0f;
                         }
                     }
                 }
