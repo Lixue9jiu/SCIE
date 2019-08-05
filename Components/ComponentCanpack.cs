@@ -38,9 +38,7 @@ namespace Game
                     //m_music = 0;
                 }
             }
-            Log.Information("11111111111");
-            Log.Information(m_smeltingRecipe);
-            Log.Information(Powered);
+            
             if (m_smeltingRecipe2 != null)
             {
                 if (!Powered)
@@ -52,7 +50,7 @@ namespace Game
                 else if (m_smeltingRecipe == null)
                     m_smeltingRecipe = m_smeltingRecipe2;
             }
-            Log.Information(m_smeltingRecipe);
+            
             if (!Powered)
                 m_smeltingRecipe = null;
             if (m_smeltingRecipe == null)
@@ -110,6 +108,26 @@ namespace Game
                     text = true;
                     result[0] = ItemBlock.IdTable["Meat"];
                 }
+            if (GetSlotValue(0) == ItemBlock.IdTable["Empty"] && GetSlotValue(1) == CookedBirdBlock.Index && GetSlotCount(0) >= 1 && GetSlotCount(1) >= 5)
+            {
+                text = true;
+                result[0] = ItemBlock.IdTable["Chicken"];
+            }
+            if (GetSlotValue(0) == ItemBlock.IdTable["Empty"] && GetSlotValue(1) == CookedFishBlock.Index && GetSlotCount(0) >= 1 && GetSlotCount(1) >= 5)
+            {
+                text = true;
+                result[0] = ItemBlock.IdTable["Fish"];
+            }
+            if (GetSlotValue(0) == ItemBlock.IdTable["Empty"] && GetSlotValue(1) == BreadBlock.Index && GetSlotCount(0) >= 1 && GetSlotCount(1) >= 5)
+            {
+                text = true;
+                result[0] = ItemBlock.IdTable["Bread"];
+            }
+            if (GetSlotValue(0) == ItemBlock.IdTable["Empty"] && GetSlotValue(1) == PumpkinBlock.Index && GetSlotCount(0) >= 1 && GetSlotCount(1) >= 5)
+            {
+                text = true;
+                result[0] = ItemBlock.IdTable["Pumpkin"];
+            }
             //Log.Information();
             if (!text)
             { return null; }
