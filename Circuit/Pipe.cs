@@ -7,7 +7,7 @@ namespace Game
 	public class Pipe : FixedDevice
 	{
 		public BlockMesh[] Meshes = new BlockMesh[63];
-		public Pipe(int id = 0) : base("Pipe" + id.ToString())
+		public Pipe(int id) : base("Pipe" + id.ToString())
 		{
 			var model = ContentManager.Get<Model>("Models/Battery");
 			var meshes = new BlockMesh[6];

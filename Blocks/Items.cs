@@ -208,7 +208,7 @@ namespace Game
 				new Battery(Matrix.CreateTranslation(0f, -0.5f, 0f) * Matrix.CreateTranslation(new Vector3(0.5f)), Matrix.CreateTranslation(7f / 16f, 6f / 16f, 0f), "Ag-Zn电池", "Ag-Zn电池", "AgZnBattery"),
 				new Battery(Matrix.CreateTranslation(0f, -0.5f, 0f) * Matrix.CreateTranslation(new Vector3(0.5f)), Matrix.CreateTranslation(7f / 16f, 6f / 16f, 0f), "Au-Zn电池", "Au-Zn电池", "AuZnBattery"),
 				new Battery(Matrix.CreateTranslation(0f, -0.5f, 0f) * Matrix.CreateTranslation(new Vector3(0.5f)), Matrix.CreateTranslation(-2f / 16f, 4f / 16f, 0f), "伏打电池", "伏打电池", "VBattery"),
-				new Pipe(),
+				new Pipe(0),
 				new Pipe(1),
 				new Pipe(2),
 				new Pipe(3),
@@ -223,6 +223,7 @@ namespace Game
 				new SolarPanel("多晶硅太阳能电池板", 100),
 				new SolarPanel("单晶硅太阳能电池板", 120),
 				new ElectricMotor(),
+				new ACGenerator(),
 				//new MachRod(),
 				new WaterExtractor(),
 			};

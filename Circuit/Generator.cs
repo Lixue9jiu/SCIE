@@ -41,6 +41,18 @@ namespace Game
 			return componentMiner.Project.FindSubsystem<SubsystemSignBlockBehavior>(true).OnInteract(raycastResult, componentMiner);
 		}
 	}
+	public class ACGenerator : Generator
+	{
+		public ACGenerator() : base(220)
+		{
+			DefaultDisplayName = "交流发电机";
+		}
+		public override void Simulate(ref int voltage)
+		{
+			if (Powered)
+				voltage -= Voltage;
+		}
+	}
 	public class MachRod : DeviceBlock
 	{
 		public BlockMesh[] m_blockMeshesByData = new BlockMesh[48];
