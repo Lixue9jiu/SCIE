@@ -408,10 +408,14 @@ namespace Game
         public override void Simulate(ref int voltage)
         {
             if (Charged)
+            {
                 voltage += Voltage;
+            }
             else
+            {
                 Energy += voltage;
                 voltage = 0;
+            }
         }
         public override int GetFaceTextureSlot(int face, int value)
         {

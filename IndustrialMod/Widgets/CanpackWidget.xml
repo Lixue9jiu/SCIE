@@ -4,7 +4,7 @@
     <LabelWidget Text="Item" Font="{Fonts/Pericles24}" Color="0, 0, 0, 64" HorizontalAlignment="Center" VerticalAlignment="Center"/>
   </CanvasWidget>
   <GridPanelWidget Name="InventoryGrid" CanvasWidget.Position="286, 52" ColumnsCount="4" RowsCount="4"/>
-  <GridPanelWidget Name="FurnaceGrid" CanvasWidget.Position="64, 42" ColumnsCount="1" RowsCount="1"/>
+  <GridPanelWidget Name="FurnaceGrid" CanvasWidget.Position="64, 42" ColumnsCount="2" RowsCount="1"/>
  <CanvasWidget CanvasWidget.Position="64, 130" >
     <FireWidget Name="Fire" Size="68, 40" HorizontalAlignment="Center" VerticalAlignment="Center"/>
     <StackPanelWidget Direction="Horizontal">

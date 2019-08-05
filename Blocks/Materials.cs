@@ -149,7 +149,7 @@ namespace Game
 			DefaultDisplayName = DefaultDescription = name;
             Color = color;
             DefaultDisplayName = name1 + Utils.Get("ºÏ½ð");
-            m_standaloneBlockMesh.AppendMesh("Models/Alloy", "Torch", Matrix.CreateTranslation(0.5f, 0f, 0.5f) * Matrix.CreateScale(1.1f), Matrix.Identity, color);
+            m_standaloneBlockMesh.AppendMesh("Models/Alloy", "Torch", Matrix.CreateTranslation(0.5f, 0f, 0.5f) * Matrix.CreateScale(1.2f), Matrix.CreateTranslation(12f/16f,1f/16f,0f), color);
             m_collisionBoxes = new BoundingBox[] { m_standaloneBlockMesh.CalculateBoundingBox() };
         }
 
@@ -171,6 +171,30 @@ namespace Game
         public override Vector3 GetIconBlockOffset(int value, DrawBlockEnvironmentData environmentData) => new Vector3 { Y = 0.45f };
         public override BoundingBox[] GetCustomCollisionBoxes(SubsystemTerrain terrain, int value) => m_collisionBoxes;
     }
+
+
+    public class FoodCan : MeshItem
+    {
+        protected BoundingBox[] m_collisionBoxes;
+        public readonly Color Color;
+        protected string Id;
+        public FoodCan(string name, string name1, Color color)
+        {
+            DefaultDescription = name;
+            Color = color;
+            Id = name1;
+            DefaultDisplayName = name1 + Utils.Get("Can");
+            m_standaloneBlockMesh.AppendMesh("Models/Battery", "Battery", Matrix.CreateTranslation(0.5f, -0.5f, 0.5f) * Matrix.CreateScale(1.0f), Matrix.CreateTranslation(12f / 16f, 1f / 16f, 0f), color);
+            m_collisionBoxes = new BoundingBox[] { m_standaloneBlockMesh.CalculateBoundingBox() };
+        }
+
+        
+        
+        public override string GetCraftingId() => Id;
+        public override Vector3 GetIconBlockOffset(int value, DrawBlockEnvironmentData environmentData) => new Vector3 { Y = 0.45f };
+        public override BoundingBox[] GetCustomCollisionBoxes(SubsystemTerrain terrain, int value) => m_collisionBoxes;
+    }
+
 
     public class RefractoryBrick : MeshItem
 	{
