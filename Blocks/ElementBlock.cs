@@ -110,6 +110,10 @@ namespace Game
 			}
 			return list;
 		}
+		public override string GetCategory(int value)
+		{
+			return GetPaintColor(value).HasValue ? "Painted" : Utils.Get("»úÆ÷");
+		}
 		public override void GetDropValues(SubsystemTerrain subsystemTerrain, int oldValue, int newValue, int toolLevel, List<BlockDropValue> dropValues, out bool showDebris)
 		{
 			oldValue = Terrain.ReplaceData(Index, Terrain.ExtractData(oldValue) & 32767);
@@ -143,11 +147,6 @@ namespace Game
 		public int GetConnectionMask(int value)
 		{
 			return GetItem(ref value) is IElectricElementBlock electricElementBlock ? electricElementBlock.GetConnectionMask(value) : 0;
-		}
-
-		public override void GenerateTerrainVertices(BlockGeometryGenerator generator, TerrainGeometrySubsets geometry, int value, int x, int y, int z)
-		{
-			base.GenerateTerrainVertices(Utils.BlockGeometryGenerator, Utils.GTV(x, z, geometry), value, x, y, z);
 		}
 	}
 }

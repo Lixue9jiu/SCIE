@@ -246,7 +246,7 @@ namespace Game
 			GenerateWireVertices(generator, value, x, y, z, 4, 0f, Vector2.Zero, geometry.SubsetOpaque);
 		}
 	}*/
-	public class Switch : FixedDevice
+	public class Switch : FixedDevice, IInteractiveBlock
 	{
 		public BlockMesh m_standaloneBlockMesh = new BlockMesh();
 		public BlockMesh m_standaloneBlockMesh2 = new BlockMesh();
@@ -254,12 +254,14 @@ namespace Game
 		public Switch() : base("电闸", "电闸")
 		{
 			Model model = ContentManager.Get<Model>("Models/Switch");
-			Matrix boneAbsoluteTransform = BlockMesh.GetBoneAbsoluteTransform(model.FindMesh("Body").ParentBone);
+			Matrix boneAbsoluteTransform = BlockMesh.GetBoneAbsoluteTransform(model.FindMesh("Body").ParentBone) * Matrix.CreateTranslation(.5f, 0, .5f);
 			Matrix boneAbsoluteTransform2 = BlockMesh.GetBoneAbsoluteTransform(model.FindMesh("Lever").ParentBone);
-			m_standaloneBlockMesh.AppendModelMeshPart(model.FindMesh("Body").MeshParts[0], boneAbsoluteTransform, false, false, false, false, Color.White);
-			m_standaloneBlockMesh2.AppendModelMeshPart(model.FindMesh("Body").MeshParts[0], boneAbsoluteTransform, false, false, false, false, Color.White);
-			m_standaloneBlockMesh.AppendModelMeshPart(model.FindMesh("Lever").MeshParts[0], boneAbsoluteTransform2 * Matrix.CreateRotationX(MathUtils.DegToRad(30f)), false, false, false, false, Color.White);
-			m_standaloneBlockMesh2.AppendModelMeshPart(model.FindMesh("Lever").MeshParts[0], boneAbsoluteTransform2 * Matrix.CreateRotationX(MathUtils.DegToRad(-30f)), false, false, false, false, Color.White);
+			ModelMeshPart meshPart = model.FindMesh("Body").MeshParts[0];
+			m_standaloneBlockMesh.AppendModelMeshPart(meshPart, boneAbsoluteTransform, false, false, false, false, Color.White);
+			m_standaloneBlockMesh2.AppendModelMeshPart(meshPart, boneAbsoluteTransform, false, false, false, false, Color.White);
+			meshPart = model.FindMesh("Lever").MeshParts[0];
+			m_standaloneBlockMesh.AppendModelMeshPart(meshPart, boneAbsoluteTransform2 * Matrix.CreateRotationX(MathUtils.DegToRad(30f)) * Matrix.CreateTranslation(.5f, 0f, .5f), false, false, false, false, Color.White);
+			m_standaloneBlockMesh2.AppendModelMeshPart(meshPart, boneAbsoluteTransform2 * Matrix.CreateRotationX(MathUtils.DegToRad(-30f)) * Matrix.CreateTranslation(.5f, 0f, .5f), false, false, false, false, Color.White);
 			m_collisionBoxes = new[] { m_standaloneBlockMesh.CalculateBoundingBox() };
 		}
 
@@ -269,11 +271,13 @@ namespace Game
 		}
 		public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
 		{
-			BlocksManager.DrawMeshBlock(primitivesRenderer, m_standaloneBlockMesh, color, size, ref matrix, environmentData);
+			BlocksManager.DrawMeshBlock(primitivesRenderer, m_standaloneBlockMesh, color * Color.LightGray, size * 2f, ref matrix, environmentData);
 		}
 		public override void GenerateTerrainVertices(Block block, BlockGeometryGenerator generator, TerrainGeometrySubsets geometry, int value, int x, int y, int z)
 		{
-			generator.GenerateMeshVertices(block, x, y, z, m_standaloneBlockMesh, Color.White, null, geometry.SubsetOpaque);
+			Powered = (Terrain.ExtractData(value) & 16384) != 0;
+			generator.GenerateMeshVertices(block, x, y, z, Powered ? m_standaloneBlockMesh : m_standaloneBlockMesh2, Color.LightGray, null, geometry.SubsetOpaque);
+			WireDevice.GenerateWireVertices(generator, value, x, y, z, 4, 0f, Vector2.Zero, geometry.SubsetOpaque);
 		}
 		public override BlockPlacementData GetPlacementValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, TerrainRaycastResult raycastResult)
 		{
@@ -281,6 +285,16 @@ namespace Game
 		}
 		public override bool IsFaceTransparent(SubsystemTerrain subsystemTerrain, int face, int value) => true;
 		public override BoundingBox[] GetCustomCollisionBoxes(SubsystemTerrain terrain, int value) => m_collisionBoxes;
+
+		public bool OnInteract(TerrainRaycastResult raycastResult, ComponentMiner componentMiner)
+		{
+			int x = Point.X,
+				y = Point.Y,
+				z = Point.Z;
+			Utils.SubsystemTerrain.ChangeCell(x, y, z, Utils.Terrain.GetCellValueFast(x, y, z) ^ 16384 << 14);
+			return true;
+		}
+		public override Vector3 GetIconBlockOffset(int value, DrawBlockEnvironmentData environmentData) => new Vector3 { Y = .5f };
 	}
 	/*public abstract class DeviceElement : Element, IComparable<DeviceElement>, IEquatable<DeviceElement>
 	{

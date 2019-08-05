@@ -68,7 +68,7 @@ namespace Game
 
 		public override string GetCategory(int value)
 		{
-			return GetPaintColor(value).HasValue ? "Painted" : base.GetCategory(value);
+			return GetPaintColor(value).HasValue ? "Painted" : Utils.Get("机器");
 		}
 
 		public override int GetFaceTextureSlot(int face, int value)

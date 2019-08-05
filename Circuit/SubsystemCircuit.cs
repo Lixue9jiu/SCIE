@@ -31,8 +31,7 @@ namespace Game
 		}
 		public override void OnBlockGenerated(int value, int x, int y, int z, bool isLoaded)
 		{
-			if (isLoaded)
-				OnBlockAdded(value, -1, x, y, z);
+			OnBlockAdded(value, -1, x, y, z);
 		}
 		public override void OnBlockAdded(int value, int oldValue, int x, int y, int z)
 		{

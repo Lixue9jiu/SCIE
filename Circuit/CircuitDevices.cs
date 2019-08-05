@@ -392,7 +392,7 @@ namespace Game
 	}
 
 
-    public class Condenser : DeviceBlock, IBlockBehavior, IInteractiveBlock, IUnstableBlock
+    public class Condenser : DeviceBlock, IBlockBehavior, IInteractiveBlock
     {
         public bool Charged;
         public float Energy;
@@ -418,22 +418,13 @@ namespace Game
         public override BlockPlacementData GetPlacementValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, TerrainRaycastResult raycastResult)
         {
             return FixedDevice.GetPlacementValue(32, componentMiner, value, raycastResult);
-            //return GetPlacementValue(29, componentMiner, value, raycastResult);
         }
-
-        //public static int GetDirection(int data) => data & 7;
-        //public static int SetDirection(int data, int direction) => (data & -8) | (direction & 7);
         public override bool IsFaceTransparent(SubsystemTerrain subsystemTerrain, int face, int value) => false;
         public void OnBlockAdded(SubsystemTerrain subsystemTerrain, int value, int oldValue)
         {
             Charged = false;
-            //Powered = ComponentEngine.IsPowered(subsystemTerrain.Terrain, Point.X, Point.Y, Point.Z, false);
         }
         public void OnBlockRemoved(SubsystemTerrain subsystemTerrain, int value, int newValue) { }
-        public void OnNeighborBlockChanged(SubsystemTerrain subsystemTerrain, int neighborX, int neighborY, int neighborZ)
-        {
-            //Powered = ComponentEngine.IsPowered(subsystemTerrain.Terrain, Point.X, Point.Y, Point.Z, false);
-        }
         public bool OnInteract(TerrainRaycastResult raycastResult, ComponentMiner componentMiner)
         {
             DialogsManager.ShowDialog(componentMiner.ComponentPlayer.View.GameWidget, new EditElectricDialog(Energy));

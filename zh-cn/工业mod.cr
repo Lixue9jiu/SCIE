@@ -1011,7 +1011,10 @@
     <Recipe Result="CopperIngotBlock" ResultCount="20" Remains="SteelIngot" RemainsCount="9" RequiredHeatLevel="1500" a="creactor:0" Description="拆除化学反应器">
       "a"
     </Recipe>
-    <Recipe Result="WireDevice" ResultCount="10" RequiredHeatLevel="0" a="CopperLine" Description="拆除工业电线">
+    <Recipe Result="WireDevice" ResultCount="10" RequiredHeatLevel="0" a="CopperLine" Description="用铜丝制作工业电线">
+      "a"
+    </Recipe>
+    <Recipe Result="WireDevice" ResultCount="10" RequiredHeatLevel="0" a="SilverLine" Description="用银丝制作工业电线">
       "a"
     </Recipe>
     <Recipe Result="SteelPlate" ResultCount="8" RequiredHeatLevel="0" a="SteelFan" Remains="SteelRod" RemainsCount="4" Description="拆除钢扇">
