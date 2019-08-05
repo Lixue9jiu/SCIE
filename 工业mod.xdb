@@ -73,6 +73,11 @@
         <Parameter Name="AttackResilience" Guid="32e5b809-e2ba-4221-9f06-6b8710a8bcdf" Value="500" Type="float" />
       </MemberComponentTemplate>
     </EntityTemplate>
+    <EntityTemplate Name="Icebreaker" Guid="3f3abb7e-2ce4-43fa-9612-47d69bf788ba" InheritanceParent="3f3abb7e-1ce4-43fa-9612-47d69bf788ba">
+      <MemberComponentTemplate Name="Body" Guid="b6800017-ddd6-407b-bd4d-7be14c05d3eb">
+        <Parameter Name="Mass" Guid="ae127d38-1570-4901-a319-b21a8dc22175" Value="1000" Type="float" />
+      </MemberComponentTemplate>
+    </EntityTemplate>
     <EntityTemplate Name="Airship" Guid="3f3abb7e-1ce4-43fa-9614-47d69bf788ba">
       <MemberComponentTemplate Name="SimpleModel" Guid="459a8ad2-0db8-4604-9ee8-8504dbd3c7b1" InheritanceParent="cc5a4e72-0df9-4acf-a42e-ecb5a2a7baf4">
         <Parameter Name="ModelName" Guid="fe4ed217-297f-47ca-950a-930ea7d6e881" Value="Models/Airship" Type="string" />
@@ -97,7 +102,7 @@
         <Parameter Name="WaterDrag" Guid="6549df11-9d10-410f-b0b0-4cdf89dcdae4" Value="6,4" Type="Vector2" />
         <Parameter Name="Mass" Guid="ae129d38-1576-4911-a319-b21a8dc22175" Value="250" Type="float" />
         <Parameter Name="AirDrag" Guid="d851439d-da38-409b-9b32-aadf09fc82a4" Value="0.25,0.5" Type="Vector2" />
-        <Parameter Name="Density" Guid="f2894d8d-5ef9-44c5-881e-a724611e3cd5" Value="-1.0" Type="float" />
+        <Parameter Name="Density" Guid="f2894d8d-5ef9-44c5-881e-a724611e3cd5" Value="0.1" Type="float" />
       </MemberComponentTemplate>
       <MemberComponentTemplate Name="Damage" Guid="eb61229d-8903-41bd-b663-545dea83af91" InheritanceParent="17bb7b53-159c-4eb3-b4bc-137b10bba88a">
         <Parameter Name="AttackResilience" Guid="32e5b819-e2ba-4221-9f06-6b8710a8bcdf" Value="200" Type="float" />

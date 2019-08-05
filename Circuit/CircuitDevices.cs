@@ -417,7 +417,7 @@ namespace Game
         }
         public override BlockPlacementData GetPlacementValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, TerrainRaycastResult raycastResult)
         {
-            return FixedDevice.GetPlacementValue(32, componentMiner, value, raycastResult);
+            return FixedDevice.GetPlacementValue(30, componentMiner, value, raycastResult);
         }
         public override bool IsFaceTransparent(SubsystemTerrain subsystemTerrain, int face, int value) => false;
         public void OnBlockAdded(SubsystemTerrain subsystemTerrain, int value, int oldValue)
