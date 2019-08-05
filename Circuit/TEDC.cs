@@ -50,7 +50,6 @@ namespace Game
 	}
 	public class AirCompressor : FixedDevice
 	{
-		protected bool Powered;
 		public AirCompressor() : base("空气压缩机", "空气压缩机") { }
 		public override int GetFaceTextureSlot(int face, int value)
 		{
@@ -71,7 +70,6 @@ namespace Game
 	public class WashingMach : FixedDevice
 	{
 		public WashingMach() : base("洗衣机", "洗衣机") { }
-		public bool Powered;
 
 		public override int GetFaceTextureSlot(int face, int value)
 		{

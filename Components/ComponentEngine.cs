@@ -157,7 +157,7 @@ namespace Game
                 return false;
             int cellValue = terrain.GetCellValueFast(x + 1, y, z);
             
-            if (flag && ElementBlock.Block.GetDevice(x + 1, y, z, cellValue) is ElectricMotor abb && abb.EPowered)
+            if (flag && ElementBlock.Block.GetDevice(x + 1, y, z, cellValue) is ElectricMotor abb && abb.Powered)
                  return true;
             
             if (FurnaceNBlock.GetHeatLevel(cellValue) != 0)
@@ -168,7 +168,7 @@ namespace Game
             }
 
             cellValue = terrain.GetCellValueFast(x - 1, y, z);
-            if (flag && ElementBlock.Block.GetDevice(x - 1, y, z, cellValue) is ElectricMotor abc && abc.EPowered)
+            if (flag && ElementBlock.Block.GetDevice(x - 1, y, z, cellValue) is ElectricMotor abc && abc.Powered)
                 return true;
 
             if (FurnaceNBlock.GetHeatLevel(cellValue) != 0)
@@ -180,7 +180,7 @@ namespace Game
             if (y < 127)
             {
                 cellValue = chunk.GetCellValueFast(x & 15, y + 1, z & 15);
-                if (flag && ElementBlock.Block.GetDevice(x & 15, y + 1, z & 15, cellValue) is ElectricMotor abd && abd.EPowered)
+                if (flag && ElementBlock.Block.GetDevice(x & 15, y + 1, z & 15, cellValue) is ElectricMotor abd && abd.Powered)
                     return true;
 
                 if (FurnaceNBlock.GetHeatLevel(cellValue) != 0)
@@ -193,7 +193,7 @@ namespace Game
             if (y > 0)
             {
                 cellValue = chunk.GetCellValueFast(x & 15, y - 1, z & 15);
-                if (flag && ElementBlock.Block.GetDevice(x & 15, y - 1, z & 15, cellValue) is ElectricMotor abe && abe.EPowered)
+                if (flag && ElementBlock.Block.GetDevice(x & 15, y - 1, z & 15, cellValue) is ElectricMotor abe && abe.Powered)
                     return true;
 
                 if (FurnaceNBlock.GetHeatLevel(cellValue) != 0)
@@ -204,7 +204,7 @@ namespace Game
                 }
             }
             cellValue = terrain.GetCellValueFast(x, y, z + 1);
-            if (flag && ElementBlock.Block.GetDevice(x, y , z +1, cellValue) is ElectricMotor abf && abf.EPowered)
+            if (flag && ElementBlock.Block.GetDevice(x, y , z +1, cellValue) is ElectricMotor abf && abf.Powered)
                 return true;
 
             if (FurnaceNBlock.GetHeatLevel(cellValue) != 0)
@@ -214,7 +214,7 @@ namespace Game
                     return true;
             }
             cellValue = terrain.GetCellValueFast(x, y, z - 1);
-            if (flag && ElementBlock.Block.GetDevice(x, y , z -1, cellValue) is ElectricMotor abq && abq.EPowered)
+            if (flag && ElementBlock.Block.GetDevice(x, y , z -1, cellValue) is ElectricMotor abq && abq.Powered)
                 return true;
 
             if (FurnaceNBlock.GetHeatLevel(cellValue) != 0)

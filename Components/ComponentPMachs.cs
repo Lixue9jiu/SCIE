@@ -43,6 +43,8 @@ namespace Game
 								var item = Item.Block.GetItem(ref value);
 								if (item is OreChunk)
 									text = item.GetCraftingId().Replace("Chunk", "Powder");
+								else if (item is Brick)
+									text = "Ëé×©";
 							}
 							if (!ItemBlock.IdTable.ContainsKey(text))
 								return null;

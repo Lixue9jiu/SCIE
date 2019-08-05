@@ -149,7 +149,7 @@ namespace Game
 			DefaultDisplayName = DefaultDescription = name;
             Color = color;
             DefaultDisplayName = name1 + Utils.Get("合金");
-            m_standaloneBlockMesh.AppendMesh("Models/Alloy", "Torch", Matrix.CreateTranslation(0.5f, 0f, 0.5f) * Matrix.CreateScale(1.1f), Matrix.Identity, color);
+            m_standaloneBlockMesh.AppendMesh("Models/Alloy", "Torch", Matrix.CreateTranslation(0.5f, 0f, 0.5f) * Matrix.CreateScale(1.2f), Matrix.CreateTranslation(12f/16f,1f/16f,0f), color);
             m_collisionBoxes = new BoundingBox[] { m_standaloneBlockMesh.CalculateBoundingBox() };
         }
 
@@ -172,11 +172,35 @@ namespace Game
         public override BoundingBox[] GetCustomCollisionBoxes(SubsystemTerrain terrain, int value) => m_collisionBoxes;
     }
 
-    public class RefractoryBrick : MeshItem
+
+    public class FoodCan : MeshItem
+    {
+        protected BoundingBox[] m_collisionBoxes;
+        public readonly Color Color;
+        protected string Id;
+        public FoodCan(string name, string name1, Color color)
+        {
+            DefaultDescription = name;
+            Color = color;
+            Id = name1;
+            DefaultDisplayName = name1 + Utils.Get("Can");
+            m_standaloneBlockMesh.AppendMesh("Models/Battery", "Battery", Matrix.CreateTranslation(0.5f, -0.5f, 0.5f) * Matrix.CreateScale(1.0f), Matrix.CreateTranslation(12f / 16f, 1f / 16f, 0f), color);
+            m_collisionBoxes = new BoundingBox[] { m_standaloneBlockMesh.CalculateBoundingBox() };
+        }
+
+        
+        
+        public override string GetCraftingId() => Id;
+        public override Vector3 GetIconBlockOffset(int value, DrawBlockEnvironmentData environmentData) => new Vector3 { Y = 0.45f };
+        public override BoundingBox[] GetCustomCollisionBoxes(SubsystemTerrain terrain, int value) => m_collisionBoxes;
+    }
+
+
+    public class Brick : MeshItem
 	{
-		public RefractoryBrick() : base(Utils.Get("耐火砖是一种耐火陶瓷材料，用于炉衬炉，窑炉，高级燃烧室和壁炉。 它具有耐高温性能，但导热系数低，能效高。"))
+		public Brick(Color color) : base(Utils.Get("耐火砖是一种耐火陶瓷材料，用于炉衬炉，窑炉，高级燃烧室和壁炉。 它具有耐高温性能，但导热系数低，能效高。"))
 		{
-			m_standaloneBlockMesh.AppendMesh("Models/Brick", "Brick", Matrix.CreateTranslation(0f, -.02f, 0f) * 1.4f, Matrix.CreateTranslation(-32 % 16 / 16f, -32 / 16 / 16f, 0f), new Color(255, 153, 18));
+			m_standaloneBlockMesh.AppendMesh("Models/Brick", "Brick", Matrix.CreateTranslation(0f, -.02f, 0f) * 1.4f, Matrix.CreateTranslation(-32 % 16 / 16f, -32 / 16 / 16f, 0f), color);
 		}
 
 		public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)

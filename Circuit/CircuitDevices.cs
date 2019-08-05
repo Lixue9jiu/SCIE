@@ -354,7 +354,6 @@ namespace Game
     public class ElectricMotor : FixedDevice, IBlockBehavior
     {
         public ElectricMotor() : base("电动机", "电动机是一种可以把电能转化为动能的机器") { }
-        public bool EPowered;
         public void OnBlockAdded(SubsystemTerrain subsystemTerrain, int value, int oldValue)
         {
         }
@@ -370,7 +369,7 @@ namespace Game
         }
         public override void Simulate(ref int voltage)
         {
-            if (EPowered = voltage >= 310)
+            if (Powered = voltage >= 310)
                 voltage -= 310;
         }
         public void OnBlockRemoved(SubsystemTerrain terrain, int value, int newValue)
@@ -408,10 +407,14 @@ namespace Game
         public override void Simulate(ref int voltage)
         {
             if (Charged)
+            {
                 voltage += Voltage;
+            }
             else
+            {
                 Energy += voltage;
                 voltage = 0;
+            }
         }
         public override int GetFaceTextureSlot(int face, int value)
         {

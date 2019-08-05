@@ -122,6 +122,7 @@ namespace Game
 	public abstract class FixedDevice : Device, IEquatable<FixedDevice>
 	{
 		public int Index;
+		public bool Powered;
 		public string DefaultDisplayName;
 		public string DefaultDescription;
 
