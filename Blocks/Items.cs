@@ -206,6 +206,7 @@ namespace Game
             new FoodCan("ChickenCan can store Chicken for a long time","Chicken",Color.Gray),
             new FoodCan("PumpkinCan can store Pumpkin for a long time","Pumpkin",Color.Gray),
             new FoodCan("BreadCan can store Bread for a long time","Bread",Color.Gray),
+            new FoodCan("FishCan can store Fish for a long time","Fish",Color.Gray),
             new Sheet("128K RAM", Color.DarkGreen),
             new Sheet("256K RAM", Color.DarkGreen),
             new Sheet("512K RAM", Color.DarkGreen),
