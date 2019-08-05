@@ -53,4 +53,20 @@ namespace Game
 			ItemBlock.DrawFlatBlock(primitivesRenderer, value, size, ref matrix, ItemBlock.Texture, color, false, environmentData);
 		}
 	}
+	public class CPanel : FlatItem
+	{
+		public CPanel()
+		{
+			DefaultTextureSlot = 109;
+			DefaultDisplayName = Utils.Get("控制面板");
+			DefaultDescription = "控制面板";
+		}
+
+		public override string GetCraftingId() => "CPanel";
+		
+		public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
+		{
+			ItemBlock.DrawFlatBlock(primitivesRenderer, value, size, ref matrix, ItemBlock.Texture, color, false, environmentData);
+		}
+	}
 }

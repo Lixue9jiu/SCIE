@@ -12,7 +12,7 @@ namespace Game
 	}
     public class SpinnerBlock : FourDirectionalBlock
     {
-        public const int Index = 539;
+        public const int Index = 535;
 
         public SpinnerBlock() : base(207) { }
         public override int GetFaceTextureSlot(int face, int value)
