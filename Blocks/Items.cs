@@ -171,7 +171,7 @@ namespace Game
             new Powder("聚丙烯", Color.White),
             new Plate("聚乙烯板", Color.White),
             new Sheet("聚乙烯片", Color.White),
-            new Mould("Models/huos", "Cylinder", Matrix.CreateTranslation(0.5f, 0.3f, 0.5f), Matrix.CreateTranslation(4f, 3.8f, 0f), "A Cylinder made of alloy, Aluminum and steel, the neccessary part of many machine.", "Cylinder", 1.6f),
+            new Mould("Models/Piston2", "Cylinder", Matrix.CreateTranslation(0.5f, 0.7f, 0.5f) * Matrix.CreateScale(0.6f), Matrix.CreateTranslation(4f, 3.8f, 0f), "A Cylinder made of alloy, Aluminum and steel, the neccessary part of many machine.", "Cylinder", 1.6f),
             new Ball("Models/Snowball", "Snowball", Matrix.CreateTranslation(0.5f, 0.4f, 0.5f), Matrix.CreateTranslation(13f / 16f, -3f / 16f, 0f), "A Ball of Melting Iron.", "MeltingIron", 2.9f),
             new Ball("Models/Snowball", "Snowball", Matrix.CreateTranslation(0.5f, 0.4f, 0.5f), Matrix.CreateTranslation(13f / 16f, -3f / 16f, 0f), "A Ball of Melting Chromium.", "MeltingChromium", 2.9f),
             new Ball("Models/Snowball", "Snowball", Matrix.CreateTranslation(0.5f, 0.4f, 0.5f), Matrix.CreateTranslation(13f / 16f, -3f / 16f, 0f), "A Ball of Melting Nickel.", "MeltingNickel", 2.9f),

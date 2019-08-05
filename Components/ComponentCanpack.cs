@@ -110,10 +110,10 @@ namespace Game
             
           
                 
-                if (GetSlotValue(0) == ItemBlock.IdTable["Empty"] && GetSlotValue(1) == CookedMeatBlock.Index && GetSlotCount(0)>=1 && GetSlotCount(0)>=5)
+                if (GetSlotValue(0) == ItemBlock.IdTable["EmptyCan"] && GetSlotValue(1) == CookedMeatBlock.Index && GetSlotCount(0)>=1 && GetSlotCount(0)>=5)
                 {
                     text = true;
-                    result[0] = ItemBlock.IdTable["MeatCan"];
+                    result[0] = ItemBlock.IdTable["MeatFoodCan"];
                 }
             
             if (!text)
