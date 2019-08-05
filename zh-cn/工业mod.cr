@@ -1,78 +1,9 @@
-<IndustrialMod>
+﻿<IndustrialMod>
 <Recipe Result="IronIngotBlock" ResultCount="1" new-RequiredHeatLevel="1500" a="ironorechunk:0" Description="冶炼铁矿石以获得铁" />
 <Recipe Result="CopperIngotBlock" ResultCount="1" new-RequiredHeatLevel="1000" a="malachitechunk:0" Description="冶炼铜矿石以获得铜" />
 <Recipe Result="GermaniumChunkBlock" ResultCount="1" new-RequiredHeatLevel="900" a="germaniumorechunk:0" Description="冶炼锗矿石以获得锗晶体" />
 <Recipe Result="RodBlock" ResultCount="4" new-RequiredHeatLevel="1500" new-a="ironingot:0" Description="将铁锭锻造成棒" />
   <Smelting>
-    <Recipe Result="SaltpeterChunkBlock" ResultCount="1" RequiredHeatLevel="200" a="rottendough" b="dirt" Description="使用细菌分解泥土和腐烂的食物，以获得硝">
-      "ab"
-    </Recipe>
-    <Recipe Result="SaltpeterChunkBlock" ResultCount="1" RequiredHeatLevel="200" a="rottenbread" b="dirt" Description="使用细菌分解泥土和腐烂的食物，以获得硝">
-      "ab"
-    </Recipe>
-    <Recipe Result="SaltpeterChunkBlock" ResultCount="1" RequiredHeatLevel="200" a="Rotten Egg" b="dirt" Description="使用细菌分解泥土和腐烂的食物，以获得硝">
-      "ab"
-    </Recipe>
-    <Recipe Result="SaltpeterChunkBlock" ResultCount="1" RequiredHeatLevel="200" a="rottenbird" b="dirt" Description="使用细菌分解泥土和腐烂的食物，以获得硝">
-      "ab"
-    </Recipe>
-    <Recipe Result="SaltpeterChunkBlock" ResultCount="1" RequiredHeatLevel="200" a="rottenmeat" b="dirt" Description="使用细菌分解泥土和腐烂的食物，以获得硝">
-      "ab"
-    </Recipe>
-    <Recipe Result="SaltpeterChunkBlock" ResultCount="1" RequiredHeatLevel="200" a="rottenfish" b="dirt" Description="使用细菌分解泥土和腐烂的食物，以获得硝">
-      "ab"
-    </Recipe>
-    <Recipe Result="SaltpeterChunkBlock" ResultCount="1" RequiredHeatLevel="200" a="rottenpumpkin" b="dirt" Description="使用细菌分解泥土和腐烂的食物，以获得硝">
-      "ab"
-    </Recipe>
-    <Recipe Result="SaltpeterChunkBlock" ResultCount="1" RequiredHeatLevel="200" Remains="EmptyBucketBlock" RemainsCount="1" a="rottenmilkbucket" b="dirt" Description="使用细菌分解泥土和腐烂的食物，以获得硝">
-      "ab"
-    </Recipe>
-    <Recipe Result="SaltpeterChunkBlock" ResultCount="1" RequiredHeatLevel="200" Remains="EmptyBucketBlock" RemainsCount="1" a="rottenpumpkinsoupbucket" b="dirt" Description="使用细菌分解泥土和腐烂的食物，以获得硝">
-      "ab"
-    </Recipe>
-    <Recipe Result="SaltpeterChunkBlock" ResultCount="2" RequiredHeatLevel="200" a="rottendough" b="dirt" Description="使用细菌分解泥土和腐烂的食物，以获得硝">
-      "aba"
-    </Recipe>
-    <Recipe Result="SaltpeterChunkBlock" ResultCount="2" RequiredHeatLevel="200" a="rottenbread" b="dirt" Description="使用细菌分解泥土和腐烂的食物，以获得硝">
-      "aba"
-    </Recipe>
-    <Recipe Result="SaltpeterChunkBlock" ResultCount="2" RequiredHeatLevel="200" a="Rotten Egg" b="dirt" Description="使用细菌分解泥土和腐烂的食物，以获得硝">
-      "aba"
-    </Recipe>
-    <Recipe Result="SaltpeterChunkBlock" ResultCount="2" RequiredHeatLevel="200" a="rottenbird" b="dirt" Description="使用细菌分解泥土和腐烂的食物，以获得硝">
-      "aba"
-    </Recipe>
-    <Recipe Result="SaltpeterChunkBlock" ResultCount="2" RequiredHeatLevel="200" a="rottenmeat" b="dirt" Description="使用细菌分解泥土和腐烂的食物，以获得硝">
-      "aba"
-    </Recipe>
-    <Recipe Result="SaltpeterChunkBlock" ResultCount="2" RequiredHeatLevel="200" a="rottenfish" b="dirt" Description="使用细菌分解泥土和腐烂的食物，以获得硝">
-      "aba"
-    </Recipe>
-    <Recipe Result="SaltpeterChunkBlock" ResultCount="2" RequiredHeatLevel="200" a="rottenpumpkin" b="dirt" Description="使用细菌分解泥土和腐烂的食物，以获得硝">
-      "aba"
-    </Recipe>
-    <Recipe Result="SaltpeterChunkBlock" ResultCount="2" RequiredHeatLevel="200" a="rottendough" b="dirt" Description="使用细菌分解泥土和腐烂的食物，以获得硝">
-      "aab"
-    </Recipe>
-    <Recipe Result="SaltpeterChunkBlock" ResultCount="2" RequiredHeatLevel="200" a="rottenbread" b="dirt" Description="使用细菌分解泥土和腐烂的食物，以获得硝">
-      "aab"
-    </Recipe>
-    <Recipe Result="SaltpeterChunkBlock" ResultCount="2" RequiredHeatLevel="200" a="Rotten Egg" b="dirt" Description="使用细菌分解泥土和腐烂的食物，以获得硝">
-      "aab"
-    </Recipe>
-    <Recipe Result="SaltpeterChunkBlock" ResultCount="2" RequiredHeatLevel="200" a="rottenbird" b="dirt" Description="使用细菌分解泥土和腐烂的食物，以获得硝">
-      "aab"
-    </Recipe>
-    <Recipe Result="SaltpeterChunkBlock" ResultCount="2" RequiredHeatLevel="200" a="rottenmeat" b="dirt" Description="使用细菌分解泥土和腐烂的食物，以获得硝">
-      "aab"
-    </Recipe>
-    <Recipe Result="SaltpeterChunkBlock" ResultCount="2" RequiredHeatLevel="200" a="rottenfish" b="dirt" Description="使用细菌分解泥土和腐烂的食物，以获得硝">
-      "aab"
-    </Recipe>
-    <Recipe Result="SaltpeterChunkBlock" ResultCount="2" RequiredHeatLevel="200" a="rottenpumpkin" b="dirt" Description="使用细菌分解泥土和腐烂的食物，以获得硝">
-      "aab"
-    </Recipe>
     <Recipe Result="GunpowderBlock:1" ResultCount="3" RequiredHeatLevel="0" a="saltpeterchunk" b="SulphurPowder" c="CoalPowder" Description="将煤，硫和硝石混合制成火药">
       "abc"
     </Recipe>
@@ -742,6 +673,11 @@
       "aba"
       "aca"
       "aba"
+    </Recipe>
+	<Recipe Result="SourBlock" ResultCount="1" RequiredHeatLevel="0" a="planks" b="stick" c="dirt" Description="制作一个发酵池">
+      "aaa"
+      "bcb"
+      "aaa"
     </Recipe>
     <Recipe Result="SqueezerBlock" ResultCount="1" RequiredHeatLevel="0" a="SteelGear" b="IndustrialPiston" c="metalblock:0" Description="制作一个挤压器来制作金属线">
       "aba"

@@ -233,7 +233,19 @@ namespace Game
 			}
 		}
 	}
-	public class SilverWireDevice : WireDevice
+	/*public class SilverWireDevice : WireDevice
+	{
+		public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
+		{
+			int? paintColor = PaintableItemBlock.GetColor(Terrain.ExtractData(value));
+			BlocksManager.DrawMeshBlock(primitivesRenderer, ElementBlock.WireBlock.m_standaloneBlockMesh, (paintColor.HasValue ? SubsystemPalette.GetColor(environmentData, paintColor) : Color.LightGray) * color, 2f * size, ref matrix, environmentData);
+		}
+		public override void GenerateTerrainVertices(Block block, BlockGeometryGenerator generator, TerrainGeometrySubsets geometry, int value, int x, int y, int z)
+		{
+			GenerateWireVertices(generator, value, x, y, z, 4, 0f, Vector2.Zero, geometry.SubsetOpaque);
+		}
+	}*/
+	public class Switch
 	{
 
 	}

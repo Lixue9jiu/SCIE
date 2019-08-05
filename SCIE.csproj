@@ -57,6 +57,7 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Blocks\EndDiag.cs" />
     <Compile Include="Blocks\GunSmoke2.cs" />
     <Compile Include="Blocks\Musket3Block.cs" />
     <Compile Include="Chemistry\ChemicalBlock.cs" />
@@ -107,7 +108,7 @@
     <Compile Include="Common\I18N.cs" />
     <Compile Include="Circuit\CircuitDevices.cs" />
     <Compile Include="Circuit\Elements.cs" />
-    <Compile Include="Circuit\Generator.cs" />
+    <Compile Include="Circuit\Power.cs" />
     <Compile Include="Common\Interfaces.cs" />
     <Compile Include="Blocks\Items.cs" />
     <Compile Include="Circuit\Pipe.cs" />

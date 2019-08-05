@@ -121,23 +121,22 @@ namespace Game
 	[Serializable]
 	public abstract class FixedDevice : Device, IEquatable<FixedDevice>
 	{
-		public readonly int Resistance;
+		public int Index;
 		public string DefaultDisplayName;
 		public string DefaultDescription;
 
-		protected FixedDevice(string name, string description = "", int resistance = 1000)
+		protected FixedDevice(string name, string description = "")
 		{
 			//if (resistance < 1) throw new ArgumentOutOfRangeException("resistance", resistance, "Device has Resistance < 1");
 			DefaultDisplayName = Utils.Get(name);
 			DefaultDescription = Utils.Get(description);
-			Resistance = resistance;
 		}
 		public override string GetDisplayName(SubsystemTerrain subsystemTerrain, int value) => DefaultDisplayName;
 		public override string GetDescription(int value) => DefaultDescription;
-		public override int GetWeight(int value) => Resistance;
-		public bool Equals(FixedDevice other) => other != null && other.Type == Type && other.Resistance == Resistance && other.GetCraftingId() == GetCraftingId();
+		public override int GetWeight(int value) => Index;
+		public bool Equals(FixedDevice other) => other != null && other.GetCraftingId() == GetCraftingId();
 		public override bool Equals(object obj) => Equals(obj as FixedDevice);
-		public override int GetHashCode() => base.GetHashCode() ^ Resistance;
+		public override int GetHashCode() => base.GetHashCode() ^ Index;
 		public static BlockPlacementData GetPlacementValue(int index, ComponentMiner componentMiner, int value, TerrainRaycastResult raycastResult)
 		{
 			return new BlockPlacementData
@@ -161,7 +160,7 @@ namespace Game
 		}
 		public override string GetDisplayName(SubsystemTerrain subsystemTerrain, int value) => DefaultDisplayName;
 		public override string GetDescription(int value) => DefaultDescription;
-		// public int CompareTo(DeviceBlock other) => Voltage.CompareTo(other.Voltage);
+		//public int CompareTo(DeviceBlock other) => Voltage.CompareTo(other.Voltage);
 		public bool Equals(DeviceBlock other) => base.Equals(other) && Voltage == other.Voltage;
 	}
 	public class EntityDevice<T> : FixedDevice, IBlockBehavior, IItemAcceptableBlock where T : Component

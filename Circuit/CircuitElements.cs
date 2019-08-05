@@ -2,13 +2,13 @@
 
 namespace Game
 {
-	public class FixedResistor : FixedDevice
+	/*public class FixedResistor : FixedDevice
 	{
-		public FixedResistor(string name, int resistance) : base(name, name, resistance)
+		public FixedResistor(string name) : base(name, name)
 		{
 		}
 	}
-	/*public abstract class IC : Element, IEquatable<IC>
+	public abstract class IC : Element, IEquatable<IC>
 	{
 		protected IC(ElementType type) : base(type)
 		{

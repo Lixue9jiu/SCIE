@@ -1,6 +1,7 @@
 ﻿using Engine;
 using Engine.Graphics;
 using System;
+using System.Collections.Generic;
 
 namespace Game
 {//ElementType.Container | ElementType.Connector |
@@ -29,12 +30,12 @@ namespace Game
 		public override bool IsFaceTransparent(SubsystemTerrain subsystemTerrain, int face, int value) => false;
 		public void OnBlockAdded(SubsystemTerrain subsystemTerrain, int value, int oldValue)
 		{
-			Powered = ComponentEngine.IsPowered(subsystemTerrain.Terrain, Point.X, Point.Y, Point.Z);
+			Powered = ComponentEngine.IsPowered(subsystemTerrain.Terrain, Point.X, Point.Y, Point.Z ,false);
 		}
 		public void OnBlockRemoved(SubsystemTerrain subsystemTerrain, int value, int newValue) { }
 		public void OnNeighborBlockChanged(SubsystemTerrain subsystemTerrain, int neighborX, int neighborY, int neighborZ)
 		{
-			Powered = ComponentEngine.IsPowered(subsystemTerrain.Terrain, Point.X, Point.Y, Point.Z);
+			Powered = ComponentEngine.IsPowered(subsystemTerrain.Terrain, Point.X, Point.Y, Point.Z ,false);
 		}
 		public bool OnInteract(TerrainRaycastResult raycastResult, ComponentMiner componentMiner)
 		{
@@ -51,6 +52,74 @@ namespace Game
 		{
 			if (Powered)
 				voltage -= Voltage;
+		}
+		public override BlockPlacementData GetPlacementValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, TerrainRaycastResult raycastResult)
+		{
+			return FixedDevice.GetPlacementValue(28, componentMiner, value, raycastResult);
+		}
+	}
+	public class Battery : DeviceBlock, IHarvestingItem, IEquatable<Battery>
+	{
+		public int Factor = 0;
+		public readonly BoundingBox[] m_collisionBoxes;
+		public readonly BlockMesh m_standaloneBlockMesh = new BlockMesh();
+		public int RemainCount = 500;
+		readonly string Id;
+		public Battery(Matrix tcTransform, string name = "", string description = "", string id = "", int voltage = 12, string modelName = "Models/Battery", string meshName = "Battery") : base(voltage, name, description, ElementType.Connector | ElementType.Container)
+		{
+			m_standaloneBlockMesh.AppendMesh(modelName, meshName, Matrix.CreateTranslation(0f, -0.5f, 0f) * Matrix.CreateTranslation(new Vector3(0.5f)), tcTransform, Color.LightGray);
+			m_collisionBoxes = new BoundingBox[] { m_standaloneBlockMesh.CalculateBoundingBox() };
+			Id = id;
+		}
+		public override void GenerateTerrainVertices(Block block, BlockGeometryGenerator generator, TerrainGeometrySubsets geometry, int value, int x, int y, int z)
+		{
+			if ((Terrain.ExtractData(value) & 16384) != 0)
+				RemainCount = 0;
+			generator.GenerateMeshVertices(block, x, y, z, m_standaloneBlockMesh, SubsystemPalette.GetColor(generator, PaintableItemBlock.GetColor(Terrain.ExtractData(value))), null, geometry.SubsetOpaque);
+			WireDevice.GenerateWireVertices(generator, value, x, y, z, 4, 0f, Vector2.Zero, geometry.SubsetOpaque);
+		}
+		public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
+		{
+			BlocksManager.DrawMeshBlock(primitivesRenderer, m_standaloneBlockMesh, ItemBlock.Texture, color * SubsystemPalette.GetColor(environmentData, PaintableItemBlock.GetColor(Terrain.ExtractData(value))), size, ref matrix, environmentData);
+		}
+		public override BlockPlacementData GetPlacementValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, TerrainRaycastResult raycastResult)
+		{
+			return new BlockPlacementData { Value = value, CellFace = raycastResult.CellFace };
+		}
+		public override void GetDropValues(SubsystemTerrain subsystemTerrain, int oldValue, int newValue, int toolLevel, List<BlockDropValue> dropValues, out bool showDebris)
+		{
+			showDebris = true;
+			dropValues.Add(new BlockDropValue { Value = Terrain.ReplaceLight(oldValue, 0), Count = 1 });
+		}
+		public override BoundingBox[] GetCustomCollisionBoxes(SubsystemTerrain terrain, int value) => m_collisionBoxes;
+		public override void Simulate(ref int voltage)
+		{
+			if (voltage == 0 && RemainCount > 0)
+			{
+				voltage = Voltage;
+				RemainCount--;
+				if (RemainCount <= 0)
+				{
+					int x = Point.X,
+						y = Point.Y,
+						z = Point.Z;
+					Utils.Terrain.SetCellValueFast(x, y, z, Utils.Terrain.GetCellValueFast(x, y, z) | 16384 << 14);
+				}
+				return;
+			}
+			if (voltage >= Voltage)
+			{
+				voltage -= Voltage;
+				RemainCount += Factor;
+			}
+		}
+		public bool Equals(Battery other) => base.Equals(other) && Factor == other.Factor;
+		public override string GetCraftingId() => Id;
+		public override bool IsFaceTransparent(SubsystemTerrain subsystemTerrain, int face, int value) => true;
+		public void OnItemHarvested(int x, int y, int z, int blockValue, ref BlockDropValue dropValue, ref int newBlockValue)
+		{
+			if (RemainCount <= 0)
+				dropValue.Value = Terrain.ReplaceLight(blockValue, 0) | 16384 << 14;
 		}
 	}
 	public class MachRod : DeviceBlock

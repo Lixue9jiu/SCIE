@@ -388,12 +388,58 @@ namespace Game
 
 		public override int GetFaceTextureSlot(int face, int value)
 		{
-			return face != 4 && face != 5 && face == (Terrain.ExtractData(value) >> 15) ? 224 : 236;
+			return face != 4 && face != 5 && face == (Terrain.ExtractData(value) >> 15) ? 236 : 224;
 		}
 
 		public override BlockPlacementData GetPlacementValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, TerrainRaycastResult raycastResult)
 		{
-			return GetPlacementValue(28, componentMiner, value, raycastResult);
+			return GetPlacementValue(29, componentMiner, value, raycastResult);
 		}
 	}
+
+
+    public class Condenser : DeviceBlock, IBlockBehavior, IInteractiveBlock, IUnstableBlock
+    {
+        public bool Charged;
+        public float Energy;
+        public Condenser(int voltage = 310) : base(voltage, "超大电容", "超大电容允许你存储一些电量，并在需要的时候释放出去", ElementType.Supply | ElementType.Connector)
+        {
+        }
+        public override void Simulate(ref int voltage)
+        {
+            if (Charged)
+                voltage += Voltage;
+            else
+                Energy += voltage;
+                voltage = 0;
+        }
+        public override int GetFaceTextureSlot(int face, int value)
+        {
+            return face == 4 || face == 5 ? 114 : 117;
+        }
+        public override BlockPlacementData GetPlacementValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, TerrainRaycastResult raycastResult)
+        {
+            return FixedDevice.GetPlacementValue(29, componentMiner, value, raycastResult);
+            //return GetPlacementValue(29, componentMiner, value, raycastResult);
+        }
+
+        //public static int GetDirection(int data) => data & 7;
+        //public static int SetDirection(int data, int direction) => (data & -8) | (direction & 7);
+        public override bool IsFaceTransparent(SubsystemTerrain subsystemTerrain, int face, int value) => false;
+        public void OnBlockAdded(SubsystemTerrain subsystemTerrain, int value, int oldValue)
+        {
+            Charged = false;
+            //Powered = ComponentEngine.IsPowered(subsystemTerrain.Terrain, Point.X, Point.Y, Point.Z, false);
+        }
+        public void OnBlockRemoved(SubsystemTerrain subsystemTerrain, int value, int newValue) { }
+        public void OnNeighborBlockChanged(SubsystemTerrain subsystemTerrain, int neighborX, int neighborY, int neighborZ)
+        {
+            //Powered = ComponentEngine.IsPowered(subsystemTerrain.Terrain, Point.X, Point.Y, Point.Z, false);
+        }
+        public bool OnInteract(TerrainRaycastResult raycastResult, ComponentMiner componentMiner)
+        {
+             DialogsManager.ShowDialog(componentMiner.ComponentPlayer.View.GameWidget, new EditElectricDialog(Energy));
+            return true;
+        }
+    }
 }
