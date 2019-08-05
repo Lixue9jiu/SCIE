@@ -26,12 +26,7 @@ namespace Game
 
         public void Update(float dt)
         {
-            if (HeatLevel > 0f)
-            {
-                m_fireTimeRemaining = MathUtils.Max(0f, m_fireTimeRemaining - dt);
-                if (m_fireTimeRemaining == 0f)
-                    HeatLevel = 0f;
-            }
+            
             if (m_updateSmeltingRecipe)
             {
                 m_updateSmeltingRecipe = false;
@@ -43,6 +38,9 @@ namespace Game
                     //m_music = 0;
                 }
             }
+            Log.Information("11111111111");
+            Log.Information(m_smeltingRecipe);
+            Log.Information(Powered);
             if (m_smeltingRecipe2 != null)
             {
                 if (!Powered)
@@ -54,6 +52,7 @@ namespace Game
                 else if (m_smeltingRecipe == null)
                     m_smeltingRecipe = m_smeltingRecipe2;
             }
+            Log.Information(m_smeltingRecipe);
             if (!Powered)
                 m_smeltingRecipe = null;
             if (m_smeltingRecipe == null)
@@ -62,34 +61,29 @@ namespace Game
                 m_fireTimeRemaining = 0f;
                 //m_music = -1;
             }
-            else
-                m_fireTimeRemaining = 100f;
-            if (m_fireTimeRemaining <= 0f)
-            {
-                m_smeltingRecipe = null;
-                SmeltingProgress = 0f;
-                //m_music = -1;
-            }
+
+            Log.Information(m_smeltingRecipe);
             if (m_smeltingRecipe != null)
             {
                 SmeltingProgress = MathUtils.Min(SmeltingProgress + 0.15f * dt, 1f);
                 if (SmeltingProgress >= 1f)
                 {
                     if (m_slots[0].Count > 0)
-                        m_slots[0].Count--;
-                        m_slots[1].Count-=5;
-                    for (int j = 0; j < 3; j++)
                     {
-                        if (result[j] != 0)
+                        m_slots[0].Count--;
+                        m_slots[1].Count -= 5;
+                    }
+                    
+                        if (result[0] != 0)
                         {
-                            int value = result[j];
-                            m_slots[1 + j].Value = value;
-                            m_slots[1 + j].Count++;
+                            int value = result[0];
+                            m_slots[2 + 0].Value = value;
+                            m_slots[2 + 0].Count++;
                             m_smeltingRecipe = null;
                             SmeltingProgress = 0f;
                             m_updateSmeltingRecipe = true;
                         }
-                    }
+                    
                 }
             }
         }
@@ -107,23 +101,26 @@ namespace Game
             bool text = false;
             result[0] = 0;
             int i;
-            
-          
-                
-                if (GetSlotValue(0) == ItemBlock.IdTable["EmptyCan"] && GetSlotValue(1) == CookedMeatBlock.Index && GetSlotCount(0)>=1 && GetSlotCount(0)>=5)
+           // Log.Information("000000000");
+          //  Log.Information(GetSlotValue(0) == ItemBlock.IdTable["Empty"]);
+          //  Log.Information(GetSlotValue(1) == CookedMeatBlock.Index);
+          //  Log.Information(GetSlotCount(0) >= 1 && GetSlotCount(1) >= 5);
+            if (GetSlotValue(0) == ItemBlock.IdTable["Empty"] && GetSlotValue(1) == CookedMeatBlock.Index && GetSlotCount(0)>=1 && GetSlotCount(1)>=5)
                 {
                     text = true;
-                    result[0] = ItemBlock.IdTable["MeatFoodCan"];
+                    result[0] = ItemBlock.IdTable["Meat"];
                 }
-            
+            //Log.Information();
             if (!text)
-                return null;
-            for (i = 0; i < 1; i++)
-            {
-                Slot slot = m_slots[1 + i];
-                if (slot.Count != 0 && result[i] != 0 && (slot.Value != result[i] || slot.Count >= 40))
-                    return null;
-            }
+            { return null; }
+                
+            
+                Slot slot = m_slots[2 + 0];
+                if (slot.Count != 0 && result[0] != 0 && (slot.Value != result[0] || slot.Count >= 40))
+            { return null; }
+                    
+            
+           // 
             return "AluminumOrePowder";
         }
     }
