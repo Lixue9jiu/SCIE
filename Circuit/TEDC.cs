@@ -68,7 +68,7 @@ namespace Game
 	}
 	public class AirPump : FixedDevice
 	{
-		public AirPump() : base("抽气机", "抽气机") { }
+		public AirPump() : base("抽气机", "抽气机", 130) { }
 
 		public override int GetFaceTextureSlot(int face, int value)
 		{
@@ -79,19 +79,13 @@ namespace Game
 		{
 			return GetPlacementValue(32, componentMiner, value, raycastResult);
 		}
-		public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
+	}
+	public class Rectifier : FixedDevice
+	{
+		public Rectifier() : base("整流器", "整流器", 130) { }
+		public override int GetFaceTextureSlot(int face, int value)
 		{
-			color = SubsystemPalette.GetColor(environmentData, PaintableItemBlock.GetColor(Terrain.ExtractData(value)));
-			ItemBlock.DrawCubeBlock(primitivesRenderer, value, new Vector3(size), ref matrix, color, color, environmentData);
-		}
-		public override void GenerateTerrainVertices(Block block, BlockGeometryGenerator generator, TerrainGeometrySubsets geometry, int value, int x, int y, int z)
-		{
-			generator.GenerateCubeVertices(Block, value, x, y, z, SubsystemPalette.GetColor(generator, PaintableItemBlock.GetColor(Terrain.ExtractData(value))), geometry.OpaqueSubsetsByFace);
-		}
-		public override void Simulate(ref int voltage)
-		{
-			if (Powered = voltage >= 130)
-				voltage -= 130;
+			return face != 4 && face != 5 && face == (Terrain.ExtractData(value) >> 15) ? 220 : 239;
 		}
 	}
 	//public class Dryer : FixedDevice

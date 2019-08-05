@@ -91,6 +91,7 @@ namespace Game
 				new PurePowder("PCl₅"),
 				new FuelPowder("C", Color.Black),
 				new FuelPowder("S", Color.Yellow, 1500f, 30f),
+				new PurePowder("I₂", Color.DarkMagenta),
 				});
 			for (int i = 0; i < Cations.Length; i++)
 			{

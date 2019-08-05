@@ -199,18 +199,19 @@ namespace Game
 				DefaultDisplayName = "混凝土砖",
 				DefaultDescription = "混凝土砖"
 			},
-            new Ball("Models/Snowball", "Snowball", Matrix.CreateTranslation(0.5f, 0.4f, 0.5f) * 1.2f, Matrix.CreateTranslation(12f / 16f, -1f / 16f, 0f), "A Ball of Rubber, a important component in the advanced industry", "Rubber", 2.6f),
+            new Ball("Models/Snowball", "Snowball", Matrix.CreateTranslation(0.5f, 0.4f, 0.5f), Matrix.CreateTranslation(12f / 16f, -1f / 16f, 0f), "A Ball of Rubber, a important component in the advanced industry", "Rubber", 2.6f),
 			new Rod(Materials.Uranium),
-            new Sheet("128K RAM", Color.DarkGreen),
-            new Sheet("256K RAM", Color.DarkGreen),
-            new Sheet("512K RAM", Color.DarkGreen),
-            new Sheet("RISC CPU", Color.DarkGray),
-            new Sheet("CISC CPU", Color.DarkGray),
 			new FoodCan("EmptyCan can be used to make food can","Empty",Color.Gray),
             new FoodCan("MeatCan can store meat for a long time","Meat",Color.Gray),
             new FoodCan("ChickenCan can store Chicken for a long time","Chicken",Color.Gray),
             new FoodCan("PumpkinCan can store Pumpkin for a long time","Pumpkin",Color.Gray),
             new FoodCan("BreadCan can store Bread for a long time","Bread",Color.Gray),
+            new Sheet("128K RAM", Color.DarkGreen),
+            new Sheet("256K RAM", Color.DarkGreen),
+            new Sheet("512K RAM", Color.DarkGreen),
+            new Sheet("RISC CPU", Color.DarkGray),
+            new Sheet("CISC CPU", Color.DarkGray),
+            new CPanel(),
             };
 			ElementBlock.Devices = new Device[]
 			{
