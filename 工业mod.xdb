@@ -289,6 +289,9 @@
     <MemberSubsystemTemplate Name="CrusherBlockBehavior" Guid="f9d44a4c-bc6a-499f-944e-39390092696e" InheritanceParent="fefb9590-4972-4893-b02a-76063611b745">
       <Parameter Name="Class" Guid="aef8d250-edd0-4fe5-8979-49f7dd023cdb" Value="Game.SubsystemCrusherBlockBehavior" Type="string" />
     </MemberSubsystemTemplate>
+	<MemberSubsystemTemplate Name="SpinnerBlockBehavior" Guid="f9d4f14c-bc6a-499f-944e-39390092696e" InheritanceParent="fefb9590-4972-4893-b02a-76063611b745">
+      <Parameter Name="Class" Guid="aef8d378-edd0-4fe5-8979-49f7dd023cdb" Value="Game.SubsystemSpinnerBlockBehavior" Type="string" />
+    </MemberSubsystemTemplate>
     <MemberSubsystemTemplate Name="DiversionBlockBehavior" Guid="ffd44a4c-bc6a-499f-944e-39390092696e" InheritanceParent="fefb9590-4972-4893-b02a-76063611b745">
       <Parameter Name="Class" Guid="bef8d250-edd0-4fe5-8979-49f7dd023cdb" Value="Game.SubsystemDiversionBlockBehavior" Type="string" />
     </MemberSubsystemTemplate>

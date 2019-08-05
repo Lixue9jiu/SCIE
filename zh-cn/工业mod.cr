@@ -592,6 +592,11 @@
       "ded"
       "aca"
     </Recipe>
+	<Recipe Result="SpinnerBlock" ResultCount="1" RequiredHeatLevel="0" a="planks" b="stick" c="rod:0" d="SteelGear" Description="制造一台自动纺织机">
+      "bcb"
+      "dad"
+      "aca"
+    </Recipe>
     <Recipe Result="DiversionBlock" ResultCount="1" RequiredHeatLevel="0" a="planks" b="ironingot" Description="转移">
       "aaa"
       "aba"

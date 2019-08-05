@@ -34,4 +34,54 @@ namespace Game
 			}
 		}
 	}
+
+    public class SubsystemSpinnerBlockBehavior : SubsystemBlockBehavior
+    {
+        public override int[] HandledBlocks => new[] { SpinnerBlock.Index };
+
+        
+        public override void OnHitByProjectile(CellFace cellFace, WorldItem worldItem)
+        {
+            if (!ComponentEngine.IsPowered(Utils.Terrain, cellFace.X, cellFace.Y, cellFace.Z))
+                return;
+            int l;
+            int num1 = base.SubsystemTerrain.Terrain.GetCellValue(cellFace.X, cellFace.Y, cellFace.Z);
+            int num2 = base.SubsystemTerrain.Terrain.GetCellContents(cellFace.X, cellFace.Y, cellFace.Z);
+            Vector3 v = CellFace.FaceToVector3(cellFace.Face);
+            var position = new Vector3(cellFace.Point) + new Vector3(0.5f) - 0.75f * v;
+            if (Terrain.ExtractContents(worldItem.Value) == CottonWadBlock.Index)
+            {
+               // if ((num1 + 1) % 10 == 3)
+               // {
+               //     int value = Terrain.ReplaceData(num2, 0);
+               //     base.SubsystemTerrain.ChangeCell(cellFace.X, cellFace.Y, cellFace.Z, value);
+                    Utils.SubsystemProjectiles.FireProjectile(StringBlock.Index, position, -1f * v, Vector3.Zero, null);
+                    worldItem.ToRemove = true;
+              //  }else
+              //  {
+               //     int value = Terrain.ReplaceData(num2, num1+1);
+              //      base.SubsystemTerrain.ChangeCell(cellFace.X, cellFace.Y, cellFace.Z, value);
+              //      Log.Information(num1);
+              //      worldItem.ToRemove = true;
+              //  }
+            }else if (Terrain.ExtractContents(worldItem.Value) == StringBlock.Index)
+            {
+                
+                Utils.SubsystemProjectiles.FireProjectile(CanvasBlock.Index, position, -1f * v, Vector3.Zero, null);
+                worldItem.ToRemove = true;
+            }
+            else if (Terrain.ExtractContents(worldItem.Value) == CanvasBlock.Index)
+            {
+               
+                Utils.SubsystemProjectiles.FireProjectile(CarpetBlock.Index, position, -1f * v, Vector3.Zero, null);
+                worldItem.ToRemove = true;
+            }
+            else
+            {
+                return;
+            }
+            
+            
+        }
+    }
 }
