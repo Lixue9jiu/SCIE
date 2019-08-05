@@ -225,7 +225,8 @@ namespace Game
 				new ElectricMotor(),
 				//new MachRod(),
 				new WaterExtractor(),
-			};
+                new Condenser(),
+            };
 			IdTable = new Dictionary<string, int>(Items.Length);
 			int i;
 			for (i = 0; i < Items.Length; i++)

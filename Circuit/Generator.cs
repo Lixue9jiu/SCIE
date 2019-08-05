@@ -29,12 +29,12 @@ namespace Game
 		public override bool IsFaceTransparent(SubsystemTerrain subsystemTerrain, int face, int value) => false;
 		public void OnBlockAdded(SubsystemTerrain subsystemTerrain, int value, int oldValue)
 		{
-			Powered = ComponentEngine.IsPowered(subsystemTerrain.Terrain, Point.X, Point.Y, Point.Z);
+			Powered = ComponentEngine.IsPowered(subsystemTerrain.Terrain, Point.X, Point.Y, Point.Z ,false);
 		}
 		public void OnBlockRemoved(SubsystemTerrain subsystemTerrain, int value, int newValue) { }
 		public void OnNeighborBlockChanged(SubsystemTerrain subsystemTerrain, int neighborX, int neighborY, int neighborZ)
 		{
-			Powered = ComponentEngine.IsPowered(subsystemTerrain.Terrain, Point.X, Point.Y, Point.Z);
+			Powered = ComponentEngine.IsPowered(subsystemTerrain.Terrain, Point.X, Point.Y, Point.Z ,false);
 		}
 		public bool OnInteract(TerrainRaycastResult raycastResult, ComponentMiner componentMiner)
 		{

@@ -24,7 +24,8 @@ namespace Game
 					//int data = Terrain.ExtractData(slotValue);
 					int num2 = slotValue;
 					int num3 = 0;
-					if (num == Musket3Block.Index && slotCount > 0)
+                    Vector3 dir = direction;
+                    if (num == Musket3Block.Index && slotCount > 0)
 					{
 						if (!m_aimStartTimes.TryGetValue(componentMiner, out double value))
 						{
@@ -50,7 +51,8 @@ namespace Game
 								direction.Y += 0.5f;
 							}
 						}
-						direction = Vector3.Normalize(direction + v * 2f);
+                        
+                        direction = Vector3.Normalize(direction + v * 2f);
 						switch (state)
 						{
 							case AimState.InProgress:
@@ -66,6 +68,7 @@ namespace Game
 										ComponentPlayer componentPlayer2 = componentMiner.ComponentPlayer;
 										if (componentPlayer2 != null)
 											componentPlayer2.ComponentGui.ShowAimingSights(start, direction);
+                                        
 										componentFirstPersonModel.ItemOffsetOrder = new Vector3(-0.21f, 0.15f, 0.08f);
 										componentFirstPersonModel.ItemRotationOrder = new Vector3(-0.7f, 0f, 0f);
 									}
@@ -99,7 +102,7 @@ namespace Game
 											//m_subsystemParticles.AddParticleSystem(new BurntDebrisParticleSystem(base.SubsystemTerrain, (vector2 + 0.3f * vector3)));
 											//fireParticleSystem = new FireParticleSystem(vector2 + 1.3f * vector3, 0.3f, 3f);
 											//m_subsystemParticles.AddParticleSystem(fireParticleSystem);m_random.UniformFloat(-0.1f, 0.1f)
-											m_subsystemParticles.AddParticleSystem(new GunSmokeParticleSystem2(SubsystemTerrain, vector2 + 1.3f * vector3, vector3));
+											m_subsystemParticles.AddParticleSystem(new GunSmokeParticleSystem2(SubsystemTerrain, vector2 + 1.3f * dir, dir));
 											m_subsystemNoise.MakeNoise(vector2, 1f, 40f);
 
 											// componentMiner.ComponentCreature.ComponentBody.ApplyImpulse(-1f * vector3);
