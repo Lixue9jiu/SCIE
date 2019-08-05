@@ -117,7 +117,7 @@ namespace Game
 
 		public override BlockPlacementData GetPlacementValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, TerrainRaycastResult raycastResult)
 		{
-			return GetPlacementValue(20, componentMiner, value, raycastResult);
+			return GetPlacementValue(31, componentMiner, value, raycastResult);
 		}
 	}
 
@@ -353,7 +353,7 @@ namespace Game
 
     public class ElectricMotor : FixedDevice, IBlockBehavior
     {
-        public ElectricMotor() : base("电动机", "电动机是一种可以把电能转化为动能的机器") { }
+        public ElectricMotor() : base("电动机", "电动机是一种可以把电能转化为动能的机器", 310) { }
         public void OnBlockAdded(SubsystemTerrain subsystemTerrain, int value, int oldValue)
         {
         }
@@ -366,11 +366,6 @@ namespace Game
         public override BlockPlacementData GetPlacementValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, TerrainRaycastResult raycastResult)
         {
             return GetPlacementValue(27, componentMiner, value, raycastResult);
-        }
-        public override void Simulate(ref int voltage)
-        {
-            if (Powered = voltage >= 310)
-                voltage -= 310;
         }
         public void OnBlockRemoved(SubsystemTerrain terrain, int value, int newValue)
         {
@@ -422,7 +417,7 @@ namespace Game
         }
         public override BlockPlacementData GetPlacementValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, TerrainRaycastResult raycastResult)
         {
-            return FixedDevice.GetPlacementValue(29, componentMiner, value, raycastResult);
+            return FixedDevice.GetPlacementValue(32, componentMiner, value, raycastResult);
             //return GetPlacementValue(29, componentMiner, value, raycastResult);
         }
 
@@ -441,8 +436,8 @@ namespace Game
         }
         public bool OnInteract(TerrainRaycastResult raycastResult, ComponentMiner componentMiner)
         {
-             DialogsManager.ShowDialog(componentMiner.ComponentPlayer.View.GameWidget, new EditElectricDialog(Energy));
+            DialogsManager.ShowDialog(componentMiner.ComponentPlayer.View.GameWidget, new EditElectricDialog(Energy));
             return true;
         }
-    }
+	}
 }

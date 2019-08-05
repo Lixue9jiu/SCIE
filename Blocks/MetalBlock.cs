@@ -33,11 +33,11 @@ namespace Game
 		public static readonly string[] Names = new[]
 		{
 			"基础机器外壳", "高级机器外壳",
-			"防火砖墙"
+			"防火砖墙"//, "混凝土墙"
 		};
 		public static readonly Color[] Colors = new[]
 		{
-			Color.White, Color.LightGray, new Color(255, 153, 18)
+			Color.White, Color.LightGray, new Color(255, 153, 18)//, Color.LightGray
 		};
 		public MetalBlock() : base(0) { }
 		public override IEnumerable<int> GetCreativeValues()
@@ -102,6 +102,7 @@ namespace Game
 				case 0: return Utils.Get("一些机器的基础外壳。 非常重且耐用。对 挖掘和爆炸都非常有抗性。 可以用多个铁板或钢锭制成。");
 				case 1: return Utils.Get("某些机器或设备的高级外壳。 非常重且耐用。 对挖掘和爆炸都有非常有抗性。 可以用多个钢板制作。");
 				case 2: return Utils.Get("防火砖墙可以通过将几块防火砖组合在一起并用砂浆粘合而制成。 它是一种多功能，坚固且美观的工业材料。");
+				//case 3: return Utils.Get("它是一种多功能，坚固且美观的工业材料。");
 				default:
 					var type = (Materials)(GetType(value) - 3);
 					return Utils.Get(type == Materials.Steel

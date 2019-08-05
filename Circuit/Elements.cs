@@ -121,20 +121,28 @@ namespace Game
 	[Serializable]
 	public abstract class FixedDevice : Device, IEquatable<FixedDevice>
 	{
+		public readonly int Voltage;
 		public int Index;
 		public bool Powered;
 		public string DefaultDisplayName;
 		public string DefaultDescription;
 
-		protected FixedDevice(string name, string description = "")
+		protected FixedDevice(string name, string description = "", int voltage = 0)
 		{
 			//if (resistance < 1) throw new ArgumentOutOfRangeException("resistance", resistance, "Device has Resistance < 1");
 			DefaultDisplayName = Utils.Get(name);
 			DefaultDescription = Utils.Get(description);
+			Voltage = voltage;
 		}
 		public override string GetDisplayName(SubsystemTerrain subsystemTerrain, int value) => DefaultDisplayName;
 		public override string GetDescription(int value) => DefaultDescription;
 		public override int GetWeight(int value) => Index;
+		public override void Simulate(ref int voltage)
+		{
+			if (Powered = voltage >= Voltage)
+				voltage -= Voltage;
+			else voltage = 0;
+		}
 		public bool Equals(FixedDevice other) => other != null && other.GetCraftingId() == GetCraftingId();
 		public override bool Equals(object obj) => Equals(obj as FixedDevice);
 		public override int GetHashCode() => base.GetHashCode() ^ Index;

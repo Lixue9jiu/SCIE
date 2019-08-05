@@ -874,6 +874,11 @@
       "aba"
       "aba"
     </Recipe>
+    <Recipe Result="Icebreaker" ResultCount="1" RequiredHeatLevel="0" a="SteelPlate" b="metalblock:32" c="SteelRod" d="SteamBoat" e="metalblock:96" Description="制作破冰船，使在冰上航行的梦想变为现实">
+      "aba"
+      "cdc"
+      "eee"
+    </Recipe>
     <Recipe Result="CopperWire" ResultCount="1" RequiredHeatLevel="0" a="CopperLine" b="SteelRod" Description="用铜线和钢棒制作电线">
       "aaa"
       "aba"
@@ -891,11 +896,11 @@
     <Recipe Result="ElectricMotor" ResultCount="1" RequiredHeatLevel="0" a="Generator" Description="制作直流电动发动机进入电力时代">
       "a"
     </Recipe>
-    <Recipe Result="Electrobath" ResultCount="1" RequiredHeatLevel="0" a="CopperWire" b="metalblock:32" c="SteelPlate" d="tank" e="CopperWire" Description="制作电解机">
-      "ceec"
-      "aada"
-      "aeba"
-      "caac"
+    <Recipe Result="Electrobath" ResultCount="1" Remains="EmptyBucketBlock" RemainsCount="1" RequiredHeatLevel="0" a="CopperWire" b="CopperPlate" c="SteelPlate" d="PlatinumRod" e="tank" f="waterbucket" Description="制作电解机">
+      "cbbc"
+      "acca"
+      "defd"
+      "c  c"
     </Recipe>
     <Recipe Result="Separator" ResultCount="1" RequiredHeatLevel="0" a="SteelRod" b="SteelPlate" c="SteelGear" d="metalblock:32" e="Generator" f="tank" Description="制作分离机以分离原材料">
       "bffb"

@@ -193,13 +193,19 @@ namespace Game
             new Alloy(Materials.Copper,"Industrial Copper"),
             new Alloy(Materials.Steel,"Titanium Steel"),
             new Alloy(Materials.Chromium,"Gun-Steel"),
+			new Powder("酵母", Color.White),
+			new Brick(Color.Gray)
+			{
+				DefaultDisplayName = "混凝土砖",
+				DefaultDescription = "混凝土砖"
+			},
             new Ball("Models/Snowball", "Snowball", Matrix.CreateTranslation(0.5f, 0.4f, 0.5f) * 1.2f, Matrix.CreateTranslation(12f / 16f, -1f / 16f, 0f), "A Ball of Rubber, a important component in the advanced industry", "Rubber", 2.6f),
+			new Rod(Materials.Uranium),
             new Sheet("128K RAM", Color.DarkGreen),
             new Sheet("256K RAM", Color.DarkGreen),
             new Sheet("512K RAM", Color.DarkGreen),
             new Sheet("RISC CPU", Color.DarkGray),
             new Sheet("CISC CPU", Color.DarkGray),
-			new Powder("酵母", Color.White),
 			new FoodCan("EmptyCan can be used to make food can","Empty",Color.Gray),
             new FoodCan("MeatCan can store meat for a long time","Meat",Color.Gray),
             new FoodCan("ChickenCan can store Chicken for a long time","Chicken",Color.Gray),
@@ -230,7 +236,7 @@ namespace Game
 				new Pipe(6),
 				new Pipe(7),
 				new AirCompressor(),
-				new UThickener(),
+                new Switch(),
 				new TEDC(),
 				new EIFurnace(),
 				new SolarPanel("多晶硅太阳能电池板", 100),
@@ -240,6 +246,8 @@ namespace Game
 				//new MachRod(),
 				new WaterExtractor(),
                 new Condenser(),
+				new UThickener(),
+                new AirPump(),
             };
 			IdTable = new Dictionary<string, int>(Items.Length);
 			int i;

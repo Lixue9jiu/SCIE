@@ -66,19 +66,18 @@ namespace Game
 			return GetPlacementValue(20, componentMiner, value, raycastResult);
 		}
 	}
-	//public class Dryer : FixedDevice
-	public class WashingMach : FixedDevice
+	public class AirPump : FixedDevice
 	{
-		public WashingMach() : base("洗衣机", "洗衣机") { }
+		public AirPump() : base("抽气机", "抽气机") { }
 
 		public override int GetFaceTextureSlot(int face, int value)
 		{
-			return face != 4 && face != 5 && face == (Terrain.ExtractData(value) >> 15) ? 145 : 107;
+			return face != 4 && face != 5 && face == (Terrain.ExtractData(value) >> 15) ? 220 : 239;
 		}
 
 		public override BlockPlacementData GetPlacementValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, TerrainRaycastResult raycastResult)
 		{
-			return GetPlacementValue(27, componentMiner, value, raycastResult);
+			return GetPlacementValue(32, componentMiner, value, raycastResult);
 		}
 		public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
 		{
@@ -95,4 +94,5 @@ namespace Game
 				voltage -= 130;
 		}
 	}
+	//public class Dryer : FixedDevice
 }

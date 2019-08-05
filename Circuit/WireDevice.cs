@@ -1,5 +1,6 @@
 ﻿using Engine;
 using Engine.Graphics;
+using System;
 
 namespace Game
 {
@@ -245,9 +246,41 @@ namespace Game
 			GenerateWireVertices(generator, value, x, y, z, 4, 0f, Vector2.Zero, geometry.SubsetOpaque);
 		}
 	}*/
-	public class Switch
+	public class Switch : FixedDevice
 	{
+		public BlockMesh m_standaloneBlockMesh = new BlockMesh();
+		public BlockMesh m_standaloneBlockMesh2 = new BlockMesh();
+		public BoundingBox[] m_collisionBoxes;
+		public Switch() : base("电闸", "电闸")
+		{
+			Model model = ContentManager.Get<Model>("Models/Switch");
+			Matrix boneAbsoluteTransform = BlockMesh.GetBoneAbsoluteTransform(model.FindMesh("Body").ParentBone);
+			Matrix boneAbsoluteTransform2 = BlockMesh.GetBoneAbsoluteTransform(model.FindMesh("Lever").ParentBone);
+			m_standaloneBlockMesh.AppendModelMeshPart(model.FindMesh("Body").MeshParts[0], boneAbsoluteTransform, false, false, false, false, Color.White);
+			m_standaloneBlockMesh2.AppendModelMeshPart(model.FindMesh("Body").MeshParts[0], boneAbsoluteTransform, false, false, false, false, Color.White);
+			m_standaloneBlockMesh.AppendModelMeshPart(model.FindMesh("Lever").MeshParts[0], boneAbsoluteTransform2 * Matrix.CreateRotationX(MathUtils.DegToRad(30f)), false, false, false, false, Color.White);
+			m_standaloneBlockMesh2.AppendModelMeshPart(model.FindMesh("Lever").MeshParts[0], boneAbsoluteTransform2 * Matrix.CreateRotationX(MathUtils.DegToRad(-30f)), false, false, false, false, Color.White);
+			m_collisionBoxes = new[] { m_standaloneBlockMesh.CalculateBoundingBox() };
+		}
 
+		public override void Simulate(ref int voltage)
+		{
+			if (!Powered) voltage = 0;
+		}
+		public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
+		{
+			BlocksManager.DrawMeshBlock(primitivesRenderer, m_standaloneBlockMesh, color, size, ref matrix, environmentData);
+		}
+		public override void GenerateTerrainVertices(Block block, BlockGeometryGenerator generator, TerrainGeometrySubsets geometry, int value, int x, int y, int z)
+		{
+			generator.GenerateMeshVertices(block, x, y, z, m_standaloneBlockMesh, Color.White, null, geometry.SubsetOpaque);
+		}
+		public override BlockPlacementData GetPlacementValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, TerrainRaycastResult raycastResult)
+		{
+			return new BlockPlacementData { Value = value, CellFace = raycastResult.CellFace };
+		}
+		public override bool IsFaceTransparent(SubsystemTerrain subsystemTerrain, int face, int value) => true;
+		public override BoundingBox[] GetCustomCollisionBoxes(SubsystemTerrain terrain, int value) => m_collisionBoxes;
 	}
 	/*public abstract class DeviceElement : Element, IComparable<DeviceElement>, IEquatable<DeviceElement>
 	{
