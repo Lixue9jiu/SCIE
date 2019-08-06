@@ -1,6 +1,6 @@
 ﻿using Engine;
 using Engine.Graphics;
-using System;
+using System.Collections.Generic;
 
 namespace Game
 {
@@ -9,23 +9,28 @@ namespace Game
 		public WireElement() : base(ElementType.Connector)
 		{
 		}
+
 		public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
 		{
 			int? paintColor = PaintableItemBlock.GetColor(Terrain.ExtractData(value));
 			BlocksManager.DrawMeshBlock(primitivesRenderer, ElementBlock.WireBlock.m_standaloneBlockMesh, (paintColor.HasValue ? SubsystemPalette.GetColor(environmentData, paintColor) : 1.25f * WireBlock.WireColor) * color, 2f * size, ref matrix, environmentData);
 		}
+
 		public override int GetWeight(int voltage)
 		{
 			return 1;
 		}
+
 		public override string GetDisplayName(SubsystemTerrain subsystemTerrain, int value)
 		{
 			return Utils.Get("工业电线");
 		}
 	}
+
 	public class WireDevice : WireElement
 	{
 		public BoundingBox[] m_collisionBoxesByFace = new BoundingBox[6];
+
 		public WireDevice()
 		{
 			for (int i = 0; i < 6; i++)
@@ -54,11 +59,14 @@ namespace Game
 				m_collisionBoxesByFace[i] = new BoundingBox(Vector3.Min(v4, v5), Vector3.Max(v4, v5));
 			}
 		}
+
 		public override int GetWeight(int voltage) => 1;
+
 		public override void GenerateTerrainVertices(Block block, BlockGeometryGenerator generator, TerrainGeometrySubsets geometry, int value, int x, int y, int z)
 		{
 			GenerateWireVertices(generator, value, x, y, z, 4, 0f, Vector2.Zero, geometry.SubsetOpaque);
 		}
+
 		public override BlockPlacementData GetPlacementValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, TerrainRaycastResult raycastResult)
 		{
 			return new BlockPlacementData
@@ -67,6 +75,7 @@ namespace Game
 				CellFace = raycastResult.CellFace
 			};
 		}
+
 		public override BoundingBox[] GetCustomCollisionBoxes(SubsystemTerrain terrain, int value)
 		{
 			var arr = new BoundingBox[6];
@@ -75,7 +84,9 @@ namespace Game
 					arr[i] = m_collisionBoxesByFace[i];
 			return arr;
 		}
+
 		public override bool IsFaceTransparent(SubsystemTerrain subsystemTerrain, int face, int value) => true;
+
 		public static void GenerateWireVertices(BlockGeometryGenerator generator, int value, int x, int y, int z, int mountingFace, float centerBoxSize, Vector2 centerOffset, TerrainGeometrySubset subset)
 		{
 			var terrain = generator.Terrain;
@@ -234,23 +245,13 @@ namespace Game
 			}
 		}
 	}
-	/*public class SilverWireDevice : WireDevice
-	{
-		public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
-		{
-			int? paintColor = PaintableItemBlock.GetColor(Terrain.ExtractData(value));
-			BlocksManager.DrawMeshBlock(primitivesRenderer, ElementBlock.WireBlock.m_standaloneBlockMesh, (paintColor.HasValue ? SubsystemPalette.GetColor(environmentData, paintColor) : Color.LightGray) * color, 2f * size, ref matrix, environmentData);
-		}
-		public override void GenerateTerrainVertices(Block block, BlockGeometryGenerator generator, TerrainGeometrySubsets geometry, int value, int x, int y, int z)
-		{
-			GenerateWireVertices(generator, value, x, y, z, 4, 0f, Vector2.Zero, geometry.SubsetOpaque);
-		}
-	}*/
+
 	public class Switch : FixedDevice, IInteractiveBlock
 	{
 		public BlockMesh m_standaloneBlockMesh = new BlockMesh();
 		public BlockMesh m_standaloneBlockMesh2 = new BlockMesh();
 		public BoundingBox[] m_collisionBoxes;
+
 		public Switch() : base("电闸", "电闸")
 		{
 			Model model = ContentManager.Get<Model>("Models/Switch");
@@ -269,21 +270,26 @@ namespace Game
 		{
 			if (!Powered) voltage = 0;
 		}
+
 		public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
 		{
 			BlocksManager.DrawMeshBlock(primitivesRenderer, m_standaloneBlockMesh, color * Color.LightGray, size * 2f, ref matrix, environmentData);
 		}
+
 		public override void GenerateTerrainVertices(Block block, BlockGeometryGenerator generator, TerrainGeometrySubsets geometry, int value, int x, int y, int z)
 		{
 			Powered = (Terrain.ExtractData(value) & 16384) != 0;
 			generator.GenerateMeshVertices(block, x, y, z, Powered ? m_standaloneBlockMesh : m_standaloneBlockMesh2, Color.LightGray, null, geometry.SubsetOpaque);
 			WireDevice.GenerateWireVertices(generator, value, x, y, z, 4, 0f, Vector2.Zero, geometry.SubsetOpaque);
 		}
+
 		public override BlockPlacementData GetPlacementValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, TerrainRaycastResult raycastResult)
 		{
 			return new BlockPlacementData { Value = value, CellFace = raycastResult.CellFace };
 		}
+
 		public override bool IsFaceTransparent(SubsystemTerrain subsystemTerrain, int face, int value) => true;
+
 		public override BoundingBox[] GetCustomCollisionBoxes(SubsystemTerrain terrain, int value) => m_collisionBoxes;
 
 		public bool OnInteract(TerrainRaycastResult raycastResult, ComponentMiner componentMiner)
@@ -294,25 +300,21 @@ namespace Game
 			Utils.SubsystemTerrain.ChangeCell(x, y, z, Utils.Terrain.GetCellValueFast(x, y, z) ^ 16384 << 14);
 			return true;
 		}
+
 		public override Vector3 GetIconBlockOffset(int value, DrawBlockEnvironmentData environmentData) => new Vector3 { Y = .5f };
 	}
+	//public class Relay
 
 	public class ElectricFences : FixedDevice
 	{
 		public BlockMesh m_standaloneBlockMesh = new BlockMesh();
 		public BlockMesh m_standaloneBlockMesh2 = new BlockMesh();
 		public BoundingBox[] m_collisionBoxes;
-		public bool Powered2;
-		public SubsystemTime m_subsystemTime;
 
-		public Vector3? m_closestSoundToPlay;
-
-		public Dictionary<ComponentCreature, double> m_lastInjuryTimes = new Dictionary<ComponentCreature, double>();
-
-		public ElectricFences() : base("电栅栏")
+		public ElectricFences() : base("电栅栏", "电栅栏", 120)
 		{
 			Model model = ContentManager.Get<Model>("Models/IronFence");
-			
+
 			Matrix boneAbsoluteTransform = BlockMesh.GetBoneAbsoluteTransform(model.FindMesh("Post").ParentBone);
 			Matrix boneAbsoluteTransform2 = BlockMesh.GetBoneAbsoluteTransform(model.FindMesh("Planks").ParentBone);
 			ModelMeshPart meshPart = model.FindMesh("Post").MeshParts[0];
@@ -324,27 +326,23 @@ namespace Game
 			m_collisionBoxes = new[] { m_standaloneBlockMesh.CalculateBoundingBox() };
 		}
 
-		
-			public override void Simulate(ref int voltage)
-		{
-			if (Powered2 = voltage >= 120)
-				voltage -= 120;
-		}
-	
 		public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
 		{
 			BlocksManager.DrawMeshBlock(primitivesRenderer, m_standaloneBlockMesh, color * Color.LightGray, size * 2f, ref matrix, environmentData);
 		}
-		
+
 		public override BlockPlacementData GetPlacementValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, TerrainRaycastResult raycastResult)
 		{
 			return new BlockPlacementData { Value = value, CellFace = raycastResult.CellFace };
 		}
+
 		public override bool IsFaceTransparent(SubsystemTerrain subsystemTerrain, int face, int value) => true;
+
 		public override BoundingBox[] GetCustomCollisionBoxes(SubsystemTerrain terrain, int value) => m_collisionBoxes;
-		public override void OnCollide(CellFace cellFace, float velocity, ComponentBody componentBody)
+
+		public void OnCollide(CellFace cellFace, float velocity, ComponentBody componentBody)
 		{
-			int data = Terrain.ExtractData(base.SubsystemTerrain.Terrain.GetCellValue(cellFace.X, cellFace.Y, cellFace.Z));
+			int data = Terrain.ExtractData(Utils.Terrain.GetCellValue(cellFace.X, cellFace.Y, cellFace.Z));
 			if (!SpikedPlankBlock.GetSpikesState(data))
 			{
 				return;
@@ -357,17 +355,11 @@ namespace Game
 			ComponentCreature componentCreature = componentBody.Entity.FindComponent<ComponentCreature>();
 			if (componentCreature != null)
 			{
-				m_lastInjuryTimes.TryGetValue(componentCreature, out double value);
-				if (m_subsystemTime.GameTime - value > 1.0)
-				{
-					m_lastInjuryTimes[componentCreature] = m_subsystemTime.GameTime;
-					componentCreature.ComponentHealth.Injure(0.1f, null, ignoreInvulnerability: false, "Spiked by a trap");
-				}
+				componentCreature.ComponentHealth.Injure(Utils.Random.UniformFloat(4.8f, 5.2f) / componentCreature.ComponentHealth.AttackResilience, null, false, "Electric shock");
 			}
 		}
-
-
 	}
+
 	/*public abstract class DeviceElement : Element, IComparable<DeviceElement>, IEquatable<DeviceElement>
 	{
 		public int Voltage;
