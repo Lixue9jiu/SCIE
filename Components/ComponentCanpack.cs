@@ -59,7 +59,7 @@ namespace Game
 				//m_music = -1;
 			}
 
-			Log.Information(m_smeltingRecipe);
+			
 			if (m_smeltingRecipe != null)
 			{
 				SmeltingProgress = MathUtils.Min(SmeltingProgress + 0.15f * dt, 1f);
@@ -101,27 +101,27 @@ namespace Game
 			//  Log.Information(GetSlotValue(0) == ItemBlock.IdTable["Empty"]);
 			//  Log.Information(GetSlotValue(1) == CookedMeatBlock.Index);
 			//  Log.Information(GetSlotCount(0) >= 1 && GetSlotCount(1) >= 5);
-			if (GetSlotValue(0) == ItemBlock.IdTable["Empty"] && GetSlotValue(1) == CookedMeatBlock.Index && GetSlotCount(0) >= 1 && GetSlotCount(1) >= 5)
+			if (GetSlotValue(0) == ItemBlock.IdTable["Empty"] && GetSlotValue(1) == CookedMeatBlock.Index && GetSlotCount(0) >= 1 && GetSlotCount(1) >= 2)
 			{
 				text = true;
 				result[0] = ItemBlock.IdTable["Meat"];
 			}
-			if (GetSlotValue(0) == ItemBlock.IdTable["Empty"] && GetSlotValue(1) == CookedBirdBlock.Index && GetSlotCount(0) >= 1 && GetSlotCount(1) >= 5)
+			if (GetSlotValue(0) == ItemBlock.IdTable["Empty"] && GetSlotValue(1) == CookedBirdBlock.Index && GetSlotCount(0) >= 1 && GetSlotCount(1) >= 2)
 			{
 				text = true;
 				result[0] = ItemBlock.IdTable["Chicken"];
 			}
-			if (GetSlotValue(0) == ItemBlock.IdTable["Empty"] && GetSlotValue(1) == CookedFishBlock.Index && GetSlotCount(0) >= 1 && GetSlotCount(1) >= 5)
+			if (GetSlotValue(0) == ItemBlock.IdTable["Empty"] && GetSlotValue(1) == CookedFishBlock.Index && GetSlotCount(0) >= 1 && GetSlotCount(1) >= 2)
 			{
 				text = true;
 				result[0] = ItemBlock.IdTable["Fish"];
 			}
-			if (GetSlotValue(0) == ItemBlock.IdTable["Empty"] && GetSlotValue(1) == BreadBlock.Index && GetSlotCount(0) >= 1 && GetSlotCount(1) >= 5)
+			if (GetSlotValue(0) == ItemBlock.IdTable["Empty"] && GetSlotValue(1) == BreadBlock.Index && GetSlotCount(0) >= 1 && GetSlotCount(1) >= 2)
 			{
 				text = true;
 				result[0] = ItemBlock.IdTable["Bread"];
 			}
-			if (GetSlotValue(0) == ItemBlock.IdTable["Empty"] && GetSlotValue(1) == PumpkinBlock.Index && GetSlotCount(0) >= 1 && GetSlotCount(1) >= 5)
+			if (GetSlotValue(0) == ItemBlock.IdTable["Empty"] && GetSlotValue(1) == PumpkinBlock.Index && GetSlotCount(0) >= 1 && GetSlotCount(1) >= 2)
 			{
 				text = true;
 				result[0] = ItemBlock.IdTable["Pumpkin"];

@@ -257,6 +257,7 @@ namespace Game
 				new UThickener(),
                 new AirPump(),
 				new ElectricFences(),
+				new Transformer(),
             };
 			IdTable = new Dictionary<string, int>(Items.Length);
 			int i;

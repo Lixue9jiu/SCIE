@@ -58,9 +58,9 @@ namespace Game
 			return FixedDevice.GetPlacementValue(28, componentMiner, value, raycastResult);
 		}
 	}
-	public class Battery : DeviceBlock, IHarvestingItem, IEquatable<Battery>
+	public class Battery : DeviceBlock, IHarvestingItem, IInteractiveBlock,IEquatable<Battery>
 	{
-		public int Factor = 0;
+		public int Factor = 1;
 		public readonly BoundingBox[] m_collisionBoxes;
 		protected readonly BlockMesh m_standaloneBlockMesh = new BlockMesh();
 		public int RemainCount = 600;
@@ -91,7 +91,32 @@ namespace Game
 			showDebris = true;
 			dropValues.Add(new BlockDropValue { Value = Terrain.ReplaceLight(oldValue, 0), Count = 1 });
 		}
+		public bool OnInteract(TerrainRaycastResult raycastResult, ComponentMiner componentMiner)
+		{
+			int x = raycastResult.CellFace.X;
+			int y = raycastResult.CellFace.Y;
+			int z = raycastResult.CellFace.Z;
+			DialogsManager.ShowDialog(componentMiner.ComponentPlayer.View.GameWidget, new EditElectricDialog(RemainCount));
+			return true;
+		}
 		public override BoundingBox[] GetCustomCollisionBoxes(SubsystemTerrain terrain, int value) => m_collisionBoxes;
+		public void OnBlockRemoved(SubsystemTerrain terrain, int value, int newValue)
+		{
+			//value = 0;
+			Simulate(ref value);
+		}
+		public void OnBlockAdded(SubsystemTerrain terrain, int value, int newValue)
+		{
+			//value = 0;
+			
+			//RemainCount = 600;
+			Simulate(ref value);
+		}
+		public void OnBlockGenerated(SubsystemTerrain terrain, int value, int newValue)
+		{
+			//value = 0;
+			//Simulate(ref value);
+		}
 		public override void Simulate(ref int voltage)
 		{
 			if (voltage == 0 && RemainCount > 0)
@@ -107,7 +132,7 @@ namespace Game
 				}
 				return;
 			}
-			if (voltage >= Voltage)
+			if (voltage >= Voltage && RemainCount<=600)
 			{
 				voltage -= Voltage;
 				RemainCount += Factor;

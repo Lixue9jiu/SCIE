@@ -321,8 +321,8 @@ namespace Game
 			m_standaloneBlockMesh.AppendModelMeshPart(meshPart, boneAbsoluteTransform, false, false, false, false, Color.White);
 			m_standaloneBlockMesh2.AppendModelMeshPart(meshPart, boneAbsoluteTransform, false, false, false, false, Color.White);
 			meshPart = model.FindMesh("Planks").MeshParts[0];
-			m_standaloneBlockMesh.AppendModelMeshPart(meshPart, boneAbsoluteTransform2 * Matrix.CreateRotationX(MathUtils.DegToRad(30f)) * Matrix.CreateTranslation(.5f, 0f, .5f), false, false, false, false, Color.White);
-			m_standaloneBlockMesh2.AppendModelMeshPart(meshPart, boneAbsoluteTransform2 * Matrix.CreateRotationX(MathUtils.DegToRad(-30f)) * Matrix.CreateTranslation(.5f, 0f, .5f), false, false, false, false, Color.White);
+			//m_standaloneBlockMesh.AppendModelMeshPart(meshPart, boneAbsoluteTransform2 * Matrix.CreateRotationX(MathUtils.DegToRad(30f)) * Matrix.CreateTranslation(.5f, 0f, .5f), false, false, false, false, Color.White);
+			//m_standaloneBlockMesh2.AppendModelMeshPart(meshPart, boneAbsoluteTransform2 * Matrix.CreateRotationX(MathUtils.DegToRad(-30f)) * Matrix.CreateTranslation(.5f, 0f, .5f), false, false, false, false, Color.White);
 			m_collisionBoxes = new[] { m_standaloneBlockMesh.CalculateBoundingBox() };
 		}
 

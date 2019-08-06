@@ -845,10 +845,29 @@
       "bbbb"
       "baab"
     </Recipe>
-    <Recipe Result="Canpack" ResultCount="1" RequiredHeatLevel="0" a="SteelIngot" b="metalblock:32" c="IndustrialPiston" d="tank" e="SteelRod" Description="制作一个灌装机">
+	<Recipe Result="Canpack" ResultCount="1" RequiredHeatLevel="0" a="SteelIngot" b="metalblock:32" c="IndustrialPiston" d="tank" e="SteelRod" Description="制作一个灌装机">
       "ada"
       "ece"
       "aba"
+    </Recipe>
+	<Recipe Result="Empty" ResultCount="1" RequiredHeatLevel="0" a="IronPlate" Description="制作一个铁罐头">
+      "a a"
+      " a "
+    </Recipe>
+	<Recipe Result="CookedMeatBlock" ResultCount="2" Remains="Empty" RemainsCount="1" RequiredHeatLevel="0" a="Meat" Description="打开一个铁罐头">
+      "a"
+    </Recipe>
+	<Recipe Result="CookedBirdBlock" ResultCount="2" Remains="Empty" RemainsCount="1" RequiredHeatLevel="0" a="Chicken" Description="打开一个铁罐头">
+      "a"
+    </Recipe>
+	<Recipe Result="CookedFishBlock" ResultCount="2" Remains="Empty" RemainsCount="1" RequiredHeatLevel="0" a="Fish" Description="打开一个铁罐头">
+      "a"
+    </Recipe>
+	<Recipe Result="PumpkinBlock" ResultCount="2" Remains="Empty" RemainsCount="1" RequiredHeatLevel="0" a="Pumpkin" Description="打开一个铁罐头">
+      "a"
+    </Recipe>
+	<Recipe Result="BreadBlock" ResultCount="2" Remains="Empty" RemainsCount="1" RequiredHeatLevel="0" a="Bread" Description="打开一个铁罐头">
+      "a"
     </Recipe>
     <Recipe Result="FeAlCrAlloyResistor" ResultCount="1" RequiredHeatLevel="0" a="IronLine" b="FeAlCrAlloyLine" Description="用铁铬合金线和铁线制作铁铝铬合金电阻器">
       "bbbb"
