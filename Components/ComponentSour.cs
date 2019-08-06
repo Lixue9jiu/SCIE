@@ -89,7 +89,17 @@ namespace Game
             HeatLevel = valuesDictionary.GetValue("HeatLevel", 0f);
         }
 
-        protected string FindSmeltingRecipe()
+		public override int RemoveSlotItems(int slotIndex, int count)
+		{
+			m_updateSmeltingRecipe = true;
+			if (m_smeltingRecipe != null && slotIndex!=1)
+			{
+				return 0;
+			}
+			return base.RemoveSlotItems(slotIndex, count);
+		}
+
+		protected string FindSmeltingRecipe()
         {
             bool text = false;
             result[0] = 0;

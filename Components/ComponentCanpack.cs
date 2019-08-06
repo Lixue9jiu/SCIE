@@ -59,7 +59,7 @@ namespace Game
 				//m_music = -1;
 			}
 
-			Log.Information(m_smeltingRecipe);
+			
 			if (m_smeltingRecipe != null)
 			{
 				SmeltingProgress = MathUtils.Min(SmeltingProgress + 0.15f * dt, 1f);
