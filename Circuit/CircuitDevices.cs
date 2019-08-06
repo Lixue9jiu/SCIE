@@ -357,8 +357,8 @@ namespace Game
         public void OnBlockAdded(SubsystemTerrain subsystemTerrain, int value, int oldValue)
         {
         }
-
-        public override int GetFaceTextureSlot(int face, int value)
+		
+		public override int GetFaceTextureSlot(int face, int value)
         {
             return face == 4 || face == 5 ? 107 : 147;
         }
@@ -373,6 +373,34 @@ namespace Game
             Simulate(ref value);
         }
 	}
+
+	public class Transformer : FixedDevice, IBlockBehavior
+	{
+		public Transformer() : base("变压器", "变压器是一种把交流电转化成直流电的机器") { }
+		public void OnBlockAdded(SubsystemTerrain subsystemTerrain, int value, int oldValue)
+		{
+		}
+		public override void Simulate(ref int voltage)
+		{
+			if (voltage < 0)
+				voltage = -voltage;
+		}
+		public override int GetFaceTextureSlot(int face, int value)
+		{
+			return face == 4 || face == 5 ? 107 : 121;
+		}
+
+		public override BlockPlacementData GetPlacementValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, TerrainRaycastResult raycastResult)
+		{
+			return GetPlacementValue(32, componentMiner, value, raycastResult);
+		}
+		public void OnBlockRemoved(SubsystemTerrain terrain, int value, int newValue)
+		{
+			value = 0;
+			Simulate(ref value);
+		}
+	}
+
 	public class WaterExtractor : Separator
 	{
 		public WaterExtractor()
