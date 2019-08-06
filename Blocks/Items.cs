@@ -256,6 +256,7 @@ namespace Game
                 new Condenser(),
 				new UThickener(),
                 new AirPump(),
+				new ElectricFences(),
             };
 			IdTable = new Dictionary<string, int>(Items.Length);
 			int i;

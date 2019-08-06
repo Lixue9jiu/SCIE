@@ -296,6 +296,78 @@ namespace Game
 		}
 		public override Vector3 GetIconBlockOffset(int value, DrawBlockEnvironmentData environmentData) => new Vector3 { Y = .5f };
 	}
+
+	public class ElectricFences : FixedDevice
+	{
+		public BlockMesh m_standaloneBlockMesh = new BlockMesh();
+		public BlockMesh m_standaloneBlockMesh2 = new BlockMesh();
+		public BoundingBox[] m_collisionBoxes;
+		public bool Powered2;
+		public SubsystemTime m_subsystemTime;
+
+		public Vector3? m_closestSoundToPlay;
+
+		public Dictionary<ComponentCreature, double> m_lastInjuryTimes = new Dictionary<ComponentCreature, double>();
+
+		public ElectricFences() : base("电栅栏")
+		{
+			Model model = ContentManager.Get<Model>("Models/IronFence");
+			
+			Matrix boneAbsoluteTransform = BlockMesh.GetBoneAbsoluteTransform(model.FindMesh("Post").ParentBone);
+			Matrix boneAbsoluteTransform2 = BlockMesh.GetBoneAbsoluteTransform(model.FindMesh("Planks").ParentBone);
+			ModelMeshPart meshPart = model.FindMesh("Post").MeshParts[0];
+			m_standaloneBlockMesh.AppendModelMeshPart(meshPart, boneAbsoluteTransform, false, false, false, false, Color.White);
+			m_standaloneBlockMesh2.AppendModelMeshPart(meshPart, boneAbsoluteTransform, false, false, false, false, Color.White);
+			meshPart = model.FindMesh("Planks").MeshParts[0];
+			m_standaloneBlockMesh.AppendModelMeshPart(meshPart, boneAbsoluteTransform2 * Matrix.CreateRotationX(MathUtils.DegToRad(30f)) * Matrix.CreateTranslation(.5f, 0f, .5f), false, false, false, false, Color.White);
+			m_standaloneBlockMesh2.AppendModelMeshPart(meshPart, boneAbsoluteTransform2 * Matrix.CreateRotationX(MathUtils.DegToRad(-30f)) * Matrix.CreateTranslation(.5f, 0f, .5f), false, false, false, false, Color.White);
+			m_collisionBoxes = new[] { m_standaloneBlockMesh.CalculateBoundingBox() };
+		}
+
+		
+			public override void Simulate(ref int voltage)
+		{
+			if (Powered2 = voltage >= 120)
+				voltage -= 120;
+		}
+	
+		public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
+		{
+			BlocksManager.DrawMeshBlock(primitivesRenderer, m_standaloneBlockMesh, color * Color.LightGray, size * 2f, ref matrix, environmentData);
+		}
+		
+		public override BlockPlacementData GetPlacementValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, TerrainRaycastResult raycastResult)
+		{
+			return new BlockPlacementData { Value = value, CellFace = raycastResult.CellFace };
+		}
+		public override bool IsFaceTransparent(SubsystemTerrain subsystemTerrain, int face, int value) => true;
+		public override BoundingBox[] GetCustomCollisionBoxes(SubsystemTerrain terrain, int value) => m_collisionBoxes;
+		public override void OnCollide(CellFace cellFace, float velocity, ComponentBody componentBody)
+		{
+			int data = Terrain.ExtractData(base.SubsystemTerrain.Terrain.GetCellValue(cellFace.X, cellFace.Y, cellFace.Z));
+			if (!SpikedPlankBlock.GetSpikesState(data))
+			{
+				return;
+			}
+			int mountingFace = SpikedPlankBlock.GetMountingFace(data);
+			if (cellFace.Face != mountingFace)
+			{
+				return;
+			}
+			ComponentCreature componentCreature = componentBody.Entity.FindComponent<ComponentCreature>();
+			if (componentCreature != null)
+			{
+				m_lastInjuryTimes.TryGetValue(componentCreature, out double value);
+				if (m_subsystemTime.GameTime - value > 1.0)
+				{
+					m_lastInjuryTimes[componentCreature] = m_subsystemTime.GameTime;
+					componentCreature.ComponentHealth.Injure(0.1f, null, ignoreInvulnerability: false, "Spiked by a trap");
+				}
+			}
+		}
+
+
+	}
 	/*public abstract class DeviceElement : Element, IComparable<DeviceElement>, IEquatable<DeviceElement>
 	{
 		public int Voltage;
