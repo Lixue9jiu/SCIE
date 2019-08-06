@@ -307,7 +307,7 @@ namespace Game
 
 		public Vector3? m_closestSoundToPlay;
 
-		public Dictionary<ComponentCreature, double> m_lastInjuryTimes = new Dictionary<ComponentCreature, double>();
+		//public Dictionary<ComponentCreature, double> m_lastInjuryTimes = new Dictionary<ComponentCreature, double>();
 
 		public ElectricFences() : base("电栅栏")
 		{
@@ -319,8 +319,8 @@ namespace Game
 			m_standaloneBlockMesh.AppendModelMeshPart(meshPart, boneAbsoluteTransform, false, false, false, false, Color.White);
 			m_standaloneBlockMesh2.AppendModelMeshPart(meshPart, boneAbsoluteTransform, false, false, false, false, Color.White);
 			meshPart = model.FindMesh("Planks").MeshParts[0];
-			m_standaloneBlockMesh.AppendModelMeshPart(meshPart, boneAbsoluteTransform2 * Matrix.CreateRotationX(MathUtils.DegToRad(30f)) * Matrix.CreateTranslation(.5f, 0f, .5f), false, false, false, false, Color.White);
-			m_standaloneBlockMesh2.AppendModelMeshPart(meshPart, boneAbsoluteTransform2 * Matrix.CreateRotationX(MathUtils.DegToRad(-30f)) * Matrix.CreateTranslation(.5f, 0f, .5f), false, false, false, false, Color.White);
+			//m_standaloneBlockMesh.AppendModelMeshPart(meshPart, boneAbsoluteTransform2 * Matrix.CreateRotationX(MathUtils.DegToRad(30f)) * Matrix.CreateTranslation(.5f, 0f, .5f), false, false, false, false, Color.White);
+			//m_standaloneBlockMesh2.AppendModelMeshPart(meshPart, boneAbsoluteTransform2 * Matrix.CreateRotationX(MathUtils.DegToRad(-30f)) * Matrix.CreateTranslation(.5f, 0f, .5f), false, false, false, false, Color.White);
 			m_collisionBoxes = new[] { m_standaloneBlockMesh.CalculateBoundingBox() };
 		}
 
@@ -342,29 +342,29 @@ namespace Game
 		}
 		public override bool IsFaceTransparent(SubsystemTerrain subsystemTerrain, int face, int value) => true;
 		public override BoundingBox[] GetCustomCollisionBoxes(SubsystemTerrain terrain, int value) => m_collisionBoxes;
-		public override void OnCollide(CellFace cellFace, float velocity, ComponentBody componentBody)
-		{
-			int data = Terrain.ExtractData(base.SubsystemTerrain.Terrain.GetCellValue(cellFace.X, cellFace.Y, cellFace.Z));
-			if (!SpikedPlankBlock.GetSpikesState(data))
-			{
-				return;
-			}
-			int mountingFace = SpikedPlankBlock.GetMountingFace(data);
-			if (cellFace.Face != mountingFace)
-			{
-				return;
-			}
-			ComponentCreature componentCreature = componentBody.Entity.FindComponent<ComponentCreature>();
-			if (componentCreature != null)
-			{
-				m_lastInjuryTimes.TryGetValue(componentCreature, out double value);
-				if (m_subsystemTime.GameTime - value > 1.0)
-				{
-					m_lastInjuryTimes[componentCreature] = m_subsystemTime.GameTime;
-					componentCreature.ComponentHealth.Injure(0.1f, null, ignoreInvulnerability: false, "Spiked by a trap");
-				}
-			}
-		}
+		//public override void OnCollide(CellFace cellFace, float velocity, ComponentBody componentBody)
+		//{
+		//	int data = Terrain.ExtractData(base.SubsystemTerrain.Terrain.GetCellValue(cellFace.X, cellFace.Y, cellFace.Z));
+		//	if (!SpikedPlankBlock.GetSpikesState(data))
+		//	{
+		//		return;
+		//	}
+		//	int mountingFace = SpikedPlankBlock.GetMountingFace(data);
+		//	if (cellFace.Face != mountingFace)
+		//	{
+		//		return;
+		//	}
+		//	ComponentCreature componentCreature = componentBody.Entity.FindComponent<ComponentCreature>();
+		//	if (componentCreature != null)
+		//	{
+		//		m_lastInjuryTimes.TryGetValue(componentCreature, out double value);
+		//		if (m_subsystemTime.GameTime - value > 1.0)
+		//		{
+		//			m_lastInjuryTimes[componentCreature] = m_subsystemTime.GameTime;
+		//			componentCreature.ComponentHealth.Injure(0.1f, null, ignoreInvulnerability: false, "Spiked by a trap");
+		//		}
+		//	}
+		//}
 
 
 	}

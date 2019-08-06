@@ -396,7 +396,7 @@ namespace Game
     {
         public bool Charged;
         public float Energy;
-        public Condenser(int voltage = 310) : base(voltage, "超大电容", "超大电容允许你存储一些电量，并在需要的时候释放出去", ElementType.Supply | ElementType.Connector)
+        public Condenser(int voltage = 310) : base(voltage, "超大电容", "超大电容允许你存储一些电量，并在需要的时候释放出去", ElementType.Supply)
         {
         }
         public override void Simulate(ref int voltage)
