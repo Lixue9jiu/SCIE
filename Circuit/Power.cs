@@ -62,8 +62,8 @@ namespace Game
 	{
 		public int Factor = 0;
 		public readonly BoundingBox[] m_collisionBoxes;
-		public readonly BlockMesh m_standaloneBlockMesh = new BlockMesh();
-		public int RemainCount = 500;
+		protected readonly BlockMesh m_standaloneBlockMesh = new BlockMesh();
+		public int RemainCount = 600;
 		readonly string Id;
 		public Battery(Matrix tcTransform, string name = "", string description = "", string id = "", int voltage = 12, string modelName = "Models/Battery", string meshName = "Battery") : base(voltage, name, description, ElementType.Connector | ElementType.Container)
 		{

@@ -226,8 +226,14 @@ namespace Game
 				new Canpack(),
 				new Electrobath(), //8
 				new Battery(Matrix.CreateTranslation(7f / 16f, 6f / 16f, 0f), "Cu-Zn电池", "Cu-Zn电池", "CuZnBattery"),
-				new Battery(Matrix.CreateTranslation(7f / 16f, 6f / 16f, 0f), "Ag-Zn电池", "Ag-Zn电池", "AgZnBattery"),
-				new Battery(Matrix.CreateTranslation(7f / 16f, 6f / 16f, 0f), "Au-Zn电池", "Au-Zn电池", "AuZnBattery"),
+				new Battery(Matrix.CreateTranslation(7f / 16f, 6f / 16f, 0f), "Ag-Zn电池", "Ag-Zn电池", "AgZnBattery")
+				{
+					RemainCount = 1000
+				},
+				new Battery(Matrix.CreateTranslation(7f / 16f, 6f / 16f, 0f), "Au-Zn电池", "Au-Zn电池", "AuZnBattery")
+				{
+					RemainCount = 1500
+				},
 				new Battery(Matrix.CreateTranslation(-2f / 16f, 4f / 16f, 0f), "伏打电池", "伏打电池", "VBattery"),
 				new Pipe(0),
 				new Pipe(1),
@@ -257,16 +263,16 @@ namespace Game
 				IdTable.Add(Items[i].GetCraftingId(), Index | i << 14);
 			for (i = 0; i < ElementBlock.Devices.Length; i++)
 				IdTable.Add(ElementBlock.Devices[i].GetCraftingId(), ElementBlock.Index | i << 14);
-			var list = new DynamicArray<Item>(GunpowderBlock.Items)
+			var list = new DynamicArray<Item>(Chemistry.GunpowderBlock.Items)
 			{
-				Capacity = GunpowderBlock.Items.Length
+				Capacity = Chemistry.GunpowderBlock.Items.Length
 			};
 			for (i = 0; i < 2048; i++)
 				list.Add(new Mine((MineType)(i & 63), (i >> 6) / 4.0));
 			list.Capacity = list.Count;
-			GunpowderBlock.Items = list.Array;
-			for (i = 1; i < GunpowderBlock.Items.Length; i++)
-				IdTable.Add(GunpowderBlock.Items[i].GetCraftingId(), GunpowderBlock.Index | i << 14);
+			Chemistry.GunpowderBlock.Items = list.Array;
+			for (i = 1; i < Chemistry.GunpowderBlock.Items.Length; i++)
+				IdTable.Add(Chemistry.GunpowderBlock.Items[i].GetCraftingId(), GunpowderBlock.Index | i << 14);
 			/*var stream = Utils.GetTargetFile("IndustrialEquations.txt");
 			Equation.Reactions = new HashSet<Equation>();
 			try

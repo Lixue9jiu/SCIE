@@ -1,5 +1,6 @@
 ﻿using Engine;
 using Engine.Graphics;
+using Game;
 using System.Collections.Generic;
 using System.Text;
 
@@ -51,6 +52,9 @@ namespace Game
 		}
 		public float GetFuelFireDuration(int value) => .1f;
 	}
+}
+namespace Chemistry
+{
 	public class GunpowderBlock : ItemBlock, IElectricElementBlock
 	{
 		public new const int Index = 109;
@@ -112,6 +116,9 @@ namespace Game
 			return 2147483647;
 		}
 	}
+}
+namespace Game
+{
 	public class Mine : Mould
 	{
 		public float ExplosionPressure;

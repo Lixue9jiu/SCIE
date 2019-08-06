@@ -182,7 +182,7 @@ namespace Game
 		public static void DrawCubeBlock(PrimitivesRenderer3D primitivesRenderer, int value, Vector3 size, ref Matrix matrix, Color color, Color topColor, DrawBlockEnvironmentData environmentData)
 		{
 			environmentData = (environmentData ?? BlocksManager.m_defaultEnvironmentData);
-			TexturedBatch3D texturedBatch3D = primitivesRenderer.TexturedBatch(ItemBlock.Texture, true, 0, null, RasterizerState.CullCounterClockwiseScissor, null, SamplerState.PointClamp);
+			TexturedBatch3D texturedBatch3D = primitivesRenderer.TexturedBatch(Texture, true, 0, null, RasterizerState.CullCounterClockwiseScissor, null, SamplerState.PointClamp);
 			float s = LightingManager.LightIntensityByLightValue[environmentData.Light];
 			color = Color.MultiplyColorOnly(color, s);
 			topColor = Color.MultiplyColorOnly(topColor, s);

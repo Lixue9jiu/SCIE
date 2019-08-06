@@ -29,8 +29,8 @@ public class GunSmokeParticleSystem2 : ParticleSystem<GunSmokeParticleSystem2.Pa
     public GunSmokeParticleSystem2(SubsystemTerrain terrain, Vector3 position, Vector3 direction)
         : base(50)
     {
-        base.Texture = ContentManager.Get<Texture2D>("Textures/FireParticle");
-        base.TextureSlotsCount = 3;
+		Texture = ContentManager.Get<Texture2D>("Textures/FireParticle");
+		TextureSlotsCount = 3;
         m_position = position;
         m_direction = Vector3.Normalize(direction);
         int num = Terrain.ToCell(position.X);
@@ -63,9 +63,9 @@ public class GunSmokeParticleSystem2 : ParticleSystem<GunSmokeParticleSystem2.Pa
             m_toGenerate = 0f;
         }
         bool flag = false;
-        for (int i = 0; i < base.Particles.Length; i++)
+        for (int i = 0; i < Particles.Length; i++)
         {
-            Particle particle = base.Particles[i];
+            Particle particle = Particles[i];
             if (particle.IsActive)
             {
                 flag = true;

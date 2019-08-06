@@ -40,7 +40,7 @@ namespace Game
 			m_componentBody = Entity.FindComponent<ComponentBody>(true);
 			m_componentDamage = Entity.FindComponent<ComponentDamage>(true);
 			componentEngine = Entity.FindComponent<ComponentEngineA>();
-			Entity.FindComponent<ComponentModel>().TextureOverride = Airship.WhiteTexture;
+			Entity.FindComponent<ComponentModel>().TextureOverride = TexturedMeshItem.WhiteTexture;
 		}
 	}
 }

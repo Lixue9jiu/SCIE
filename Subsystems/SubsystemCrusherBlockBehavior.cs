@@ -45,8 +45,8 @@ namespace Game
             if (!ComponentEngine.IsPowered(Utils.Terrain, cellFace.X, cellFace.Y, cellFace.Z))
                 return;
             int l;
-            int num1 = base.SubsystemTerrain.Terrain.GetCellValue(cellFace.X, cellFace.Y, cellFace.Z);
-            int num2 = base.SubsystemTerrain.Terrain.GetCellContents(cellFace.X, cellFace.Y, cellFace.Z);
+            int num1 = SubsystemTerrain.Terrain.GetCellValue(cellFace.X, cellFace.Y, cellFace.Z);
+            int num2 = SubsystemTerrain.Terrain.GetCellContents(cellFace.X, cellFace.Y, cellFace.Z);
             Vector3 v = CellFace.FaceToVector3(cellFace.Face);
             var position = new Vector3(cellFace.Point) + new Vector3(0.5f) - 0.75f * v;
             if (Terrain.ExtractContents(worldItem.Value) == CottonWadBlock.Index)
