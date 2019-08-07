@@ -484,12 +484,15 @@ namespace Game
 		{
 			if (Component.Charged)
 			{
-				if (Component.Powered = voltage >= 200)
-					voltage -= 200;
+				if (Component.Powered = voltage >= 310)
+					voltage -= 310;
 			}else
 			{
 				if (Component.Powered2)
-					voltage += 200;
+				{
+					voltage += 310;
+				}
+					
 			}
 		}
 		public override void OnBlockAdded(SubsystemTerrain subsystemTerrain, int value, int oldValue)
