@@ -35,7 +35,7 @@ namespace Game
 				int value;
 				while (true)
 				{
-					if (num >= SlotsCount - 1)
+					if (num >= SlotsCount - 0)
 						return;
 					value = GetSlotValue(num);
 					int slotCount = GetSlotCount(num);
@@ -54,7 +54,7 @@ namespace Game
 				int value;
 				while (true)
 				{
-					if (num >= SlotsCount - 1)
+					if (num >= SlotsCount - 0)
 						return;
 					value = GetSlotValue(num);
 					int slotCount = GetSlotCount(num);
