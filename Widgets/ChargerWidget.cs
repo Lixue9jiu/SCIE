@@ -71,7 +71,7 @@ namespace Game
 		{
 			int value = m_subsystemTerrain.Terrain.GetCellValue(m_componentBlockEntity.Coordinates.X, m_componentBlockEntity.Coordinates.Y, m_componentBlockEntity.Coordinates.Z);
 			int data = Terrain.ExtractData(value);
-			Charger.MachineMode1 mode = Charger.GetMode(data);
+			MachineMode1 mode = Charger.GetMode(data);
 			if (m_dispenseButton.IsClicked && mode == MachineMode1.Discharger)
 			{
 				data = Charger.SetMode(data);

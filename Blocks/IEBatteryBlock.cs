@@ -39,7 +39,7 @@ namespace Game
 		{
 			var type = GetType(value);
 			ItemBlock.DrawFlatBlock(primitivesRenderer, value, size, ref matrix, ItemBlock.Texture,
-				(type == BatteryType.Fission_Battery ? Color.Cyan : type == BatteryType.Lead_Battery ? Color.Gray : color) * SubsystemPalette.GetColor(environmentData, Terrain.ExtractData(value) >> 13 & 15), false, environmentData);
+				(type == BatteryType.Fission_Battery ? Color.Cyan : type == BatteryType.Lead_Battery ? Color.Gray : color) , false, environmentData);
 		}
 		public static BatteryType GetType(int value)
 		{
@@ -51,8 +51,8 @@ namespace Game
 		}
 		public override string GetDisplayName(SubsystemTerrain subsystemTerrain, int value)
 		{
-			int index = Terrain.ExtractData(value) >> 13 & 15;
-			return SubsystemPalette.GetName(subsystemTerrain, index == 0 ? default(int?) : index, GetType(value).ToString());
+			//int index = Terrain.ExtractData(value) >> 13 & 15;
+			return GetType(value).ToString();
 		}
 		public override string GetDescription(int value)
 		{
@@ -77,7 +77,7 @@ namespace Game
 		{
 			switch (GetType(value))
 			{
-				case BatteryType.Cu_Zn_Battery: return 600;
+				case BatteryType.Cu_Zn_Battery: return 800;
 				case BatteryType.Fission_Battery: return 4000;
 				case BatteryType.Fusion_Battery: return 4000;
 				case BatteryType.Lead_Battery: return 1100;

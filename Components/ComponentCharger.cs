@@ -1,8 +1,9 @@
 using Engine;
 using GameEntitySystem;
-using System.Globalization;
+//using System.Globalization;
 using TemplatesDatabase;
 using static Game.Charger;
+//using System;
 namespace Game
 {
 	public class ComponentCharger : ComponentInventoryBase, IUpdateable
@@ -12,64 +13,83 @@ namespace Game
 		public bool Powered2;
 		public bool Charged;
 		protected ComponentBlockEntity m_componentBlockEntity;
-
+		private int time=0;
 		public int UpdateOrder => 0;
-
+		//public static Func<int, int, int> DamageItem1;
 		public void Update(float dt)
 		{
-			Point3 coordinates = m_componentBlockEntity.Coordinates;
-			int data = Terrain.ExtractData(Utils.Terrain.GetCellValue(coordinates.X, coordinates.Y, coordinates.Z));
-			MachineMode1 mode = Charger.GetMode(data);
-			if (mode==MachineMode1.Charge)
+			time += 1;
+			if (time%2==0)
 			{
-				Charged = true;
-			}
-			else
-			{
-				Charged = false;
-			}
 
-			if (Charged && Powered==true)
-			{
-				int num = 0;
-				int value;
-				while (true)
+				Point3 coordinates = m_componentBlockEntity.Coordinates;
+				int data = Terrain.ExtractData(Utils.Terrain.GetCellValue(coordinates.X, coordinates.Y, coordinates.Z));
+				MachineMode1 mode = Charger.GetMode(data);
+				if (mode == MachineMode1.Charge)
 				{
-					if (num >= SlotsCount - 0)
-						return;
-					value = GetSlotValue(num);
-					int slotCount = GetSlotCount(num);
-					if (value != 0 && slotCount > 0)
-						break;
-					num++;
-					
+					Charged = true;
 				}
-				//RemoveSlotItems(num, 1);
-				//AddSlotItems(num, BlocksManager.DamageItem(value, -1), 1);
-
-			}
-			if (!Charged && m_slots[0].Count + m_slots[1].Count + m_slots[2].Count + m_slots[3].Count!=0)
-			{
-				int num = 0;
-				int value;
-				while (true)
+				else
 				{
-					if (num >= SlotsCount - 0)
-						return;
-					value = GetSlotValue(num);
-					int slotCount = GetSlotCount(num);
-					if (value != 0 && slotCount > 0)
-						break;
-					num++;
-					
+					Charged = false;
 				}
-				RemoveSlotItems(num, 1);
-				AddSlotItems(num, BlocksManager.DamageItem(value, 1), 1);
-				Powered2 = true;
 
+				if (Charged && Powered == true && m_slots[0].Count + m_slots[1].Count + m_slots[2].Count + m_slots[3].Count != 0)
+				{
+					int num = 0;
+					int value;
+					BatteryType type;
+					while (true)
+					{
+						if (num >= SlotsCount - 0)
+							return;
+						value = GetSlotValue(num);
+						int slotCount = GetSlotCount(num);
+						type = IEBatteryBlock.GetType(value);
+						
+						if (value != 0 && slotCount > 0 && IEBatteryBlock.GetType(BlocksManager.DamageItem(value, -1)) == type && GetDamage(value)!=0)
+							break;
+						num++;
+
+					}
+					if (num < 4)
+					{
+						RemoveSlotItems(num, 1);
+						AddSlotItems(num, BlocksManager.DamageItem(value, -1), 1);
+					}
+				}
+				if (!Charged && m_slots[0].Count + m_slots[1].Count + m_slots[2].Count + m_slots[3].Count != 0)
+				{
+					int num = 0;
+					int value;
+					BatteryType type;
+					while (true)
+					{
+						if (num >= SlotsCount - 0)
+						{
+							Powered2 = false;
+							return;
+						}
+							
+						value = GetSlotValue(num);
+						int slotCount = GetSlotCount(num);
+						type = IEBatteryBlock.GetType(value);
+						if (value != 0 && slotCount > 0 && IEBatteryBlock.GetType(BlocksManager.DamageItem(value, 1)) == type && BlocksManager.DamageItem(value, 1) !=0)
+						{ break; }
+							
+						num++;
+						
+					}
+					
+					
+						RemoveSlotItems(num, 1);
+						AddSlotItems(num, BlocksManager.DamageItem(value, 1), 1);
+						Powered2 = true;
+					
+
+				}
+				else { Powered2 = false; }
 			}
-			else { Powered2 = false; }
-
 		}
 
 		public override void Load(ValuesDictionary valuesDictionary, IdToEntityMap idToEntityMap)
@@ -100,7 +120,10 @@ namespace Game
 			
 			return base.GetSlotCapacity(slotIndex, value);
 		}
-
+		public virtual int GetDamage(int value)
+		{
+			return (Terrain.ExtractData(value) >> 4) & 0xFFF;
+		}
 	}
 }
 
