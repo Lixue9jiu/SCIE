@@ -1,5 +1,6 @@
 ﻿using Engine;
 
+
 namespace Game
 {
 	public class Fridge : InteractiveEntityDevice<ComponentNewChest>
@@ -462,13 +463,8 @@ namespace Game
 	}
 	public class Charger : InteractiveEntityDevice<ComponentCharger>, IElectricElementBlock
 	{
-		public Charger() : base("Charger", "充电放电装置", "充电放电装置是一种可以为电池充电或者放电的装置") { }
-
-		/*public override Device Create(Point3 p)
-		{
-			var other = (EFurnace)base.Create(p);
-			return other;
-		}*/
+		public Charger() : base("Charger", "充电放电装置", "充电放电装置是一种可以为电池充电或者放电的装置") { Type = ElementType.Supply | ElementType.Connector; }
+		
 		public enum MachineMode1
 		{
 			Charge, Discharger
@@ -527,5 +523,7 @@ namespace Game
 			int? color = PaintableItemBlock.GetColor(Terrain.ExtractData(value));
 			return color.HasValue ? 1 << color.Value : 2147483647;
 		}
+
+		
 	}
 }

@@ -19,7 +19,7 @@ namespace Game
 		public void Update(float dt)
 		{
 			time += 1;
-			if (time%20==0)
+			if (true)
 			{
 
 				Point3 coordinates = m_componentBlockEntity.Coordinates;
