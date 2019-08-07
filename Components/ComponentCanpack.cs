@@ -96,7 +96,7 @@ namespace Game
 		{
 			bool text = false;
 			result[0] = 0;
-			int i;
+			//int i;
 			// Log.Information("000000000");
 			//  Log.Information(GetSlotValue(0) == ItemBlock.IdTable["Empty"]);
 			//  Log.Information(GetSlotValue(1) == CookedMeatBlock.Index);

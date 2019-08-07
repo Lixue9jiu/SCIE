@@ -159,7 +159,7 @@ namespace Game
 			if (!(BlocksManager.Blocks[Terrain.ExtractContents(value)] is ItemBlock block))
 				return false;
 			var item = block.GetItem(ref value);
-			return (item is OreChunk || (item is Mould && !(item is Mine)) || value == ItemBlock.IdTable["RefractoryBrick"] || value == ItemBlock.IdTable["ScrapIron"]) && base.OnAim(start, direction, componentMiner, state);
+			return (item is OreChunk || (item is Mould && !(item is Mine)) || item is Brick || value == ItemBlock.IdTable["ScrapIron"]) && base.OnAim(start, direction, componentMiner, state);
 		}
 
 		public override bool OnUse(Vector3 start, Vector3 direction, ComponentMiner componentMiner)

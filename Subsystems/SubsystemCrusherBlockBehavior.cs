@@ -44,7 +44,7 @@ namespace Game
         {
             if (!ComponentEngine.IsPowered(Utils.Terrain, cellFace.X, cellFace.Y, cellFace.Z))
                 return;
-            int l;
+            //int l;
             int num1 = SubsystemTerrain.Terrain.GetCellValue(cellFace.X, cellFace.Y, cellFace.Z);
             int num2 = SubsystemTerrain.Terrain.GetCellContents(cellFace.X, cellFace.Y, cellFace.Z);
             Vector3 v = CellFace.FaceToVector3(cellFace.Face);

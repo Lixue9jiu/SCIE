@@ -15,11 +15,13 @@ namespace Game
 	public class Item : IItem
 	{
 		public static ElementBlock Block;
+		public static Func<string, int> DecodeResult1;
 		static void Initialize()
 		{
 			BlocksManager.DamageItem1 = DamageItem;
 			BlocksManager.FindBlocksByCraftingId1 = FindBlocksByCraftingId;
 			CraftingRecipesManager.Initialize1 = CRInitialize + CraftingRecipesManager.Initialize1;
+			DecodeResult1 = CraftingRecipesManager.DecodeResult1;
 			CraftingRecipesManager.DecodeResult1 = DecodeResult;
 			CraftingRecipesManager.MatchRecipe1 = MatchRecipe;
 			CraftingRecipesManager.TransformRecipe1 = TransformRecipe;
@@ -90,16 +92,24 @@ namespace Game
 				}
 				craftingRecipe.RequiredHeatLevel = XmlUtils.GetAttributeValue<float>(xelement, "RequiredHeatLevel");
 				craftingRecipe.Description = XmlUtils.GetAttributeValue<string>(xelement, "Description");
+#if !DEBUG
 				if (craftingRecipe.ResultCount > BlocksManager.Blocks[Terrain.ExtractContents(craftingRecipe.ResultValue)].MaxStacking)
 					throw new InvalidOperationException($"In recipe for \"{attributeValue}\" ResultCount is larger than max stacking of result block.");
 				if (craftingRecipe.RemainsValue != 0 && craftingRecipe.RemainsCount > BlocksManager.Blocks[Terrain.ExtractContents(craftingRecipe.RemainsValue)].MaxStacking)
 					throw new InvalidOperationException($"In Recipe for \"{attributeValue2}\" RemainsCount is larger than max stacking of remains block.");
+#endif
 				var dictionary = new Dictionary<char, string>();
 				foreach (XAttribute item in xelement.Attributes().Where(CraftingRecipesManager.c._.Initialize_b__3_1))
 				{
+					if (item.Value.StartsWith("New", StringComparison.Ordinal))
+						continue;
 					CraftingRecipesManager.DecodeIngredient(item.Value, out string craftingId, out int? data);
 					if (BlocksManager.FindBlocksByCraftingId(craftingId).Length == 0)
+#if DEBUG
 						throw new InvalidOperationException($"Block with craftingId \"{item.Value}\" not found.");
+#else
+						continue;
+#endif
 					if (data.HasValue && (data.Value < 0 || data.Value > 262143))
 						throw new InvalidOperationException($"Data in recipe ingredient \"{item.Value}\" must be between 0 and 0x3FFFF.");
 					dictionary.Add(item.Name.LocalName[0], item.Value);
@@ -118,7 +128,7 @@ namespace Game
 						char c = text[j];
 						if (char.IsLower(c))
 						{
-							string text2 = dictionary[c];
+							if (!dictionary.TryGetValue(c, out string text2)) continue;
 							if (ItemBlock.IdTable.TryGetValue(text2, out int value))
 								text2 = BlocksManager.Blocks[Terrain.ExtractContents(value)].CraftingId + ":" + Terrain.ExtractData(value);
 							ingredients[j + i * 6] = text2;
@@ -183,8 +193,11 @@ namespace Game
 		{
 			if (ItemBlock.IdTable.TryGetValue(result, out int value))
 				return value;
+			if (DecodeResult1 != null)
+				return DecodeResult1(result);
 			var array = result.Split(':');
-			return Terrain.MakeBlockValue(BlocksManager.FindBlockByTypeName(array[0], true).BlockIndex, 0, array.Length >= 2 ? int.Parse(array[1], CultureInfo.InvariantCulture) : 0);
+			int data = array.Length >= 2 ? int.Parse(array[1], CultureInfo.InvariantCulture) : 0;
+			return Terrain.MakeBlockValue(BlocksManager.FindBlockByTypeName(array[0], true).BlockIndex, 0, data);
 		}
 		public static bool MatchRecipe(string[] requiredIngredients, string[] actualIngredients)
 		{
@@ -262,22 +275,22 @@ namespace Game
 		{
 			return false;
 		}
-		public virtual bool ShouldGenerateFace(SubsystemTerrain subsystemTerrain, int face, int value, int neighborValue)
+		/*public virtual bool ShouldGenerateFace(SubsystemTerrain subsystemTerrain, int face, int value, int neighborValue)
 		{
 			return BlocksManager.Blocks[Terrain.ExtractContents(neighborValue)].IsFaceTransparent(subsystemTerrain, CellFace.OppositeFace(face), neighborValue);
 		}
 		public virtual int GetShadowStrength(int value)
 		{
 			return 0;
-		}
+		}*/
 		public virtual int GetFaceTextureSlot(int face, int value)
 		{
 			return 0;
 		}
-		public virtual string GetSoundMaterialName(SubsystemTerrain subsystemTerrain, int value)
+		/*public virtual string GetSoundMaterialName(SubsystemTerrain subsystemTerrain, int value)
 		{
 			return string.Empty;
-		}
+		}*/
 		public virtual void GenerateTerrainVertices(Block block, BlockGeometryGenerator generator, TerrainGeometrySubsets geometry, int value, int x, int y, int z)
 		{
 			generator.GenerateCubeVertices(Block, value, x, y, z, Color.White, geometry.OpaqueSubsetsByFace);
@@ -378,14 +391,14 @@ namespace Game
 		{
 			return 0;
 		}
-		public virtual bool ShouldAvoid(int value)
+		/*public virtual bool ShouldAvoid(int value)
 		{
 			return false;
 		}
 		public virtual bool IsSwapAnimationNeeded(int oldValue, int newValue)
 		{
 			return true;
-		}
+		}*/
 		public virtual bool IsHeatBlocker(int value)
 		{
 			return true;
@@ -418,22 +431,22 @@ namespace Game
 		{
 			return GetItem(ref value).IsFaceTransparent(subsystemTerrain, face, value);
 		}
-		public override bool ShouldGenerateFace(SubsystemTerrain subsystemTerrain, int face, int value, int neighborValue)
+		/*public override bool ShouldGenerateFace(SubsystemTerrain subsystemTerrain, int face, int value, int neighborValue)
 		{
 			return GetItem(ref value).ShouldGenerateFace(subsystemTerrain, face, value, neighborValue);
 		}
 		public override int GetShadowStrength(int value)
 		{
 			return GetItem(ref value).GetShadowStrength(value);
-		}
+		}*/
 		public override int GetFaceTextureSlot(int face, int value)
 		{
 			return GetItem(ref value).GetFaceTextureSlot(face, value);
 		}
-		public override string GetSoundMaterialName(SubsystemTerrain subsystemTerrain, int value)
+		/*public override string GetSoundMaterialName(SubsystemTerrain subsystemTerrain, int value)
 		{
 			return GetItem(ref value).GetSoundMaterialName(subsystemTerrain, value);
-		}
+		}*/
 		public override void GenerateTerrainVertices(BlockGeometryGenerator generator, TerrainGeometrySubsets geometry, int value, int x, int y, int z)
 		{
 			GetItem(ref value).GenerateTerrainVertices(this, generator, geometry, value, x, y, z);
@@ -531,7 +544,7 @@ namespace Game
 		{
 			return GetItem(ref value).GetNutritionalValue(value);
 		}
-		public override bool ShouldAvoid(int value)
+		/*public override bool ShouldAvoid(int value)
 		{
 			return GetItem(ref value).ShouldAvoid(value);
 		}
@@ -542,7 +555,7 @@ namespace Game
 		public override bool IsHeatBlocker(int value)
 		{
 			return GetItem(ref value).IsHeatBlocker(value);
-		}
+		}*/
 		public override IEnumerable<int> GetCreativeValues()
 		{
 			var arr = new int[Items.Length];

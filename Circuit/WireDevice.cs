@@ -330,7 +330,7 @@ namespace Game
 		}
 		public override void GenerateTerrainVertices(Block block, BlockGeometryGenerator generator, TerrainGeometrySubsets geometry, int value, int x, int y, int z)
 		{
-			Utils.BlockGeometryGenerator.GenerateMeshVertices(block, x, y, z, m_standaloneBlockMesh, Color.White, null, Utils.GTV(x, z, geometry).SubsetOpaque);
+			generator.GenerateMeshVertices(block, x, y, z, m_standaloneBlockMesh, Color.White, null, geometry.SubsetOpaque);
 		}
 		public override BlockPlacementData GetPlacementValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, TerrainRaycastResult raycastResult)
 		{

@@ -34,7 +34,7 @@ namespace Game
 	{
 		IItem GetItem(ref int value);
 	}
-	public interface IItem : IAnimatedItem, IUnstableItem, IFood, IExplosive, IWeapon, IScalableItem, ICollidableItem
+	public interface IItem : /*IAnimatedItem, */IUnstableItem, IFood, IExplosive, IWeapon, IScalableItem, ICollidableItem
 	{
 	}
 	public interface IItemBase
@@ -48,10 +48,10 @@ namespace Game
 		Vector3 GetIconBlockOffset(int value, DrawBlockEnvironmentData environmentData);
 		Vector3 GetIconViewOffset(int value, DrawBlockEnvironmentData environmentData);
 	}
-	public interface IAnimatedItem
+	/*public interface IAnimatedItem
 	{
 		bool IsSwapAnimationNeeded(int oldValue, int newValue);
-	}
+	}*/
 	public interface IUnstableItem
 	{
 		int GetDamage(int value);
@@ -83,9 +83,9 @@ namespace Game
 	{
 		bool IsInteractive(SubsystemTerrain subsystemTerrain, int value);
 		bool IsFaceTransparent(SubsystemTerrain subsystemTerrain, int face, int value);
-		bool ShouldGenerateFace(SubsystemTerrain subsystemTerrain, int face, int value, int neighborValue);
-		int GetShadowStrength(int value);
-		string GetSoundMaterialName(SubsystemTerrain subsystemTerrain, int value);
+		//bool ShouldGenerateFace(SubsystemTerrain subsystemTerrain, int face, int value, int neighborValue);
+		//int GetShadowStrength(int value);
+		//string GetSoundMaterialName(SubsystemTerrain subsystemTerrain, int value);
 		void GenerateTerrainVertices(Block block, BlockGeometryGenerator generator, TerrainGeometrySubsets geometry, int value, int x, int y, int z);
 		BlockPlacementData GetPlacementValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, TerrainRaycastResult raycastResult);
 		BlockPlacementData GetDigValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, int toolValue, TerrainRaycastResult raycastResult);
@@ -93,8 +93,8 @@ namespace Game
 		float GetHeat(int value);
 		BlockDebrisParticleSystem CreateDebrisParticleSystem(SubsystemTerrain subsystemTerrain, Vector3 position, int value, float strength);
 		int GetEmittedLightAmount(int value);
-		bool ShouldAvoid(int value);
-		bool IsHeatBlocker(int value);
+		//bool ShouldAvoid(int value);
+		//bool IsHeatBlocker(int value);
 	}
 	public interface ICollidableItem : IPlaceableItem
 	{
