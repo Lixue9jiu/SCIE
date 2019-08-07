@@ -459,4 +459,69 @@ namespace Game
             return true;
         }
 	}
+	public class Charger : InteractiveEntityDevice<ComponentCharger>, IElectricElementBlock
+	{
+		public Charger() : base("Charger", "充电放电装置", "充电放电装置是一种可以为电池充电或者放电的装置") { }
+
+		/*public override Device Create(Point3 p)
+		{
+			var other = (EFurnace)base.Create(p);
+			return other;
+		}*/
+		public enum MachineMode1
+		{
+			Charge, Discharger
+		}
+		public static MachineMode1 GetMode(int data)
+		{
+			return (MachineMode1)(data >> 14 & 1);
+		}
+
+		public static int SetMode(int data) => data ^ 1 << 14;
+		
+		public override void Simulate(ref int voltage)
+		{
+			if (Component.Charged)
+			{
+				if (Component.Powered = voltage >= 200)
+					voltage -= 200;
+			}else
+			{
+				if (Component.Powered2)
+					voltage += 200;
+			}
+		}
+		public override void OnBlockAdded(SubsystemTerrain subsystemTerrain, int value, int oldValue)
+		{
+			base.OnBlockAdded(subsystemTerrain, value, oldValue);
+			Component.Powered = false;
+		}
+		public override int GetFaceTextureSlot(int face, int value)
+		{
+			return face == 4 || face == 5 ? 114 : 122;
+		}
+		public override BlockPlacementData GetPlacementValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, TerrainRaycastResult raycastResult)
+		{
+			return GetPlacementValue(35, componentMiner, value, raycastResult);
+		}
+		public override Widget GetWidget(IInventory inventory, ComponentCharger component)
+		{
+			return new ChargerWidget(inventory, component);
+		}
+		public ElectricElement CreateElectricElement(SubsystemElectricity subsystemElectricity, int value, int x, int y, int z)
+		{
+			return new CraftingMachineElectricElement(subsystemElectricity, new Point3(x, y, z));
+		}
+
+		public ElectricConnectorType? GetConnectorType(SubsystemTerrain terrain, int value, int face, int connectorFace, int x, int y, int z)
+		{
+			return face == 4 || face == 5 ? (ElectricConnectorType?)ElectricConnectorType.Input : null;
+		}
+
+		public int GetConnectionMask(int value)
+		{
+			int? color = PaintableItemBlock.GetColor(Terrain.ExtractData(value));
+			return color.HasValue ? 1 << color.Value : 2147483647;
+		}
+	}
 }

@@ -283,11 +283,6 @@ namespace Game
 			WireDevice.GenerateWireVertices(generator, value, x, y, z, 4, 0f, Vector2.Zero, geometry.SubsetOpaque);
 		}
 
-		public override BlockPlacementData GetPlacementValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, TerrainRaycastResult raycastResult)
-		{
-			return new BlockPlacementData { Value = value, CellFace = raycastResult.CellFace };
-		}
-
 		public override bool IsFaceTransparent(SubsystemTerrain subsystemTerrain, int face, int value) => true;
 
 		public override BoundingBox[] GetCustomCollisionBoxes(SubsystemTerrain terrain, int value) => m_collisionBoxes;
@@ -321,6 +316,7 @@ namespace Game
 			m_standaloneBlockMesh.AppendModelMeshPart(meshPart, boneAbsoluteTransform, false, false, false, false, Color.White);
 			m_standaloneBlockMesh2.AppendModelMeshPart(meshPart, boneAbsoluteTransform2, false, false, false, false, Color.White);
 			meshPart = model.FindMesh("Planks").MeshParts[0];
+			m_standaloneBlockMesh2.AppendModelMeshPart(meshPart, boneAbsoluteTransform2, false, false, false, false, Color.White);
 			m_collisionBoxes = new[] { m_standaloneBlockMesh.CalculateBoundingBox() };
 		}
 
@@ -378,7 +374,7 @@ namespace Game
 			return base.Equals(other) && Voltage == other.Voltage;
 		}
 	}
-	public abstract class Diode : Element
+	public abstract class Diode : Device
 	{
 		public int MaxVoltage;
 		protected Diode() : base(ElementType.Connector)
@@ -393,8 +389,5 @@ namespace Game
 				else MaxVoltage = 0;
 			}
 		}
-	}
-	public class DiodeDevice : Diode
-	{
 	}*/
 }

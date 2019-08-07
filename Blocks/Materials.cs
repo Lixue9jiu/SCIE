@@ -95,7 +95,7 @@ namespace Game
 		public Rod(string name, string description, Color color) : base(description)
 		{
 			Id = name;
-			m_standaloneBlockMesh.AppendMesh("Models/Rods", "SteelRod", Matrix.CreateTranslation(0f, -0.5f, 0f), Matrix.Identity, color);
+			m_standaloneBlockMesh.AppendMesh("Models/Rods", "SteelRod", Matrix.CreateTranslation(0, -0.5f, 0), Matrix.Identity, color);
 		}
 
 		public override Vector3 GetIconViewOffset(int value, DrawBlockEnvironmentData environmentData) => new Vector3(-1, 0.5f, 0);
@@ -110,48 +110,38 @@ namespace Game
 		public override string GetCraftingId() => Id;
 	}
 
-	public class Sheet : Plate
-	{
-		public Sheet(Materials type) : base(type)
-		{
-			Id = type.ToString() + "Sheet";
-			string name = type.ToStr();
-			DefaultDisplayName = name + Utils.Get("Æ¬");
-			DefaultDescription = "A sheet of pure " + name + ". Can be crafted into very durable and strong " + name + " items.";
-		}
-
-		public Sheet(string name, Color color) : base(name, color)
-		{
-		}
-
-		public override float GetIconViewScale(int value, DrawBlockEnvironmentData environmentData) => 0.5f;
-	}
-
 	public class Plate : MeshItem
 	{
 		protected BoundingBox[] m_collisionBoxes;
-		public readonly Color Color;
 		protected string Id;
 
-		public Plate(string name, Color color)
+		public Plate(string name, Color color, bool small = false)
 		{
+			if (small)
+				m_standaloneBlockMesh.TransformPositions(Matrix.CreateScale(.5f));
 			Id = DefaultDisplayName = DefaultDescription = name;
-			Color = color;
 			m_standaloneBlockMesh.AppendMesh("Models/Ingots", "IronPlate", Matrix.CreateTranslation(0.5f, 0f, 0.5f), Matrix.Identity, color);
 			m_collisionBoxes = new BoundingBox[] { m_standaloneBlockMesh.CalculateBoundingBox() };
 		}
 
-		public Plate(Materials type) : this(type.ToString() + "Plate", MetalBlock.GetColor(type))
+		public Plate(Materials type, bool small = false) : this(type.ToString() + "Plate", MetalBlock.GetColor(type))
 		{
 			string name = type.ToStr();
+			if (small)
+			{
+				Id = type.ToString() + "Sheet";
+				DefaultDisplayName = name + Utils.Get("Æ¬");
+				DefaultDescription = "A sheet of pure " + name + ". Can be crafted into very durable and strong " + name + " items.";
+				return;
+			}
 			DefaultDisplayName = name + Utils.Get("°å");
 			DefaultDescription = "A plate of pure " + name + ". Can be crafted into very durable and strong " + name + " items. Very important in the industrial era.";
 		}
 
-		/*public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
+		public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
 		{
-			BlocksManager.DrawMeshBlock(primitivesRenderer, m_standaloneBlockMesh, Color, size * 1.5f, ref matrix, environmentData);
-		}*/
+			BlocksManager.DrawMeshBlock(primitivesRenderer, m_standaloneBlockMesh, color, size * 1.5f, ref matrix, environmentData);
+		}
 
 		public override BlockPlacementData GetPlacementValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, TerrainRaycastResult raycastResult)
 		{
@@ -215,13 +205,11 @@ namespace Game
 			Color = color;
 			Id = name1;
 			DefaultDisplayName = name1 + Utils.Get("Can");
-			m_standaloneBlockMesh.AppendMesh("Models/Battery", "Battery", Matrix.CreateTranslation(0.5f, -0.5f, 0.5f) * Matrix.CreateScale(1.0f), Matrix.CreateTranslation(12f / 16f, 1f / 16f, 0f), color);
+			m_standaloneBlockMesh.AppendMesh("Models/Battery", "Battery", Matrix.CreateTranslation(0.5f, 0f, 0.5f), Matrix.CreateTranslation(12f / 16f, 1f / 16f, 0f), color);
 			m_collisionBoxes = new BoundingBox[] { m_standaloneBlockMesh.CalculateBoundingBox() };
 		}
 
 		public override string GetCraftingId() => Id;
-
-		public override Vector3 GetIconBlockOffset(int value, DrawBlockEnvironmentData environmentData) => new Vector3 { Y = 0.45f };
 
 		public override BoundingBox[] GetCustomCollisionBoxes(SubsystemTerrain terrain, int value) => m_collisionBoxes;
 	}

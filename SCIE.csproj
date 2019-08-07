@@ -59,6 +59,7 @@
   <ItemGroup>
     <Compile Include="Blocks\EditElectricDialog.cs" />
     <Compile Include="Blocks\GunSmoke2.cs" />
+    <Compile Include="Blocks\IEBatteryBlock.cs" />
     <Compile Include="Blocks\Musket3Block.cs" />
     <Compile Include="Chemistry\ChemicalBlock.cs" />
     <Compile Include="BeltTransport\FactorioTransportBeltBlock.cs" />
@@ -86,6 +87,7 @@
     <Compile Include="Circuit\TEDC.cs" />
     <Compile Include="Components\ComponentAirship.cs" />
     <Compile Include="Components\ComponentCanpack.cs" />
+    <Compile Include="Components\ComponentCharger.cs" />
     <Compile Include="Components\ComponentCoven.cs" />
     <Compile Include="Components\ComponentCReactor.cs" />
     <Compile Include="Components\ComponentDriller.cs" />
@@ -129,6 +131,7 @@
     <Compile Include="Subsystems\SubsystemSourceOfFireBlockBehavior.cs" />
     <Compile Include="Common\Utils.cs" />
     <Compile Include="Widgets\CanpackWidget.cs" />
+    <Compile Include="Widgets\ChargerWidget.cs" />
     <Compile Include="Widgets\CovenWidget.cs" />
     <Compile Include="Widgets\CReactorWidget.cs" />
     <Compile Include="Widgets\DrillerWidget.cs" />

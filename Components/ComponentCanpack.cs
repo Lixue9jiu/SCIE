@@ -98,35 +98,35 @@ namespace Game
 			result[0] = 0;
 			//int i;
 			// Log.Information("000000000");
-			//  Log.Information(GetSlotValue(0) == ItemBlock.IdTable["Empty"]);
-			//  Log.Information(GetSlotValue(1) == CookedMeatBlock.Index);
-			//  Log.Information(GetSlotCount(0) >= 1 && GetSlotCount(1) >= 5);
-			if (GetSlotValue(0) == ItemBlock.IdTable["Empty"] && GetSlotValue(1) == CookedMeatBlock.Index && GetSlotCount(0) >= 1 && GetSlotCount(1) >= 2)
+			// Log.Information(GetSlotValue(0) == ItemBlock.IdTable["Empty"]);
+			// Log.Information(GetSlotValue(1) == CookedMeatBlock.Index);
+			// Log.Information(GetSlotCount(0) >= 1 && GetSlotCount(1) >= 5);
+			int empty = ItemBlock.IdTable["Empty"];
+			if (base.GetSlotValue(0) == empty && base.GetSlotValue(1) == CookedMeatBlock.Index && base.GetSlotCount(0) >= 1 && base.GetSlotCount(1) >= 2)
 			{
 				text = true;
 				result[0] = ItemBlock.IdTable["Meat"];
 			}
-			if (GetSlotValue(0) == ItemBlock.IdTable["Empty"] && GetSlotValue(1) == CookedBirdBlock.Index && GetSlotCount(0) >= 1 && GetSlotCount(1) >= 2)
+			if (base.GetSlotValue(0) == empty && base.GetSlotValue(1) == CookedBirdBlock.Index && base.GetSlotCount(0) >= 1 && base.GetSlotCount(1) >= 2)
 			{
 				text = true;
 				result[0] = ItemBlock.IdTable["Chicken"];
 			}
-			if (GetSlotValue(0) == ItemBlock.IdTable["Empty"] && GetSlotValue(1) == CookedFishBlock.Index && GetSlotCount(0) >= 1 && GetSlotCount(1) >= 2)
+			if (base.GetSlotValue(0) == empty && base.GetSlotValue(1) == CookedFishBlock.Index && base.GetSlotCount(0) >= 1 && base.GetSlotCount(1) >= 2)
 			{
 				text = true;
 				result[0] = ItemBlock.IdTable["Fish"];
 			}
-			if (GetSlotValue(0) == ItemBlock.IdTable["Empty"] && GetSlotValue(1) == BreadBlock.Index && GetSlotCount(0) >= 1 && GetSlotCount(1) >= 2)
+			if (base.GetSlotValue(0) == empty && base.GetSlotValue(1) == BreadBlock.Index && base.GetSlotCount(0) >= 1 && base.GetSlotCount(1) >= 2)
 			{
 				text = true;
 				result[0] = ItemBlock.IdTable["Bread"];
 			}
-			if (GetSlotValue(0) == ItemBlock.IdTable["Empty"] && GetSlotValue(1) == PumpkinBlock.Index && GetSlotCount(0) >= 1 && GetSlotCount(1) >= 2)
+			if (base.GetSlotValue(0) == empty && base.GetSlotValue(1) == PumpkinBlock.Index && base.GetSlotCount(0) >= 1 && base.GetSlotCount(1) >= 2)
 			{
 				text = true;
 				result[0] = ItemBlock.IdTable["Pumpkin"];
 			}
-			//Log.Information();
 			if (!text)
 			{ return null; }
 
@@ -134,7 +134,6 @@ namespace Game
 			if (slot.Count != 0 && result[0] != 0 && (slot.Value != result[0] || slot.Count >= 40))
 			{ return null; }
 
-			//
 			return "AluminumOrePowder";
 		}
 	}
