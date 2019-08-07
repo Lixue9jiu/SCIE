@@ -432,6 +432,7 @@ namespace Game
             if (Charged)
             {
                 voltage += Voltage;
+				Energy -= Voltage;
             }
             else
             {
