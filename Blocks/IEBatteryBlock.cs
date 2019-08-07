@@ -78,9 +78,9 @@ namespace Game
 			switch (GetType(value))
 			{
 				case BatteryType.Cu_Zn_Battery: return 800;
-				case BatteryType.Fission_Battery: return 4000;
-				case BatteryType.Fusion_Battery: return 4000;
-				case BatteryType.Lead_Battery: return 1100;
+				case BatteryType.Fission_Battery: return 8000;
+				case BatteryType.Fusion_Battery: return 40000;
+				case BatteryType.Lead_Battery: return 1200;
 			}
 			return 0;
 		}

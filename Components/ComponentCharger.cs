@@ -19,7 +19,7 @@ namespace Game
 		public void Update(float dt)
 		{
 			time += 1;
-			if (time%2==0)
+			if (time%20==0)
 			{
 
 				Point3 coordinates = m_componentBlockEntity.Coordinates;
@@ -74,17 +74,16 @@ namespace Game
 						value = GetSlotValue(num);
 						int slotCount = GetSlotCount(num);
 						type = IEBatteryBlock.GetType(value);
-						if (value != 0 && slotCount > 0 && IEBatteryBlock.GetType(BlocksManager.DamageItem(value, 1)) == type && BlocksManager.DamageItem(value, 1) !=0)
+						if (value != 0 && slotCount > 0 && IEBatteryBlock.GetType(BlocksManager.DamageItem(value, 1)) == type && BlocksManager.DamageItem(value, 1) !=0 && GetDamage(value)!= BlocksManager.Blocks[Terrain.ExtractContents(value)].Durability)
 						{ break; }
-							
+						
 						num++;
 						
 					}
 					
-					
-						RemoveSlotItems(num, 1);
-						AddSlotItems(num, BlocksManager.DamageItem(value, 1), 1);
-						Powered2 = true;
+					RemoveSlotItems(num, 1);
+					AddSlotItems(num, BlocksManager.DamageItem(value, 1), 1);
+					Powered2 = true;
 					
 
 				}
