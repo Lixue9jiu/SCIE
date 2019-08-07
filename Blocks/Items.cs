@@ -253,11 +253,12 @@ namespace Game
 				new ACGenerator(),
 				//new MachRod(),
 				new WaterExtractor(),
-                new Condenser(),
+                new Condenser(), //30
 				new UThickener(),
                 new AirPump(),
 				new ElectricFences(),
 				new Transformer(),
+				new Charger(),
             };
 			IdTable = new Dictionary<string, int>(Items.Length);
 			int i;
