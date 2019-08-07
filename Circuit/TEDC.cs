@@ -35,11 +35,6 @@ namespace Game
 			lastcode = code;
 		}
 
-		public override BlockPlacementData GetPlacementValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, TerrainRaycastResult raycastResult)
-		{
-			return new BlockPlacementData { Value = value, CellFace = raycastResult.CellFace };
-		}
-
 		public bool OnInteract(TerrainRaycastResult raycastResult, ComponentMiner componentMiner)
 		{
 			ComponentPlayer = componentMiner.ComponentPlayer;

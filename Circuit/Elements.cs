@@ -117,6 +117,10 @@ namespace Game
 		{
 			return Point.X | Point.Z << 10 | (base.GetHashCode() ^ Point.Y) << 20;
 		}
+		public override BlockPlacementData GetPlacementValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, TerrainRaycastResult raycastResult)
+		{
+			return new BlockPlacementData { Value = value, CellFace = raycastResult.CellFace };
+		}
 	}
 	[Serializable]
 	public abstract class FixedDevice : Device, IEquatable<FixedDevice>
