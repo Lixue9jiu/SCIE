@@ -131,6 +131,7 @@
     <Compile Include="Subsystems\SubsystemRailBlockBehavior.cs" />
     <Compile Include="Subsystems\SubsystemSourceOfFireBlockBehavior.cs" />
     <Compile Include="Common\Utils.cs" />
+    <Compile Include="Subsystems\TorchBehavior.cs" />
     <Compile Include="Widgets\CanpackWidget.cs" />
     <Compile Include="Widgets\ChargerWidget.cs" />
     <Compile Include="Widgets\CondenserWidget.cs" />
