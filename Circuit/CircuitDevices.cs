@@ -425,10 +425,19 @@ namespace Game
     {
         public bool Charged;
         public int Energy;
-        public Condenser(int voltage = 310) : base(voltage, "超大电容", "超大电容允许你存储一些电量，并在需要的时候释放出去", ElementType.Connector)
+
+        public Condenser(int voltage = 310) : base(voltage, "超大电容", "超大电容允许你存储一些电量，并在需要的时候释放出去", ElementType.Connector | ElementType.Supply)
         {
         }
-        public override void Simulate(ref int voltage)
+		public static int GetEnery(int data)
+		{
+			return (data >> 14 & 1);
+		}
+		public static int SetEnergy(int data)
+		{
+			return 0;
+		}
+		public override void Simulate(ref int voltage)
         {
             if (Charged)
             {
@@ -484,7 +493,7 @@ namespace Game
 					voltage -= 310;
 			}else
 			{
-				if (Component.Powered2)
+				if (Component.Powered2)	
 				{
 					voltage += 310;
 				}
