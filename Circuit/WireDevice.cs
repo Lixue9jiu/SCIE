@@ -1,5 +1,6 @@
 ﻿using Engine;
 using Engine.Graphics;
+using System;
 using System.Collections.Generic;
 
 namespace Game
@@ -13,18 +14,10 @@ namespace Game
 		public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
 		{
 			int? paintColor = PaintableItemBlock.GetColor(Terrain.ExtractData(value));
-			BlocksManager.DrawMeshBlock(primitivesRenderer, ElementBlock.WireBlock.m_standaloneBlockMesh, (paintColor.HasValue ? SubsystemPalette.GetColor(environmentData, paintColor) : 1.25f * WireBlock.WireColor) * color, 2f * size, ref matrix, environmentData);
+			BlocksManager.DrawMeshBlock(primitivesRenderer, ElementBlock.WireBlock.m_standaloneBlockMesh, (paintColor.HasValue ? SubsystemPalette.GetColor(environmentData, paintColor) : WireBlock.WireColor) * color, 2f * size, ref matrix, environmentData);
 		}
 
-		public override int GetWeight(int voltage)
-		{
-			return 1;
-		}
-
-		public override string GetDisplayName(SubsystemTerrain subsystemTerrain, int value)
-		{
-			return Utils.Get("工业电线");
-		}
+		public override string GetDisplayName(SubsystemTerrain subsystemTerrain, int value) => Utils.Get("工业电线");
 	}
 
 	public class WireDevice : WireElement
@@ -59,8 +52,6 @@ namespace Game
 				m_collisionBoxesByFace[i] = new BoundingBox(Vector3.Min(v4, v5), Vector3.Max(v4, v5));
 			}
 		}
-
-		public override int GetWeight(int voltage) => 1;
 
 		public override void GenerateTerrainVertices(Block block, BlockGeometryGenerator generator, TerrainGeometrySubsets geometry, int value, int x, int y, int z)
 		{
@@ -298,35 +289,104 @@ namespace Game
 
 		public override Vector3 GetIconBlockOffset(int value, DrawBlockEnvironmentData environmentData) => new Vector3 { Y = .5f };
 	}
-	//public class Relay
+	//public class Relay :
 
 	public class ElectricFences : FixedDevice
 	{
-		public BlockMesh m_standaloneBlockMesh = new BlockMesh();
-		public BlockMesh m_standaloneBlockMesh2 = new BlockMesh();
-		public BoundingBox[] m_collisionBoxes;
+		public BlockMesh[] m_blockMeshes = new BlockMesh[16];
+		//public BlockMesh m_coloredBlockMeshes = new BlockMesh();
+
+		public BoundingBox[][] m_collisionBoxes;
+		private readonly bool m_doubleSidedPlanks = true;
 
 		public ElectricFences() : base("电栅栏", "电栅栏", 120)
 		{
 			Model model = ContentManager.Get<Model>("Models/IronFence");
-
 			Matrix boneAbsoluteTransform = BlockMesh.GetBoneAbsoluteTransform(model.FindMesh("Post").ParentBone) * Matrix.CreateTranslation(.5f, 0f, .5f);
 			Matrix boneAbsoluteTransform2 = BlockMesh.GetBoneAbsoluteTransform(model.FindMesh("Planks").ParentBone) * Matrix.CreateTranslation(.5f, 0f, .5f);
-			ModelMeshPart meshPart = model.FindMesh("Post").MeshParts[0];
-			m_standaloneBlockMesh.AppendModelMeshPart(meshPart, boneAbsoluteTransform, false, false, false, false, Color.White);
-			m_standaloneBlockMesh2.AppendModelMeshPart(meshPart, boneAbsoluteTransform2, false, false, false, false, Color.White);
-			meshPart = model.FindMesh("Planks").MeshParts[0];
-			m_standaloneBlockMesh2.AppendModelMeshPart(meshPart, boneAbsoluteTransform2, false, false, false, false, Color.White);
-			m_collisionBoxes = new[] { m_standaloneBlockMesh.CalculateBoundingBox() };
+			for (int i = 0; i < 16; i++)
+			{
+				var list = new List<BoundingBox>();
+				var m = Matrix.CreateTranslation(0.5f, 0f, 0.5f);
+				var blockMesh = new BlockMesh();
+				blockMesh.AppendModelMeshPart(model.FindMesh("Post").MeshParts[0], boneAbsoluteTransform * m, false, false, false, false, Color.White);
+				BoundingBox item = blockMesh.CalculateBoundingBox();
+				item.Min.X -= 0.1f;
+				item.Min.Z -= 0.1f;
+				item.Max.X += 0.1f;
+				item.Max.Z += 0.1f;
+				list.Add(item);
+				var blockMesh2 = new BlockMesh();
+				if ((i & 1) != 0)
+				{
+					var blockMesh1 = new BlockMesh();
+					Matrix m2 = Matrix.CreateRotationY(0f) * Matrix.CreateTranslation(0.5f, 0f, 0.5f);
+					blockMesh1.AppendModelMeshPart(model.FindMesh("Planks").MeshParts[0], boneAbsoluteTransform2 * m2, false, false, false, false, Color.White);
+					if (m_doubleSidedPlanks)
+					{
+						blockMesh1.AppendModelMeshPart(model.FindMesh("Planks").MeshParts[0], boneAbsoluteTransform2 * m2, false, true, false, true, Color.White);
+					}
+					blockMesh2.AppendBlockMesh(blockMesh1);
+					list.Add(blockMesh1.CalculateBoundingBox());
+				}
+				if ((i & 2) != 0)
+				{
+					var blockMesh4 = new BlockMesh();
+					Matrix m3 = Matrix.CreateRotationY((float)Math.PI) * Matrix.CreateTranslation(0.5f, 0f, 0.5f);
+					blockMesh4.AppendModelMeshPart(model.FindMesh("Planks").MeshParts[0], boneAbsoluteTransform2 * m3, false, false, false, false, Color.White);
+					if (m_doubleSidedPlanks)
+					{
+						blockMesh4.AppendModelMeshPart(model.FindMesh("Planks").MeshParts[0], boneAbsoluteTransform2 * m3, false, true, false, true, Color.White);
+					}
+					blockMesh2.AppendBlockMesh(blockMesh4);
+					list.Add(blockMesh4.CalculateBoundingBox());
+				}
+				if ((i & 4) != 0)
+				{
+					var blockMesh1 = new BlockMesh();
+					Matrix m4 = Matrix.CreateRotationY(4.712389f) * Matrix.CreateTranslation(0.5f, 0f, 0.5f);
+					blockMesh1.AppendModelMeshPart(model.FindMesh("Planks").MeshParts[0], boneAbsoluteTransform2 * m4, false, false, false, false, Color.White);
+					if (m_doubleSidedPlanks)
+					{
+						blockMesh1.AppendModelMeshPart(model.FindMesh("Planks").MeshParts[0], boneAbsoluteTransform2 * m4, false, true, false, true, Color.White);
+					}
+					blockMesh2.AppendBlockMesh(blockMesh1);
+					list.Add(blockMesh1.CalculateBoundingBox());
+				}
+				if ((i & 8) != 0)
+				{
+					var blockMesh1 = new BlockMesh();
+					Matrix m5 = Matrix.CreateRotationY((float)Math.PI / 2f) * Matrix.CreateTranslation(0.5f, 0f, 0.5f);
+					blockMesh1.AppendModelMeshPart(model.FindMesh("Planks").MeshParts[0], boneAbsoluteTransform2 * m5, false, false, false, false, Color.White);
+					if (m_doubleSidedPlanks)
+					{
+						blockMesh1.AppendModelMeshPart(model.FindMesh("Planks").MeshParts[0], boneAbsoluteTransform2 * m5, false, true, false, true, Color.White);
+					}
+					blockMesh2.AppendBlockMesh(blockMesh1);
+					list.Add(blockMesh1.CalculateBoundingBox());
+				}
+				blockMesh.ModulateColor(new Color(80, 80, 80));
+				m_blockMeshes[i] = new BlockMesh();
+				m_blockMeshes[i].AppendBlockMesh(blockMesh);
+				m_blockMeshes[i].AppendBlockMesh(blockMesh2);
+				m_blockMeshes[i].TransformTextureCoordinates(Matrix.CreateTranslation(58 % 16 / 16f, 58 / 16 / 16f, 0f));
+				m_blockMeshes[i].GenerateSidesData();
+				/*m_coloredBlockMeshes[i] = new BlockMesh();
+				m_coloredBlockMeshes[i].AppendBlockMesh(blockMesh);
+				m_coloredBlockMeshes[i].AppendBlockMesh(blockMesh2);
+				m_coloredBlockMeshes[i].TransformTextureCoordinates(Matrix.CreateTranslation((float)(m_coloredTextureSlot % 16) / 16f, (float)(m_coloredTextureSlot / 16) / 16f, 0f));
+				m_coloredBlockMeshes[i].GenerateSidesData();*/
+				m_collisionBoxes[i] = list.ToArray();
+			}
 		}
 
 		public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
 		{
-			BlocksManager.DrawMeshBlock(primitivesRenderer, m_standaloneBlockMesh, color * Color.LightGray, size * 2f, ref matrix, environmentData);
+			BlocksManager.DrawMeshBlock(primitivesRenderer, m_blockMeshes[1], color * Color.LightGray, size * 2f, ref matrix, environmentData);
 		}
 		public override void GenerateTerrainVertices(Block block, BlockGeometryGenerator generator, TerrainGeometrySubsets geometry, int value, int x, int y, int z)
 		{
-			generator.GenerateMeshVertices(block, x, y, z, m_standaloneBlockMesh, Color.White, null, geometry.SubsetOpaque);
+			generator.GenerateMeshVertices(block, x, y, z, m_blockMeshes[Terrain.ExtractData(value) >> 14], Color.White, null, geometry.SubsetOpaque);
 		}
 		public override BlockPlacementData GetPlacementValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, TerrainRaycastResult raycastResult)
 		{
@@ -335,26 +395,7 @@ namespace Game
 
 		public override bool IsFaceTransparent(SubsystemTerrain subsystemTerrain, int face, int value) => true;
 
-		public override BoundingBox[] GetCustomCollisionBoxes(SubsystemTerrain terrain, int value) => m_collisionBoxes;
-
-		public void OnCollide(CellFace cellFace, float velocity, ComponentBody componentBody)
-		{
-			int data = Terrain.ExtractData(Utils.Terrain.GetCellValue(cellFace.X, cellFace.Y, cellFace.Z));
-			if (!SpikedPlankBlock.GetSpikesState(data))
-			{
-				return;
-			}
-			int mountingFace = SpikedPlankBlock.GetMountingFace(data);
-			if (cellFace.Face != mountingFace)
-			{
-				return;
-			}
-			ComponentCreature componentCreature = componentBody.Entity.FindComponent<ComponentCreature>();
-			if (componentCreature != null)
-			{
-				componentCreature.ComponentHealth.Injure(Utils.Random.UniformFloat(4.8f, 5.2f) / componentCreature.ComponentHealth.AttackResilience, null, false, "Electric shock");
-			}
-		}
+		public override BoundingBox[] GetCustomCollisionBoxes(SubsystemTerrain terrain, int value) => m_collisionBoxes[Terrain.ExtractData(value) >> 14];
 	}
 
 	/*public abstract class DeviceElement : Element, IComparable<DeviceElement>, IEquatable<DeviceElement>

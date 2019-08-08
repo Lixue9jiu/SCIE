@@ -251,11 +251,11 @@ namespace Game
 		{
 			return GetType().Name;
 		}
-		public virtual string GetDescription(int value)
+		public virtual string GetDescription()
 		{
 			return string.Empty;
 		}
-		public virtual string GetCategory(int value)
+		public virtual string GetCategory()
 		{
 			return "Items";
 		}
@@ -323,39 +323,39 @@ namespace Game
 			num |= MathUtils.Clamp(damage, 0, 4095) << 4;
 			return Terrain.ReplaceData(value, num);
 		}
-		public virtual int GetDamageDestructionValue(int value)
+		public virtual int GetDamageDestructionValue()
 		{
 			return 0;
 		}
-		public virtual int GetRotPeriod(int value)
+		public virtual int GetRotPeriod()
 		{
 			return 0;
 		}
-		public virtual float GetSicknessProbability(int value)
+		public virtual float GetSicknessProbability()
 		{
 			return 0f;
 		}
-		public virtual float GetMeleePower(int value)
+		public virtual float GetMeleePower()
 		{
 			return 1;
 		}
-		public virtual float GetMeleeHitProbability(int value)
+		public virtual float GetMeleeHitProbability()
 		{
 			return 0.66f;
 		}
-		public virtual float GetProjectilePower(int value)
+		public virtual float GetProjectilePower()
 		{
 			return 1;
 		}
-		public virtual float GetHeat(int value)
+		/*public virtual float GetHeat(int value)
+		{
+			return 0f;
+		}*/
+		public virtual float GetExplosionPressure()
 		{
 			return 0f;
 		}
-		public virtual float GetExplosionPressure(int value)
-		{
-			return 0f;
-		}
-		public virtual bool GetExplosionIncendiary(int value)
+		public virtual bool GetExplosionIncendiary()
 		{
 			return false;
 		}
@@ -379,15 +379,15 @@ namespace Game
 		{
 			return Game.Block.m_defaultCollisionBoxes;
 		}
-		public virtual BoundingBox[] GetCustomInteractionBoxes(SubsystemTerrain terrain, int value)
+		/*public virtual BoundingBox[] GetCustomInteractionBoxes(SubsystemTerrain terrain, int value)
 		{
 			return GetCustomCollisionBoxes(terrain, value);
-		}
-		public virtual int GetEmittedLightAmount(int value)
+		}*/
+		public virtual int GetEmittedLightAmount()
 		{
 			return 0;
 		}
-		public virtual float GetNutritionalValue(int value)
+		public virtual float GetNutritionalValue()
 		{
 			return 0;
 		}
@@ -398,11 +398,11 @@ namespace Game
 		public virtual bool IsSwapAnimationNeeded(int oldValue, int newValue)
 		{
 			return true;
-		}*/
+		}
 		public virtual bool IsHeatBlocker(int value)
 		{
-			return true;
-		}
+			return false;
+		}*/
 	}
 	public abstract partial class ItemBlock : CubeBlock, IItemBlock, IFuel
 	{
@@ -417,11 +417,11 @@ namespace Game
 		}
 		public override string GetDescription(int value)
 		{
-			return Utils.Get(GetItem(ref value).GetDescription(value));
+			return Utils.Get(GetItem(ref value).GetDescription());
 		}
 		public override string GetCategory(int value)
 		{
-			return GetItem(ref value).GetCategory(value);
+			return GetItem(ref value).GetCategory();
 		}
 		public override bool IsInteractive(SubsystemTerrain subsystemTerrain, int value)
 		{
@@ -478,39 +478,39 @@ namespace Game
 		}
 		public override int GetDamageDestructionValue(int value)
 		{
-			return GetItem(ref value).GetDamageDestructionValue(value);
+			return GetItem(ref value).GetDamageDestructionValue();
 		}
 		public override int GetRotPeriod(int value)
 		{
-			return GetItem(ref value).GetRotPeriod(value);
+			return GetItem(ref value).GetRotPeriod();
 		}
 		public override float GetSicknessProbability(int value)
 		{
-			return GetItem(ref value).GetSicknessProbability(value);
+			return GetItem(ref value).GetSicknessProbability();
 		}
 		public override float GetMeleePower(int value)
 		{
-			return GetItem(ref value).GetMeleePower(value);
+			return GetItem(ref value).GetMeleePower();
 		}
 		public override float GetMeleeHitProbability(int value)
 		{
-			return GetItem(ref value).GetMeleeHitProbability(value);
+			return GetItem(ref value).GetMeleeHitProbability();
 		}
 		public override float GetProjectilePower(int value)
 		{
-			return GetItem(ref value).GetProjectilePower(value);
+			return GetItem(ref value).GetProjectilePower();
 		}
-		public override float GetHeat(int value)
+		/*public override float GetHeat(int value)
 		{
-			return GetItem(ref value).GetHeat(value);
-		}
+			return GetItem(ref value).GetHeat();
+		}*/
 		public override float GetExplosionPressure(int value)
 		{
-			return GetItem(ref value).GetExplosionPressure(value);
+			return GetItem(ref value).GetExplosionPressure();
 		}
 		public override bool GetExplosionIncendiary(int value)
 		{
-			return GetItem(ref value).GetExplosionIncendiary(value);
+			return GetItem(ref value).GetExplosionIncendiary();
 		}
 		public override Vector3 GetIconBlockOffset(int value, DrawBlockEnvironmentData environmentData)
 		{
@@ -532,17 +532,17 @@ namespace Game
 		{
 			return GetItem(ref value).GetCustomCollisionBoxes(terrain, value);
 		}
-		public override BoundingBox[] GetCustomInteractionBoxes(SubsystemTerrain terrain, int value)
+		/*public override BoundingBox[] GetCustomInteractionBoxes(SubsystemTerrain terrain, int value)
 		{
 			return GetItem(ref value).GetCustomInteractionBoxes(terrain, value);
-		}
+		}*/
 		public override int GetEmittedLightAmount(int value)
 		{
-			return GetItem(ref value).GetEmittedLightAmount(value);
+			return GetItem(ref value).GetEmittedLightAmount();
 		}
 		public override float GetNutritionalValue(int value)
 		{
-			return GetItem(ref value).GetNutritionalValue(value);
+			return GetItem(ref value).GetNutritionalValue();
 		}
 		/*public override bool ShouldAvoid(int value)
 		{

@@ -122,7 +122,18 @@ namespace Game
 				z = cellFace.Z;
 			var item = elementblock.GetDevice(x, y, z, Utils.Terrain.GetCellValueFast(x, y, z));
 			if (item is SolarPanel)
+			{
 				SubsystemTerrain.DestroyCell(0, x, y, z, 0, true, false);
+				return;
+			}
+			if (item is ElectricFences fences && fences.Powered)
+			{
+				ComponentCreature componentCreature = componentBody.Entity.FindComponent<ComponentCreature>();
+				if (componentCreature != null)
+				{
+					componentCreature.ComponentHealth.Injure(Utils.Random.UniformFloat(4.8f, 5.2f) / componentCreature.ComponentHealth.AttackResilience, null, false, "Electric shock");
+				}
+			}
 		}
 		/*public override bool OnEditBlock(int x, int y, int z, int value, ComponentPlayer componentPlayer)
 		{

@@ -58,7 +58,7 @@ namespace Game
 			return FixedDevice.GetPlacementValue(28, componentMiner, value, raycastResult);
 		}
 	}
-	public class Battery : DeviceBlock, IHarvestingItem, IInteractiveBlock,IEquatable<Battery>
+	public class Battery : DeviceBlock, IBlockBehavior, IHarvestingItem, IInteractiveBlock, IEquatable<Battery>
 	{
 		public int Factor = 1;
 		public readonly BoundingBox[] m_collisionBoxes;
@@ -89,29 +89,17 @@ namespace Game
 		}
 		public bool OnInteract(TerrainRaycastResult raycastResult, ComponentMiner componentMiner)
 		{
-			int x = raycastResult.CellFace.X;
-			int y = raycastResult.CellFace.Y;
-			int z = raycastResult.CellFace.Z;
 			DialogsManager.ShowDialog(componentMiner.ComponentPlayer.View.GameWidget, new EditElectricDialog(RemainCount));
 			return true;
 		}
 		public override BoundingBox[] GetCustomCollisionBoxes(SubsystemTerrain terrain, int value) => m_collisionBoxes;
 		public void OnBlockRemoved(SubsystemTerrain terrain, int value, int newValue)
 		{
-			//value = 0;
 			Simulate(ref value);
 		}
 		public void OnBlockAdded(SubsystemTerrain terrain, int value, int newValue)
 		{
-			//value = 0;
-			
-			//RemainCount = 600;
 			Simulate(ref value);
-		}
-		public void OnBlockGenerated(SubsystemTerrain terrain, int value, int newValue)
-		{
-			//value = 0;
-			//Simulate(ref value);
 		}
 		public override void Simulate(ref int voltage)
 		{
@@ -145,8 +133,8 @@ namespace Game
 	}
 	public class MachRod : DeviceBlock
 	{
-		public BlockMesh[] m_blockMeshesByData = new BlockMesh[48];
-		public MachRod() : base(0, "", "", ElementType.Rod)
+		public BlockMesh[] m_blockMeshesByData = new BlockMesh[6];
+		public MachRod() : base(0, "连接杆", "连接杆", ElementType.Rod)
 		{
 			Model model = ContentManager.Get<Model>("Models/Pistons");
 			const string name = "PistonShaft";
@@ -158,6 +146,31 @@ namespace Game
 				m_blockMeshesByData[num] = new BlockMesh();
 				m_blockMeshesByData[num].AppendModelMeshPart(model.FindMesh(name).MeshParts[0], boneAbsoluteTransform * m, false, false, false, false, Color.White);
 			}
+		}
+		public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
+		{
+			BlocksManager.DrawMeshBlock(primitivesRenderer, m_blockMeshesByData[0], color, size, ref matrix, environmentData);
+		}
+	}
+	public class LED : DeviceBlock
+	{
+		public BlockMesh[] m_blockMeshesByFace = new BlockMesh[6];
+		public BoundingBox[][] m_collisionBoxesByFace = new BoundingBox[6][];
+		public LED() : base(12, "LED", "LED")
+		{
+			ModelMesh modelMesh = ContentManager.Get<Model>("Models/Leds").FindMesh("OneLed");
+			Matrix boneAbsoluteTransform = BlockMesh.GetBoneAbsoluteTransform(modelMesh.ParentBone);
+			for (int i = 0; i < 6; i++)
+			{
+				Matrix m = (i >= 4) ? ((i != 4) ? (Matrix.CreateRotationX((float)Math.PI) * Matrix.CreateTranslation(0.5f, 1f, 0.5f)) : Matrix.CreateTranslation(0.5f, 0f, 0.5f)) : (Matrix.CreateRotationX((float)Math.PI / 2f) * Matrix.CreateTranslation(0f, 0f, -0.5f) * Matrix.CreateRotationY((float)i * (float)Math.PI / 2f) * Matrix.CreateTranslation(0.5f, 0.5f, 0.5f));
+				m_blockMeshesByFace[i] = new BlockMesh();
+				m_blockMeshesByFace[i].AppendModelMeshPart(modelMesh.MeshParts[0], boneAbsoluteTransform * m, false, false, false, false, Color.White);
+				m_collisionBoxesByFace[i] = new[] { m_blockMeshesByFace[i].CalculateBoundingBox() };
+			}
+		}
+		public override int GetEmittedLightAmount()
+		{
+			return 0;
 		}
 	}
 	public class SolarPanel : DeviceBlock
@@ -188,10 +201,6 @@ namespace Game
 		{
 			Utils.BlockGeometryGenerator.GenerateMeshVertices(block, x, y, z, m_standaloneBlockMesh, Color.White, null, Utils.GTV(x, z, geometry).SubsetOpaque);
 		}
-		public override BlockPlacementData GetPlacementValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, TerrainRaycastResult raycastResult)
-		{
-			return new BlockPlacementData { Value = value, CellFace = raycastResult.CellFace };
-		}
 		public override bool IsFaceTransparent(SubsystemTerrain subsystemTerrain, int face, int value) => true;
 		public override BoundingBox[] GetCustomCollisionBoxes(SubsystemTerrain terrain, int value) => m_collisionBoxes;
 		public override string GetCraftingId() => DefaultDisplayName + Voltage.ToString();
@@ -208,7 +217,7 @@ namespace Game
 			m_pointerMesh.AppendModelMeshPart(model.FindMesh("Pointer").MeshParts[0], matrix, false, false, false, false, Color.White);
 		}
 	}
-	public abstract class Diode : Element
+	public abstract class Diode : Device
 	{
 		public int MaxVoltage;
 		protected Diode() : base(ElementType.Connector)
@@ -223,8 +232,5 @@ namespace Game
 				else MaxVoltage = 0;
 			}
 		}
-	}
-	public class DiodeDevice : Diode
-	{
 	}*/
 }

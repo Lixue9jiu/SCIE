@@ -1,5 +1,4 @@
 using Engine;
-using Engine.Graphics;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -32,7 +31,6 @@ namespace Game
 		{
 			return Terrain.ExtractContents(value) != Index ? base.GetItem(ref value) : Devices[Terrain.ExtractData(value) & 1023];
 		}
-		// public Element GetElement(int value) => GetItem(ref value) as Element;
 		public Device GetDevice(int x, int y, int z, int value)
 		{
 			var device = GetItem(ref value);

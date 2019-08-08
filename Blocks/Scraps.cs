@@ -34,9 +34,9 @@ namespace Game
 			BlocksManager.DrawMeshBlock(primitivesRenderer, m_standaloneBlockMesh, color, 2f * size, ref matrix, environmentData);
 		}
 		public override float GetIconViewScale(int value, DrawBlockEnvironmentData environmentData) => 0.85f;
-		public override string GetCategory(int value) => "Food";
-		public override float GetNutritionalValue(int value) => 0.1f;
-		public override float GetSicknessProbability(int value) => 0.75f;
-		public override int GetDamageDestructionValue(int value) => 246;
+		public override string GetCategory() => "Food";
+		public override float GetNutritionalValue() => 0.1f;
+		public override float GetSicknessProbability() => 0.75f;
+		public override int GetDamageDestructionValue() => 246;
 	}
 }

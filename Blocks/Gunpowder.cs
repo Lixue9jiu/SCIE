@@ -17,18 +17,9 @@ namespace Game
 		{
 			BlocksManager.DrawMeshBlock(primitivesRenderer, m_standaloneBlockMesh, color, 2f * size, ref matrix, environmentData);
 		}
-		public override string GetCategory(int value)
-		{
-			return "Items";
-		}
-		public float GetHeatLevel(int value)
-		{
-			return 1650f;
-		}
-		public float GetFuelFireDuration(int value)
-		{
-			return 0.1f;
-		}
+		public override string GetCategory() => "Items";
+		public float GetHeatLevel(int value) => 1650f;
+		public float GetFuelFireDuration(int value) => 0.1f;
 	}
 	public class PureGunpowder : Powder, IFuel
 	{
@@ -38,11 +29,11 @@ namespace Game
 			ExplosionPressure = ep;
 		}
 
-		public override float GetExplosionPressure(int value)
+		public override float GetExplosionPressure()
 		{
 			return ExplosionPressure;
 		}
-		public override bool GetExplosionIncendiary(int value)
+		public override bool GetExplosionIncendiary()
 		{
 			return true;
 		}
@@ -140,7 +131,7 @@ namespace Game
 			MineType = type;
 		}
 		public override string GetDisplayName(SubsystemTerrain subsystemTerrain, int value) => GetCraftingId();
-		public override string GetCategory(int value) => Utils.Get("地雷");
+		public override string GetCategory() => Utils.Get("地雷");
 		public override string GetCraftingId()
 		{
 			var sb = new StringBuilder();
@@ -181,7 +172,7 @@ namespace Game
 
 		public float GetFuelFireDuration(int value) => 28f;
 		public float GetHeatLevel(int value) => 7.5e3f;
-		public override float GetExplosionPressure(int value) => 150f;
+		public override float GetExplosionPressure() => 150f;
 		public override BlockPlacementData GetPlacementValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, TerrainRaycastResult raycastResult)
 		{
 			return new BlockPlacementData { Value = value, CellFace = raycastResult.CellFace };
@@ -209,7 +200,7 @@ namespace Game
 
 	public class ABombElectricElement : ElectricElement
 	{
-		IFuel Bomb;
+		readonly IFuel Bomb;
 		public ABombElectricElement(IFuel fuel, SubsystemElectricity subsystemElectricity, CellFace cellFace) : base(subsystemElectricity, cellFace) { Bomb = fuel; }
 
 		public override bool Simulate()

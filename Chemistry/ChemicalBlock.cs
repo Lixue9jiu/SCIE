@@ -179,10 +179,10 @@ namespace Game
 		{
 			DefaultDescription = DefaultDisplayName = Utils.Get(name);
 		}
-		public override string GetCategory(int value) => Utils.Get("化学");
+		public override string GetCategory() => Utils.Get("化学");
 		public DispersionSystem GetDispersionSystem() => System;
 
-		public override int GetDamageDestructionValue(int value)
+		public override int GetDamageDestructionValue()
 		{
 			return ItemBlock.IdTable[""];
 		}
@@ -216,7 +216,7 @@ namespace Game
 		{
 		}
 		public PurePowder(DispersionSystem system, Color color) : base("", color) => DefaultDescription = DefaultDisplayName = (System = system).ToString();
-		public override string GetCategory(int value) => Utils.Get("化学");
+		public override string GetCategory() => Utils.Get("化学");
 		public DispersionSystem GetDispersionSystem() => System;
 	}
 	public class FuelPowder : PurePowder, IFuel

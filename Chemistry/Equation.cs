@@ -43,12 +43,6 @@ namespace Chemistry
 			Catalysts = new Dictionary<Compound, int>();
 		}
 
-		/*public Equation(DispersionSystem ds)
-		{
-			Reactants = ds.Dispersant;
-			Products = ds.DispersedPhase;
-		}*/
-
 		/// <summary>
 		///     Gets the left-hand assignment (reactants) of the <see cref="Equation" />.
 		/// </summary>
