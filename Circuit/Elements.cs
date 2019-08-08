@@ -120,12 +120,10 @@ namespace Game
 		public readonly int Voltage;
 		public int Index;
 		public bool Powered;
-		public string DefaultDisplayName;
-		public string DefaultDescription;
+		public string DefaultDisplayName, DefaultDescription;
 
 		protected FixedDevice(string name, string description = "", int voltage = 0)
 		{
-			//if (resistance < 1) throw new ArgumentOutOfRangeException("resistance", resistance, "Device has Resistance < 1");
 			DefaultDisplayName = Utils.Get(name);
 			DefaultDescription = Utils.Get(description);
 			Voltage = voltage;
@@ -149,22 +147,6 @@ namespace Game
 				CellFace = raycastResult.CellFace
 			};
 		}
-	}
-	public abstract class DeviceBlock : Device, IEquatable<DeviceBlock>//, IComparable<DeviceBlock>
-	{
-		public string DefaultDisplayName, DefaultDescription;
-		public readonly int Voltage;
-
-		protected DeviceBlock(int voltage, string name = "", string description = "", ElementType type = ElementType.Device | ElementType.Connector) : base(type)
-		{
-			DefaultDisplayName = Utils.Get(name);
-			DefaultDescription = Utils.Get(description);
-			Voltage = voltage;
-		}
-		public override string GetDisplayName(SubsystemTerrain subsystemTerrain, int value) => DefaultDisplayName;
-		public override string GetDescription() => DefaultDescription;
-		//public int CompareTo(DeviceBlock other) => Voltage.CompareTo(other.Voltage);
-		public bool Equals(DeviceBlock other) => base.Equals(other) && Voltage == other.Voltage;
 	}
 	public class EntityDevice<T> : FixedDevice, IBlockBehavior, IItemAcceptableBlock where T : Component
 	{

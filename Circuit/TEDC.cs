@@ -3,14 +3,13 @@ using Engine.Graphics;
 
 namespace Game
 {
-	public class TEDC : DeviceBlock, IInteractiveBlock
+	public class TEDC : FixedDevice, IInteractiveBlock
 	{
 		//public static Jint.Engine JsEngine;
 		public static ComponentPlayer ComponentPlayer;
 		protected static string lastcode = "";
-		protected bool Powered;
 
-		public TEDC() : base(60, "晶体管数字电子计算机", "晶体管数字电子计算机")
+		public TEDC() : base("晶体管数字电子计算机", "晶体管数字电子计算机", 60)
 		{
 			//JsEngine = new Jint.Engine();
 		}

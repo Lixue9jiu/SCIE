@@ -54,17 +54,17 @@ namespace Game
 		{
 			int value = m_subsystemTerrain.Terrain.GetCellValue(m_componentBlockEntity.Coordinates.X, m_componentBlockEntity.Coordinates.Y, m_componentBlockEntity.Coordinates.Z);
 			int data = Terrain.ExtractData(value);
-			MachineMode1 mode = Charger.GetMode(data);
+			MachineMode1 mode = GetMode(data);
 			if (m_dispenseButton.IsClicked && mode == MachineMode1.Discharger)
 			{
-				data = Charger.SetMode(data);
+				data = SetMode(data);
 
 				m_subsystemTerrain.Terrain.SetCellValueFast(m_componentBlockEntity.Coordinates.X, m_componentBlockEntity.Coordinates.Y, m_componentBlockEntity.Coordinates.Z, Terrain.ReplaceData(value, data));
 				m_componentDispenser2.Charged = true;
 			}
 			if (m_shootButton.IsClicked && mode == MachineMode1.Charge)
 			{
-				data = Charger.SetMode(data);
+				data = SetMode(data);
 				m_subsystemTerrain.Terrain.SetCellValueFast(m_componentBlockEntity.Coordinates.X, m_componentBlockEntity.Coordinates.Y, m_componentBlockEntity.Coordinates.Z, Terrain.ReplaceData(value, data));
 				m_componentDispenser2.Charged = false;
 			}

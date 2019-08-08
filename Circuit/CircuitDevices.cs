@@ -502,13 +502,10 @@ namespace Game
 			{
 				if (Component.Powered = voltage >= 310)
 					voltage -= 310;
-			}else
+			}
+			else if (Component.Powered2)	
 			{
-				if (Component.Powered2)	
-				{
-					voltage += 310;
-				}
-					
+				voltage += 310;
 			}
 		}
 		public override void OnBlockAdded(SubsystemTerrain subsystemTerrain, int value, int oldValue)
@@ -543,7 +540,5 @@ namespace Game
 			int? color = PaintableItemBlock.GetColor(Terrain.ExtractData(value));
 			return color.HasValue ? 1 << color.Value : 2147483647;
 		}
-
-		
 	}
 }
