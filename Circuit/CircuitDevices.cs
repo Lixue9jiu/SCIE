@@ -436,15 +436,16 @@ namespace Game
 		}
 		public override void Simulate(ref int voltage)
         {
-            if (Charged)
+            if (Component.Charged)
             {
-                voltage += Voltage;
-				Energy -= Voltage;
-            }
-            else
+				
+				Component.m_fireTimeRemaining= MathUtils.Min(Component.m_fireTimeRemaining+voltage, 10000000f);
+				voltage=0;
+			}
+            else if (Component.m_fireTimeRemaining>=310f)
             {
-                Energy += voltage;
-                voltage = 0;
+				Component.m_fireTimeRemaining -= 310f;
+				voltage += 310;
             }
         }
         public override int GetFaceTextureSlot(int face, int value)

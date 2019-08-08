@@ -22,6 +22,8 @@ namespace Game
 
 		protected readonly ValueBarWidget m_progress;
 
+		//protected readonly ValueBarWidget m_progress;
+
 		public CondenserWidget(IInventory inventory, ComponentCondenser componentDispenser)
 		{
 			m_componentDispenser2 = componentDispenser;
@@ -32,6 +34,7 @@ namespace Game
 			m_dispenseButton = Children.Find<ButtonWidget>("DispenseButton");
 			m_shootButton = Children.Find<ButtonWidget>("ShootButton");
 			m_progress = Children.Find<ValueBarWidget>("Progress");
+			
 			//m_acceptsDropsBox = Children.Find<CheckboxWidget>("AcceptsDropsBox");
 			//m_drillSlot = Children.Find<InventorySlotWidget>("DrillSlot");
 			int num = 6, y, x;
@@ -52,6 +55,7 @@ namespace Game
 
 		public override void Update()
 		{
+			Children.Find<LabelWidget>("DispenserLabel2").Text = (m_componentDispenser2.m_fireTimeRemaining).ToString() + "/10M E";
 			int value = m_subsystemTerrain.Terrain.GetCellValue(m_componentBlockEntity.Coordinates.X, m_componentBlockEntity.Coordinates.Y, m_componentBlockEntity.Coordinates.Z);
 			int data = Terrain.ExtractData(value);
 			MachineMode1 mode = Charger.GetMode(data);
@@ -69,7 +73,7 @@ namespace Game
 				m_componentDispenser2.Charged = false;
 			}
 
-			m_progress.Value = m_componentDispenser2.m_fireTimeRemaining;
+			m_progress.Value = 1f-m_componentDispenser2.m_fireTimeRemaining/1000000f;
 			m_dispenseButton.IsChecked = mode == MachineMode1.Charge;
 			m_componentDispenser2.Charged = mode == MachineMode1.Charge;
 			m_shootButton.IsChecked = mode == MachineMode1.Discharger;
