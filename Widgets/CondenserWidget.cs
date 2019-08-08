@@ -73,7 +73,7 @@ namespace Game
 				m_componentDispenser2.Charged = false;
 			}
 
-			m_progress.Value = 1f-m_componentDispenser2.m_fireTimeRemaining/1000000f;
+			m_progress.Value = 1f-m_componentDispenser2.m_fireTimeRemaining/10000000f;
 			m_dispenseButton.IsChecked = mode == MachineMode1.Charge;
 			m_componentDispenser2.Charged = mode == MachineMode1.Charge;
 			m_shootButton.IsChecked = mode == MachineMode1.Discharger;
