@@ -62,7 +62,6 @@ namespace Game
 			showDebris = true;
 			dropValues.Add(new BlockDropValue { Value = Terrain.ReplaceLight(oldValue, 0), Count = 1 });
 		}
-		public override string GetCategory(int value) => Utils.Get("管道");
 		public static int GetType(int data) => ((data >> (15 - 3)) | ((data & 1023) - 13)) + 1;
 		public override bool IsFaceTransparent(SubsystemTerrain subsystemTerrain, int face, int value) => true;
 	}

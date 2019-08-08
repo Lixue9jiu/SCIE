@@ -1,8 +1,9 @@
 ﻿using Engine;
 using Engine.Graphics;
+using Game;
 using System.Collections.Generic;
 
-namespace Game
+namespace Chemistry
 {
 	public class BasaltBlock : PaintedCubeBlock
 	{

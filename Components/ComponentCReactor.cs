@@ -22,7 +22,6 @@ namespace Game
 
 		public void Update(float dt)
 		{
-			Point3 coordinates = m_componentBlockEntity.Coordinates;
 			if (HeatLevel > 0f)
 			{
 				m_fireTimeRemaining = MathUtils.Max(0f, m_fireTimeRemaining - dt);
@@ -50,6 +49,7 @@ namespace Game
 					{
 						for (int k = -1; k < 2; k++)
 						{
+							Point3 coordinates = m_componentBlockEntity.Coordinates;
 							int cellValue = Utils.Terrain.GetCellValue(coordinates.X + i, coordinates.Y + j, coordinates.Z + k);
 							if (i * i + j * j + k * k <= 1 && (Terrain.ExtractContents(cellValue) == FireBoxBlock.Index) && FurnaceNBlock.GetHeatLevel(cellValue) != 0)
 							{

@@ -52,7 +52,7 @@ namespace Game
 			{
 				HeatLevel = fuel.GetHeatLevel(value);
 				m_fireTimeRemaining = fuel.GetFuelFireDuration(value);
-				processedValue = fuel.GetDamageDestructionValue(value);
+				processedValue = fuel.GetDamageDestructionValue();
 				processedCount = 1;
 				return;
 			}

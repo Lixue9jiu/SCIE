@@ -18,7 +18,7 @@ namespace Game
 
 		public override string GetDisplayName(SubsystemTerrain subsystemTerrain, int value) => DefaultDisplayName;
 
-		public override string GetDescription(int value) => DefaultDescription;
+		public override string GetDescription() => DefaultDescription;
 	}
 
 	public class FlatItem : BlockItem

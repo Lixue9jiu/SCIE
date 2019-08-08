@@ -38,7 +38,6 @@ namespace Game
 
         public override void Initialize()
         {
-            base.Initialize();
             m_textures = new Texture2D[3]
             {
                 ContentManager.Get<Texture2D>("Textures/Factorio/Transport-belt_sprite"),
@@ -52,6 +51,7 @@ namespace Game
                     m_texCoords[y, x] = XYToTextureCoords(x, y);
                 }
 			}
+            base.Initialize();
 		}
 
         /*public override void GenerateTerrainVertices(BlockGeometryGenerator generator, TerrainGeometrySubsets geometry, int value, int x, int y, int z)

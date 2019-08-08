@@ -19,7 +19,7 @@ namespace Game
 
 		public override string GetCraftingId() => "Screwdriver";
 
-		public override string GetCategory(int value) => "Tools";
+		public override string GetCategory() => "Tools";
 	}
 
 	public class Wrench : MeshItem
@@ -37,7 +37,7 @@ namespace Game
 
 		public override string GetCraftingId() => "Wrench";
 
-		public override string GetCategory(int value) => "Tools";
+		public override string GetCategory() => "Tools";
 	}
 
 	public class MetalIngot : MeshItem
@@ -105,7 +105,7 @@ namespace Game
 			BlocksManager.DrawMeshBlock(primitivesRenderer, m_standaloneBlockMesh, color, 1.6f * size, ref matrix, environmentData);
 		}
 
-		public override float GetMeleePower(int value) => 2f;
+		public override float GetMeleePower() => 2f;
 
 		public override string GetCraftingId() => Id;
 	}
@@ -226,9 +226,9 @@ namespace Game
 			BlocksManager.DrawMeshBlock(primitivesRenderer, m_standaloneBlockMesh, Color.White, 2f * size, ref matrix, environmentData);
 		}
 
-		public override float GetMeleePower(int value) => 2f;
+		public override float GetMeleePower() => 2f;
 
-		public override float GetProjectilePower(int value) => 2f;
+		public override float GetProjectilePower() => 2f;
 	}
 
 	/*public class Slab : MeshItem

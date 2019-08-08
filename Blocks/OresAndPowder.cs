@@ -36,8 +36,8 @@ namespace Game
 		}
 
 		public override string GetCraftingId() => Id;
-		public override string GetCategory(int value) => "Terrain";
-		public override float GetProjectilePower(int value) => 2f;
+		public override string GetCategory() => "Terrain";
+		public override float GetProjectilePower() => 2f;
 	}
 	public class Powder : FlatItem
     {
@@ -103,7 +103,7 @@ namespace Game
 			DefaultDescription = "焦炭看起来像炼焦煤获得的银块。 它可以用作工业领域中的燃料或还原剂。";
 		}
 
-		public override string GetCategory(int value) => "Items";
+		public override string GetCategory() => "Items";
 		public float GetHeatLevel(int value) => 2000f;
 		public float GetFuelFireDuration(int value) => 100f;
 	}

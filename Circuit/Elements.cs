@@ -14,7 +14,7 @@ namespace Game
 		None = 0,
 		Supply = 1, // Power / Engine
 		Device = 2, // Resistor
-		Container = 3, // Battery
+		Container = Supply | Device, // Battery
 		Connector0 = 4,
 		Connector1 = 8,
 		Connector2 = 16,
@@ -57,14 +57,6 @@ namespace Game
 		}
 		public virtual void Simulate(ref int value)
 		{
-		}
-		public virtual int GetWeight(int value = 0)
-		{
-			if ((Type & ElementType.Connector) != 0)
-				return 1;
-			if ((Type & ElementType.Supply) != 0)
-				return 100;
-			return 2147483647;
 		}
 		#region implements & overloads
 		public override bool Equals(object obj)
@@ -139,8 +131,7 @@ namespace Game
 			Voltage = voltage;
 		}
 		public override string GetDisplayName(SubsystemTerrain subsystemTerrain, int value) => DefaultDisplayName;
-		public override string GetDescription(int value) => DefaultDescription;
-		public override int GetWeight(int value) => Index;
+		public override string GetDescription() => DefaultDescription;
 		public override void Simulate(ref int voltage)
 		{
 			if (Powered = voltage >= Voltage)
@@ -161,8 +152,7 @@ namespace Game
 	}
 	public abstract class DeviceBlock : Device, IEquatable<DeviceBlock>//, IComparable<DeviceBlock>
 	{
-		public string DefaultDisplayName;
-		public string DefaultDescription;
+		public string DefaultDisplayName, DefaultDescription;
 		public readonly int Voltage;
 
 		protected DeviceBlock(int voltage, string name = "", string description = "", ElementType type = ElementType.Device | ElementType.Connector) : base(type)
@@ -172,7 +162,7 @@ namespace Game
 			Voltage = voltage;
 		}
 		public override string GetDisplayName(SubsystemTerrain subsystemTerrain, int value) => DefaultDisplayName;
-		public override string GetDescription(int value) => DefaultDescription;
+		public override string GetDescription() => DefaultDescription;
 		//public int CompareTo(DeviceBlock other) => Voltage.CompareTo(other.Voltage);
 		public bool Equals(DeviceBlock other) => base.Equals(other) && Voltage == other.Voltage;
 	}

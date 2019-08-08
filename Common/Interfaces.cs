@@ -14,7 +14,7 @@ namespace Game
 	}
 	public interface INode
 	{
-		int GetWeight(int value = 0);
+		//int GetWeight(int value = 0);
 		void Simulate(ref int value);
 	}
 	public interface IChemicalItem : IItem
@@ -40,8 +40,8 @@ namespace Game
 	public interface IItemBase
 	{
 		string GetDisplayName(SubsystemTerrain subsystemTerrain, int value);
-		string GetDescription(int value);
-		string GetCategory(int value);
+		string GetDescription();
+		string GetCategory();
 		string GetCraftingId();
 		int GetFaceTextureSlot(int face, int value);
 		void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData);
@@ -56,24 +56,24 @@ namespace Game
 	{
 		int GetDamage(int value);
 		int SetDamage(int value, int damage);
-		int GetDamageDestructionValue(int value);
+		int GetDamageDestructionValue();
 	}
 	public interface IFood
 	{
-		int GetRotPeriod(int value);
-		float GetSicknessProbability(int value);
-		float GetNutritionalValue(int value);
+		int GetRotPeriod();
+		float GetSicknessProbability();
+		float GetNutritionalValue();
 	}
 	public interface IExplosive
 	{
-		float GetExplosionPressure(int value);
-		bool GetExplosionIncendiary(int value);
+		float GetExplosionPressure();
+		bool GetExplosionIncendiary();
 	}
 	public interface IWeapon
 	{
-		float GetMeleePower(int value);
-		float GetMeleeHitProbability(int value);
-		float GetProjectilePower(int value);
+		float GetMeleePower();
+		float GetMeleeHitProbability();
+		float GetProjectilePower();
 	}
 	public interface IScalableItem : IItemBase
 	{
@@ -90,16 +90,16 @@ namespace Game
 		BlockPlacementData GetPlacementValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, TerrainRaycastResult raycastResult);
 		BlockPlacementData GetDigValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, int toolValue, TerrainRaycastResult raycastResult);
 		void GetDropValues(SubsystemTerrain subsystemTerrain, int oldValue, int newValue, int toolLevel, List<BlockDropValue> dropValues, out bool showDebris);
-		float GetHeat(int value);
+		//float GetHeat(int value);
 		BlockDebrisParticleSystem CreateDebrisParticleSystem(SubsystemTerrain subsystemTerrain, Vector3 position, int value, float strength);
-		int GetEmittedLightAmount(int value);
+		int GetEmittedLightAmount();
 		//bool ShouldAvoid(int value);
 		//bool IsHeatBlocker(int value);
 	}
 	public interface ICollidableItem : IPlaceableItem
 	{
 		BoundingBox[] GetCustomCollisionBoxes(SubsystemTerrain terrain, int value);
-		BoundingBox[] GetCustomInteractionBoxes(SubsystemTerrain terrain, int value);
+		//BoundingBox[] GetCustomInteractionBoxes(SubsystemTerrain terrain, int value);
 	}
 	public interface IBlockBehavior
 	{
