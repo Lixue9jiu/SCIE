@@ -1,0 +1,14 @@
+<DispenserWidget xmlns="runtime-namespace:Game">
+  <BevelledRectangleWidget Size="614, 382" BevelSize="3" />
+  <LabelWidget CanvasWidget.Position="12, 14" Name="DispenserLabel" Text="Charger" Font="{Fonts/Pericles24}" Color="255, 255, 255, 192"/>
+  <LabelWidget CanvasWidget.Position="306, 14" Name="InventoryLabel" Text="Inventory" Font="{Fonts/Pericles24}" Color="255, 255, 255, 192"/>
+  <GridPanelWidget CanvasWidget.Position="306, 52" Name="InventoryGrid" ColumnsCount="4" RowsCount="4"/>
+  <ValueBarWidget Name="Progress" CanvasWidget.Position="212, 52" LayoutDirection="Vertical" BarsCount="8" FlipDirection="false" LitBarColor="0, 191, 255" UnlitBarColor="48, 48, 48, 80" BarSize="24, 24" BarSubtexture="{Textures/Atlas/ProgressBar}"/>
+  <CanvasWidget CanvasWidget.Position="12, 200" Size="228, 140" >
+    <StackPanelWidget Direction="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
+      <BevelledButtonWidget Name="DispenseButton" Text="Charge" Style="{Styles/ButtonStyle_160x60}" />
+      <BevelledButtonWidget Name="ShootButton" Text="Discharge" Style="{Styles/ButtonStyle_160x60}" />
+      <CheckboxWidget Name="AcceptsDropsBox" Text="Accepts Drops" />
+    </StackPanelWidget>
+  </CanvasWidget>
+</DispenserWidget>

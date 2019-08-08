@@ -421,21 +421,18 @@ namespace Game
 	}
 
 
-    public class Condenser : DeviceBlock, IBlockBehavior, IInteractiveBlock
-    {
+    public class Condenser : InteractiveEntityDevice<ComponentCondenser>, IElectricElementBlock
+	{
         public bool Charged;
         public int Energy;
-
-        public Condenser(int voltage = 310) : base(voltage, "超大电容", "超大电容允许你存储一些电量，并在需要的时候释放出去", ElementType.Connector | ElementType.Supply)
-        {
-        }
-		public static int GetEnery(int data)
+		public Condenser() : base("Condenser", "超大电容", "超大电容允许你存储一些电量，并在需要的时候释放出去") { Type = ElementType.Supply | ElementType.Connector; }
+		public enum MachineMode1
 		{
-			return (data >> 14 & 1);
+			Charge, Discharger
 		}
-		public static int SetEnergy(int data)
+		public static MachineMode1 GetMode(int data)
 		{
-			return 0;
+			return (MachineMode1)(data >> 14 & 1);
 		}
 		public override void Simulate(ref int voltage)
         {
@@ -456,19 +453,33 @@ namespace Game
         }
         public override BlockPlacementData GetPlacementValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, TerrainRaycastResult raycastResult)
         {
-            return FixedDevice.GetPlacementValue(30, componentMiner, value, raycastResult);
-        }
-        public override bool IsFaceTransparent(SubsystemTerrain subsystemTerrain, int face, int value) => false;
-        public void OnBlockAdded(SubsystemTerrain subsystemTerrain, int value, int oldValue)
+			return GetPlacementValue(30, componentMiner, value, raycastResult);
+		}
+        //public override bool IsFaceTransparent(SubsystemTerrain subsystemTerrain, int face, int value) => false;
+        public override void OnBlockAdded(SubsystemTerrain subsystemTerrain, int value, int oldValue)
         {
-            Charged = false;
-        }
-        public void OnBlockRemoved(SubsystemTerrain subsystemTerrain, int value, int newValue) { }
-        public bool OnInteract(TerrainRaycastResult raycastResult, ComponentMiner componentMiner)
-        {
-            DialogsManager.ShowDialog(componentMiner.ComponentPlayer.View.GameWidget, new EditElectricDialog(Energy));
-            return true;
-        }
+			base.OnBlockAdded(subsystemTerrain, value, oldValue);
+			Component.Powered = false;
+		}
+		public override Widget GetWidget(IInventory inventory, ComponentCondenser component)
+		{
+			return new CondenserWidget(inventory, component);
+		}
+		public ElectricElement CreateElectricElement(SubsystemElectricity subsystemElectricity, int value, int x, int y, int z)
+		{
+			return new CraftingMachineElectricElement(subsystemElectricity, new Point3(x, y, z));
+		}
+
+		public ElectricConnectorType? GetConnectorType(SubsystemTerrain terrain, int value, int face, int connectorFace, int x, int y, int z)
+		{
+			return face == 4 || face == 5 ? (ElectricConnectorType?)ElectricConnectorType.Input : null;
+		}
+
+		public int GetConnectionMask(int value)
+		{
+			int? color = PaintableItemBlock.GetColor(Terrain.ExtractData(value));
+			return color.HasValue ? 1 << color.Value : 2147483647;
+		}
 	}
 	public class Charger : InteractiveEntityDevice<ComponentCharger>, IElectricElementBlock
 	{

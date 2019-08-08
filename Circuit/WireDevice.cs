@@ -293,7 +293,7 @@ namespace Game
 
 	public class ElectricFences : FixedDevice
 	{
-		public BlockMesh[] m_blockMeshes = new BlockMesh[16];
+		//public BlockMesh[] m_blockMeshes = new BlockMesh[16];
 		//public BlockMesh m_coloredBlockMeshes = new BlockMesh();
 
 		public BoundingBox[][] m_collisionBoxes;
@@ -301,7 +301,7 @@ namespace Game
 
 		public ElectricFences() : base("电栅栏", "电栅栏", 120)
 		{
-			Model model = ContentManager.Get<Model>("Models/IronFence");
+			/*Model model = ContentManager.Get<Model>("Models/IronFence");
 			Matrix boneAbsoluteTransform = BlockMesh.GetBoneAbsoluteTransform(model.FindMesh("Post").ParentBone) * Matrix.CreateTranslation(.5f, 0f, .5f);
 			Matrix boneAbsoluteTransform2 = BlockMesh.GetBoneAbsoluteTransform(model.FindMesh("Planks").ParentBone) * Matrix.CreateTranslation(.5f, 0f, .5f);
 			for (int i = 0; i < 16; i++)
@@ -371,23 +371,23 @@ namespace Game
 				m_blockMeshes[i].AppendBlockMesh(blockMesh2);
 				m_blockMeshes[i].TransformTextureCoordinates(Matrix.CreateTranslation(58 % 16 / 16f, 58 / 16 / 16f, 0f));
 				m_blockMeshes[i].GenerateSidesData();
-				/*m_coloredBlockMeshes[i] = new BlockMesh();
-				m_coloredBlockMeshes[i].AppendBlockMesh(blockMesh);
-				m_coloredBlockMeshes[i].AppendBlockMesh(blockMesh2);
-				m_coloredBlockMeshes[i].TransformTextureCoordinates(Matrix.CreateTranslation((float)(m_coloredTextureSlot % 16) / 16f, (float)(m_coloredTextureSlot / 16) / 16f, 0f));
-				m_coloredBlockMeshes[i].GenerateSidesData();*/
-				m_collisionBoxes[i] = list.ToArray();
-			}
+				//m_coloredBlockMeshes[i] = new BlockMesh();
+				//m_coloredBlockMeshes[i].AppendBlockMesh(blockMesh);
+				//m_coloredBlockMeshes[i].AppendBlockMesh(blockMesh2);
+				//m_coloredBlockMeshes[i].TransformTextureCoordinates(Matrix.CreateTranslation((float)(m_coloredTextureSlot % 16) / 16f, (float)(m_coloredTextureSlot / 16) / 16f, 0f));
+				//m_coloredBlockMeshes[i].GenerateSidesData();
+			m_collisionBoxes[i] = list.ToArray();
+			}*/
 		}
 
-		public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
-		{
-			BlocksManager.DrawMeshBlock(primitivesRenderer, m_blockMeshes[1], color * Color.LightGray, size * 2f, ref matrix, environmentData);
-		}
-		public override void GenerateTerrainVertices(Block block, BlockGeometryGenerator generator, TerrainGeometrySubsets geometry, int value, int x, int y, int z)
-		{
-			generator.GenerateMeshVertices(block, x, y, z, m_blockMeshes[Terrain.ExtractData(value) >> 14], Color.White, null, geometry.SubsetOpaque);
-		}
+		//public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
+		//{
+		//	BlocksManager.DrawMeshBlock(primitivesRenderer, m_blockMeshes[1], color * Color.LightGray, size * 2f, ref matrix, environmentData);
+		//}
+		//public override void GenerateTerrainVertices(Block block, BlockGeometryGenerator generator, TerrainGeometrySubsets geometry, int value, int x, int y, int z)
+		//{
+		//	generator.GenerateMeshVertices(block, x, y, z, m_blockMeshes[Terrain.ExtractData(value) >> 14], Color.White, null, geometry.SubsetOpaque);
+		//}
 		public override BlockPlacementData GetPlacementValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, TerrainRaycastResult raycastResult)
 		{
 			return new BlockPlacementData { Value = value, CellFace = raycastResult.CellFace };
@@ -431,4 +431,4 @@ namespace Game
 			}
 		}
 	}*/
-}
+		}

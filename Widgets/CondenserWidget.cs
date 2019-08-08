@@ -4,19 +4,15 @@ using static Game.Charger;
 
 namespace Game
 {
-	public class ChargerWidget : CanvasWidget
+	public class CondenserWidget : CanvasWidget
 	{
 		protected readonly CheckboxWidget m_acceptsDropsBox;
 
 		protected readonly ComponentBlockEntity m_componentBlockEntity;
 
-		//protected readonly ComponentInventoryBase m_componentDispenser;
-
-		protected readonly ComponentCharger m_componentDispenser2;
+		protected readonly ComponentCondenser m_componentDispenser2;
 
 		protected readonly ButtonWidget m_dispenseButton;
-
-		protected readonly GridPanelWidget m_dispenserGrid;
 
 		protected readonly GridPanelWidget m_inventoryGrid;
 
@@ -24,23 +20,18 @@ namespace Game
 
 		protected readonly SubsystemTerrain m_subsystemTerrain;
 
-		protected readonly InventorySlotWidget m_drillSlot;
+		protected readonly ValueBarWidget m_progress;
 
-		//protected readonly ValueBarWidget m_progress;
-
-		public ChargerWidget(IInventory inventory, ComponentCharger componentDispenser)
+		public CondenserWidget(IInventory inventory, ComponentCondenser componentDispenser)
 		{
-			
-			//m_componentDispenser = componentDispenser;
 			m_componentDispenser2 = componentDispenser;
 			m_componentBlockEntity = componentDispenser.Entity.FindComponent<ComponentBlockEntity>(true);
 			m_subsystemTerrain = componentDispenser.Project.FindSubsystem<SubsystemTerrain>(true);
-			WidgetsManager.LoadWidgetContents(this, this, ContentManager.Get<XElement>("Widgets/ChargerWidget"));
+			WidgetsManager.LoadWidgetContents(this, this, ContentManager.Get<XElement>("Widgets/CondenserWidget"));
 			m_inventoryGrid = Children.Find<GridPanelWidget>("InventoryGrid");
-			m_dispenserGrid = Children.Find<GridPanelWidget>("DispenserGrid");
 			m_dispenseButton = Children.Find<ButtonWidget>("DispenseButton");
 			m_shootButton = Children.Find<ButtonWidget>("ShootButton");
-			//m_progress = Children.Find<ValueBarWidget>("Progress");
+			m_progress = Children.Find<ValueBarWidget>("Progress");
 			//m_acceptsDropsBox = Children.Find<CheckboxWidget>("AcceptsDropsBox");
 			//m_drillSlot = Children.Find<InventorySlotWidget>("DrillSlot");
 			int num = 6, y, x;
@@ -56,16 +47,6 @@ namespace Game
 				}
 			}
 			num = 0;
-			for (y = 0; y < m_dispenserGrid.RowsCount; y++)
-			{
-				for (x = 0; x < m_dispenserGrid.ColumnsCount; x++)
-				{
-					inventorySlotWidget = new InventorySlotWidget();
-					inventorySlotWidget.AssignInventorySlot(componentDispenser, num++);
-					m_dispenserGrid.Children.Add(inventorySlotWidget);
-					m_dispenserGrid.SetWidgetCell(inventorySlotWidget, new Point2(x, y));
-				}
-			}
 			//m_drillSlot.AssignInventorySlot(componentDispenser, 8);
 		}
 
@@ -88,7 +69,7 @@ namespace Game
 				m_componentDispenser2.Charged = false;
 			}
 
-			//m_progress.Value = m_componentDispenser2.m_fireTimeRemaining;
+			m_progress.Value = m_componentDispenser2.m_fireTimeRemaining;
 			m_dispenseButton.IsChecked = mode == MachineMode1.Charge;
 			m_componentDispenser2.Charged = mode == MachineMode1.Charge;
 			m_shootButton.IsChecked = mode == MachineMode1.Discharger;
