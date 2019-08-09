@@ -15,7 +15,7 @@
     </StackPanelWidget>
   </CanvasWidget>
   <ValueBarWidget Name="Progress" CanvasWidget.Position="58, 120" LayoutDirection="Vertical" BarsCount="8" FlipDirection="false" LitBarColor="96, 48, 0" UnlitBarColor="48, 48, 48, 80" BarSize="12, 12" BarSubtexture="{Textures/Atlas/ProgressBar}"/>
-  <LabelWidget CanvasWidget.Position="28, 14" Text="Seperator" Font="{Fonts/Pericles24}" Color="255, 255, 255, 192"/>
+  <LabelWidget Name="Label1" CanvasWidget.Position="28, 14" Text="Seperator" Font="{Fonts/Pericles24}" Color="255, 255, 255, 192"/>
   <LabelWidget CanvasWidget.Position="286, 14" Text="Inventory" Font="{Fonts/Pericles24}" Color="255, 255, 255, 192"/>
   <InventorySlotWidget Name="ResultSlot1" CanvasWidget.Position="28, 268" />
   <InventorySlotWidget Name="ResultSlot2" CanvasWidget.Position="100, 268" />

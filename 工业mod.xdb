@@ -34,6 +34,10 @@
       <MemberComponentTemplate Name="Condenser" Guid="0f199f59-fc7d-4b4c-97c7-df652ca11b51" InheritanceParent="71f2effd-10c7-4133-85b4-4a35bd44c956" />
       <MemberComponentTemplate Name="BlockEntity" Guid="af99fa4e-980d-461e-87ac-4358ed7d41b5" InheritanceParent="09a85cba-d94e-41b8-9497-f20ed942c17e" />
     </EntityTemplate>
+	<EntityTemplate Name="TGenerator" Guid="1877a775-af18-4955-81fa-aafaf97b92bd">
+      <MemberComponentTemplate Name="Condenser" Guid="0f1aaf59-fc7d-4b4c-97c7-df652ca11b51" InheritanceParent="71f2eabd-10c7-4133-85b4-4a35bd44c956" />
+      <MemberComponentTemplate Name="BlockEntity" Guid="afaafa4e-980d-461e-87ac-4358ed7d41b5" InheritanceParent="09a85cba-d94e-41b8-9497-f20ed942c17e" />
+    </EntityTemplate>
     <EntityTemplate Name="Seperator" Guid="0855a387-af17-4955-81fa-aafaf97b92bd">
       <MemberComponentTemplate Name="Seperator" Guid="0f193a26-ac7d-4b4c-97c7-df652ca11b51" InheritanceParent="73a2ecaf-10c7-4133-85b4-4a35bd44c956" />
       <MemberComponentTemplate Name="BlockEntity" Guid="a1e9dc3e-980d-461e-87ac-4358ed7d41b5" InheritanceParent="09a85cba-d94e-41b8-9497-f20ed942c17e" />
@@ -409,6 +413,10 @@
     <ComponentTemplate Name="Condenser" Description="A electric induction furnace" Guid="71f2effd-10c7-4133-85b4-4a35bd44c956" InheritanceParent="81a44c6a-c30a-4f53-8d64-0c30aabab8f9">
       <Parameter Name="SlotsCount" Guid="0b8d1abf-f972-431b-9828-d30e0fbf33f1" Value="1" Type="int" />
       <Parameter Name="Class" Guid="1c8f9ff1-22f9-45bb-aae3-039ba73b12b6" Value="Game.ComponentCondenser" Type="string" />
+    </ComponentTemplate>
+	<ComponentTemplate Name="TGenerator" Description="A electric induction furnace" Guid="71f2eabd-10c7-4133-85b4-4a35bd44c956" InheritanceParent="81a44c6a-c30a-4f53-8d64-0c30aabab8f9">
+      <Parameter Name="SlotsCount" Guid="6b8d1fbf-f972-431b-9828-d30e0fbf33f1" Value="6" Type="int" />
+      <Parameter Name="Class" Guid="1d8f9ff2-22f9-45bb-aae3-039ba73b22b6" Value="Game.ComponentTGenerator" Type="string" />
     </ComponentTemplate>
     <ComponentTemplate Name="Seperator" Description="A chest that you can store items in" Guid="73a2ecaf-10c7-4133-85b4-4a35bd44c956" InheritanceParent="81a44c6a-c30a-4f53-8d64-0c30aabab8f9">
       <Parameter Name="SlotsCount" Guid="1c8d574d-f972-431b-9828-d30e0fbf33f1" Value="6" Type="int" />

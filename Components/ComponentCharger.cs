@@ -100,19 +100,19 @@ namespace Game
 			//base.Load(valuesDictionary, idToEntityMap);
 			
 			this.LoadItems(valuesDictionary);
-		//	m_componentBlockEntity = Entity.FindComponent<ComponentBlockEntity>(true);
+			//	m_componentBlockEntity = Entity.FindComponent<ComponentBlockEntity>(true);
 			//m_subsystemExplosions = Project.FindSubsystem<SubsystemExplosions>(true);
 			//m_componentBlockEntity = Entity.FindComponent<ComponentBlockEntity>(true);
 
-			//m_furnaceSize = SlotsCount - 1;
-			//m_fireTimeRemaining = valuesDictionary.GetValue("FireTimeRemaining", 0f);
+			//m_furnaceSize = SlotsCount - 1;  face == 4 || face == 5 ? 114 : 122
+			Charged = valuesDictionary.GetValue("FireTimeRemaining", 0f)==1f;
 			//m_updateSmeltingRecipe = true;
 		}
 
 		public override void Save(ValuesDictionary valuesDictionary, EntityToIdMap entityToIdMap)
 		{
 			this.SaveItems(valuesDictionary);
-			//valuesDictionary.SetValue("FireTimeRemaining", m_fireTimeRemaining);
+			valuesDictionary.SetValue("FireTimeRemaining", Charged ? 1f:0f);
 		}
 
 		public override int GetSlotCapacity(int slotIndex, int value)
