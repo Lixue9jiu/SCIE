@@ -39,7 +39,20 @@ namespace Game
             return new SeperatorWidget(inventory, component, "Widgets/SourWidget");
         }
     }
-    public class SubsystemPresserNNBlockBehavior : SubsystemInventoryBlockBehavior<ComponentPresserNN>
+	public class SubsystemICEngineBlockBehavior : SubsystemInventoryBlockBehavior<ComponentICEngine>
+	{
+		public SubsystemICEngineBlockBehavior() : base("ICEngine")
+		{
+		}
+
+		public override int[] HandledBlocks => new[] { EngineIBlock.Index };
+
+		public override Widget GetWidget(IInventory inventory, ComponentICEngine component)
+		{
+			return new ICEngineWidget(inventory, component);
+		}
+	}
+	public class SubsystemPresserNNBlockBehavior : SubsystemInventoryBlockBehavior<ComponentPresserNN>
 	{
 		public SubsystemPresserNNBlockBehavior() : base("PresserNN")
 		{

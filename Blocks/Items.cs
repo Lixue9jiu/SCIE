@@ -215,6 +215,7 @@ namespace Game
 			new Plate("RISC CPU", Color.DarkGray, true),
 			new Plate("CISC CPU", Color.DarkGray, true),
 			new CPanel(),
+			new Mould("Models/OilBox", "Cube", Matrix.CreateTranslation(0.5f, 0.7f, 0.5f) * Matrix.CreateScale(0.6f), Matrix.CreateTranslation(4f, 3.8f, 0f), "A Cylinder made of alloy, Aluminum and steel, the neccessary part of many machine.", "Cube", 1.6f),
 			};
 			ElementBlock.Devices = new Device[]
 			{
