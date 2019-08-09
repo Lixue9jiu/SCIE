@@ -17,7 +17,7 @@ namespace Game
 			int x = point.X;
 			int y = point.Y;
 			int z = point.Z;
-			if (ComponentEngine.IsPowered(Utils.Terrain, x, y, z))
+			if (!ComponentEngine.IsPowered(Utils.Terrain, x, y, z))
 				return;
 			int num2 = 0;
 			int l;
