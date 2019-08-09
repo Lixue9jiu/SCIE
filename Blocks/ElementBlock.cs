@@ -46,7 +46,7 @@ namespace Game
 				var color = GetColor(Terrain.ExtractData(Utils.Terrain.GetCellValue(p.X, p.Y, p.Z)));
 				device.Type = device.Type & ~ElementType.Connector | (color.HasValue ? (ElementType)(1 << (color.Value + 2)) : ElementType.Connector);
 			}
-			return device.Create(p);
+			return device.Create(p, value);
 		}
 		public Device GetDevice(Terrain terrain, int x, int y, int z)
 		{

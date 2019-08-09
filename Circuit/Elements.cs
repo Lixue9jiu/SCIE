@@ -84,7 +84,7 @@ namespace Game
 	{
 		public Point3 Point;
 		protected Device(ElementType type = ElementType.Device | ElementType.Connector) : base(type) { }
-		public virtual Device Create(Point3 p)
+		public virtual Device Create(Point3 p, int value)
 		{
 			return this;
 		}
@@ -150,7 +150,7 @@ namespace Game
 		{
 			Name = ename;
 		}
-		public override Device Create(Point3 p)
+		public override Device Create(Point3 p, int value)
 		{
 			Component = Utils.GetBlockEntity(p)?.Entity.FindComponent<T>(true);
 			return this;

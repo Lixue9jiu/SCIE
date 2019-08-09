@@ -35,9 +35,9 @@ namespace Game
 						Meshes[i].AppendBlockMesh(meshes[j]);
 			}
 		}
-		public override Device Create(Point3 p)
+		public override Device Create(Point3 p, int value)
 		{
-			Type = ElementType.Supply | (ElementType)(GetType(Terrain.ExtractData(Utils.Terrain.GetCellValue(p.X, p.Y, p.Z))) << 20);
+			Type = ElementType.Supply | (ElementType)(GetType(Terrain.ExtractData(value)) << 20);
 			return this;
 		}
 		public override BlockPlacementData GetPlacementValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, TerrainRaycastResult raycastResult)

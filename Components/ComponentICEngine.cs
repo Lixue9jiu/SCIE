@@ -12,8 +12,6 @@ namespace Game
 
 		public Point3 Coordinates;
 
-		public float m_fireTimeRemaining;
-
 		public override int RemainsSlotIndex => SlotsCount - 3;
 		public override int ResultSlotIndex => SlotsCount - 1;
 		public override int FuelSlotIndex => SlotsCount - 2;
