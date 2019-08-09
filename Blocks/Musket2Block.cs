@@ -40,7 +40,7 @@ namespace Game
 			BlockMesh standaloneBlockMeshLoaded2 = m_standaloneBlockMeshLoaded;
 			meshParts = model.FindMesh("Hammer").MeshParts;
 			standaloneBlockMeshLoaded2.AppendModelMeshPart(meshParts[0], Matrix.CreateRotationX(0.7f) * boneAbsoluteTransform2, false, false, false, false, Color.Gray);
-			//base.Initialize();
+			base.Initialize();
 		}
 
 		public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)

@@ -3,22 +3,9 @@ using Engine.Graphics;
 
 namespace Game
 {
-	public class Musket3Block : FlatBlock
+	public class Musket3Block : Musket2Block
 	{
-		public enum LoadState
-		{
-			Empty,
-			bullet,
-            bullet2,
-			Loaded
-		}
-
-		public const int Index = 538;
-
-		protected BlockMesh m_standaloneBlockMeshLoaded;
-
-		protected BlockMesh m_standaloneBlockMeshUnloaded;
-
+		public new const int Index = 538;
 
         public override void Initialize()
 		{
@@ -77,49 +64,15 @@ namespace Game
 			return Terrain.ReplaceData(value, (Terrain.ExtractData(value) & -65281) | (MathUtils.Clamp(damage, 0, 255) << 8));
 		}
 
-		public static LoadState GetLoadState(int data)
-		{
-			return (LoadState)(data & 3);
-		}
-
         public static bool GetLoadState2(int data)
         {
-            
             return data != ((data & -4) | (int)(LoadState.Empty & LoadState.Loaded));
         }
 
-        public static int SetLoadState(int data, LoadState loadState)
-		{
-			return (data & -4) | (int)(loadState & LoadState.Loaded);
-		}
-
-		public static bool GetHammerState(int data)
-		{
-			return (data & 4) != 0;
-		}
-
-		public static int SetHammerState(int data, bool state)
-		{
-			return (data & -5) | ((state ? 1 : 0) << 2);
-		}
-
-		/*public static Bullet2Block.BulletType? GetBulletType(int data)
-		{
-			int num = (data >> 4) & 0xF;
-			if (num != 0)
-				return (Bullet2Block.BulletType)(num - 1);
-			return null;
-		}*/
-
-		public static int SetBulletType(int data, Bullet2Block.BulletType? bulletType)
-		{
-			int num = (int)(bulletType.HasValue ? (bulletType.Value + 1) : Bullet2Block.BulletType.IronBullet);
-			return (data & -241) | ((num & 0xF) << 4);
-		}
-        public static int SetBulletNum(int data)
+        /*public static int SetBulletNum(int data)
         {
             int num = data;
             return (data & -241) | ((num & 0xF) << 4);
-        }
+        }*/
     }
 }

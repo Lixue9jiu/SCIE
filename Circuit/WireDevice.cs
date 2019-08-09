@@ -396,13 +396,15 @@ namespace Game
 				y = raycastResult.CellFace.Y,
 				z = raycastResult.CellFace.Z;
 			int cellValue = subsystemTerrain.Terrain.GetCellValue(x + 1, y, z);
-			int cellValue2 = subsystemTerrain.Terrain.GetCellValue(x - 1, y, z);
-			int cellValue3 = subsystemTerrain.Terrain.GetCellValue(x, y, z + 1);
-			int cellValue4 = subsystemTerrain.Terrain.GetCellValue(x, y, z - 1);
 			int num2 = 0;
-			int data = Terrain.ExtractData(value);
-			int value2 = Terrain.ReplaceData(value, FenceBlock.SetVariant(data, num2));
-			return new BlockPlacementData { Value = value, CellFace = raycastResult.CellFace };
+			if (Block.GetDevice(x + 1, y, z, cellValue) is ElectricFences) num2 |= 1;
+			cellValue = subsystemTerrain.Terrain.GetCellValue(x - 1, y, z);
+			if (Block.GetDevice(x - 1, y, z, cellValue) is ElectricFences) num2 |= 2;
+			cellValue = subsystemTerrain.Terrain.GetCellValue(x, y, z + 1);
+			if (Block.GetDevice(x, y, z + 1, cellValue) is ElectricFences) num2 |= 4;
+			cellValue = subsystemTerrain.Terrain.GetCellValue(x, y, z - 1);
+			if (Block.GetDevice(x, y, z - 1, cellValue) is ElectricFences) num2 |= 8;
+			return new BlockPlacementData { Value = Terrain.ReplaceData(value, FenceBlock.SetVariant(Terrain.ExtractData(value), num2)), CellFace = raycastResult.CellFace };
 		}
 
 		public override bool IsFaceTransparent(SubsystemTerrain subsystemTerrain, int face, int value) => true;

@@ -58,15 +58,15 @@ namespace Game
 			Children.Find<LabelWidget>("DispenserLabel2").Text = (m_componentDispenser2.m_fireTimeRemaining).ToString() + "/10M E";
 			int value = m_subsystemTerrain.Terrain.GetCellValue(m_componentBlockEntity.Coordinates.X, m_componentBlockEntity.Coordinates.Y, m_componentBlockEntity.Coordinates.Z);
 			int data = Terrain.ExtractData(value);
-			MachineMode1 mode = GetMode(data);
-			if (m_dispenseButton.IsClicked && mode == MachineMode1.Discharger)
+			MachineMode mode = GetMode(data);
+			if (m_dispenseButton.IsClicked && mode == MachineMode.Discharger)
 			{
 				data = SetMode(data);
 
 				m_subsystemTerrain.Terrain.SetCellValueFast(m_componentBlockEntity.Coordinates.X, m_componentBlockEntity.Coordinates.Y, m_componentBlockEntity.Coordinates.Z, Terrain.ReplaceData(value, data));
 				m_componentDispenser2.Charged = true;
 			}
-			if (m_shootButton.IsClicked && mode == MachineMode1.Charge)
+			if (m_shootButton.IsClicked && mode == MachineMode.Charge)
 			{
 				data = SetMode(data);
 				m_subsystemTerrain.Terrain.SetCellValueFast(m_componentBlockEntity.Coordinates.X, m_componentBlockEntity.Coordinates.Y, m_componentBlockEntity.Coordinates.Z, Terrain.ReplaceData(value, data));
@@ -74,9 +74,9 @@ namespace Game
 			}
 
 			m_progress.Value = 1f-m_componentDispenser2.m_fireTimeRemaining/10000000f;
-			m_dispenseButton.IsChecked = mode == MachineMode1.Charge;
-			m_componentDispenser2.Charged = mode == MachineMode1.Charge;
-			m_shootButton.IsChecked = mode == MachineMode1.Discharger;
+			m_dispenseButton.IsChecked = mode == MachineMode.Charge;
+			m_componentDispenser2.Charged = mode == MachineMode.Charge;
+			m_shootButton.IsChecked = mode == MachineMode.Discharger;
 			//m_acceptsDropsBox.IsChecked = SixDirectionalBlock.GetAcceptsDrops(data);
 			if (!m_componentDispenser2.IsAddedToProject)
 			{

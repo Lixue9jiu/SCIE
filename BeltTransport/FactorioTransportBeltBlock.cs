@@ -174,13 +174,6 @@ namespace Game
 			return cornertype != null ? (data & -481) | 32 | (cornertype.Value & 7) << 6 : data & -481;
 		}
 
-		/*public enum CornerType
-        {
-            None,
-            OneQuarter,
-            ThreeQuarters
-        }*/
-
 		public static int m_texRowCount = 12;
         public static int m_texColCount = 16;
         public static Vector4[,] m_texCoords = new Vector4[m_texRowCount, m_texColCount];
@@ -222,9 +215,9 @@ namespace Game
                 Vector3.Transform(ref vector3, ref value2, out vector3);
                 Vector3.Transform(ref p2, ref value2, out p2);
             }
-            int data = Terrain.ExtractData(value);
+            //int data = Terrain.ExtractData(value);
             Vector4 vector4;
-            int color = GetColor(Terrain.ExtractData(value));
+            //int color = GetColor(Terrain.ExtractData(value));
             vector4 = m_texCoords[1, 0];
             TexturedBatch3D texturedBatch3D = primitivesRenderer.TexturedBatch(texture, true, 0, null, RasterizerState.CullCounterClockwiseScissor, null, SamplerState.PointClamp);
             texturedBatch3D.QueueQuad(p, vector3, p2, vector2, new Vector2(vector4.X, vector4.W), new Vector2(vector4.X, vector4.Y), new Vector2(vector4.Z, vector4.Y), new Vector2(vector4.Z, vector4.W), Color.White);

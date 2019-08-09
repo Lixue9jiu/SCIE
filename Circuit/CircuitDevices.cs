@@ -1,15 +1,16 @@
 ﻿using Engine;
-
+using System;
 
 namespace Game
 {
-	public class Fridge : InteractiveEntityDevice<ComponentNewChest>
+	public class Fridge : InventoryEntityDevice<ComponentNewChest>
 	{
-		public Fridge() : base("Freezer", "冰箱", "冰箱是保护食物的好地方，可以延缓食物的腐烂。 它最多可容纳16件物品。") { }
+		public Fridge() : base("Freezer", "冰箱", "冰箱是保护食物的好地方，可以延缓食物的腐烂。 它最多可容纳16件物品。", 110) { }
 
 		public override void Simulate(ref int voltage)
 		{
-			Component.Powered = voltage >= 110;
+			base.Simulate(ref voltage);
+			Component.Powered = Powered;
 		}
 
 		public override void OnBlockAdded(SubsystemTerrain subsystemTerrain, int value, int oldValue)
@@ -34,14 +35,14 @@ namespace Game
 		}
 	}
 
-	public class Magnetizer : InteractiveEntityDevice<ComponentMagnetizer>
+	public class Magnetizer : InventoryEntityDevice<ComponentMagnetizer>
 	{
-		public Magnetizer() : base("Magnetizer", "磁化机", "磁化机是通过在由线提供的强磁场中熔化钢锭来制造工业磁体的装置。") { }
+		public Magnetizer() : base("Magnetizer", "磁化机", "磁化机是通过在由线提供的强磁场中熔化钢锭来制造工业磁体的装置。", 12) { }
 
 		public override void Simulate(ref int voltage)
 		{
-			if (Component.Powered = voltage >= 12)
-				voltage -= 12;
+			base.Simulate(ref voltage);
+			Component.Powered = Powered;
 		}
 
 		public override void OnBlockAdded(SubsystemTerrain subsystemTerrain, int value, int oldValue)
@@ -66,20 +67,14 @@ namespace Game
 		}
 	}
 
-	public class Separator : InteractiveEntityDevice<ComponentSeperator>
+	public class Separator : InventoryEntityDevice<ComponentSeperator>
 	{
-		public Separator() : base("Seperator", "分离器", "分离器是通过高频旋转分离处材料的装置，它是离心机的缩小版本。") { }
-
-		/*public override Device Create(Point3 p)
-		{
-			var other = (Separator)base.Create(p);
-			return other;
-		}*/
+		public Separator() : base("Seperator", "分离器", "分离器是通过高频旋转分离处材料的装置，它是离心机的缩小版本。", 120) { }
 
 		public override void Simulate(ref int voltage)
 		{
-			if (Component.Powered = voltage >= 120)
-				voltage -= 120;
+			base.Simulate(ref voltage);
+			Component.Powered = Powered;
 		}
 
 		public override void OnBlockAdded(SubsystemTerrain subsystemTerrain, int value, int oldValue)
@@ -124,12 +119,12 @@ namespace Game
 
 	public class Canpack : InteractiveEntityDevice<ComponentCanpack>
 	{
-		public Canpack() : base("Canpack", "灌装机", "灌装机是一种可以封装液体，变成液体罐头的机器") { }
+		public Canpack() : base("Canpack", "灌装机", "灌装机是一种可以封装液体，变成液体罐头的机器", 80) { }
 
 		public override void Simulate(ref int voltage)
 		{
-			if (Component.Powered = voltage >= 80)
-				voltage -= 80;
+			base.Simulate(ref voltage);
+			Component.Powered = Powered;
 		}
 
 		public override void OnBlockAdded(SubsystemTerrain subsystemTerrain, int value, int oldValue)
@@ -156,12 +151,12 @@ namespace Game
 
 	public class Electrobath : InteractiveEntityDevice<ComponentElectrobath>
 	{
-		public Electrobath() : base("Electrobath", "电解机", "电解机是一种可以将电解质进行氧化还原反应的机器，在冶炼一些活泼金属上有重要的作用") { }
+		public Electrobath() : base("Electrobath", "电解机", "电解机是一种可以将电解质进行氧化还原反应的机器，在冶炼一些活泼金属上有重要的作用", 200) { }
 
 		public override void Simulate(ref int voltage)
 		{
-			if (Component.Powered = voltage >= 200)
-				voltage -= 200;
+			base.Simulate(ref voltage);
+			Component.Powered = Powered;
 		}
 
 		public override void OnBlockAdded(SubsystemTerrain subsystemTerrain, int value, int oldValue)
@@ -250,21 +245,9 @@ namespace Game
 		}
 	}
 
-	public class EFurnace : InteractiveEntityDevice<ComponentElectricFurnace>, IElectricElementBlock
+	public class EFurnace : InventoryEntityDevice<ComponentElectricFurnace>
 	{
-		public EFurnace() : base("ElectricFurnace", "电阻炉", "电阻炉是一种通过电阻器加热物品的装置，它可以达到很高的温度，但需要大量的热量。") { }
-
-		/*public override Device Create(Point3 p)
-		{
-			var other = (EFurnace)base.Create(p);
-			return other;
-		}*/
-
-		public override void Simulate(ref int voltage)
-		{
-			if (Component.Powered = voltage >= 300)
-				voltage -= 300;
-		}
+		public EFurnace() : base("ElectricFurnace", "电阻炉", "电阻炉是一种通过电阻器加热物品的装置，它可以达到很高的温度，但需要大量的热量。", 300) { }
 
 		public override void OnBlockAdded(SubsystemTerrain subsystemTerrain, int value, int oldValue)
 		{
@@ -286,38 +269,17 @@ namespace Game
 		{
 			return new ElectricFurnaceWidget(inventory, component);
 		}
-
-		public ElectricElement CreateElectricElement(SubsystemElectricity subsystemElectricity, int value, int x, int y, int z)
-		{
-			return new CraftingMachineElectricElement(subsystemElectricity, new Point3(x, y, z));
-		}
-
-		public ElectricConnectorType? GetConnectorType(SubsystemTerrain terrain, int value, int face, int connectorFace, int x, int y, int z)
-		{
-			return face == 4 || face == 5 ? (ElectricConnectorType?)ElectricConnectorType.Input : null;
-		}
-
-		public int GetConnectionMask(int value)
-		{
-			int? color = PaintableItemBlock.GetColor(Terrain.ExtractData(value));
-			return color.HasValue ? 1 << color.Value : 2147483647;
-		}
 	}
 
-	public class EIFurnace : InteractiveEntityDevice<ComponentElectricIFurnace>, IElectricElementBlock
+	public class EIFurnace : InventoryEntityDevice<ComponentElectricIFurnace>
 	{
-		public EIFurnace() : base("ElectricIFurnace", "电磁感应炉", "电磁感应炉是一种通过电磁感应加热物品的装置，它可以达到很高的温度，但需要大量的电量。") { }
+		public EIFurnace() : base("ElectricIFurnace", "电磁感应炉", "电磁感应炉是一种通过电磁感应加热物品的装置，它可以达到很高的温度，但需要大量的电量。", 200) { }
 
-		/*public override Device Create(Point3 p)
+		public override void Simulate(ref int voltage)
 		{
-			var other = (EFurnace)base.Create(p);
-			return other;
-		}*/
-        public override void Simulate(ref int voltage)
-        {
-            if (Component.Powered = voltage >= 200)
-                voltage -= 200;
-        }
+			base.Simulate(ref voltage);
+			Component.Powered = Powered;
+		}
         public override void OnBlockAdded(SubsystemTerrain subsystemTerrain, int value, int oldValue)
         {
             base.OnBlockAdded(subsystemTerrain, value, oldValue);
@@ -335,21 +297,6 @@ namespace Game
         {
             return new ElectricIFurnaceWidget(inventory, component);
         }
-        public ElectricElement CreateElectricElement(SubsystemElectricity subsystemElectricity, int value, int x, int y, int z)
-        {
-            return new CraftingMachineElectricElement(subsystemElectricity, new Point3(x, y, z));
-        }
-
-		public ElectricConnectorType? GetConnectorType(SubsystemTerrain terrain, int value, int face, int connectorFace, int x, int y, int z)
-		{
-			return face == 4 || face == 5 ? (ElectricConnectorType?)ElectricConnectorType.Input : null;
-		}
-
-		public int GetConnectionMask(int value)
-		{
-			int? color = PaintableItemBlock.GetColor(Terrain.ExtractData(value));
-			return color.HasValue ? 1 << color.Value : 2147483647;
-		}
 	}
 
     public class ElectricMotor : FixedDevice, IBlockBehavior
@@ -384,7 +331,7 @@ namespace Game
 		public override void Simulate(ref int voltage)
 		{
 			if (voltage < 0)
-				voltage = -voltage;
+				voltage = (int)(-voltage * Math.Sqrt(2));
 		}
 		public override int GetFaceTextureSlot(int face, int value)
 		{
@@ -420,19 +367,14 @@ namespace Game
 		}
 	}
 
-
-    public class Condenser : InteractiveEntityDevice<ComponentCondenser>, IElectricElementBlock
+	public class Condenser : InteractiveEntityDevice<ComponentCondenser>
 	{
         public bool Charged;
         public int Energy;
 		public Condenser() : base("Condenser", "超大电容", "超大电容允许你存储一些电量，并在需要的时候释放出去") { Type = ElementType.Supply | ElementType.Connector; }
-		public enum MachineMode1
+		public static MachineMode GetMode(int data)
 		{
-			Charge, Discharger
-		}
-		public static MachineMode1 GetMode(int data)
-		{
-			return (MachineMode1)(data >> 14 & 1);
+			return (MachineMode)(data >> 14 & 1);
 		}
 		public override void Simulate(ref int voltage)
         {
@@ -444,7 +386,7 @@ namespace Game
 					voltage = 0;
 				}
 			}
-            else if (Component.m_fireTimeRemaining>=310f)
+            else if (Component.m_fireTimeRemaining >= 310f)
             {
 				Component.m_fireTimeRemaining -= 310f;
 				voltage += 310;
@@ -458,7 +400,6 @@ namespace Game
         {
 			return GetPlacementValue(30, componentMiner, value, raycastResult);
 		}
-        //public override bool IsFaceTransparent(SubsystemTerrain subsystemTerrain, int face, int value) => false;
         public override void OnBlockAdded(SubsystemTerrain subsystemTerrain, int value, int oldValue)
         {
 			base.OnBlockAdded(subsystemTerrain, value, oldValue);
@@ -468,33 +409,14 @@ namespace Game
 		{
 			return new CondenserWidget(inventory, component);
 		}
-		public ElectricElement CreateElectricElement(SubsystemElectricity subsystemElectricity, int value, int x, int y, int z)
-		{
-			return new CraftingMachineElectricElement(subsystemElectricity, new Point3(x, y, z));
-		}
-
-		public ElectricConnectorType? GetConnectorType(SubsystemTerrain terrain, int value, int face, int connectorFace, int x, int y, int z)
-		{
-			return face == 4 || face == 5 ? (ElectricConnectorType?)ElectricConnectorType.Input : null;
-		}
-
-		public int GetConnectionMask(int value)
-		{
-			int? color = PaintableItemBlock.GetColor(Terrain.ExtractData(value));
-			return color.HasValue ? 1 << color.Value : 2147483647;
-		}
 	}
-	public class Charger : InteractiveEntityDevice<ComponentCharger>, IElectricElementBlock
+	public class Charger : InventoryEntityDevice<ComponentCharger>
 	{
-		public Charger() : base("Charger", "充电放电装置", "充电放电装置是一种可以为电池充电或者放电的装置") { Type = ElementType.Supply | ElementType.Connector; }
+		public Charger() : base("Charger", "充电宝", "充电放电装置是一种可以为电池充电或者放电的装置") { Type = ElementType.Supply | ElementType.Connector; }
 		
-		public enum MachineMode1
+		public static MachineMode GetMode(int data)
 		{
-			Charge, Discharger
-		}
-		public static MachineMode1 GetMode(int data)
-		{
-			return (MachineMode1)(data >> 14 & 1);
+			return (MachineMode)(data >> 14 & 1);
 		}
 
 		public static int SetMode(int data) => data ^ 1 << 14;
@@ -528,23 +450,8 @@ namespace Game
 		{
 			return new ChargerWidget(inventory, component);
 		}
-		public ElectricElement CreateElectricElement(SubsystemElectricity subsystemElectricity, int value, int x, int y, int z)
-		{
-			return new CraftingMachineElectricElement(subsystemElectricity, new Point3(x, y, z));
-		}
-
-		public ElectricConnectorType? GetConnectorType(SubsystemTerrain terrain, int value, int face, int connectorFace, int x, int y, int z)
-		{
-			return face == 4 || face == 5 ? (ElectricConnectorType?)ElectricConnectorType.Input : null;
-		}
-
-		public int GetConnectionMask(int value)
-		{
-			int? color = PaintableItemBlock.GetColor(Terrain.ExtractData(value));
-			return color.HasValue ? 1 << color.Value : 2147483647;
-		}
 	}
-	public class TGenerator : InteractiveEntityDevice<ComponentTGenerator>, IElectricElementBlock
+	public class TGenerator : InventoryEntityDevice<ComponentTGenerator>
 	{
 		public TGenerator() : base("TGenerator", "热能发电机", "热能发电机是一种利用金属温差发电的装置，它可以把岩浆转换为能量") { Type = ElementType.Supply | ElementType.Connector; }
 
@@ -554,16 +461,9 @@ namespace Game
 				voltage += 310;
 		}
 
-		public override void OnBlockAdded(SubsystemTerrain subsystemTerrain, int value, int oldValue)
-		{
-			base.OnBlockAdded(subsystemTerrain, value, oldValue);
-			//Component.Powered = false;
-		}
-
 		public override int GetFaceTextureSlot(int face, int value)
 		{
 			return face != 4 && face != 5 && face == (Terrain.ExtractData(value) >> 15) ? 125 : 107;
-			//face == direction ? GetHeatLevel(value) > 0 ? 124 : 124 : face == CellFace.OppositeFace(direction) ? 107 : 159;
 		}
 
 		public override BlockPlacementData GetPlacementValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, TerrainRaycastResult raycastResult)
@@ -574,22 +474,6 @@ namespace Game
 		public override Widget GetWidget(IInventory inventory, ComponentTGenerator component)
 		{
 			return new TGeneratorWidget(inventory, component);
-		}
-
-		public ElectricElement CreateElectricElement(SubsystemElectricity subsystemElectricity, int value, int x, int y, int z)
-		{
-			return new CraftingMachineElectricElement(subsystemElectricity, new Point3(x, y, z));
-		}
-
-		public ElectricConnectorType? GetConnectorType(SubsystemTerrain terrain, int value, int face, int connectorFace, int x, int y, int z)
-		{
-			return face == 4 || face == 5 ? (ElectricConnectorType?)ElectricConnectorType.Input : null;
-		}
-
-		public int GetConnectionMask(int value)
-		{
-			int? color = PaintableItemBlock.GetColor(Terrain.ExtractData(value));
-			return color.HasValue ? 1 << color.Value : 2147483647;
 		}
 	}
 }

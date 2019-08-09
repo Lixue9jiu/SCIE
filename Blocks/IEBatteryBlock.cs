@@ -8,9 +8,11 @@ namespace Game
 	{
 		Cu_Zn_Battery,Lead_Battery,Fission_Battery,Fusion_Battery
 	}
+
 	public class IEBatteryBlock : FlatBlock, IDurability
 	{
 		public const int Index = 540;
+
 		public override IEnumerable<int> GetCreativeValues()
 		{
 			var arr = new int[64];
@@ -18,10 +20,12 @@ namespace Game
 				arr[i] = Terrain.ReplaceData(Index, i >> 4 | (i & 15) << 13);
 			return arr;
 		}
+
 		public override string GetCategory(int value)
 		{
 			return (Terrain.ExtractData(value) >> 13 & 15) != 0 ? "Painted" : base.GetCategory(value);
 		}
+
 		/*public override CraftingRecipe GetAdHocCraftingRecipe(SubsystemTerrain subsystemTerrain, string[] ingredients, float heatLevel)
 		{
 			var recipe = Utils.GetAdHocCraftingRecipe(Index, subsystemTerrain, ingredients, heatLevel);
@@ -35,25 +39,30 @@ namespace Game
 					}
 			return recipe;
 		}*/
+
 		public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
 		{
 			var type = GetType(value);
 			ItemBlock.DrawFlatBlock(primitivesRenderer, value, size, ref matrix, ItemBlock.Texture,
 				(type == BatteryType.Fission_Battery ? Color.Cyan : type == BatteryType.Lead_Battery ? Color.Gray : color) , false, environmentData);
 		}
+
 		public static BatteryType GetType(int value)
 		{
 			return (BatteryType)(Terrain.ExtractData(value) & 0xF);
 		}
+
 		public static int SetType(int value, BatteryType type)
 		{
 			return Terrain.ReplaceData(value, (Terrain.ExtractData(value) & -16) | ((int)type & 0xF));
 		}
+
 		public override string GetDisplayName(SubsystemTerrain subsystemTerrain, int value)
 		{
 			//int index = Terrain.ExtractData(value) >> 13 & 15;
 			return GetType(value).ToString();
 		}
+
 		public override string GetDescription(int value)
 		{
 			//switch (GetType(value))
@@ -68,11 +77,13 @@ namespace Game
 			//}
 			return DefaultDescription;
 		}
+
 		public override int GetFaceTextureSlot(int face, int value)
 		{
 			//return (uint)(GetType(value) - 2) > 1u ? 179 : 176;
 			return 194;
 		}
+
 		public int GetDurability(int value)
 		{
 			switch (GetType(value))
@@ -84,6 +95,7 @@ namespace Game
 			}
 			return 0;
 		}
+
 		public override int GetDamage(int value)
 		{
 			return base.GetDamage(value) & 2047;

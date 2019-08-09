@@ -37,9 +37,8 @@ namespace Game
 		}
 		public override Device Create(Point3 p)
 		{
-			var device = base.Create(p);
-			device.Type = ElementType.Supply | (ElementType)(GetType(Terrain.ExtractData(Utils.Terrain.GetCellValue(p.X, p.Y, p.Z))) << 20);
-			return device;
+			Type = ElementType.Supply | (ElementType)(GetType(Terrain.ExtractData(Utils.Terrain.GetCellValue(p.X, p.Y, p.Z))) << 20);
+			return this;
 		}
 		public override BlockPlacementData GetPlacementValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, TerrainRaycastResult raycastResult)
 		{

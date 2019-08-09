@@ -60,12 +60,6 @@ namespace Game
 				behavior.OnBlockRemoved(SubsystemTerrain, value, newValue);
 			if (device.Next != null)
 			{
-				/*var next = device.Next;
-				for (int i = 0; i < next.Count; i++)
-				{
-					var element = next.Array[i];
-					element.Next.Remove(device);
-				}*/
 				if ((device.Type & ElementType.Supply) != 0)
 					Path.Remove(device);
 			}
@@ -75,6 +69,7 @@ namespace Game
 		{
 			OnBlockRemoved(oldValue, value, x, y, z);
 			OnBlockAdded(value, oldValue, x, y, z);
+			UpdatePaths();
 		}
 		public override void OnChunkDiscarding(TerrainChunk chunk)
 		{
@@ -109,7 +104,7 @@ namespace Game
 		}
 		public override void OnItemHarvested(int x, int y, int z, int blockValue, ref BlockDropValue dropValue, ref int newBlockValue)
 		{
-			var item = elementblock.GetDevice(Utils.Terrain, x, y, z);
+			var item = elementblock.GetDevice(x, y, z, blockValue);
 			if (item is IHarvestingItem block)
 				block.OnItemHarvested(x, y, z, blockValue, ref dropValue, ref newBlockValue);
 		}
@@ -144,78 +139,82 @@ namespace Game
 		}*/
 		public void Update(float dt)
 		{
-			int i, j;
-			if (UpdatePath)
-			{
-				for (i = 0; i < CircuitPath.Length; i++)
-				{
-					int length = CircuitPath[i].Length;
-					for (j = 1; j < length; j++)
-					{
-						int v = 0;
-						CircuitPath[i][j].Simulate(ref v);
-					}
-				}
-				CircuitPath = new Element[Path.Count][];
-				i = 0;
-				for (var enumerator = Path.GetEnumerator(); enumerator.MoveNext(); i++)
-				{
-					var v = enumerator.Current;
-					var visited = new HashSet<Device>
-					{
-						v
-					};
-					var neighbors = new DynamicArray<Device>(6);
-					var Q = new Queue<Device>();
-					int count;
-					Q.Enqueue(v);
-					while (Q.Count > 0)
-					{
-						v = Q.Dequeue();
-						neighbors.Clear();
-						elementblock.GetAllConnectedNeighbors(Utils.Terrain, v, 4, neighbors);
-						v.Next = new Element[neighbors.Count];
-						count = 0;
-						for (j = 0; j < neighbors.Count; j++)
-						{
-							var w = neighbors.Array[j];
-							if (visited.Add(w))
-							{
-								v.Next[count++] = w;
-								Q.Enqueue(w);
-							}
-						}
-					}
-					Element element = enumerator.Current;
-					var stack = new DynamicArray<Element>(1)
-					{
-						element
-					};
-					var arr = new Element[visited.Count];
-					count = 0;
-					while (stack.Count > 0)
-					{
-						if ((element = stack.Array[--stack.Count]) != null)
-						{
-							arr[count++] = element;
-							var next = element.Next;
-							for (j = 0; j < next.Length && next[j] != null; j++)
-								stack.Add(next[j]);
-						}
-					}
-					CircuitPath[i] = new Element[count];
-					Array.Copy(arr, CircuitPath[i], count);
-				}
-				UpdatePath = false;
-			}
+			UpdatePaths();
 			m_remainingSimulationTime = MathUtils.Min(m_remainingSimulationTime + dt, 0.1f);
 			while (m_remainingSimulationTime >= 0.02f)
 			{
 				UpdateStep++;
 				m_remainingSimulationTime -= 0.02f;
-				for (i = 0; i < CircuitPath.Length; i++)
+				for (int i = 0; i < CircuitPath.Length; i++)
 					QueueSimulate(CircuitPath[i]);
 			}
+		}
+		public void UpdatePaths()
+		{
+			if (!UpdatePath) return;
+			int i, j;
+			for (i = 0; i < CircuitPath.Length; i++)
+			{
+				int length = CircuitPath[i].Length;
+				for (j = 1; j < length; j++)
+				{
+					int v = 0;
+					CircuitPath[i][j].Simulate(ref v);
+				}
+			}
+			CircuitPath = new Element[Path.Count][];
+			i = 0;
+			for (var enumerator = Path.GetEnumerator(); enumerator.MoveNext(); i++)
+			{
+				var v = enumerator.Current;
+				var visited = new HashSet<Device>
+				{
+					v
+				};
+				var neighbors = new DynamicArray<Device>(6);
+				var Q = new Queue<Device>();
+				int count;
+				Q.Enqueue(v);
+				while (Q.Count > 0)
+				{
+					v = Q.Dequeue();
+					neighbors.Clear();
+					elementblock.GetAllConnectedNeighbors(Utils.Terrain, v, 4, neighbors);
+					v.Next = new Element[neighbors.Count];
+					count = 0;
+					for (j = 0; j < neighbors.Count; j++)
+					{
+						var w = neighbors.Array[j];
+						if (visited.Add(w))
+						{
+							v.Next[count++] = w;
+							Q.Enqueue(w);
+						}
+					}
+				}
+				Element element = enumerator.Current;
+				var stack = new DynamicArray<Element>(1)
+				{
+					element
+				};
+				var arr = new Element[visited.Count];
+				count = 0;
+				while (stack.Count > 0)
+				{
+					if ((element = stack.Array[--stack.Count]) != null)
+					{
+						arr[count++] = element;
+						var next = element.Next;
+						for (j = 0; j < next.Length && next[j] != null; j++)
+							stack.Add(next[j]);
+					}
+				}
+				CircuitPath[i] = new Element[count];
+				Array.Copy(arr, CircuitPath[i], count);
+			}
+			Requests.Clear();
+			UpdatePath = false;
+
 		}
 		public override void Dispose()
 		{
@@ -232,12 +231,8 @@ namespace Game
 				var request = Requests.Dequeue();
 				if (request == null)
 					return;
-				if (UpdatePath)
-					Requests.Clear();
 				else
 				{
-					//request.IsInProgress = false;
-					//request.IsCompleted = true;
 					var elements = request;
 					int voltage = 0;
 					for (int i = 0; i < elements.Length; i++)

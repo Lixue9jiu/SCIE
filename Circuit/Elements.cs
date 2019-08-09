@@ -146,16 +146,14 @@ namespace Game
 	{
 		public T Component;
 		public string Name;
-		public EntityDevice(string ename, string name, string description = "") : base(name, description)
+		public EntityDevice(string ename, string name, string description = "", int voltage = 0) : base(name, description, voltage)
 		{
 			Name = ename;
 		}
 		public override Device Create(Point3 p)
 		{
-			var device = (EntityDevice<T>)base.Create(p);
-			device.Component = Utils.GetBlockEntity(p)?.Entity.FindComponent<T>(true);
-			device.Name = Name;
-			return device;
+			Component = Utils.GetBlockEntity(p)?.Entity.FindComponent<T>(true);
+			return this;
 		}
 		public virtual void OnBlockAdded(SubsystemTerrain subsystemTerrain, int value, int oldValue)
 		{
@@ -180,7 +178,7 @@ namespace Game
 	}
 	public abstract class InteractiveEntityDevice<T> : EntityDevice<T>, IInteractiveBlock where T : Component
 	{
-		protected InteractiveEntityDevice(string ename, string name, string description) : base(ename, name, description) { }
+		protected InteractiveEntityDevice(string ename, string name, string description, int voltage = 0) : base(ename, name, description, voltage) { }
 
 		public virtual bool OnInteract(TerrainRaycastResult raycastResult, ComponentMiner componentMiner)
 		{
@@ -192,5 +190,23 @@ namespace Game
 			return true;
 		}
 		public abstract Widget GetWidget(IInventory inventory, T component);
+	}
+	public abstract class InventoryEntityDevice<T> : InteractiveEntityDevice<T>, IElectricElementBlock where T : Component
+	{
+		protected InventoryEntityDevice(string ename, string name, string description, int voltage = 0) : base(ename, name, description, voltage) { }
+
+		public ElectricElement CreateElectricElement(SubsystemElectricity subsystemElectricity, int value, int x, int y, int z)
+		{
+			return new CraftingMachineElectricElement(subsystemElectricity, new Point3(x, y, z));
+		}
+		public ElectricConnectorType? GetConnectorType(SubsystemTerrain terrain, int value, int face, int connectorFace, int x, int y, int z)
+		{
+			return face == 4 || face == 5 ? (ElectricConnectorType?)ElectricConnectorType.Input : null;
+		}
+		public int GetConnectionMask(int value)
+		{
+			int? color = PaintableItemBlock.GetColor(Terrain.ExtractData(value));
+			return color.HasValue ? 1 << color.Value : 2147483647;
+		}
 	}
 }

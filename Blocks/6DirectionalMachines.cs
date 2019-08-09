@@ -5,7 +5,8 @@ namespace Game
 {
 	public enum MachineMode
 	{
-		Dispense, Shoot
+		Dispense, Shoot,
+		Charge = Dispense, Discharger = Shoot
 	}
 	public class DiversionBlock : SixDirectionalBlock
 	{

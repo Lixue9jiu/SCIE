@@ -151,7 +151,6 @@ namespace Game
 					if (item is MetalIngot)
 					{
 						text = item.GetCraftingId().Replace("Ingot", "Line");
-						//string text1 = item.GetDisplayName(Utils.SubsystemTerrain, value);
 						if (!ItemBlock.IdTable.ContainsKey(text))
 							return null;
 					}

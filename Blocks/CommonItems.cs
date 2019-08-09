@@ -143,12 +143,6 @@ namespace Game
 			m_collisionBoxes = new[] { m_standaloneBlockMesh.CalculateBoundingBox() };
 		}
 
-		public Ball(string meshName, Matrix boneTransform, Matrix tcTransform, string description = "", float size = 1f) : this("Models/" + meshName, meshName, boneTransform, tcTransform, size)
-		{
-			DefaultDisplayName = meshName;
-			DefaultDescription = description;
-		}
-
 		public Ball(string modelName, string meshName, Matrix boneTransform, Matrix tcTransform, string description = "", string name = "", float size = 1f) : this(modelName, meshName, boneTransform, tcTransform, size)
 		{
 			DefaultDisplayName = name;
