@@ -6,8 +6,7 @@ namespace Game
 {
 	public class BlockItem : Item
 	{
-		public string DefaultDisplayName;
-		public string DefaultDescription;
+		public string DefaultDisplayName, DefaultDescription;
 
 		public BlockItem()
 		{

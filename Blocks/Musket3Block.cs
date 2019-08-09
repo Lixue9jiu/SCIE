@@ -118,7 +118,7 @@ namespace Game
 		}
         public static int SetBulletNum(int data)
         {
-            int num = (int)(data);
+            int num = data;
             return (data & -241) | ((num & 0xF) << 4);
         }
     }

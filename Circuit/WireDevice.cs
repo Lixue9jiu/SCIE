@@ -293,20 +293,20 @@ namespace Game
 
 	public class ElectricFences : FixedDevice
 	{
-		//public BlockMesh[] m_blockMeshes = new BlockMesh[16];
-		//public BlockMesh m_coloredBlockMeshes = new BlockMesh();
+		public BlockMesh[] m_blockMeshes = new BlockMesh[16];
+		public BlockMesh m_coloredBlockMeshes = new BlockMesh();
 
-		public BoundingBox[][] m_collisionBoxes;
+		public BoundingBox[][] m_collisionBoxes = new BoundingBox[16][];
 		private readonly bool m_doubleSidedPlanks = true;
 
 		public ElectricFences() : base("电栅栏", "电栅栏", 120)
 		{
-			/*Model model = ContentManager.Get<Model>("Models/IronFence");
+			Model model = ContentManager.Get<Model>("Models/IronFence");
 			Matrix boneAbsoluteTransform = BlockMesh.GetBoneAbsoluteTransform(model.FindMesh("Post").ParentBone) * Matrix.CreateTranslation(.5f, 0f, .5f);
 			Matrix boneAbsoluteTransform2 = BlockMesh.GetBoneAbsoluteTransform(model.FindMesh("Planks").ParentBone) * Matrix.CreateTranslation(.5f, 0f, .5f);
 			for (int i = 0; i < 16; i++)
 			{
-				var list = new List<BoundingBox>();
+				var list = new DynamicArray<BoundingBox>();
 				var m = Matrix.CreateTranslation(0.5f, 0f, 0.5f);
 				var blockMesh = new BlockMesh();
 				blockMesh.AppendModelMeshPart(model.FindMesh("Post").MeshParts[0], boneAbsoluteTransform * m, false, false, false, false, Color.White);
@@ -317,10 +317,11 @@ namespace Game
 				item.Max.Z += 0.1f;
 				list.Add(item);
 				var blockMesh2 = new BlockMesh();
+				BlockMesh blockMesh1;
+				var m2 = Matrix.CreateTranslation(0.5f, 0f, 0.5f);
 				if ((i & 1) != 0)
 				{
-					var blockMesh1 = new BlockMesh();
-					Matrix m2 = Matrix.CreateRotationY(0f) * Matrix.CreateTranslation(0.5f, 0f, 0.5f);
+					blockMesh1 = new BlockMesh();
 					blockMesh1.AppendModelMeshPart(model.FindMesh("Planks").MeshParts[0], boneAbsoluteTransform2 * m2, false, false, false, false, Color.White);
 					if (m_doubleSidedPlanks)
 					{
@@ -331,20 +332,20 @@ namespace Game
 				}
 				if ((i & 2) != 0)
 				{
-					var blockMesh4 = new BlockMesh();
-					Matrix m3 = Matrix.CreateRotationY((float)Math.PI) * Matrix.CreateTranslation(0.5f, 0f, 0.5f);
-					blockMesh4.AppendModelMeshPart(model.FindMesh("Planks").MeshParts[0], boneAbsoluteTransform2 * m3, false, false, false, false, Color.White);
+					blockMesh1 = new BlockMesh();
+					Matrix m3 = Matrix.CreateRotationY((float)Math.PI) * m2;
+					blockMesh1.AppendModelMeshPart(model.FindMesh("Planks").MeshParts[0], boneAbsoluteTransform2 * m3, false, false, false, false, Color.White);
 					if (m_doubleSidedPlanks)
 					{
-						blockMesh4.AppendModelMeshPart(model.FindMesh("Planks").MeshParts[0], boneAbsoluteTransform2 * m3, false, true, false, true, Color.White);
+						blockMesh1.AppendModelMeshPart(model.FindMesh("Planks").MeshParts[0], boneAbsoluteTransform2 * m3, false, true, false, true, Color.White);
 					}
-					blockMesh2.AppendBlockMesh(blockMesh4);
-					list.Add(blockMesh4.CalculateBoundingBox());
+					blockMesh2.AppendBlockMesh(blockMesh1);
+					list.Add(blockMesh1.CalculateBoundingBox());
 				}
 				if ((i & 4) != 0)
 				{
-					var blockMesh1 = new BlockMesh();
-					Matrix m4 = Matrix.CreateRotationY(4.712389f) * Matrix.CreateTranslation(0.5f, 0f, 0.5f);
+					blockMesh1 = new BlockMesh();
+					Matrix m4 = Matrix.CreateRotationY(4.712389f) * m2;
 					blockMesh1.AppendModelMeshPart(model.FindMesh("Planks").MeshParts[0], boneAbsoluteTransform2 * m4, false, false, false, false, Color.White);
 					if (m_doubleSidedPlanks)
 					{
@@ -355,8 +356,8 @@ namespace Game
 				}
 				if ((i & 8) != 0)
 				{
-					var blockMesh1 = new BlockMesh();
-					Matrix m5 = Matrix.CreateRotationY((float)Math.PI / 2f) * Matrix.CreateTranslation(0.5f, 0f, 0.5f);
+					blockMesh1 = new BlockMesh();
+					Matrix m5 = Matrix.CreateRotationY((float)Math.PI / 2f) * m2;
 					blockMesh1.AppendModelMeshPart(model.FindMesh("Planks").MeshParts[0], boneAbsoluteTransform2 * m5, false, false, false, false, Color.White);
 					if (m_doubleSidedPlanks)
 					{
@@ -376,20 +377,31 @@ namespace Game
 				//m_coloredBlockMeshes[i].AppendBlockMesh(blockMesh2);
 				//m_coloredBlockMeshes[i].TransformTextureCoordinates(Matrix.CreateTranslation((float)(m_coloredTextureSlot % 16) / 16f, (float)(m_coloredTextureSlot / 16) / 16f, 0f));
 				//m_coloredBlockMeshes[i].GenerateSidesData();
-			m_collisionBoxes[i] = list.ToArray();
-			}*/
+				list.Capacity = list.Count;
+				m_collisionBoxes[i] = list.Array;
+			}
 		}
 
-		//public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
-		//{
-		//	BlocksManager.DrawMeshBlock(primitivesRenderer, m_blockMeshes[1], color * Color.LightGray, size * 2f, ref matrix, environmentData);
-		//}
-		//public override void GenerateTerrainVertices(Block block, BlockGeometryGenerator generator, TerrainGeometrySubsets geometry, int value, int x, int y, int z)
-		//{
-		//	generator.GenerateMeshVertices(block, x, y, z, m_blockMeshes[Terrain.ExtractData(value) >> 14], Color.White, null, geometry.SubsetOpaque);
-		//}
+		public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
+		{
+			BlocksManager.DrawMeshBlock(primitivesRenderer, m_blockMeshes[1], color * Color.LightGray, size * 2f, ref matrix, environmentData);
+		}
+		public override void GenerateTerrainVertices(Block block, BlockGeometryGenerator generator, TerrainGeometrySubsets geometry, int value, int x, int y, int z)
+		{
+			generator.GenerateMeshVertices(block, x, y, z, m_blockMeshes[Terrain.ExtractData(value) >> 14], Color.White, null, geometry.SubsetOpaque);
+		}
 		public override BlockPlacementData GetPlacementValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, TerrainRaycastResult raycastResult)
 		{
+			int x = raycastResult.CellFace.X,
+				y = raycastResult.CellFace.Y,
+				z = raycastResult.CellFace.Z;
+			int cellValue = subsystemTerrain.Terrain.GetCellValue(x + 1, y, z);
+			int cellValue2 = subsystemTerrain.Terrain.GetCellValue(x - 1, y, z);
+			int cellValue3 = subsystemTerrain.Terrain.GetCellValue(x, y, z + 1);
+			int cellValue4 = subsystemTerrain.Terrain.GetCellValue(x, y, z - 1);
+			int num2 = 0;
+			int data = Terrain.ExtractData(value);
+			int value2 = Terrain.ReplaceData(value, FenceBlock.SetVariant(data, num2));
 			return new BlockPlacementData { Value = value, CellFace = raycastResult.CellFace };
 		}
 
@@ -431,4 +443,4 @@ namespace Game
 			}
 		}
 	}*/
-		}
+}

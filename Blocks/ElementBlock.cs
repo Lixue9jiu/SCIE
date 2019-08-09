@@ -33,14 +33,24 @@ namespace Game
 		}
 		public Device GetDevice(int x, int y, int z, int value)
 		{
-			var device = GetItem(ref value);
-			return (device is Device d) ? d.Create(new Point3(x, y, z)) : null;
+			var p = new Point3(x, y, z);
+			if (SubsystemCircuit.Table.TryGetValue(p, out Device device))
+				return device;
+			device = GetItem(ref value) as Device;
+			if (device == null) return null;
+			device = (Device)device.Clone();
+			device.Point = p;
+			device.Next = new Element[0];
+			if ((device.Type & ElementType.Connector) != 0)
+			{
+				var color = GetColor(Terrain.ExtractData(Utils.Terrain.GetCellValue(p.X, p.Y, p.Z)));
+				device.Type = device.Type & ~ElementType.Connector | (color.HasValue ? (ElementType)(1 << (color.Value + 2)) : ElementType.Connector);
+			}
+			return device.Create(p);
 		}
-		public virtual Device GetDevice(Terrain terrain, int x, int y, int z)
+		public Device GetDevice(Terrain terrain, int x, int y, int z)
 		{
-			int value = terrain.GetCellValueFast(x, y, z);
-			var device = GetItem(ref value);
-			return (device is Device d) ? d.Create(new Point3(x, y, z)) : null;
+			return GetDevice(x, y, z, terrain.GetCellValueFast(x, y, z));
 		}
 		public void GetAllConnectedNeighbors(Terrain terrain, Device elem, int mountingFace, ICollection<ElectricConnectionPath> list)
 		{

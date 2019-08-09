@@ -10,7 +10,7 @@ namespace Game
 
 		public override Widget GetWidget(IInventory inventory, ComponentPresser component)
 		{
-			return new PresserWidget<ComponentPresser>(inventory, component, "Widgets/PresserWidget");
+			return new PresserWidget<ComponentPresser>(inventory, component);
 		}
 	}
 	public class SubsystemKibblerBlockBehavior : SubsystemInventoryBlockBehavior<ComponentKibbler>
@@ -23,7 +23,7 @@ namespace Game
 
 		public override Widget GetWidget(IInventory inventory, ComponentKibbler component)
 		{
-			return new PresserWidget<ComponentKibbler>(inventory, component, "Widgets/KibblerWidget");
+			return new PresserWidget<ComponentKibbler>(inventory, component);
 		}
 	}
     public class SubsystemSourBlockBehavior : SubsystemInventoryBlockBehavior<ComponentSour>
@@ -49,7 +49,7 @@ namespace Game
 
 		public override Widget GetWidget(IInventory inventory, ComponentPresserNN component)
 		{
-			return new PresserWidget<ComponentPresserNN>(inventory, component, "Widgets/PresserNNWidget");
+			return new PresserWidget<ComponentPresserNN>(inventory, component);
 		}
 	}
 	public class SubsystemSqueezerBlockBehavior : SubsystemInventoryBlockBehavior<ComponentSqueezer>
@@ -62,7 +62,7 @@ namespace Game
 
 		public override Widget GetWidget(IInventory inventory, ComponentSqueezer component)
 		{
-			return new PresserWidget<ComponentSqueezer>(inventory, component, "Widgets/SqueezerWidget");
+			return new PresserWidget<ComponentSqueezer>(inventory, component);
 		}
 	}
 	public class SubsystemCastMachBlockBehavior : SubsystemFurnaceBlockBehavior<ComponentCastMach>

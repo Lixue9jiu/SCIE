@@ -3,6 +3,7 @@ using System.Xml.Linq;
 
 namespace Game
 {
+	//´øFuelSlot
 	public class StoveWidget : PresserWidget<ComponentMachine>
 	{
 		protected readonly InventorySlotWidget m_fuelSlot;
@@ -30,10 +31,14 @@ namespace Game
 
 		protected readonly InventorySlotWidget m_resultSlot;
 
-		public PresserWidget(IInventory inventory, T component, string path)
+		public PresserWidget(IInventory inventory, T component, string path = null)
 		{
 			m_componentFurnace = component;
-			WidgetsManager.LoadWidgetContents(this, this, ContentManager.Get<XElement>(path));
+			WidgetsManager.LoadWidgetContents(this, this, ContentManager.Get<XElement>(path ?? "Widgets/PresserWidget"));
+			if (path == null)
+				Children.Find<LabelWidget>("ChestLabel").Text = component.ValuesDictionary.DatabaseObject.Name;
+			if (Utils.TR.Count != 0)
+				Children.Find<LabelWidget>("InventoryLabel").Text = "±³°ü";
 			m_inventoryGrid = Children.Find<GridPanelWidget>("InventoryGrid");
 			m_furnaceGrid = Children.Find<GridPanelWidget>("FurnaceGrid");
 			m_fire = Children.Find<FireWidget>("Fire");

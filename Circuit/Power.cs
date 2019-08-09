@@ -4,12 +4,12 @@ using System;
 using System.Collections.Generic;
 
 namespace Game
-{//ElementType.Container | ElementType.Connector |
-	public class Generator : DeviceBlock, IBlockBehavior, IInteractiveBlock, IUnstableBlock
+{
+	public class Generator : FixedDevice, IBlockBehavior, IInteractiveBlock, IUnstableBlock
 	{
-		public bool Powered;
-		public Generator(int voltage = 310) : base(voltage, "直流发电机", "发电机是交流发电机产生之前的电力基础，它允许你把机械能转换成电能，这样你就可以使用很多电器了。", ElementType.Supply | ElementType.Connector)
+		public Generator(int voltage = 310) : base("直流发电机", "发电机是交流发电机产生之前的电力基础，它允许你把机械能转换成电能，这样你就可以使用很多电器了。", voltage)
 		{
+			Type = ElementType.Supply | ElementType.Connector;
 		}
 		public override void Simulate(ref int voltage)
 		{
@@ -22,11 +22,9 @@ namespace Game
 		}
 		public override BlockPlacementData GetPlacementValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, TerrainRaycastResult raycastResult)
 		{
-			return FixedDevice.GetPlacementValue(1, componentMiner, value, raycastResult);
+			return GetPlacementValue(1, componentMiner, value, raycastResult);
 		}
 
-		//public static int GetDirection(int data) => data & 7;
-		//public static int SetDirection(int data, int direction) => (data & -8) | (direction & 7);
 		public override bool IsFaceTransparent(SubsystemTerrain subsystemTerrain, int face, int value) => false;
 		public void OnBlockAdded(SubsystemTerrain subsystemTerrain, int value, int oldValue)
 		{
@@ -44,37 +42,32 @@ namespace Game
 	}
 	public class ACGenerator : Generator
 	{
-		public ACGenerator() : base(220)
+		public ACGenerator() : base(-220)
 		{
 			DefaultDisplayName = "交流发电机";
 		}
-		public override void Simulate(ref int voltage)
-		{
-			if (Powered)
-				voltage -= Voltage;
-		}
 		public override BlockPlacementData GetPlacementValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, TerrainRaycastResult raycastResult)
 		{
-			return FixedDevice.GetPlacementValue(28, componentMiner, value, raycastResult);
+			return GetPlacementValue(28, componentMiner, value, raycastResult);
 		}
 	}
-	public class Battery : DeviceBlock, IBlockBehavior, IHarvestingItem, IInteractiveBlock, IEquatable<Battery>
+	public class Battery : FixedDevice, IHarvestingItem, IInteractiveBlock, IEquatable<Battery>
 	{
 		public int Factor = 1;
 		public readonly BoundingBox[] m_collisionBoxes;
 		protected readonly BlockMesh m_standaloneBlockMesh = new BlockMesh();
 		public int RemainCount = 600;
 		readonly string Id;
-		public Battery(Matrix tcTransform, string name = "", string description = "", string id = "", int voltage = 12, string modelName = "Models/Battery", string meshName = "Battery") : base(voltage, name, description, ElementType.Connector | ElementType.Container)
+		public Battery(Matrix tcTransform, string name = "", string description = "", string id = "", int voltage = 12, string modelName = "Models/Battery", string meshName = "Battery") : base(name, description, voltage)
 		{
+			Type = ElementType.Connector | ElementType.Container;
 			m_standaloneBlockMesh.AppendMesh(modelName, meshName, Matrix.CreateTranslation(0f, -0.5f, 0f) * Matrix.CreateTranslation(new Vector3(0.5f)), tcTransform, Color.LightGray);
 			m_collisionBoxes = new BoundingBox[] { m_standaloneBlockMesh.CalculateBoundingBox() };
 			Id = id;
 		}
 		public override void GenerateTerrainVertices(Block block, BlockGeometryGenerator generator, TerrainGeometrySubsets geometry, int value, int x, int y, int z)
 		{
-			if ((Terrain.ExtractData(value) & 16384) != 0)
-				RemainCount = 0;
+			RemainCount = (Terrain.ExtractData(value) >> 14 & 1 ^ 1) * 600;
 			Utils.BlockGeometryGenerator.GenerateMeshVertices(block, x, y, z, m_standaloneBlockMesh, SubsystemPalette.GetColor(generator, PaintableItemBlock.GetColor(Terrain.ExtractData(value))), null, Utils.GTV(x, z, geometry).SubsetOpaque);
 			WireDevice.GenerateWireVertices(generator, value, x, y, z, 4, 0f, Vector2.Zero, geometry.SubsetOpaque);
 		}
@@ -93,33 +86,30 @@ namespace Game
 			return true;
 		}
 		public override BoundingBox[] GetCustomCollisionBoxes(SubsystemTerrain terrain, int value) => m_collisionBoxes;
-		public void OnBlockRemoved(SubsystemTerrain terrain, int value, int newValue)
-		{
-			Simulate(ref value);
-		}
-		public void OnBlockAdded(SubsystemTerrain terrain, int value, int newValue)
-		{
-			Simulate(ref value);
-		}
 		public override void Simulate(ref int voltage)
 		{
+			int x, y, z;
 			if (voltage == 0 && RemainCount > 0)
 			{
 				voltage = Voltage;
 				RemainCount--;
 				if (RemainCount <= 0)
 				{
-					int x = Point.X,
-						y = Point.Y,
-						z = Point.Z;
+					x = Point.X;
+					y = Point.Y;
+					z = Point.Z;
 					Utils.Terrain.SetCellValueFast(x, y, z, Utils.Terrain.GetCellValueFast(x, y, z) | 16384 << 14);
 				}
 				return;
 			}
-			if (voltage >= Voltage && RemainCount<=600)
+			if (voltage >= Voltage && RemainCount <= 600)
 			{
 				voltage -= Voltage;
 				RemainCount += Factor;
+				x = Point.X;
+				y = Point.Y;
+				z = Point.Z;
+				Utils.Terrain.SetCellValueFast(x, y, z, Utils.Terrain.GetCellValueFast(x, y, z) & ~(16384 << 14));
 			}
 		}
 		public bool Equals(Battery other) => base.Equals(other) && Factor == other.Factor;
@@ -131,11 +121,12 @@ namespace Game
 				dropValue.Value = Terrain.ReplaceLight(blockValue, 0) | 16384 << 14;
 		}
 	}
-	public class MachRod : DeviceBlock
+	public class MachRod : FixedDevice
 	{
 		public BlockMesh[] m_blockMeshesByData = new BlockMesh[6];
-		public MachRod() : base(0, "连接杆", "连接杆", ElementType.Rod)
+		public MachRod() : base("连接杆", "连接杆", 0)
 		{
+			Type = ElementType.Rod;
 			Model model = ContentManager.Get<Model>("Models/Pistons");
 			const string name = "PistonShaft";
 			Matrix boneAbsoluteTransform = BlockMesh.GetBoneAbsoluteTransform(model.FindMesh(name).ParentBone);
@@ -152,17 +143,17 @@ namespace Game
 			BlocksManager.DrawMeshBlock(primitivesRenderer, m_blockMeshesByData[0], color, size, ref matrix, environmentData);
 		}
 	}
-	public class LED : DeviceBlock
+	public class LED : FixedDevice
 	{
 		public BlockMesh[] m_blockMeshesByFace = new BlockMesh[6];
 		public BoundingBox[][] m_collisionBoxesByFace = new BoundingBox[6][];
-		public LED() : base(12, "LED", "LED")
+		public LED() : base("LED", "LED", 12)
 		{
 			ModelMesh modelMesh = ContentManager.Get<Model>("Models/Leds").FindMesh("OneLed");
 			Matrix boneAbsoluteTransform = BlockMesh.GetBoneAbsoluteTransform(modelMesh.ParentBone);
 			for (int i = 0; i < 6; i++)
 			{
-				Matrix m = (i >= 4) ? ((i != 4) ? (Matrix.CreateRotationX((float)Math.PI) * Matrix.CreateTranslation(0.5f, 1f, 0.5f)) : Matrix.CreateTranslation(0.5f, 0f, 0.5f)) : (Matrix.CreateRotationX((float)Math.PI / 2f) * Matrix.CreateTranslation(0f, 0f, -0.5f) * Matrix.CreateRotationY((float)i * (float)Math.PI / 2f) * Matrix.CreateTranslation(0.5f, 0.5f, 0.5f));
+				Matrix m = i >= 4 ? ((i != 4) ? (Matrix.CreateRotationX((float)Math.PI) * Matrix.CreateTranslation(0.5f, 1f, 0.5f)) : Matrix.CreateTranslation(0.5f, 0f, 0.5f)) : (Matrix.CreateRotationX((float)Math.PI / 2f) * Matrix.CreateTranslation(0f, 0f, -0.5f) * Matrix.CreateRotationY(i * (float)Math.PI / 2f) * Matrix.CreateTranslation(0.5f, 0.5f, 0.5f));
 				m_blockMeshesByFace[i] = new BlockMesh();
 				m_blockMeshesByFace[i].AppendModelMeshPart(modelMesh.MeshParts[0], boneAbsoluteTransform * m, false, false, false, false, Color.White);
 				m_collisionBoxesByFace[i] = new[] { m_blockMeshesByFace[i].CalculateBoundingBox() };
@@ -170,15 +161,17 @@ namespace Game
 		}
 		public override int GetEmittedLightAmount()
 		{
-			return 0;
+			return Powered ? 15 : 0;
 		}
+		public override BoundingBox[] GetCustomCollisionBoxes(SubsystemTerrain terrain, int value) => m_collisionBoxesByFace[Terrain.ExtractData(value) >> 14];
 	}
-	public class SolarPanel : DeviceBlock
+	public class SolarPanel : FixedDevice
 	{
 		public BlockMesh m_standaloneBlockMesh = new BlockMesh();
 		public BoundingBox[] m_collisionBoxes;
-		public SolarPanel(string name, int voltage = 100) : base(voltage, name, name, ElementType.Supply | ElementType.Connector)
+		public SolarPanel(string name, int voltage = 100) : base(name, name, voltage)
 		{
+			Type = ElementType.Supply | ElementType.Connector;
 			Model model = ContentManager.Get<Model>("Models/CellTrapdoor");
 			Matrix boneAbsoluteTransform = BlockMesh.GetBoneAbsoluteTransform(model.FindMesh("Trapdoor").ParentBone);
 			m_standaloneBlockMesh.AppendModelMeshPart(model.FindMesh("Trapdoor").MeshParts[0], boneAbsoluteTransform * Matrix.CreateTranslation(0.5f, 0, 0.5f), false, false, false, false, Color.White);

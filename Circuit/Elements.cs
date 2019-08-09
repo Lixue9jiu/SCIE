@@ -46,7 +46,7 @@ namespace Game
 		Rod = RodX | RodY | RodZ
 	}
 	//[Serializable]
-	public abstract class Element : Item, IEquatable<Element>, INode
+	public abstract class Element : Item, IEquatable<Element>, INode, ICloneable
 	{
 		public ElementType Type;
 		//public ElectricConnectorDirection Direction;
@@ -59,6 +59,10 @@ namespace Game
 		{
 		}
 		#region implements & overloads
+		public object Clone()
+		{
+			return MemberwiseClone();
+		}
 		public override bool Equals(object obj)
 		{
 			return Equals(obj as Element);
@@ -82,17 +86,7 @@ namespace Game
 		protected Device(ElementType type = ElementType.Device | ElementType.Connector) : base(type) { }
 		public virtual Device Create(Point3 p)
 		{
-			if (SubsystemCircuit.Table.TryGetValue(p, out Device device))
-				return device;
-			device = (Device)MemberwiseClone();
-			device.Point = p;
-			device.Next = new Element[0];
-			if ((device.Type & ElementType.Connector) != 0)
-			{
-				var color = PaintableItemBlock.GetColor(Terrain.ExtractData(Utils.Terrain.GetCellValue(p.X, p.Y, p.Z)));
-				device.Type = device.Type & ~ElementType.Connector | (color.HasValue ? (ElementType)(1 << (color.Value + 2)) : ElementType.Connector);
-			}
-			return device;
+			return this;
 		}
 		public override void GenerateTerrainVertices(Block block, BlockGeometryGenerator generator, TerrainGeometrySubsets geometry, int value, int x, int y, int z)
 		{
@@ -117,15 +111,13 @@ namespace Game
 	[Serializable]
 	public abstract class FixedDevice : Device, IEquatable<FixedDevice>
 	{
-		public readonly int Voltage;
+		public int Voltage;
 		public int Index;
 		public bool Powered;
-		public string DefaultDisplayName;
-		public string DefaultDescription;
+		public string DefaultDisplayName, DefaultDescription;
 
 		protected FixedDevice(string name, string description = "", int voltage = 0)
 		{
-			//if (resistance < 1) throw new ArgumentOutOfRangeException("resistance", resistance, "Device has Resistance < 1");
 			DefaultDisplayName = Utils.Get(name);
 			DefaultDescription = Utils.Get(description);
 			Voltage = voltage;
@@ -149,22 +141,6 @@ namespace Game
 				CellFace = raycastResult.CellFace
 			};
 		}
-	}
-	public abstract class DeviceBlock : Device, IEquatable<DeviceBlock>//, IComparable<DeviceBlock>
-	{
-		public string DefaultDisplayName, DefaultDescription;
-		public readonly int Voltage;
-
-		protected DeviceBlock(int voltage, string name = "", string description = "", ElementType type = ElementType.Device | ElementType.Connector) : base(type)
-		{
-			DefaultDisplayName = Utils.Get(name);
-			DefaultDescription = Utils.Get(description);
-			Voltage = voltage;
-		}
-		public override string GetDisplayName(SubsystemTerrain subsystemTerrain, int value) => DefaultDisplayName;
-		public override string GetDescription() => DefaultDescription;
-		//public int CompareTo(DeviceBlock other) => Voltage.CompareTo(other.Voltage);
-		public bool Equals(DeviceBlock other) => base.Equals(other) && Voltage == other.Voltage;
 	}
 	public class EntityDevice<T> : FixedDevice, IBlockBehavior, IItemAcceptableBlock where T : Component
 	{
