@@ -436,15 +436,18 @@ namespace Game
 		}
 		public override void Simulate(ref int voltage)
         {
-            if (Charged)
+            if (Component.Charged)
             {
-                voltage += Voltage;
-				Energy -= Voltage;
-            }
-            else
+				if (voltage > 0)
+				{
+					Component.m_fireTimeRemaining = MathUtils.Min(Component.m_fireTimeRemaining + voltage, 10000000f);
+					voltage = 0;
+				}
+			}
+            else if (Component.m_fireTimeRemaining>=310f)
             {
-                Energy += voltage;
-                voltage = 0;
+				Component.m_fireTimeRemaining -= 310f;
+				voltage += 310;
             }
         }
         public override int GetFaceTextureSlot(int face, int value)
@@ -525,6 +528,57 @@ namespace Game
 		{
 			return new ChargerWidget(inventory, component);
 		}
+		public ElectricElement CreateElectricElement(SubsystemElectricity subsystemElectricity, int value, int x, int y, int z)
+		{
+			return new CraftingMachineElectricElement(subsystemElectricity, new Point3(x, y, z));
+		}
+
+		public ElectricConnectorType? GetConnectorType(SubsystemTerrain terrain, int value, int face, int connectorFace, int x, int y, int z)
+		{
+			return face == 4 || face == 5 ? (ElectricConnectorType?)ElectricConnectorType.Input : null;
+		}
+
+		public int GetConnectionMask(int value)
+		{
+			int? color = PaintableItemBlock.GetColor(Terrain.ExtractData(value));
+			return color.HasValue ? 1 << color.Value : 2147483647;
+		}
+	}
+	public class TGenerator : InteractiveEntityDevice<ComponentTGenerator>, IElectricElementBlock
+	{
+		public TGenerator() : base("TGenerator", "热能发电机", "热能发电机是一种利用金属温差发电的装置，它可以把岩浆转换为能量") { Type = ElementType.Supply | ElementType.Connector; }
+
+		public override void Simulate(ref int voltage)
+		{
+			if (Component.Powered)
+			{
+				voltage += 310;
+			}
+				
+		}
+
+		public override void OnBlockAdded(SubsystemTerrain subsystemTerrain, int value, int oldValue)
+		{
+			base.OnBlockAdded(subsystemTerrain, value, oldValue);
+			//Component.Powered = false;
+		}
+
+		public override int GetFaceTextureSlot(int face, int value)
+		{
+			return face != 4 && face != 5 && face == (Terrain.ExtractData(value) >> 15) ? 125 : 107;
+			//face == direction ? GetHeatLevel(value) > 0 ? 124 : 124 : face == CellFace.OppositeFace(direction) ? 107 : 159;
+		}
+
+		public override BlockPlacementData GetPlacementValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, TerrainRaycastResult raycastResult)
+		{
+			return GetPlacementValue(36, componentMiner, value, raycastResult);
+		}
+
+		public override Widget GetWidget(IInventory inventory, ComponentTGenerator component)
+		{
+			return new TGeneratorWidget(inventory, component);
+		}
+
 		public ElectricElement CreateElectricElement(SubsystemElectricity subsystemElectricity, int value, int x, int y, int z)
 		{
 			return new CraftingMachineElectricElement(subsystemElectricity, new Point3(x, y, z));

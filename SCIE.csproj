@@ -106,6 +106,7 @@
     <Compile Include="Components\ComponentPlayer.cs" />
     <Compile Include="Components\ComponentSeperator.cs" />
     <Compile Include="Components\ComponentSour.cs" />
+    <Compile Include="Components\ComponentTGenerator.cs" />
     <Compile Include="Components\ComponentTrain.cs" />
     <Compile Include="Components\ComponentUnloader.cs" />
     <Compile Include="Common\I18N.cs" />
@@ -131,6 +132,7 @@
     <Compile Include="Subsystems\SubsystemRailBlockBehavior.cs" />
     <Compile Include="Subsystems\SubsystemSourceOfFireBlockBehavior.cs" />
     <Compile Include="Common\Utils.cs" />
+    <Compile Include="Subsystems\TorchBehavior.cs" />
     <Compile Include="Widgets\CanpackWidget.cs" />
     <Compile Include="Widgets\ChargerWidget.cs" />
     <Compile Include="Widgets\CondenserWidget.cs" />
@@ -181,6 +183,7 @@
     <Compile Include="Subsystems\SubsystemNSoilBlockBehavior.cs" />
     <Compile Include="Blocks\TankBlock.cs" />
     <Compile Include="Chemistry\Atom.cs" />
+    <Compile Include="Widgets\TGeneratorWidget.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

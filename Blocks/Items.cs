@@ -258,8 +258,9 @@ namespace Game
                 new AirPump(),
 				new ElectricFences(),
 				new Transformer(),
-				new Charger(),
-            };
+				new Charger(),//35
+				new TGenerator(),
+			};
 			IdTable = new Dictionary<string, int>(Items.Length);
 			int i;
 			for (i = 0; i < Items.Length; i++)
