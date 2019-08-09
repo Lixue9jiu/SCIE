@@ -551,10 +551,7 @@ namespace Game
 		public override void Simulate(ref int voltage)
 		{
 			if (Component.Powered)
-			{
 				voltage += 310;
-			}
-				
 		}
 
 		public override void OnBlockAdded(SubsystemTerrain subsystemTerrain, int value, int oldValue)

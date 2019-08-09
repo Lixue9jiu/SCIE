@@ -117,14 +117,13 @@ namespace Game
 
 		public Plate(string name, Color color, bool small = false)
 		{
-			if (small)
-				m_standaloneBlockMesh.TransformPositions(Matrix.CreateScale(.5f));
 			Id = DefaultDisplayName = DefaultDescription = name;
-			m_standaloneBlockMesh.AppendMesh("Models/Ingots", "IronPlate", Matrix.CreateTranslation(0.5f, 0f, 0.5f), Matrix.Identity, color);
+			Matrix matrix = small ? Matrix.CreateScale(.5f) : Matrix.Identity;
+			m_standaloneBlockMesh.AppendMesh("Models/Ingots", "IronPlate", Matrix.CreateTranslation(0.5f, 0f, 0.5f) * matrix, Matrix.Identity, color);
 			m_collisionBoxes = new BoundingBox[] { m_standaloneBlockMesh.CalculateBoundingBox() };
 		}
 
-		public Plate(Materials type, bool small = false) : this(type.ToString() + "Plate", MetalBlock.GetColor(type))
+		public Plate(Materials type, bool small = false) : this(type.ToString() + "Plate", MetalBlock.GetColor(type), small)
 		{
 			string name = type.ToStr();
 			if (small)

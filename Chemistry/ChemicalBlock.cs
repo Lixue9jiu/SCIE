@@ -141,7 +141,7 @@ namespace Game
 			//list.Add(new PurePowder("AlH₃"));
 			list.Add(new PurePowder("KH"));
 			list.Add(new PurePowder("CaH₂"));
-			list.Add(new PurePowder("Na₃P"));
+			list.Add(new PurePowder("Na₃P", Color.Red));
 			//list.Add(new Cylinder("B₂H₆"));
 			list.Add(new Cylinder("C₂H₄"));
 			list.Capacity = list.m_count;

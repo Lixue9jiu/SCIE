@@ -51,7 +51,7 @@ namespace Game
 			return GetPlacementValue(28, componentMiner, value, raycastResult);
 		}
 	}
-	public class Battery : FixedDevice, IBlockBehavior, IHarvestingItem, IInteractiveBlock, IEquatable<Battery>
+	public class Battery : FixedDevice, IHarvestingItem, IInteractiveBlock, IEquatable<Battery>
 	{
 		public int Factor = 1;
 		public readonly BoundingBox[] m_collisionBoxes;
@@ -67,8 +67,7 @@ namespace Game
 		}
 		public override void GenerateTerrainVertices(Block block, BlockGeometryGenerator generator, TerrainGeometrySubsets geometry, int value, int x, int y, int z)
 		{
-			if ((Terrain.ExtractData(value) & 16384) != 0)
-				RemainCount = 0;
+			RemainCount = (Terrain.ExtractData(value) >> 14 & 1 ^ 1) * 600;
 			Utils.BlockGeometryGenerator.GenerateMeshVertices(block, x, y, z, m_standaloneBlockMesh, SubsystemPalette.GetColor(generator, PaintableItemBlock.GetColor(Terrain.ExtractData(value))), null, Utils.GTV(x, z, geometry).SubsetOpaque);
 			WireDevice.GenerateWireVertices(generator, value, x, y, z, 4, 0f, Vector2.Zero, geometry.SubsetOpaque);
 		}
@@ -87,33 +86,30 @@ namespace Game
 			return true;
 		}
 		public override BoundingBox[] GetCustomCollisionBoxes(SubsystemTerrain terrain, int value) => m_collisionBoxes;
-		public void OnBlockRemoved(SubsystemTerrain terrain, int value, int newValue)
-		{
-			Simulate(ref value);
-		}
-		public void OnBlockAdded(SubsystemTerrain terrain, int value, int newValue)
-		{
-			Simulate(ref value);
-		}
 		public override void Simulate(ref int voltage)
 		{
+			int x, y, z;
 			if (voltage == 0 && RemainCount > 0)
 			{
 				voltage = Voltage;
 				RemainCount--;
 				if (RemainCount <= 0)
 				{
-					int x = Point.X,
-						y = Point.Y,
-						z = Point.Z;
+					x = Point.X;
+					y = Point.Y;
+					z = Point.Z;
 					Utils.Terrain.SetCellValueFast(x, y, z, Utils.Terrain.GetCellValueFast(x, y, z) | 16384 << 14);
 				}
 				return;
 			}
-			if (voltage >= Voltage && RemainCount<=600)
+			if (voltage >= Voltage && RemainCount <= 600)
 			{
 				voltage -= Voltage;
 				RemainCount += Factor;
+				x = Point.X;
+				y = Point.Y;
+				z = Point.Z;
+				Utils.Terrain.SetCellValueFast(x, y, z, Utils.Terrain.GetCellValueFast(x, y, z) & ~(16384 << 14));
 			}
 		}
 		public bool Equals(Battery other) => base.Equals(other) && Factor == other.Factor;
