@@ -101,11 +101,24 @@ namespace Game
 			Utils.BlockGeometryGenerator.GenerateCubeVertices(this, value, x, y, z, SubsystemPalette.GetColor(generator, GetPaintColor(value)), Utils.GTV(x, z, geometry).OpaqueSubsetsByFace);
 		}
 	}
-    public class CReactorBlock : PaintedCubeBlock
+	public class CReactorBlock : PaintedCubeBlock
 	{
 		public const int Index = 524;
 
-		public CReactorBlock() : base(107) { }
+		public CReactorBlock() : base(0) { }
+
+		public override IEnumerable<int> GetCreativeValues()
+		{
+			var arr = new int[34];
+			arr[0] = BlockIndex;
+			int i;
+			for (i = 1; i < 17; i++)
+				arr[i] = BlockIndex | SetColor(0, i - 1) << 14;
+			arr[17] = BlockIndex | 1 << 24;
+			for (i = 18; i < 34; i++)
+				arr[i] = BlockIndex | SetColor(1 << 10, i - 1) << 14;
+			return arr;
+		}
 
 		public override int GetFaceTextureSlot(int face, int value)
 		{
@@ -120,6 +133,15 @@ namespace Game
 		public override void GenerateTerrainVertices(BlockGeometryGenerator generator, TerrainGeometrySubsets geometry, int value, int x, int y, int z)
 		{
 			Utils.BlockGeometryGenerator.GenerateCubeVertices(this, value, x, y, z, SubsystemPalette.GetColor(generator, GetPaintColor(value)), Utils.GTV(x, z, geometry).OpaqueSubsetsByFace);
+		}
+
+		public override string GetDisplayName(SubsystemTerrain subsystemTerrain, int value)
+		{
+			return (Terrain.ExtractData(value) & 1024) != 0 ? Utils.Get("Õæ¿ÕÂ¯") : DefaultDisplayName;
+		}
+		public override string GetDescription(int value)
+		{
+			return (Terrain.ExtractData(value) & 1024) != 0 ? Utils.Get("Õæ¿ÕÂ¯") : DefaultDescription;
 		}
 	}
 	public class BlastFurnaceBlock : FourDirectionalBlock
@@ -221,13 +243,13 @@ namespace Game
 		public new const int Index = 532;
 		public static readonly string[] Names = new[]
 		{
+			"¿ÕÆøÔ¤ÈÈÂ¯",
 			"ÍË»ðÂ¯",
 			"ÕÖÊ½Â¯",
 			"ÏäÊ½Â¯",
 			"ÃºÆøÂ¯",
 			"´ã»ðÂ¯",
 			"È¼Æø¼ÓÈÈÂ¯",
-			"Õæ¿ÕÂ¯",
 			"²£Á§ÍË»ðÒ¤",
 		};
 
@@ -237,8 +259,8 @@ namespace Game
 		}
 		public override IEnumerable<int> GetCreativeValues()
 		{
-			var arr = new int[17 * 9];
-			for (int i = 0; i < 9; i++)
+			var arr = new int[17 * 8];
+			for (int i = 0; i < 8; i++)
 			{
 				arr[i * 17] = BlockIndex | i << 24;
 				for (int j = 1; j < 17; j++)
@@ -262,7 +284,7 @@ namespace Game
 		}
 		public override string GetDisplayName(SubsystemTerrain subsystemTerrain, int value)
 		{
-			return SubsystemPalette.GetName(subsystemTerrain, GetPaintColor(value), Terrain.ExtractData(value) >> 10 != 0 ? Names[(Terrain.ExtractData(value) >> 10) - 1] : DefaultDisplayName);
+			return SubsystemPalette.GetName(subsystemTerrain, GetPaintColor(value), Names[Terrain.ExtractData(value) >> 10]);
 		}
 	}
 	public class EngineBlock : FurnaceNBlock

@@ -430,7 +430,7 @@
       <Parameter Name="Class" Guid="fb4c23fe-1d3c-467e-81bc-1796f686be51" Value="Game.ComponentEngine" Type="string" />
       <Parameter Name="SlotsCount" Guid="3dad5622-a4c0-4ad5-85f8-813ef26dae6b" Value="3" Type="int" />
     </ComponentTemplate>
-	<ComponentTemplate Name="ICEngine" Description="A steamengine" Guid="f93f7996-de35-4e94-ba6e-90cd55cd19d4" InheritanceParent="81a44c6a-c30a-4f53-8d64-0c30aabab8f9">
+	<ComponentTemplate Name="ICEngine" Description="A steamengine" Guid="f93f7996-de35-4e94-ba6e-90cd55cd19d4" InheritanceParent="81a44c6a-c30a-4f53-8d64-0c30aabab8fa">
       <Parameter Name="Class" Guid="fb6c27ea-1d3c-467e-81bc-1796f686be51" Value="Game.ComponentICEngine" Type="string" />
     </ComponentTemplate>
     <ComponentTemplate Name="CastMach" Description="A castmach" Guid="c93f7909-de35-4e94-ba6e-90cd55cd19d4" InheritanceParent="81a44c6a-c30a-4f53-8d64-0c30aabab8f9">
