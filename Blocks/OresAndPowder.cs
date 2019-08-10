@@ -7,7 +7,7 @@ namespace Game
 {
 	public class OreChunk : FlatItem
 	{
-		protected string Id;
+		public string Id;
 		protected readonly BlockMesh m_standaloneBlockMesh = new BlockMesh();
 
 		public OreChunk(Matrix transform, Matrix tcTransform, Color color, bool smooth, Materials type)
@@ -98,7 +98,7 @@ namespace Game
 	{
 		public CokeCoal() : base(Matrix.CreateRotationX(1f) * Matrix.CreateRotationZ(2f), Matrix.CreateTranslation(0.0625f, 0.4375f, 0f), new Color(175, 175, 175), false, Materials.Steel)
 		{
-			Id = "CokeCoal";
+			Id = "CokeCoalChunk";
 			DefaultDisplayName = Utils.Get("焦炭");
 			DefaultDescription = "焦炭看起来像炼焦煤获得的银块。 它可以用作工业领域中的燃料或还原剂。";
 		}

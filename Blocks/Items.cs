@@ -171,7 +171,9 @@ namespace Game
 			new Wrench(Color.White),
 			new OreChunk(Matrix.CreateRotationX(1f) * Matrix.CreateRotationZ(1f), Matrix.CreateTranslation(0.0625f, 0.4375f, 0f), Color.White, false, Materials.Steel)
 			{
-				DefaultDisplayName = "石膏"
+				Id = "石膏",
+				DefaultDisplayName = "石膏",
+				DefaultDescription = "石膏"
 			},
 			new Powder("石膏粉", Color.White),
 			new Plate("多晶硅", Color.DarkGray, true),

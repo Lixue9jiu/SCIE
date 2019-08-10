@@ -152,12 +152,6 @@
         <Parameter Name="SlotsCount" Guid="3ded56f6-a4c0-4ad5-85f8-813ef26dae6b" Value="4" Type="int" />
       </MemberComponentTemplate>
     </EntityTemplate>
-	<EntityTemplate Name="Deposit" Guid="b4f77a67-f37d-455f-9a43-803260a915a9">
-      <MemberComponentTemplate Name="BlockEntity" Guid="c2145fcd-8133-4bee-ad3e-bde77df10654" InheritanceParent="09a85cba-d94e-41b8-9497-f20ed942c17e" />
-      <MemberComponentTemplate Name="Deposit" Guid="e8f41871-dfe9-4331-900e-4c5f3ce25348" InheritanceParent="c9aa7911-de35-4e94-ba6e-90cd55cd19d4">
-        <Parameter Name="SlotsCount" Guid="3ded56f6-a4c7-4ad5-85f9-813ef26dae6b" Value="6" Type="int" />
-      </MemberComponentTemplate>
-    </EntityTemplate>
     <EntityTemplate Name="CReactor" Guid="b4f43059-d37d-455f-9a43-803260a915a9">
     <MemberComponentTemplate Name="BlockEntity" Guid="b2f453dd-8233-4bee-ad3e-bde77df10654" InheritanceParent="09a85cba-d94e-41b8-9497-f20ed942c17e" />
     <MemberComponentTemplate Name="CReactor" Guid="e9f43844-dfe9-4331-900e-4c5f3ce25348" InheritanceParent="c9ff7976-de35-4e94-ba6e-90cd55cd19d4">
@@ -383,6 +377,9 @@
     <ComponentTemplate Name="BoatI" Description="Takes player inputs and controls a creature with them" Guid="572b36f3-6ee6-442a-900f-b4caba94be39" InheritanceParent="b05700ed-7e4e-4679-98f5-b597f421496b">
       <Parameter Name="Class" Guid="5a7229b2-7adc-4d13-8889-d94503c52184" Value="Game.ComponentBoatI" Type="string" />
     </ComponentTemplate>
+    <ComponentTemplate Name="Machine" Guid="81a44c6a-c30a-4f53-8d64-0c30aabab8fa" InheritanceParent="81a44c6a-c30a-4f53-8d64-0c30aabab8f9">
+      <Parameter Name="SlotsCount" Guid="3ded5622-a4c0-4ad5-85f8-813ef26dae6b" Value="2" Type="int" />
+    </ComponentTemplate>
     <ComponentTemplate Name="Airship" Description="Takes player inputs and controls a creature with them" Guid="572b36f4-6ee6-442a-900f-b4caba94be39" InheritanceParent="b05700ed-7e4e-4679-98f5-b597f421496b">
       <Parameter Name="Class" Guid="5a7249b2-7adc-4d13-8889-d94503c52184" Value="Game.ComponentAirship" Type="string" />
     </ComponentTemplate>
@@ -442,25 +439,22 @@
      <ComponentTemplate Name="AirshipTable" Description="A steamengine" Guid="98fdc888-8ca8-4d0f-af8d-25bfe9b56a19" InheritanceParent="81a44c6a-c30a-4f53-8d64-0c30aabab8f9">
       <Parameter Name="Class" Guid="fb4c44fe-1d3c-467e-81bc-1796f68fbe51" Value="Game.ComponentEngineA" Type="string" />
     </ComponentTemplate>
-    <ComponentTemplate Name="Presser" Description="A presser" Guid="c9ff7906-de35-4e94-ba6e-90cd55cd19d4" InheritanceParent="81a44c6a-c30a-4f53-8d64-0c30aabab8f9">
+    <ComponentTemplate Name="Presser" Description="A presser" Guid="c9ff7906-de35-4e94-ba6e-90cd55cd19d4" InheritanceParent="81a44c6a-c30a-4f53-8d64-0c30aabab8fa">
       <Parameter Name="Class" Guid="fc4c23fe-1d3c-467e-81bc-1796f686be51" Value="Game.ComponentPresser" Type="string" />
     </ComponentTemplate>
 	<ComponentTemplate Name="Sour" Description="A Sour" Guid="c9af7916-de35-4e94-ba6e-90cd55cd19d4" InheritanceParent="81a44c6a-c30a-4f53-8d64-0c30aabab8f9">
       <Parameter Name="Class" Guid="fc4f46fe-1d3c-467e-81bc-1796f686be51" Value="Game.ComponentSour" Type="string" />
     </ComponentTemplate>
-	<ComponentTemplate Name="Deposit" Description="A Sour" Guid="c9aa7911-de35-4e94-ba6e-90cd55cd19d4" InheritanceParent="81a44c6a-c30a-4f53-8d64-0c30aabab8f9">
-      <Parameter Name="Class" Guid="1c4146fe-1d3c-467e-81bc-1796f686be51" Value="Game.ComponentDeposit" Type="string" />
-    </ComponentTemplate>
     <ComponentTemplate Name="CReactor" Description="A presser" Guid="c9ff7976-de35-4e94-ba6e-90cd55cd19d4" InheritanceParent="81a44c6a-c30a-4f53-8d64-0c30aabab8f9">
     <Parameter Name="Class" Guid="fd4c23ff-1d3c-467e-81bc-1796f686be51" Value="Game.ComponentCReactor" Type="string" />
     </ComponentTemplate>
-    <ComponentTemplate Name="Kibbler" Description="A kibbler" Guid="cfff7906-de35-4e94-ba6e-90cd55cd19d4" InheritanceParent="81a44c6a-c30a-4f53-8d64-0c30aabab8f9">
+    <ComponentTemplate Name="Kibbler" Description="A kibbler" Guid="cfff7906-de35-4e94-ba6e-90cd55cd19d4" InheritanceParent="81a44c6a-c30a-4f53-8d64-0c30aabab8fa">
       <Parameter Name="Class" Guid="fe4c23fe-1d3c-467e-81bc-1796f686be51" Value="Game.ComponentKibbler" Type="string" />
     </ComponentTemplate>
-    <ComponentTemplate Name="PresserNN" Description="A presser" Guid="cfff7916-de35-4e94-ba6e-90cd55cd19d4" InheritanceParent="81a44c6a-c30a-4f53-8d64-0c30aabab8f9">
+    <ComponentTemplate Name="PresserNN" Description="A presser" Guid="cfff7916-de35-4e94-ba6e-90cd55cd19d4" InheritanceParent="81a44c6a-c30a-4f53-8d64-0c30aabab8fa">
       <Parameter Name="Class" Guid="fe4c23ff-1d3c-467e-81bc-1796f686be51" Value="Game.ComponentPresserNN" Type="string" />
     </ComponentTemplate>
-    <ComponentTemplate Name="Squeezer" Description="A squeezer" Guid="cfff7936-de35-4e94-ba6e-90cd55cd19d4" InheritanceParent="81a44c6a-c30a-4f53-8d64-0c30aabab8f9">
+    <ComponentTemplate Name="Squeezer" Description="A squeezer" Guid="cfff7936-de35-4e94-ba6e-90cd55cd19d4" InheritanceParent="81a44c6a-c30a-4f53-8d64-0c30aabab8fa">
       <Parameter Name="Class" Guid="fe4c25ff-1d3c-467e-81bc-1796f686be51" Value="Game.ComponentSqueezer" Type="string" />
     </ComponentTemplate>
     <ComponentTemplate Name="Driller" Description="A AutoDriller that mining Ore" Guid="aa15e6eb-9078-4abf-873f-4a8da609e287" InheritanceParent="81a44c6a-c30a-4f53-8d64-0c30aabab8f9">
