@@ -1,4 +1,5 @@
 using GameEntitySystem;
+using System;
 using System.Globalization;
 using System.Text;
 using TemplatesDatabase;
@@ -24,12 +25,12 @@ namespace Game
 		public static void LoadItems(this ComponentInventoryBase inventory, ValuesDictionary valuesDictionary)
 		{
 			string s = valuesDictionary.GetValue<string>("Contents", null);
-			int i, count;
+			int i, count = valuesDictionary.GetValue("SlotsCount", 2);
 			ComponentInventoryBase.Slot slot;
 			if (s != null)
 			{
 				var arr = s.Split(';');
-				count = arr.Length;
+				count = Math.Max(arr.Length, count);
 				for (i = 0; i < count; i++)
 				{
 					slot = new ComponentInventoryBase.Slot();
@@ -44,7 +45,6 @@ namespace Game
 				}
 				return;
 			}
-			count = valuesDictionary.GetValue("SlotsCount", 2);
 			inventory.m_slots.Capacity = count;
 			ValuesDictionary value2 = valuesDictionary.GetValue<ValuesDictionary>("Slots");
 			for (i = 0; i < count; i++)

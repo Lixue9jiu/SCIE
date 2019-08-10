@@ -647,7 +647,7 @@
       "ece"
       "ada"
     </Recipe>
-    <Recipe Result="EngineBlock:1024" ResultCount="1" RequiredHeatLevel="0" a="SteelGear" b="IndustrialPiston" c="SteelFan" d="sengine:0" e="SteelRod" Description="制造汽轮机">
+    <Recipe Result="EngineBlock:2048" ResultCount="1" RequiredHeatLevel="0" a="SteelGear" b="IndustrialPiston" c="SteelFan" d="sengine:0" e="SteelRod" Description="制造汽轮机">
       "aba"
       "ece"
       "ada"
@@ -672,7 +672,7 @@
     <Recipe Result="CopperBlock" ResultCount="2" RequiredHeatLevel="1100" a="tank:0" Description="将油箱拆分成铜块">
       "aaa"
      </Recipe>
-    <Recipe Result="EngineHBlock" ResultCount="1" RequiredHeatLevel="0" a="tank" b="IndustrialPiston" c="metalblock:0" d="furnace" e="SteelRod" Description="做一个斯特林发动机">
+    <Recipe Result="EngineBlock:1024" ResultCount="1" RequiredHeatLevel="0" a="tank" b="IndustrialPiston" c="metalblock:0" d="furnace" e="SteelRod" Description="做一个斯特林发动机">
       "beb"
       "ece"
       "ada"
@@ -970,6 +970,12 @@
       "bccb"
       "bddb"
       "bccb"
+    </Recipe>
+    <Recipe Result="EIFurnace" ResultCount="1" RequiredHeatLevel="0" a="IndustrialMagnet" b="metalblock:32" c="metalblock:64" d="CopperWire" e="SteelRod" f="SteelPlate" Description="制作感应炉，用来熔化金属">
+      "abba"
+      "dccd"
+      "dccd"
+      "effe"
     </Recipe>
 	<Recipe Result="Condenser" ResultCount="1" RequiredHeatLevel="0" a="CopperWire" b="SteelPlate" c="waterbucket" d="AluminumPlate" Description="用铝片制作一台电容蓄电池，可以存储电量">
       "bddb"

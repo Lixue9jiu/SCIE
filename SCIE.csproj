@@ -139,6 +139,7 @@
     <Compile Include="Widgets\CondenserWidget.cs" />
     <Compile Include="Widgets\CovenWidget.cs" />
     <Compile Include="Widgets\CReactorWidget.cs" />
+    <Compile Include="Widgets\DepositWidget.cs" />
     <Compile Include="Widgets\DrillerWidget.cs" />
     <Compile Include="Widgets\ElectricFurnaceWidget.cs" />
     <Compile Include="Widgets\ElectricIFurnaceWidget.cs" />
