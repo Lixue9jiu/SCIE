@@ -11,7 +11,7 @@ namespace Game
 
 		protected readonly ComponentBlockEntity m_componentBlockEntity;
 
-		protected readonly ComponentICEngine m_componentDispenser2;
+		protected readonly ComponentMachine m_componentDispenser2;
 
 		protected readonly ButtonWidget m_dispenseButton;
 
@@ -30,12 +30,12 @@ namespace Game
 		//protected readonly ValueBarWidget m_progress;
 		protected readonly FireWidget m_fire;
 
-		public ICEngineWidget(IInventory inventory, ComponentICEngine componentDispenser)
+		public ICEngineWidget(IInventory inventory, ComponentMachine component)
 		{
 			
-			m_componentDispenser2 = componentDispenser;
-			m_componentBlockEntity = componentDispenser.Entity.FindComponent<ComponentBlockEntity>(true);
-			m_subsystemTerrain = componentDispenser.Project.FindSubsystem<SubsystemTerrain>(true);
+			m_componentDispenser2 = component;
+			m_componentBlockEntity = component.Entity.FindComponent<ComponentBlockEntity>(true);
+			m_subsystemTerrain = component.Project.FindSubsystem<SubsystemTerrain>(true);
 			WidgetsManager.LoadWidgetContents(this, this, ContentManager.Get<XElement>("Widgets/ICEngineWidget"));
 			m_inventoryGrid = Children.Find<GridPanelWidget>("InventoryGrid");
 			m_furnaceGrid = Children.Find<GridPanelWidget>("DispenserGrid");
@@ -65,12 +65,12 @@ namespace Game
 				for (x = 0; x < m_furnaceGrid.ColumnsCount; x++)
 				{
 					inventorySlotWidget = new InventorySlotWidget();
-					inventorySlotWidget.AssignInventorySlot(componentDispenser, num++);
+					inventorySlotWidget.AssignInventorySlot(component, num++);
 					m_furnaceGrid.Children.Add(inventorySlotWidget);
 					m_furnaceGrid.SetWidgetCell(inventorySlotWidget, new Point2(x, y));
 				}
 			}
-			m_resultSlot.AssignInventorySlot(componentDispenser, componentDispenser.ResultSlotIndex);
+			m_resultSlot.AssignInventorySlot(component, component.ResultSlotIndex);
 		}
 
 		public override void Update()

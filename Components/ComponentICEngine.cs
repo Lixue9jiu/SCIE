@@ -15,7 +15,6 @@ namespace Game
 		public override int RemainsSlotIndex => SlotsCount - 0;
 		public override int ResultSlotIndex => SlotsCount - 1;
 		public override int FuelSlotIndex => SlotsCount;
-		public float m_fireTimeRemaining;
 
 		public int UpdateOrder => 0;
 
@@ -33,9 +32,5 @@ namespace Game
 			m_fireTimeRemaining = valuesDictionary.GetValue("FireTimeRemaining", 0f);
 			HeatLevel = valuesDictionary.GetValue("HeatLevel", 0f);
 		}
-
-		
-
-		
 	}
 }

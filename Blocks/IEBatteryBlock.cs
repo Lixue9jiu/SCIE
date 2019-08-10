@@ -6,7 +6,7 @@ namespace Game
 {
 	public enum BatteryType
 	{
-		Cu_Zn_Battery,Lead_Battery,Fission_Battery,Fusion_Battery
+		Cu_Zn_Battery, Lead_Battery, Fission_Battery, Fusion_Battery
 	}
 
 	public class IEBatteryBlock : FlatBlock, IDurability
@@ -44,7 +44,7 @@ namespace Game
 		{
 			var type = GetType(value);
 			ItemBlock.DrawFlatBlock(primitivesRenderer, value, size, ref matrix, ItemBlock.Texture,
-				(type == BatteryType.Fission_Battery ? Color.Cyan : type == BatteryType.Lead_Battery ? Color.Gray : color) , false, environmentData);
+				(type == BatteryType.Fission_Battery ? Color.Cyan : type == BatteryType.Lead_Battery ? Color.Gray : color), false, environmentData);
 		}
 
 		public static BatteryType GetType(int value)

@@ -102,7 +102,7 @@ namespace Game
 			for (i = 0; i < m_furnaceSize; i++)
 			{
 				if (GetSlotCount(i) <= 0) continue;
-				int value = GetSlotValue(i);
+				int value = Terrain.ExtractContents(GetSlotValue(i));
 				if (value == RottenBirdBlock.Index || value == RottenBreadBlock.Index || value == RottenDoughBlock.Index || value == RottenFishBlock.Index || value == RottenEggBlock.Index || value == RottenMeatBlock.Index || value == RottenPumpkinBlock.Index)
 				{
 					text = true;

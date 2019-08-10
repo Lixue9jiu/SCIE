@@ -44,7 +44,7 @@ namespace Game
 				}
 				return;
 			}
-			count = valuesDictionary.GetValue<int>("SlotsCount");
+			count = valuesDictionary.GetValue("SlotsCount", 2);
 			inventory.m_slots.Capacity = count;
 			ValuesDictionary value2 = valuesDictionary.GetValue<ValuesDictionary>("Slots");
 			for (i = 0; i < count; i++)

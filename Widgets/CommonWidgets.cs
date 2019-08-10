@@ -8,8 +8,10 @@ namespace Game
 	{
 		protected readonly InventorySlotWidget m_fuelSlot;
 		
-		public StoveWidget(IInventory inventory, ComponentMachine component, string path) : base(inventory, component, path)
+		public StoveWidget(IInventory inventory, ComponentMachine component, string path, string name = null) : base(inventory, component, path)
 		{
+			if (name != null)
+				Children.Find<LabelWidget>("Label").Text = name;
 			m_fuelSlot = Children.Find<InventorySlotWidget>("FuelSlot");
 			m_fuelSlot.AssignInventorySlot(component, component.FuelSlotIndex);
 		}
