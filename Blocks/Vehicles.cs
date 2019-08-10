@@ -61,7 +61,7 @@ namespace Game
 	}
 	public class Airship : TexturedMeshItem
 	{
-		public Airship() : base("飞艇", "Airship2", "small_airship", WhiteTexture, 0.2f, "使用比空气更轻的气体来产生浮力并使其飞行的工艺，其驱动动力源来自通过燃烧航空汽油的往复式发动机。")
+		public Airship() : base("飞艇", "Airship", "small_airship", WhiteTexture, 0.2f, "使用比空气更轻的气体来产生浮力并使其飞行的工艺，其驱动动力源来自通过燃烧航空汽油的往复式发动机。")
 		{
 		}
 		public override Vector3 GetIconViewOffset(int value, DrawBlockEnvironmentData environmentData) => new Vector3(-0.6f, 0.6f, -0.8f);

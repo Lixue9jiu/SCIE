@@ -10,7 +10,7 @@ namespace Game
 	{
 		public LockFreeQueue<Element[]> Requests = new LockFreeQueue<Element[]>();
 		protected float m_remainingSimulationTime;
-		protected ElementBlock elementblock;
+		public static ElementBlock Block;
 		public int UpdateStep;
 		public bool UpdatePath;
 		public HashSet<Device> Path;
@@ -25,7 +25,7 @@ namespace Game
 			Utils.Load(Project);
 			Path = new HashSet<Device>();
 			Table = new Dictionary<Point3, Device>(valuesDictionary.GetValue("Count", 0));
-			elementblock = BlocksManager.Blocks[ElementBlock.Index] as ElementBlock;
+			Block = BlocksManager.Blocks[ElementBlock.Index] as ElementBlock;
 			Task.Run((Action)ThreadFunction);
 			BlocksManager.Blocks[IceBlock.Index].HasCollisionBehavior = true;
 		}
@@ -35,7 +35,7 @@ namespace Game
 		}
 		public override void OnBlockAdded(int value, int oldValue, int x, int y, int z)
 		{
-			var device = elementblock.GetDevice(x, y, z, value);
+			var device = Block.GetDevice(x, y, z, value);
 			if (device == null)
 				return;
 			if (device is IBlockBehavior behavior)
@@ -52,7 +52,7 @@ namespace Game
 		}
 		public override void OnBlockRemoved(int value, int newValue, int x, int y, int z)
 		{
-			var device = elementblock.GetDevice(x, y, z, value);
+			var device = Block.GetDevice(x, y, z, value);
 			if (device == null)
 				return;
 			UpdatePath = true;
@@ -87,24 +87,24 @@ namespace Game
 		}
 		public override void OnNeighborBlockChanged(int x, int y, int z, int neighborX, int neighborY, int neighborZ)
 		{
-			var device = elementblock.GetDevice(Utils.Terrain, x, y, z);
+			var device = Block.GetDevice(Utils.Terrain, x, y, z);
 			if (device is IUnstableBlock behavior)
 				behavior.OnNeighborBlockChanged(SubsystemTerrain, neighborX, neighborY, neighborZ);
 		}
 		public override bool OnInteract(TerrainRaycastResult raycastResult, ComponentMiner componentMiner)
 		{
 			var face = raycastResult.CellFace;
-			return elementblock.GetDevice(face.X, face.Y, face.Z, raycastResult.Value) is IInteractiveBlock block && block.OnInteract(raycastResult, componentMiner);
+			return Block.GetDevice(face.X, face.Y, face.Z, raycastResult.Value) is IInteractiveBlock block && block.OnInteract(raycastResult, componentMiner);
 		}
 		public override void OnHitByProjectile(CellFace cellFace, WorldItem worldItem)
 		{
-			var item = elementblock.GetDevice(Utils.Terrain, cellFace.X, cellFace.Y, cellFace.Z);
+			var item = Block.GetDevice(Utils.Terrain, cellFace.X, cellFace.Y, cellFace.Z);
 			if (item is IItemAcceptableBlock block)
 				block.OnHitByProjectile(cellFace, worldItem);
 		}
 		public override void OnItemHarvested(int x, int y, int z, int blockValue, ref BlockDropValue dropValue, ref int newBlockValue)
 		{
-			var item = elementblock.GetDevice(x, y, z, blockValue);
+			var item = Block.GetDevice(x, y, z, blockValue);
 			if (item is IHarvestingItem block)
 				block.OnItemHarvested(x, y, z, blockValue, ref dropValue, ref newBlockValue);
 		}
@@ -115,7 +115,7 @@ namespace Game
 			int x = cellFace.X,
 				y = cellFace.Y,
 				z = cellFace.Z;
-			var item = elementblock.GetDevice(x, y, z, Utils.Terrain.GetCellValueFast(x, y, z));
+			var item = Block.GetDevice(x, y, z, Utils.Terrain.GetCellValueFast(x, y, z));
 			if (item is SolarPanel)
 			{
 				SubsystemTerrain.DestroyCell(0, x, y, z, 0, true, false);
@@ -179,7 +179,7 @@ namespace Game
 				{
 					v = Q.Dequeue();
 					neighbors.Clear();
-					elementblock.GetAllConnectedNeighbors(Utils.Terrain, v, 4, neighbors);
+					Block.GetAllConnectedNeighbors(Utils.Terrain, v, 4, neighbors);
 					v.Next = new Element[neighbors.Count];
 					count = 0;
 					for (j = 0; j < neighbors.Count; j++)

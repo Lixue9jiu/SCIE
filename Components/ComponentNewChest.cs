@@ -63,7 +63,8 @@ namespace Game
 		public static void SaveItems(this ComponentInventoryBase inventory, ValuesDictionary valuesDictionary)
 		{
 			var sb = new StringBuilder();
-			for (int i = 0; i < inventory.m_slots.Count; i++)
+			int i = 0;
+			for (; i < inventory.m_slots.Count; i++)
 			{
 				var slot = inventory.m_slots[i];
 				if (slot.Count > 0)
@@ -74,7 +75,8 @@ namespace Game
 				}
 				sb.Append(';');
 			}
-			valuesDictionary.SetValue("Contents", sb.ToString(0, sb.Length - 1));
+			if (i != 0)
+				valuesDictionary.SetValue("Contents", sb.ToString(0, sb.Length - 1));
 		}
 	}
 }

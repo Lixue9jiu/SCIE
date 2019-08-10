@@ -162,8 +162,7 @@ namespace Game
             
             if (FurnaceNBlock.GetHeatLevel(cellValue) != 0)
             {
-                cellValue = Terrain.ExtractContents(cellValue);
-                if (cellValue == EngineBlock.Index || cellValue == EngineHBlock.Index)
+                if (Terrain.ExtractContents(cellValue) == EngineBlock.Index)
                     return true;
             }
 
@@ -173,8 +172,7 @@ namespace Game
 
             if (FurnaceNBlock.GetHeatLevel(cellValue) != 0)
             {
-                cellValue = Terrain.ExtractContents(cellValue);
-                if (cellValue == EngineBlock.Index || cellValue == EngineHBlock.Index)
+                if (Terrain.ExtractContents(cellValue) == EngineBlock.Index)
                     return true;
             }
             if (y < 127)
@@ -185,8 +183,7 @@ namespace Game
 
                 if (FurnaceNBlock.GetHeatLevel(cellValue) != 0)
                 {
-                    cellValue = Terrain.ExtractContents(cellValue);
-                    if (cellValue == EngineBlock.Index || cellValue == EngineHBlock.Index)
+                    if (Terrain.ExtractContents(cellValue) == EngineBlock.Index)
                         return true;
                 }
             }
@@ -198,8 +195,7 @@ namespace Game
 
                 if (FurnaceNBlock.GetHeatLevel(cellValue) != 0)
                 {
-                    cellValue = Terrain.ExtractContents(cellValue);
-                    if (cellValue == EngineBlock.Index || cellValue == EngineHBlock.Index)
+                    if (Terrain.ExtractContents(cellValue) == EngineBlock.Index)
                         return true;
                 }
             }
@@ -209,8 +205,7 @@ namespace Game
 
             if (FurnaceNBlock.GetHeatLevel(cellValue) != 0)
             {
-                cellValue = Terrain.ExtractContents(cellValue);
-                if (cellValue == EngineBlock.Index || cellValue == EngineHBlock.Index)
+                if (Terrain.ExtractContents(cellValue) == EngineBlock.Index)
                     return true;
             }
             cellValue = terrain.GetCellValueFast(x, y, z - 1);
@@ -219,8 +214,7 @@ namespace Game
 
             if (FurnaceNBlock.GetHeatLevel(cellValue) != 0)
             {
-                cellValue = Terrain.ExtractContents(cellValue);
-                if (cellValue == EngineBlock.Index || cellValue == EngineHBlock.Index)
+                if (Terrain.ExtractContents(cellValue) == EngineBlock.Index)
                     return true;
             }
             return false;

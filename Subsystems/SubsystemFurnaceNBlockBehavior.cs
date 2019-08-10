@@ -102,7 +102,7 @@ namespace Game
 		};
 		public override int[] HandledBlocks => new[] { EngineBlock.Index };
 
-		public SubsystemEngineBlockBehavior() : base("SteamEngine") { }
+		public SubsystemEngineBlockBehavior() : base(null) { }
 
 		public override bool OnInteract(TerrainRaycastResult raycastResult, ComponentMiner componentMiner)
 		{

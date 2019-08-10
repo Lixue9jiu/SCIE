@@ -318,6 +318,7 @@ namespace Game
 				var blockMesh2 = new BlockMesh();
 				BlockMesh blockMesh1;
 				var m2 = Matrix.CreateTranslation(0.5f, 0f, 0.5f);
+				Matrix m3;
 				if ((i & 1) != 0)
 				{
 					blockMesh1 = new BlockMesh();
@@ -332,7 +333,7 @@ namespace Game
 				if ((i & 2) != 0)
 				{
 					blockMesh1 = new BlockMesh();
-					Matrix m3 = Matrix.CreateRotationY((float)Math.PI) * m2;
+					m3 = Matrix.CreateRotationY((float)Math.PI) * m2;
 					blockMesh1.AppendModelMeshPart(model.FindMesh("Planks").MeshParts[0], boneAbsoluteTransform2 * m3, false, false, false, false, Color.White);
 					if (m_doubleSidedPlanks)
 					{
@@ -344,11 +345,11 @@ namespace Game
 				if ((i & 4) != 0)
 				{
 					blockMesh1 = new BlockMesh();
-					Matrix m4 = Matrix.CreateRotationY(4.712389f) * m2;
-					blockMesh1.AppendModelMeshPart(model.FindMesh("Planks").MeshParts[0], boneAbsoluteTransform2 * m4, false, false, false, false, Color.White);
+					m3 = Matrix.CreateRotationY(4.712389f) * m2;
+					blockMesh1.AppendModelMeshPart(model.FindMesh("Planks").MeshParts[0], boneAbsoluteTransform2 * m3, false, false, false, false, Color.White);
 					if (m_doubleSidedPlanks)
 					{
-						blockMesh1.AppendModelMeshPart(model.FindMesh("Planks").MeshParts[0], boneAbsoluteTransform2 * m4, false, true, false, true, Color.White);
+						blockMesh1.AppendModelMeshPart(model.FindMesh("Planks").MeshParts[0], boneAbsoluteTransform2 * m3, false, true, false, true, Color.White);
 					}
 					blockMesh2.AppendBlockMesh(blockMesh1);
 					list.Add(blockMesh1.CalculateBoundingBox());
@@ -356,11 +357,11 @@ namespace Game
 				if ((i & 8) != 0)
 				{
 					blockMesh1 = new BlockMesh();
-					Matrix m5 = Matrix.CreateRotationY((float)Math.PI / 2f) * m2;
-					blockMesh1.AppendModelMeshPart(model.FindMesh("Planks").MeshParts[0], boneAbsoluteTransform2 * m5, false, false, false, false, Color.White);
+					m3 = Matrix.CreateRotationY((float)Math.PI / 2f) * m2;
+					blockMesh1.AppendModelMeshPart(model.FindMesh("Planks").MeshParts[0], boneAbsoluteTransform2 * m3, false, false, false, false, Color.White);
 					if (m_doubleSidedPlanks)
 					{
-						blockMesh1.AppendModelMeshPart(model.FindMesh("Planks").MeshParts[0], boneAbsoluteTransform2 * m5, false, true, false, true, Color.White);
+						blockMesh1.AppendModelMeshPart(model.FindMesh("Planks").MeshParts[0], boneAbsoluteTransform2 * m3, false, true, false, true, Color.White);
 					}
 					blockMesh2.AppendBlockMesh(blockMesh1);
 					list.Add(blockMesh1.CalculateBoundingBox());
@@ -383,17 +384,17 @@ namespace Game
 
 		public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
 		{
-			BlocksManager.DrawMeshBlock(primitivesRenderer, m_blockMeshes[1], color * Color.LightGray, size * 2f, ref matrix, environmentData);
+			BlocksManager.DrawMeshBlock(primitivesRenderer, m_blockMeshes[1], color * Color.LightGray, size * 1.8f, ref matrix, environmentData);
 		}
 		public override void GenerateTerrainVertices(Block block, BlockGeometryGenerator generator, TerrainGeometrySubsets geometry, int value, int x, int y, int z)
 		{
-			generator.GenerateMeshVertices(block, x, y, z, m_blockMeshes[Terrain.ExtractData(value) >> 14], Color.White, null, geometry.SubsetOpaque);
+			generator.GenerateMeshVertices(block, x, y, z, m_blockMeshes[Terrain.ExtractData(value) >> 14 & 15], Color.White, null, geometry.SubsetAlphaTest);
 		}
 		public override BlockPlacementData GetPlacementValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, TerrainRaycastResult raycastResult)
 		{
-			int x = raycastResult.CellFace.X,
-				y = raycastResult.CellFace.Y,
-				z = raycastResult.CellFace.Z;
+			int x = Point.X,
+				y = Point.Y,
+				z = Point.Z;
 			int cellValue = subsystemTerrain.Terrain.GetCellValue(x + 1, y, z);
 			int num2 = 0;
 			if (Block.GetDevice(x + 1, y, z, cellValue) is ElectricFences) num2 |= 1;
@@ -403,12 +404,12 @@ namespace Game
 			if (Block.GetDevice(x, y, z + 1, cellValue) is ElectricFences) num2 |= 4;
 			cellValue = subsystemTerrain.Terrain.GetCellValue(x, y, z - 1);
 			if (Block.GetDevice(x, y, z - 1, cellValue) is ElectricFences) num2 |= 8;
-			return new BlockPlacementData { Value = Terrain.ReplaceData(value, FenceBlock.SetVariant(Terrain.ExtractData(value), num2)), CellFace = raycastResult.CellFace };
+			return new BlockPlacementData { Value = Terrain.ReplaceData(value, Terrain.ExtractData(value) & 16383 | num2 << 14), CellFace = raycastResult.CellFace };
 		}
 
 		public override bool IsFaceTransparent(SubsystemTerrain subsystemTerrain, int face, int value) => true;
-
-		public override BoundingBox[] GetCustomCollisionBoxes(SubsystemTerrain terrain, int value) => m_collisionBoxes[Terrain.ExtractData(value) >> 14];
+		public override Vector3 GetIconBlockOffset(int value, DrawBlockEnvironmentData environmentData) => new Vector3 { Y = .66f };
+		public override BoundingBox[] GetCustomCollisionBoxes(SubsystemTerrain terrain, int value) => m_collisionBoxes[Terrain.ExtractData(value) >> 14 & 15];
 	}
 
 	/*public abstract class DeviceElement : Element, IComparable<DeviceElement>, IEquatable<DeviceElement>

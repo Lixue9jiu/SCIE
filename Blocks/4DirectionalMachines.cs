@@ -393,32 +393,4 @@ namespace Game
 			});
 		}
 	}
-
-	public class EngineHBlock : EngineBlock
-	{
-		public new const int Index = 523;
-
-		public override float GetHeat(int value)
-		{
-			return base.GetHeat(value) * 1.2f;
-		}
-
-		public override int GetFaceTextureSlot(int face, int value)
-		{
-			if (face == 4 || face == 5)
-				return 107;
-			int direction = GetDirection(value);
-			return face == direction ? GetHeatLevel(value) > 0 ? 187 : 171 : face == CellFace.OppositeFace(direction) ? 107 : 159;
-		}
-
-		public override string GetDisplayName(SubsystemTerrain subsystemTerrain, int value)
-		{
-			return (Terrain.ExtractData(value) & 1024) != 0 ? Utils.Get("燃气轮机") : DefaultDisplayName;
-		}
-
-		public override string GetDescription(int value)
-		{
-			return (Terrain.ExtractData(value) & 1024) != 0 ? Utils.Get("燃气轮机") : DefaultDescription;
-		}
-	}
 }

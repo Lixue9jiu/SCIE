@@ -216,7 +216,7 @@ namespace Game
 			new Plate("RISC CPU", Color.DarkGray, true),
 			new Plate("CISC CPU", Color.DarkGray, true),
 			new CPanel(),
-			new Brick(new Color(255, 255, 255, 128), Matrix.CreateTranslation(-32 % 16 / 16f, -32 / 16 / 16f, 0f))
+			new Brick(new Color(255, 255, 255, 32), Matrix.CreateTranslation(-32 % 16 / 16f, -32 / 16 / 16f, 0f))
 			{
 				DefaultDisplayName = "玻璃砖",
 				DefaultDescription = "玻璃砖"
