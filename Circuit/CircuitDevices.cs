@@ -476,4 +476,48 @@ namespace Game
 			return new TGeneratorWidget(inventory, component);
 		}
 	}
+
+	public class Unpacker : Separator
+	{
+		public Unpacker()
+		{
+			DefaultDisplayName = DefaultDescription = "去包装机";
+		}
+
+		public override int GetFaceTextureSlot(int face, int value)
+		{
+			return face != 4 && face != 5 && face == (Terrain.ExtractData(value) >> 15) ? 235 : 124;
+		}
+
+		public override BlockPlacementData GetPlacementValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, TerrainRaycastResult raycastResult)
+		{
+			return GetPlacementValue(37, componentMiner, value, raycastResult);
+		}
+	}
+	public class ElectricPump : FixedDevice, IBlockBehavior
+	{
+		public ElectricPump() : base("电子泵", "电子泵是一种可以直接吸收液体于管道传输的机器") { }
+		public void OnBlockAdded(SubsystemTerrain subsystemTerrain, int value, int oldValue)
+		{
+		}
+		//public override void Simulate(ref int voltage)
+		//{
+		//	if (voltage < 0)
+		//		voltage = (int)(-voltage * Math.Sqrt(2));
+		//}
+		public override int GetFaceTextureSlot(int face, int value)
+		{
+			return face == 4 || face == 5 ? 107 : 236;
+		}
+
+		public override BlockPlacementData GetPlacementValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, TerrainRaycastResult raycastResult)
+		{
+			return GetPlacementValue(37, componentMiner, value, raycastResult);
+		}
+		public void OnBlockRemoved(SubsystemTerrain terrain, int value, int newValue)
+		{
+			value = 0;
+			//Simulate(ref value);
+		}
+	}
 }

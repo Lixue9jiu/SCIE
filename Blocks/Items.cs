@@ -221,7 +221,7 @@ namespace Game
 				DefaultDisplayName = "玻璃砖",
 				DefaultDescription = "玻璃砖"
 			},
-			//new Mould("Models/OilBox", "Cube", Matrix.CreateTranslation(0.5f, 0.7f, 0.5f) * Matrix.CreateScale(0.6f), Matrix.CreateTranslation(4f, 3.8f, 0f), "A Cylinder made of alloy, Aluminum and steel, the neccessary part of many machine.", "Cube", 1.6f),
+			//new Mould("Models/OBox", "Cube", Matrix.CreateTranslation(0.5f, 0.7f, 0.5f) * Matrix.CreateScale(0.6f), Matrix.CreateTranslation(4f, 3.8f, 0f), "A Cylinder made of alloy, Aluminum and steel, the neccessary part of many machine.", "Cube", 1.6f),
 			};
 			ElementBlock.Devices = new Device[]
 			{
@@ -269,6 +269,8 @@ namespace Game
 				new Transformer(),
 				new Charger(),//35
 				new TGenerator(),
+				new Unpacker(),
+				new ElectricPump(),
 			};
 			IdTable = new Dictionary<string, int>(Items.Length);
 			int i;
