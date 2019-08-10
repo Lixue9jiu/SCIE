@@ -54,6 +54,11 @@ namespace Game
 		{
 			int type = GetType(value);
 			color = (type < 3 ? Colors[type] : GetColor((Materials)(type - 3))) * SubsystemPalette.GetColor(environmentData, GetPaintColor(value));
+			if (type == 2)
+			{
+				BlocksManager.DrawCubeBlock(primitivesRenderer, value, new Vector3(size), ref matrix, color, color, environmentData);
+				return;
+			}
 			ItemBlock.DrawCubeBlock(primitivesRenderer, value, new Vector3(size), ref matrix, color, color, environmentData);
 		}
 
@@ -64,6 +69,11 @@ namespace Game
 		public override void GenerateTerrainVertices(BlockGeometryGenerator generator, TerrainGeometrySubsets geometry, int value, int x, int y, int z)
 		{
 			int type = GetType(value);
+			if (type == 2)
+			{
+				generator.GenerateCubeVertices(this, value, x, y, z, (type < 3 ? Colors[type] : GetColor((Materials)(type - 3))) * SubsystemPalette.GetColor(generator, GetPaintColor(value)), geometry.OpaqueSubsetsByFace);
+				return;
+			}
 			Utils.BlockGeometryGenerator.GenerateCubeVertices(this, value, x, y, z, (type < 3 ? Colors[type] : GetColor((Materials)(type - 3))) * SubsystemPalette.GetColor(generator, GetPaintColor(value)), Utils.GTV(x, z, geometry).OpaqueSubsetsByFace);
 		}
 		public static int GetType(int value)
@@ -121,7 +131,7 @@ namespace Game
 			{
 				case 0:
 				case 1: return 107;
-				case 2: return 69;
+				case 2: return 39;
 			}
 			return 180;
 		}

@@ -31,10 +31,6 @@ namespace Game
 
 		protected static readonly float[] m_explosionPressures = new[] { 0f, 0f, 0f, 0.1f ,0.1f};
 
-		public override void GenerateTerrainVertices(BlockGeometryGenerator generator, TerrainGeometrySubsets geometry, int value, int x, int y, int z)
-		{
-		}
-
 		public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
 		{
 			int bulletType = GetBulletType(Terrain.ExtractData(value));

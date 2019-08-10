@@ -117,7 +117,7 @@
     <Compile Include="Common\Interfaces.cs" />
     <Compile Include="Blocks\Items.cs" />
     <Compile Include="Circuit\Pipe.cs" />
-    <Compile Include="Circuit\WireDevice.cs" />
+    <Compile Include="Circuit\Connector.cs" />
     <Compile Include="Blocks\BasaltBlock.cs" />
     <Compile Include="Circuit\SubsystemCircuit.cs" />
     <Compile Include="Components\ComponentVariant.cs" />
@@ -174,7 +174,7 @@
     <Compile Include="Blocks\Musket2Block.cs" />
     <Compile Include="Widgets\Musket2Widget.cs" />
     <Compile Include="Blocks\4DirectionalMachines.cs" />
-    <Compile Include="Widgets\PresserWidget.cs" />
+    <Compile Include="Widgets\CommonWidgets.cs" />
     <Compile Include="Blocks\SteelTools.cs" />
     <Compile Include="Blocks\MetalBlock.cs" />
     <Compile Include="Subsystems\SubsystemBullet2BlockBehavior.cs" />

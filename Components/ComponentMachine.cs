@@ -7,7 +7,7 @@ namespace Game
 {
 	public abstract class ComponentMachine : ComponentInventoryBase, ICraftingMachine
 	{
-		protected float m_fireTimeRemaining;
+		public float m_fireTimeRemaining;
 		protected int m_furnaceSize;
 		protected ComponentBlockEntity m_componentBlockEntity;
 		protected bool m_updateSmeltingRecipe;
