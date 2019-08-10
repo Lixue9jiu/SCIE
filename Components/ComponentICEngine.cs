@@ -12,9 +12,10 @@ namespace Game
 
 		public Point3 Coordinates;
 
-		public override int RemainsSlotIndex => SlotsCount - 3;
+		public override int RemainsSlotIndex => SlotsCount - 0;
 		public override int ResultSlotIndex => SlotsCount - 1;
-		public override int FuelSlotIndex => SlotsCount - 2;
+		public override int FuelSlotIndex => SlotsCount;
+		public float m_fireTimeRemaining;
 
 		public int UpdateOrder => 0;
 

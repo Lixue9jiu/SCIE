@@ -382,7 +382,7 @@ namespace Game
             {
 				if (voltage > 0)
 				{
-					Component.m_fireTimeRemaining = MathUtils.Min(Component.m_fireTimeRemaining + voltage, 10000000f);
+					Component.m_fireTimeRemaining = MathUtils.Min(Component.m_fireTimeRemaining + voltage, 1000000f);
 					voltage = 0;
 				}
 			}

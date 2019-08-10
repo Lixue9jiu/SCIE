@@ -55,7 +55,7 @@ namespace Game
 
 		public override void Update()
 		{
-			Children.Find<LabelWidget>("DispenserLabel2").Text = (m_componentDispenser2.m_fireTimeRemaining).ToString() + "/10M E";
+			Children.Find<LabelWidget>("DispenserLabel2").Text = (m_componentDispenser2.m_fireTimeRemaining).ToString() + "/1M E";
 			int value = m_subsystemTerrain.Terrain.GetCellValue(m_componentBlockEntity.Coordinates.X, m_componentBlockEntity.Coordinates.Y, m_componentBlockEntity.Coordinates.Z);
 			int data = Terrain.ExtractData(value);
 			MachineMode mode = GetMode(data);
@@ -73,7 +73,7 @@ namespace Game
 				m_componentDispenser2.Charged = false;
 			}
 
-			m_progress.Value = 1f-m_componentDispenser2.m_fireTimeRemaining/10000000f;
+			m_progress.Value = 1f-m_componentDispenser2.m_fireTimeRemaining/1000000f;
 			m_dispenseButton.IsChecked = mode == MachineMode.Charge;
 			m_componentDispenser2.Charged = mode == MachineMode.Charge;
 			m_shootButton.IsChecked = mode == MachineMode.Discharger;
