@@ -79,7 +79,7 @@ namespace Game
 			m_progress.Value = m_componentDispenser2.SmeltingProgress / 1000f;
 
 
-			if (m_dispenseButton.IsClicked && m_componentDispenser2.HeatLevel <= 0f && m_componentDispenser2.SmeltingProgress >= 0f)
+			if (m_dispenseButton.IsClicked && m_componentDispenser2.HeatLevel <= 0f && m_componentDispenser2.SmeltingProgress > 0f)
 			{
 				m_componentDispenser2.HeatLevel = 1000f;
 			}

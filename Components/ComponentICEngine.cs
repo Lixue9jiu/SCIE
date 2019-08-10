@@ -14,9 +14,10 @@ namespace Game
 
 		public override int RemainsSlotIndex => SlotsCount - 0;
 		public override int ResultSlotIndex => SlotsCount - 1;
+		//public int resultSlotIndex => SlotsCount - 1;
 		public override int FuelSlotIndex => -1;
 		public int Fuel2SlotIndex => 0;
-
+		public float m_fireTimeRemaining;
 		public int UpdateOrder => 0;
 
 		public void Update(float dt)
@@ -32,14 +33,14 @@ namespace Game
 				if (text != null)
 				{
 					int resultSlotIndex = ResultSlotIndex;
-					if (m_slots[resultSlotIndex].Count != 0 && (90 != m_slots[resultSlotIndex].Value || m_slots[resultSlotIndex].Count >= 40))
+					if (m_slots[ResultSlotIndex].Count != 0 && (90 != m_slots[ResultSlotIndex].Value || m_slots[ResultSlotIndex].Count >= 40))
 						text = null;
 					else
 					{
-						if (m_slots[RemainsSlotIndex].Count > 0)
+						if (m_slots[Fuel2SlotIndex].Count > 0)
 						{
-							m_slots[resultSlotIndex].Value = 90;
-							m_slots[resultSlotIndex].Count += 1;
+							m_slots[ResultSlotIndex].Value = 90;
+							m_slots[ResultSlotIndex].Count += 1;
 							m_slots[Fuel2SlotIndex].Count = 0;
 							SmeltingProgress += 50f;
 						}
