@@ -125,7 +125,7 @@ namespace Game
 			new Plate(Materials.Aluminum, true),
 			new Plate(Materials.Brass, true),
 			new Mould("Models/Battery", "Battery", Matrix.CreateRotationX(MathUtils.PI / 2) * Matrix.CreateTranslation(0.5f, 0.5f, 0f), Matrix.CreateTranslation(9f / 16f, -7f / 16f, 0f) * Matrix.CreateScale(20f), "工业磁铁", "IndustrialMagnet"),
-			new Brick(new Color(255, 153, 18))
+			new Brick(new Color(255, 153, 18), Matrix.CreateTranslation(-32 % 16 / 16f, -32 / 16 / 16f, 0f))
 			{
 				DefaultDisplayName = "RefractoryBrick"
 			},
@@ -151,7 +151,7 @@ namespace Game
 			new Cylinder(Matrix.CreateScale(40f, 80f, 40f), "Ar"),
 			new Powder("粗盐", Color.White),
 			new Powder("精盐", Color.White),
-			new Brick(new Color(44, 44, 44))
+			new Brick(new Color(44, 44, 44), Matrix.CreateTranslation(-32 % 16 / 16f, -32 / 16 / 16f, 0f))
 			{
 				DefaultDisplayName = "石墨",
 				DefaultDescription = "石墨"
@@ -196,12 +196,12 @@ namespace Game
 			new Alloy(Materials.Steel,"Titanium Steel"),
 			new Alloy(Materials.Chromium,"Gun-Steel"),
 			new Powder("酵母", Color.White),
-			new Brick(Color.Gray)
+			new Brick(Color.Gray, Matrix.CreateTranslation(-32 % 16 / 16f, -32 / 16 / 16f, 0f))
 			{
 				DefaultDisplayName = "混凝土砖",
 				DefaultDescription = "混凝土砖"
 			},
-			new Ball("Models/Snowball", "Snowball", Matrix.CreateTranslation(0.5f, 0.4f, 0.5f), Matrix.CreateTranslation(12f / 16f, -1f / 16f, 0f), "A Ball of Rubber, a important component in the advanced industry", "Rubber", 2.6f),
+			new Ball("Models/Snowball", "Snowball", Matrix.CreateTranslation(0.5f, 0.4f, 0.5f), Matrix.CreateTranslation(12f / 16f, -1f / 16f, 0f), "A Ball of Rubber, an important component in the advanced industry", "Rubber", 2.6f),
 			new Rod(Materials.Uranium),
 			new FoodCan("EmptyCan can be used to make food can","Empty",Color.Gray),
 			new FoodCan("MeatCan can store meat for a long time","Meat",Color.Gray),
@@ -209,12 +209,18 @@ namespace Game
 			new FoodCan("PumpkinCan can store Pumpkin for a long time","Pumpkin",Color.Gray),
 			new FoodCan("BreadCan can store Bread for a long time","Bread",Color.Gray),
 			new FoodCan("FishCan can store Fish for a long time","Fish",Color.Gray),
+			new Rod(Materials.Plastic),
 			new Plate("128K RAM", Color.DarkGreen, true),
 			new Plate("256K RAM", Color.DarkGreen, true),
 			new Plate("512K RAM", Color.DarkGreen, true),
 			new Plate("RISC CPU", Color.DarkGray, true),
 			new Plate("CISC CPU", Color.DarkGray, true),
 			new CPanel(),
+			new Brick(new Color(255, 255, 255, 128), Matrix.CreateTranslation(-32 % 16 / 16f, -32 / 16 / 16f, 0f))
+			{
+				DefaultDisplayName = "玻璃砖",
+				DefaultDescription = "玻璃砖"
+			},
 			//new Mould("Models/OilBox", "Cube", Matrix.CreateTranslation(0.5f, 0.7f, 0.5f) * Matrix.CreateScale(0.6f), Matrix.CreateTranslation(4f, 3.8f, 0f), "A Cylinder made of alloy, Aluminum and steel, the neccessary part of many machine.", "Cube", 1.6f),
 			};
 			ElementBlock.Devices = new Device[]

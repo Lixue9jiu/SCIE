@@ -1,7 +1,6 @@
 ﻿using Engine;
 using Engine.Graphics;
 using System;
-using System.Collections.Generic;
 
 namespace Game
 {

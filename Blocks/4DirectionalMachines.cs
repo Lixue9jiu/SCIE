@@ -298,12 +298,7 @@ namespace Game
 	}
 	public class EngineIBlock : EngineBlock
 	{
-		public new const int Index = 541;
-
-		public override float GetHeat(int value)
-		{
-			return base.GetHeat(value) * 1.2f;
-		}
+		public new const int Index = 538;
 		public override int GetFaceTextureSlot(int face, int value)
 		{
 			if (face == 4 || face == 5)

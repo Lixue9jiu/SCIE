@@ -63,22 +63,23 @@ namespace Game
 
 		public override void Update()
 		{
-			int value = m_subsystemTerrain.Terrain.GetCellValue(m_componentBlockEntity.Coordinates.X, m_componentBlockEntity.Coordinates.Y, m_componentBlockEntity.Coordinates.Z);
+			Point3 coordinates = m_componentBlockEntity.Coordinates;
+			int value = m_subsystemTerrain.Terrain.GetCellValue(coordinates.X, coordinates.Y, coordinates.Z);
 			int data = Terrain.ExtractData(value);
 			if (m_dispenseButton.IsClicked)
 			{
 				data = DrillerBlock.SetMode(data, MachineMode.Dispense);
-				m_subsystemTerrain.ChangeCell(m_componentBlockEntity.Coordinates.X, m_componentBlockEntity.Coordinates.Y, m_componentBlockEntity.Coordinates.Z, Terrain.ReplaceData(value, data));
+				m_subsystemTerrain.ChangeCell(coordinates.X, coordinates.Y, coordinates.Z, Terrain.ReplaceData(value, data));
 			}
 			if (m_shootButton.IsClicked)
 			{
 				data = DrillerBlock.SetMode(data, MachineMode.Shoot);
-				m_subsystemTerrain.ChangeCell(m_componentBlockEntity.Coordinates.X, m_componentBlockEntity.Coordinates.Y, m_componentBlockEntity.Coordinates.Z, Terrain.ReplaceData(value, data));
+				m_subsystemTerrain.ChangeCell(coordinates.X, coordinates.Y, coordinates.Z, Terrain.ReplaceData(value, data));
 			}
 			if (m_acceptsDropsBox.IsClicked)
 			{
 				data = SixDirectionalBlock.SetAcceptsDrops(data, !SixDirectionalBlock.GetAcceptsDrops(data));
-				m_subsystemTerrain.ChangeCell(m_componentBlockEntity.Coordinates.X, m_componentBlockEntity.Coordinates.Y, m_componentBlockEntity.Coordinates.Z, Terrain.ReplaceData(value, data));
+				m_subsystemTerrain.ChangeCell(coordinates.X, coordinates.Y, coordinates.Z, Terrain.ReplaceData(value, data));
 			}
 			var mode = DrillerBlock.GetMode(data);
 			m_dispenseButton.IsChecked = mode == MachineMode.Dispense;

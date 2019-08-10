@@ -40,6 +40,7 @@ namespace Game
 		Pipe3 = 1 << 23,
 		Pipe4 = 1 << 24,
 		Pipe5 = 1 << 25,
+		Pipe = Pipe0 | Pipe1 | Pipe2 | Pipe3 | Pipe4 | Pipe5,
 		RodX = 1 << 26,
 		RodY = 1 << 27,
 		RodZ = 1 << 28,

@@ -11,7 +11,7 @@ namespace Game
 
 	public class IEBatteryBlock : FlatBlock, IDurability
 	{
-		public const int Index = 540;
+		public const int Index = 537;
 
 		public override IEnumerable<int> GetCreativeValues()
 		{
