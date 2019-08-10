@@ -412,7 +412,7 @@ namespace Game
 	}
 	public class Charger : InventoryEntityDevice<ComponentCharger>
 	{
-		public Charger() : base("Charger", "充电宝", "充电放电装置是一种可以为电池充电或者放电的装置") { Type = ElementType.Supply | ElementType.Connector; }
+		public Charger() : base("Charger", "充电器", "充电放电装置是一种可以为电池充电或者放电的装置") { Type = ElementType.Supply | ElementType.Connector; }
 		
 		public static MachineMode GetMode(int data)
 		{

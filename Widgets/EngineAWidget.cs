@@ -10,6 +10,9 @@ namespace Game
 		protected readonly FireWidget m_fire;
 
 		//protected readonly InventorySlotWidget m_fuelSlot;
+		protected readonly ButtonWidget m_dispenseButton;
+
+		protected readonly ButtonWidget m_shootButton;
 
 		protected readonly GridPanelWidget m_furnaceGrid;
 
@@ -27,7 +30,9 @@ namespace Game
 			WidgetsManager.LoadWidgetContents(this, this, ContentManager.Get<XElement>(path));
 			m_inventoryGrid = Children.Find<GridPanelWidget>("InventoryGrid");
 			m_furnaceGrid = Children.Find<GridPanelWidget>("FurnaceGrid");
+			m_dispenseButton = Children.Find<ButtonWidget>("DispenseButton");
 			m_fire = Children.Find<FireWidget>("Fire");
+			m_shootButton = Children.Find<ButtonWidget>("ShootButton");
 			m_progress = Children.Find<ValueBarWidget>("Progress");
 			m_remainsSlot = Children.Find<InventorySlotWidget>("RemainsSlot");
 			m_resultSlot = Children.Find<InventorySlotWidget>("ResultSlot");
@@ -62,6 +67,19 @@ namespace Game
 		{
 			m_fire.ParticlesPerSecond = m_componentFurnace.HeatLevel > 0f ? 24f : 0f;
 			m_progress.Value = m_componentFurnace.SmeltingProgress / 1000f;
+
+
+			if (m_dispenseButton.IsClicked && m_componentFurnace.HeatLevel<=0f && m_componentFurnace.SmeltingProgress>=0f)
+			{
+				m_componentFurnace.HeatLevel = 1000f;
+			}
+			if (m_shootButton.IsClicked && m_componentFurnace.HeatLevel > 0f)
+			{
+				m_componentFurnace.HeatLevel = 0f;
+			}
+			m_dispenseButton.IsChecked = m_componentFurnace.HeatLevel != 0f;
+			//m_componentDispenser2.Charged = mode == MachineMode1.Charge;
+			m_shootButton.IsChecked = m_componentFurnace.HeatLevel == 0f;
 			if (!m_componentFurnace.IsAddedToProject)
 				ParentWidget.Children.Remove(this);
 		}

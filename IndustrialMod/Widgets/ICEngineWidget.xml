@@ -12,4 +12,12 @@
       <BevelledButtonWidget Name="ShootButton" Text="CutOff" Style="{Styles/ButtonStyle_160x60}" />
     </StackPanelWidget>
   </CanvasWidget>
+  <CanvasWidget CanvasWidget.Position="132, 132" >
+    <FireWidget Name="Fire" Size="68, 40" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+    <StackPanelWidget Direction="Horizontal">
+      <BevelledRectangleWidget Size="24, 44" BevelSize="-2" CenterColor="0, 0, 0, 0" />
+      <BevelledRectangleWidget Size="24, 44" BevelSize="-2" CenterColor="0, 0, 0, 0" />
+      <BevelledRectangleWidget Size="24, 44" BevelSize="-2" CenterColor="0, 0, 0, 0" />
+    </StackPanelWidget>
+  </CanvasWidget>
 </DispenserWidget>

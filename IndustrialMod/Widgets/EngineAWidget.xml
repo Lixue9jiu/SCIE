@@ -5,7 +5,7 @@
   </CanvasWidget>
   <GridPanelWidget Name="InventoryGrid" CanvasWidget.Position="406, 52" ColumnsCount="4" RowsCount="4"/>
   <GridPanelWidget Name="FurnaceGrid" CanvasWidget.Position="12, 52" ColumnsCount="2" RowsCount="4"/>
-  <CanvasWidget CanvasWidget.Position="222, 292" >
+  <CanvasWidget CanvasWidget.Position="222, 129" >
     <FireWidget Name="Fire" Size="68, 40" HorizontalAlignment="Center" VerticalAlignment="Center"/>
     <StackPanelWidget Direction="Horizontal">
       <BevelledRectangleWidget Size="24, 44" BevelSize="-2" CenterColor="0, 0, 0, 0" />
@@ -13,11 +13,16 @@
       <BevelledRectangleWidget Size="24, 44" BevelSize="-2" CenterColor="0, 0, 0, 0" />
     </StackPanelWidget>
   </CanvasWidget>
-  <ValueBarWidget Name="Progress" CanvasWidget.Position="314, 52" LayoutDirection="Vertical" BarsCount="12" FlipDirection="false" LitBarColor="96, 48, 0" UnlitBarColor="48, 48, 48, 80" BarSize="24, 24" BarSubtexture="{Textures/Atlas/ProgressBar}"/>
-  <InventorySlotWidget Name="ResultSlot" CanvasWidget.Position="222, 172" />
+  <CanvasWidget CanvasWidget.Position="152, 250" Size="228, 140" >
+    <StackPanelWidget Direction="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
+      <BevelledButtonWidget Name="DispenseButton" Text="Activate" Style="{Styles/ButtonStyle_160x60}" />
+      <BevelledButtonWidget Name="ShootButton" Text="CutOff" Style="{Styles/ButtonStyle_160x60}" />
+    </StackPanelWidget>
+  </CanvasWidget>
+  <ValueBarWidget Name="Progress" CanvasWidget.Position="344, 52" LayoutDirection="Vertical" BarsCount="12" FlipDirection="false" LitBarColor="96, 48, 0" UnlitBarColor="48, 48, 48, 80" BarSize="24, 24" BarSubtexture="{Textures/Atlas/ProgressBar}"/>
+  <InventorySlotWidget Name="ResultSlot" CanvasWidget.Position="222, 182" />
   <InventorySlotWidget Name="RemainsSlot" CanvasWidget.Position="222, 52" >
   </InventorySlotWidget>
   <LabelWidget CanvasWidget.Position="18, 14" Text="AirShip" Font="{Fonts/Pericles24}" Color="255, 255, 255, 192"/>
   <LabelWidget CanvasWidget.Position="406, 14" Text="Inventory" Font="{Fonts/Pericles24}" Color="255, 255, 255, 192"/>
-  <ArrowLineWidget Color="0, 0, 0, 96" Width="8" ArrowWidth="24" PointsString="258, 124; 258, 160" AbsoluteCoordinates="true"/>
 </FurnaceWidget>

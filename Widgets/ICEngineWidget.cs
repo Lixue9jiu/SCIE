@@ -28,9 +28,11 @@ namespace Game
 		protected readonly InventorySlotWidget m_resultSlot;
 
 		//protected readonly ValueBarWidget m_progress;
+		protected readonly FireWidget m_fire;
 
 		public ICEngineWidget(IInventory inventory, ComponentICEngine componentDispenser)
 		{
+			
 			m_componentDispenser2 = componentDispenser;
 			m_componentBlockEntity = componentDispenser.Entity.FindComponent<ComponentBlockEntity>(true);
 			m_subsystemTerrain = componentDispenser.Project.FindSubsystem<SubsystemTerrain>(true);
@@ -38,6 +40,7 @@ namespace Game
 			m_inventoryGrid = Children.Find<GridPanelWidget>("InventoryGrid");
 			m_furnaceGrid = Children.Find<GridPanelWidget>("DispenserGrid");
 			m_dispenseButton = Children.Find<ButtonWidget>("DispenseButton");
+			m_fire = Children.Find<FireWidget>("Fire");
 			m_shootButton = Children.Find<ButtonWidget>("ShootButton");
 			m_resultSlot = Children.Find<InventorySlotWidget>("ResultSlot");
 			m_progress = Children.Find<ValueBarWidget>("Progress");
@@ -88,7 +91,8 @@ namespace Game
 			//	m_subsystemTerrain.Terrain.SetCellValueFast(m_componentBlockEntity.Coordinates.X, m_componentBlockEntity.Coordinates.Y, m_componentBlockEntity.Coordinates.Z, Terrain.ReplaceData(value, data));
 			//	m_componentDispenser2.Charged = false;
 			//}
-			m_progress.Value = m_componentDispenser2.m_fireTimeRemaining / 10000000f;
+			m_fire.ParticlesPerSecond = m_componentDispenser2.HeatLevel > 0f ? 24f : 0f;
+			m_progress.Value = m_componentDispenser2.m_fireTimeRemaining / 1000f;
 			//m_dispenseButton.IsChecked = mode == MachineMode1.Charge;
 			//m_componentDispenser2.Charged = mode == MachineMode1.Charge;
 			//m_shootButton.IsChecked = mode == MachineMode1.Discharger;

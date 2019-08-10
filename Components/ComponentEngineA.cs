@@ -24,7 +24,7 @@ namespace Game
 			{
 				m_updateSmeltingRecipe = false;
 				string text = null;
-				if (base.GetSlotCount(RemainsSlotIndex) > 0 && Terrain.ExtractContents(base.GetSlotValue(RemainsSlotIndex)) == (RottenMeatBlock.Index | 2 << 14))
+				if (base.GetSlotCount(RemainsSlotIndex) > 0 && Terrain.ExtractContents(base.GetSlotValue(RemainsSlotIndex)) == (WaterBucketBlock.Index))
 					text = "bucket";
 				//while (text != null && SmeltingProgress <= 900f)
 				//{
@@ -48,14 +48,13 @@ namespace Game
 				//}
 			}
 			SmeltingProgress = m_fireTimeRemaining;
-			if (SmeltingProgress > 0f)
+			if (SmeltingProgress > 0f && HeatLevel>0f)
 			{
 				SmeltingProgress = MathUtils.Min(SmeltingProgress - 1f * dt, 1000f);
 				m_fireTimeRemaining = SmeltingProgress;
-				HeatLevel = 1000f;
+				//HeatLevel = 1000f;
 			}
-			else
-				HeatLevel = 0f;
+			
 		}
 
 		public override void Load(ValuesDictionary valuesDictionary, IdToEntityMap idToEntityMap)
