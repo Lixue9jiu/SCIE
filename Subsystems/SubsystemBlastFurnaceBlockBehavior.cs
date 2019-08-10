@@ -33,10 +33,7 @@ namespace Game
 			Project.AddEntity(Project.CreateEntity(vd));
 		}
 
-		public override void OnHitByProjectile(CellFace cellFace, WorldItem worldItem)
-		{
-			Utils.OnHitByProjectile(cellFace, worldItem);
-		}
+		public override void OnHitByProjectile(CellFace cellFace, WorldItem worldItem) => Utils.OnHitByProjectile(cellFace, worldItem);
 
 		public override bool OnInteract(TerrainRaycastResult raycastResult, ComponentMiner componentMiner)
 		{
