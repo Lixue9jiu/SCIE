@@ -512,7 +512,7 @@ namespace Game
 
 		public override BlockPlacementData GetPlacementValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, TerrainRaycastResult raycastResult)
 		{
-			return GetPlacementValue(37, componentMiner, value, raycastResult);
+			return GetPlacementValue(38, componentMiner, value, raycastResult);
 		}
 		public void OnBlockRemoved(SubsystemTerrain terrain, int value, int newValue)
 		{
