@@ -57,11 +57,40 @@ namespace Game
         public const int Index = 507;
 
         public SourBlock() : base(186) { }
-        public override int GetFaceTextureSlot(int face, int value)
-        {
-            return face == 4 ? 116 : 115;
+		public static readonly string[] Names = new[]
+		{
+			"发酵池",
+			"沉淀池"
+		};
+		public static readonly string[] Descriptions = new[]
+		{
+			"发酵池，可以用腐烂的食物来发酵，生产硝石",
+			"沉淀池，可以用来沉淀某些特殊物质"
+		};
+		public override IEnumerable<int> GetCreativeValues()
+		{
+			var arr = new int[17 * 2];
+			for (int i = 0; i < 2; i++)
+			{
+				arr[i * 17] = BlockIndex | i << 24;
+				for (int j = 1; j < 17; j++)
+					arr[i * 17 + j] = BlockIndex | SetColor(i << 10, j - 1) << 14;
+			}
+			return arr;
 		}
-
+		public override int GetFaceTextureSlot(int face, int value)
+        {
+            return (Terrain.ExtractData(value) >> 10 ==0) ? face == 4 ? 116 : 115 : face == 4 ? 224 : 107;
+		}
+		public override string GetDescription(int value)
+		{
+			value = Terrain.ExtractData(value) >> 10;
+			return Utils.Get(Descriptions[Terrain.ExtractData(value) >> 10]);
+		}
+		public override string GetDisplayName(SubsystemTerrain subsystemTerrain, int value)
+		{
+			return SubsystemPalette.GetName(subsystemTerrain, GetPaintColor(value), Names[Terrain.ExtractData(value) >> 10]);
+		}
 		public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
 		{
 			ItemBlock.DrawCubeBlock(primitivesRenderer, value, new Vector3(size), ref matrix, color, color, environmentData);
