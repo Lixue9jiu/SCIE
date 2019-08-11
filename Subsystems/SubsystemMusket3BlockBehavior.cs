@@ -57,9 +57,9 @@ namespace Game
 						{
 							case AimState.InProgress:
 								{
-									if (num4 > 0.3f && !Musket3Block.GetHammerState(Terrain.ExtractData(num2)))
+									if (num4 > 0.3f && !Musket2Block.GetHammerState(Terrain.ExtractData(num2)))
 									{
-										num2 = Terrain.MakeBlockValue(num, 0, Musket3Block.SetHammerState(Terrain.ExtractData(num2), true));
+										num2 = Terrain.MakeBlockValue(num, 0, Musket2Block.SetHammerState(Terrain.ExtractData(num2), true));
 										m_subsystemAudio.PlaySound("Audio/HammerCock", 1f, m_random.UniformFloat(-0.1f, 0.1f), 0f, 0f);
 									}
 									ComponentFirstPersonModel componentFirstPersonModel = componentMiner.Entity.FindComponent<ComponentFirstPersonModel>();
@@ -115,18 +115,18 @@ namespace Game
 									break;
 								}
 							case AimState.Cancelled:
-								if (Musket3Block.GetHammerState(Terrain.ExtractData(num2)))
+								if (Musket2Block.GetHammerState(Terrain.ExtractData(num2)))
 								{
-									num2 = Terrain.MakeBlockValue(num, 0, Musket3Block.SetHammerState(Terrain.ExtractData(num2), false));
+									num2 = Terrain.MakeBlockValue(num, 0, Musket2Block.SetHammerState(Terrain.ExtractData(num2), false));
 									m_subsystemAudio.PlaySound("Audio/HammerUncock", 1f, m_random.UniformFloat(-0.1f, 0.1f), 0f, 0f);
 								}
 								m_aimStartTimes.Remove(componentMiner);
 								break;
 							case AimState.Completed:
 								{
-									if (Musket3Block.GetHammerState(Terrain.ExtractData(num2)))
+									if (Musket2Block.GetHammerState(Terrain.ExtractData(num2)))
 									{
-										num2 = Terrain.MakeBlockValue(num, 0, Musket3Block.SetHammerState(Terrain.ExtractData(num2), false));
+										num2 = Terrain.MakeBlockValue(num, 0, Musket2Block.SetHammerState(Terrain.ExtractData(num2), false));
 										m_subsystemAudio.PlaySound("Audio/HammerUncock", 1f, m_random.UniformFloat(-0.1f, 0.1f), 0f, 0f);
 									}
 									m_aimStartTimes.Remove(componentMiner);
@@ -148,7 +148,7 @@ namespace Game
 
 		public override int GetProcessInventoryItemCapacity(IInventory inventory, int slotIndex, int value)
 		{
-			return Terrain.ExtractContents(value) != Bullet2Block.Index || Musket3Block.GetLoadState(Terrain.ExtractData(inventory.GetSlotValue(slotIndex))) == Musket3Block.LoadState.bullet2
+			return Terrain.ExtractContents(value) != Bullet2Block.Index || Musket2Block.GetLoadState(Terrain.ExtractData(inventory.GetSlotValue(slotIndex))) == Musket2Block.LoadState.bullet2
 				? 0
 				: 1;
 		}
@@ -159,20 +159,20 @@ namespace Game
 			processedCount = count;
 			if (processCount == 1)
 			{
-				var loadState = Musket3Block.GetLoadState(Terrain.ExtractData(inventory.GetSlotValue(slotIndex)));
+				var loadState = Musket2Block.GetLoadState(Terrain.ExtractData(inventory.GetSlotValue(slotIndex)));
 				switch (loadState)
 				{
-					case Musket3Block.LoadState.Empty:
-						loadState = Musket3Block.LoadState.bullet;
+					case Musket2Block.LoadState.Empty:
+						loadState = Musket2Block.LoadState.bullet;
 						break;
-					case Musket3Block.LoadState.bullet:
-						loadState = Musket3Block.LoadState.bullet2;
+					case Musket2Block.LoadState.bullet:
+						loadState = Musket2Block.LoadState.bullet2;
 						break;
 				}
 				processedValue = 0;
 				processedCount = 0;
 				inventory.RemoveSlotItems(slotIndex, 1);
-				inventory.AddSlotItems(slotIndex, Terrain.MakeBlockValue(Musket3Block.Index, 0, Musket3Block.SetBulletType(Musket3Block.SetLoadState(Terrain.ExtractData(inventory.GetSlotValue(slotIndex)), loadState), null)), 1);
+				inventory.AddSlotItems(slotIndex, Terrain.MakeBlockValue(Musket3Block.Index, 0, Musket2Block.SetBulletType(Musket2Block.SetLoadState(Terrain.ExtractData(inventory.GetSlotValue(slotIndex)), loadState), null)), 1);
 			}
 		}
 	}

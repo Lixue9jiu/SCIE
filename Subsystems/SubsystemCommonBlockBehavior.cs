@@ -1,5 +1,6 @@
 ﻿using Engine;
 using GameEntitySystem;
+using System.Collections.Generic;
 using TemplatesDatabase;
 
 namespace Game
@@ -31,6 +32,68 @@ namespace Game
 		public override void OnHitByProjectile(CellFace cellFace, WorldItem worldItem) => Utils.OnHitByProjectile(cellFace, worldItem);
 
 		public abstract Widget GetWidget(IInventory inventory, T component);
+	}
+
+	public abstract class SubsystemFurnaceBlockBehavior<T> : SubsystemInventoryBlockBehavior<T> where T : Component
+	{
+		public static readonly Dictionary<Point3, FireParticleSystem> m_particleSystemsByCell = new Dictionary<Point3, FireParticleSystem>();
+
+		public static SubsystemParticles m_subsystemParticles;
+
+		protected SubsystemFurnaceBlockBehavior(string name) : base(name) { }
+
+		public override void OnBlockAdded(int value, int oldValue, int x, int y, int z)
+		{
+			base.OnBlockAdded(value, oldValue, x, y, z);
+			if (FurnaceNBlock.GetHeatLevel(value) != 0)
+				AddFire(x, y, z);
+		}
+
+		public override void OnBlockRemoved(int value, int newValue, int x, int y, int z)
+		{
+			base.OnBlockRemoved(value, newValue, x, y, z);
+			if (FurnaceNBlock.GetHeatLevel(value) != 0)
+				RemoveFire(new Point3(x, y, z));
+		}
+
+		public override void OnBlockModified(int value, int oldValue, int x, int y, int z)
+		{
+			switch (FurnaceNBlock.GetHeatLevel(oldValue).CompareTo(FurnaceNBlock.GetHeatLevel(value)))
+			{
+				case -1: AddFire(x, y, z); return;
+				case 1: RemoveFire(new Point3(x, y, z)); return;
+			}
+		}
+
+		public override void OnBlockGenerated(int value, int x, int y, int z, bool isLoaded)
+		{
+			if (FurnaceNBlock.GetHeatLevel(value) != 0)
+				AddFire(x, y, z);
+		}
+
+		public override void OnChunkDiscarding(TerrainChunk chunk)
+		{
+			Utils.RemoveElementsInChunk(chunk, m_particleSystemsByCell.Keys, RemoveFire);
+		}
+
+		public override void Load(ValuesDictionary valuesDictionary)
+		{
+			base.Load(valuesDictionary);
+			m_subsystemParticles = Project.FindSubsystem<SubsystemParticles>(true);
+		}
+
+		public static void AddFire(int x, int y, int z)
+		{
+			var fireParticleSystem = new FireParticleSystem(new Vector3(x + 0.5f, y + 0.2f, z + 0.5f), 0.15f, 16f);
+			m_subsystemParticles.AddParticleSystem(fireParticleSystem);
+			m_particleSystemsByCell[new Point3(x, y, z)] = fireParticleSystem;
+		}
+
+		public static void RemoveFire(Point3 key)
+		{
+			m_subsystemParticles.RemoveParticleSystem(m_particleSystemsByCell[key]);
+			m_particleSystemsByCell.Remove(key);
+		}
 	}
 
 	public partial class Utils
