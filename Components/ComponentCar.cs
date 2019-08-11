@@ -33,7 +33,6 @@ namespace Game
 					rider.StartDismounting();
 			}
 			TurnOrder = 0f;
-
 		}
 
 		public override void Load(ValuesDictionary valuesDictionary, IdToEntityMap idToEntityMap)
@@ -43,6 +42,20 @@ namespace Game
 			m_componentDamage = Entity.FindComponent<ComponentDamage>(true);
 			componentEngine = Entity.FindComponent<ComponentEngineA>();
 			Entity.FindComponent<ComponentModel>(true).TextureOverride = TexturedMeshItem.WhiteTexture;
+			m_componentBody.CollidedWithBody += CollidedWithBody;
+		}
+
+		public void CollidedWithBody(ComponentBody body)
+		{
+			Vector2 v = m_componentBody.Velocity.XZ - body.Velocity.XZ;
+			float amount = v.LengthSquared() * .3f;
+			if (amount < .02f) return;
+			var health = body.Entity.FindComponent<ComponentHealth>();
+			if (health != null)
+				health.Injure(amount / health.AttackResilience, null, false, "Struck by a car");
+			else
+				body.Entity.FindComponent<ComponentDamage>()?.Damage(amount);
+			body.ApplyImpulse(MathUtils.Clamp(2.5f * MathUtils.Pow(m_componentBody.Mass / body.Mass, 0.33f), 0f, 6f) * Vector3.Normalize(body.Position - m_componentBody.Position));
 		}
 	}
 }

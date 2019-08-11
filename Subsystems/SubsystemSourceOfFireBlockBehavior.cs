@@ -159,6 +159,7 @@ namespace Game
 
 		public override void Load(ValuesDictionary valuesDictionary)
 		{
+			base.Load(valuesDictionary);
 			var s = valuesDictionary.GetValue<string>("Points", null);
 			if (!string.IsNullOrEmpty(s))
 			{
@@ -167,12 +168,11 @@ namespace Game
 				{
 					Point3 point = lightingPoints[i];
 					if (point != Point3.Zero)
-						SubsystemTerrain.ChangeCell(point.X, point.Y, point.Z, 0);
+						SubsystemTerrain.Terrain.SetCellValueFast(point.X, point.Y, point.Z, 0);
 				}
 			}
 			else
 				lightingPoints = new Point3[4];
-			base.Load(valuesDictionary);
 		}
 
 		public override void Save(ValuesDictionary valuesDictionary)

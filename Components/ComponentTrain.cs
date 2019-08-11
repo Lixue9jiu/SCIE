@@ -82,7 +82,7 @@ namespace Game
 			if (amount < .02f) return;
 			var health = body.Entity.FindComponent<ComponentHealth>();
 			if (health != null)
-				health.Injure(amount / health.AttackResilience, null, false, "Train");
+				health.Injure(amount / health.AttackResilience, null, false, "Struck by a train");
 			else
 				body.Entity.FindComponent<ComponentDamage>()?.Damage(amount);
 			body.ApplyImpulse(MathUtils.Clamp(1.25f * 6f * MathUtils.Pow(m_componentBody.Mass / body.Mass, 0.33f), 0f, 6f) * Vector3.Normalize(body.Position - m_componentBody.Position));
