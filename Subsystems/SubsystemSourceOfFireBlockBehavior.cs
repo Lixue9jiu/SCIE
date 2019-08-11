@@ -20,7 +20,7 @@ namespace Game
 {
 	public class SubsystemSourceOfFireBlockBehavior : SubsystemTorchBlockBehavior, IUpdateable
 	{
-		protected Point3[] lightingPoints;
+		protected readonly Point3[] lightingPoints = new Point3[4];
 
 		public override int[] HandledBlocks
 		{
@@ -69,9 +69,11 @@ namespace Game
 
 		public override void OnBlockAdded(int value, int oldValue, int x, int y, int z)
 		{
+			if (Terrain.ExtractContents(value) == 31 && Terrain.ExtractData(value) == 5)
+				return;
 			TryExplode(x, y, z);
 			int content = Terrain.ExtractContents(value);
-			if (content == 92 || content == 104 || content == 209 || (content == 31 && Terrain.ExtractData(value) >= 5))
+			if (content == 92 || content == 104 || content == 209 || (content == 31 && Terrain.ExtractData(value) == 5))
 				return;
 			AddTorch(value, x, y, z);
 		}
@@ -92,6 +94,11 @@ namespace Game
 			int content = Terrain.ExtractContents(value);
 			if (content == 92 || content == 104 || content == 209)
 				return;
+			if (content == 31 && Terrain.ExtractData(value) == 5)
+			{
+				SubsystemTerrain.Terrain.SetCellValueFast(x, y, z, 0);
+				return;
+			}
 			AddTorch(value, x, y, z);
 		}
 
@@ -129,19 +136,17 @@ namespace Game
 				Point3 point = GetPoint(componentPlayer.ComponentBody.Position);
 				IInventory inventory = componentPlayer.ComponentMiner.Inventory;
 				ref Point3 point3 = ref lightingPoints[i];
-				if (Terrain.ExtractContents(inventory.GetSlotValue(inventory.ActiveSlotIndex)) == 31)
+				int value = inventory.GetSlotValue(inventory.ActiveSlotIndex);
+				if (Terrain.ExtractContents(value) == IEBatteryBlock.Index && IEBatteryBlock.GetType(value) == BatteryType.Flashlight)
 				{
-					if (point != point3)
+					if (point != point3 && SubsystemTerrain.Terrain.GetCellContents(point.X, point.Y, point.Z) == 0)
 					{
-						if (SubsystemTerrain.Terrain.GetCellContents(point.X, point.Y, point.Z) == 0)
+						SubsystemTerrain.ChangeCell(point.X, point.Y, point.Z, Terrain.MakeBlockValue(TorchBlock.Index, 0, 5));
+						if (point3 != Point3.Zero)
 						{
-							SubsystemTerrain.ChangeCell(point.X, point.Y, point.Z, Terrain.MakeBlockValue(TorchBlock.Index, 0, 5));
-							if (point3 != Point3.Zero)
-							{
-								SubsystemTerrain.ChangeCell(point3.X, point3.Y, point3.Z, 0);
-							}
-							point3 = point;
+							SubsystemTerrain.ChangeCell(point3.X, point3.Y, point3.Z, 0);
 						}
+						point3 = point;
 					}
 				}
 				else if (point3 != Point3.Zero)
@@ -155,30 +160,6 @@ namespace Game
 		public static Point3 GetPoint(Vector3 v)
 		{
 			return new Point3((int)MathUtils.Round(v.X), (int)MathUtils.Round(v.Y) + 1, (int)MathUtils.Round(v.Z));
-		}
-
-		public override void Load(ValuesDictionary valuesDictionary)
-		{
-			base.Load(valuesDictionary);
-			var s = valuesDictionary.GetValue<string>("Points", null);
-			if (!string.IsNullOrEmpty(s))
-			{
-				lightingPoints = HumanReadableConverter.ValuesListFromString<Point3>(';', s);
-				for (int i = 0; i < lightingPoints.Length; i++)
-				{
-					Point3 point = lightingPoints[i];
-					if (point != Point3.Zero)
-						SubsystemTerrain.Terrain.SetCellValueFast(point.X, point.Y, point.Z, 0);
-				}
-			}
-			else
-				lightingPoints = new Point3[4];
-		}
-
-		public override void Save(ValuesDictionary valuesDictionary)
-		{
-			valuesDictionary.SetValue("Points", HumanReadableConverter.ValuesListToString(';', lightingPoints));
-			base.Save(valuesDictionary);
 		}
 	}
 }

@@ -20,14 +20,6 @@ namespace Game
 
 		public override IEnumerable<int> GetCreativeValues() => new[] { Terrain.MakeBlockValue(521, 0, SetBulletType(0, BulletType.IronBullet)), Terrain.MakeBlockValue(521, 0, SetBulletType(0, BulletType.HandBullet)), Index | 1 << 10 << 14 };
 
-		//public override IEnumerable<int> GetCreativeValues()
-		// {
-		//    var arr = EnumUtils.GetEnumValues(typeof(BulletType)).ToArray();
-		//     for (int i = 0; i < arr.Length ; i++)
-		//         arr[i] = Terrain.MakeBlockValue(521, 0, SetBulletType(0, (BulletType)arr[i]));
-		//     return arr;
-		// }
-
 		public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
 		{
 			if ((Terrain.ExtractData(value) >> 10) != 0)
@@ -57,7 +49,7 @@ namespace Game
 
 		public override string GetCategory(int value)
 		{
-			return (Terrain.ExtractData(value) >> 10) != 0 ? "Items" : DefaultCategory;
+			return (Terrain.ExtractData(value) >> 10) != 0 ? Utils.Get("»úÆ÷") : DefaultCategory;
 		}
 
 		public override Vector3 GetIconViewOffset(int value, DrawBlockEnvironmentData environmentData)

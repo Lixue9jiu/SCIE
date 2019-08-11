@@ -4,40 +4,47 @@ using System.Globalization;
 
 namespace Game
 {
-	public class Screwdriver : MeshItem
+	public class LightMould : Mould
 	{
-		public Screwdriver(Color color, string description = "") : base(description)
+		public LightMould(string modelName, string meshName, Matrix boneTransform, Matrix tcTransform, string description = "", string name = "", float size = 1) : base(modelName, meshName, boneTransform, tcTransform, description, name, size)
 		{
-			DefaultDisplayName = "螺丝刀";
-			m_standaloneBlockMesh.AppendMesh("Models/Screwdriver", "obj1", Matrix.CreateTranslation(0f, -0.33f, 0f), Matrix.CreateTranslation(15f / 16f, 0f, 0f) * Matrix.CreateScale(0.05f), color);
 		}
 
 		public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
 		{
-			BlocksManager.DrawMeshBlock(primitivesRenderer, m_standaloneBlockMesh, color, 3.3f * size, ref matrix, environmentData);
+			base.DrawBlock(primitivesRenderer, value, Color.White, size, ref matrix, environmentData);
+		}
+	}
+	public class Screwdriver : Mould
+	{
+		public Screwdriver() : base("Models/Screwdriver", "obj1", Matrix.CreateTranslation(0f, -0.33f, 0f), Matrix.CreateTranslation(15f / 16f, 0f, 0f), "螺丝刀可以快速拆除机器", "螺丝刀", 3.3f)
+		{
 		}
 
 		public override string GetCraftingId() => "Screwdriver";
 
 		public override string GetCategory() => "Tools";
+
+		public override BlockPlacementData GetPlacementValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, TerrainRaycastResult raycastResult)
+		{
+			return default(BlockPlacementData);
+		}
 	}
 
-	public class Wrench : MeshItem
+	public class Wrench : Mould
 	{
-		public Wrench(Color color, string description = "") : base(description)
+		public Wrench() : base("Models/Wrench", "obj1", Matrix.CreateScale(1.2f), Matrix.CreateTranslation(15f / 16f, 0f, 0f), "扳手可以拆除交通工具", "扳手", 6f)
 		{
-			DefaultDisplayName = "扳手";
-			m_standaloneBlockMesh.AppendMesh("Models/Wrench", "obj1", Matrix.CreateScale(1.2f), Matrix.CreateTranslation(15f / 16f, 0f, 0f) * Matrix.CreateScale(0.05f), color);
-		}
-
-		public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
-		{
-			BlocksManager.DrawMeshBlock(primitivesRenderer, m_standaloneBlockMesh, color, 6f * size, ref matrix, environmentData);
 		}
 
 		public override string GetCraftingId() => "Wrench";
 
 		public override string GetCategory() => "Tools";
+
+		public override BlockPlacementData GetPlacementValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, TerrainRaycastResult raycastResult)
+		{
+			return default(BlockPlacementData);
+		}
 	}
 
 	public class MetalIngot : MeshItem

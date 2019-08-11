@@ -6,19 +6,27 @@ namespace Game
 {
 	public enum BatteryType
 	{
-		Cu_Zn_Battery, Lead_Battery, Fission_Battery, Fusion_Battery
+		Cu_Zn_Battery, Lead_Battery, Fission_Battery, Fusion_Battery, Flashlight
 	}
 
 	public class IEBatteryBlock : FlatBlock, IDurability
 	{
 		public const int Index = 537;
+		public BlockMesh m_standaloneBlockMesh = new BlockMesh();
 
 		public override IEnumerable<int> GetCreativeValues()
 		{
-			var arr = new int[64];
-			for (int i = 0; i < 64; i++)
+			var arr = new int[80];
+			for (int i = 0; i < 80; i++)
 				arr[i] = Terrain.ReplaceData(Index, i >> 4 | (i & 15) << 13);
 			return arr;
+		}
+
+		public override void Initialize()
+		{
+			m_standaloneBlockMesh.AppendMesh("Models/Battery", "Battery", Matrix.CreateRotationX(MathUtils.PI / 2) * Matrix.CreateScale(.5f, .5f, 1.2f) * Matrix.CreateTranslation(0.5f, 0.5f, -0.3f), Matrix.CreateTranslation(9f / 16f, -7f / 16f, 0f), Color.DarkGray);
+			m_standaloneBlockMesh.AppendMesh("Models/Battery", "Battery", Matrix.CreateRotationX(MathUtils.PI / 2) * Matrix.CreateScale(.7f) * Matrix.CreateTranslation(0.5f, 0.5f, 0.5f), Matrix.CreateTranslation(9f / 16f, -7f / 16f, 0f), Color.DarkGray);
+			base.Initialize();
 		}
 
 		public override string GetCategory(int value)
@@ -43,8 +51,13 @@ namespace Game
 		public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
 		{
 			var type = GetType(value);
+			if (type == BatteryType.Flashlight)
+			{
+				BlocksManager.DrawMeshBlock(primitivesRenderer, m_standaloneBlockMesh, color, size, ref matrix, environmentData);
+				return;
+			}
 			ItemBlock.DrawFlatBlock(primitivesRenderer, value, size, ref matrix, ItemBlock.Texture,
-				(type == BatteryType.Fission_Battery ? Color.Cyan : type == BatteryType.Lead_Battery ? Color.Gray : color), false, environmentData);
+				type == BatteryType.Fission_Battery ? Color.Cyan : type == BatteryType.Lead_Battery ? Color.Gray : color, false, environmentData);
 		}
 
 		public static BatteryType GetType(int value)
@@ -100,5 +113,7 @@ namespace Game
 		{
 			return base.GetDamage(value) & 2047;
 		}
+
+		public override Vector3 GetIconViewOffset(int value, DrawBlockEnvironmentData environmentData) => Vector3.One;
 	}
 }

@@ -74,6 +74,11 @@
         <Parameter Name="AttackResilience" Guid="32e5b809-e2ba-4221-9f06-6b8710a8bcdf" Value="500" Type="float" />
       </MemberComponentTemplate>
     </EntityTemplate>
+    <EntityTemplate Name="Icebreaker" Guid="3f3abb7e-2ce4-43fa-9612-47d69bf788ba" InheritanceParent="3f3abb7e-1ce4-43fa-9612-47d69bf788ba">
+      <MemberComponentTemplate Name="Body" Guid="b6800017-ddd6-407b-bd4d-7be14c05d3eb">
+        <Parameter Name="Mass" Guid="ae127d38-1570-4901-a319-b21a8dc22175" Value="1000" Type="float" />
+      </MemberComponentTemplate>
+    </EntityTemplate>
     <EntityTemplate Name="Airship" Guid="3f3abb7e-1ce4-43fa-9614-47d69bf788ba">
       <MemberComponentTemplate Name="SimpleModel" Guid="459a8ad2-0db8-4604-9ee8-8504dbd3c7b1" InheritanceParent="cc5a4e72-0df9-4acf-a42e-ecb5a2a7baf5">
         <Parameter Name="ModelName" Guid="fe4ed217-297f-47ca-950a-930ea7d6e881" Value="Models/Airship" Type="string" />
@@ -86,7 +91,7 @@
         <Parameter Name="MountOffset" Guid="36b004ca-89e1-4412-be70-a6b4aae705bc" Value="0,0.85,-0.8" Type="Vector3" />
         <Parameter Name="DismountOffset" Guid="bac5c4e4-b009-4fe1-b840-93843edd05b6" Value="0,0.5,0.4" Type="Vector3" />
       </MemberComponentTemplate>
-       <MemberComponentTemplate Name="Body" Guid="b6800145-ddd6-407b-bd4d-7be14c05d3eb" InheritanceParent="8edd1986-0dcc-424f-893a-491c089b821e">
+      <MemberComponentTemplate Name="Body" Guid="b6800145-ddd6-407b-bd4d-7be14c05d3eb" InheritanceParent="8edd1986-0dcc-424f-893a-491c089b821e">
         <Parameter Name="WaterSwayAngle" Guid="00cc6498-eb39-4058-850f-a12f2a86c16a" Value="0.04" Type="float" />
         <Parameter Name="MaxSmoothRiseHeight" Guid="191519b4-e6f6-4604-aae9-7d0a3273c987" Value="0.3" Type="float" />
         <Parameter Name="BoxSize" Guid="5323f9ba-8c21-4667-a19e-605afa72e335" Value="2.50,4.5,2.50" Type="Vector3" />

@@ -14,6 +14,7 @@ public class RottenMeatBlock : FluidBlock
 		LightOil,
 		HeavyOil,
 		Gasoline,
+		Asphalt,
 		D2O,
 		T2O
 	}
@@ -42,7 +43,12 @@ public class RottenMeatBlock : FluidBlock
 	}
 	public override IEnumerable<int> GetCreativeValues()
 	{
-		return new[] { Index, Index | 1 << 14 + 4, Index | 2 << 14 + 4, Index | 3 << 14 + 4, Index | 4 << 14 + 4, Index | 5 << 14 + 4, Index | 6 << 14 + 4, Index | 7 << 14 + 4 };
+		var arr = new int[9];
+		for (int i = 0; i < 9; i++)
+		{
+			arr[i] = Index | i << (14 + 4);
+		}
+		return arr;
 	}
 	public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
 	{
@@ -57,6 +63,7 @@ public class RottenMeatBlock : FluidBlock
 				BlocksManager.DrawCubeBlock(primitivesRenderer, Terrain.ReplaceContents(value, 18), new Vector3(size), ref matrix, color, color, environmentData);
 				return;
 			case Type.OilBucket:
+			case Type.Asphalt:
 				BlocksManager.DrawMeshBlock(primitivesRenderer, StandaloneBlockMesh, color, 2f * size, ref matrix, environmentData);
 				return;
 			default:

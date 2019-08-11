@@ -69,10 +69,9 @@ namespace Game
 	}
 	public class Car : TexturedMeshItem
 	{
-		public Car() : base("汽车", "Car", "Car", WhiteTexture, 0.15f, "使用比空气更轻的气体来产生浮力并使其飞行的工艺，其驱动动力源来自通过燃烧航空汽油的往复式发动机。")
+		public Car() : base("汽车", "Car", "Car", WhiteTexture, 0.3f, "使用比空气更轻的气体来产生浮力并使其飞行的工艺，其驱动动力源来自通过燃烧航空汽油的往复式发动机。")
 		{
 		}
-		public override Vector3 GetIconViewOffset(int value, DrawBlockEnvironmentData environmentData) => new Vector3(-0.6f, 0.6f, -0.8f);
-		public override Vector3 GetIconBlockOffset(int value, DrawBlockEnvironmentData environmentData) => new Vector3(-0.4f, 0.8f, 0f);
+		public override Vector3 GetIconViewOffset(int value, DrawBlockEnvironmentData environmentData) => new Vector3(-0.6f, -1f, 0.5f);
 	}
 }

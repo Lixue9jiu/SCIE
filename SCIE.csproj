@@ -75,7 +75,7 @@
     <Compile Include="Blocks\MachineToolBlock.cs" />
     <Compile Include="Blocks\OresAndPowder.cs" />
     <Compile Include="Blocks\RailBlock.cs" />
-    <Compile Include="Blocks\Oil.cs" />
+    <Compile Include="Blocks\Liquid.cs" />
     <Compile Include="Blocks\Scraps.cs" />
     <Compile Include="Blocks\Vehicles.cs" />
     <Compile Include="Blocks\ElectricComponents.cs" />
@@ -179,8 +179,7 @@
     <Compile Include="Subsystems\SubsystemFurnaceNBlockBehavior.cs" />
     <Compile Include="Subsystems\SubsystemMusket2BlockBehavior.cs" />
     <Compile Include="Subsystems\Subsystem4DirectionalMachinesBehavior.cs" />
-    <Compile Include="Subsystems\SubsystemNRotBlockBehavior.cs" />
-    <Compile Include="Subsystems\SubsystemNSoilBlockBehavior.cs" />
+    <Compile Include="Subsystems\SubsystemNewBlockBehavior.cs" />
     <Compile Include="Blocks\TankBlock.cs" />
     <Compile Include="Chemistry\Atom.cs" />
     <Compile Include="Widgets\TGeneratorWidget.cs" />

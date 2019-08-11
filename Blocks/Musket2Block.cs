@@ -11,8 +11,8 @@ namespace Game
 			Gunpowder,
 			Wad,
 			Loaded,
-			bullet = Gunpowder,
-			bullet2 = Wad
+			Bullet = Gunpowder,
+			Bullet2 = Wad
 		}
 
 		public const int Index = 520;
