@@ -54,7 +54,6 @@ namespace Game
 				m_fireTimeRemaining = SmeltingProgress;
 				//HeatLevel = 1000f;
 			}
-			
 		}
 
 		public override void Load(ValuesDictionary valuesDictionary, IdToEntityMap idToEntityMap)

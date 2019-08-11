@@ -1,45 +1,9 @@
-using Engine;
-using System.Xml.Linq;
-
 namespace Game
 {
-	public class Musket3Widget : CanvasWidget
+	public class Musket3Widget : Musket2Widget
 	{
-		protected readonly LabelWidget m_instructionsLabel;
-
-		protected readonly IInventory m_inventory;
-
-		protected readonly GridPanelWidget m_inventoryGrid;
-
-		protected readonly InventorySlotWidget m_inventorySlotWidget;
-
-		protected readonly int m_slotIndex;
-
-		public Musket3Widget(IInventory inventory, int slotIndex)
+		public Musket3Widget(IInventory inventory, int slotIndex) : base(inventory, slotIndex)
 		{
-			m_inventory = inventory;
-			m_slotIndex = slotIndex;
-			WidgetsManager.LoadWidgetContents(this, this, ContentManager.Get<XElement>("Widgets/Musket2Widget"));
-			m_inventoryGrid = Children.Find<GridPanelWidget>("InventoryGrid");
-			m_inventorySlotWidget = Children.Find<InventorySlotWidget>("InventorySlot");
-			m_instructionsLabel = Children.Find<LabelWidget>("InstructionsLabel");
-			int i = 0, num;
-			for (; i < m_inventoryGrid.RowsCount; i++)
-			{
-				for (num = 0; num < m_inventoryGrid.ColumnsCount; num++)
-				{
-					var widget = new InventorySlotWidget();
-					m_inventoryGrid.Children.Add(widget);
-					m_inventoryGrid.SetWidgetCell(widget, new Point2(num, i));
-				}
-			}
-			num = 6;
-			i = 0;
-			for (int count = m_inventoryGrid.Children.Count; i < count; i++)
-				if (m_inventoryGrid.Children[i] is InventorySlotWidget inventorySlotWidget)
-					inventorySlotWidget.AssignInventorySlot(inventory, num++);
-			m_inventorySlotWidget.AssignInventorySlot(inventory, slotIndex);
-			m_inventorySlotWidget.CustomViewMatrix = Matrix.CreateLookAt(new Vector3(1f, 0f, 0f), new Vector3(0f, 0f, 0f), -Vector3.UnitZ);
 		}
 
 		public override void Update()
@@ -52,10 +16,10 @@ namespace Game
 				case Musket2Block.LoadState.Empty:
 					m_instructionsLabel.Text = "Load bullet";
 					break;
-				case Musket2Block.LoadState.bullet:
+				case Musket2Block.LoadState.Bullet:
 					m_instructionsLabel.Text = "Fire or Load bullet";
 					break;
-				case Musket2Block.LoadState.bullet2:
+				case Musket2Block.LoadState.Bullet2:
 					m_instructionsLabel.Text = "Ready for Fire";
 					break;
 				default:

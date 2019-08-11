@@ -18,9 +18,9 @@ namespace Game
 
 		public const int Index = 214;
 
-		protected static readonly string[] m_displayNames = new string[5]
+		protected static readonly string[] m_displayNames = new[]
 		{
-			"Musket Ball", "Buckshot", "Buckshot Ball", "IronBullet","C-Bullet"
+			"Musket Ball", "Buckshot", "Buckshot Ball", "IronBullet", "C-Bullet"
 		};
 
 		protected static readonly float[] m_sizes = new[] { 1f, 1f, 0.33f, 1f ,0.5f};
@@ -53,8 +53,8 @@ namespace Game
 		public override IEnumerable<int> GetCreativeValues()
 		{
 			var arr = EnumUtils.GetEnumValues(typeof(BulletType)).ToArray();
-			for (int i = 0; i < arr.Length-1; i++)
-				arr[i] = Terrain.MakeBlockValue(214, 0, SetBulletType(0, (BulletType)arr[i]));
+			for (int i = 0; i < arr.Length; i++)
+				arr[i] = Terrain.MakeBlockValue(214, 0, SetBulletType(0, (BulletType)i));
 			return arr;
 		}
 

@@ -22,7 +22,6 @@ namespace Game
 			if (MoveOrder != 0f)
 			{
 				if (rider != null && componentEngine != null && componentEngine.HeatLevel>0f)
-					//componentBody.Velocity += dt * (componentEngine != null ? componentEngine.HeatLevel * 0.01f : 3f) * MoveOrder * rider.ComponentCreature.ComponentCreatureModel.EyeRotation.ToForwardVector();
 				    m_componentBody.Velocity += dt * 40f * MoveOrder * m_componentBody.Matrix.Forward;
 				MoveOrder = 0f;
 			}
@@ -48,7 +47,7 @@ namespace Game
 		public void CollidedWithBody(ComponentBody body)
 		{
 			Vector2 v = m_componentBody.Velocity.XZ - body.Velocity.XZ;
-			float amount = v.LengthSquared() * .3f;
+			float amount = v.LengthSquared() * .1f;
 			if (amount < .02f) return;
 			var health = body.Entity.FindComponent<ComponentHealth>();
 			if (health != null)

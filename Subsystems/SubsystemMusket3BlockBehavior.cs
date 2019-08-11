@@ -2,7 +2,7 @@ using Engine;
 
 namespace Game
 {
-	public class SubsystemMusket3BlockBehavior : SubsystemMusketBlockBehavior
+	public class SubsystemMusket3BlockBehavior : SubsystemMusket2BlockBehavior
 	{
 		public override bool OnEditInventoryItem(IInventory inventory, int slotIndex, ComponentPlayer componentPlayer)
 		{
@@ -146,13 +146,6 @@ namespace Game
 			return false;
 		}
 
-		public override int GetProcessInventoryItemCapacity(IInventory inventory, int slotIndex, int value)
-		{
-			return Terrain.ExtractContents(value) != Bullet2Block.Index || Musket2Block.GetLoadState(Terrain.ExtractData(inventory.GetSlotValue(slotIndex))) == Musket2Block.LoadState.bullet2
-				? 0
-				: 1;
-		}
-
 		public override void ProcessInventoryItem(IInventory inventory, int slotIndex, int value, int count, int processCount, out int processedValue, out int processedCount)
 		{
 			processedValue = value;
@@ -163,10 +156,10 @@ namespace Game
 				switch (loadState)
 				{
 					case Musket2Block.LoadState.Empty:
-						loadState = Musket2Block.LoadState.bullet;
+						loadState = Musket2Block.LoadState.Bullet;
 						break;
-					case Musket2Block.LoadState.bullet:
-						loadState = Musket2Block.LoadState.bullet2;
+					case Musket2Block.LoadState.Bullet:
+						loadState = Musket2Block.LoadState.Bullet2;
 						break;
 				}
 				processedValue = 0;

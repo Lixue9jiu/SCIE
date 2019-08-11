@@ -115,7 +115,7 @@ namespace Game
 
 	public class SubsystemItemBlockBehavior : SubsystemThrowableBlockBehavior, IDrawable
 	{
-		public static int[] m_drawOrders = { 9 };
+		public static int[] m_drawOrders = { 0 };
 		public int[] DrawOrders => m_drawOrders;
 
 		public static Dictionary<Point2, TerrainGeometrySubsets> Data;

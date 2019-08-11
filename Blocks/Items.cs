@@ -25,7 +25,7 @@ namespace Game
 		internal static void Load()
 		{
 			var m = Matrix.CreateTranslation(0.5f, 0.4f, 0.5f);
-			var m2 = Matrix.CreateTranslation(13f / 16f, -3f / 16f, 0f);
+			var m2 = Matrix.CreateTranslation(13f / 16f, -3f / 16f, 0f) * Matrix.CreateScale(20f);
 			Items = new Item[] {
 			new RottenEgg(),
 			new MetalLine(Materials.Iron),
@@ -167,8 +167,8 @@ namespace Game
 				DefaultTextureSlot = 122,
 				DefaultDisplayName = "基因查看器"
 			},
-			new Screwdriver(Color.White),
-			new Wrench(Color.White),
+			new Screwdriver(),
+			new Wrench(),
 			new OreChunk(Matrix.CreateRotationX(1f) * Matrix.CreateRotationZ(1f), Matrix.CreateTranslation(0.0625f, 0.4375f, 0f), Color.White, false, Materials.Steel)
 			{
 				Id = "石膏",
@@ -183,13 +183,13 @@ namespace Game
 			new Plate("聚乙烯板", Color.White),
 			new Plate("聚乙烯片", Color.White, true),
 			new Mould("Models/Piston2", "Cylinder", Matrix.CreateTranslation(0.5f, 0.7f, 0.5f) * Matrix.CreateScale(0.6f), Matrix.CreateTranslation(4f, 3.8f, 0f), "A Cylinder made of alloy, Aluminum and steel, the neccessary part of many machine.", "Cylinder", 1.6f),
-			new Ball("Models/Snowball", "Snowball", m, m2, "A Ball of Melting Iron.", "MeltingIron", 2.9f),
-			new Ball("Models/Snowball", "Snowball", m, m2, "A Ball of Melting Chromium.", "MeltingChromium", 2.9f),
-			new Ball("Models/Snowball", "Snowball", m, m2, "A Ball of Melting Nickel.", "MeltingNickel", 2.9f),
-			new Ball("Models/Snowball", "Snowball", m, m2, "A Ball of Melting Titanium.", "MeltingTitanium", 2.9f),
-			new Ball("Models/Snowball", "Snowball", m, m2, "A Ball of Melting Aluminium.", "MeltingAluminium", 2.9f),
-			new Ball("Models/Snowball", "Snowball", m, m2, "A Ball of Melting Copper.", "MeltingCopper", 2.9f),
-			new Ball("Models/Snowball", "Snowball", m, m2, "A Ball of Melting Zinc.", "MeltingZinc", 2.9f),
+			new LightMould("Models/Snowball", "Snowball", m, m2, "A Ball of Melting Iron.", "MeltingIron", 2.9f),
+			new LightMould("Models/Snowball", "Snowball", m, m2, "A Ball of Melting Chromium.", "MeltingChromium", 2.9f),
+			new LightMould("Models/Snowball", "Snowball", m, m2, "A Ball of Melting Nickel.", "MeltingNickel", 2.9f),
+			new LightMould("Models/Snowball", "Snowball", m, m2, "A Ball of Melting Titanium.", "MeltingTitanium", 2.9f),
+			new LightMould("Models/Snowball", "Snowball", m, m2, "A Ball of Melting Aluminium.", "MeltingAluminium", 2.9f),
+			new LightMould("Models/Snowball", "Snowball", m, m2, "A Ball of Melting Copper.", "MeltingCopper", 2.9f),
+			new LightMould("Models/Snowball", "Snowball", m, m2, "A Ball of Melting Zinc.", "MeltingZinc", 2.9f),
 			new Alloy(Materials.Steel,"Stainless Steel"),
 			new Alloy(Materials.Aluminum, "Super Aluminium"),
 			new Alloy(Materials.Steel, "Si-Steel"),
@@ -203,7 +203,7 @@ namespace Game
 				DefaultDisplayName = "混凝土砖",
 				DefaultDescription = "混凝土砖"
 			},
-			new Ball("Models/Snowball", "Snowball", Matrix.CreateTranslation(0.5f, 0.4f, 0.5f), Matrix.CreateTranslation(12f / 16f, -1f / 16f, 0f), "A Ball of Rubber, an important component in the advanced industry", "Rubber", 2.6f),
+			new Mould("Models/Snowball", "Snowball", Matrix.CreateTranslation(0.5f, 0.4f, 0.5f), Matrix.CreateTranslation(12f / 16f, -1f / 16f, 0f) * Matrix.CreateScale(20f), "A Ball of Rubber, an important component in the advanced industry", "Rubber", 2.6f),
 			new Rod(Materials.Uranium),
 			new FoodCan("EmptyCan can be used to make food can","Empty",Color.Gray),
 			new FoodCan("MeatCan can store meat for a long time","Meat",Color.Gray),
@@ -211,13 +211,6 @@ namespace Game
 			new FoodCan("PumpkinCan can store Pumpkin for a long time","Pumpkin",Color.Gray),
 			new FoodCan("BreadCan can store Bread for a long time","Bread",Color.Gray),
 			new FoodCan("FishCan can store Fish for a long time","Fish",Color.Gray),
-			new Rod(Materials.Plastic),
-			new Plate("128K RAM", Color.DarkGreen, true),
-			new Plate("256K RAM", Color.DarkGreen, true),
-			new Plate("512K RAM", Color.DarkGreen, true),
-			new Plate("RISC CPU", Color.DarkGray, true),
-			new Plate("CISC CPU", Color.DarkGray, true),
-			new CPanel(),
 			new Brick(new Color(255, 255, 255, 32), Matrix.CreateTranslation(-32 % 16 / 16f, -32 / 16 / 16f, 0f))
 			{
 				DefaultDisplayName = "玻璃砖",
@@ -225,6 +218,13 @@ namespace Game
 			},
 			new Car(),
 			//new Mould("Models/OBox", "Cube", Matrix.CreateTranslation(0.5f, 0.7f, 0.5f) * Matrix.CreateScale(0.6f), Matrix.CreateTranslation(4f, 3.8f, 0f), "A Cylinder made of alloy, Aluminum and steel, the neccessary part of many machine.", "Cube", 1.6f),
+			new Rod(Materials.Plastic),
+			new Plate("128K RAM", Color.DarkGreen, true),
+			new Plate("256K RAM", Color.DarkGreen, true),
+			new Plate("512K RAM", Color.DarkGreen, true),
+			new Plate("RISC CPU", Color.DarkGray, true),
+			new Plate("CISC CPU", Color.DarkGray, true),
+			new CPanel(),
 			};
 			ElementBlock.Devices = new Device[]
 			{
