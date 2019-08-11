@@ -47,15 +47,15 @@ namespace Game
 			int slotValue = m_inventory.GetSlotValue(m_slotIndex);
 			if (Terrain.ExtractContents(slotValue) == Musket3Block.Index && m_inventory.GetSlotCount(m_slotIndex) > 0)
 			{
-				switch (Musket3Block.GetLoadState(Terrain.ExtractData(slotValue)))
+				switch (Musket2Block.GetLoadState(Terrain.ExtractData(slotValue)))
 				{
-				case Musket3Block.LoadState.Empty:
+				case Musket2Block.LoadState.Empty:
 					m_instructionsLabel.Text = "Load bullet";
 					break;
-				case Musket3Block.LoadState.bullet:
+				case Musket2Block.LoadState.bullet:
 					m_instructionsLabel.Text = "Fire or Load bullet";
 					break;
-				case Musket3Block.LoadState.bullet2:
+				case Musket2Block.LoadState.bullet2:
 					m_instructionsLabel.Text = "Ready for Fire";
 					break;
 				default:

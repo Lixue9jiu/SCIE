@@ -363,9 +363,6 @@
     <MemberSubsystemTemplate Name="RailBlockBehavior" Guid="9689f977-898b-4f5c-9ea8-f8cc331e97b3" InheritanceParent="fefb9590-4972-4893-b02a-76063611b745">
       <Parameter Name="Class" Guid="861de9e0-bd64-42e8-b2f0-c25b167da4ad" Value="Game.SubsystemRailBlockBehavior" Type="string" />
     </MemberSubsystemTemplate>
-	<MemberSubsystemTemplate Name="HandledTorchBlockBehavior" Guid="9681f999-898b-4f5c-9ea8-f8cc331e97b3" InheritanceParent="fefb9590-4972-4893-b02a-76063611b745">
-      <Parameter Name="Class" Guid="861fe9e1-bd64-62e8-b2f0-c25b167da4ad" Value="Game.HandledTorchBlockBehavior" Type="string" />
-    </MemberSubsystemTemplate>
     <MemberSubsystemTemplate Name="Circuit" Guid="fff36d3d-e999-452c-959d-47eefb16457a" InheritanceParent="a3914c13-7801-46a6-b23a-9e2b36e9defb">
       <Parameter Name="Class" Guid="ff8971da-4268-41d7-90a9-9a066f2feea8" Value="Game.SubsystemCircuit" Type="string" />
     </MemberSubsystemTemplate>

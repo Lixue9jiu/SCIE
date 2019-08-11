@@ -22,6 +22,7 @@ namespace Game
 		public static SubsystemBlockEntities SubsystemBlockEntities;
 		public static SubsystemExplosions SubsystemExplosions;
 		public static SubsystemCollapsingBlockBehavior SubsystemCollapsingBlockBehavior;
+		public static SubsystemPlayers SubsystemPlayers;
 		public static SubsystemPickables SubsystemPickables;
 		public static SubsystemProjectiles SubsystemProjectiles;
 		public static SubsystemWeather SubsystemWeather;
@@ -41,6 +42,7 @@ namespace Game
 			SubsystemBlockEntities = Project.FindSubsystem<SubsystemBlockEntities>(true);
 			SubsystemExplosions = Project.FindSubsystem<SubsystemExplosions>(true);
 			SubsystemCollapsingBlockBehavior = Project.FindSubsystem<SubsystemCollapsingBlockBehavior>(true);
+			SubsystemPlayers = Project.FindSubsystem<SubsystemPlayers>(true);
 			SubsystemPickables = Project.FindSubsystem<SubsystemPickables>(true);
 			SubsystemProjectiles = Project.FindSubsystem<SubsystemProjectiles>(true);
 			SubsystemWeather = Project.FindSubsystem<SubsystemWeather>(true);
