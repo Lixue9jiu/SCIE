@@ -127,7 +127,7 @@
       </MemberComponentTemplate>
       <MemberComponentTemplate Name="OnFire" Guid="7f9d95a3-2f5a-4c6d-98a8-9b5ad07b32e5" InheritanceParent="93590d78-63b9-4cd6-bc41-e66864cbb050" />
       <MemberComponentTemplate Name="Mount" Guid="913f2b6f-c838-4f19-a139-b2ed5ff96493" InheritanceParent="d0b14127-39ce-4490-af00-fb4111e9c51e">
-        <Parameter Name="MountOffset" Guid="36b364ca-89e1-4412-be70-a6b4aae705bc" Value="0.6,2.15,-0.7" Type="Vector3" />
+        <Parameter Name="MountOffset" Guid="36b364ca-89e1-4412-be70-a6b4aae705bc" Value="0.6,1.95,-0.7" Type="Vector3" />
         <Parameter Name="DismountOffset" Guid="bac7f4e4-b009-4fe1-b840-93843edd05b6" Value="0,0.5,0.4" Type="Vector3" />
       </MemberComponentTemplate>
        <MemberComponentTemplate Name="Body" Guid="b6821145-ddd6-407b-bd4d-7be14c05d3eb" InheritanceParent="8edd1986-0dcc-424f-893a-491c089b821e">
@@ -135,9 +135,9 @@
         <Parameter Name="MaxSmoothRiseHeight" Guid="191629b4-e6f6-4604-aae9-7d0a3273c987" Value="0.3" Type="float" />
         <Parameter Name="BoxSize" Guid="532319ba-8c21-4667-a19e-605afa72e335" Value="2.50,2.5,2.50" Type="Vector3" />
         <Parameter Name="WaterDrag" Guid="6549df43-9d11-410f-b0b0-4cdf89dcdae4" Value="6,4" Type="Vector2" />
-        <Parameter Name="Mass" Guid="ae12ad39-1576-4921-a319-b21a8dc22175" Value="300" Type="float" />
-        <Parameter Name="AirDrag" Guid="d854439f-da38-419b-9b32-aadf09fc82a4" Value="0.5,0.5" Type="Vector2" />
-        <Parameter Name="Density" Guid="f28a4d8f-5efa-44c5-881e-a724611e3cd5" Value="1.0" Type="float" />
+        <Parameter Name="Mass" Guid="ae12ad39-1576-4921-a319-b21a8dc22175" Value="1300" Type="float" />
+        <Parameter Name="AirDrag" Guid="d854439f-da38-419b-9b32-aadf09fc82a4" Value="1.5,1.5" Type="Vector2" />
+        <Parameter Name="Density" Guid="f28a4d8f-5efa-44c5-881e-a724611e3cd5" Value="7.0" Type="float" />
       </MemberComponentTemplate>
       <MemberComponentTemplate Name="Damage" Guid="eb61929d-8993-41bd-b693-545dea83af91" InheritanceParent="17bb7b53-159c-4eb3-b4bc-137b10bba88a">
         <Parameter Name="AttackResilience" Guid="32e5b899-e2ba-4291-9f06-6b8710a8bcdf" Value="300" Type="float" />
