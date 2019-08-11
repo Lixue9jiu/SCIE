@@ -79,7 +79,7 @@ namespace Game
 				return;
 			Vector2 v = m_componentBody.Velocity.XZ - body.Velocity.XZ;
 			float amount = v.LengthSquared() * .3f;
-			if (amount < .02f) return;
+			if (amount < .02f || m_componentBody.Velocity.XZ.LengthSquared()==0f) return;
 			var health = body.Entity.FindComponent<ComponentHealth>();
 			if (health != null)
 				health.Injure(amount / health.AttackResilience, null, false, "Struck by a train");
