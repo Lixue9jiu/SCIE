@@ -263,6 +263,12 @@ namespace Game
 					entity.FindComponent<ComponentFrame>(true).Rotation = Quaternion.CreateFromAxisAngle(Vector3.UnitY, m_random.UniformFloat(0f, 6.283185f));
 					goto put;
 				}
+				else if (activeBlockValue == ItemBlock.IdTable["Car"])
+				{
+					entity = DatabaseManager.CreateEntity(Project, "Car", true);
+					entity.FindComponent<ComponentFrame>(true).Rotation = Quaternion.CreateFromAxisAngle(Vector3.UnitY, m_random.UniformFloat(0f, 6.283185f));
+					goto put;
+				}
 				else if (BlocksManager.Blocks[Terrain.ExtractContents(activeBlockValue)] is ItemBlock item && item.GetItem(ref activeBlockValue) is Mine mine)
 				{
 					entity = DatabaseManager.CreateEntity(Project, "Mine", new ValuesDictionary

@@ -87,6 +87,7 @@
     <Compile Include="Circuit\TEDC.cs" />
     <Compile Include="Components\ComponentAirship.cs" />
     <Compile Include="Components\ComponentCanpack.cs" />
+    <Compile Include="Components\ComponentCar.cs" />
     <Compile Include="Components\ComponentCharger.cs" />
     <Compile Include="Components\ComponentCondenser.cs" />
     <Compile Include="Components\ComponentCoven.cs" />
