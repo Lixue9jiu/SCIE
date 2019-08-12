@@ -19,6 +19,9 @@
     <EntityTemplate Name="Magnetizer" Guid="0855a277-af17-4955-81fa-aafaf97b92bd" InheritanceParent="9681f999-898b-4f5c-9ea8-f8cc331e97b3">
       <MemberComponentTemplate Name="Magnetizer" Guid="0f193a13-ac7d-4b4c-97c7-df652ca11b51" InheritanceParent="73a2ec9e-10c7-4133-85b4-4a35bd44c956" />
     </EntityTemplate>
+	<EntityTemplate Name="OilPlant" Guid="26ffa277-af17-4955-81fa-aafaf97b92bd" InheritanceParent="9681f999-898b-4f5c-9ea8-f8cc331e97b3">
+      <MemberComponentTemplate Name="OilPlant" Guid="0f473a13-ac7d-4b4c-97c7-df652ca11b51" InheritanceParent="84a2ff9e-10c7-4133-85b4-4a35bd44c956" />
+    </EntityTemplate>
     <EntityTemplate Name="ElectricFurnace" Guid="0855a288-af17-4955-81fa-aafaf97b92bd" InheritanceParent="9681f999-898b-4f5c-9ea8-f8cc331e97b3">
       <MemberComponentTemplate Name="ElectricFurnace" Guid="0f193a24-ac7d-4b4c-97c7-df652ca11b51" InheritanceParent="73a2ecbf-10c7-4133-85b4-4a35bd44c956" />
     </EntityTemplate>
@@ -112,19 +115,20 @@
     <EntityTemplate Name="Car" Guid="3f3acc8e-1ce4-43fa-9614-47d69bf788ba">
       <MemberComponentTemplate Name="SimpleModel" Guid="459a9fd2-0db8-4604-9ee8-8504dbd3c7b1" InheritanceParent="cc5a4e72-0df9-4acf-a42e-ecb5a2a7baf5">
         <Parameter Name="ModelName" Guid="1e4ef237-297f-47ca-950a-930ea7d6e881" Value="Models/Car" Type="string" />
+		<Parameter Name="TextureOverride" Guid="11e176e5-837a-4614-a9fe-baf88d835b11" Value="Textures/tex2" Type="string" />
       </MemberComponentTemplate>
       <MemberComponentTemplate Name="Car" Guid="a376d5fa-5307-4df6-9294-a51abcd70387" InheritanceParent="572b3616-6ee6-442a-900f-b4caba94be39" />
       <MemberComponentTemplate Name="AirshipTable" Guid="f82415a9-10c6-4a2c-9ea5-725fffee2225" InheritanceParent="98fdc888-8ca8-4d0f-af8d-25bfe9b56a19" />
       <MemberComponentTemplate Name="Spawn" Guid="388fb3f4-6fef-4408-b891-a781377a1e77" InheritanceParent="65268743-4076-4ee3-aefe-f02a54d16b37" />
       <MemberComponentTemplate Name="OnFire" Guid="7f9d95a3-2f5a-4c6d-98a8-9b5ad07b32e5" InheritanceParent="93590d78-63b9-4cd6-bc41-e66864cbb050" />
       <MemberComponentTemplate Name="Mount" Guid="913f2b6f-c838-4f19-a139-b2ed5ff96493" InheritanceParent="d0b14127-39ce-4490-af00-fb4111e9c51e">
-        <Parameter Name="MountOffset" Guid="36b364ca-89e1-4412-be70-a6b4aae705bc" Value="0.6,1.65,-0.2" Type="Vector3" />
+        <Parameter Name="MountOffset" Guid="36b364ca-89e1-4412-be70-a6b4aae705bc" Value="0.0,1.15,0.3" Type="Vector3" />
         <Parameter Name="DismountOffset" Guid="bac7f4e4-b009-4fe1-b840-93843edd05b6" Value="0,0.5,0.4" Type="Vector3" />
       </MemberComponentTemplate>
        <MemberComponentTemplate Name="Body" Guid="b6821145-ddd6-407b-bd4d-7be14c05d3eb" InheritanceParent="8edd1986-0dcc-424f-893a-491c089b821e">
         <Parameter Name="WaterSwayAngle" Guid="00136498-eb39-4058-850f-a12f2a86c16a" Value="0.04" Type="float" />
         <Parameter Name="MaxSmoothRiseHeight" Guid="191629b4-e6f6-4604-aae9-7d0a3273c987" Value="0.3" Type="float" />
-        <Parameter Name="BoxSize" Guid="532319ba-8c21-4667-a19e-605afa72e335" Value="2.50,3.0,2.50" Type="Vector3" />
+        <Parameter Name="BoxSize" Guid="532319ba-8c21-4667-a19e-605afa72e335" Value="1.50,1.5,1.50" Type="Vector3" />
         <Parameter Name="WaterDrag" Guid="6549df43-9d11-410f-b0b0-4cdf89dcdae4" Value="6,4" Type="Vector2" />
         <Parameter Name="Mass" Guid="ae12ad39-1576-4921-a319-b21a8dc22175" Value="1300" Type="float" />
         <Parameter Name="AirDrag" Guid="d854439f-da38-419b-9b32-aadf09fc82a4" Value="1.5,1.5" Type="Vector2" />
@@ -384,6 +388,10 @@
     <ComponentTemplate Name="Magnetizer" Description="A magnetizer" Guid="73a2ec9e-10c7-4133-85b4-4a35bd44c956" InheritanceParent="81a44c6a-c30a-4f53-8d64-0c30aabab8f9">
       <Parameter Name="SlotsCount" Guid="0b8d574d-f972-431b-9828-d30e0fbf33f1" Value="3" Type="int" />
       <Parameter Name="Class" Guid="1c8a89ff-22f9-45aa-aae3-039ba73b12b6" Value="Game.ComponentMagnetizer" Type="string" />
+    </ComponentTemplate>
+	<ComponentTemplate Name="OilPlant" Description="A magnetizer" Guid="84a2ff9e-10c7-4133-85b4-4a35bd44c956" InheritanceParent="81a44c6a-c30a-4f53-8d64-0c30aabab8f9">
+      <Parameter Name="SlotsCount" Guid="ff1d574d-f972-4311-9828-d30e0fbf33f1" Value="6" Type="int" />
+      <Parameter Name="Class" Guid="7f2a89ff-22f9-45aa-aae4-039ba73b12b6" Value="Game.ComponentOilPlant" Type="string" />
     </ComponentTemplate>
     <ComponentTemplate Name="ElectricFurnace" Description="An electric furnace" Guid="73a2ecbf-10c7-4133-85b4-4a35bd44c956" InheritanceParent="81a44c6a-c30a-4f53-8d64-0c30aabab8f9">
       <Parameter Name="SlotsCount" Guid="0b8d684d-f972-431b-9828-d30e0fbf33f1" Value="9" Type="int" />

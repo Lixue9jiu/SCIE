@@ -41,7 +41,7 @@ namespace Game
 			m_componentBody = Entity.FindComponent<ComponentBody>(true);
 			m_componentDamage = Entity.FindComponent<ComponentDamage>(true);
 			componentEngine = Entity.FindComponent<ComponentEngineA>();
-			Entity.FindComponent<ComponentModel>(true).TextureOverride = TexturedMeshItem.WhiteTexture;
+			//Entity.FindComponent<ComponentModel>(true).TextureOverride = TexturedMeshItem.WhiteTexture;
 			m_componentBody.CollidedWithBody += CollidedWithBody;
 		}
 
