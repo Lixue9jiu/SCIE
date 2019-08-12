@@ -383,7 +383,7 @@ namespace Game
 		{
 			return GetCustomCollisionBoxes(terrain, value);
 		}*/
-		public virtual int GetEmittedLightAmount()
+		public virtual int GetEmittedLightAmount(int value)
 		{
 			return 0;
 		}
@@ -538,7 +538,7 @@ namespace Game
 		}*/
 		public override int GetEmittedLightAmount(int value)
 		{
-			return GetItem(ref value).GetEmittedLightAmount();
+			return GetItem(ref value).GetEmittedLightAmount(value);
 		}
 		public override float GetNutritionalValue(int value)
 		{

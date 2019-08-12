@@ -105,6 +105,21 @@ namespace Game
 		}
 	}
 
+	public class SpinnerBlock : FourDirectionalBlock
+	{
+		public const int Index = 535;
+
+		public SpinnerBlock() : base(207) { }
+		public override int GetFaceTextureSlot(int face, int value)
+		{
+			return face == 4 ? 118 : 115;
+		}
+		public override BlockPlacementData GetPlacementValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, TerrainRaycastResult raycastResult)
+		{
+			return new BlockPlacementData { Value = Index, CellFace = raycastResult.CellFace };
+		}
+	}
+
 	public class SourBlock : PaintedCubeBlock
 	{
 		public const int Index = 507;
@@ -161,6 +176,24 @@ namespace Game
 		public override void GenerateTerrainVertices(BlockGeometryGenerator generator, TerrainGeometrySubsets geometry, int value, int x, int y, int z)
 		{
 			Utils.BlockGeometryGenerator.GenerateCubeVertices(this, value, x, y, z, SubsystemPalette.GetColor(generator, GetPaintColor(value)), Utils.GTV(x, z, geometry).OpaqueSubsetsByFace);
+		}
+		public override BlockPlacementData GetPlacementValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, TerrainRaycastResult raycastResult)
+		{
+			return new BlockPlacementData
+			{
+				Value = value,
+				CellFace = raycastResult.CellFace
+			};
+		}
+
+		public override void GetDropValues(SubsystemTerrain subsystemTerrain, int oldValue, int newValue, int toolLevel, List<BlockDropValue> dropValues, out bool showDebris)
+		{
+			showDebris = DestructionDebrisScale > 0f;
+			dropValues.Add(new BlockDropValue
+			{
+				Value = Terrain.ReplaceLight(oldValue, 0),
+				Count = 1
+			});
 		}
 	}
 }

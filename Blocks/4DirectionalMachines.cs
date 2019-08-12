@@ -10,24 +10,6 @@ namespace Game
 
 		public PresserBlock() : base(207) { }
 	}
-    public class SpinnerBlock : FourDirectionalBlock
-    {
-        public const int Index = 535;
-
-        public SpinnerBlock() : base(207) { }
-        public override int GetFaceTextureSlot(int face, int value)
-        {
-            return face == 4 ? 118 : 115;
-        }
-        public override BlockPlacementData GetPlacementValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, TerrainRaycastResult raycastResult)
-        {
-            return new BlockPlacementData
-            {
-                Value = BlockIndex,
-                CellFace = raycastResult.CellFace
-            };
-        }
-    }
     public class KibblerBlock : FourDirectionalBlock
 	{
 		public const int Index = 518;
@@ -251,7 +233,7 @@ namespace Game
 		{
 			return new BlockPlacementData
 			{
-				Value = BlockIndex | SetDirection(Terrain.ExtractData(value), Utils.GetDirectionXZ(componentMiner)) << 14,
+				Value = Index | SetDirection(Terrain.ExtractData(value), Utils.GetDirectionXZ(componentMiner)) << 14,
 				CellFace = raycastResult.CellFace
 			};
 		}

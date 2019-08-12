@@ -288,7 +288,50 @@ namespace Game
 
 		public override Vector3 GetIconBlockOffset(int value, DrawBlockEnvironmentData environmentData) => new Vector3 { Y = .5f };
 	}
-	//public class Relay :
+	public class Relay : FixedDevice, IElectricElementBlock
+	{
+		public BlockMesh m_standaloneBlockMesh = new BlockMesh();
+		public BoundingBox[] m_collisionBoxes;
+
+		public Relay() : base("继电器", "继电器")
+		{
+			m_standaloneBlockMesh.AppendMesh("Models/Switch", "Body", Matrix.CreateTranslation(.5f, 0, .5f), Matrix.Identity, Color.White);
+			m_collisionBoxes = new[] { m_standaloneBlockMesh.CalculateBoundingBox() };
+		}
+
+		public override void Simulate(ref int voltage)
+		{
+			if (!Powered) voltage = 0;
+		}
+
+		public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
+		{
+			BlocksManager.DrawMeshBlock(primitivesRenderer, m_standaloneBlockMesh, color, size * 2f, ref matrix, environmentData);
+		}
+		public override void GenerateTerrainVertices(Block block, BlockGeometryGenerator generator, TerrainGeometrySubsets geometry, int value, int x, int y, int z)
+		{
+			WireDevice.GenerateWireVertices(generator, value, x, y, z, 4, 0f, Vector2.Zero, geometry.SubsetOpaque);
+			generator.GenerateMeshVertices(Block, x, y, z, m_standaloneBlockMesh, SubsystemPalette.GetColor(generator, PaintableItemBlock.GetColor(Terrain.ExtractData(value))), null, geometry.SubsetOpaque);
+			generator.GenerateWireVertices(value, x, y, z, 4, 0.25f, Vector2.Zero, geometry.SubsetOpaque);
+		}
+
+		public override bool IsFaceTransparent(SubsystemTerrain subsystemTerrain, int face, int value) => true;
+		public override BoundingBox[] GetCustomCollisionBoxes(SubsystemTerrain terrain, int value) => m_collisionBoxes;
+		public override Vector3 GetIconBlockOffset(int value, DrawBlockEnvironmentData environmentData) => new Vector3 { Y = 0.45f };
+		public ElectricElement CreateElectricElement(SubsystemElectricity subsystemElectricity, int value, int x, int y, int z)
+		{
+			return new RelayElectricElement(subsystemElectricity, new Point3(x, y, z));
+		}
+		public ElectricConnectorType? GetConnectorType(SubsystemTerrain terrain, int value, int face, int connectorFace, int x, int y, int z)
+		{
+			return face == 4 || face == 5 ? (ElectricConnectorType?)ElectricConnectorType.Input : null;
+		}
+		public int GetConnectionMask(int value)
+		{
+			int? color = PaintableItemBlock.GetColor(Terrain.ExtractData(value));
+			return color.HasValue ? 1 << color.Value : 2147483647;
+		}
+	}
 
 	public class ElectricFences : FixedDevice
 	{
@@ -412,24 +455,7 @@ namespace Game
 		public override BoundingBox[] GetCustomCollisionBoxes(SubsystemTerrain terrain, int value) => m_collisionBoxes[Terrain.ExtractData(value) >> 14 & 15];
 	}
 
-	/*public abstract class DeviceElement : Element, IComparable<DeviceElement>, IEquatable<DeviceElement>
-	{
-		public int Voltage;
-
-		protected DeviceElement(int voltage) : base(ElementType.Device)
-		{
-			Voltage = voltage;
-		}
-		public int CompareTo(DeviceElement other)
-		{
-			return Voltage.CompareTo(other.Voltage);
-		}
-		public bool Equals(DeviceElement other)
-		{
-			return base.Equals(other) && Voltage == other.Voltage;
-		}
-	}
-	public abstract class Diode : Device
+	/*public abstract class Diode : Device
 	{
 		public int MaxVoltage;
 		protected Diode() : base(ElementType.Connector)
