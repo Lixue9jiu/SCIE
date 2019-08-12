@@ -105,6 +105,7 @@
     <Compile Include="Components\ComponentMachine.cs" />
     <Compile Include="Components\ComponentMagnetizer.cs" />
     <Compile Include="Components\ComponentNewChest.cs" />
+    <Compile Include="Components\ComponentOilPlant.cs" />
     <Compile Include="Components\ComponentPlayer.cs" />
     <Compile Include="Components\ComponentSeperator.cs" />
     <Compile Include="Components\ComponentSour.cs" />
@@ -146,6 +147,7 @@
     <Compile Include="Widgets\Musket3Widget.cs" />
     <Compile Include="Widgets\NewChestWidget.cs" />
     <Compile Include="Widgets\NewCraftingRecipeWidget.cs" />
+    <Compile Include="Widgets\OIlPlantWidget.cs" />
     <Compile Include="Widgets\SeperatorWidget.cs" />
     <Compile Include="Widgets\CastMachWidget.cs" />
     <Compile Include="Components\ComponentCastMach.cs" />
