@@ -222,6 +222,7 @@ namespace Game
 
 	public class Brick : MeshItem
 	{
+		public string Id;
 		public Brick(Color color, Matrix tcTrarsform) : base(Utils.Get("耐火砖是一种耐火陶瓷材料，用于炉衬炉，窑炉，高级燃烧室和壁炉。 它具有耐高温性能，但导热系数低，能效高。"))
 		{
 			m_standaloneBlockMesh.AppendMesh("Models/Brick", "Brick", Matrix.CreateTranslation(0f, -.02f, 0f) * 1.4f, tcTrarsform, color);
@@ -235,6 +236,7 @@ namespace Game
 		public override float GetMeleePower() => 2f;
 
 		public override float GetProjectilePower() => 2f;
+		public override string GetCraftingId() => Id ?? DefaultDisplayName;
 	}
 
 	/*public class Slab : MeshItem

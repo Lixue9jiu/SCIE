@@ -205,6 +205,7 @@ namespace Game
 			new Powder("酵母", Color.White),
 			new Brick(Color.Gray, Matrix.CreateTranslation(-32 % 16 / 16f, -32 / 16 / 16f, 0f))
 			{
+				Id = "ConcreteBrick",
 				DefaultDisplayName = "混凝土砖",
 				DefaultDescription = "混凝土砖"
 			},
@@ -224,6 +225,7 @@ namespace Game
 			new Car(),
 			//new Mould("Models/OBox", "Cube", Matrix.CreateTranslation(0.5f, 0.7f, 0.5f) * Matrix.CreateScale(0.6f), Matrix.CreateTranslation(4f, 3.8f, 0f), "A Cylinder made of alloy, Aluminum and steel, the neccessary part of many machine.", "Cube", 1.6f),
 			new Rod(Materials.Plastic),
+			new Mould("Models/Battery", "Battery", Matrix.CreateTranslation(new Vector3(0.5f)) * Matrix.CreateScale(2f, 0.05f, 2f), Matrix.CreateTranslation(9f / 16f, -7f / 16f, 0f) * Matrix.CreateScale(20f), "晶圆", "晶圆"),
 			new Plate("128K RAM", Color.DarkGreen, true),
 			new Plate("256K RAM", Color.DarkGreen, true),
 			new Plate("512K RAM", Color.DarkGreen, true),
@@ -271,11 +273,11 @@ namespace Game
 				//new MachRod(),
 				new WaterExtractor(),
 				new Condenser(), //30
-				new UThickener(),
 				new AirPump(),
 				new ElectricFences(),
+				new UThickener(),
 				new Transformer(),
-				new Charger(),//35
+				new Charger(),
 				new TGenerator(),
 				new Unpacker(),
 				new ElectricPump(),

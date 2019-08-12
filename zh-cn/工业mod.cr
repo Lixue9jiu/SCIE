@@ -211,7 +211,7 @@
     <Recipe Result="LeadRod" ResultCount="2" RequiredHeatLevel="300" a="LeadIngot" Description="将铅锭锻造成棒">
       "aa"
     </Recipe>
-	<Recipe Result="BrassRod" ResultCount="2" RequiredHeatLevel="1200" a="BrassIngot" b="CoalPowder" Description="冶炼黄铜矿获得棒">
+    <Recipe Result="BrassRod" ResultCount="2" RequiredHeatLevel="1200" a="BrassIngot" b="CoalPowder" Description="冶炼黄铜矿获得棒">
       "aab"
     </Recipe>
     <Recipe Result="PlatinumRod" ResultCount="2" RequiredHeatLevel="1800" a="PlatinumIngot" Description="将铂锭锻造成棒">
@@ -347,6 +347,11 @@
       "aaaa"
     </Recipe>
     <Recipe Result="MetalBlock:64" ResultCount="1" RequiredHeatLevel="0" a="RefractoryBrick" Description="结合许多防火砖来获得防火砖墙">
+      "aaa"
+      "aaa"
+      "aaa"
+    </Recipe>
+    <Recipe Result="MetalBlock:480" ResultCount="1" RequiredHeatLevel="0" a="ConcreteBrick" Description="结合许多混凝土砖来获得混凝土墙">
       "aaa"
       "aaa"
       "aaa"
@@ -598,7 +603,7 @@
       "ded"
       "aca"
     </Recipe>
-	<Recipe Result="SpinnerBlock" ResultCount="1" RequiredHeatLevel="0" a="planks" b="stick" c="rod:0" d="SteelGear" Description="制造一台自动纺织机">
+    <Recipe Result="SpinnerBlock" ResultCount="1" RequiredHeatLevel="0" a="planks" b="stick" c="rod:0" d="SteelGear" Description="制造一台自动纺织机">
       "bcb"
       "dad"
       "aca"
@@ -685,7 +690,7 @@
       "aca"
       "aba"
     </Recipe>
-	<Recipe Result="SourBlock" ResultCount="1" RequiredHeatLevel="0" a="planks" b="stick" c="dirt" Description="制作一个发酵池">
+    <Recipe Result="SourBlock" ResultCount="1" RequiredHeatLevel="0" a="planks" b="stick" c="dirt" Description="制作一个发酵池">
       "aaa"
       "bcb"
       "aaa"
@@ -851,28 +856,28 @@
       "bbbb"
       "baab"
     </Recipe>
-	<Recipe Result="Canpack" ResultCount="1" RequiredHeatLevel="0" a="SteelIngot" b="metalblock:32" c="IndustrialPiston" d="tank" e="SteelRod" Description="制作一个灌装机">
+    <Recipe Result="Canpack" ResultCount="1" RequiredHeatLevel="0" a="SteelIngot" b="metalblock:32" c="IndustrialPiston" d="tank" e="SteelRod" Description="制作一个灌装机">
       "ada"
       "ece"
       "aba"
     </Recipe>
-	<Recipe Result="Empty" ResultCount="1" RequiredHeatLevel="0" a="IronPlate" Description="制作一个铁罐头">
+    <Recipe Result="Empty" ResultCount="1" RequiredHeatLevel="0" a="IronPlate" Description="制作一个铁罐头">
       "a a"
       " a "
     </Recipe>
-	<Recipe Result="CookedMeatBlock" ResultCount="2" Remains="Empty" RemainsCount="1" RequiredHeatLevel="0" a="Meat" Description="打开一个铁罐头">
+    <Recipe Result="CookedMeatBlock" ResultCount="2" Remains="Empty" RemainsCount="1" RequiredHeatLevel="0" a="Meat" Description="打开一个铁罐头">
       "a"
     </Recipe>
-	<Recipe Result="CookedBirdBlock" ResultCount="2" Remains="Empty" RemainsCount="1" RequiredHeatLevel="0" a="Chicken" Description="打开一个铁罐头">
+    <Recipe Result="CookedBirdBlock" ResultCount="2" Remains="Empty" RemainsCount="1" RequiredHeatLevel="0" a="Chicken" Description="打开一个铁罐头">
       "a"
     </Recipe>
-	<Recipe Result="CookedFishBlock" ResultCount="2" Remains="Empty" RemainsCount="1" RequiredHeatLevel="0" a="Fish" Description="打开一个铁罐头">
+    <Recipe Result="CookedFishBlock" ResultCount="2" Remains="Empty" RemainsCount="1" RequiredHeatLevel="0" a="Fish" Description="打开一个铁罐头">
       "a"
     </Recipe>
-	<Recipe Result="PumpkinBlock" ResultCount="2" Remains="Empty" RemainsCount="1" RequiredHeatLevel="0" a="Pumpkin" Description="打开一个铁罐头">
+    <Recipe Result="PumpkinBlock" ResultCount="2" Remains="Empty" RemainsCount="1" RequiredHeatLevel="0" a="Pumpkin" Description="打开一个铁罐头">
       "a"
     </Recipe>
-	<Recipe Result="BreadBlock" ResultCount="2" Remains="Empty" RemainsCount="1" RequiredHeatLevel="0" a="Bread" Description="打开一个铁罐头">
+    <Recipe Result="BreadBlock" ResultCount="2" Remains="Empty" RemainsCount="1" RequiredHeatLevel="0" a="Bread" Description="打开一个铁罐头">
       "a"
     </Recipe>
     <Recipe Result="FeAlCrAlloyResistor" ResultCount="1" RequiredHeatLevel="0" a="IronLine" b="FeAlCrAlloyLine" Description="用铁铬合金线和铁线制作铁铝铬合金电阻器">
@@ -920,7 +925,7 @@
       "aeba"
       "caac"
     </Recipe>
-	<Recipe Result="TGenerator" ResultCount="1" RequiredHeatLevel="0" a="CopperWire" b="tank" c="SteelPlate" d="BrassRod" e="metalblock:32" Description="用黄铜棒制作热能发电机，可以通过岩浆发电">
+    <Recipe Result="TGenerator" ResultCount="1" RequiredHeatLevel="0" a="CopperWire" b="tank" c="SteelPlate" d="BrassRod" e="metalblock:32" Description="用黄铜棒制作热能发电机，可以通过岩浆发电">
       "caac"
       "dddd"
       "adda"
@@ -980,13 +985,13 @@
       "dccd"
       "effe"
     </Recipe>
-	<Recipe Result="Condenser" ResultCount="1" RequiredHeatLevel="0" a="CopperWire" b="SteelPlate" c="waterbucket" d="AluminumPlate" Description="用铝片制作一台电容蓄电池，可以存储电量">
+    <Recipe Result="Condenser" ResultCount="1" RequiredHeatLevel="0" a="CopperWire" b="SteelPlate" c="waterbucket" d="AluminumPlate" Description="用铝片制作一台电容蓄电池，可以存储电量">
       "bddb"
       "acca"
       "acca"
       "bddb"
     </Recipe>
-	<Recipe Result="Charger" ResultCount="1" RequiredHeatLevel="0" a="CopperWire" b="WireDevice" c="metalblock:32" Description="充电放电装置，可以给电器充电也可以放电">
+    <Recipe Result="Charger" ResultCount="1" RequiredHeatLevel="0" a="CopperWire" b="WireDevice" c="metalblock:32" Description="充电放电装置，可以给电器充电也可以放电">
       "bbb"
       "aca"
       "bbb"
