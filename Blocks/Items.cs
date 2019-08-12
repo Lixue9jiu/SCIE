@@ -160,7 +160,12 @@ namespace Game
 			new Powder("明矾", Color.White),
 			new Powder("石英砂", Color.White),
 			new Powder("苔粉", Color.DarkGreen),
-			new GranulatedItem("滑石", Color.White),
+			new FlatItem()
+			{
+				DefaultDisplayName = Utils.Get("滑石"),
+				DefaultTextureSlot = 231,
+				Color = Color.White
+			},
 			new Powder("滑石粉", Color.White),
 			new FlatItem
 			{
@@ -171,7 +176,7 @@ namespace Game
 			new Wrench(),
 			new OreChunk(Matrix.CreateRotationX(1f) * Matrix.CreateRotationZ(1f), Matrix.CreateTranslation(0.0625f, 0.4375f, 0f), Color.White, false, Materials.Steel)
 			{
-				Id = "石膏",
+				Id = "Plaster",
 				DefaultDisplayName = "石膏",
 				DefaultDescription = "石膏"
 			},
@@ -283,7 +288,11 @@ namespace Game
 			for (i = 0; i < Items.Length; i++)
 				IdTable.Add(Items[i].GetCraftingId(), Index | i << 14);
 			for (i = 0; i < ElementBlock.Devices.Length; i++)
+			{
+				if (ElementBlock.Devices[i] is FixedDevice device)
+					device.Index = i;
 				IdTable.Add(ElementBlock.Devices[i].GetCraftingId(), ElementBlock.Index | i << 14);
+			}
 			var list = new DynamicArray<Item>(Chemistry.GunpowderBlock.Items)
 			{
 				Capacity = Chemistry.GunpowderBlock.Items.Length

@@ -56,16 +56,6 @@ namespace Game
 		public override bool IsFaceTransparent(SubsystemTerrain subsystemTerrain, int face, int value) => true;
 	}
 
-	public class GranulatedItem : FlatItem
-	{
-		public GranulatedItem(string name, Color color)
-		{
-			DefaultDisplayName = Utils.Get(name);
-			DefaultTextureSlot = 231;
-			Color = color;
-		}
-	}
-
 	public class Mould : MeshItem
 	{
 		public readonly float Size;

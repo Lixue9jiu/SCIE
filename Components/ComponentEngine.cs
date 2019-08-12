@@ -32,19 +32,16 @@ namespace Game
 			if (m_updateSmeltingRecipe)
 			{
 				m_updateSmeltingRecipe = false;
-				float heatLevel = 0f;
-				if (HeatLevel > 0f)
-					heatLevel = HeatLevel;
-				else
+				if (HeatLevel <= 0f)
 				{
 					slot = m_slots[FuelSlotIndex];
 					if (slot.Count > 0)
 					{
 						var block = BlocksManager.Blocks[Terrain.ExtractContents(slot.Value)];
-						heatLevel = block is IFuel fuel ? fuel.GetHeatLevel(slot.Value) : block.FuelHeatLevel;
+						HeatLevel = block is IFuel fuel ? fuel.GetHeatLevel(slot.Value) : block.FuelHeatLevel;
 					}
 				}
-				string text = FindSmeltingRecipe(heatLevel);
+				string text = FindSmeltingRecipe(HeatLevel);
 				if (text != m_smeltingRecipe)
 				{
 					m_smeltingRecipe = text;

@@ -53,10 +53,14 @@ namespace Game
 			ItemBlock.DrawFlatBlock(primitivesRenderer, value, size, ref matrix, ItemBlock.Texture, color, false, environmentData);
 		}
 	}
-	public class Diode : FlatItem
-	{
 
-	}
+	/*public class Diode : MeshItem
+	{
+		public Diode(string name) : base(name)
+		{
+		}
+	}*/
+
 	public class CPanel : FlatItem
 	{
 		public CPanel()

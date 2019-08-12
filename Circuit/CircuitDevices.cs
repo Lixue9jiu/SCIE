@@ -24,11 +24,6 @@ namespace Game
 			return face == 4 || face == 5 ? 107 : face == (Terrain.ExtractData(value) >> 15) ? 106 : 107;
 		}
 
-		public override BlockPlacementData GetPlacementValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, TerrainRaycastResult raycastResult)
-		{
-			return GetPlacementValue(0, componentMiner, value, raycastResult);
-		}
-
 		public override Widget GetWidget(IInventory inventory, ComponentNewChest component)
 		{
 			return new NewChestWidget(inventory, component);
@@ -54,11 +49,6 @@ namespace Game
 		public override int GetFaceTextureSlot(int face, int value)
 		{
 			return face != 4 && face != 5 && face == (Terrain.ExtractData(value) >> 15) ? 239 : 107;
-		}
-
-		public override BlockPlacementData GetPlacementValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, TerrainRaycastResult raycastResult)
-		{
-			return GetPlacementValue(2, componentMiner, value, raycastResult);
 		}
 
 		public override Widget GetWidget(IInventory inventory, ComponentMagnetizer component)
@@ -88,11 +78,6 @@ namespace Game
 			return face != 4 && face != 5 && face == (Terrain.ExtractData(value) >> 15) ? 240 : 107;
 		}
 
-		public override BlockPlacementData GetPlacementValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, TerrainRaycastResult raycastResult)
-		{
-			return GetPlacementValue(3, componentMiner, value, raycastResult);
-		}
-
 		public override Widget GetWidget(IInventory inventory, ComponentSeperator component)
 		{
 			return new SeperatorWidget(inventory, component);
@@ -109,11 +94,6 @@ namespace Game
 		public override int GetFaceTextureSlot(int face, int value)
 		{
 			return face != 4 && face != 5 && face == (Terrain.ExtractData(value) >> 15) ? 131 : 221;
-		}
-
-		public override BlockPlacementData GetPlacementValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, TerrainRaycastResult raycastResult)
-		{
-			return GetPlacementValue(31, componentMiner, value, raycastResult);
 		}
 	}
 
@@ -136,11 +116,6 @@ namespace Game
 		public override int GetFaceTextureSlot(int face, int value)
 		{
 			return face != 4 && face != 5 && face == (Terrain.ExtractData(value) >> 15) ? 235 : 107;
-		}
-
-		public override BlockPlacementData GetPlacementValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, TerrainRaycastResult raycastResult)
-		{
-			return GetPlacementValue(7, componentMiner, value, raycastResult);
 		}
 
 		public override Widget GetWidget(IInventory inventory, ComponentCanpack component)
@@ -168,11 +143,6 @@ namespace Game
 		public override int GetFaceTextureSlot(int face, int value)
 		{
 			return face == 4 || face == 5 ? 224 : 107;
-		}
-
-		public override BlockPlacementData GetPlacementValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, TerrainRaycastResult raycastResult)
-		{
-			return GetPlacementValue(8, componentMiner, value, raycastResult);
 		}
 
 		public override Widget GetWidget(IInventory inventory, ComponentElectrobath component)
@@ -228,11 +198,6 @@ namespace Game
 			return face == 4 || face == 5 ? 107 : 220;
 		}
 
-		public override BlockPlacementData GetPlacementValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, TerrainRaycastResult raycastResult)
-		{
-			return GetPlacementValue(4, componentMiner, value, raycastResult);
-		}
-
 		public void OnBlockAdded(SubsystemTerrain terrain, int value, int oldValue)
 		{
 		}
@@ -260,11 +225,6 @@ namespace Game
 			return face != 4 && face != 5 && face == (Terrain.ExtractData(value) >> 15) ? 164 : 107;
 		}
 
-		public override BlockPlacementData GetPlacementValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, TerrainRaycastResult raycastResult)
-		{
-			return GetPlacementValue(6, componentMiner, value, raycastResult);
-		}
-
 		public override Widget GetWidget(IInventory inventory, ComponentElectricFurnace component)
 		{
 			return new ElectricFurnaceWidget(inventory, component);
@@ -289,13 +249,9 @@ namespace Game
         {
             return face != 4 && face != 5 && face == (Terrain.ExtractData(value) >> 15) ? 165 : 107;
         }
-        public override BlockPlacementData GetPlacementValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, TerrainRaycastResult raycastResult)
-        {
-            return GetPlacementValue(24, componentMiner, value, raycastResult);
-        }
         public override Widget GetWidget(IInventory inventory, ComponentElectricIFurnace component)
         {
-            return new ElectricIFurnaceWidget(inventory, component);
+            return new ElectricFurnaceWidget(inventory, component, "Widgets/ElectricIFurnaceWidget");
         }
 	}
 
@@ -309,11 +265,6 @@ namespace Game
 		public override int GetFaceTextureSlot(int face, int value)
         {
             return face == 4 || face == 5 ? 107 : 147;
-        }
-
-        public override BlockPlacementData GetPlacementValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, TerrainRaycastResult raycastResult)
-        {
-            return GetPlacementValue(27, componentMiner, value, raycastResult);
         }
         public void OnBlockRemoved(SubsystemTerrain terrain, int value, int newValue)
         {
@@ -337,11 +288,6 @@ namespace Game
 		{
 			return face == 4 || face == 5 ? 107 : 121;
 		}
-
-		public override BlockPlacementData GetPlacementValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, TerrainRaycastResult raycastResult)
-		{
-			return GetPlacementValue(32, componentMiner, value, raycastResult);
-		}
 		public void OnBlockRemoved(SubsystemTerrain terrain, int value, int newValue)
 		{
 			value = 0;
@@ -359,11 +305,6 @@ namespace Game
 		public override int GetFaceTextureSlot(int face, int value)
 		{
 			return face != 4 && face != 5 && face == (Terrain.ExtractData(value) >> 15) ? 236 : 224;
-		}
-
-		public override BlockPlacementData GetPlacementValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, TerrainRaycastResult raycastResult)
-		{
-			return GetPlacementValue(29, componentMiner, value, raycastResult);
 		}
 	}
 
@@ -396,10 +337,6 @@ namespace Game
         {
             return face == 4 || face == 5 ? 114 : 117;
         }
-        public override BlockPlacementData GetPlacementValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, TerrainRaycastResult raycastResult)
-        {
-			return GetPlacementValue(30, componentMiner, value, raycastResult);
-		}
         public override void OnBlockAdded(SubsystemTerrain subsystemTerrain, int value, int oldValue)
         {
 			base.OnBlockAdded(subsystemTerrain, value, oldValue);
@@ -442,10 +379,6 @@ namespace Game
 		{
 			return face == 4 || face == 5 ? 114 : 122;
 		}
-		public override BlockPlacementData GetPlacementValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, TerrainRaycastResult raycastResult)
-		{
-			return GetPlacementValue(35, componentMiner, value, raycastResult);
-		}
 		public override Widget GetWidget(IInventory inventory, ComponentCharger component)
 		{
 			return new ChargerWidget(inventory, component);
@@ -466,11 +399,6 @@ namespace Game
 			return face != 4 && face != 5 && face == (Terrain.ExtractData(value) >> 15) ? 125 : 107;
 		}
 
-		public override BlockPlacementData GetPlacementValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, TerrainRaycastResult raycastResult)
-		{
-			return GetPlacementValue(36, componentMiner, value, raycastResult);
-		}
-
 		public override Widget GetWidget(IInventory inventory, ComponentTGenerator component)
 		{
 			return new TGeneratorWidget(inventory, component);
@@ -488,18 +416,10 @@ namespace Game
 		{
 			return face != 4 && face != 5 && face == (Terrain.ExtractData(value) >> 15) ? 235 : 124;
 		}
-
-		public override BlockPlacementData GetPlacementValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, TerrainRaycastResult raycastResult)
-		{
-			return GetPlacementValue(37, componentMiner, value, raycastResult);
-		}
 	}
-	public class ElectricPump : FixedDevice, IBlockBehavior
+	public class ElectricPump : FixedDevice
 	{
-		public ElectricPump() : base("电子泵", "电子泵是一种可以直接吸收液体于管道传输的机器") { }
-		public void OnBlockAdded(SubsystemTerrain subsystemTerrain, int value, int oldValue)
-		{
-		}
+		public ElectricPump() : base("电子泵", "电子泵是一种可以直接吸收液体于管道传输的机器") { Type = ElementType.Pipe; }
 		//public override void Simulate(ref int voltage)
 		//{
 		//	if (voltage < 0)
@@ -508,16 +428,6 @@ namespace Game
 		public override int GetFaceTextureSlot(int face, int value)
 		{
 			return face == 4 || face == 5 ? 107 : 236;
-		}
-
-		public override BlockPlacementData GetPlacementValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, TerrainRaycastResult raycastResult)
-		{
-			return GetPlacementValue(38, componentMiner, value, raycastResult);
-		}
-		public void OnBlockRemoved(SubsystemTerrain terrain, int value, int newValue)
-		{
-			value = 0;
-			//Simulate(ref value);
 		}
 	}
 }

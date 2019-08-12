@@ -55,10 +55,6 @@ namespace Game
 			if (Powered = voltage >= 60)
 				voltage -= 60;
 		}
-		public override BlockPlacementData GetPlacementValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, TerrainRaycastResult raycastResult)
-		{
-			return GetPlacementValue(20, componentMiner, value, raycastResult);
-		}
 	}
 	public class AirPump : FixedDevice
 	{
@@ -67,11 +63,6 @@ namespace Game
 		public override int GetFaceTextureSlot(int face, int value)
 		{
 			return face != 4 && face != 5 && face == (Terrain.ExtractData(value) >> 15) ? 220 : 239;
-		}
-
-		public override BlockPlacementData GetPlacementValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, TerrainRaycastResult raycastResult)
-		{
-			return GetPlacementValue(32, componentMiner, value, raycastResult);
 		}
 	}
 	public class Rectifier : FixedDevice

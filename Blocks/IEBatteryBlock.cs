@@ -6,13 +6,14 @@ namespace Game
 {
 	public enum BatteryType
 	{
-		Cu_Zn_Battery, Lead_Battery, Fission_Battery, Fusion_Battery, Flashlight
+		Cu_Zn_Battery, Lead_Battery, Fission_Battery, Fusion_Battery, Flashlight, Electric_Prod
 	}
 
 	public class IEBatteryBlock : FlatBlock, IDurability
 	{
 		public const int Index = 537;
 		public BlockMesh m_standaloneBlockMesh = new BlockMesh();
+		public BlockMesh m_standaloneBlockMesh2 = new BlockMesh();
 
 		public override IEnumerable<int> GetCreativeValues()
 		{
@@ -26,6 +27,7 @@ namespace Game
 		{
 			m_standaloneBlockMesh.AppendMesh("Models/Battery", "Battery", Matrix.CreateRotationX(MathUtils.PI / 2) * Matrix.CreateScale(.5f, .5f, 1.2f) * Matrix.CreateTranslation(0.5f, 0.5f, -0.3f), Matrix.CreateTranslation(9f / 16f, -7f / 16f, 0f), Color.DarkGray);
 			m_standaloneBlockMesh.AppendMesh("Models/Battery", "Battery", Matrix.CreateRotationX(MathUtils.PI / 2) * Matrix.CreateScale(.7f) * Matrix.CreateTranslation(0.5f, 0.5f, 0.5f), Matrix.CreateTranslation(9f / 16f, -7f / 16f, 0f), Color.DarkGray);
+			m_standaloneBlockMesh2.AppendMesh("Models/Rods", "SteelRod", Matrix.CreateTranslation(0, -0.5f, 0), Matrix.Identity, Color.DarkGray);
 			base.Initialize();
 		}
 
@@ -54,6 +56,11 @@ namespace Game
 			if (type == BatteryType.Flashlight)
 			{
 				BlocksManager.DrawMeshBlock(primitivesRenderer, m_standaloneBlockMesh, color, size, ref matrix, environmentData);
+				return;
+			}
+			if (type == BatteryType.Electric_Prod)
+			{
+				BlocksManager.DrawMeshBlock(primitivesRenderer, m_standaloneBlockMesh2, color, size, ref matrix, environmentData);
 				return;
 			}
 			ItemBlock.DrawFlatBlock(primitivesRenderer, value, size, ref matrix, ItemBlock.Texture,
@@ -104,8 +111,14 @@ namespace Game
 				case BatteryType.Fission_Battery: return 8000;
 				case BatteryType.Fusion_Battery: return 40000;
 				case BatteryType.Lead_Battery: return 1200;
+				case BatteryType.Flashlight: return 800;
 			}
-			return 0;
+			return 300;
+		}
+
+		public override int GetDamageDestructionValue(int value)
+		{
+			return SetDamage(value, GetDurability(value));
 		}
 
 		public override int GetDamage(int value)
@@ -113,6 +126,15 @@ namespace Game
 			return base.GetDamage(value) & 2047;
 		}
 
-		public override Vector3 GetIconViewOffset(int value, DrawBlockEnvironmentData environmentData) => GetType(value) == BatteryType.Flashlight ? Vector3.One : Vector3.Zero;
+		public override float GetMeleePower(int value)
+		{
+			return GetType(value) == BatteryType.Electric_Prod ? MathUtils.Lerp(1f, 6f, GetDamage(value) / 300f) : DefaultMeleePower;
+		}
+		public override float GetMeleeHitProbability(int value)
+		{
+			return GetType(value) == BatteryType.Electric_Prod ? 0.8f : DefaultMeleeHitProbability;
+		}
+
+		public override Vector3 GetIconViewOffset(int value, DrawBlockEnvironmentData environmentData) => GetType(value) == BatteryType.Flashlight ? Vector3.One : DefaultIconViewOffset;
 	}
 }

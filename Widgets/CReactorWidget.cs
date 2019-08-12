@@ -56,9 +56,9 @@ namespace Game
 					m_furnaceGrid.SetWidgetCell(inventorySlotWidget, new Point2(x, y));
 				}
 			}
-			m_result1.AssignInventorySlot(componentFurnace, num++);
-			m_result2.AssignInventorySlot(componentFurnace, num++);
-			m_result3.AssignInventorySlot(componentFurnace, num++);
+			m_result1.AssignInventorySlot(componentFurnace, num);
+			m_result2.AssignInventorySlot(componentFurnace, num + 1);
+			m_result3.AssignInventorySlot(componentFurnace, num + 2);
 		}
 
 		public override void Update()

@@ -25,10 +25,10 @@ namespace Game
 
 		protected readonly CheckboxWidget m_acceptsDropsBox;
 
-		public ElectricFurnaceWidget(IInventory inventory, ComponentElectricFurnace componentFurnace)
+		public ElectricFurnaceWidget(IInventory inventory, ComponentElectricFurnace componentFurnace, string path = "Widgets/ElectricFurnaceWidget")
 		{
 			m_componentFurnace = componentFurnace;
-			WidgetsManager.LoadWidgetContents(this, this, ContentManager.Get<XElement>("Widgets/ElectricFurnaceWidget"));
+			WidgetsManager.LoadWidgetContents(this, this, ContentManager.Get<XElement>(path));
 			m_inventoryGrid = Children.Find<GridPanelWidget>("InventoryGrid");
 			m_furnaceGrid = Children.Find<GridPanelWidget>("FurnaceGrid");
 			m_fire = Children.Find<FireWidget>("Fire");

@@ -20,10 +20,6 @@ namespace Game
 		{
 			return face != 4 && face != 5 && face == (Terrain.ExtractData(value) >> 15) ? 145 : 107;
 		}
-		public override BlockPlacementData GetPlacementValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, TerrainRaycastResult raycastResult)
-		{
-			return GetPlacementValue(1, componentMiner, value, raycastResult);
-		}
 
 		public override bool IsFaceTransparent(SubsystemTerrain subsystemTerrain, int face, int value) => false;
 		public void OnBlockAdded(SubsystemTerrain subsystemTerrain, int value, int oldValue)
@@ -45,10 +41,6 @@ namespace Game
 		public ACGenerator() : base(-220)
 		{
 			DefaultDisplayName = "交流发电机";
-		}
-		public override BlockPlacementData GetPlacementValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, TerrainRaycastResult raycastResult)
-		{
-			return GetPlacementValue(28, componentMiner, value, raycastResult);
 		}
 	}
 	public class Battery : FixedDevice, IHarvestingItem, IInteractiveBlock, IEquatable<Battery>

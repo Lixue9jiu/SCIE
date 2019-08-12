@@ -1,6 +1,5 @@
 using Engine;
 using GameEntitySystem;
-using System.Globalization;
 using TemplatesDatabase;
 
 namespace Game
@@ -9,6 +8,7 @@ namespace Game
 	{
 		public int SlotIndex { get; set; }
 		public bool Powered;
+		protected float m_speed;
 		protected CraftingRecipe m_smeltingRecipe2;
 
 		public CraftingRecipe GetRecipe() => m_smeltingRecipe;
@@ -17,7 +17,7 @@ namespace Game
 
 		public new int ResultSlotIndex => SlotsCount - 4;
 
-		public new int FuelSlotIndex => SlotsCount - 0;
+		public new int FuelSlotIndex => SlotsCount;
 
 		public int Cir1SlotIndex => SlotsCount - 2;
 
@@ -25,7 +25,6 @@ namespace Game
 
 		public new void Update(float dt)
 		{
-			//Point3 coordinates = m_componentBlockEntity.Coordinates;
 			if (HeatLevel > 0f)
 			{
 				m_fireTimeRemaining = MathUtils.Max(0f, m_fireTimeRemaining - dt);
@@ -35,8 +34,7 @@ namespace Game
 			if (m_updateSmeltingRecipe)
 			{
 				m_updateSmeltingRecipe = false;
-				//float heatLevel = HeatLevel > 0f ? HeatLevel : 2000f;
-				CraftingRecipe craftingRecipe = FindSmeltingRecipe(2000f);
+				CraftingRecipe craftingRecipe = FindSmeltingRecipe2(2000f);
 				if (craftingRecipe != m_smeltingRecipe)
 				{
 					m_smeltingRecipe = craftingRecipe;
@@ -78,7 +76,7 @@ namespace Game
 			}
 			if (m_smeltingRecipe != null)
 			{
-				m_smeltingProgress = MathUtils.Min(SmeltingProgress + 0.2f * dt, 1f);
+				m_smeltingProgress = MathUtils.Min(SmeltingProgress + m_speed * dt, 1f);
 				if (SmeltingProgress >= 1f)
 				{
 					for (int i = 0; i < m_furnaceSize; i++)
@@ -99,17 +97,20 @@ namespace Game
 			}
 		}
 
+		public virtual CraftingRecipe FindSmeltingRecipe2(float heatlevel)
+		{
+			return FindSmeltingRecipe(heatlevel);
+		}
+
 		public override void Load(ValuesDictionary valuesDictionary, IdToEntityMap idToEntityMap)
 		{
-			//base.Load(valuesDictionary, idToEntityMap);
 			m_matchedIngredients = new string[36];
 			this.LoadItems(valuesDictionary);
-			//m_subsystemExplosions = Project.FindSubsystem<SubsystemExplosions>(true);
 			m_componentBlockEntity = Entity.FindComponent<ComponentBlockEntity>(true);
 			m_fireTimeRemaining = valuesDictionary.GetValue("FireTimeRemaining", 0f);
 			m_furnaceSize = SlotsCount - 5;
-			m_fireTimeRemaining = valuesDictionary.GetValue("FireTimeRemaining", 0f);
 			m_updateSmeltingRecipe = true;
+			m_speed = 0.2f;
 		}
 
 		public override void Save(ValuesDictionary valuesDictionary, EntityToIdMap entityToIdMap)

@@ -57,7 +57,8 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Blocks\EditElectricDialog.cs" />
+    <Compile Include="Blocks\CubeMachines.cs" />
+    <Compile Include="Common\EditElectricDialog.cs" />
     <Compile Include="Blocks\GunSmoke2.cs" />
     <Compile Include="Blocks\IEBatteryBlock.cs" />
     <Compile Include="Blocks\Musket3Block.cs" />
@@ -66,12 +67,11 @@
     <Compile Include="BeltTransport\SubsystemFactorioBeltTransportBLockBehavior.cs" />
     <Compile Include="Blocks\CommonItems.cs" />
     <Compile Include="Blocks\DrillBlock.cs" />
-    <Compile Include="Blocks\DrillerElectricElement.cs" />
+    <Compile Include="Blocks\ElectricElements.cs" />
     <Compile Include="Blocks\ElementBlock.cs" />
     <Compile Include="Blocks\Gunpowder.cs" />
     <Compile Include="Blocks\MultiDirectionalBlock.cs" />
     <Compile Include="Blocks\ItemBlock.cs" />
-    <Compile Include="Blocks\MachineToolBlock.cs" />
     <Compile Include="Blocks\OresAndPowder.cs" />
     <Compile Include="Blocks\RailBlock.cs" />
     <Compile Include="Blocks\Liquid.cs" />
@@ -91,6 +91,7 @@
     <Compile Include="Components\ComponentCondenser.cs" />
     <Compile Include="Components\ComponentCoven.cs" />
     <Compile Include="Components\ComponentCReactor.cs" />
+    <Compile Include="Components\ComponentDeposit.cs" />
     <Compile Include="Components\ComponentDriller.cs" />
     <Compile Include="Components\ComponentElectricFurnace.cs" />
     <Compile Include="Components\ComponentElectricIFurnace.cs" />
@@ -137,7 +138,6 @@
     <Compile Include="Widgets\DepositWidget.cs" />
     <Compile Include="Widgets\DrillerWidget.cs" />
     <Compile Include="Widgets\ElectricFurnaceWidget.cs" />
-    <Compile Include="Widgets\ElectricIFurnaceWidget.cs" />
     <Compile Include="Widgets\EngineAWidget.cs" />
     <Compile Include="Widgets\FractionalTowerWidget.cs" />
     <Compile Include="Widgets\ICEngineWidget.cs" />

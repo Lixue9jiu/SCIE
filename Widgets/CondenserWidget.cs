@@ -10,7 +10,7 @@ namespace Game
 
 		protected readonly ComponentBlockEntity m_componentBlockEntity;
 
-		protected readonly ComponentCondenser m_componentDispenser2;
+		protected readonly ComponentCondenser m_componentDispenser;
 
 		protected readonly ButtonWidget m_dispenseButton;
 
@@ -22,11 +22,9 @@ namespace Game
 
 		protected readonly ValueBarWidget m_progress;
 
-		//protected readonly ValueBarWidget m_progress;
-
 		public CondenserWidget(IInventory inventory, ComponentCondenser componentDispenser)
 		{
-			m_componentDispenser2 = componentDispenser;
+			m_componentDispenser = componentDispenser;
 			m_componentBlockEntity = componentDispenser.Entity.FindComponent<ComponentBlockEntity>(true);
 			m_subsystemTerrain = componentDispenser.Project.FindSubsystem<SubsystemTerrain>(true);
 			WidgetsManager.LoadWidgetContents(this, this, ContentManager.Get<XElement>("Widgets/CondenserWidget"));
@@ -34,7 +32,7 @@ namespace Game
 			m_dispenseButton = Children.Find<ButtonWidget>("DispenseButton");
 			m_shootButton = Children.Find<ButtonWidget>("ShootButton");
 			m_progress = Children.Find<ValueBarWidget>("Progress");
-			
+
 			//m_acceptsDropsBox = Children.Find<CheckboxWidget>("AcceptsDropsBox");
 			//m_drillSlot = Children.Find<InventorySlotWidget>("DrillSlot");
 			int num = 6, y, x;
@@ -49,41 +47,37 @@ namespace Game
 					m_inventoryGrid.SetWidgetCell(inventorySlotWidget, new Point2(x, y));
 				}
 			}
-			num = 0;
-			//m_drillSlot.AssignInventorySlot(componentDispenser, 8);
 		}
 
 		public override void Update()
 		{
-			Children.Find<LabelWidget>("DispenserLabel2").Text = (m_componentDispenser2.m_fireTimeRemaining).ToString() + "/1M E";
+			if (!m_componentDispenser.IsAddedToProject)
+			{
+				ParentWidget.Children.Remove(this);
+				return;
+			}
+			Children.Find<LabelWidget>("DispenserLabel2").Text = m_componentDispenser.m_fireTimeRemaining.ToString() + "/1M E";
 			int value = m_subsystemTerrain.Terrain.GetCellValue(m_componentBlockEntity.Coordinates.X, m_componentBlockEntity.Coordinates.Y, m_componentBlockEntity.Coordinates.Z);
 			int data = Terrain.ExtractData(value);
 			MachineMode mode = GetMode(data);
 			if (m_dispenseButton.IsClicked && mode == MachineMode.Discharger)
 			{
 				data = SetMode(data);
-
 				m_subsystemTerrain.Terrain.SetCellValueFast(m_componentBlockEntity.Coordinates.X, m_componentBlockEntity.Coordinates.Y, m_componentBlockEntity.Coordinates.Z, Terrain.ReplaceData(value, data));
-				m_componentDispenser2.Charged = true;
+				m_componentDispenser.Charged = true;
 			}
 			if (m_shootButton.IsClicked && mode == MachineMode.Charge)
 			{
 				data = SetMode(data);
 				m_subsystemTerrain.Terrain.SetCellValueFast(m_componentBlockEntity.Coordinates.X, m_componentBlockEntity.Coordinates.Y, m_componentBlockEntity.Coordinates.Z, Terrain.ReplaceData(value, data));
-				m_componentDispenser2.Charged = false;
+				m_componentDispenser.Charged = false;
 			}
 
-			m_progress.Value = 1f-m_componentDispenser2.m_fireTimeRemaining/1000000f;
+			m_progress.Value = 1f - m_componentDispenser.m_fireTimeRemaining / 1000000f;
 			m_dispenseButton.IsChecked = mode == MachineMode.Charge;
-			m_componentDispenser2.Charged = mode == MachineMode.Charge;
+			m_componentDispenser.Charged = mode == MachineMode.Charge;
 			m_shootButton.IsChecked = mode == MachineMode.Discharger;
 			//m_acceptsDropsBox.IsChecked = SixDirectionalBlock.GetAcceptsDrops(data);
-			if (!m_componentDispenser2.IsAddedToProject)
-			{
-				ParentWidget.Children.Remove(this);
-				
-			}
-				
 		}
 	}
 }

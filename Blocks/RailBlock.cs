@@ -9,8 +9,7 @@ namespace Game
 		public const int Index = 528;
 
 		internal static BoundingBox[][] boundingBoxes = new BoundingBox[10][];
-
-		BlockMesh[] m_blockMeshes = new BlockMesh[10];
+		static readonly BlockMesh[] m_blockMeshes = new BlockMesh[10];
 
 		public override void Initialize()
 		{

@@ -134,11 +134,12 @@ namespace Game
 		public bool Equals(FixedDevice other) => other != null && other.GetCraftingId() == GetCraftingId();
 		public override bool Equals(object obj) => Equals(obj as FixedDevice);
 		public override int GetHashCode() => base.GetHashCode() ^ Index;
-		public static BlockPlacementData GetPlacementValue(int index, ComponentMiner componentMiner, int value, TerrainRaycastResult raycastResult)
+
+		public override BlockPlacementData GetPlacementValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, TerrainRaycastResult raycastResult)
 		{
 			return new BlockPlacementData
 			{
-				Value = Terrain.ReplaceData(value, Terrain.ExtractData(value) & -229377 | Utils.GetDirectionXZ(componentMiner) << 15 | index),
+				Value = Terrain.ReplaceData(value, Terrain.ExtractData(value) & -229377 | Utils.GetDirectionXZ(componentMiner) << 15 | Index),
 				CellFace = raycastResult.CellFace
 			};
 		}
