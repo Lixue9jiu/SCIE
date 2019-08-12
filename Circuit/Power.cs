@@ -117,7 +117,7 @@ namespace Game
 				dropValue.Value = Terrain.ReplaceLight(blockValue, 0) | 16384 << 14;
 		}
 	}
-	public class MachRod : FixedDevice
+	/*public class MachRod : FixedDevice
 	{
 		public BlockMesh[] m_blockMeshesByData = new BlockMesh[6];
 		public MachRod() : base("连接杆", "连接杆", 0)
@@ -138,11 +138,13 @@ namespace Game
 		{
 			BlocksManager.DrawMeshBlock(primitivesRenderer, m_blockMeshesByData[0], color, size, ref matrix, environmentData);
 		}
-	}
-	public class LED : FixedDevice
+	}*/
+	public class LED : FixedDevice, IBlockBehavior
 	{
 		public BlockMesh[] m_blockMeshesByFace = new BlockMesh[6];
 		public BoundingBox[][] m_collisionBoxesByFace = new BoundingBox[6][];
+		public GlowPoint m_glowPoint;
+		public bool LastPowered;
 		public LED() : base("LED", "LED", 12)
 		{
 			ModelMesh modelMesh = ContentManager.Get<Model>("Models/Leds").FindMesh("OneLed");
@@ -155,11 +157,75 @@ namespace Game
 				m_collisionBoxesByFace[i] = new[] { m_blockMeshesByFace[i].CalculateBoundingBox() };
 			}
 		}
-		public override int GetEmittedLightAmount()
+		public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
 		{
-			return Powered ? 15 : 0;
+			BlocksManager.DrawMeshBlock(primitivesRenderer, m_blockMeshesByFace[0], color, size, ref matrix, environmentData);
 		}
-		public override BoundingBox[] GetCustomCollisionBoxes(SubsystemTerrain terrain, int value) => m_collisionBoxesByFace[Terrain.ExtractData(value) >> 14];
+		public override void GenerateTerrainVertices(Block block, BlockGeometryGenerator generator, TerrainGeometrySubsets geometry, int value, int x, int y, int z)
+		{
+			generator.GenerateMeshVertices(Block, x, y, z, m_blockMeshesByFace[Terrain.ExtractData(value) >> 14 & 7], SubsystemPalette.GetColor(generator, PaintableItemBlock.GetColor(Terrain.ExtractData(value))), null, geometry.SubsetOpaque);
+		}
+		public override int GetEmittedLightAmount(int value)
+		{
+			return ((Terrain.ExtractData(value) >> 17) & 1) * 15;
+		}
+		public override BoundingBox[] GetCustomCollisionBoxes(SubsystemTerrain terrain, int value) => m_collisionBoxesByFace[Terrain.ExtractData(value) >> 14 & 7];
+		public override BlockPlacementData GetPlacementValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, TerrainRaycastResult raycastResult)
+		{
+			return new BlockPlacementData
+			{
+				Value = Terrain.ReplaceData(value, Terrain.ExtractData(value) & -229377 | raycastResult.CellFace.Face << 14 | Index),
+				CellFace = raycastResult.CellFace
+			};
+		}
+
+		public void OnBlockAdded(SubsystemTerrain terrain, int value, int oldValue)
+		{
+			int mountingFace = Terrain.ExtractData(value) >> 14 & 7;
+			Vector3 vector = CellFace.FaceToVector3(mountingFace);
+			Vector3 vector2 = (mountingFace < 4) ? Vector3.UnitY : Vector3.UnitX;
+			var right = Vector3.Cross(vector, vector2);
+			m_glowPoint = Utils.SubsystemGlow.AddGlowPoint();
+			m_glowPoint.Position = new Vector3(Point) + new Vector3(0.5f) - 0.4375f * CellFace.FaceToVector3(mountingFace);
+			m_glowPoint.Forward = vector;
+			m_glowPoint.Up = vector2;
+			m_glowPoint.Right = right;
+			m_glowPoint.Color = Color.Transparent;
+			m_glowPoint.Size = 0.52f;
+			m_glowPoint.FarSize = 0.52f;
+			m_glowPoint.FarDistance = 1f;
+			m_glowPoint.Type = GlowPointType.Square;
+		}
+
+		public void OnBlockRemoved(SubsystemTerrain terrain, int value, int newValue)
+		{
+			Utils.SubsystemGlow.RemoveGlowPoint(m_glowPoint);
+		}
+
+		public override void Simulate(ref int voltage)
+		{
+			int x = Point.X,
+				y = Point.Y,
+				z = Point.Z,
+				value,
+				v = Utils.Terrain.GetCellValueFast(x, y, z);
+			base.Simulate(ref voltage);
+			if (Powered)
+			{
+				m_glowPoint.Color = Color.White;
+				value = v | 1 << 31;
+				goto a;
+			}
+			m_glowPoint.Color = Color.Transparent;
+			value = v & ~(1 << 31);
+			a:
+			if (Terrain.ReplaceLight(value ^ v, 0) == 0)
+				return;
+			Utils.Terrain.SetCellValueFast(x, y, z, value);
+			TerrainChunk chunkAtCell = Utils.Terrain.GetChunkAtCell(x, z);
+			if (chunkAtCell != null)
+				Utils.SubsystemTerrain.TerrainUpdater.DowngradeChunkNeighborhoodState(chunkAtCell.Coords, 1, TerrainChunkState.InvalidLight, false);
+		}
 	}
 	public class SolarPanel : FixedDevice
 	{

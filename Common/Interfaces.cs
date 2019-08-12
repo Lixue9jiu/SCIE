@@ -92,7 +92,7 @@ namespace Game
 		void GetDropValues(SubsystemTerrain subsystemTerrain, int oldValue, int newValue, int toolLevel, List<BlockDropValue> dropValues, out bool showDebris);
 		//float GetHeat(int value);
 		BlockDebrisParticleSystem CreateDebrisParticleSystem(SubsystemTerrain subsystemTerrain, Vector3 position, int value, float strength);
-		int GetEmittedLightAmount();
+		int GetEmittedLightAmount(int value);
 		//bool ShouldAvoid(int value);
 		//bool IsHeatBlocker(int value);
 	}

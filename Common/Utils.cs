@@ -21,6 +21,7 @@ namespace Game
 		public static SubsystemItemsScanner SubsystemItemsScanner;
 		public static SubsystemMovingBlocks SubsystemMovingBlocks;
 		public static SubsystemBlockEntities SubsystemBlockEntities;
+		public static SubsystemGlow SubsystemGlow;
 		public static SubsystemExplosions SubsystemExplosions;
 		public static SubsystemCollapsingBlockBehavior SubsystemCollapsingBlockBehavior;
 		public static SubsystemPlayers SubsystemPlayers;
@@ -41,6 +42,7 @@ namespace Game
 			SubsystemItemsScanner = Project.FindSubsystem<SubsystemItemsScanner>(true);
 			SubsystemMovingBlocks = Project.FindSubsystem<SubsystemMovingBlocks>(true);
 			SubsystemBlockEntities = Project.FindSubsystem<SubsystemBlockEntities>(true);
+			SubsystemGlow = Project.FindSubsystem<SubsystemGlow>(true);
 			SubsystemExplosions = Project.FindSubsystem<SubsystemExplosions>(true);
 			SubsystemCollapsingBlockBehavior = Project.FindSubsystem<SubsystemCollapsingBlockBehavior>(true);
 			SubsystemPlayers = Project.FindSubsystem<SubsystemPlayers>(true);

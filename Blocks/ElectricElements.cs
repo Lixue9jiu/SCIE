@@ -146,6 +146,35 @@ namespace Game
 		}
 	}
 
+	public class RelayElectricElement : ElectricElement
+	{
+		public Relay Relay;
+		public float m_voltage;
+		protected double m_lastDispenseTime = double.NegativeInfinity;
+
+		public RelayElectricElement(SubsystemElectricity subsystemElectricity, Point3 point)
+			: base(subsystemElectricity, new List<CellFace>
+			{
+				new CellFace(point.X, point.Y, point.Z, 4),
+				new CellFace(point.X, point.Y, point.Z, 5)
+			})
+		{
+			Relay = ElementBlock.Block.GetDevice(point.X, point.Y, point.Z, Utils.Terrain.GetCellValueFast(point.X, point.Y, point.Z)) as Relay;
+		}
+		public override bool Simulate()
+		{
+			if (Relay == null)
+				return false;
+			float voltage = m_voltage;
+			m_voltage = CalculateHighInputsCount() > 0 ? 1 : 0;
+			if (IsSignalHigh(m_voltage) != IsSignalHigh(voltage))
+			{
+				Relay.Powered = IsSignalHigh(m_voltage);
+			}
+			return false;
+		}
+	}
+
 	public class ABombElectricElement : ElectricElement
 	{
 		readonly IFuel Bomb;
