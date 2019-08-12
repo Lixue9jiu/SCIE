@@ -40,7 +40,7 @@ namespace Game
 		//public static Dictionary<long, int> MinesData;
 		public static DynamicArray<Metal> AlloysData;
 
-		public override int[] HandledBlocks => new int[]
+		public override int[] HandledBlocks => new[]
 		{
 			BasaltBlock.Index,
 			/*DirtBlock.Index,
@@ -62,7 +62,7 @@ namespace Game
 			CoalBlock.Index*/
 		};
 
-		public static int StoreItemData(Metal key)
+		/*public static int StoreItemData(Metal key)
 		{
 			int i;
 			var arr = AlloysData.Array;
@@ -80,7 +80,7 @@ namespace Game
 			return i;
 			//MinesData.TryGetValue(key, out int count);
 			//MinesData[key] = count + 1;
-		}
+		}*/
 
 		public override void Load(ValuesDictionary valuesDictionary)
 		{

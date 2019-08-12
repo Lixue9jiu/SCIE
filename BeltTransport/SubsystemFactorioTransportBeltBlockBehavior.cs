@@ -8,7 +8,7 @@ using TemplatesDatabase;
 
 namespace Game
 {
-    public class SubsystemFactorioTransportBeltBLockBehavior : SubsystemBlockBehavior, IDrawable
+    public class SubsystemFactorioTransportBeltBlockBehavior : SubsystemBlockBehavior, IDrawable
     {
         public SubsystemTime m_subsystemTime;
         public PrimitivesRenderer3D m_primitivesRenderer;

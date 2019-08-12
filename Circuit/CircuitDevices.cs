@@ -409,7 +409,38 @@ namespace Game
 	{
 		public Unpacker()
 		{
+			Voltage = 100;
 			DefaultDisplayName = DefaultDescription = "去包装机";
+			Type |= ElementType.Pipe;
+		}
+
+		public override void Simulate(ref int voltage)
+		{
+			if (voltage > 1023 || voltage < Voltage)
+				return;
+			for (int i = 0; i < Component.SlotsCount; i++)
+			{
+				if (Component.GetSlotCount(i) > 0)
+				{
+					int value = Terrain.ExtractContents(Component.GetSlotValue(i));
+					switch (value)
+					{
+						case -1:
+							Component.RemoveSlotItems(i, 1);
+							ComponentInventoryBase.AcquireItems(Component, EmptyBucketBlock.Index, 1);
+							voltage = value << 10;
+							return;
+						case WaterBucketBlock.Index:
+						case MagmaBucketBlock.Index:
+						case PaintStripperBucketBlock.Index:
+							goto case -1;
+						case RottenMeatBlock.Index:
+							if(Terrain.ExtractData(Component.GetSlotValue(i)) >> 4 == 2)
+							goto case -1;
+							continue;
+					}
+				}
+			}
 		}
 
 		public override int GetFaceTextureSlot(int face, int value)
@@ -419,12 +450,12 @@ namespace Game
 	}
 	public class ElectricPump : FixedDevice
 	{
-		public ElectricPump() : base("电子泵", "电子泵是一种可以直接吸收液体于管道传输的机器") { Type = ElementType.Pipe; }
-		//public override void Simulate(ref int voltage)
-		//{
-		//	if (voltage < 0)
-		//		voltage = (int)(-voltage * Math.Sqrt(2));
-		//}
+		public ElectricPump() : base("电子泵", "电子泵是一种可以直接吸收液体于管道传输的机器", 150) { Type = ElementType.Pipe; }
+
+		/*public override void Simulate(ref int voltage)
+		{
+		}*/
+
 		public override int GetFaceTextureSlot(int face, int value)
 		{
 			return face == 4 || face == 5 ? 107 : 236;

@@ -127,6 +127,7 @@ namespace Game
 		public override string GetDescription() => DefaultDescription;
 		public override void Simulate(ref int voltage)
 		{
+			voltage &= 1023;
 			if (Powered = voltage >= Voltage)
 				voltage -= Voltage;
 			else voltage = 0;
@@ -144,6 +145,15 @@ namespace Game
 			};
 		}
 	}
+	/*public abstract class MeshDevice : FixedDevice
+	{
+		public BlockMesh m_standaloneBlockMesh = new BlockMesh();
+		public BoundingBox[] m_collisionBoxes;
+
+		protected MeshDevice(string name, string description, int voltage = 0) : base(name, description, voltage)
+		{
+		}
+	}*/
 	public class EntityDevice<T> : FixedDevice, IBlockBehavior, IItemAcceptableBlock where T : Component
 	{
 		public T Component;

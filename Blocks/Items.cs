@@ -223,6 +223,7 @@ namespace Game
 				DefaultDescription = "玻璃砖"
 			},
 			new Car(),
+			new Rectifier(),
 			//new Mould("Models/OBox", "Cube", Matrix.CreateTranslation(0.5f, 0.7f, 0.5f) * Matrix.CreateScale(0.6f), Matrix.CreateTranslation(4f, 3.8f, 0f), "A Cylinder made of alloy, Aluminum and steel, the neccessary part of many machine.", "Cube", 1.6f),
 			new Rod(Materials.Plastic),
 			new Mould("Models/Battery", "Battery", Matrix.CreateTranslation(new Vector3(0.5f)) * Matrix.CreateScale(2f, 0.05f, 2f), Matrix.CreateTranslation(9f / 16f, -7f / 16f, 0f) * Matrix.CreateScale(20f), "晶圆", "晶圆"),

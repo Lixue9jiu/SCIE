@@ -64,7 +64,7 @@
     <Compile Include="Blocks\Musket3Block.cs" />
     <Compile Include="Chemistry\ChemicalBlock.cs" />
     <Compile Include="BeltTransport\FactorioTransportBeltBlock.cs" />
-    <Compile Include="BeltTransport\SubsystemFactorioBeltTransportBLockBehavior.cs" />
+    <Compile Include="BeltTransport\SubsystemFactorioTransportBeltBlockBehavior.cs" />
     <Compile Include="Blocks\CommonItems.cs" />
     <Compile Include="Blocks\DrillBlock.cs" />
     <Compile Include="Blocks\ElectricElements.cs" />

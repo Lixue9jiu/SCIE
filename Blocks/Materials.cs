@@ -46,7 +46,18 @@ namespace Game
 			return default(BlockPlacementData);
 		}
 	}
+	public class Rectifier : Mould
+	{
+		public Rectifier() : base("Models/MotionDetector", "MotionDetector", Matrix.CreateTranslation(new Vector3(0.5f)), Matrix.CreateScale(20f), "整流器", "整流器", 2f)
+		{
+		}
+		public override string GetCraftingId() => "Rectifier";
 
+		public override BlockPlacementData GetPlacementValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, TerrainRaycastResult raycastResult)
+		{
+			return default(BlockPlacementData);
+		}
+	}
 	public class MetalIngot : MeshItem
 	{
 		protected string Id;
