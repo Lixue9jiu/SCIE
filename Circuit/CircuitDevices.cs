@@ -430,4 +430,24 @@ namespace Game
 			return face == 4 || face == 5 ? 107 : 236;
 		}
 	}
+	/*public class OilPlant : InventoryEntityDevice<ComponentOilPlant>
+	{
+		public OilPlant() : base("OilPlant", "石油化工厂", "石油化工厂可以用来处理石油，产生各种") { }
+
+		public override void Simulate(ref int voltage)
+		{
+			if (Component.Powered = voltage >= 310)
+				voltage -= 310;
+		}
+
+		public override int GetFaceTextureSlot(int face, int value)
+		{
+			return face != 4 && face != 5 && face == (Terrain.ExtractData(value) >> 15) ? 125 : 107;
+		}
+
+		public override Widget GetWidget(IInventory inventory, ComponentOilPlant component)
+		{
+			return new OilPlantWidget(inventory, component);
+		}
+	}*/
 }
