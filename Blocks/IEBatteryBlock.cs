@@ -93,7 +93,6 @@ namespace Game
 
 		public override int GetFaceTextureSlot(int face, int value)
 		{
-			//return (uint)(GetType(value) - 2) > 1u ? 179 : 176;
 			return 194;
 		}
 
@@ -114,6 +113,6 @@ namespace Game
 			return base.GetDamage(value) & 2047;
 		}
 
-		public override Vector3 GetIconViewOffset(int value, DrawBlockEnvironmentData environmentData) => Vector3.One;
+		public override Vector3 GetIconViewOffset(int value, DrawBlockEnvironmentData environmentData) => GetType(value) == BatteryType.Flashlight ? Vector3.One : Vector3.Zero;
 	}
 }

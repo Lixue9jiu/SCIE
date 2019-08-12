@@ -8,7 +8,7 @@ namespace Game
 	{
 		protected ComponentBlockEntity m_componentBlockEntity;
 
-		public void Dispense()
+		public virtual void Dispense()
 		{
 			Point3 coordinates = m_componentBlockEntity.Coordinates;
 			int data = Terrain.ExtractData(Utils.Terrain.GetCellValue(coordinates.X, coordinates.Y, coordinates.Z));

@@ -310,6 +310,9 @@
     <Recipe Result="SteelIngot" ResultCount="1" RequiredHeatLevel="300" a="IndustrialMagnet" Description="将工业磁铁锻造成铸锭">
       "a"
     </Recipe>
+    <Recipe Result="RottenMeatBlock:96" ResultCount="1" RequiredHeatLevel="300" a="MercuryOreChunk" b="emptybucket" Description="冶炼汞">
+      "aba"
+    </Recipe>
   </Smelting>
   <Materials>
     <Recipe Result="MetalBlock:0" ResultCount="1" RequiredHeatLevel="0" a="IronPlate" Description="结合许多铁板来获得基本的机箱">

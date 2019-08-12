@@ -4,11 +4,10 @@ namespace Game
 {
 	public class ComponentLiquidPump : ComponentDriller
 	{
-		public new void Dispense()
+		public override void Dispense()
 		{
 			Point3 coordinates = m_componentBlockEntity.Coordinates;
-			//DispenserNew2Block.GetMode(data);
-			Driller(coordinates, FourDirectionalBlock.GetDirection(Utils.Terrain.GetCellValue(coordinates.X, coordinates.Y, coordinates.Z)));
+			Driller(coordinates, FourDirectionalBlock.GetDirection(Utils.Terrain.GetCellValueFast(coordinates.X, coordinates.Y, coordinates.Z)));
 		}
 
 		protected new void Driller(Point3 point, int face)
@@ -39,7 +38,7 @@ namespace Game
 			int slotValue = base.GetSlotValue(8);
 			if (num2 != 0 && num4 > num3 && slotValue != 0 && BlocksManager.Blocks[Terrain.ExtractContents(slotValue)].Durability > 0)
 			{
-				int[] array = new int[25]
+				int[] array =
 				{
 					0,
 					0,
@@ -67,7 +66,7 @@ namespace Game
 					-2,
 					-2
 				};
-				int[] array2 = new int[25]
+				int[] array2 =
 				{
 					0,
 					-1,

@@ -13,10 +13,8 @@ namespace Game
 
 		public override void OnBlockAdded(int value, int oldValue, int x, int y, int z)
 		{
-			var vd = new ValuesDictionary();
-			vd.PopulateFromDatabaseObject(Project.GameDatabase.Database.FindDatabaseObject(Name, Project.GameDatabase.EntityTemplateType, true));
-			vd.GetValue<ValuesDictionary>("BlockEntity").SetValue("Coordinates", new Point3(x, y, z));
-			Project.AddEntity(Project.CreateEntity(vd));
+			if (Name != null)
+				Project.CreateBlockEntity(Name, new Point3(x, y, z));
 		}
 
 		public override bool OnInteract(TerrainRaycastResult raycastResult, ComponentMiner componentMiner)

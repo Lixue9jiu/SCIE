@@ -30,21 +30,14 @@ namespace Game
 				{
 					m_isDispenseAllowed = false;
 					m_lastDispenseTime = SubsystemElectricity.SubsystemTime.GameTime;
-					ReadOnlyList<CellFace> cellFaces = CellFaces;
-					CellFace cellFace = cellFaces[0];
+					CellFace cellFace = CellFaces[0];
 					int x = cellFace.Point.X;
-					cellFaces = CellFaces;
-					cellFace = cellFaces[0];
 					int y = cellFace.Point.Y;
-					cellFaces = CellFaces;
-					cellFace = cellFaces[0];
 					int z = cellFace.Point.Z;
 					ComponentBlockEntity blockEntity = Utils.SubsystemBlockEntities.GetBlockEntity(x, y, z);
 					if (blockEntity != null)
 					{
-						var componentDispenserNew = blockEntity.Entity.FindComponent<ComponentDriller>();
-						if (componentDispenserNew != null)
-							componentDispenserNew.Dispense();
+						blockEntity.Entity.FindComponent<ComponentDriller>()?.Dispense();
 					}
 				}
 			}

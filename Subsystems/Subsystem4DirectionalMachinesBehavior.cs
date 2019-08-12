@@ -71,7 +71,7 @@ namespace Game
 	}
 	public class SubsystemPresserNNBlockBehavior : SubsystemInventoryBlockBehavior<ComponentPresserNN>
 	{
-		public SubsystemPresserNNBlockBehavior() : base("PresserNN")
+		public SubsystemPresserNNBlockBehavior() : base("RiflingMachine")
 		{
 		}
 

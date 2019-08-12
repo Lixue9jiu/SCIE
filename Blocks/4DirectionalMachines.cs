@@ -367,7 +367,7 @@ namespace Game
 			showDebris = DestructionDebrisScale > 0f;
 			dropValues.Add(new BlockDropValue
 			{
-				Value = Terrain.ReplaceLight(Terrain.ReplaceData(oldValue, SetDirection(SetHeatLevel(Terrain.ExtractData(oldValue), 0), 0) | Terrain.ExtractData(oldValue) >> 10), 0),
+				Value = Terrain.ReplaceLight(Terrain.ReplaceData(oldValue, SetDirection(SetHeatLevel(Terrain.ExtractData(oldValue), 0), 0) | Terrain.ExtractData(oldValue) & ~1023), 0),
 				Count = 1
 			});
 		}

@@ -4,6 +4,7 @@ using GameEntitySystem;
 using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using TemplatesDatabase;
 using static Game.TerrainBrush;
 
 namespace Game
@@ -63,7 +64,8 @@ namespace Game
 			for (originX = 0; originX < list.Count; originX++)
 				action(list[originX]);
 		}
-		public static void Fade(TerrainChunk chunk, int? color = null)
+
+		/*public static void Fade(TerrainChunk chunk, int? color = null)
 		{
 			if (!chunk.IsLoaded) return;
 			for (int i = 16; i-- > 0;)
@@ -78,7 +80,8 @@ namespace Game
 					}
 				}
 			}
-		}
+		}*/
+
 		public static void PaintSelective(this TerrainChunk chunk, Cell[] cells, int x, int y, int z, int src = BasaltBlock.Index)
 		{
 			x -= chunk.Origin.X;
@@ -171,6 +174,15 @@ namespace Game
 		{
 			return (data & -16) | (color & 0xF);
 		}
+
+		public static void CreateBlockEntity(this Project Project, string name, Point3 p)
+		{
+			var vd = new ValuesDictionary();
+			vd.PopulateFromDatabaseObject(Project.GameDatabase.Database.FindDatabaseObject(name, Project.GameDatabase.EntityTemplateType, true));
+			vd.GetValue<ValuesDictionary>("BlockEntity").SetValue("Coordinates", p);
+			Project.AddEntity(Project.CreateEntity(vd));
+		}
+
 		public static int[] GetCreativeValues(int BlockIndex)
 		{
 			var arr = new int[16];

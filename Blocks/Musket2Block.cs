@@ -27,19 +27,15 @@ namespace Game
 			Matrix boneAbsoluteTransform = BlockMesh.GetBoneAbsoluteTransform(model.FindMesh("Musket").ParentBone);
 			Matrix boneAbsoluteTransform2 = BlockMesh.GetBoneAbsoluteTransform(model.FindMesh("Hammer").ParentBone);
 			m_standaloneBlockMeshUnloaded = new BlockMesh();
-			BlockMesh standaloneBlockMeshUnloaded = m_standaloneBlockMeshUnloaded;
 			ReadOnlyList<ModelMeshPart> meshParts = model.FindMesh("Musket").MeshParts;
-			standaloneBlockMeshUnloaded.AppendModelMeshPart(meshParts[0], boneAbsoluteTransform, false, false, false, false, Color.Gray);
-			BlockMesh standaloneBlockMeshUnloaded2 = m_standaloneBlockMeshUnloaded;
+			m_standaloneBlockMeshUnloaded.AppendModelMeshPart(meshParts[0], boneAbsoluteTransform, false, false, false, false, Color.Gray);
 			meshParts = model.FindMesh("Hammer").MeshParts;
-			standaloneBlockMeshUnloaded2.AppendModelMeshPart(meshParts[0], boneAbsoluteTransform2, false, false, false, false, Color.Gray);
+			m_standaloneBlockMeshUnloaded.AppendModelMeshPart(meshParts[0], boneAbsoluteTransform2, false, false, false, false, Color.Gray);
 			m_standaloneBlockMeshLoaded = new BlockMesh();
-			BlockMesh standaloneBlockMeshLoaded = m_standaloneBlockMeshLoaded;
 			meshParts = model.FindMesh("Musket").MeshParts;
-			standaloneBlockMeshLoaded.AppendModelMeshPart(meshParts[0], boneAbsoluteTransform, false, false, false, false, Color.Gray);
-			BlockMesh standaloneBlockMeshLoaded2 = m_standaloneBlockMeshLoaded;
+			m_standaloneBlockMeshLoaded.AppendModelMeshPart(meshParts[0], boneAbsoluteTransform, false, false, false, false, Color.Gray);
 			meshParts = model.FindMesh("Hammer").MeshParts;
-			standaloneBlockMeshLoaded2.AppendModelMeshPart(meshParts[0], Matrix.CreateRotationX(0.7f) * boneAbsoluteTransform2, false, false, false, false, Color.Gray);
+			m_standaloneBlockMeshLoaded.AppendModelMeshPart(meshParts[0], Matrix.CreateRotationX(0.7f) * boneAbsoluteTransform2, false, false, false, false, Color.Gray);
 			base.Initialize();
 		}
 

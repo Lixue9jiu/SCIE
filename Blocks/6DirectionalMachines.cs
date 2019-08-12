@@ -77,7 +77,7 @@ namespace Game
 
 		public new ElectricElement CreateElectricElement(SubsystemElectricity subsystemElectricity, int value, int x, int y, int z)
 		{
-			return new LiquidPumpElectricElement(subsystemElectricity, new Point3(x, y, z));
+			return new DrillerElectricElement(subsystemElectricity, new Point3(x, y, z));
 		}
 
 		public new ElectricConnectorType? GetConnectorType(SubsystemTerrain terrain, int value, int face, int connectorFace, int x, int y, int z)

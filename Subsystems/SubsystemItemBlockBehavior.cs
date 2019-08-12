@@ -311,6 +311,17 @@ namespace Game
 					return true;
 				}
 			}
+			if (activeBlockValue == (RottenMeatBlock.Index | 6 << 4 << 14))
+			{
+				result2 = componentMiner.PickTerrainForInteraction(start, direction);
+				if (result2.HasValue && componentMiner.Place(result2.Value, RottenMeatBlock.Index | 6 << 4 << 14))
+				{
+					inventory.RemoveSlotItems(inventory.ActiveSlotIndex, 1);
+					if (inventory.GetSlotCount(inventory.ActiveSlotIndex) == 0)
+						inventory.AddSlotItems(inventory.ActiveSlotIndex, Terrain.ReplaceContents(activeBlockValue, 90), 1);
+					return true;
+				}
+			}
 			return false;
 		put:
 			entity.FindComponent<ComponentBody>(true).Position = position;

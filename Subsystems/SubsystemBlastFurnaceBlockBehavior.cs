@@ -27,10 +27,7 @@ namespace Game
 					return;
 				default: return;
 			}
-			var vd = new ValuesDictionary();
-			vd.PopulateFromDatabaseObject(Project.GameDatabase.Database.FindDatabaseObject(name, Project.GameDatabase.EntityTemplateType, true));
-			vd.GetValue<ValuesDictionary>("BlockEntity").SetValue("Coordinates", new Point3(x, y, z));
-			Project.AddEntity(Project.CreateEntity(vd));
+			Project.CreateBlockEntity(name, new Point3(x, y, z));
 		}
 
 		public override void OnHitByProjectile(CellFace cellFace, WorldItem worldItem) => Utils.OnHitByProjectile(cellFace, worldItem);

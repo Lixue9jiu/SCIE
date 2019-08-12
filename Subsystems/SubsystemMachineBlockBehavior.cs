@@ -3,6 +3,50 @@ using System.Collections.Generic;
 
 namespace Game
 {
+	public class SubsystemHPressBlockBehavior : SubsystemInventoryBlockBehavior<ComponentHPress>
+	{
+		public SubsystemHPressBlockBehavior() : base(null)
+		{
+		}
+
+		public override int[] HandledBlocks => new[] { MetalBlock.Index };
+
+		public override Widget GetWidget(IInventory inventory, ComponentHPress component)
+		{
+			return new PresserWidget<ComponentHPress>(inventory, component);
+		}
+
+		public override bool OnInteract(TerrainRaycastResult raycastResult, ComponentMiner componentMiner)
+		{
+			var cellFace = raycastResult.CellFace;
+			int x = cellFace.X,
+				y = cellFace.Y,
+				z = cellFace.Z;
+			if (y > 96 || MetalBlock.GetType(SubsystemTerrain.Terrain.GetCellValueFast(x, y, z)) != 1)
+				return false;
+			int dir = Utils.GetDirectionXZ(componentMiner);
+			TerrainChunk chunk = Utils.Terrain.GetChunkAtCell(x, z);
+			if (chunk == null)
+				return false;
+			int d = TerrainChunk.CalculateCellIndex(x, y + 1, z);
+			for (int i = 0; i < 30; i++)
+			{
+				int value = chunk.GetCellValueFast(d + i);
+				if (Terrain.ExtractContents(value) != MetalBlock.Index || MetalBlock.GetType(value) != 3)
+					return false;
+			}
+			d = TerrainChunk.CalculateCellIndex(x + 1, y + 1, z);
+			for (int i = 0; i < 30; i++)
+			{
+				int value = chunk.GetCellValueFast(d + i);
+				if (Terrain.ExtractContents(value) != RottenMeatBlock.Index || (Terrain.ExtractData(value) >> 4) != 6)
+					return false;
+			}
+			if (Utils.GetBlockEntity(raycastResult.CellFace.Point) == null)
+				Project.CreateBlockEntity("HPress", new Point3(x, y, z));
+			return base.OnInteract(raycastResult, componentMiner);
+		}
+	}
 	public class SubsystemCrusherBlockBehavior : SubsystemBlockBehavior
 	{
 		public override int[] HandledBlocks => new[] { CrusherBlock.Index };
@@ -32,6 +76,31 @@ namespace Game
 				}
 				worldItem.ToRemove = true;
 			}
+		}
+	}
+
+	public class SubsystemDiversionBlockBehavior : SubsystemBlockBehavior
+	{
+		public override int[] HandledBlocks => new[] { IceBlock.Index, DiversionBlock.Index };
+
+		public override void OnHitByProjectile(CellFace cellFace, WorldItem worldItem)
+		{
+			if (worldItem.ToRemove)
+				return;
+			int value = SubsystemTerrain.Terrain.GetCellValue(cellFace.X, cellFace.Y, cellFace.Z);
+			if (Terrain.ExtractContents(value) != DiversionBlock.Index) return;
+			Vector3 v = CellFace.FaceToVector3(value - DiversionBlock.Index >> 14);
+			Utils.SubsystemProjectiles.FireProjectile(worldItem.Value, new Vector3(cellFace.X + 0.5f, cellFace.Y + 0.5f, cellFace.Z + 0.5f) + 0.75f * v, 30f * v, Vector3.Zero, null);
+			worldItem.ToRemove = true;
+		}
+		public override void OnCollide(CellFace cellFace, float velocity, ComponentBody componentBody)
+		{
+			int x = cellFace.X,
+				y = cellFace.Y,
+				z = cellFace.Z;
+			if (Utils.Terrain.GetCellContentsFast(x, y, z) != IceBlock.Index || componentBody.Mass < 999f)
+				return;
+			SubsystemTerrain.DestroyCell(0, x, y, z, WaterBlock.Index, false, false);
 		}
 	}
 
@@ -112,8 +181,7 @@ namespace Game
 				var blockEntity = Utils.GetBlockEntity(raycastResult.CellFace.Point);
 				if (blockEntity != null && componentMiner.ComponentPlayer != null)
 				{
-					ComponentLiquidPump componentDispenser = blockEntity.Entity.FindComponent<ComponentLiquidPump>(true);
-					componentMiner.ComponentPlayer.ComponentGui.ModalPanelWidget = new LiquidPumpWidget(componentMiner.Inventory, componentDispenser);
+					componentMiner.ComponentPlayer.ComponentGui.ModalPanelWidget = new LiquidPumpWidget(componentMiner.Inventory, blockEntity.Entity.FindComponent<ComponentDriller>(true));
 					AudioManager.PlaySound("Audio/UI/ButtonClick", 1f, 0f, 0f);
 					return true;
 				}

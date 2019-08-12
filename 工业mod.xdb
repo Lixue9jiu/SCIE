@@ -46,6 +46,9 @@
     <EntityTemplate Name="Unloader" Guid="2955a387-af17-4955-81fa-aafaf97b92bd" InheritanceParent="9681f999-898b-4f5c-9ea8-f8cc331e97b3">
       <MemberComponentTemplate Name="Unloader" Guid="0f173a26-ac7d-4b4c-97c7-df652ca11b51" InheritanceParent="73a2efaf-10c7-4133-85b4-4a35bd44c956" />
     </EntityTemplate>
+    <EntityTemplate Name="HPress" Guid="2955a387-af18-4955-81fa-aafaf97b92bd" InheritanceParent="9681f999-898b-4f5c-9ea8-f8cc331e97b3">
+      <MemberComponentTemplate Name="HPress" Guid="0f173a26-ac7e-4b4c-97c7-df652ca11b51" InheritanceParent="73a2efaf-10c7-4133-85b4-4a35bd44c957" />
+    </EntityTemplate>
     <EntityTemplate Name="SteamBoat" Guid="3f3abb7e-1ce4-43fa-9612-47d69bf788ba">
       <MemberComponentTemplate Name="BoatI" Guid="a372d5da-5307-4df6-929e-a51abcd70387" InheritanceParent="572b36f3-6ee6-442a-900f-b4caba94be39" />
       <MemberComponentTemplate Name="SteamEngine" Guid="e82420a9-10c6-4a2c-9ea5-725fffee2229" InheritanceParent="c93f7906-de35-4e94-ba6e-90cd55cd19d4">
@@ -82,6 +85,7 @@
     <EntityTemplate Name="Airship" Guid="3f3abb7e-1ce4-43fa-9614-47d69bf788ba">
       <MemberComponentTemplate Name="SimpleModel" Guid="459a8ad2-0db8-4604-9ee8-8504dbd3c7b1" InheritanceParent="cc5a4e72-0df9-4acf-a42e-ecb5a2a7baf5">
         <Parameter Name="ModelName" Guid="fe4ed217-297f-47ca-950a-930ea7d6e881" Value="Models/Airship" Type="string" />
+        <Parameter Name="TextureOverride" Guid="ffe076e5-837a-4514-a9fe-baf88d835b11" Value="Textures/tex" Type="string" />
       </MemberComponentTemplate>
       <MemberComponentTemplate Name="Airship" Guid="a372d5da-5307-4df6-9294-a51abcd70387" InheritanceParent="572b36f4-6ee6-442a-900f-b4caba94be39" />
       <MemberComponentTemplate Name="AirshipTable" Guid="e82420a9-10c6-4a2c-9ea5-725fffee2225" InheritanceParent="98fdc888-8ca8-4d0f-af8d-25bfe9b56a19" />
@@ -293,6 +297,9 @@
     <MemberSubsystemTemplate Name="Musket3BlockBehavior" Guid="6bf6bba1-4ac1-44a9-9e83-b4c659038fcf" InheritanceParent="fefb9590-4972-4893-b02a-76063611b745">
       <Parameter Name="Class" Guid="f1d1fefa-29ad-42ed-ad2e-ae59da4dbd62" Value="Game.SubsystemMusket3BlockBehavior" Type="string" />
     </MemberSubsystemTemplate>
+    <MemberSubsystemTemplate Name="HPressBlockBehavior" Guid="9681f999-898b-4f5c-9ea8-f8cc331e97b8" InheritanceParent="fefb9590-4972-4893-b02a-76063611b745">
+      <Parameter Name="Class" Guid="861fe9e1-bd64-62e8-b2f0-c25b167da4ad" Value="Game.SubsystemHPressBlockBehavior" Type="string" />
+    </MemberSubsystemTemplate>
     <MemberSubsystemTemplate Name="EngineBlockBehavior" Guid="c07ffe62-402f-4b96-987a-6050eb7ed2d4" InheritanceParent="fefb9590-4972-4893-b02a-76063611b745">
       <Parameter Name="Class" Guid="9618532b-5607-40f1-8704-4c42f35ec016" Value="Game.SubsystemEngineBlockBehavior" Type="string" />
     </MemberSubsystemTemplate>
@@ -412,6 +419,9 @@
     </ComponentTemplate>
     <ComponentTemplate Name="Unloader" Description="An unloader" Guid="73a2efaf-10c7-4133-85b4-4a35bd44c956" InheritanceParent="73a2ec8c-10c7-4133-85b4-4a35bd44c956">
       <Parameter Name="Class" Guid="1c9b89f0-22f9-45aa-aae3-039ba73b12b6" Value="Game.ComponentUnloader" Type="string" />
+    </ComponentTemplate>
+    <ComponentTemplate Name="HPress" Description="An unloader" Guid="73a2efaf-10c7-4133-85b4-4a35bd44c957" InheritanceParent="81a44c6a-c30a-4f53-8d64-0c30aabab8fa">
+      <Parameter Name="Class" Guid="1c9b89f0-22f9-45aa-aae3-039ba73b12b7" Value="Game.ComponentHPress" Type="string" />
     </ComponentTemplate>
     <ComponentTemplate Name="SteamEngine" Description="A steamengine" Guid="c93f7906-de35-4e94-ba6e-90cd55cd19d4" InheritanceParent="81a44c6a-c30a-4f53-8d64-0c30aabab8f9">
       <Parameter Name="Class" Guid="fb4c23fe-1d3c-467e-81bc-1796f686be51" Value="Game.ComponentEngine" Type="string" />

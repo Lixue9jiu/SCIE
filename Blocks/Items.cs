@@ -275,7 +275,10 @@ namespace Game
 				new Unpacker(),
 				new ElectricPump(),
 			};
-			IdTable = new Dictionary<string, int>(Items.Length);
+			IdTable = new Dictionary<string, int>(Items.Length)
+			{
+				{ "Diamond", DiamondChunkBlock.Index }
+			};
 			int i;
 			for (i = 0; i < Items.Length; i++)
 				IdTable.Add(Items[i].GetCraftingId(), Index | i << 14);

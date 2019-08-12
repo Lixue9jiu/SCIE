@@ -30,9 +30,9 @@ namespace Game
 			WidgetsManager.LoadWidgetContents(this, this, ContentManager.Get<XElement>(path));
 			m_inventoryGrid = Children.Find<GridPanelWidget>("InventoryGrid");
 			m_furnaceGrid = Children.Find<GridPanelWidget>("FurnaceGrid");
-			m_dispenseButton = Children.Find<ButtonWidget>("DispenseButton");
+			m_dispenseButton = Children.Find<ButtonWidget>("DispenseButton", false);
 			m_fire = Children.Find<FireWidget>("Fire");
-			m_shootButton = Children.Find<ButtonWidget>("ShootButton");
+			m_shootButton = Children.Find<ButtonWidget>("ShootButton", false);
 			m_progress = Children.Find<ValueBarWidget>("Progress");
 			m_remainsSlot = Children.Find<InventorySlotWidget>("RemainsSlot");
 			m_resultSlot = Children.Find<InventorySlotWidget>("ResultSlot");

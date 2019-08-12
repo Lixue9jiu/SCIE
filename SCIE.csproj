@@ -69,7 +69,6 @@
     <Compile Include="Blocks\DrillerElectricElement.cs" />
     <Compile Include="Blocks\ElementBlock.cs" />
     <Compile Include="Blocks\Gunpowder.cs" />
-    <Compile Include="Blocks\LiquidPumpElectricElement.cs" />
     <Compile Include="Blocks\MultiDirectionalBlock.cs" />
     <Compile Include="Blocks\ItemBlock.cs" />
     <Compile Include="Blocks\MachineToolBlock.cs" />
@@ -123,7 +122,6 @@
     <Compile Include="Circuit\SubsystemCircuit.cs" />
     <Compile Include="Components\ComponentVariant.cs" />
     <Compile Include="Subsystems\SubsystemMachineBlockBehavior.cs" />
-    <Compile Include="Subsystems\SubsystemDiversionBlockBehavior.cs" />
     <Compile Include="Subsystems\SubsystemCommonBlockBehavior.cs" />
     <Compile Include="Subsystems\SubsystemItemBlockBehavior.cs" />
     <Compile Include="Subsystems\SubsystemMineral.cs" />

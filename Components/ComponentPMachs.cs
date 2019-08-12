@@ -165,4 +165,21 @@ namespace Game
 			return text;
 		}
 	}
+	public class ComponentHPress : ComponentPMach
+	{
+		protected override string FindSmeltingRecipe()
+		{
+			string text = null;
+			for (int i = 0; i < m_furnaceSize; i++)
+				if (GetSlotCount(i) > 0 && GetSlotValue(i) == ItemBlock.IdTable["ʯī"])
+					text = "Diamond";
+			if (text != null)
+			{
+				Slot slot = m_slots[ResultSlotIndex];
+				if (slot.Count != 0 && (slot.Value != DiamondChunkBlock.Index || slot.Count >= 40))
+					return null;
+			}
+			return text;
+		}
+	}
 }
