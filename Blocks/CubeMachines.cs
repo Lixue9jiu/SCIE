@@ -124,9 +124,7 @@ namespace Game
 	{
 		public const int Index = 507;
 
-		public SourBlock() : base(186)
-		{
-		}
+		public SourBlock() : base(186) { }
 
 		public static readonly string[] Names = new[]
 		{
@@ -154,12 +152,12 @@ namespace Game
 
 		public override int GetFaceTextureSlot(int face, int value)
 		{
-			return (Terrain.ExtractData(value) >> 10 == 0) ? face == 4 ? 116 : 115 : face == 4 ? 224 : 107;
+			value = Terrain.ExtractData(value) >> 10;
+			return value == 0 ? face == 4 ? 116 : 115 : face == 4 ? 224 : 107;
 		}
 
 		public override string GetDescription(int value)
 		{
-			value = Terrain.ExtractData(value) >> 10;
 			return Utils.Get(Descriptions[Terrain.ExtractData(value) >> 10]);
 		}
 

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Game
 {
-	public class Pipe : FixedDevice
+	public class Pipe : CubeDevice
 	{
 		public BlockMesh[] Meshes = new BlockMesh[63];
 		public Pipe(int id) : base("Pipe" + id.ToString())

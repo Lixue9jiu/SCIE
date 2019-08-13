@@ -5,7 +5,7 @@ namespace Game
 {
 	public class ComponentSour : ComponentSeperator, IUpdateable
 	{
-		public void Update(float dt)
+		public new void Update(float dt)
 		{
 			if (m_updateSmeltingRecipe)
 			{

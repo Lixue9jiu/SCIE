@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace Game
 {
-	public class Generator : FixedDevice, IBlockBehavior, IInteractiveBlock, IUnstableBlock
+	public class Generator : CubeDevice, IBlockBehavior, IInteractiveBlock, IUnstableBlock
 	{
 		public Generator(int voltage = 310) : base("直流发电机", "发电机是交流发电机产生之前的电力基础，它允许你把机械能转换成电能，这样你就可以使用很多电器了。", voltage)
 		{
@@ -43,7 +43,7 @@ namespace Game
 			DefaultDisplayName = "交流发电机";
 		}
 	}
-	public class Battery : FixedDevice, IHarvestingItem, IInteractiveBlock, IEquatable<Battery>
+	public class Battery : CubeDevice, IHarvestingItem, IInteractiveBlock, IEquatable<Battery>
 	{
 		public int Factor = 1;
 		public readonly BoundingBox[] m_collisionBoxes;
@@ -139,7 +139,7 @@ namespace Game
 			BlocksManager.DrawMeshBlock(primitivesRenderer, m_blockMeshesByData[0], color, size, ref matrix, environmentData);
 		}
 	}*/
-	public class LED : FixedDevice, IBlockBehavior
+	public class LED : CubeDevice, IBlockBehavior
 	{
 		public BlockMesh[] m_blockMeshesByFace = new BlockMesh[6];
 		public BoundingBox[][] m_collisionBoxesByFace = new BoundingBox[6][];
@@ -227,7 +227,7 @@ namespace Game
 				Utils.SubsystemTerrain.TerrainUpdater.DowngradeChunkNeighborhoodState(chunkAtCell.Coords, 1, TerrainChunkState.InvalidLight, false);
 		}
 	}
-	public class SolarPanel : FixedDevice
+	public class SolarPanel : CubeDevice
 	{
 		public BlockMesh m_standaloneBlockMesh = new BlockMesh();
 		public BoundingBox[] m_collisionBoxes;

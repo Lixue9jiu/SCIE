@@ -116,7 +116,7 @@ namespace Game
 				y = cellFace.Y,
 				z = cellFace.Z;
 			var item = Block.GetDevice(x, y, z, Utils.Terrain.GetCellValueFast(x, y, z));
-			if (item is SolarPanel)
+			if (velocity < -1f && cellFace.Face == 4 && item is SolarPanel)
 			{
 				SubsystemTerrain.DestroyCell(0, x, y, z, 0, true, false);
 				return;
@@ -152,15 +152,13 @@ namespace Game
 		public void UpdatePaths()
 		{
 			if (!UpdatePath) return;
+			Requests.Clear();
 			int i, j;
 			for (i = 0; i < CircuitPath.Length; i++)
 			{
 				int length = CircuitPath[i].Length;
 				for (j = 1; j < length; j++)
-				{
-					int v = 0;
-					CircuitPath[i][j].Simulate(ref v);
-				}
+					QueueSimulate(CircuitPath[i]);
 			}
 			CircuitPath = new Element[Path.Count][];
 			i = 0;
@@ -212,7 +210,6 @@ namespace Game
 				CircuitPath[i] = new Element[count];
 				Array.Copy(arr, CircuitPath[i], count);
 			}
-			Requests.Clear();
 			UpdatePath = false;
 
 		}
@@ -245,53 +242,5 @@ namespace Game
 		{
 			Requests.Enqueue(elements);
 		}
-		/*public static void QuickSort(INode[] R, int Low, int High, int voltage = 0)
-		{
-			int low = 2, high = High - Low;
-			while ((high >>= 1) > 0)
-				low += 2;
-			var stack = new int[low];
-			stack[0] = Low;
-			stack[1] = High;
-			int count = 2;
-			var random = new Random(R.Length - Low + High);
-			while (count > 0)
-			{
-				low = Low = stack[count - 1];
-				high = High = stack[count -= 2];
-				var tmp = R[low];
-				int r = R[random.UniformInt(low, high)].GetWeight(voltage);
-				while (high > low)
-				{
-					while (low < high && r <= R[high].GetWeight(voltage))
-						high--;
-					if (high > low)
-					{
-						R[low] = R[high];
-						R[high] = tmp;
-					}
-					while (low < high && r >= R[low].GetWeight(voltage))
-						low++;
-					if (high > low)
-					{
-						R[high] = R[low];
-						R[low] = tmp;
-					}
-					if (low == high)
-					{
-						if (Low < low - 1)
-						{
-							stack[count + 1] = Low;
-							stack[count += 2] = low - 1;
-						}
-						if (High > low + 1)
-						{
-							stack[count + 1] = low + 1;
-							stack[count += 2] = High;
-						}
-					}
-				}
-			}
-		}*/
 	}
 }

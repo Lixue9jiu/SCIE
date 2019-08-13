@@ -158,6 +158,10 @@ namespace Game
 			sb.Append(Utils.Get((MineType & MineType.Torpedo) == 0 ? "地雷" : "水雷"));
 			return sb.ToString();
 		}
+		public override BlockPlacementData GetPlacementValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, TerrainRaycastResult raycastResult)
+		{
+			return default(BlockPlacementData);
+		}
 	}
 	public class ABomb : Mould, IFuel
 	{

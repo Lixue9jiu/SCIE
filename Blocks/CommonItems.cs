@@ -54,6 +54,12 @@ namespace Game
 		public override float GetIconViewScale(int value, DrawBlockEnvironmentData environmentData) => 0.85f;
 
 		public override bool IsFaceTransparent(SubsystemTerrain subsystemTerrain, int face, int value) => true;
+
+		public MeshItem AppendMesh(string modelName, string meshName, Matrix boneTransform, Matrix tcTransform, Color color)
+		{
+			m_standaloneBlockMesh.AppendMesh(modelName, meshName, boneTransform, tcTransform, color);
+			return this;
+		}
 	}
 
 	public class Mould : MeshItem
@@ -65,7 +71,7 @@ namespace Game
 		{
 			Size = size;
 			var model = ContentManager.Get<Model>(modelName);
-			m_standaloneBlockMesh.AppendModelMeshPart(model.FindMesh(meshName).MeshParts[0], BlockMesh.GetBoneAbsoluteTransform(model.FindMesh(meshName).ParentBone) * boneTransform, size == 2.9f, false, false, false, color);
+			m_standaloneBlockMesh.AppendModelMeshPart(model.FindMesh(meshName).MeshParts[0], BlockMesh.GetBoneAbsoluteTransform(model.FindMesh(meshName).ParentBone) * boneTransform, this is LightMould, false, false, false, color);
 			tcTransform *= Matrix.CreateScale(0.05f);
 			m_standaloneBlockMesh.TransformTextureCoordinates(tcTransform);
 			m_collisionBoxes = new[] { m_standaloneBlockMesh.CalculateBoundingBox() };

@@ -5,7 +5,7 @@ namespace Game
 {
 	public class Musket3Block : Musket2Block
 	{
-		public new const int Index = 536;
+		public new const int Index = 523;
 
 		public override void Initialize()
 		{

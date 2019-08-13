@@ -127,6 +127,8 @@ namespace Game
 			"´ã»ğÂ¯",
 			"È¼Æø¼ÓÈÈÂ¯",
 			"²£Á§ÍË»ğÒ¤",
+			"Ë®Äà»Ø×ªÒ¤",
+			"µ¥¾§Â¯",
 		};
 
 		public override int GetFaceTextureSlot(int face, int value)
@@ -135,8 +137,8 @@ namespace Game
 		}
 		public override IEnumerable<int> GetCreativeValues()
 		{
-			var arr = new int[17 * 8];
-			for (int i = 0; i < 8; i++)
+			var arr = new int[17 * 10];
+			for (int i = 0; i < 10; i++)
 			{
 				arr[i * 17] = BlockIndex | i << 24;
 				for (int j = 1; j < 17; j++)
@@ -155,8 +157,7 @@ namespace Game
 		}
 		public override string GetDescription(int value)
 		{
-			value = Terrain.ExtractData(value) >> 10;
-			return value != 0 ? Utils.Get(Names[value - 1]) : DefaultDescription;
+			return Utils.Get(Names[Terrain.ExtractData(value) >> 10]);
 		}
 		public override string GetDisplayName(SubsystemTerrain subsystemTerrain, int value)
 		{

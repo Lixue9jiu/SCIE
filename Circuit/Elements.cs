@@ -110,14 +110,14 @@ namespace Game
 		}
 	}
 	[Serializable]
-	public abstract class FixedDevice : Device, IEquatable<FixedDevice>
+	public abstract class CubeDevice : Device, IEquatable<CubeDevice>
 	{
 		public int Voltage;
 		public int Index;
 		public bool Powered;
 		public string DefaultDisplayName, DefaultDescription;
 
-		protected FixedDevice(string name, string description = "", int voltage = 0)
+		protected CubeDevice(string name, string description = "", int voltage = 0)
 		{
 			DefaultDisplayName = Utils.Get(name);
 			DefaultDescription = Utils.Get(description);
@@ -132,8 +132,8 @@ namespace Game
 				voltage -= Voltage;
 			else voltage = 0;
 		}
-		public bool Equals(FixedDevice other) => other != null && other.GetCraftingId() == GetCraftingId();
-		public override bool Equals(object obj) => Equals(obj as FixedDevice);
+		public bool Equals(CubeDevice other) => other != null && other.GetCraftingId() == GetCraftingId();
+		public override bool Equals(object obj) => Equals(obj as CubeDevice);
 		public override int GetHashCode() => base.GetHashCode() ^ Index;
 
 		public override BlockPlacementData GetPlacementValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, TerrainRaycastResult raycastResult)
@@ -154,7 +154,7 @@ namespace Game
 		{
 		}
 	}*/
-	public class EntityDevice<T> : FixedDevice, IBlockBehavior, IItemAcceptableBlock where T : Component
+	public class EntityDevice<T> : CubeDevice, IBlockBehavior, IItemAcceptableBlock where T : Component
 	{
 		public T Component;
 		public string Name;

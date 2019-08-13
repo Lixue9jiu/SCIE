@@ -4,6 +4,24 @@ using System.Globalization;
 
 namespace Game
 {
+	public class MouldItem : Mould
+	{
+		public string Id;
+		public string Category;
+		public MouldItem(string id, string modelName, string meshName, Matrix boneTransform, Matrix tcTransform, string description = "", string name = "", float size = 1) : base(modelName, meshName, boneTransform, tcTransform, description, name, size)
+		{
+			Id = id;
+			Category = meshName.Length == 4 ? "Tools" : "Items";
+		}
+
+		public override string GetCraftingId() => Id;
+
+		public override BlockPlacementData GetPlacementValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, TerrainRaycastResult raycastResult)
+		{
+			return default(BlockPlacementData);
+		}
+		public override string GetCategory() => Category;
+	}
 	public class LightMould : Mould
 	{
 		public LightMould(string modelName, string meshName, Matrix boneTransform, Matrix tcTransform, string description = "", string name = "", float size = 1) : base(modelName, meshName, boneTransform, tcTransform, description, name, size)
@@ -13,49 +31,6 @@ namespace Game
 		public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
 		{
 			base.DrawBlock(primitivesRenderer, value, Color.White, size, ref matrix, environmentData);
-		}
-	}
-	public class Screwdriver : Mould
-	{
-		public Screwdriver() : base("Models/Screwdriver", "obj1", Matrix.CreateTranslation(0f, -0.33f, 0f), Matrix.CreateTranslation(15f / 16f, 0f, 0f), "螺丝刀可以快速拆除机器", "螺丝刀", 3.3f)
-		{
-		}
-
-		public override string GetCraftingId() => "Screwdriver";
-
-		public override string GetCategory() => "Tools";
-
-		public override BlockPlacementData GetPlacementValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, TerrainRaycastResult raycastResult)
-		{
-			return default(BlockPlacementData);
-		}
-	}
-
-	public class Wrench : Mould
-	{
-		public Wrench() : base("Models/Wrench", "obj1", Matrix.CreateScale(1.2f), Matrix.CreateTranslation(15f / 16f, 0f, 0f), "扳手可以拆除交通工具", "扳手", 6f)
-		{
-		}
-
-		public override string GetCraftingId() => "Wrench";
-
-		public override string GetCategory() => "Tools";
-
-		public override BlockPlacementData GetPlacementValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, TerrainRaycastResult raycastResult)
-		{
-			return default(BlockPlacementData);
-		}
-	}
-	public class Rectifier : Mould
-	{
-		public Rectifier() : base("Models/MotionDetector", "MotionDetector", Matrix.CreateTranslation(new Vector3(0.5f)), Matrix.CreateScale(20f), "整流器", "整流器", 2f)
-		{
-		}
-		public override string GetCraftingId() => "Rectifier";
-
-		public override BlockPlacementData GetPlacementValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, TerrainRaycastResult raycastResult)
-		{
-			return default(BlockPlacementData);
 		}
 	}
 	public class MetalIngot : MeshItem
@@ -172,42 +147,22 @@ namespace Game
 		public override BoundingBox[] GetCustomCollisionBoxes(SubsystemTerrain terrain, int value) => m_collisionBoxes;
 	}
 
-	public class Alloy : MeshItem
+	public class Alloy : Mould
 	{
-		protected BoundingBox[] m_collisionBoxes;
 		public readonly Color Color;
 		protected string Id;
 
-		private Alloy(string name, string name1, Color color)
-		{
-			DefaultDescription = name;
-			Color = color;
-			DefaultDisplayName = name1 + Utils.Get("合金");
-			m_standaloneBlockMesh.AppendMesh("Models/Alloy", "Torch", Matrix.CreateTranslation(0.5f, 0f, 0.5f) * Matrix.CreateScale(1.2f), Matrix.CreateTranslation(12f / 16f, 1f / 16f, 0f), color);
-			m_collisionBoxes = new BoundingBox[] { m_standaloneBlockMesh.CalculateBoundingBox() };
-		}
-
-		public Alloy(Materials type, string name) : this(type.ToString() + "Alloy", name, MetalBlock.GetColor(type))
+		public Alloy(Materials type, string name) : base("Models/Alloy", "Torch", Matrix.CreateTranslation(0.5f, 0f, 0.5f) * Matrix.CreateScale(1.2f), Matrix.CreateTranslation(12f / 16f, 1f / 16f, 0f))
 		{
 			Id = name;
 			DefaultDescription = "Alloy of " + name + ". Can be crafted into very durable and strong " + name + " items. Very important in the industrial era.";
-		}
-
-		/*public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
-		{
-			BlocksManager.DrawMeshBlock(primitivesRenderer, m_standaloneBlockMesh, Color, size * 1.5f, ref matrix, environmentData);
-		}*/
-
-		public override BlockPlacementData GetPlacementValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, TerrainRaycastResult raycastResult)
-		{
-			return new BlockPlacementData { Value = value, CellFace = raycastResult.CellFace };
+			Color = MetalBlock.GetColor(type);
+			DefaultDisplayName = name + Utils.Get("合金");
 		}
 
 		public override string GetCraftingId() => Id;
 
 		public override Vector3 GetIconBlockOffset(int value, DrawBlockEnvironmentData environmentData) => new Vector3 { Y = 0.45f };
-
-		public override BoundingBox[] GetCustomCollisionBoxes(SubsystemTerrain terrain, int value) => m_collisionBoxes;
 	}
 
 	public class FoodCan : MeshItem

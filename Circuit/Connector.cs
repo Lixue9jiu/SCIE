@@ -232,7 +232,7 @@ namespace Game
 		}
 	}
 
-	public class Switch : FixedDevice, IInteractiveBlock
+	public class Switch : CubeDevice, IInteractiveBlock
 	{
 		public BlockMesh m_standaloneBlockMesh = new BlockMesh();
 		public BlockMesh m_standaloneBlockMesh2 = new BlockMesh();
@@ -289,7 +289,7 @@ namespace Game
 
 		public override Vector3 GetIconBlockOffset(int value, DrawBlockEnvironmentData environmentData) => new Vector3 { Y = .5f };
 	}
-	public class Relay : FixedDevice, IElectricElementBlock
+	public class Relay : CubeDevice, IElectricElementBlock
 	{
 		public BlockMesh m_standaloneBlockMesh = new BlockMesh();
 		public BoundingBox[] m_collisionBoxes;
@@ -334,7 +334,7 @@ namespace Game
 		}
 	}
 
-	public class ElectricFences : FixedDevice
+	public class ElectricFences : CubeDevice
 	{
 		public BlockMesh[] m_blockMeshes = new BlockMesh[16];
 

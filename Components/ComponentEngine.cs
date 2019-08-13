@@ -108,11 +108,12 @@ namespace Game
 			}
 			if (m_componentBlockEntity != null)
 			{
-				TerrainChunk chunk = Utils.Terrain.GetChunkAtCell(Coordinates.X, Coordinates.Z);
+				var c = m_componentBlockEntity.Coordinates;
+				TerrainChunk chunk = Utils.Terrain.GetChunkAtCell(c.X, c.Z);
 				if (chunk != null && chunk.State == TerrainChunkState.Valid)
 				{
-					int cellValue = chunk.GetCellValueFast(Coordinates.X & 15, Coordinates.Y, Coordinates.Z & 15);
-					Utils.SubsystemTerrain.ChangeCell(Coordinates.X, Coordinates.Y, Coordinates.Z, Terrain.ReplaceData(cellValue, FurnaceNBlock.SetHeatLevel(Terrain.ExtractData(cellValue), (int)MathUtils.Sign(HeatLevel))));
+					int cellValue = chunk.GetCellValueFast(c.X & 15, c.Y, c.Z & 15);
+					Utils.SubsystemTerrain.ChangeCell(c.X, c.Y, c.Z, Terrain.ReplaceData(cellValue, FurnaceNBlock.SetHeatLevel(Terrain.ExtractData(cellValue), (int)MathUtils.Sign(HeatLevel))));
 				}
 			}
 		}
@@ -120,8 +121,6 @@ namespace Game
 		public override void Load(ValuesDictionary valuesDictionary, IdToEntityMap idToEntityMap)
 		{
 			base.Load(valuesDictionary, idToEntityMap);
-			if (m_componentBlockEntity != null)
-				Coordinates = m_componentBlockEntity.Coordinates;
 			m_furnaceSize = SlotsCount - 2;
 			m_fireTimeRemaining = valuesDictionary.GetValue("FireTimeRemaining", 0f);
 			HeatLevel = valuesDictionary.GetValue("HeatLevel", 0f);
