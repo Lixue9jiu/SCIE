@@ -6,7 +6,7 @@ namespace Game
 {
 	public enum BatteryType
 	{
-		Cu_Zn_Battery, Lead_Battery, Fission_Battery, Fusion_Battery, Flashlight, Electric_Prod
+		Cu_Zn_Battery, Lead_Battery, Fission_Battery, Fusion_Battery, Flashlight, Electric_Prod, ElectricSaw, ElectricDrill
 	}
 
 	public class IEBatteryBlock : FlatBlock, IDurability
@@ -14,11 +14,13 @@ namespace Game
 		public const int Index = 536;
 		public BlockMesh m_standaloneBlockMesh = new BlockMesh();
 		public BlockMesh m_standaloneBlockMesh2 = new BlockMesh();
+		public BlockMesh m_standaloneBlockMesh3 = new BlockMesh();
+		public BlockMesh m_standaloneBlockMesh4 = new BlockMesh();
 
 		public override IEnumerable<int> GetCreativeValues()
 		{
-			var arr = new int[80];
-			for (int i = 0; i < 80; i++)
+			var arr = new int[120];
+			for (int i = 0; i < 120; i++)
 				arr[i] = Terrain.ReplaceData(Index, i >> 4 | (i & 15) << 13);
 			return arr;
 		}
@@ -28,6 +30,8 @@ namespace Game
 			m_standaloneBlockMesh.AppendMesh("Models/Battery", "Battery", Matrix.CreateRotationX(MathUtils.PI / 2) * Matrix.CreateScale(.5f, .5f, 1.2f) * Matrix.CreateTranslation(0.5f, 0.5f, -0.3f), Matrix.CreateTranslation(9f / 16f, -7f / 16f, 0f), Color.DarkGray);
 			m_standaloneBlockMesh.AppendMesh("Models/Battery", "Battery", Matrix.CreateRotationX(MathUtils.PI / 2) * Matrix.CreateScale(.7f) * Matrix.CreateTranslation(0.5f, 0.5f, 0.5f), Matrix.CreateTranslation(9f / 16f, -7f / 16f, 0f), Color.DarkGray);
 			m_standaloneBlockMesh2.AppendMesh("Models/Rods", "SteelRod", Matrix.CreateTranslation(0, -0.5f, 0), Matrix.Identity, Color.DarkGray);
+			m_standaloneBlockMesh3.AppendMesh("Models/Saw", "Saw", Matrix.CreateRotationX(1.6f) * Matrix.CreateRotationY(1.6f)* Matrix.CreateRotationY(0.8f) * Matrix.CreateTranslation(0.1f, 0.1f, 0.5f), Matrix.CreateTranslation(12f / 16f, -1f / 16f, 0f) * Matrix.CreateScale(20f), Color.White);
+			//m_standaloneBlockMesh4.AppendMesh("Models/Drill", "Battery",  Matrix.CreateTranslation(0.1f, 0.1f, 0.5f) * Matrix.CreateScale(3f), Matrix.CreateTranslation(12f / 16f, -1f / 16f, 0f) * Matrix.CreateScale(20f), Color.White);
 			base.Initialize();
 		}
 
@@ -63,6 +67,16 @@ namespace Game
 				BlocksManager.DrawMeshBlock(primitivesRenderer, m_standaloneBlockMesh2, color, size, ref matrix, environmentData);
 				return;
 			}
+			if (type == BatteryType.ElectricSaw)
+			{
+				BlocksManager.DrawMeshBlock(primitivesRenderer, m_standaloneBlockMesh3, color, size, ref matrix, environmentData);
+				return;
+			}
+			//if (type == BatteryType.ElectricDrill)
+			//{
+			//	BlocksManager.DrawMeshBlock(primitivesRenderer, m_standaloneBlockMesh4, color, size, ref matrix, environmentData);
+			//	return;
+			//}
 			ItemBlock.DrawFlatBlock(primitivesRenderer, value, size, ref matrix, ItemBlock.Texture,
 				type == BatteryType.Fission_Battery ? Color.Cyan : type == BatteryType.Lead_Battery ? Color.Gray : color, false, environmentData);
 		}
@@ -112,6 +126,7 @@ namespace Game
 				case BatteryType.Fusion_Battery: return 40000;
 				case BatteryType.Lead_Battery: return 1200;
 				case BatteryType.Flashlight: return 800;
+				case BatteryType.ElectricSaw: return 800;
 			}
 			return 300;
 		}
