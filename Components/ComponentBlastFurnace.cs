@@ -175,8 +175,6 @@ namespace Game
 		{
 			base.Load(valuesDictionary, idToEntityMap);
 			m_furnaceSize = SlotsCount - 4;
-			m_fireTimeRemaining = valuesDictionary.GetValue("FireTimeRemaining", 0f);
-			HeatLevel = valuesDictionary.GetValue("HeatLevel", 0f);
 		}
 
 		protected bool FindSmeltingRecipe()

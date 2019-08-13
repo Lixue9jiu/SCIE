@@ -68,8 +68,7 @@ namespace Game
 			m_fire.ParticlesPerSecond = m_componentFurnace.HeatLevel > 0f ? 24f : 0f;
 			m_progress.Value = m_componentFurnace.SmeltingProgress / 1000f;
 
-
-			if (m_dispenseButton.IsClicked && m_componentFurnace.HeatLevel<=0f && m_componentFurnace.SmeltingProgress>=0f)
+			if (m_dispenseButton.IsClicked && m_componentFurnace.HeatLevel <= 0f && m_componentFurnace.SmeltingProgress >= 0f)
 			{
 				m_componentFurnace.HeatLevel = 1000f;
 			}

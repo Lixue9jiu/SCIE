@@ -13,18 +13,18 @@ namespace Game
 			{
 				switch (Musket2Block.GetLoadState(Terrain.ExtractData(slotValue)))
 				{
-				case Musket2Block.LoadState.Empty:
-					m_instructionsLabel.Text = "Load bullet";
-					break;
-				case Musket2Block.LoadState.Bullet:
-					m_instructionsLabel.Text = "Fire or Load bullet";
-					break;
-				case Musket2Block.LoadState.Bullet2:
-					m_instructionsLabel.Text = "Ready for Fire";
-					break;
-				default:
-					m_instructionsLabel.Text = string.Empty;
-					break;
+					case Musket2Block.LoadState.Empty:
+						m_instructionsLabel.Text = "Load bullet";
+						break;
+					case Musket2Block.LoadState.Bullet:
+						m_instructionsLabel.Text = "Fire or Load bullet";
+						break;
+					case Musket2Block.LoadState.Bullet2:
+						m_instructionsLabel.Text = "Ready for Fire";
+						break;
+					default:
+						m_instructionsLabel.Text = string.Empty;
+						break;
 				}
 			}
 			else

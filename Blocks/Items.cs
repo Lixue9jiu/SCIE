@@ -125,10 +125,7 @@ namespace Game
 			new Plate(Materials.Aluminum, true),
 			new Plate(Materials.Brass, true),
 			new Mould("Models/Battery", "Battery", Matrix.CreateRotationX(MathUtils.PI / 2) * Matrix.CreateTranslation(0.5f, 0.5f, 0f), Matrix.CreateTranslation(9f / 16f, -7f / 16f, 0f) * Matrix.CreateScale(20f), "工业磁铁", "IndustrialMagnet"),
-			new Brick(new Color(255, 153, 18), Matrix.CreateTranslation(-32 % 16 / 16f, -32 / 16 / 16f, 0f))
-			{
-				DefaultDisplayName = "RefractoryBrick"
-			},
+			new Brick("RefractoryBrick", "RefractoryBrick", new Color(255, 153, 18), Matrix.CreateTranslation(-32 % 16 / 16f, -32 / 16 / 16f, 0f), "耐火砖是一种耐火陶瓷材料，用于炉衬炉，窑炉，高级燃烧室和壁炉。 它具有耐高温性能，但导热系数低，能效高。"),
 			new CokeCoal(),
 			new Fan(Materials.Steel),
 			new Fan(Materials.Aluminum),
@@ -151,11 +148,7 @@ namespace Game
 			new Cylinder(Matrix.CreateScale(40f, 80f, 40f), "Ar"),
 			new Powder("粗盐", Color.White),
 			new Powder("精盐", Color.White),
-			new Brick(new Color(44, 44, 44), Matrix.CreateTranslation(-32 % 16 / 16f, -32 / 16 / 16f, 0f))
-			{
-				DefaultDisplayName = "石墨",
-				DefaultDescription = "石墨"
-			},
+			new Brick("石墨", "石墨", new Color(44, 44, 44), Matrix.CreateTranslation(-32 % 16 / 16f, -32 / 16 / 16f, 0f), "石墨"),
 			new Powder("粗硅", Color.DarkGray),
 			new Powder("明矾", Color.White),
 			new Powder("石英砂", Color.White),
@@ -203,12 +196,7 @@ namespace Game
 			new Alloy(Materials.Steel,"Titanium Steel"),
 			new Alloy(Materials.Chromium,"Gun-Steel"),
 			new Powder("酵母", Color.White),
-			new Brick(Color.Gray, Matrix.CreateTranslation(-32 % 16 / 16f, -32 / 16 / 16f, 0f))
-			{
-				Id = "ConcreteBrick",
-				DefaultDisplayName = "混凝土砖",
-				DefaultDescription = "混凝土砖"
-			},
+			new Brick("混凝土砖", "ConcreteBrick", Color.Gray, Matrix.CreateTranslation(-32 % 16 / 16f, -32 / 16 / 16f, 0f), "混凝土砖"),
 			new Mould("Models/Snowball", "Snowball", Matrix.CreateTranslation(0.5f, 0.4f, 0.5f), Matrix.CreateTranslation(12f / 16f, -1f / 16f, 0f) * Matrix.CreateScale(20f), "A Ball of Rubber, an important component in the advanced industry", "Rubber", 2.6f),
 			new Rod(Materials.Uranium),
 			new FoodCan("EmptyCan can be used to make food can","Empty",Color.Gray),
@@ -217,23 +205,26 @@ namespace Game
 			new FoodCan("PumpkinCan can store Pumpkin for a long time","Pumpkin",Color.Gray),
 			new FoodCan("BreadCan can store Bread for a long time","Bread",Color.Gray),
 			new FoodCan("FishCan can store Fish for a long time","Fish",Color.Gray),
-			new Brick(new Color(255, 255, 255, 32), Matrix.CreateTranslation(-32 % 16 / 16f, -32 / 16 / 16f, 0f))
-			{
-				DefaultDisplayName = "玻璃砖",
-				DefaultDescription = "玻璃砖"
-			},
+			new Brick("玻璃砖", "玻璃砖", new Color(255, 255, 255, 32), Matrix.CreateTranslation(-32 % 16 / 16f, -32 / 16 / 16f, 0f), "玻璃砖"),
 			new Car(),
 			new MouldItem("Rectifier", "Models/MotionDetector", "MotionDetector", Matrix.CreateTranslation(new Vector3(0.5f)), Matrix.CreateScale(20f), "整流器", "整流器", 2f),
 			new MouldItem("ScR", "Models/Photodiode", "Photodiode", Matrix.CreateTranslation(new Vector3(0.5f)), Matrix.CreateScale(20f), "可控硅", "可控硅", 2f),
+			new MouldItem("LEDSheet", "Models/MotionDetector", "MotionDetector", Matrix.CreateTranslation(new Vector3(0.5f)), Matrix.CreateScale(20f), "LED贴片", "LED贴片", 2f),
 			//new Mould("Models/OBox", "Cube", Matrix.CreateTranslation(0.5f, 0.7f, 0.5f) * Matrix.CreateScale(0.6f), Matrix.CreateTranslation(4f, 3.8f, 0f), "A Cylinder made of alloy, Aluminum and steel, the neccessary part of many machine.", "Cube", 1.6f),
+			new Spring("弹簧", "Spring", Color.White, "弹簧"),
+			new Plate("散热片", Color.White, true)
+			.AppendMesh("Models/Ingots", "IronPlate", Matrix.CreateTranslation(0.5f, -0.6f, 0.5f) * Matrix.CreateScale(.5f), Matrix.Identity, Color.White)
+			.AppendMesh("Models/Ingots", "IronPlate", Matrix.CreateTranslation(0.5f, -0.3f, 0.5f) * Matrix.CreateScale(.5f), Matrix.Identity, Color.White)
+			.AppendMesh("Models/Ingots", "IronPlate", Matrix.CreateTranslation(0.5f, 0.3f, 0.5f) * Matrix.CreateScale(.5f), Matrix.Identity, Color.White)
+			.AppendMesh("Models/Ingots", "IronPlate", Matrix.CreateTranslation(0.5f, 0.6f, 0.5f) * Matrix.CreateScale(.5f), Matrix.Identity, Color.White),
 			new Rod(Materials.Plastic),
-			new Mould("Models/Battery", "Battery", Matrix.CreateTranslation(new Vector3(0.5f)) * Matrix.CreateScale(2f, 0.05f, 2f), Matrix.CreateTranslation(9f / 16f, -7f / 16f, 0f) * Matrix.CreateScale(20f), "晶圆", "晶圆"),
+			/*new Mould("Models/Battery", "Battery", Matrix.CreateTranslation(new Vector3(0.5f)) * Matrix.CreateScale(2f, 0.05f, 2f), Matrix.CreateTranslation(9f / 16f, -7f / 16f, 0f) * Matrix.CreateScale(20f), "晶圆", "晶圆"),
 			new Plate("128K RAM", Color.DarkGreen, true),
 			new Plate("256K RAM", Color.DarkGreen, true),
 			new Plate("512K RAM", Color.DarkGreen, true),
 			new Plate("RISC CPU", Color.DarkGray, true),
 			new Plate("CISC CPU", Color.DarkGray, true),
-			new CPanel(),
+			new CPanel(),*/
 			};
 			ElementBlock.Devices = new Device[]
 			{

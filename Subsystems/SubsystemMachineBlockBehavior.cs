@@ -22,31 +22,61 @@ namespace Game
 			int x = cellFace.X,
 				y = cellFace.Y,
 				z = cellFace.Z;
-			if (y > 96 || MetalBlock.GetType(SubsystemTerrain.Terrain.GetCellValueFast(x, y, z)) != 1)
+			if (y < 2 || y > 96 || MetalBlock.GetType(SubsystemTerrain.Terrain.GetCellValueFast(x, y, z)) != 1)
 				return false;
-			int dir = Utils.GetDirectionXZ(componentMiner);
+			var dir = CellFace.FaceToPoint3(CellFace.OppositeFace(cellFace.Face));
+			x += dir.X;
+			z += dir.Z;
 			TerrainChunk chunk = Utils.Terrain.GetChunkAtCell(x, z);
 			if (chunk == null)
 				return false;
-			int d = TerrainChunk.CalculateCellIndex(x, y + 1, z);
-			for (int i = 0; i < 30; i++)
+			int d = TerrainChunk.CalculateCellIndex(x & 15, y, z & 15), i;
+			const int Steel = MetalBlock.Index | 3 << 5 + 14, Cr = MetalBlock.Index | 10 << 5 + 14,
+				Case = MetalBlock.Index | 1 << 5 + 14, Mask = 1023 | 15 << 5+14,
+				Hg = RottenMeatBlock.Index | 6 << 4 + 14, Wall = MetalBlock.Index | 15 << 5 + 14;
+			if ((chunk.GetCellValueFast(d - 2) ^ Steel & Mask) != 0 || Terrain.ExtractContents(chunk.GetCellValueFast(d - 1)) != MagmaBlock.Index || Terrain.ReplaceLight(chunk.GetCellValueFast(d) ^ Cr, 0) != 0)
+				return false;
+			for (i = 1; i <= 32; i++)
 			{
-				int value = chunk.GetCellValueFast(d + i);
-				if (Terrain.ExtractContents(value) != MetalBlock.Index || MetalBlock.GetType(value) != 3)
+				if (Terrain.ReplaceLight(chunk.GetCellValueFast(d + i) ^ Hg, 0) != 0)
 					return false;
 			}
-			d = TerrainChunk.CalculateCellIndex(x + 1, y + 1, z);
-			for (int i = 0; i < 30; i++)
+			for (int j = 0; j < 4; j++)
 			{
-				int value = chunk.GetCellValueFast(d + i);
-				if (Terrain.ExtractContents(value) != RottenMeatBlock.Index || (Terrain.ExtractData(value) >> 4) != 6)
+				dir = CellFace.FaceToPoint3(j);
+				chunk = Utils.Terrain.GetChunkAtCell(x + dir.X, z + dir.Z);
+				if (chunk == null)
+					return false;
+				d = TerrainChunk.CalculateCellIndex(x + dir.X & 15, y, z + dir.Z & 15);
+				if (((chunk.GetCellValueFast(d - 2) ^ Steel & Mask) | (chunk.GetCellValueFast(d - 1) ^ Steel & Mask) |
+					(chunk.GetCellValueFast(d) ^ Case & Mask) | (chunk.GetCellValueFast(d + 1) ^ Cr & Mask)) != 0)
+					return false;
+				d++;
+				for (i = 1 ; i <= 7; i++)
+				{
+					if ((chunk.GetCellValueFast(d + i) ^ Steel & Mask) != 0)
+						return false;
+				}
+				d += i;
+				for (i = 0; i < 24; i++)
+				{
+					if ((chunk.GetCellValueFast(d + i) ^ Wall & Mask) != 0)
+						return false;
+				}
+			}
+			for (i = 0; i < 2; i++)
+			{
+				y--;
+				if ((Utils.Terrain.GetCellValueFast(x + 1, y, z + 1) ^ Steel & Mask) != 0 || (Utils.Terrain.GetCellValueFast(x + 1, y, z - 1) ^ Steel & Mask) != 0 ||
+					(Utils.Terrain.GetCellValueFast(x - 1, y, z + 1) ^ Steel & Mask) != 0 || (Utils.Terrain.GetCellValueFast(x - 1, y, z - 1) ^ Steel & Mask) != 0)
 					return false;
 			}
 			if (Utils.GetBlockEntity(raycastResult.CellFace.Point) == null)
-				Project.CreateBlockEntity("HPress", new Point3(x, y, z));
+				Project.CreateBlockEntity("HPress", raycastResult.CellFace.Point);
 			return base.OnInteract(raycastResult, componentMiner);
 		}
 	}
+
 	public class SubsystemCrusherBlockBehavior : SubsystemBlockBehavior
 	{
 		public override int[] HandledBlocks => new[] { CrusherBlock.Index };
@@ -90,9 +120,10 @@ namespace Game
 			int value = SubsystemTerrain.Terrain.GetCellValue(cellFace.X, cellFace.Y, cellFace.Z);
 			if (Terrain.ExtractContents(value) != DiversionBlock.Index) return;
 			Vector3 v = CellFace.FaceToVector3(value - DiversionBlock.Index >> 14);
-			Utils.SubsystemProjectiles.FireProjectile(worldItem.Value, new Vector3(cellFace.X + 0.5f, cellFace.Y + 0.5f, cellFace.Z + 0.5f) + 0.75f * v, 30f * v, Vector3.Zero, null);
+			Utils.SubsystemProjectiles.FireProjectile(worldItem.Value, new Vector3(cellFace.X, cellFace.Y, cellFace.Z) + new Vector3(0.5f) + 0.75f * v, 30f * v, Vector3.Zero, null);
 			worldItem.ToRemove = true;
 		}
+
 		public override void OnCollide(CellFace cellFace, float velocity, ComponentBody componentBody)
 		{
 			int x = cellFace.X,
@@ -143,6 +174,7 @@ namespace Game
 			}
 		}
 	}
+
 	public class SubsystemDrillerBlockBehavior : SubsystemInventoryBlockBehavior<ComponentDriller>
 	{
 		public SubsystemDrillerBlockBehavior() : base("Driller")
@@ -170,7 +202,10 @@ namespace Game
 
 	public class SubsystemLiquidPumpBlockBehavior : SubsystemDrillerBlockBehavior
 	{
-		public SubsystemLiquidPumpBlockBehavior() { Name = "LiquidPump"; }
+		public SubsystemLiquidPumpBlockBehavior()
+		{
+			Name = "LiquidPump";
+		}
 
 		public override int[] HandledBlocks => new[] { LiquidPumpBlock.Index };
 
@@ -192,7 +227,9 @@ namespace Game
 
 	public class SubsystemMachineToolBlockBehavior : SubsystemInventoryBlockBehavior<ComponentLargeCraftingTable>
 	{
-		public SubsystemMachineToolBlockBehavior() : base("MachineTool") { }
+		public SubsystemMachineToolBlockBehavior() : base("MachineTool")
+		{
+		}
 
 		public override int[] HandledBlocks => new[] { MachineToolBlock.Index };
 

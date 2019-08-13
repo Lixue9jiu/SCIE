@@ -88,8 +88,6 @@ namespace Game
 		{
 			base.Load(valuesDictionary, idToEntityMap);
 			m_furnaceSize = SlotsCount - 1;
-			m_fireTimeRemaining = valuesDictionary.GetValue("FireTimeRemaining", 0f);
-			HeatLevel = valuesDictionary.GetValue("HeatLevel", 0f);
 		}
 
 		protected string FindSmeltingRecipe()
@@ -97,7 +95,6 @@ namespace Game
 			bool text = false;
 			result[0] = 0;
 			//int i;
-			// Log.Information("000000000");
 			// Log.Information(GetSlotValue(0) == ItemBlock.IdTable["Empty"]);
 			// Log.Information(GetSlotValue(1) == CookedMeatBlock.Index);
 			// Log.Information(GetSlotCount(0) >= 1 && GetSlotCount(1) >= 5);
