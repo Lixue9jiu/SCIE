@@ -53,6 +53,7 @@ namespace Game
 			BlockGeometryGenerator = new BlockGeometryGenerator(Terrain, SubsystemTerrain, Project.FindSubsystem<SubsystemElectricity>(true), SubsystemTerrain.SubsystemFurnitureBlockBehavior, Project.FindSubsystem<SubsystemMetersBlockBehavior>(true), SubsystemTerrain.SubsystemPalette);
 			LoadedProject = true;
 		}
+
 		public static void RemoveElementsInChunk(TerrainChunk chunk, IEnumerable<Point3> elements, Action<Point3> action)
 		{
 			int originX = chunk.Origin.X, originY = chunk.Origin.Y;
@@ -100,6 +101,7 @@ namespace Game
 				}
 			}
 		}
+
 		public static void PaintFastSelective(this TerrainChunk chunk, Cell[] cells, int x, int y, int z, int onlyInBlock = BasaltBlock.Index)
 		{
 			x -= chunk.Origin.X;
@@ -119,6 +121,7 @@ namespace Game
 				}
 			}
 		}
+
 		public static void PaintMaskSelective(this TerrainChunk chunk, Cell[] cells, int x, int y, int z, int mask = BasaltBlock.Index)
 		{
 			x -= chunk.Origin.X;
@@ -139,6 +142,7 @@ namespace Game
 				}
 			}
 		}
+
 		public static int GetDirectionXZ(ComponentMiner componentMiner)
 		{
 			Vector3 forward = componentMiner.ComponentCreature.ComponentCreatureModel.EyeRotation.ToForwardVector();
@@ -153,12 +157,14 @@ namespace Game
 			if (num4 == max) return 1;
 			return 0;
 		}
+
 		[MethodImpl((MethodImplOptions)0x100)]
 		public static ComponentBlockEntity GetBlockEntity(Point3 p)
 		{
 			SubsystemBlockEntities.m_blockEntities.TryGetValue(p, out ComponentBlockEntity entity);
 			return entity;
 		}
+
 		public static void AppendMesh(this BlockMesh blockMesh, string modelName, string meshName, Matrix boneTransform, Matrix tcTransform, Color color)
 		{
 			var model = ContentManager.Get<Model>(modelName);
@@ -166,11 +172,13 @@ namespace Game
 			if (tcTransform != Matrix.Identity)
 				blockMesh.TransformTextureCoordinates(tcTransform);
 		}
+
 		[MethodImpl((MethodImplOptions)0x100)]
 		public static int GetColor(int value)
 		{
 			return Terrain.ExtractData(value) & 0xF;
 		}
+
 		[MethodImpl((MethodImplOptions)0x100)]
 		public static int SetColor(int data, int color)
 		{
