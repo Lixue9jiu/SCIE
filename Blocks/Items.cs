@@ -172,8 +172,8 @@ namespace Game
 				DefaultTextureSlot = 122,
 				DefaultDisplayName = "基因查看器"
 			},
-			new Screwdriver(),
-			new Wrench(),
+			new MouldItem("Screwdriver", "Models/Screwdriver", "obj1", Matrix.CreateTranslation(0f, -0.33f, 0f), Matrix.CreateTranslation(15f / 16f, 0f, 0f), "螺丝刀可以快速拆除机器", "螺丝刀", 3.3f),
+			new MouldItem("Wrench", "Models/Wrench", "obj1", Matrix.CreateScale(1.2f), Matrix.CreateTranslation(15f / 16f, 0f, 0f), "扳手可以拆除交通工具", "扳手", 6f),
 			new OreChunk(Matrix.CreateRotationX(1f) * Matrix.CreateRotationZ(1f), Matrix.CreateTranslation(0.0625f, 0.4375f, 0f), Color.White, false, Materials.Steel)
 			{
 				Id = "Plaster",
@@ -223,6 +223,8 @@ namespace Game
 				DefaultDescription = "玻璃砖"
 			},
 			new Car(),
+			new MouldItem("Rectifier", "Models/MotionDetector", "MotionDetector", Matrix.CreateTranslation(new Vector3(0.5f)), Matrix.CreateScale(20f), "整流器", "整流器", 2f),
+			new MouldItem("ScR", "Models/Photodiode", "Photodiode", Matrix.CreateTranslation(new Vector3(0.5f)), Matrix.CreateScale(20f), "可控硅", "可控硅", 2f),
 			//new Mould("Models/OBox", "Cube", Matrix.CreateTranslation(0.5f, 0.7f, 0.5f) * Matrix.CreateScale(0.6f), Matrix.CreateTranslation(4f, 3.8f, 0f), "A Cylinder made of alloy, Aluminum and steel, the neccessary part of many machine.", "Cube", 1.6f),
 			new Rod(Materials.Plastic),
 			new Mould("Models/Battery", "Battery", Matrix.CreateTranslation(new Vector3(0.5f)) * Matrix.CreateScale(2f, 0.05f, 2f), Matrix.CreateTranslation(9f / 16f, -7f / 16f, 0f) * Matrix.CreateScale(20f), "晶圆", "晶圆"),
@@ -294,7 +296,7 @@ namespace Game
 				IdTable.Add(Items[i].GetCraftingId(), Index | i << 14);
 			for (i = 0; i < ElementBlock.Devices.Length; i++)
 			{
-				if (ElementBlock.Devices[i] is FixedDevice device)
+				if (ElementBlock.Devices[i] is CubeDevice device)
 					device.Index = i;
 				IdTable.Add(ElementBlock.Devices[i].GetCraftingId(), ElementBlock.Index | i << 14);
 			}
@@ -302,7 +304,7 @@ namespace Game
 			{
 				Capacity = Chemistry.GunpowderBlock.Items.Length
 			};
-			for (i = 0; i < 2048; i++)
+			for (i = 0; i < 1024; i++)
 				list.Add(new Mine((MineType)(i & 63), (i >> 6) / 4.0));
 			list.Capacity = list.Count;
 			Chemistry.GunpowderBlock.Items = list.Array;

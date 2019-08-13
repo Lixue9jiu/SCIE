@@ -3,7 +3,7 @@ using Engine.Graphics;
 
 namespace Game
 {
-	public class TEDC : FixedDevice, IInteractiveBlock
+	public class TEDC : CubeDevice, IInteractiveBlock
 	{
 		//public static Jint.Engine JsEngine;
 		public static ComponentPlayer ComponentPlayer;
@@ -42,7 +42,7 @@ namespace Game
 			return true;
 		}
 	}
-	public class AirCompressor : FixedDevice
+	public class AirCompressor : CubeDevice
 	{
 		public AirCompressor() : base("空气压缩机", "空气压缩机") { }
 		public override int GetFaceTextureSlot(int face, int value)
@@ -56,18 +56,10 @@ namespace Game
 				voltage -= 60;
 		}
 	}
-	public class AirPump : FixedDevice
+	public class AirPump : CubeDevice
 	{
 		public AirPump() : base("抽气机", "抽气机", 130) { }
 
-		public override int GetFaceTextureSlot(int face, int value)
-		{
-			return face != 4 && face != 5 && face == (Terrain.ExtractData(value) >> 15) ? 220 : 239;
-		}
-	}
-	public class Rectifier : FixedDevice
-	{
-		public Rectifier() : base("整流器", "整流器", 130) { }
 		public override int GetFaceTextureSlot(int face, int value)
 		{
 			return face != 4 && face != 5 && face == (Terrain.ExtractData(value) >> 15) ? 220 : 239;

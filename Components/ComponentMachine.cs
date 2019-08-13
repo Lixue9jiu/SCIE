@@ -45,6 +45,7 @@ namespace Game
 			m_updateSmeltingRecipe = true;
 			return base.RemoveSlotItems(slotIndex, count);
 		}
+
 		public override void ProcessSlotItems(int slotIndex, int value, int count, int processCount, out int processedValue, out int processedCount)
 		{
 			IItem item = Item.Block.GetItem(ref value);

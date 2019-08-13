@@ -151,7 +151,7 @@ namespace Game
 			Data.Remove(chunk.Coords);
 		}
 
-		public override int[] HandledBlocks => new int[] { 90, RottenMeatBlock.Index, ItemBlock.Index };
+		public override int[] HandledBlocks => new int[] { 90, GunpowderBlock.Index, RottenMeatBlock.Index, ItemBlock.Index };
 
 		public override bool OnAim(Vector3 start, Vector3 direction, ComponentMiner componentMiner, AimState state)
 		{
@@ -159,7 +159,7 @@ namespace Game
 			if (!(BlocksManager.Blocks[Terrain.ExtractContents(value)] is ItemBlock block))
 				return false;
 			var item = block.GetItem(ref value);
-			return (item is OreChunk || (item is Mould && !(item is Mine)) || item is Brick || value == ItemBlock.IdTable["ScrapIron"]) && base.OnAim(start, direction, componentMiner, state);
+			return !(block is Chemistry.GunpowderBlock) && (item is OreChunk || (item is Mould) || item is Brick || value == ItemBlock.IdTable["ScrapIron"]) && base.OnAim(start, direction, componentMiner, state);
 		}
 
 		public override bool OnUse(Vector3 start, Vector3 direction, ComponentMiner componentMiner)

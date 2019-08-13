@@ -11,7 +11,7 @@ namespace Game
 
 	public class IEBatteryBlock : FlatBlock, IDurability
 	{
-		public const int Index = 537;
+		public const int Index = 536;
 		public BlockMesh m_standaloneBlockMesh = new BlockMesh();
 		public BlockMesh m_standaloneBlockMesh2 = new BlockMesh();
 

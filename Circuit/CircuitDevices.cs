@@ -151,7 +151,7 @@ namespace Game
 		}
 	}
 
-	public class AirBlower : FixedDevice, IBlockBehavior
+	public class AirBlower : CubeDevice, IBlockBehavior
 	{
 		public int Level = -1;
 
@@ -172,8 +172,6 @@ namespace Game
 			if (level == Level)
 				return;
 			var p = Point;
-
-			//SubsystemTerrain.ChangeCell(p.X, p.Y, p.Z, , true);
 			var chunk = Utils.Terrain.GetChunkAtCell(p.X, p.Z);
 			if (chunk != null)
 			{
@@ -255,7 +253,7 @@ namespace Game
         }
 	}
 
-    public class ElectricMotor : FixedDevice, IBlockBehavior
+    public class ElectricMotor : CubeDevice, IBlockBehavior
     {
         public ElectricMotor() : base("电动机", "电动机是一种可以把电能转化为动能的机器", 310) { }
         public void OnBlockAdded(SubsystemTerrain subsystemTerrain, int value, int oldValue)
@@ -273,7 +271,7 @@ namespace Game
         }
 	}
 
-	public class Transformer : FixedDevice, IBlockBehavior
+	public class Transformer : CubeDevice, IBlockBehavior
 	{
 		public Transformer() : base("变压器", "变压器是一种把交流电转化成直流电的机器") { }
 		public void OnBlockAdded(SubsystemTerrain subsystemTerrain, int value, int oldValue)
@@ -409,7 +407,38 @@ namespace Game
 	{
 		public Unpacker()
 		{
+			Voltage = 100;
 			DefaultDisplayName = DefaultDescription = "去包装机";
+			Type |= ElementType.Pipe;
+		}
+
+		public override void Simulate(ref int voltage)
+		{
+			if (voltage > 1023 || voltage < Voltage)
+				return;
+			for (int i = 0; i < Component.SlotsCount; i++)
+			{
+				if (Component.GetSlotCount(i) > 0)
+				{
+					int value = Terrain.ExtractContents(Component.GetSlotValue(i));
+					switch (value)
+					{
+						case -1:
+							Component.RemoveSlotItems(i, 1);
+							ComponentInventoryBase.AcquireItems(Component, EmptyBucketBlock.Index, 1);
+							voltage = value << 10;
+							return;
+						case WaterBucketBlock.Index:
+						case MagmaBucketBlock.Index:
+						case PaintStripperBucketBlock.Index:
+							goto case -1;
+						case RottenMeatBlock.Index:
+							if(Terrain.ExtractData(Component.GetSlotValue(i)) >> 4 == 2)
+							goto case -1;
+							continue;
+					}
+				}
+			}
 		}
 
 		public override int GetFaceTextureSlot(int face, int value)
@@ -417,14 +446,14 @@ namespace Game
 			return face != 4 && face != 5 && face == (Terrain.ExtractData(value) >> 15) ? 235 : 124;
 		}
 	}
-	public class ElectricPump : FixedDevice
+	public class ElectricPump : CubeDevice
 	{
-		public ElectricPump() : base("电子泵", "电子泵是一种可以直接吸收液体于管道传输的机器") { Type = ElementType.Pipe; }
-		//public override void Simulate(ref int voltage)
-		//{
-		//	if (voltage < 0)
-		//		voltage = (int)(-voltage * Math.Sqrt(2));
-		//}
+		public ElectricPump() : base("电子泵", "电子泵是一种可以直接吸收液体于管道传输的机器", 150) { Type = ElementType.Pipe; }
+
+		/*public override void Simulate(ref int voltage)
+		{
+		}*/
+
 		public override int GetFaceTextureSlot(int face, int value)
 		{
 			return face == 4 || face == 5 ? 107 : 236;

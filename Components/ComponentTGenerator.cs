@@ -56,7 +56,7 @@ namespace Game
 			}
 		}
 
-		protected string FindSmeltingRecipe()
+		protected new string FindSmeltingRecipe()
 		{
 			Array.Clear(result, 0, 3);
 			string text = null;

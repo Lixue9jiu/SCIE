@@ -6,9 +6,7 @@ namespace Game
 {
 	public class WireElement : Device
 	{
-		public WireElement() : base(ElementType.Connector)
-		{
-		}
+		public WireElement() : base(ElementType.Connector) { }
 
 		public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
 		{
@@ -69,9 +67,7 @@ namespace Game
 		public override BoundingBox[] GetCustomCollisionBoxes(SubsystemTerrain terrain, int value)
 		{
 			var arr = new BoundingBox[6];
-			for (int i = 0; i < 6; i++)
-				if (i == 4)
-					arr[i] = m_collisionBoxesByFace[i];
+			arr[4] = m_collisionBoxesByFace[4];
 			return arr;
 		}
 
@@ -236,13 +232,13 @@ namespace Game
 		}
 	}
 
-	public class Switch : FixedDevice, IInteractiveBlock
+	public class Switch : CubeDevice, IInteractiveBlock
 	{
 		public BlockMesh m_standaloneBlockMesh = new BlockMesh();
 		public BlockMesh m_standaloneBlockMesh2 = new BlockMesh();
 		public BoundingBox[] m_collisionBoxes;
 
-		public Switch() : base("电闸", "电闸")
+		public Switch() : base("电闸", "电闸控制工业电路的通断")
 		{
 			Model model = ContentManager.Get<Model>("Models/Switch");
 			Matrix boneAbsoluteTransform = BlockMesh.GetBoneAbsoluteTransform(model.FindMesh("Body").ParentBone) * Matrix.CreateTranslation(.5f, 0, .5f);
@@ -254,6 +250,12 @@ namespace Game
 			m_standaloneBlockMesh.AppendModelMeshPart(meshPart, boneAbsoluteTransform2 * Matrix.CreateRotationX(MathUtils.DegToRad(30f)) * Matrix.CreateTranslation(.5f, 0f, .5f), false, false, false, false, Color.White);
 			m_standaloneBlockMesh2.AppendModelMeshPart(meshPart, boneAbsoluteTransform2 * Matrix.CreateRotationX(MathUtils.DegToRad(-30f)) * Matrix.CreateTranslation(.5f, 0f, .5f), false, false, false, false, Color.White);
 			m_collisionBoxes = new[] { m_standaloneBlockMesh.CalculateBoundingBox() };
+		}
+
+		public override Device Create(Point3 p, int value)
+		{
+			Powered = (Terrain.ExtractData(value) & 16384) != 0;
+			return this;
 		}
 
 		public override void Simulate(ref int voltage)
@@ -268,8 +270,7 @@ namespace Game
 
 		public override void GenerateTerrainVertices(Block block, BlockGeometryGenerator generator, TerrainGeometrySubsets geometry, int value, int x, int y, int z)
 		{
-			Powered = (Terrain.ExtractData(value) & 16384) != 0;
-			generator.GenerateMeshVertices(block, x, y, z, Powered ? m_standaloneBlockMesh : m_standaloneBlockMesh2, Color.LightGray, null, geometry.SubsetOpaque);
+			generator.GenerateMeshVertices(block, x, y, z, (Terrain.ExtractData(value) & 16384) != 0 ? m_standaloneBlockMesh : m_standaloneBlockMesh2, Color.LightGray, null, geometry.SubsetOpaque);
 			WireDevice.GenerateWireVertices(generator, value, x, y, z, 4, 0f, Vector2.Zero, geometry.SubsetOpaque);
 		}
 
@@ -288,12 +289,12 @@ namespace Game
 
 		public override Vector3 GetIconBlockOffset(int value, DrawBlockEnvironmentData environmentData) => new Vector3 { Y = .5f };
 	}
-	public class Relay : FixedDevice, IElectricElementBlock
+	public class Relay : CubeDevice, IElectricElementBlock
 	{
 		public BlockMesh m_standaloneBlockMesh = new BlockMesh();
 		public BoundingBox[] m_collisionBoxes;
 
-		public Relay() : base("继电器", "继电器")
+		public Relay() : base("继电器", "继电器允许你用逻辑电路控制工业电路")
 		{
 			m_standaloneBlockMesh.AppendMesh("Models/Switch", "Body", Matrix.CreateTranslation(.5f, 0, .5f), Matrix.Identity, Color.White);
 			m_collisionBoxes = new[] { m_standaloneBlockMesh.CalculateBoundingBox() };
@@ -333,15 +334,14 @@ namespace Game
 		}
 	}
 
-	public class ElectricFences : FixedDevice
+	public class ElectricFences : CubeDevice
 	{
 		public BlockMesh[] m_blockMeshes = new BlockMesh[16];
-		public BlockMesh m_coloredBlockMeshes = new BlockMesh();
 
 		public BoundingBox[][] m_collisionBoxes = new BoundingBox[16][];
 		private readonly bool m_doubleSidedPlanks = true;
 
-		public ElectricFences() : base("电栅栏", "电栅栏", 120)
+		public ElectricFences() : base("电栅栏", "通电后的电栅栏能对动物造成伤害", 120)
 		{
 			Model model = ContentManager.Get<Model>("Models/IronFence");
 			Matrix boneAbsoluteTransform = BlockMesh.GetBoneAbsoluteTransform(model.FindMesh("Post").ParentBone) * Matrix.CreateTranslation(.5f, 0f, .5f);
