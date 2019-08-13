@@ -7,7 +7,7 @@ namespace Game
 	public class StoveWidget : PresserWidget<ComponentMachine>
 	{
 		protected readonly InventorySlotWidget m_fuelSlot;
-		
+
 		public StoveWidget(IInventory inventory, ComponentMachine component, string path, string name = null) : base(inventory, component, path)
 		{
 			if (name != null)

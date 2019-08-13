@@ -61,8 +61,8 @@ namespace Game
 				}
 			}
 			m_result1.AssignInventorySlot(componentFurnace, num++);
-			m_result2.AssignInventorySlot(componentFurnace, num ++);
-			m_result3.AssignInventorySlot(componentFurnace, num ++);
+			m_result2.AssignInventorySlot(componentFurnace, num++);
+			m_result3.AssignInventorySlot(componentFurnace, num++);
 			m_cir1?.AssignInventorySlot(componentFurnace, num++);
 			m_cir2?.AssignInventorySlot(componentFurnace, num++);
 		}

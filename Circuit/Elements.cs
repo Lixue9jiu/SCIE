@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Runtime.Serialization;
 using Engine;
@@ -144,6 +145,10 @@ namespace Game
 				CellFace = raycastResult.CellFace
 			};
 		}
+		public override void GetDropValues(SubsystemTerrain subsystemTerrain, int oldValue, int newValue, int toolLevel, List<BlockDropValue> dropValues, out bool showDebris)
+		{
+			base.GetDropValues(subsystemTerrain, Terrain.ReplaceData(oldValue, Terrain.ExtractData(oldValue) & 16383), newValue, toolLevel, dropValues, out showDebris);
+		}
 	}
 	/*public abstract class MeshDevice : FixedDevice
 	{
@@ -209,7 +214,7 @@ namespace Game
 
 		public ElectricElement CreateElectricElement(SubsystemElectricity subsystemElectricity, int value, int x, int y, int z)
 		{
-			return new CraftingMachineElectricElement(subsystemElectricity, new Point3(x, y, z));
+			return new MachineElectricElement(subsystemElectricity, new Point3(x, y, z));
 		}
 		public ElectricConnectorType? GetConnectorType(SubsystemTerrain terrain, int value, int face, int connectorFace, int x, int y, int z)
 		{

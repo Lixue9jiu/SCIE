@@ -111,8 +111,7 @@ namespace Game
 		public Plate(string name, Color color, bool small = false)
 		{
 			Id = DefaultDisplayName = DefaultDescription = name;
-			Matrix matrix = small ? Matrix.CreateScale(.5f) : Matrix.Identity;
-			m_standaloneBlockMesh.AppendMesh("Models/Ingots", "IronPlate", Matrix.CreateTranslation(0.5f, 0f, 0.5f) * matrix, Matrix.Identity, color);
+			m_standaloneBlockMesh.AppendMesh("Models/Ingots", "IronPlate", Matrix.CreateTranslation(0.5f, 0f, 0.5f) * (small ? Matrix.CreateScale(.5f) : Matrix.Identity), Matrix.Identity, color);
 			m_collisionBoxes = new BoundingBox[] { m_standaloneBlockMesh.CalculateBoundingBox() };
 		}
 
@@ -168,15 +167,13 @@ namespace Game
 	public class FoodCan : MeshItem
 	{
 		protected BoundingBox[] m_collisionBoxes;
-		public readonly Color Color;
 		protected string Id;
 
-		public FoodCan(string name, string name1, Color color)
+		public FoodCan(string name, string id, Color color)
 		{
+			Id = id;
 			DefaultDescription = name;
-			Color = color;
-			Id = name1;
-			DefaultDisplayName = name1 + Utils.Get("Can");
+			DefaultDisplayName = id + Utils.Get("Can");
 			m_standaloneBlockMesh.AppendMesh("Models/Battery", "Battery", Matrix.CreateTranslation(0.5f, 0f, 0.5f), Matrix.CreateTranslation(12f / 16f, 1f / 16f, 0f), color);
 			m_collisionBoxes = new BoundingBox[] { m_standaloneBlockMesh.CalculateBoundingBox() };
 		}
@@ -189,8 +186,10 @@ namespace Game
 	public class Brick : MeshItem
 	{
 		public string Id;
-		public Brick(Color color, Matrix tcTrarsform) : base(Utils.Get("耐火砖是一种耐火陶瓷材料，用于炉衬炉，窑炉，高级燃烧室和壁炉。 它具有耐高温性能，但导热系数低，能效高。"))
+		public Brick(string name, string id, Color color, Matrix tcTrarsform, string description = "") : base(Utils.Get(description))
 		{
+			DefaultDisplayName = Utils.Get(name);
+			Id = id;
 			m_standaloneBlockMesh.AppendMesh("Models/Brick", "Brick", Matrix.CreateTranslation(0f, -.02f, 0f) * 1.4f, tcTrarsform, color);
 		}
 
@@ -203,6 +202,19 @@ namespace Game
 
 		public override float GetProjectilePower() => 2f;
 		public override string GetCraftingId() => Id ?? DefaultDisplayName;
+	}
+
+	public class Spring : MeshItem
+	{
+		public string Id;
+		public Spring(string name, string id, Color color, string description = "") : base(Utils.Get(description))
+		{
+			DefaultDisplayName = Utils.Get(name);
+			Id = id;
+			var m = Matrix.CreateScale(0.7f, 0.15f, 0.7f) * Matrix.CreateTranslation(0.5f, 0f, 0f) * Matrix.CreateRotationX(MathUtils.PI / 2);
+			for (float i = 0; i < 8 * MathUtils.PI; i += MathUtils.PI / 12)
+				m_standaloneBlockMesh.AppendMesh("Models/Rods", "SteelRod", m * Matrix.CreateTranslation(0, 0.03f * i - 0.5f, 0) * Matrix.CreateRotationY(i), Matrix.Identity, color);
+		}
 	}
 
 	/*public class Slab : MeshItem

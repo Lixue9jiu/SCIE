@@ -13,9 +13,9 @@ namespace Game
 
 		protected readonly ButtonWidget m_dispenseButton;
 
-		protected readonly GridPanelWidget m_dispenserGrid;
-
 		protected readonly GridPanelWidget m_inventoryGrid;
+
+		protected readonly GridPanelWidget m_furnaceGrid;
 
 		protected readonly ButtonWidget m_shootButton;
 
@@ -30,7 +30,7 @@ namespace Game
 			m_subsystemTerrain = componentDispenser.Project.FindSubsystem<SubsystemTerrain>(true);
 			WidgetsManager.LoadWidgetContents(this, this, ContentManager.Get<XElement>("Widgets/DrillerWidget"));
 			m_inventoryGrid = Children.Find<GridPanelWidget>("InventoryGrid");
-			m_dispenserGrid = Children.Find<GridPanelWidget>("DispenserGrid");
+			m_furnaceGrid = Children.Find<GridPanelWidget>("DispenserGrid");
 			m_dispenseButton = Children.Find<ButtonWidget>("DispenseButton");
 			m_shootButton = Children.Find<ButtonWidget>("ShootButton");
 			m_acceptsDropsBox = Children.Find<CheckboxWidget>("AcceptsDropsBox");
@@ -48,14 +48,14 @@ namespace Game
 				}
 			}
 			num = 0;
-			for (y = 0; y < m_dispenserGrid.RowsCount; y++)
+			for (y = 0; y < m_furnaceGrid.RowsCount; y++)
 			{
-				for (x = 0; x < m_dispenserGrid.ColumnsCount; x++)
+				for (x = 0; x < m_furnaceGrid.ColumnsCount; x++)
 				{
 					inventorySlotWidget = new InventorySlotWidget();
 					inventorySlotWidget.AssignInventorySlot(componentDispenser, num++);
-					m_dispenserGrid.Children.Add(inventorySlotWidget);
-					m_dispenserGrid.SetWidgetCell(inventorySlotWidget, new Point2(x, y));
+					m_furnaceGrid.Children.Add(inventorySlotWidget);
+					m_furnaceGrid.SetWidgetCell(inventorySlotWidget, new Point2(x, y));
 				}
 			}
 			m_drillSlot.AssignInventorySlot(componentDispenser, 8);

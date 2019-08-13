@@ -11,9 +11,6 @@ namespace Game
 
 		protected readonly InventorySlotWidget m_result1;
 
-		
-
-		
 		protected readonly GridPanelWidget m_inventoryGrid;
 
 		protected readonly ValueBarWidget m_progress;
@@ -26,7 +23,7 @@ namespace Game
 			m_inventoryGrid = Children.Find<GridPanelWidget>("InventoryGrid");
 			m_furnaceGrid = Children.Find<GridPanelWidget>("FurnaceGrid");
 			m_result1 = Children.Find<InventorySlotWidget>("ResultSlot");
-			
+
 			m_acceptsDropsBox = Children.Find<CheckboxWidget>("AcceptsElectBox");
 			m_progress = Children.Find<ValueBarWidget>("Progress");
 
@@ -54,7 +51,6 @@ namespace Game
 				}
 			}
 			m_result1.AssignInventorySlot(componentFurnace, num++);
-			
 		}
 
 		public override void Update()

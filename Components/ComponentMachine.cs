@@ -65,6 +65,8 @@ namespace Game
 			this.LoadItems(valuesDictionary);
 			m_componentBlockEntity = Entity.FindComponent<ComponentBlockEntity>();
 			m_updateSmeltingRecipe = true;
+			m_fireTimeRemaining = valuesDictionary.GetValue("FireTimeRemaining", 0f);
+			HeatLevel = valuesDictionary.GetValue("HeatLevel", 0f);
 		}
 
 		public CraftingRecipe GetRecipe() => null;
@@ -161,8 +163,6 @@ namespace Game
 		{
 			base.Load(valuesDictionary, idToEntityMap);
 			m_furnaceSize = SlotsCount - 1;
-			m_fireTimeRemaining = valuesDictionary.GetValue("FireTimeRemaining", 0f);
-			HeatLevel = valuesDictionary.GetValue("HeatLevel", 0f);
 			//m_speed = valuesDictionary.GetValue("Speed", 0.1f);
 			//m_count = valuesDictionary.GetValue("Count", 1);
 			m_speed = 0.1f;

@@ -115,8 +115,6 @@ namespace Game
 		public override void Load(ValuesDictionary valuesDictionary, IdToEntityMap idToEntityMap)
 		{
 			base.Load(valuesDictionary, idToEntityMap);
-			m_fireTimeRemaining = valuesDictionary.GetValue("FireTimeRemaining", 0f);
-			HeatLevel = valuesDictionary.GetValue("HeatLevel", 0f);
 			m_speed = valuesDictionary.GetValue("Speed", 1f);
 		}
 	}

@@ -1,8 +1,6 @@
 using Engine;
 using System.Xml.Linq;
 
-//using static Game.Charger;
-
 namespace Game
 {
 	public class ICEngineWidget : CanvasWidget
@@ -11,7 +9,7 @@ namespace Game
 
 		protected readonly ComponentBlockEntity m_componentBlockEntity;
 
-		protected readonly ComponentMachine m_componentDispenser2;
+		protected readonly ComponentMachine m_componentDispenser;
 
 		protected readonly ButtonWidget m_dispenseButton;
 
@@ -32,8 +30,7 @@ namespace Game
 
 		public ICEngineWidget(IInventory inventory, ComponentMachine component)
 		{
-			
-			m_componentDispenser2 = component;
+			m_componentDispenser = component;
 			m_componentBlockEntity = component.Entity.FindComponent<ComponentBlockEntity>(true);
 			m_subsystemTerrain = component.Project.FindSubsystem<SubsystemTerrain>(true);
 			WidgetsManager.LoadWidgetContents(this, this, ContentManager.Get<XElement>("Widgets/ICEngineWidget"));
@@ -75,21 +72,20 @@ namespace Game
 
 		public override void Update()
 		{
-			m_fire.ParticlesPerSecond = m_componentDispenser2.HeatLevel > 0f ? 24f : 0f;
-			m_progress.Value = m_componentDispenser2.SmeltingProgress / 1000f;
+			m_fire.ParticlesPerSecond = m_componentDispenser.HeatLevel > 0f ? 24f : 0f;
+			m_progress.Value = m_componentDispenser.SmeltingProgress / 1000f;
 
+			if (m_dispenseButton.IsClicked && m_componentDispenser.HeatLevel <= 0f && m_componentDispenser.SmeltingProgress > 0f)
+			{
+				m_componentDispenser.HeatLevel = 1000f;
+			}
+			if (m_shootButton.IsClicked && m_componentDispenser.HeatLevel > 0f)
+			{
+				m_componentDispenser.HeatLevel = 0f;
+			}
+			m_dispenseButton.IsChecked = m_componentDispenser.HeatLevel != 0f;
 
-			if (m_dispenseButton.IsClicked && m_componentDispenser2.HeatLevel <= 0f && m_componentDispenser2.SmeltingProgress > 0f)
-			{
-				m_componentDispenser2.HeatLevel = 1000f;
-			}
-			if (m_shootButton.IsClicked && m_componentDispenser2.HeatLevel > 0f)
-			{
-				m_componentDispenser2.HeatLevel = 0f;
-			}
-			m_dispenseButton.IsChecked = m_componentDispenser2.HeatLevel != 0f;
-			
-			if (!m_componentDispenser2.IsAddedToProject)
+			if (!m_componentDispenser.IsAddedToProject)
 			{
 				ParentWidget.Children.Remove(this);
 			}

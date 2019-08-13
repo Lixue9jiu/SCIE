@@ -124,8 +124,7 @@ namespace Game
 		}
 		public override void GetDropValues(SubsystemTerrain subsystemTerrain, int oldValue, int newValue, int toolLevel, List<BlockDropValue> dropValues, out bool showDebris)
 		{
-			oldValue = Terrain.ReplaceData(Index, Terrain.ExtractData(oldValue) & 32767);
-			GetItem(ref oldValue).GetDropValues(subsystemTerrain, oldValue, newValue, toolLevel, dropValues, out showDebris);
+			GetItem(ref oldValue).GetDropValues(subsystemTerrain, Terrain.ReplaceData(Index, Terrain.ExtractData(oldValue) & 32767), newValue, toolLevel, dropValues, out showDebris);
 		}
 		public override BlockPlacementData GetPlacementValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, TerrainRaycastResult raycastResult)
 		{
