@@ -13,11 +13,14 @@ public class RottenMeatBlock : FluidBlock
 		//Updraft = OilBucket,
 		LightOil,
 		HeavyOil,
-		Gasoline,
+		Gasoline,//80
 		Hg,
-		Asphalt,
+		Asphalt,//120
 		D2O,
-		T2O
+		T2O,
+		RefinedGasoline,
+		Diesel
+
 	}
 	public const int Index = 240;
 	public BlockMesh m_standaloneBlockMesh;

@@ -13,6 +13,8 @@ namespace Game
 
 		protected string m_smeltingRecipe2;
 
+		protected readonly int[] result = new int[3];
+
 		public override int RemainsSlotIndex => -1;
 
 		public override int ResultSlotIndex => SlotsCount - 1;
@@ -87,11 +89,17 @@ namespace Game
 					for (i = 0; i < 3; i++)
 						if (m_slots[i].Count > 0)
 							m_slots[i].Count--;
-					m_slots[ResultSlotIndex].Value = ItemBlock.IdTable[m_smeltingRecipe];
-					m_slots[ResultSlotIndex].Count++;
-					m_smeltingRecipe = null;
-					SmeltingProgress = 0f;
-					m_updateSmeltingRecipe = true;
+					for (int j = 0; j < 3; j++)
+					{
+						if (result[j] != 0)
+						{
+							m_slots[3 + j].Value = result[j];
+							m_slots[3 + j].Count++;
+							m_smeltingRecipe = null;
+							SmeltingProgress = 0f;
+							m_updateSmeltingRecipe = true;
+						}
+					}
 				}
 			}
 		}
@@ -107,24 +115,53 @@ namespace Game
 		protected string FindSmeltingRecipe(float heatLevel)
 		{
 			string text = null;
-			int n = 1;
-			for (int i = 0; i < m_furnaceSize; i++)
+			
+			
+				
+			if (GetSlotValue(0) == (1310960) && GetSlotCount(0) > 0)
 			{
-				int value = GetSlotValue(i);
-				if (GetSlotCount(i) > 0)
+				if (GetSlotValue(1) == (ItemBlock.IdTable["CokeCoalPowder"]) && GetSlotCount(1) > 0)
 				{
-					if (value == ItemBlock.IdTable["ZincRod"])
-						n <<= 1;
-					else if (Terrain.ExtractContents(value) == PaintStripperBucketBlock.Index)
-						n = -n;
+					text = "RefinedOil";
+					result[0] = RottenMeatBlock.Index | 2 << 12 << 14;
+					result[1] = 0;
+					result[2] = 0;
 				}
 			}
-			if (n == -4)
+			if (GetSlotValue(0) == (240+16384*60) && GetSlotCount(0) > 0)
 			{
-				text = "CuZnBattery";
-				Slot slot = m_slots[ResultSlotIndex];
-				if (slot.Count != 0 && (slot.Value != ItemBlock.IdTable[text] || slot.Count >= 40))
-					return null;
+				if (GetSlotValue(1) == (ItemBlock.IdTable["CokeCoalPowder"]) && GetSlotCount(1) > 0)
+				{
+					if (GetSlotValue(2) == (WaterBlock.Index) && GetSlotCount(2) > 0)
+					{
+						text = "RefinedOil2";
+						result[0] = RottenMeatBlock.Index | 2 << 7 << 14;
+						result[1] = 0;
+						result[2] = 0;
+					}
+				}
+			}
+			if (GetSlotValue(0) == (240 + 16384 * 70) && GetSlotCount(0) > 0)
+			{
+				if (GetSlotValue(1) == (ItemBlock.IdTable["CokeCoalPowder"]) && GetSlotCount(1) > 0)
+				{
+					if (GetSlotValue(2) == (WaterBlock.Index) && GetSlotCount(2) > 0)
+					{
+						result[0] = RottenMeatBlock.Index | 2 << 5 << 14;
+						result[1] = 0;
+						result[2] = 0;
+						text = "RefinedOil3";
+					}
+				}
+			}
+			if (text!=null)
+			{
+				for (int i = 0; i < 3; i++)
+				{
+					Slot slot = m_slots[3 + i];
+					if (slot.Count != 0 && result[i] != 0 && (slot.Value != result[i] || slot.Count >= 40))
+						return null;
+				}
 			}
 			return text;
 		}
