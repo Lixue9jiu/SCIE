@@ -72,11 +72,11 @@ namespace Game
 				BlocksManager.DrawMeshBlock(primitivesRenderer, m_standaloneBlockMesh3, color, size, ref matrix, environmentData);
 				return;
 			}
-			if (type == BatteryType.ElectricDrill)
-			{
-				BlocksManager.DrawMeshBlock(primitivesRenderer, m_standaloneBlockMesh4, color, size, ref matrix, environmentData);
-				return;
-			}
+			//if (type == BatteryType.ElectricDrill)
+			//{
+			//	BlocksManager.DrawMeshBlock(primitivesRenderer, m_standaloneBlockMesh4, color, size, ref matrix, environmentData);
+			//	return;
+			//}
 			ItemBlock.DrawFlatBlock(primitivesRenderer, value, size, ref matrix, ItemBlock.Texture,
 				type == BatteryType.Fission_Battery ? Color.Cyan : type == BatteryType.Lead_Battery ? Color.Gray : color, false, environmentData);
 		}
