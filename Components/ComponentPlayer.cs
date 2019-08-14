@@ -301,7 +301,17 @@ namespace Game
 				m.m_digStartTime = m_subsystemTime.GameTime;
 				m.DigCellFace = cellFace;
 			}
+			bool flag2 = Terrain.ExtractContents(activeBlockValue) == IEBatteryBlock.Index && IEBatteryBlock.GetType(activeBlockValue) == BatteryType.ElectricDrill && ((Terrain.ExtractData(activeBlockValue) >> 4) & 0xFFF) != BlocksManager.Blocks[Terrain.ExtractContents(activeBlockValue)].Durability;
+			bool flag3 = Terrain.ExtractContents(activeBlockValue) == IEBatteryBlock.Index && IEBatteryBlock.GetType(activeBlockValue) == BatteryType.ElectricSaw && ((Terrain.ExtractData(activeBlockValue) >> 4) & 0xFFF) != BlocksManager.Blocks[Terrain.ExtractContents(activeBlockValue)].Durability;
 			float num3 = m.CalculateDigTime(cellValue, num2);
+			if (flag2)
+			{
+				num3 = m.CalculateDigTime(cellValue, SteelPickaxeBlock.Index);
+			}
+			if (flag3)
+			{
+				num3 = m.CalculateDigTime(cellValue, SteelAxeBlock.Index);
+			}
 			m.m_digProgress = num3 > 0f ? MathUtils.Saturate((float)(m_subsystemTime.GameTime - m.m_digStartTime) / num3) : 1f;
 			if (!m.CanUseTool(activeBlockValue))
 			{
@@ -315,7 +325,7 @@ namespace Game
 					}), true, true);
 				}
 			}
-			bool flag2 = Terrain.ExtractContents(activeBlockValue) == IEBatteryBlock.Index && IEBatteryBlock.GetType(activeBlockValue) == BatteryType.ElectricDrill && ((Terrain.ExtractData(activeBlockValue) >> 4) & 0xFFF) != BlocksManager.Blocks[Terrain.ExtractContents(activeBlockValue)].Durability;
+			
 			bool flag = m.ComponentPlayer != null && !m.ComponentPlayer.ComponentInput.IsControlledByTouch && m_subsystemGameInfo.WorldSettings.GameMode == GameMode.Creative;
 			if (flag || (m.m_lastPokingPhase <= 0.5f && m.PokingPhase > 0.5f))
 			{
@@ -327,7 +337,39 @@ namespace Game
 						m.Poke(true);
 					}
 					BlockPlacementData digValue = block.GetDigValue(m_subsystemTerrain, m, cellValue, activeBlockValue, raycastResult);
-					m_subsystemTerrain.DestroyCell(block2.ToolLevel, digValue.CellFace.X, digValue.CellFace.Y, digValue.CellFace.Z, digValue.Value, flag2, false);
+					if (flag2)
+					{
+						//m_subsystemTerrain.ChangeCell(digValue.CellFace.X+1, digValue.CellFace.Y, digValue.CellFace.Z, digValue.Value);
+						//m_subsystemTerrain.ChangeCell(digValue.CellFace.X - 1, digValue.CellFace.Y, digValue.CellFace.Z, digValue.Value);
+						//m_subsystemTerrain.ChangeCell(digValue.CellFace.X, digValue.CellFace.Y+1, digValue.CellFace.Z, digValue.Value);
+						//m_subsystemTerrain.ChangeCell(digValue.CellFace.X, digValue.CellFace.Y - 1, digValue.CellFace.Z, digValue.Value);
+						//m_subsystemTerrain.ChangeCell(digValue.CellFace.X, digValue.CellFace.Y, digValue.CellFace.Z+1, digValue.Value);
+						//m_subsystemTerrain.ChangeCell(digValue.CellFace.X, digValue.CellFace.Y, digValue.CellFace.Z-1, digValue.Value);
+						m_subsystemTerrain.ChangeCell(digValue.CellFace.X, digValue.CellFace.Y, digValue.CellFace.Z, digValue.Value);
+						m_subsystemPickables.AddPickable(cellValue,1, new Vector3(digValue.CellFace.X, digValue.CellFace.Y, digValue.CellFace.Z) + new Vector3(0.5f),null,null);
+					}
+					else if (flag3)
+					{
+						int x1 = 1;
+						m_subsystemTerrain.DestroyCell(block2.ToolLevel, digValue.CellFace.X, digValue.CellFace.Y, digValue.CellFace.Z, digValue.Value, false, false);
+						while (true)
+						{
+							int value2 = m_subsystemTerrain.Terrain.GetCellContentsFast(cellFace.X, cellFace.Y+x1, cellFace.Z);
+							if (value2==OakWoodBlock.Index || value2==BirchWoodBlock.Index || value2==SpruceWoodBlock.Index)
+							{
+								m_subsystemTerrain.DestroyCell(block2.ToolLevel, digValue.CellFace.X, digValue.CellFace.Y+x1, digValue.CellFace.Z, digValue.Value, false, false);
+								x1++;
+							}else
+							{
+								
+								break;
+							}
+							
+						}
+						
+					}
+					else
+					m_subsystemTerrain.DestroyCell(block2.ToolLevel, digValue.CellFace.X, digValue.CellFace.Y, digValue.CellFace.Z, digValue.Value, false, false);
 					m.m_subsystemSoundMaterials.PlayImpactSound(cellValue, new Vector3(cellFace.X, cellFace.Y, cellFace.Z), 2f);
 					m.DamageActiveTool(1);
 					if (m.ComponentCreature.PlayerStats != null)
@@ -341,7 +383,7 @@ namespace Game
 					m.m_subsystemSoundMaterials.PlayImpactSound(cellValue, new Vector3(cellFace.X, cellFace.Y, cellFace.Z), 1f);
 					Vector3 position = raycastResult.RaycastStart + raycastResult.Distance * Vector3.Normalize(raycastResult.RaycastEnd - raycastResult.RaycastStart) + 0.1f * CellFace.FaceToVector3(cellFace.Face);
 					BlockDebrisParticleSystem particleSystem = block.CreateDebrisParticleSystem(m_subsystemTerrain, position, cellValue, 0.35f);
-					Project.FindSubsystem<SubsystemParticles>(throwOnError: true).AddParticleSystem(particleSystem);
+					base.Project.FindSubsystem<SubsystemParticles>(throwOnError: true).AddParticleSystem(particleSystem);
 				}
 			}
 			return result;
