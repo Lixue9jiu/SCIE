@@ -198,7 +198,7 @@ namespace Game
 				Vector3 viewPosition4 = View.ActiveCamera.ViewPosition;
 				Vector3 v2 = View.ActiveCamera.ScreenToWorld(new Vector3(playerInput.Dig.Value, 1f), Matrix.Identity);
 				TerrainRaycastResult? nullable5 = ComponentMiner.PickTerrainForDigging(viewPosition4, v2 - viewPosition4);
-				if (nullable5.HasValue && ComponentMiner.Dig(nullable5.Value))
+				if (nullable5.HasValue && ComponentNMiner.Dig2(nullable5.Value))
 				{
 					m_lastActionTime = m_subsystemTime.GameTime;
 					m_subsystemTerrain.TerrainUpdater.RequestSynchronousUpdate();
@@ -284,5 +284,79 @@ namespace Game
 			}
 			HighlightRaycastResult = ComponentMiner.PickTerrainForDigging(View.ActiveCamera.ViewPosition, View.ActiveCamera.ViewDirection);
 		}
+
+		public class ComponentNMiner : ComponentMiner
+		{
+			public bool Dig2(TerrainRaycastResult raycastResult)
+			{
+				bool result = false;
+				m_lastDigFrameIndex = Time.FrameIndex;
+				CellFace cellFace = raycastResult.CellFace;
+				int cellValue = m_subsystemTerrain.Terrain.GetCellValue(cellFace.X, cellFace.Y, cellFace.Z);
+				int num = Terrain.ExtractContents(cellValue);
+				Block block = BlocksManager.Blocks[num];
+				int activeBlockValue = ActiveBlockValue;
+				int num2 = Terrain.ExtractContents(activeBlockValue);
+				Block block2 = BlocksManager.Blocks[num2];
+				if (!DigCellFace.HasValue || DigCellFace.Value.X != cellFace.X || DigCellFace.Value.Y != cellFace.Y || DigCellFace.Value.Z != cellFace.Z)
+				{
+					m_digStartTime = m_subsystemTime.GameTime;
+					DigCellFace = cellFace;
+				}
+				float num3 = CalculateDigTime(cellValue, num2);
+				m_digProgress = ((num3 > 0f) ? MathUtils.Saturate((float)(m_subsystemTime.GameTime - m_digStartTime) / num3) : 1f);
+				if (!CanUseTool(activeBlockValue))
+				{
+					m_digProgress = 0f;
+					if (m_subsystemTime.PeriodicGameTimeEvent(5.0, m_digStartTime + 1.0))
+					{
+						ComponentPlayer?.ComponentGui.DisplaySmallMessage(string.Format("Must be level {0} to use {1}", new object[2]
+						{
+				block2.PlayerLevelRequired,
+				block2.GetDisplayName(m_subsystemTerrain, activeBlockValue)
+						}), blinking: true, playNotificationSound: true);
+					}
+				}
+				bool flag2 = Terrain.ExtractContents(activeBlockValue) == IEBatteryBlock.Index && IEBatteryBlock.GetType(activeBlockValue) == BatteryType.ElectricDrill && ((Terrain.ExtractData(activeBlockValue) >> 4) & 0xFFF) != BlocksManager.Blocks[Terrain.ExtractContents(activeBlockValue)].Durability;
+				bool flag = ComponentPlayer != null && !ComponentPlayer.ComponentInput.IsControlledByTouch && m_subsystemGameInfo.WorldSettings.GameMode == GameMode.Creative;
+				if (flag || (m_lastPokingPhase <= 0.5f && PokingPhase > 0.5f))
+				{
+					if (m_digProgress >= 1f)
+					{
+						DigCellFace = null;
+						if (flag)
+						{
+							Poke(forceRestart: true);
+						}
+						BlockPlacementData digValue = block.GetDigValue(m_subsystemTerrain, this, cellValue, activeBlockValue, raycastResult);
+						if (flag2)
+						{
+							digValue.Value = cellValue;
+						}
+
+						m_subsystemTerrain.DestroyCell(block2.ToolLevel, digValue.CellFace.X, digValue.CellFace.Y, digValue.CellFace.Z, digValue.Value, noDrop: false, noParticleSystem: false);
+						m_subsystemSoundMaterials.PlayImpactSound(cellValue, new Vector3(cellFace.X, cellFace.Y, cellFace.Z), 2f);
+						DamageActiveTool(1);
+						if (ComponentCreature.PlayerStats != null)
+						{
+							ComponentCreature.PlayerStats.BlocksDug++;
+						}
+						result = true;
+					}
+					else
+					{
+						m_subsystemSoundMaterials.PlayImpactSound(cellValue, new Vector3(cellFace.X, cellFace.Y, cellFace.Z), 1f);
+						Vector3 position = raycastResult.RaycastStart + raycastResult.Distance * Vector3.Normalize(raycastResult.RaycastEnd - raycastResult.RaycastStart) + 0.1f * CellFace.FaceToVector3(cellFace.Face);
+						BlockDebrisParticleSystem particleSystem = block.CreateDebrisParticleSystem(m_subsystemTerrain, position, cellValue, 0.35f);
+						base.Project.FindSubsystem<SubsystemParticles>(throwOnError: true).AddParticleSystem(particleSystem);
+					}
+				}
+				return result;
+			}
+
+
+		}
+
 	}
+
 }
