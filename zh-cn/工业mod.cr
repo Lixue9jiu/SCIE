@@ -949,6 +949,16 @@
       "bdcb"
       "bcec"
     </Recipe>
+	<Recipe Result="IEBatteryBlock:6" ResultCount="1" RequiredHeatLevel="0" a="ElectricMotor" b="SteelSheet" c="SteelRod" d="SteelPlate" e="CuZnBattery" f="SteelGear" Description="制作电锯">
+      "bbbb"
+      "bcfa"
+      "bdce"
+      "bbbb"
+    </Recipe>
+	<Recipe Result="IEBatteryBlock:7" ResultCount="1" RequiredHeatLevel="0" a="ElectricMotor" b="drill:0" c="SteelRod" d="SteelPlate" e="CuZnBattery" f="SteelGear" Description="制作电锯">
+      "bcfa"
+      " dce"
+    </Recipe>
     <Recipe Result="AirBlower" ResultCount="1" RequiredHeatLevel="0" a="SteelFan" b="SteelRod" c="SteelPlate" d="SteelGear" e="metalblock:32" f="Generator" g="tank" Description="制作鼓风机">
       "cccc"
       "daad"
