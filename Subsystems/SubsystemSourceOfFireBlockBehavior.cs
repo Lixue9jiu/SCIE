@@ -137,7 +137,7 @@ namespace Game
 				ref Point3 point3 = ref lightingPoints[i];
 				int value = inventory.GetSlotValue(inventory.ActiveSlotIndex);
 				ReadOnlyList<int> readOnlyList = componentPlayer.ComponentClothing.GetClothes(ClothingSlot.Head);
-				if ((Terrain.ExtractContents(value) == IEBatteryBlock.Index && IEBatteryBlock.GetType(value) == BatteryType.Flashlight) || (readOnlyList.Count > 0 && ClothingBlock.GetClothingData(readOnlyList[readOnlyList.Count - 1]).DisplayName == Utils.Get("¿ó¹¤Ã±")))
+				if ((Terrain.ExtractContents(value) == IEBatteryBlock.Index && IEBatteryBlock.GetType(value) == BatteryType.Flashlight) || (readOnlyList.Count > 0 && ClothingBlock.GetClothingData(Terrain.ExtractData(readOnlyList[readOnlyList.Count - 1])).DisplayName == Utils.Get("¿ó¹¤Ã±")))
 				{
 					if (point != point3 && SubsystemTerrain.Terrain.GetCellContents(point.X, point.Y, point.Z) == 0)
 					{
