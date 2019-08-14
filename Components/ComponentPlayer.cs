@@ -350,7 +350,8 @@ namespace Game
 					}
 					else if (flag3)
 					{
-						int x1 = 0;
+						int x1 = 1;
+						m_subsystemTerrain.DestroyCell(block2.ToolLevel, digValue.CellFace.X, digValue.CellFace.Y, digValue.CellFace.Z, digValue.Value, false, false);
 						while (true)
 						{
 							int value2 = m_subsystemTerrain.Terrain.GetCellContentsFast(cellFace.X, cellFace.Y+x1, cellFace.Z);
@@ -360,7 +361,7 @@ namespace Game
 								x1++;
 							}else
 							{
-								m_subsystemTerrain.DestroyCell(block2.ToolLevel, digValue.CellFace.X, digValue.CellFace.Y+x1, digValue.CellFace.Z, digValue.Value, false, false);
+								
 								break;
 							}
 							
