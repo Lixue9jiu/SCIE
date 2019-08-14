@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Engine;
 using Game;
@@ -27,7 +28,7 @@ namespace Game
 {
 	public class SubsystemSourceOfFireBlockBehavior : SubsystemTorchBlockBehavior, IUpdateable
 	{
-		protected readonly Point3[] lightingPoints = new Point3[4];
+		protected Point3[] lightingPoints = new Point3[4];
 		//protected readonly float[] usedTime = new float[4];
 
 		public override int[] HandledBlocks
@@ -138,6 +139,7 @@ namespace Game
 			if (!Utils.SubsystemTime.PeriodicGameTimeEvent(0.1, 0.0))
 				return;
 			var list = Utils.SubsystemPlayers.ComponentPlayers;
+			if (list.Count > lightingPoints.Length) Array.Resize(ref lightingPoints, list.Count);
 			for (int i = 0; i < list.Count; i++)
 			{
 				var componentPlayer = list[i];
@@ -152,9 +154,7 @@ namespace Game
 					{
 						SubsystemTerrain.ChangeCell(point.X, point.Y, point.Z, Terrain.MakeBlockValue(TorchBlock.Index, 0, 5));
 						if (point3 != Point3.Zero)
-						{
 							SubsystemTerrain.ChangeCell(point3.X, point3.Y, point3.Z, 0);
-						}
 						point3 = point;
 					}
 				}

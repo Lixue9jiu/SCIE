@@ -19,7 +19,7 @@
     <EntityTemplate Name="Magnetizer" Guid="0855a277-af17-4955-81fa-aafaf97b92bd" InheritanceParent="9681f999-898b-4f5c-9ea8-f8cc331e97b3">
       <MemberComponentTemplate Name="Magnetizer" Guid="0f193a13-ac7d-4b4c-97c7-df652ca11b51" InheritanceParent="73a2ec9e-10c7-4133-85b4-4a35bd44c956" />
     </EntityTemplate>
-	<EntityTemplate Name="OilPlant" Guid="26ffa277-af17-4955-81fa-aafaf97b92bd" InheritanceParent="9681f999-898b-4f5c-9ea8-f8cc331e97b3">
+    <EntityTemplate Name="OilPlant" Guid="26ffa277-af17-4955-81fa-aafaf97b92bd" InheritanceParent="9681f999-898b-4f5c-9ea8-f8cc331e97b3">
       <MemberComponentTemplate Name="OilPlant" Guid="0f473a13-ac7d-4b4c-97c7-df652ca11b51" InheritanceParent="84a2ff9e-10c7-4133-85b4-4a35bd44c956" />
     </EntityTemplate>
     <EntityTemplate Name="ElectricFurnace" Guid="0855a288-af17-4955-81fa-aafaf97b92bd" InheritanceParent="9681f999-898b-4f5c-9ea8-f8cc331e97b3">
@@ -115,7 +115,7 @@
     <EntityTemplate Name="Car" Guid="3f3acc8e-1ce4-43fa-9614-47d69bf788ba">
       <MemberComponentTemplate Name="SimpleModel" Guid="459a9fd2-0db8-4604-9ee8-8504dbd3c7b1" InheritanceParent="cc5a4e72-0df9-4acf-a42e-ecb5a2a7baf5">
         <Parameter Name="ModelName" Guid="1e4ef237-297f-47ca-950a-930ea7d6e881" Value="Models/Car" Type="string" />
-		<Parameter Name="TextureOverride" Guid="11e176e5-837a-4614-a9fe-baf88d835b11" Value="Textures/tex2" Type="string" />
+        <Parameter Name="TextureOverride" Guid="11e176e5-837a-4614-a9fe-baf88d835b11" Value="Textures/tex2" Type="string" />
       </MemberComponentTemplate>
       <MemberComponentTemplate Name="Car" Guid="a376d5fa-5307-4df6-9294-a51abcd70387" InheritanceParent="572b3616-6ee6-442a-900f-b4caba94be39" />
       <MemberComponentTemplate Name="AirshipTable" Guid="f82415a9-10c6-4a2c-9ea5-725fffee2225" InheritanceParent="98fdc888-8ca8-4d0f-af8d-25bfe9b56a19" />
@@ -164,6 +164,12 @@
     </EntityTemplate>
     <EntityTemplate Name="Sour" Guid="b4f43a67-d37d-455f-9a43-803260a915a9" InheritanceParent="9681f999-898b-4f5c-9ea8-f8cc331e97b3">
       <MemberComponentTemplate Name="Sour" Guid="e7f4187a-dfe9-4331-900e-4c5f3ce25348" InheritanceParent="c9af7916-de35-4e94-ba6e-90cd55cd19d4" />
+    </EntityTemplate>
+    <EntityTemplate Name="Deposit" Guid="b4f77a67-f37d-455f-9a43-803260a915a9">
+      <MemberComponentTemplate Name="BlockEntity" Guid="c2145fcd-8133-4bee-ad3e-bde77df10654" InheritanceParent="09a85cba-d94e-41b8-9497-f20ed942c17e" />
+      <MemberComponentTemplate Name="Deposit" Guid="e8f41871-dfe9-4331-900e-4c5f3ce25348" InheritanceParent="c9aa7911-de35-4e94-ba6e-90cd55cd19d4">
+        <Parameter Name="SlotsCount" Guid="3ded56f6-a4c7-4ad5-85f9-813ef26dae6b" Value="6" Type="int" />
+      </MemberComponentTemplate>
     </EntityTemplate>
     <EntityTemplate Name="CReactor" Guid="b4f43059-d37d-455f-9a43-803260a915a9" InheritanceParent="9681f999-898b-4f5c-9ea8-f8cc331e97b3">
     <MemberComponentTemplate Name="CReactor" Guid="e9f43844-dfe9-4331-900e-4c5f3ce25348" InheritanceParent="c9ff7976-de35-4e94-ba6e-90cd55cd19d4" />
@@ -389,7 +395,7 @@
       <Parameter Name="SlotsCount" Guid="0b8d574d-f972-431b-9828-d30e0fbf33f1" Value="3" Type="int" />
       <Parameter Name="Class" Guid="1c8a89ff-22f9-45aa-aae3-039ba73b12b6" Value="Game.ComponentMagnetizer" Type="string" />
     </ComponentTemplate>
-	<ComponentTemplate Name="OilPlant" Description="A magnetizer" Guid="84a2ff9e-10c7-4133-85b4-4a35bd44c956" InheritanceParent="81a44c6a-c30a-4f53-8d64-0c30aabab8f9">
+    <ComponentTemplate Name="OilPlant" Description="A magnetizer" Guid="84a2ff9e-10c7-4133-85b4-4a35bd44c956" InheritanceParent="81a44c6a-c30a-4f53-8d64-0c30aabab8f9">
       <Parameter Name="SlotsCount" Guid="ff1d574d-f972-4311-9828-d30e0fbf33f1" Value="6" Type="int" />
       <Parameter Name="Class" Guid="7f2a89ff-22f9-45aa-aae4-039ba73b12b6" Value="Game.ComponentOilPlant" Type="string" />
     </ComponentTemplate>
@@ -452,6 +458,9 @@
     <ComponentTemplate Name="Sour" Description="A Sour" Guid="c9af7916-de35-4e94-ba6e-90cd55cd19d4" InheritanceParent="81a44c6a-c30a-4f53-8d64-0c30aabab8f9">
       <Parameter Name="Class" Guid="fc4f46fe-1d3c-467e-81bc-1796f686be51" Value="Game.ComponentSour" Type="string" />
       <Parameter Name="SlotsCount" Guid="3ded56f6-a4c0-4ad5-85f8-813ef26dae6b" Value="4" Type="int" />
+    </ComponentTemplate>
+    <ComponentTemplate Name="Deposit" Description="A Sour" Guid="c9aa7911-de35-4e94-ba6e-90cd55cd19d4" InheritanceParent="81a44c6a-c30a-4f53-8d64-0c30aabab8f9">
+      <Parameter Name="Class" Guid="1c4146fe-1d3c-467e-81bc-1796f686be51" Value="Game.ComponentDeposit" Type="string" />
     </ComponentTemplate>
     <ComponentTemplate Name="CReactor" Description="A presser" Guid="c9ff7976-de35-4e94-ba6e-90cd55cd19d4" InheritanceParent="81a44c6a-c30a-4f53-8d64-0c30aabab8f9">
       <Parameter Name="Class" Guid="fd4c23ff-1d3c-467e-81bc-1796f686be51" Value="Game.ComponentCReactor" Type="string" />
