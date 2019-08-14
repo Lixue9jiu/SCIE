@@ -321,13 +321,13 @@ namespace Game
             {
 				if (voltage > 0)
 				{
-					Component.m_fireTimeRemaining = MathUtils.Min(Component.m_fireTimeRemaining + voltage, 1000000f);
+					Component.m_fireTimeRemaining = MathUtils.Min(Component.m_fireTimeRemaining + voltage/10f, 1000000f);
 					voltage = 0;
 				}
 			}
             else if (Component.m_fireTimeRemaining >= 310f)
             {
-				Component.m_fireTimeRemaining -= 310f;
+				Component.m_fireTimeRemaining -= 310f/10f;
 				voltage += 310;
             }
         }
@@ -477,6 +477,18 @@ namespace Game
 		public override Widget GetWidget(IInventory inventory, ComponentOilPlant component)
 		{
 			return new OilPlantWidget(inventory, component);
+		}
+	}
+	public class Recycle : Separator
+	{
+		public Recycle()
+		{
+			DefaultDisplayName = DefaultDescription = "回收机";
+		}
+
+		public override int GetFaceTextureSlot(int face, int value)
+		{
+			return face != 4 && face != 5 && face == (Terrain.ExtractData(value) >> 15) ? 147 : 107;
 		}
 	}
 }
