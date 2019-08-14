@@ -327,11 +327,7 @@ namespace Game
 						m.Poke(true);
 					}
 					BlockPlacementData digValue = block.GetDigValue(m_subsystemTerrain, m, cellValue, activeBlockValue, raycastResult);
-					if (flag2)
-					{
-						digValue.Value = cellValue;
-					}
-					m_subsystemTerrain.DestroyCell(block2.ToolLevel, digValue.CellFace.X, digValue.CellFace.Y, digValue.CellFace.Z, digValue.Value, false, false);
+					m_subsystemTerrain.DestroyCell(block2.ToolLevel, digValue.CellFace.X, digValue.CellFace.Y, digValue.CellFace.Z, digValue.Value, flag2, false);
 					m.m_subsystemSoundMaterials.PlayImpactSound(cellValue, new Vector3(cellFace.X, cellFace.Y, cellFace.Z), 2f);
 					m.DamageActiveTool(1);
 					if (m.ComponentCreature.PlayerStats != null)
@@ -345,7 +341,7 @@ namespace Game
 					m.m_subsystemSoundMaterials.PlayImpactSound(cellValue, new Vector3(cellFace.X, cellFace.Y, cellFace.Z), 1f);
 					Vector3 position = raycastResult.RaycastStart + raycastResult.Distance * Vector3.Normalize(raycastResult.RaycastEnd - raycastResult.RaycastStart) + 0.1f * CellFace.FaceToVector3(cellFace.Face);
 					BlockDebrisParticleSystem particleSystem = block.CreateDebrisParticleSystem(m_subsystemTerrain, position, cellValue, 0.35f);
-					base.Project.FindSubsystem<SubsystemParticles>(throwOnError: true).AddParticleSystem(particleSystem);
+					Project.FindSubsystem<SubsystemParticles>(throwOnError: true).AddParticleSystem(particleSystem);
 				}
 			}
 			return result;

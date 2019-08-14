@@ -165,21 +165,54 @@ namespace Game
 			return text;
 		}
 	}
-	public class ComponentHPress : ComponentPMach
+	public class ComponentHPress : ComponentPresser
 	{
 		protected override string FindSmeltingRecipe()
 		{
+			m_speed = 1f;
+			m_count = 9;
 			string text = null;
 			for (int i = 0; i < m_furnaceSize; i++)
-				if (GetSlotCount(i) > 0 && GetSlotValue(i) == ItemBlock.IdTable["ʯī"])
+			{
+				if (GetSlotCount(i) <= 0) continue;
+				int value = GetSlotValue(i);
+				if (GetSlotCount(i) > 0 && value == ItemBlock.IdTable["ʯī"])
+				{
 					text = "Diamond";
+					m_speed = 0.1f;
+					m_count = 1;
+				}
+				else if (value == IronBlock.Index)
+				{
+					text = "IronPlate";
+				}
+				else if (value == CopperBlock.Index)
+				{
+					text = "CopperPlate";
+				}
+				else if (Terrain.ExtractContents(value) == MetalBlock.Index)
+				{
+					var type = MetalBlock.GetType(value);
+					if (type > 2)
+					{
+						text = ((Materials)type - 3).ToString() + "Plate";
+						if (!ItemBlock.IdTable.ContainsKey(text))
+							return null;
+					}
+				}
+			}
 			if (text != null)
 			{
 				Slot slot = m_slots[ResultSlotIndex];
-				if (slot.Count != 0 && (slot.Value != DiamondChunkBlock.Index || slot.Count >= 40))
-					return null;
+				if (slot.Count != 0 && (slot.Value != ItemBlock.IdTable[text] || slot.Count + m_count >= 40))
+				{
+					goto a;
+				}
+				return text;
 			}
-			return text;
+			a:
+			m_count = 1;
+			return base.FindSmeltingRecipe();
 		}
 	}
 }

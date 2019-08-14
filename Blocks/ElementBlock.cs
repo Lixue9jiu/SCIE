@@ -9,6 +9,7 @@ namespace Game
 		public static ElementBlock Block;
 		public static WireBlock WireBlock;
 		public static Device[] Devices;
+
 		public static readonly ElectricConnectionPath[] PathTable =
 		{
 			new ElectricConnectionPath(0, 0, 1, 4, 0, 4),
@@ -18,6 +19,7 @@ namespace Game
 			new ElectricConnectionPath(0, 1, 0, 4, 4, 4),
 			new ElectricConnectionPath(0, -1, 0, 4, 5, 4)
 		};
+
 		public override void Initialize()
 		{
 			Item.Block = new ElementBlock { BlockIndex = -1 };
@@ -27,10 +29,12 @@ namespace Game
 			if (!Task.IsFaulted && !Task.IsCompleted)
 				Task.Wait();
 		}
+
 		public override IItem GetItem(ref int value)
 		{
 			return Terrain.ExtractContents(value) != Index ? base.GetItem(ref value) : Devices[Terrain.ExtractData(value) & 1023];
 		}
+
 		public Device GetDevice(int x, int y, int z, int value)
 		{
 			var p = new Point3(x, y, z);
@@ -48,10 +52,12 @@ namespace Game
 			}
 			return device.Create(p, value);
 		}
+
 		public Device GetDevice(Terrain terrain, int x, int y, int z)
 		{
 			return GetDevice(x, y, z, terrain.GetCellValueFast(x, y, z));
 		}
+
 		public void GetAllConnectedNeighbors(Terrain terrain, Device elem, int mountingFace, ICollection<ElectricConnectionPath> list)
 		{
 			if (mountingFace != 4 || elem == null) return;
@@ -74,6 +80,7 @@ namespace Game
 			if (y > 0 && (elem = GetDevice(terrain, x, y - 1, z)) != null && (elem.Type & type) != 0)
 				list.Add(PathTable[5]);
 		}
+
 		public void GetAllConnectedNeighbors(Terrain terrain, Device elem, int mountingFace, ICollection<Device> list)
 		{
 			if (mountingFace != 4 || elem == null) return;
@@ -96,7 +103,9 @@ namespace Game
 			if (y > 0 && (elem = GetDevice(terrain, x, y - 1, z)) != null && (elem.Type & type) != 0)
 				list.Add(elem);
 		}
+
 		public new const int Index = 501;
+
 		public override IEnumerable<int> GetCreativeValues()
 		{
 			var list = new DynamicArray<int>(Devices.Length << 4);
@@ -118,14 +127,17 @@ namespace Game
 			}
 			return list;
 		}
+
 		public override string GetCategory(int value)
 		{
 			return GetPaintColor(value).HasValue ? "Painted" : Utils.Get("»úÆ÷");
 		}
+
 		public override void GetDropValues(SubsystemTerrain subsystemTerrain, int oldValue, int newValue, int toolLevel, List<BlockDropValue> dropValues, out bool showDebris)
 		{
 			GetItem(ref oldValue).GetDropValues(subsystemTerrain, Terrain.ReplaceData(Index, Terrain.ExtractData(oldValue) & 32767), newValue, toolLevel, dropValues, out showDebris);
 		}
+
 		public override BlockPlacementData GetPlacementValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, TerrainRaycastResult raycastResult)
 		{
 			var cellFace = raycastResult.CellFace;
@@ -137,6 +149,7 @@ namespace Game
 				CellFace = cellFace
 			};
 		}
+
 		public ElectricElement CreateElectricElement(SubsystemElectricity subsystemElectricity, int value, int x, int y, int z)
 		{
 			return GetDevice(x, y, z, value) is IElectricElementBlock block

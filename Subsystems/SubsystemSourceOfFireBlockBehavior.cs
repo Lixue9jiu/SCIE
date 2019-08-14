@@ -1,9 +1,11 @@
+using System.Collections.Generic;
 using Engine;
 using Game;
 
 public class TorchBlock : Game.TorchBlock
 {
 	public new const int Index = 31;
+
 	public override BoundingBox[] GetCustomCollisionBoxes(SubsystemTerrain terrain, int value)
 	{
 		int num = Terrain.ExtractData(value);
@@ -12,6 +14,13 @@ public class TorchBlock : Game.TorchBlock
 			return m_collisionBoxes[num];
 		}
 		return new BoundingBox[1];
+	}
+
+	public override void GetDropValues(SubsystemTerrain subsystemTerrain, int oldValue, int newValue, int toolLevel, List<BlockDropValue> dropValues, out bool showDebris)
+	{
+		if (Terrain.ExtractData(oldValue) != 5)
+			base.GetDropValues(subsystemTerrain, oldValue, newValue, toolLevel, dropValues, out showDebris);
+		showDebris = false;
 	}
 }
 namespace Game
