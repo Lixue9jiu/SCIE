@@ -114,9 +114,9 @@ namespace Game
 		{
 			string text = null;
 				
-			if (GetSlotValue(0) == (1310960) && GetSlotCount(0) > 0)
+			if (GetSlotValue(0) == 1310960 && GetSlotCount(0) > 0)
 			{
-				if (GetSlotValue(1) == (ItemBlock.IdTable["CokeCoalPowder"]) && GetSlotCount(1) > 0)
+				if (GetSlotValue(1) == ItemBlock.IdTable["CokeCoalPowder"] && GetSlotCount(1) > 0)
 				{
 					text = "RefinedOil";
 					result[0] = RottenMeatBlock.Index | 2 << 12 << 14;
@@ -126,9 +126,9 @@ namespace Game
 			}
 			if (GetSlotValue(0) == (240+16384*60) && GetSlotCount(0) > 0)
 			{
-				if (GetSlotValue(1) == (ItemBlock.IdTable["CokeCoalPowder"]) && GetSlotCount(1) > 0)
+				if (GetSlotValue(1) == ItemBlock.IdTable["CokeCoalPowder"] && GetSlotCount(1) > 0)
 				{
-					if (GetSlotValue(2) == (WaterBlock.Index) && GetSlotCount(2) > 0)
+					if (GetSlotValue(2) == WaterBlock.Index && GetSlotCount(2) > 0)
 					{
 						text = "RefinedOil2";
 						result[0] = RottenMeatBlock.Index | 2 << 7 << 14;
@@ -139,9 +139,9 @@ namespace Game
 			}
 			if (GetSlotValue(0) == (240 + 16384 * 70) && GetSlotCount(0) > 0)
 			{
-				if (GetSlotValue(1) == (ItemBlock.IdTable["CokeCoalPowder"]) && GetSlotCount(1) > 0)
+				if (GetSlotValue(1) == ItemBlock.IdTable["CokeCoalPowder"] && GetSlotCount(1) > 0)
 				{
-					if (GetSlotValue(2) == (WaterBlock.Index) && GetSlotCount(2) > 0)
+					if (GetSlotValue(2) == WaterBlock.Index && GetSlotCount(2) > 0)
 					{
 						result[0] = RottenMeatBlock.Index | 2 << 5 << 14;
 						result[1] = 0;

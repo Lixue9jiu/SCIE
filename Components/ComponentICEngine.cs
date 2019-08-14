@@ -19,7 +19,7 @@ namespace Game
 			{
 				m_updateSmeltingRecipe = false;
 				string text = null;
-				if (base.GetSlotCount(Fuel2SlotIndex) > 0 && Terrain.ExtractContents(base.GetSlotValue(Fuel2SlotIndex)) == (WaterBucketBlock.Index))
+				if (base.GetSlotCount(Fuel2SlotIndex) > 0 && Terrain.ExtractContents(base.GetSlotValue(Fuel2SlotIndex)) == WaterBucketBlock.Index)
 					text = "bucket";
 				//while (text != null && SmeltingProgress <= 900f)
 				//{

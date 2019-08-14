@@ -20,8 +20,6 @@ namespace Game
 
 		protected readonly ButtonWidget m_shootButton;
 
-		protected readonly SubsystemTerrain m_subsystemTerrain;
-
 		protected readonly InventorySlotWidget m_drillSlot;
 
 		//protected readonly ValueBarWidget m_progress;
@@ -31,7 +29,6 @@ namespace Game
 			//m_componentDispenser = componentDispenser;
 			m_componentDispenser = componentDispenser;
 			m_componentBlockEntity = componentDispenser.Entity.FindComponent<ComponentBlockEntity>(true);
-			m_subsystemTerrain = componentDispenser.Project.FindSubsystem<SubsystemTerrain>(true);
 			WidgetsManager.LoadWidgetContents(this, this, ContentManager.Get<XElement>("Widgets/ChargerWidget"));
 			m_inventoryGrid = Children.Find<GridPanelWidget>("InventoryGrid");
 			m_dispenserGrid = Children.Find<GridPanelWidget>("DispenserGrid");
@@ -72,20 +69,20 @@ namespace Game
 				ParentWidget.Children.Remove(this);
 				return;
 			}
-			int value = m_subsystemTerrain.Terrain.GetCellValue(m_componentBlockEntity.Coordinates.X, m_componentBlockEntity.Coordinates.Y, m_componentBlockEntity.Coordinates.Z);
+			int value = Utils.Terrain.GetCellValue(m_componentBlockEntity.Coordinates.X, m_componentBlockEntity.Coordinates.Y, m_componentBlockEntity.Coordinates.Z);
 			int data = Terrain.ExtractData(value);
 			MachineMode mode = GetMode(data);
 			if (m_dispenseButton.IsClicked && mode == MachineMode.Discharger)
 			{
 				data = SetMode(data);
 
-				m_subsystemTerrain.Terrain.SetCellValueFast(m_componentBlockEntity.Coordinates.X, m_componentBlockEntity.Coordinates.Y, m_componentBlockEntity.Coordinates.Z, Terrain.ReplaceData(value, data));
+				Utils.Terrain.SetCellValueFast(m_componentBlockEntity.Coordinates.X, m_componentBlockEntity.Coordinates.Y, m_componentBlockEntity.Coordinates.Z, Terrain.ReplaceData(value, data));
 				m_componentDispenser.Charged = true;
 			}
 			if (m_shootButton.IsClicked && mode == MachineMode.Charge)
 			{
 				data = SetMode(data);
-				m_subsystemTerrain.Terrain.SetCellValueFast(m_componentBlockEntity.Coordinates.X, m_componentBlockEntity.Coordinates.Y, m_componentBlockEntity.Coordinates.Z, Terrain.ReplaceData(value, data));
+				Utils.Terrain.SetCellValueFast(m_componentBlockEntity.Coordinates.X, m_componentBlockEntity.Coordinates.Y, m_componentBlockEntity.Coordinates.Z, Terrain.ReplaceData(value, data));
 				m_componentDispenser.Charged = false;
 			}
 
