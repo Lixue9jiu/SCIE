@@ -301,7 +301,12 @@ namespace Game
 				m.m_digStartTime = m_subsystemTime.GameTime;
 				m.DigCellFace = cellFace;
 			}
+			bool flag2 = Terrain.ExtractContents(activeBlockValue) == IEBatteryBlock.Index && IEBatteryBlock.GetType(activeBlockValue) == BatteryType.ElectricDrill && ((Terrain.ExtractData(activeBlockValue) >> 4) & 0xFFF) != BlocksManager.Blocks[Terrain.ExtractContents(activeBlockValue)].Durability;
 			float num3 = m.CalculateDigTime(cellValue, num2);
+			if (flag2)
+			{
+				num3 = num3 / 40f;
+			}
 			m.m_digProgress = num3 > 0f ? MathUtils.Saturate((float)(m_subsystemTime.GameTime - m.m_digStartTime) / num3) : 1f;
 			if (!m.CanUseTool(activeBlockValue))
 			{
@@ -315,7 +320,7 @@ namespace Game
 					}), true, true);
 				}
 			}
-			bool flag2 = Terrain.ExtractContents(activeBlockValue) == IEBatteryBlock.Index && IEBatteryBlock.GetType(activeBlockValue) == BatteryType.ElectricDrill && ((Terrain.ExtractData(activeBlockValue) >> 4) & 0xFFF) != BlocksManager.Blocks[Terrain.ExtractContents(activeBlockValue)].Durability;
+			
 			bool flag = m.ComponentPlayer != null && !m.ComponentPlayer.ComponentInput.IsControlledByTouch && m_subsystemGameInfo.WorldSettings.GameMode == GameMode.Creative;
 			if (flag || (m.m_lastPokingPhase <= 0.5f && m.PokingPhase > 0.5f))
 			{
@@ -329,8 +334,10 @@ namespace Game
 					BlockPlacementData digValue = block.GetDigValue(m_subsystemTerrain, m, cellValue, activeBlockValue, raycastResult);
 					if (flag2)
 					{
-						digValue.Value = cellValue;
+						m_subsystemTerrain.ChangeCell(digValue.CellFace.X, digValue.CellFace.Y, digValue.CellFace.Z, digValue.Value);
+						m_subsystemPickables.AddPickable(cellValue,1, new Vector3(digValue.CellFace.X, digValue.CellFace.Y, digValue.CellFace.Z) + new Vector3(0.5f),null,null);
 					}
+					else
 					m_subsystemTerrain.DestroyCell(block2.ToolLevel, digValue.CellFace.X, digValue.CellFace.Y, digValue.CellFace.Z, digValue.Value, false, false);
 					m.m_subsystemSoundMaterials.PlayImpactSound(cellValue, new Vector3(cellFace.X, cellFace.Y, cellFace.Z), 2f);
 					m.DamageActiveTool(1);
