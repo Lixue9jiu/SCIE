@@ -66,7 +66,7 @@ namespace Game
 
 	public class Carriage : TexturedMeshItem
 	{
-		public Carriage() : base("车厢", "Minecart", "obj1", ContentManager.Get<Texture2D>("Textures/Creatures/Jaguar"), 1f, "")
+		public Carriage() : base("车厢", "Minecart", "obj1", ContentManager.Get<Texture2D>("Textures/Creatures/Jaguar"), 1f, "可以过载在火车头的后面，装载大量的货物")
 		{
 		}
 
@@ -88,7 +88,7 @@ namespace Game
 
 	public class Car : TexturedMeshItem
 	{
-		public Car() : base("汽车", "Car", "ChamferBox01", ContentManager.Get<Texture2D>("Textures/tex2"), 0.5f, "使用比空气更轻的气体来产生浮力并使其飞行的工艺，其驱动动力源来自通过燃烧航空汽油的往复式发动机。")
+		public Car() : base("汽车", "Car", "ChamferBox01", ContentManager.Get<Texture2D>("Textures/tex2"), 0.5f, "一种使用内燃机，燃烧汽油获得动力，在平坦的地面上行驶的交通工具。")
 		{
 		}
 
