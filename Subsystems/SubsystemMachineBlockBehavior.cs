@@ -129,7 +129,7 @@ namespace Game
 			int x = cellFace.X,
 				y = cellFace.Y,
 				z = cellFace.Z;
-			if (Utils.Terrain.GetCellContentsFast(x, y, z) != IceBlock.Index || componentBody.Mass < 999f)
+			if (Utils.Terrain.GetCellContentsFast(x, y, z) != IceBlock.Index || componentBody.Mass < 999f || componentBody.Density > 1f)
 				return;
 			SubsystemTerrain.DestroyCell(0, x, y, z, WaterBlock.Index, false, false);
 		}

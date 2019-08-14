@@ -14,33 +14,15 @@ namespace Game
 		public const int Index = 525;
 		public override IEnumerable<int> GetCreativeValues()
 		{
-			var arr = new int[64];
-			for (int i = 0; i < 64; i++)
-				arr[i] = Terrain.ReplaceData(Index, i >> 4 | (i & 15) << 13);
+			var arr = new int[4];
+			for (int i = 0; i < 4; i++)
+				arr[i] = Terrain.ReplaceData(Index, i);
 			return arr;
 		}
-		public override string GetCategory(int value)
-		{
-			return (Terrain.ExtractData(value) >> 13 & 15) != 0 ? "Painted" : base.GetCategory(value);
-		}
-		/*public override CraftingRecipe GetAdHocCraftingRecipe(SubsystemTerrain subsystemTerrain, string[] ingredients, float heatLevel)
-		{
-			var recipe = Utils.GetAdHocCraftingRecipe(Index, subsystemTerrain, ingredients, heatLevel);
-			if (recipe != null)
-				for (int i = 0; i < ingredients.Length; i++)
-					if (!string.IsNullOrEmpty(ingredients[i]))
-					{
-						CraftingRecipesManager.DecodeIngredient(ingredients[i], out string craftingId, out int? data);
-						if (string.Equals(craftingId, CraftingId))
-							recipe.ResultValue = Terrain.ReplaceData(Index, (Terrain.ExtractData(recipe.ResultValue) & 15) << 13 | (data ?? 0) & 15);
-					}
-			return recipe;
-		}*/
 		public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
 		{
 			var type = GetType(value);
-			ItemBlock.DrawFlatBlock(primitivesRenderer, value, size, ref matrix, ItemBlock.Texture,
-				(type == DrillType.DiamondDrill ? Color.Cyan : type == DrillType.SteelTubularis ? Color.Gray : color) * SubsystemPalette.GetColor(environmentData, Terrain.ExtractData(value) >> 13 & 15), false, environmentData);
+			ItemBlock.DrawFlatBlock(primitivesRenderer, value, size, ref matrix, ItemBlock.Texture, type == DrillType.DiamondDrill ? Color.Cyan : type == DrillType.SteelTubularis ? Color.Gray : color, false, environmentData);
 		}
 		public static DrillType GetType(int value)
 		{

@@ -21,7 +21,7 @@ namespace Game
 			ComponentRider rider = m_componentMount.Rider;
 			if (MoveOrder != 0f)
 			{
-				if (rider != null && componentEngine != null && componentEngine.HeatLevel>0f)
+				if (rider != null && componentBody.StandingOnValue.HasValue && componentEngine != null && componentEngine.HeatLevel > 0f)
 					//componentBody.Velocity += dt * (componentEngine != null ? componentEngine.HeatLevel * 0.01f : 3f) * MoveOrder * rider.ComponentCreature.ComponentCreatureModel.EyeRotation.ToForwardVector();
 				    m_componentBody.Velocity += dt * 40f * MoveOrder * m_componentBody.Matrix.Forward;
 				MoveOrder = 0f;

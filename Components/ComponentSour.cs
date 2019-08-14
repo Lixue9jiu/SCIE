@@ -82,7 +82,7 @@ namespace Game
 					result[1] = EmptyBucketBlock.Index;
 					result[2] = 0;
 				}
-				else if (BlocksManager.Blocks[content] is FoodBlock block && Terrain.ExtractContents(block.m_rottenValue) == content)
+				else if (content < 255 && BlocksManager.Blocks[content] is FoodBlock || content == RottenMeatBlock.Index || content == RottenEggBlock.Index)
 				{
 					text = true;
 					result[0] = SaltpeterChunkBlock.Index;

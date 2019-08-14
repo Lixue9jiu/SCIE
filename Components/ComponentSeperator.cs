@@ -127,6 +127,8 @@ namespace Game
 						result[2] = PigmentBlock.Index;
 					else if (x == 1)
 						result[2] = ItemBlock.IdTable["Ã÷·¯"];
+					else if (x == 2)
+						result[2] = ItemBlock.IdTable["Plaster"];
 				}
 				else if (value == BasaltBlock.Index)
 				{

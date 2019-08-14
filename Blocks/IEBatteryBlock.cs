@@ -19,9 +19,9 @@ namespace Game
 
 		public override IEnumerable<int> GetCreativeValues()
 		{
-			var arr = new int[120];
-			for (int i = 0; i < 120; i++)
-				arr[i] = Terrain.ReplaceData(Index, i >> 4 | (i & 15) << 13);
+			var arr = new int[7];
+			for (int i = 0; i < 7; i++)
+				arr[i] = Terrain.ReplaceData(Index, i);
 			return arr;
 		}
 
@@ -35,11 +35,6 @@ namespace Game
 			m_standaloneBlockMesh4.AppendMesh("Models/Battery", "Battery", Matrix.CreateRotationZ(-MathUtils.PI / 2) * Matrix.CreateScale(.7f) * Matrix.CreateTranslation(-0.2f, 0.3f, 0.0f), Matrix.CreateTranslation(9f / 16f, -7f / 16f, 0f), Color.DarkGray);
 			m_standaloneBlockMesh4.AppendMesh("Models/Battery", "Battery", Matrix.CreateScale(.5f) * Matrix.CreateTranslation(0.1f, -0.3f, 0.0f), Matrix.CreateTranslation(9f / 16f, -7f / 16f, 0f), Color.DarkGray);
 			base.Initialize();
-		}
-
-		public override string GetCategory(int value)
-		{
-			return (Terrain.ExtractData(value) >> 13 & 15) != 0 ? "Painted" : base.GetCategory(value);
 		}
 
 		/*public override CraftingRecipe GetAdHocCraftingRecipe(SubsystemTerrain subsystemTerrain, string[] ingredients, float heatLevel)
@@ -127,7 +122,7 @@ namespace Game
 				case BatteryType.Fission_Battery: return 8000;
 				case BatteryType.Fusion_Battery: return 40000;
 				case BatteryType.Lead_Battery: return 1200;
-				case BatteryType.Flashlight: return 800;
+				case BatteryType.Flashlight:
 				case BatteryType.ElectricSaw: return 800;
 			}
 			return 300;
