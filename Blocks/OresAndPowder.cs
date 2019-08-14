@@ -36,11 +36,14 @@ namespace Game
 		}
 
 		public override string GetCraftingId() => Id;
+
 		public override string GetCategory() => "Terrain";
+
 		public override float GetProjectilePower() => 2f;
 	}
+
 	public class Powder : FlatItem
-    {
+	{
 		public static readonly Color[] Colors = new[]
 		{
 			Color.White,
@@ -61,6 +64,7 @@ namespace Game
 			Color.White,
 			new Color(205, 190, 112),
 		};
+
 		protected string Id;
 
 		public Powder(Materials type) : this(type.ToStr() + Utils.Get("¿ó·Û"), Colors[(int)type])
@@ -76,8 +80,10 @@ namespace Game
 			DefaultTextureSlot = 198;
 			DefaultDescription = description ?? name + " is powder obtained by crushing " + name + ".";
 		}
+
 		public override string GetCraftingId() => Id;
 	}
+
 	public class CoalPowder : Powder, IFuel
 	{
 		public readonly float HeatLevel;
@@ -92,8 +98,10 @@ namespace Game
 		}
 
 		public float GetHeatLevel(int value) => HeatLevel;
+
 		public float GetFuelFireDuration(int value) => FuelFireDuration;
 	}
+
 	public class CokeCoal : OreChunk, IFuel
 	{
 		public CokeCoal() : base(Matrix.CreateRotationX(1f) * Matrix.CreateRotationZ(2f), Matrix.CreateTranslation(0.0625f, 0.4375f, 0f), new Color(175, 175, 175), false, Materials.Steel)
@@ -104,7 +112,9 @@ namespace Game
 		}
 
 		public override string GetCategory() => "Items";
+
 		public float GetHeatLevel(int value) => 2000f;
+
 		public float GetFuelFireDuration(int value) => 100f;
 	}
 }

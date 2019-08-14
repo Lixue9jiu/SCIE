@@ -448,7 +448,7 @@ namespace Game
 	}
 	public class ElectricPump : CubeDevice
 	{
-		public ElectricPump() : base("电子泵", "电子泵是一种可以直接吸收液体于管道传输的机器", 150) { Type = ElementType.Pipe; }
+		public ElectricPump() : base("电子泵", "电子泵是一种可以直接吸收液体于管道传输的机器", 150) { Type |= ElementType.Pipe; }
 
 		/*public override void Simulate(ref int voltage)
 		{
@@ -461,7 +461,7 @@ namespace Game
 	}
 	public class OilPlant : InventoryEntityDevice<ComponentOilPlant>
 	{
-		public OilPlant() : base("OilPlant", "石油化工厂", "石油化工厂可以用来处理石油，产生各种") { }
+		public OilPlant() : base("OilPlant", "石油化工厂", "石油化工厂可以用来处理石油，产生各种") { Type |= ElementType.Pipe; }
 
 		public override void Simulate(ref int voltage)
 		{

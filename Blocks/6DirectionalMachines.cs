@@ -8,6 +8,7 @@ namespace Game
 		Dispense, Shoot,
 		Charge = Dispense, Discharger = Shoot
 	}
+
 	public class DiversionBlock : SixDirectionalBlock
 	{
 		public const int Index = 505;
@@ -27,6 +28,7 @@ namespace Game
 			return face == GetDirection(value) ? 59 : 186;
 		}
 	}
+
 	public class CrusherBlock : SixDirectionalBlock
 	{
 		public const int Index = 503;
@@ -36,6 +38,7 @@ namespace Game
 			return face == GetDirection(value) ? 127 : 111;
 		}
 	}
+
 	public class DrillerBlock : SixDirectionalBlock, IElectricElementBlock
 	{
 		public const int Index = 502;
@@ -71,6 +74,7 @@ namespace Game
 			return (data & -9) | ((mode != 0) ? 8 : 0);
 		}
 	}
+
 	public class LiquidPumpBlock : SixDirectionalBlock, IElectricElementBlock
 	{
 		public const int Index = 526;

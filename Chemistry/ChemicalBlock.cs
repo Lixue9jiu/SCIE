@@ -126,7 +126,7 @@ namespace Game
 			list.Add(new PurePowder("Ba(ClO₄)₂"));
 			list.Add(new PurePowder("Na(CN)"));
 			list.Add(new PurePowder("K(CN)"));
-			list.Add(new PurePowder("Ca(CN)"));
+			list.Add(new PurePowder("Ca(CN)₂"));
 			list.Add(new PurePowder("K₂(HPO₄)"));
 			list.Add(new PurePowder("K(H₂PO₄)"));
 			list.Add(new PurePowder("Na₂(HPO₄)"));
@@ -144,6 +144,16 @@ namespace Game
 			list.Add(new PurePowder("Na₃P", Color.Red));
 			//list.Add(new Cylinder("B₂H₆"));
 			list.Add(new Cylinder("C₂H₄"));
+			list.Add(new PurePowder("NaBr"));
+			list.Add(new PurePowder("MgBr₂"));
+			list.Add(new PurePowder("KBr"));
+			list.Add(new PurePowder("CaBr₂"));
+			list.Add(new PurePowder("NaI"));
+			list.Add(new PurePowder("MgI₂"));
+			list.Add(new PurePowder("KI"));
+			list.Add(new PurePowder("CaI₂"));
+			list.Add(new PurePowder("AgBr", Color.LightYellow));
+			list.Add(new PurePowder("AgI", Color.Yellow));
 			list.Capacity = list.m_count;
 			Items = list.Array;
 		}
@@ -166,6 +176,7 @@ namespace Game
 			}
 			return arr;
 		}
+		public override string GetCategory(int value) => Utils.Get("化学");
 	}
 	public class Cylinder : Mould, IChemicalItem
 	{
@@ -216,7 +227,6 @@ namespace Game
 		{
 		}
 		public PurePowder(DispersionSystem system, Color color) : base("", color) => DefaultDescription = DefaultDisplayName = (System = system).ToString();
-		public override string GetCategory() => Utils.Get("化学");
 		public DispersionSystem GetDispersionSystem() => System;
 	}
 	public class FuelPowder : PurePowder, IFuel

@@ -409,10 +409,9 @@ namespace Game
 					blockMesh2.AppendBlockMesh(blockMesh1);
 					list.Add(blockMesh1.CalculateBoundingBox());
 				}
-				blockMesh.ModulateColor(new Color(80, 80, 80));
-				m_blockMeshes[i] = new BlockMesh();
-				m_blockMeshes[i].AppendBlockMesh(blockMesh);
+				m_blockMeshes[i] = blockMesh;
 				m_blockMeshes[i].AppendBlockMesh(blockMesh2);
+				m_blockMeshes[i].ModulateColor(new Color(80, 80, 80));
 				m_blockMeshes[i].TransformTextureCoordinates(Matrix.CreateTranslation(58 % 16 / 16f, 58 / 16 / 16f, 0f));
 				m_blockMeshes[i].GenerateSidesData();
 				//m_coloredBlockMeshes[i] = new BlockMesh();
