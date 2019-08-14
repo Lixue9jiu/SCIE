@@ -277,6 +277,7 @@ namespace Game
 				new ElectricPump(),
 				new TEDC(),
 				new OilPlant(),
+				new Recycle(),
 			};
 			IdTable = new Dictionary<string, int>(Items.Length)
 			{

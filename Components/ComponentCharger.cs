@@ -77,8 +77,10 @@ namespace Game
 						value = GetSlotValue(num);
 						int slotCount = GetSlotCount(num);
 						type = IEBatteryBlock.GetType(value);
-						if (value != 0 && slotCount > 0 && BlocksManager.DamageItem(value, 1) != 0 && GetDamage(value) != BlocksManager.Blocks[Terrain.ExtractContents(value)].Durability)
-						{ break; }
+	
+						if (value != 0 && slotCount > 0 && BlocksManager.DamageItem(value, 1) != 0 && GetDamage(value) != BlocksManager.Blocks[Terrain.ExtractContents(value)].Durability && value!= BlocksManager.DamageItem(value, 1))
+						{
+							break; }
 
 						num++;
 					}
@@ -86,6 +88,7 @@ namespace Game
 					{
 						RemoveSlotItems(num, 1);
 						AddSlotItems(num, BlocksManager.DamageItem(value, 1), 1);
+						
 					}
 					Powered2 = true;
 				}
