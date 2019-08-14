@@ -198,7 +198,7 @@ namespace Game
 				Vector3 viewPosition4 = View.ActiveCamera.ViewPosition;
 				Vector3 v2 = View.ActiveCamera.ScreenToWorld(new Vector3(playerInput.Dig.Value, 1f), Matrix.Identity);
 				TerrainRaycastResult? nullable5 = ComponentMiner.PickTerrainForDigging(viewPosition4, v2 - viewPosition4);
-				if (nullable5.HasValue && ComponentNMiner.Dig2(nullable5.Value))
+				if (nullable5.HasValue && ComponentMiner.Dig(nullable5.Value))
 				{
 					m_lastActionTime = m_subsystemTime.GameTime;
 					m_subsystemTerrain.TerrainUpdater.RequestSynchronousUpdate();
@@ -287,7 +287,7 @@ namespace Game
 
 		public class ComponentNMiner : ComponentMiner
 		{
-			public bool Dig2(TerrainRaycastResult raycastResult)
+			public new bool Dig2(TerrainRaycastResult raycastResult)
 			{
 				bool result = false;
 				m_lastDigFrameIndex = Time.FrameIndex;
