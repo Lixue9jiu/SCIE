@@ -91,6 +91,7 @@
     <Compile Include="Components\ComponentCReactor.cs" />
     <Compile Include="Components\ComponentDeposit.cs" />
     <Compile Include="Components\ComponentDriller.cs" />
+    <Compile Include="Components\ComponentElectricDriller.cs" />
     <Compile Include="Components\ComponentElectricFurnace.cs" />
     <Compile Include="Components\ComponentElectricIFurnace.cs" />
     <Compile Include="Components\ComponentElectrobath.cs" />
@@ -136,6 +137,7 @@
     <Compile Include="Widgets\CReactorWidget.cs" />
     <Compile Include="Widgets\DepositWidget.cs" />
     <Compile Include="Widgets\DrillerWidget.cs" />
+    <Compile Include="Widgets\ElectricDrillerWidget.cs" />
     <Compile Include="Widgets\ElectricFurnaceWidget.cs" />
     <Compile Include="Widgets\EngineAWidget.cs" />
     <Compile Include="Widgets\FractionalTowerWidget.cs" />
