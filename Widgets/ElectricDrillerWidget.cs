@@ -66,12 +66,12 @@ namespace Game
 
 		public override void Update()
 		{
-			if (m_dispenseButton.IsClicked && m_componentDispenser.HeatLevel <= 0f)
+			if (m_dispenseButton.IsClicked && !m_componentDispenser.Charged)
 			{
 				//m_componentDispenser.HeatLevel = 1000f;
 				m_componentDispenser.Charged = true;
 			}
-			if (m_shootButton.IsClicked && m_componentDispenser.HeatLevel > 0f)
+			if (m_shootButton.IsClicked && m_componentDispenser.Charged)
 			{
 				//m_componentDispenser.HeatLevel = 0f;
 				m_componentDispenser.Charged = false;
