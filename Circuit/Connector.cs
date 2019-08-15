@@ -341,7 +341,7 @@ namespace Game
 		public BoundingBox[][] m_collisionBoxes = new BoundingBox[16][];
 		private readonly bool m_doubleSidedPlanks = true;
 
-		public ElectricFences() : base("电栅栏", "通电后的电栅栏能对动物造成伤害", 120)
+		public ElectricFences() : base("电栅栏", "通电后的电栅栏能对动物造成伤害", 300)
 		{
 			Model model = ContentManager.Get<Model>("Models/IronFence");
 			Matrix boneAbsoluteTransform = BlockMesh.GetBoneAbsoluteTransform(model.FindMesh("Post").ParentBone) * Matrix.CreateTranslation(.5f, 0f, .5f);
@@ -459,7 +459,8 @@ namespace Game
 		public BoundingBox[][] m_collisionBoxesByFace = new BoundingBox[3][];
 		public override Device Create(Point3 p, int value)
 		{
-			Type = (ElementType)((int)ElementType.RodX << (Terrain.ExtractData(value) >> 14 & 3));
+			value = Terrain.ExtractData(value) >> 14 & 3;
+			Type = value == 2 ? ElementType.RodY : value == 1 ? ElementType.RodZ : ElementType.RodX;
 			return this;
 		}
 		public MachRod() : base("连接杆", "连接杆", 0)

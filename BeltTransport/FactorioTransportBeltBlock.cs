@@ -38,19 +38,15 @@ namespace Game
 
         public override void Initialize()
         {
-            m_textures = new Texture2D[3]
+            m_textures = new[]
             {
                 ContentManager.Get<Texture2D>("Textures/Factorio/Transport-belt_sprite"),
                 ContentManager.Get<Texture2D>("Textures/Factorio/Fast-transport-belt_sprite"),
                 ContentManager.Get<Texture2D>("Textures/Factorio/Express-transport-belt_sprite")
             };
             for (int y = 0; y < m_texRowCount; y++)
-            {
                 for (int x = 0; x < m_texColCount; x++)
-                {
                     m_texCoords[y, x] = XYToTextureCoords(x, y);
-                }
-			}
             base.Initialize();
 		}
 
