@@ -331,5 +331,17 @@ namespace Game
 			Utils.SubsystemAudio.PlaySound("Audio/BlockPlaced", 1f, 0f, position, 3f, true);
 			return true;
 		}
+		public override void OnCollide(CellFace cellFace, float velocity, ComponentBody componentBody)
+		{
+			if (cellFace.Face != 4)
+				return;
+			int x = cellFace.X,
+				y = cellFace.Y,
+				z = cellFace.Z;
+			if (Terrain.ReplaceLight(Utils.Terrain.GetCellValueFast(x, y, z), 0) == ItemBlock.IdTable["Springboard"])
+			{
+				componentBody.ApplyImpulse(new Vector3 { Y = -velocity });
+			}
+		}
 	}
 }

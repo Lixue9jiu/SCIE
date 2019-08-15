@@ -211,15 +211,16 @@ namespace Game
 			new MouldItem("ScR", "Models/Photodiode", "Photodiode", Matrix.CreateTranslation(new Vector3(0.5f)), Matrix.CreateScale(20f), "可控硅", "可控硅", 2f),
 			new MouldItem("LEDSheet", "Models/MotionDetector", "MotionDetector", Matrix.CreateTranslation(new Vector3(0.5f)), Matrix.CreateScale(20f), "LED贴片", "LED贴片", 2f),
 			//new Mould("Models/OBox", "Cube", Matrix.CreateTranslation(0.5f, 0.7f, 0.5f) * Matrix.CreateScale(0.6f), Matrix.CreateTranslation(4f, 3.8f, 0f), "A Cylinder made of alloy, Aluminum and steel, the neccessary part of many machine.", "Cube", 1.6f),
-			new Spring("弹簧", "Spring", Color.White, "弹簧"),
+			new Spring("弹簧", "弹簧"),
+			new Springboard("弹跳板", "弹跳板"),
 			new Plate("散热片", Color.White, true)
 			.AppendMesh("Models/Ingots", "IronPlate", Matrix.CreateTranslation(0.5f, -0.6f, 0.5f) * Matrix.CreateScale(.5f), Matrix.Identity, Color.White)
 			.AppendMesh("Models/Ingots", "IronPlate", Matrix.CreateTranslation(0.5f, -0.3f, 0.5f) * Matrix.CreateScale(.5f), Matrix.Identity, Color.White)
 			.AppendMesh("Models/Ingots", "IronPlate", Matrix.CreateTranslation(0.5f, 0.3f, 0.5f) * Matrix.CreateScale(.5f), Matrix.Identity, Color.White)
 			.AppendMesh("Models/Ingots", "IronPlate", Matrix.CreateTranslation(0.5f, 0.6f, 0.5f) * Matrix.CreateScale(.5f), Matrix.Identity, Color.White),
 			new Rod(Materials.Plastic),
-			/*new Mould("Models/Battery", "Battery", Matrix.CreateTranslation(new Vector3(0.5f)) * Matrix.CreateScale(2f, 0.05f, 2f), Matrix.CreateTranslation(9f / 16f, -7f / 16f, 0f) * Matrix.CreateScale(20f), "晶圆", "晶圆"),
-			new Plate("128K RAM", Color.DarkGreen, true),
+			new Mould("Models/Battery", "Battery", Matrix.CreateTranslation(new Vector3(0.5f)) * Matrix.CreateScale(2f, 0.05f, 2f), Matrix.CreateTranslation(9f / 16f, -7f / 16f, 0f) * Matrix.CreateScale(20f), "晶圆", "晶圆"),
+			/*nnew Plate("128K RAM", Color.DarkGreen, true),
 			new Plate("256K RAM", Color.DarkGreen, true),
 			new Plate("512K RAM", Color.DarkGreen, true),
 			new Plate("RISC CPU", Color.DarkGray, true),
@@ -264,20 +265,21 @@ namespace Game
 				new ElectricMotor(),
 				new TGenerator(),
 				new ACGenerator(),
-				//new MachRod(),
 				new Condenser(), //30
 				new AirPump(),
 				new LED(),
 				new ElectricFences(),
 				new Transformer(),
 				new Charger(),
+				new Recycler(),
+				new Gearbox(),
+				new MachRod(),
 				new UThickener(),
 				new WaterExtractor(),
 				new Unpacker(),
 				new ElectricPump(),
 				new TEDC(),
 				new OilPlant(),
-				new Recycle(),
 			};
 			IdTable = new Dictionary<string, int>(Items.Length)
 			{

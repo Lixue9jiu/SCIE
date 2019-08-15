@@ -60,6 +60,25 @@ namespace Game
 			m_standaloneBlockMesh.AppendMesh(modelName, meshName, boneTransform, tcTransform, color);
 			return this;
 		}
+		/*public MeshItem Transform(Matrix matrix)
+		{
+			m_standaloneBlockMesh.TransformPositions(matrix);
+			return this;
+		}
+		public MeshItem AppendMesh(BlockMesh mesh, Matrix matrix)
+		{
+			mesh.TransformPositions(matrix);
+			m_standaloneBlockMesh.AppendBlockMesh(mesh);
+			return this;
+		}*/
+		public static BlockMesh CreateRing()
+		{
+			var mesh = new BlockMesh();
+			var m = Matrix.CreateScale(0.7f, 0.15f, 0.7f) * Matrix.CreateTranslation(0.5f, 0f, 0f) * Matrix.CreateRotationX(MathUtils.PI / 2);
+			for (float i = 0; i < 8 * MathUtils.PI; i += MathUtils.PI / 12)
+				mesh.AppendMesh("Models/Rods", "SteelRod", m * Matrix.CreateTranslation(0, 0.03f * i - 0.5f, 0) * Matrix.CreateRotationY(i), Matrix.Identity, Color.White);
+			return mesh;
+		}
 	}
 
 	public class Mould : MeshItem

@@ -84,9 +84,7 @@
     <Compile Include="Circuit\CircuitElements.cs" />
     <Compile Include="Circuit\LockFreeQueue.cs" />
     <Compile Include="Circuit\TEDC.cs" />
-    <Compile Include="Components\ComponentAirship.cs" />
     <Compile Include="Components\ComponentCanpack.cs" />
-    <Compile Include="Components\ComponentCar.cs" />
     <Compile Include="Components\ComponentCharger.cs" />
     <Compile Include="Components\ComponentCondenser.cs" />
     <Compile Include="Components\ComponentCoven.cs" />
@@ -110,7 +108,7 @@
     <Compile Include="Components\ComponentSeperator.cs" />
     <Compile Include="Components\ComponentSour.cs" />
     <Compile Include="Components\ComponentTGenerator.cs" />
-    <Compile Include="Components\ComponentTrain.cs" />
+    <Compile Include="Components\ComponentVehicles.cs" />
     <Compile Include="Components\ComponentUnloader.cs" />
     <Compile Include="Common\I18N.cs" />
     <Compile Include="Circuit\CircuitDevices.cs" />
@@ -159,7 +157,7 @@
     <Compile Include="Blocks\Bullet2Block.cs" />
     <Compile Include="Blocks\BulletBlock.cs" />
     <Compile Include="Subsystems\SubsystemBlastFurnaceBlockBehavior.cs" />
-    <Compile Include="Components\ComponentBoatI.cs" />
+    <Compile Include="Components\ComponentMine.cs" />
     <Compile Include="Components\ComponentEngine.cs" />
     <Compile Include="Components\ComponentFurnaceN.cs" />
     <Compile Include="Components\ComponentNGui.cs" />

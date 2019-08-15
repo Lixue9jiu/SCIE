@@ -253,21 +253,13 @@ namespace Game
         }
 	}
 
-    public class ElectricMotor : CubeDevice, IBlockBehavior
+    public class ElectricMotor : CubeDevice
     {
         public ElectricMotor() : base("电动机", "电动机是一种可以把电能转化为动能的机器", 310) { }
-        public void OnBlockAdded(SubsystemTerrain subsystemTerrain, int value, int oldValue)
-        {
-        }
 		
 		public override int GetFaceTextureSlot(int face, int value)
         {
             return face == 4 || face == 5 ? 107 : 147;
-        }
-        public void OnBlockRemoved(SubsystemTerrain terrain, int value, int newValue)
-        {
-            value = 0;
-            Simulate(ref value);
         }
 	}
 
@@ -479,9 +471,9 @@ namespace Game
 			return new OilPlantWidget(inventory, component);
 		}
 	}
-	public class Recycle : Separator
+	public class Recycler : Separator
 	{
-		public Recycle()
+		public Recycler()
 		{
 			DefaultDisplayName = DefaultDescription = "回收机";
 		}

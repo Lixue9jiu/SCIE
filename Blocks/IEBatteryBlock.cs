@@ -12,10 +12,10 @@ namespace Game
 	public class IEBatteryBlock : FlatBlock, IDurability
 	{
 		public const int Index = 536;
-		public BlockMesh m_standaloneBlockMesh = new BlockMesh();
-		public BlockMesh m_standaloneBlockMesh2 = new BlockMesh();
-		public BlockMesh m_standaloneBlockMesh3 = new BlockMesh();
-		public BlockMesh m_standaloneBlockMesh4 = new BlockMesh();
+		public BlockMesh m_standaloneBlockMesh = new BlockMesh(),
+						 m_standaloneBlockMesh2 = new BlockMesh(),
+						 m_standaloneBlockMesh3 = new BlockMesh(),
+						 m_standaloneBlockMesh4 = new BlockMesh();
 
 		public override IEnumerable<int> GetCreativeValues()
 		{
@@ -83,10 +83,10 @@ namespace Game
 			return (BatteryType)(Terrain.ExtractData(value) & 0xF);
 		}
 
-		public static int SetType(int value, BatteryType type)
+		/*public static int SetType(int value, BatteryType type)
 		{
 			return Terrain.ReplaceData(value, (Terrain.ExtractData(value) & -16) | ((int)type & 0xF));
-		}
+		}*/
 
 		public override string GetDisplayName(SubsystemTerrain subsystemTerrain, int value)
 		{
@@ -118,12 +118,12 @@ namespace Game
 		{
 			switch (GetType(value))
 			{
-				case BatteryType.Cu_Zn_Battery: return 800;
 				case BatteryType.Fission_Battery: return 8000;
 				case BatteryType.Fusion_Battery: return 40000;
 				case BatteryType.Lead_Battery: return 1200;
+				case BatteryType.Cu_Zn_Battery:
 				case BatteryType.Flashlight:
-				case BatteryType.ElectricSaw: return 800;
+				case BatteryType.ElectricSaw:
 				case BatteryType.ElectricDrill: return 800;
 			}
 			return 300;
@@ -133,11 +133,6 @@ namespace Game
 		{
 			return SetDamage(value, GetDurability(value));
 		}
-
-		//public override int GetDamage(int value)
-		//{
-		//	return base.GetDamage(value) & 2047;
-		//}
 
 		public override float GetMeleePower(int value)
 		{

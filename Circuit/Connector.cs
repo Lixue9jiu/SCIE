@@ -453,6 +453,53 @@ namespace Game
 		public override Vector3 GetIconBlockOffset(int value, DrawBlockEnvironmentData environmentData) => new Vector3 { Y = .66f };
 		public override BoundingBox[] GetCustomCollisionBoxes(SubsystemTerrain terrain, int value) => m_collisionBoxes[Terrain.ExtractData(value) >> 14 & 15];
 	}
+	public class MachRod : CubeDevice
+	{
+		public BlockMesh[] m_blockMeshesByData = new BlockMesh[3];
+		public BoundingBox[][] m_collisionBoxesByFace = new BoundingBox[3][];
+		public override Device Create(Point3 p, int value)
+		{
+			Type = (ElementType)((int)ElementType.RodX << (Terrain.ExtractData(value) >> 14 & 3));
+			return this;
+		}
+		public MachRod() : base("连接杆", "连接杆", 0)
+		{
+			Model model = ContentManager.Get<Model>("Models/IronFence");
+			const string name = "Post";
+			Matrix boneAbsoluteTransform = BlockMesh.GetBoneAbsoluteTransform(model.FindMesh(name).ParentBone) * Matrix.CreateScale(2f, 1f, 2f);
+			for (int i = 2; i < 5; i++)
+			{
+				int j = i - 2;
+				m_blockMeshesByData[j] = new BlockMesh();
+				Matrix m = i == 4 ? Matrix.CreateTranslation(0.5f, 0f, 0.5f) : Matrix.CreateRotationX(MathUtils.PI / 2f) * (i == 3 ? Matrix.CreateRotationY(MathUtils.PI / 2f) * Matrix.CreateTranslation(0f, 0.5f, 0.5f) : Matrix.CreateTranslation(0.5f, 0.5f, 0f));
+				m_blockMeshesByData[j].AppendModelMeshPart(model.FindMesh(name).MeshParts[0], boneAbsoluteTransform * m, false, false, false, false, Color.White);
+				m_collisionBoxesByFace[j] = new[] { m_blockMeshesByData[j].CalculateBoundingBox() };
+			}
+		}
+		public override void Simulate(ref int voltage)
+		{
+			if (voltage > 0)
+				voltage -= 9;
+		}
+		public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
+		{
+			BlocksManager.DrawMeshBlock(primitivesRenderer, m_blockMeshesByData[0], color, size, ref matrix, environmentData);
+		}
+		public override BlockPlacementData GetPlacementValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, TerrainRaycastResult raycastResult)
+		{
+			return new BlockPlacementData
+			{
+				Value = Terrain.ReplaceData(value, Terrain.ExtractData(value) & -229377 | Utils.GetDirectionXYZ(componentMiner)>> 1 << 14 | Index),
+				CellFace = raycastResult.CellFace
+			};
+		}
+		public override void GenerateTerrainVertices(Block block, BlockGeometryGenerator generator, TerrainGeometrySubsets geometry, int value, int x, int y, int z)
+		{
+			generator.GenerateMeshVertices(block, x, y, z, m_blockMeshesByData[Terrain.ExtractData(value) >> 14 & 3], Color.White, null, geometry.SubsetAlphaTest);
+		}
+		public override bool IsFaceTransparent(SubsystemTerrain subsystemTerrain, int face, int value) => true;
+		public override BoundingBox[] GetCustomCollisionBoxes(SubsystemTerrain terrain, int value) => m_collisionBoxesByFace[Terrain.ExtractData(value) >> 14 & 3];
+	}
 
 	/*public abstract class Diode : Device
 	{

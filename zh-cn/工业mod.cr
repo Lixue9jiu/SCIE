@@ -576,10 +576,16 @@
     <Recipe Result="LeadSheet" ResultCount="36" RequiredHeatLevel="0" a="LeadPlate" Description="将铅板切成薄片">
       "a"
     </Recipe>
-    <Recipe Result="PlatinumSheet" ResultCount="36" RequiredHeatLevel="0" a="PlatinumPlate" Description="将铂金板切成薄片">
+    <Recipe Result="ZincSheet" ResultCount="36" RequiredHeatLevel="0" a="ZincPlate" Description="将锌板切成薄片">
       "a"
     </Recipe>
     <Recipe Result="StannarySheet" ResultCount="36" RequiredHeatLevel="0" a="StannaryPlate" Description="将锡板块切成薄片">
+      "a"
+    </Recipe>
+    <Recipe Result="PlatinumSheet" ResultCount="36" RequiredHeatLevel="0" a="PlatinumPlate" Description="将铂金板切成薄片">
+      "a"
+    </Recipe>
+    <Recipe Result="AluminumSheet" ResultCount="36" RequiredHeatLevel="0" a="AluminumPlate" Description="将铝板块切成薄片">
       "a"
     </Recipe>
     <Recipe Result="Fridge" ResultCount="1" RequiredHeatLevel="0" a="SteelPlate" b="IndustrialPiston" c="tank" d="SteelRod" Description="制作一个储存冷冻柜以保护食物">
@@ -913,6 +919,18 @@
       "aba"
       "cdc"
       "eee"
+    </Recipe>
+    <Recipe Result="AgZnBattery" ResultCount="1" RequiredHeatLevel="0" Remains="EmptyBucketBlock" RemainsCount="1" a="CuZnBattery" b="SilverPlate" Description="用Cu-Zn电池改装成Ag-Zn电池">
+      "bab"
+    </Recipe>
+    <Recipe Result="AuZnBattery" ResultCount="1" RequiredHeatLevel="0" Remains="EmptyBucketBlock" RemainsCount="1" a="CuZnBattery" b="GoldPlate" Description="用Cu-Zn电池改装成Au-Zn电池">
+      "bab"
+    </Recipe>
+    <Recipe Result="VBattery" ResultCount="1" RequiredHeatLevel="0" Remains="EmptyBucketBlock" RemainsCount="1" a="ZincSheet" b="cottonwad" c="SilverSheet" d="waterbucket" Description="制作伏打电池">
+      "abca"
+      "bcab"
+      "cabc"
+      "abcd"
     </Recipe>
     <Recipe Result="CopperWire" ResultCount="1" RequiredHeatLevel="0" a="CopperLine" b="SteelRod" Description="用铜线和钢棒制作电线">
       "aaa"

@@ -206,14 +206,31 @@ namespace Game
 
 	public class Spring : MeshItem
 	{
-		public string Id;
-		public Spring(string name, string id, Color color, string description = "") : base(Utils.Get(description))
+		public Spring(string name, string description = "") : base(Utils.Get(description))
 		{
 			DefaultDisplayName = Utils.Get(name);
-			Id = id;
-			var m = Matrix.CreateScale(0.7f, 0.15f, 0.7f) * Matrix.CreateTranslation(0.5f, 0f, 0f) * Matrix.CreateRotationX(MathUtils.PI / 2);
-			for (float i = 0; i < 8 * MathUtils.PI; i += MathUtils.PI / 12)
-				m_standaloneBlockMesh.AppendMesh("Models/Rods", "SteelRod", m * Matrix.CreateTranslation(0, 0.03f * i - 0.5f, 0) * Matrix.CreateRotationY(i), Matrix.Identity, color);
+			m_standaloneBlockMesh = CreateRing();
+		}
+		public override string GetCraftingId() => GetType().Name;
+	}
+
+	public class Springboard : MeshItem
+	{
+		protected BoundingBox[] m_collisionBoxes;
+		public Springboard(string name, string description = "") : base(Utils.Get(description))
+		{
+			DefaultDisplayName = Utils.Get(name);
+			var mesh = CreateRing();
+			mesh.TransformPositions(Matrix.CreateScale(0.9f) * Matrix.CreateTranslation(new Vector3(0.5f)));
+			m_standaloneBlockMesh.AppendBlockMesh(mesh);
+			m_standaloneBlockMesh.AppendMesh("Models/Ingots", "IronPlate", Matrix.CreateTranslation(0.5f, 0.8f, 0.5f), Matrix.Identity, Color.White);
+			m_collisionBoxes = new BoundingBox[] { m_standaloneBlockMesh.CalculateBoundingBox() };
+		}
+		public override string GetCraftingId() => GetType().Name;
+		public override BoundingBox[] GetCustomCollisionBoxes(SubsystemTerrain terrain, int value) => m_collisionBoxes;
+		public override BlockPlacementData GetPlacementValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, TerrainRaycastResult raycastResult)
+		{
+			return new BlockPlacementData { Value = value, CellFace = raycastResult.CellFace };
 		}
 	}
 

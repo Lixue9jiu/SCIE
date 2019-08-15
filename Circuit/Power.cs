@@ -117,28 +117,6 @@ namespace Game
 				dropValue.Value = Terrain.ReplaceLight(blockValue, 0) | 16384 << 14;
 		}
 	}
-	/*public class MachRod : FixedDevice
-	{
-		public BlockMesh[] m_blockMeshesByData = new BlockMesh[6];
-		public MachRod() : base("连接杆", "连接杆", 0)
-		{
-			Type = ElementType.Rod;
-			Model model = ContentManager.Get<Model>("Models/Pistons");
-			const string name = "PistonShaft";
-			Matrix boneAbsoluteTransform = BlockMesh.GetBoneAbsoluteTransform(model.FindMesh(name).ParentBone);
-			for (int j = 0; j < 6; j++)
-			{
-				int num = j;
-				Matrix m = j < 4 ? (Matrix.CreateTranslation(0f, -0.5f, 0f) * Matrix.CreateRotationY(j * (float)Math.PI / 2f + (float)Math.PI) * Matrix.CreateTranslation(0.5f, 0.5f, 0.5f)) : ((j != 4) ? (Matrix.CreateTranslation(0f, -0.5f, 0f) * Matrix.CreateRotationX(-(float)Math.PI / 2f) * Matrix.CreateTranslation(0.5f, 0.5f, 0.5f)) : (Matrix.CreateTranslation(0f, -0.5f, 0f) * Matrix.CreateRotationX((float)Math.PI / 2f) * Matrix.CreateTranslation(0.5f, 0.5f, 0.5f)));
-				m_blockMeshesByData[num] = new BlockMesh();
-				m_blockMeshesByData[num].AppendModelMeshPart(model.FindMesh(name).MeshParts[0], boneAbsoluteTransform * m, false, false, false, false, Color.White);
-			}
-		}
-		public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
-		{
-			BlocksManager.DrawMeshBlock(primitivesRenderer, m_blockMeshesByData[0], color, size, ref matrix, environmentData);
-		}
-	}*/
 	public class LED : CubeDevice, IBlockBehavior
 	{
 		public BlockMesh[] m_blockMeshesByFace = new BlockMesh[6];
@@ -170,6 +148,7 @@ namespace Game
 			return ((Terrain.ExtractData(value) >> 17) & 1) * 15;
 		}
 		public override BoundingBox[] GetCustomCollisionBoxes(SubsystemTerrain terrain, int value) => m_collisionBoxesByFace[Terrain.ExtractData(value) >> 14 & 7];
+		public override bool IsFaceTransparent(SubsystemTerrain subsystemTerrain, int face, int value) => face != 4;
 		public override BlockPlacementData GetPlacementValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, TerrainRaycastResult raycastResult)
 		{
 			return new BlockPlacementData
@@ -256,9 +235,39 @@ namespace Game
 		{
 			Utils.BlockGeometryGenerator.GenerateMeshVertices(block, x, y, z, m_standaloneBlockMesh, Color.White, null, Utils.GTV(x, z, geometry).SubsetOpaque);
 		}
-		public override bool IsFaceTransparent(SubsystemTerrain subsystemTerrain, int face, int value) => true;
+		public override bool IsFaceTransparent(SubsystemTerrain subsystemTerrain, int face, int value) => face != 4;
 		public override BoundingBox[] GetCustomCollisionBoxes(SubsystemTerrain terrain, int value) => m_collisionBoxes;
 		public override string GetCraftingId() => DefaultDisplayName + Voltage.ToString();
+	}
+	public class Gearbox : ElectricMotor, IBlockBehavior, IUnstableBlock
+	{
+		public Gearbox()
+		{
+			DefaultDisplayName = DefaultDescription = "变速箱";
+			Type = ElementType.Supply | ElementType.Rod;
+		}
+
+		public override void Simulate(ref int voltage)
+		{
+			if (Powered)
+			{
+				voltage += 400;
+				return;
+			}
+			voltage = voltage * 9 / 10;
+			Powered = voltage > 320;
+		}
+
+		public override int GetFaceTextureSlot(int face, int value) => 126;
+		public void OnBlockAdded(SubsystemTerrain subsystemTerrain, int value, int oldValue)
+		{
+			Powered = ComponentEngine.IsPowered(subsystemTerrain.Terrain, Point.X, Point.Y, Point.Z, false);
+		}
+		public void OnBlockRemoved(SubsystemTerrain subsystemTerrain, int value, int newValue) { }
+		public void OnNeighborBlockChanged(SubsystemTerrain subsystemTerrain, int neighborX, int neighborY, int neighborZ)
+		{
+			Powered = ComponentEngine.IsPowered(subsystemTerrain.Terrain, Point.X, Point.Y, Point.Z, false);
+		}
 	}
 	/*public class Voltmeter : DeviceBlock
 	{

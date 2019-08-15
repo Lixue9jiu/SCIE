@@ -29,7 +29,7 @@ namespace Game
             {2,6}
         };
 
-        public static string[] m_displayNames = new string[3]
+        public static string[] m_displayNames = new[]
         {
             "Factorio ",
             "Factorio Fast ",
