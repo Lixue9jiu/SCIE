@@ -464,7 +464,7 @@ namespace Game
 	}
 	public class OilPlant : InventoryEntityDevice<ComponentOilPlant>
 	{
-		public OilPlant() : base("OilPlant", "石油化工厂", "石油化工厂可以用来处理石油，产生各种") { Type |= ElementType.Pipe; }
+		public OilPlant() : base("OilPlant", "石油化工厂", "石油化工厂可以用来处理石油，产生各种石油产品") { Type |= ElementType.Pipe; }
 
 		public override void Simulate(ref int voltage)
 		{
@@ -480,6 +480,26 @@ namespace Game
 		public override Widget GetWidget(IInventory inventory, ComponentOilPlant component)
 		{
 			return new OilPlantWidget(inventory, component);
+		}
+	}
+	public class ElectricDriller : InventoryEntityDevice<ComponentElectricDriller>
+	{
+		public ElectricDriller() : base("ElectricDriller", "电子采矿机", "电子采矿机，一种电动采矿机") {  }
+
+		public override void Simulate(ref int voltage)
+		{
+			if (Component.Powered = voltage >= 310)
+				voltage -= 310;
+		}
+
+		public override int GetFaceTextureSlot(int face, int value)
+		{
+			return face != 4 && face != 5 ? face == (Terrain.ExtractData(value) >> 15) ? 119 : 124 : 107;
+		}
+
+		public override Widget GetWidget(IInventory inventory, ComponentElectricDriller component)
+		{
+			return new ElectricDrillerWidget(inventory, component);
 		}
 	}
 	public class Recycler : Separator
