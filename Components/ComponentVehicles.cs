@@ -283,7 +283,7 @@ namespace Game
 				var r = body.Rotation;
 				Utils.SubsystemTime.QueueGameTimeDelayedExecution(Utils.SubsystemTime.GameTime + 0.23 * level, delegate
 				{
-					if (body.Velocity.XZ.LengthSquared() > 10f)
+					if (body.Velocity.XZ.LengthSquared() > 30f)
 					{
 						m_componentBody.Position = pos;
 						m_componentBody.Rotation = r;
