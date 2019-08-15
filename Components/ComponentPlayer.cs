@@ -301,8 +301,8 @@ namespace Game
 				m.DigCellFace = cellFace;
 			}
 			bool flag2 = Terrain.ExtractContents(activeBlockValue) == IEBatteryBlock.Index,
-				 flag3 = flag2 & IEBatteryBlock.GetType(activeBlockValue) == BatteryType.ElectricSaw && ((Terrain.ExtractData(activeBlockValue) >> 4) & 0xFFF) != BlocksManager.Blocks[Terrain.ExtractContents(activeBlockValue)].Durability;
-			flag2 &= IEBatteryBlock.GetType(activeBlockValue) == BatteryType.ElectricDrill && ((Terrain.ExtractData(activeBlockValue) >> 4) & 0xFFF) != BlocksManager.Blocks[Terrain.ExtractContents(activeBlockValue)].Durability;
+				 flag3 = flag2 & IEBatteryBlock.GetType(activeBlockValue) == BatteryType.ElectricSaw && (800) != BlocksManager.Blocks[Terrain.ExtractContents(activeBlockValue)].Durability;
+			flag2 &= IEBatteryBlock.GetType(activeBlockValue) == BatteryType.ElectricDrill && (800) != BlocksManager.Blocks[Terrain.ExtractContents(activeBlockValue)].Durability;
 			float num3 = m.CalculateDigTime(cellValue, num2);
 			if (flag2 & IEBatteryBlock.GetType(activeBlockValue) == BatteryType.ElectricDrill && ((Terrain.ExtractData(activeBlockValue) >> 4) & 0xFFF) != BlocksManager.Blocks[Terrain.ExtractContents(activeBlockValue)].Durability)
 			{
