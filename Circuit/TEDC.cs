@@ -1,7 +1,4 @@
-﻿using Engine;
-using Engine.Graphics;
-
-namespace Game
+﻿namespace Game
 {
 	public class TEDC : CubeDevice, IInteractiveBlock
 	{
@@ -63,6 +60,54 @@ namespace Game
 		public override int GetFaceTextureSlot(int face, int value)
 		{
 			return face != 4 && face != 5 && face == (Terrain.ExtractData(value) >> 15) ? 220 : 239;
+		}
+	}
+	public class Fuseblock : CubeDevice
+	{
+		public Fuseblock() : base("熔丝盒", "熔丝盒", 0) { }
+
+		public override void Simulate(ref int voltage)
+		{
+			if (voltage > 700)
+				voltage = 0;
+		}
+
+		public override int GetFaceTextureSlot(int face, int value)
+		{
+			return 236;
+		}
+	}
+	public class WaterCuttingMachine : CubeDevice
+	{
+		public WaterCuttingMachine() : base("水切割机", "水切割机", 180) { }
+
+		public override int GetFaceTextureSlot(int face, int value)
+		{
+			return face != 4 && face != 5 ? 209 : 241;
+		}
+	}
+	public class Stabilizer : CubeDevice
+	{
+		public int RemainsCount;
+		public Stabilizer() : base("稳压器", "稳压器", 220) { }
+
+		public override void Simulate(ref int voltage)
+		{
+			if (voltage > Voltage)
+			{
+				RemainsCount += voltage - Voltage;
+				voltage = Voltage;
+			}
+			else if (RemainsCount > 0)
+			{
+				RemainsCount -= Voltage - voltage;
+				voltage = Voltage;
+			}
+		}
+
+		public override int GetFaceTextureSlot(int face, int value)
+		{
+			return face != 4 && face != 5 ? 208 : 107;
 		}
 	}
 	/*public class Dryer : FixedDevice

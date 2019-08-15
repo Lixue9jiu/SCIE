@@ -1,5 +1,6 @@
 using Engine;
 using System.Collections.Generic;
+using static Game.Charger;
 
 namespace Game
 {
@@ -175,22 +176,22 @@ namespace Game
 		}
 	}
 
-	public class CondenserElectricElement : ElectricElement
+	public class ChargerElectricElement : ElectricElement
 	{
 		public bool m_isActionAllowed;
 		public double m_lastActionTime = -1e3;
-		public Condenser Condenser;
 		public float m_voltage;
 		protected double m_lastDispenseTime = double.NegativeInfinity;
+		public Point3 Point;
 
-		public CondenserElectricElement(SubsystemElectricity subsystemElectricity, Point3 point)
+		public ChargerElectricElement(SubsystemElectricity subsystemElectricity, Point3 point)
 			: base(subsystemElectricity, new List<CellFace>
 			{
 				new CellFace(point.X, point.Y, point.Z, 4),
 				new CellFace(point.X, point.Y, point.Z, 5)
 			})
 		{
-			Condenser = ElementBlock.Block.GetDevice(point.X, point.Y, point.Z, Utils.Terrain.GetCellValueFast(point.X, point.Y, point.Z)) as Condenser;
+			Point = point;
 		}
 
 		public override bool Simulate()
@@ -201,7 +202,9 @@ namespace Game
 				{
 					m_isActionAllowed = false;
 					m_lastActionTime = SubsystemElectricity.SubsystemTime.GameTime;
-					Condenser.Component.Charged ^= true;
+					int value = Utils.Terrain.GetCellValueFast(Point.X, Point.Y, Point.Z),
+						data = SetMode(Terrain.ExtractData(value));
+					Utils.Terrain.SetCellValueFast(Point.X, Point.Y, Point.Z, Terrain.ReplaceData(value, data));
 				}
 			}
 			else

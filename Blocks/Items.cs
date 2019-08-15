@@ -274,12 +274,16 @@ namespace Game
 				new Recycler(),
 				new Gearbox(),
 				new MachRod(),
+				new Inverter(),
+				new Stabilizer(),
+				new Fuseblock(),
 				new UThickener(),
 				new WaterExtractor(),
 				new Unpacker(),
 				new ElectricPump(),
-				new TEDC(),
 				new OilPlant(),
+				new WaterCuttingMachine(),
+				new TEDC(),
 				new ElectricDriller(),
 			};
 			IdTable = new Dictionary<string, int>(Items.Length)

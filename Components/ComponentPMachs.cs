@@ -182,7 +182,7 @@ namespace Game
 					text = "Diamond";
 					m_speed = 0.1f;
 				}
-				else if(value == ItemBlock.IdTable["滑石"])
+				else if (value == ItemBlock.IdTable["滑石"])
 					text = "滑石粉";
 				else if (value == ItemBlock.IdTable["Plaster"])
 					text = "石膏粉";
@@ -218,6 +218,7 @@ namespace Game
 								text = ((Materials)type - 3).ToString() + "Plate";
 								if (!ItemBlock.IdTable.ContainsKey(text))
 									return null;
+								m_count = 9;
 							}
 							break;
 					}

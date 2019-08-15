@@ -263,12 +263,9 @@ namespace Game
         }
 	}
 
-	public class Transformer : CubeDevice, IBlockBehavior
+	public class Transformer : CubeDevice
 	{
 		public Transformer() : base("变压器", "变压器是一种把交流电转化成直流电的机器") { }
-		public void OnBlockAdded(SubsystemTerrain subsystemTerrain, int value, int oldValue)
-		{
-		}
 		public override void Simulate(ref int voltage)
 		{
 			if (voltage < 0)
@@ -278,10 +275,18 @@ namespace Game
 		{
 			return face == 4 || face == 5 ? 107 : 121;
 		}
-		public void OnBlockRemoved(SubsystemTerrain terrain, int value, int newValue)
+	}
+	public class Inverter : CubeDevice
+	{
+		public Inverter() : base("逆变器", "逆变器是一种把直流电转化成交流电的机器") { }
+		public override void Simulate(ref int voltage)
 		{
-			value = 0;
-			Simulate(ref value);
+			if (voltage > 0)
+				voltage = (int)(-voltage / Math.Sqrt(2));
+		}
+		public override int GetFaceTextureSlot(int face, int value)
+		{
+			return face == 4 || face == 5 ? 239 : 121;
 		}
 	}
 
@@ -331,7 +336,7 @@ namespace Game
 		}
 		public ElectricElement CreateElectricElement(SubsystemElectricity subsystemElectricity, int value, int x, int y, int z)
 		{
-			return new CondenserElectricElement(subsystemElectricity, new Point3(x, y, z));
+			return new ChargerElectricElement(subsystemElectricity, new Point3(x, y, z));
 		}
 		public ElectricConnectorType? GetConnectorType(SubsystemTerrain terrain, int value, int face, int connectorFace, int x, int y, int z)
 		{

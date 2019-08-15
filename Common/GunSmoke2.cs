@@ -24,10 +24,10 @@ namespace Game
 			TextureSlotsCount = 3;
 			m_position = position;
 			m_direction = Vector3.Normalize(direction);
-			int num = Terrain.ToCell(position.X);
-			int num2 = Terrain.ToCell(position.Y);
-			int num3 = Terrain.ToCell(position.Z);
-			int x = 0;
+			int num = Terrain.ToCell(position.X),
+				num2 = Terrain.ToCell(position.Y),
+				num3 = Terrain.ToCell(position.Z),
+				x = 0;
 			x = MathUtils.Max(x, terrain.Terrain.GetCellLight(num + 1, num2, num3));
 			x = MathUtils.Max(x, terrain.Terrain.GetCellLight(num - 1, num2, num3));
 			x = MathUtils.Max(x, terrain.Terrain.GetCellLight(num, num2 + 1, num3));
@@ -90,11 +90,7 @@ namespace Game
 				}
 			}
 			m_toGenerate = MathUtils.Remainder(m_toGenerate, 1f);
-			if (!flag && m_time >= 0.5f)
-			{
-				return true;
-			}
-			return false;
+			return !flag && m_time >= 0.5f;
 		}
 	}
 }
