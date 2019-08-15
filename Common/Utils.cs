@@ -161,19 +161,19 @@ namespace Game
 		public static int GetDirectionXYZ(ComponentMiner componentMiner)
 		{
 			Vector3 forward = componentMiner.ComponentCreature.ComponentCreatureModel.EyeRotation.ToForwardVector();
-			float num = Vector3.Dot(forward, Vector3.UnitZ);
-			float num2 = Vector3.Dot(forward, Vector3.UnitX);
-			float num3 = Vector3.Dot(forward, -Vector3.UnitZ);
-			float num4 = Vector3.Dot(forward, -Vector3.UnitX);
-			float num5 = Vector3.Dot(forward, Vector3.UnitY);
-			float num6 = Vector3.Dot(forward, -Vector3.UnitY);
-			float num7 = MathUtils.Min(MathUtils.Min(num, num2, num3), MathUtils.Min(num4, num5, num6));
+			float num = Vector3.Dot(forward, Vector3.UnitZ),
+				  num2 = Vector3.Dot(forward, Vector3.UnitX),
+				  num3 = Vector3.Dot(forward, -Vector3.UnitZ),
+				  num4 = Vector3.Dot(forward, -Vector3.UnitX),
+				  num5 = Vector3.Dot(forward, Vector3.UnitY),
+				  num6 = Vector3.Dot(forward, -Vector3.UnitY),
+				  num7 = MathUtils.Min(MathUtils.Min(num, num2, num3), MathUtils.Min(num4, num5, num6));
 			if (num == num7) return 0;
-			else if (num2 == num7) return 1;
-			else if (num3 == num7) return 2;
-			else if (num4 == num7) return 3;
-			else if (num5 == num7) return 4;
-			else if (num6 == num7) return 5;
+			if (num2 == num7) return 1;
+			if (num3 == num7) return 2;
+			if (num4 == num7) return 3;
+			if (num5 == num7) return 4;
+			if (num6 == num7) return 5;
 			return 0;
 		}
 

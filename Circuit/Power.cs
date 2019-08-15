@@ -237,7 +237,7 @@ namespace Game
 		}
 		public override bool IsFaceTransparent(SubsystemTerrain subsystemTerrain, int face, int value) => face != 4;
 		public override BoundingBox[] GetCustomCollisionBoxes(SubsystemTerrain terrain, int value) => m_collisionBoxes;
-		public override string GetCraftingId() => DefaultDisplayName + Voltage.ToString();
+		public override string GetCraftingId() => "SolarPanel" + Voltage.ToString();
 	}
 	public class Gearbox : ElectricMotor, IBlockBehavior, IUnstableBlock
 	{
@@ -254,7 +254,7 @@ namespace Game
 				voltage += 400;
 				return;
 			}
-			voltage = voltage * 8 / 10;
+			voltage = voltage * 81 / 100;
 			Powered = voltage > 320;
 		}
 

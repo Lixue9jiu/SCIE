@@ -619,6 +619,21 @@
       "aba"
       "aaa"
     </Recipe>
+    <Recipe Result="SolarPanel100" ResultCount="1" RequiredHeatLevel="0" a="glass" b="多晶硅" c="SteelPlate" d="metalblock:32" Description="用多晶硅制作太阳能板">
+      "aaa"
+      "bbb"
+      "cdc"
+    </Recipe>
+    <Recipe Result="SolarPanel120" ResultCount="1" RequiredHeatLevel="0" a="glass" b="单晶硅" c="SteelPlate" d="metalblock:32" e="SteelSheet" f="WireDevice" Description="用单晶硅制作太阳能板">
+      "eaae"
+      "bbbb"
+      "cfdc"
+    </Recipe>
+    <Recipe Result="FactorioTransportBeltBlock" ResultCount="3" RequiredHeatLevel="0" a="SteelRod" b="ElectricMotor" c="leather" Description="制作传送带，远程输送物品">
+      "bca"
+      " c"
+      "aca"
+    </Recipe>
     <Recipe Result="IronIngotBlock" ResultCount="8" RequiredHeatLevel="1500" Remains="PistonBlock" RemainsCount="1" a="driller" Description="拆除自动挖掘钻井机">
       "a"
     </Recipe>
