@@ -27,7 +27,7 @@ namespace Game
         Brass,
 		Plastic,
 	}
-	public class MetalBlock : PaintedCubeBlock
+	public class MetalBlock : PaintedCubeBlock, IElectricElementBlock
 	{
 		public const int Index = 510;
 		public static readonly string[] Names = new[]
@@ -138,6 +138,22 @@ namespace Game
 				case 15: return 5;
 			}
 			return 180;
+		}
+		public ElectricElement CreateElectricElement(SubsystemElectricity subsystemElectricity, int value, int x, int y, int z)
+		{
+			return GetType(value) == 1 && Utils.SubsystemBlockEntities.GetBlockEntity(x, y, z) != null
+				? new MachineElectricElement(subsystemElectricity, new Point3(x, y, z))
+				: null;
+		}
+		public ElectricConnectorType? GetConnectorType(SubsystemTerrain terrain, int value, int face, int connectorFace, int x, int y, int z)
+		{
+			return ElectricConnectorType.Input;
+		}
+
+		public int GetConnectionMask(int value)
+		{
+			int? color = GetColor(Terrain.ExtractData(value));
+			return color.HasValue ? 1 << color.Value : 2147483647;
 		}
 	}
 }
