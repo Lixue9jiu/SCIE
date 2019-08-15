@@ -254,7 +254,7 @@ namespace Game
 				voltage += 400;
 				return;
 			}
-			voltage = voltage * 9 / 10;
+			voltage = voltage * 8 / 10;
 			Powered = voltage > 320;
 		}
 

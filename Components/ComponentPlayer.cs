@@ -17,16 +17,16 @@ namespace Game
 				if (playerInput.SelectInventorySlot.HasValue)
 					ComponentMiner.Inventory.ActiveSlotIndex = MathUtils.Clamp(playerInput.SelectInventorySlot.Value, 0, 5);
 			}
-			//if (m_subsystemTime.PeriodicGameTimeEvent(0.5, 0))
-			//{
-			//	ReadOnlyList<int> readOnlyList = ComponentClothing.GetClothes(ClothingSlot.Head);
-			//	if ((readOnlyList.Count > 0 && ClothingBlock.GetClothingData(Terrain.ExtractData(readOnlyList[readOnlyList.Count - 1])).DisplayName == Utils.Get("潜水头盔")) || (ComponentBody.ImmersionFluidBlock != null && ComponentBody.ImmersionFluidBlock.BlockIndex == RottenMeatBlock.Index))
-			//	{
-			//		if (ComponentBody.ImmersionDepth > 0.8f)
-			//		ComponentScreenOverlays.BlackoutFactor = 1f;
-			//			ComponentHealth.Air = 1f;
-			//	}
-			//}
+			if (m_subsystemTime.PeriodicGameTimeEvent(0.5, 0))
+			{
+				ReadOnlyList<int> readOnlyList = ComponentClothing.GetClothes(ClothingSlot.Head);
+				if ((readOnlyList.Count > 0 && ClothingBlock.GetClothingData(Terrain.ExtractData(readOnlyList[readOnlyList.Count - 1])).DisplayName == Utils.Get("潜水头盔")))
+				{
+					if (ComponentBody.ImmersionFluidBlock != null && ComponentBody.ImmersionFluidBlock.BlockIndex == RottenMeatBlock.Index && ComponentBody.ImmersionDepth > 0.8f)
+						ComponentScreenOverlays.BlackoutFactor = 1f;
+					ComponentHealth.Air = 1f;
+				}
+			}
 			ComponentMount mount = ComponentRider.Mount;
 			if (mount != null)
 			{
@@ -287,12 +287,10 @@ namespace Game
 
 		public bool Dig(ComponentMiner m, TerrainRaycastResult raycastResult)
 		{
-			bool result = false;
 			m.m_lastDigFrameIndex = Time.FrameIndex;
 			CellFace cellFace = raycastResult.CellFace;
 			int cellValue = m_subsystemTerrain.Terrain.GetCellValue(cellFace.X, cellFace.Y, cellFace.Z);
-			int num = Terrain.ExtractContents(cellValue);
-			Block block = BlocksManager.Blocks[num];
+			Block block = BlocksManager.Blocks[Terrain.ExtractContents(cellValue)];
 			int activeBlockValue = m.ActiveBlockValue;
 			int num2 = Terrain.ExtractContents(activeBlockValue);
 			Block block2 = BlocksManager.Blocks[num2];
@@ -302,10 +300,11 @@ namespace Game
 				m.m_digStartTime = m_subsystemTime.GameTime;
 				m.DigCellFace = cellFace;
 			}
-			bool flag2 = Terrain.ExtractContents(activeBlockValue) == IEBatteryBlock.Index && IEBatteryBlock.GetType(activeBlockValue) == BatteryType.ElectricDrill && ((Terrain.ExtractData(activeBlockValue) >> 4) & 0xFFF) != BlocksManager.Blocks[Terrain.ExtractContents(activeBlockValue)].Durability;
-			bool flag3 = Terrain.ExtractContents(activeBlockValue) == IEBatteryBlock.Index && IEBatteryBlock.GetType(activeBlockValue) == BatteryType.ElectricSaw && ((Terrain.ExtractData(activeBlockValue) >> 4) & 0xFFF) != BlocksManager.Blocks[Terrain.ExtractContents(activeBlockValue)].Durability;
+			bool flag2 = Terrain.ExtractContents(activeBlockValue) == IEBatteryBlock.Index,
+				 flag3 = flag2 & IEBatteryBlock.GetType(activeBlockValue) == BatteryType.ElectricSaw && ((Terrain.ExtractData(activeBlockValue) >> 4) & 0xFFF) != BlocksManager.Blocks[Terrain.ExtractContents(activeBlockValue)].Durability;
+			flag2 &= IEBatteryBlock.GetType(activeBlockValue) == BatteryType.ElectricDrill && ((Terrain.ExtractData(activeBlockValue) >> 4) & 0xFFF) != BlocksManager.Blocks[Terrain.ExtractContents(activeBlockValue)].Durability;
 			float num3 = m.CalculateDigTime(cellValue, num2);
-			if (flag2)
+			if (flag2 & IEBatteryBlock.GetType(activeBlockValue) == BatteryType.ElectricDrill && ((Terrain.ExtractData(activeBlockValue) >> 4) & 0xFFF) != BlocksManager.Blocks[Terrain.ExtractContents(activeBlockValue)].Durability)
 			{
 				num3 = m.CalculateDigTime(cellValue, SteelPickaxeBlock.Index);
 			}
@@ -326,8 +325,9 @@ namespace Game
 					}), true, true);
 				}
 			}
-			
+
 			bool flag = m.ComponentPlayer != null && !m.ComponentPlayer.ComponentInput.IsControlledByTouch && m_subsystemGameInfo.WorldSettings.GameMode == GameMode.Creative;
+			bool result = false;
 			if (flag || (m.m_lastPokingPhase <= 0.5f && m.PokingPhase > 0.5f))
 			{
 				if (m.m_digProgress >= 1f)
@@ -340,86 +340,77 @@ namespace Game
 					BlockPlacementData digValue = block.GetDigValue(m_subsystemTerrain, m, cellValue, activeBlockValue, raycastResult);
 					if (flag2)
 					{
-						
-						for (int x11 = cellFace.X - 1; x11 < cellFace.X + 1 + 1; x11++)
+						for (int x11 = cellFace.X - 1; x11 < cellFace.X + 2; x11++)
 						{
-							for (int y11 = cellFace.Y - 1; y11 < cellFace.Y  + 2; y11++)
+							for (int y11 = cellFace.Y - 1; y11 < cellFace.Y + 2; y11++)
 							{
-								for (int z11 = cellFace.Z - 1; z11 < cellFace.Z + 1 + 1; z11++)
+								for (int z11 = cellFace.Z - 1; z11 < cellFace.Z + 2; z11++)
 								{
-									
 									int vvv = m_subsystemTerrain.Terrain.GetCellValue(x11, y11, z11);
-									if ((x11- cellFace.X )* (x11 - cellFace.X) + (y11 - cellFace.Y) * (y11 - cellFace.Y) + (z11 - cellFace.Z) * (z11 - cellFace.Z) <= 1)
+									if ((x11 - cellFace.X) * (x11 - cellFace.X) + (y11 - cellFace.Y) * (y11 - cellFace.Y) + (z11 - cellFace.Z) * (z11 - cellFace.Z) <= 1)
 									{
 										//break;
-									if (BlocksManager.Blocks[Terrain.ExtractContents(vvv)].IsPlaceable && !BlocksManager.Blocks[Terrain.ExtractContents(vvv)].IsDiggingTransparent && !BlocksManager.Blocks[Terrain.ExtractContents(vvv)].DefaultIsInteractive && BlocksManager.Blocks[Terrain.ExtractContents(vvv)].BlockIndex!=31)
-									{
-										
-										m_subsystemPickables.AddPickable(m_subsystemTerrain.Terrain.GetCellValue(x11, y11, z11), 1, new Vector3(x11, y11, z11) + new Vector3(0.5f), null, null);
-										m_subsystemTerrain.ChangeCell(x11, y11, z11, 0);
+										if (BlocksManager.Blocks[Terrain.ExtractContents(vvv)].IsPlaceable && !BlocksManager.Blocks[Terrain.ExtractContents(vvv)].IsDiggingTransparent && !BlocksManager.Blocks[Terrain.ExtractContents(vvv)].DefaultIsInteractive && BlocksManager.Blocks[Terrain.ExtractContents(vvv)].BlockIndex != 31)
+										{
+											m_subsystemPickables.AddPickable(m_subsystemTerrain.Terrain.GetCellValue(x11, y11, z11), 1, new Vector3(x11, y11, z11) + new Vector3(0.5f), null, null);
+											m_subsystemTerrain.ChangeCell(x11, y11, z11, 0);
+										}
 									}
-									}
-
 								}
-
 							}
 						}
-									//	if (m.CalculateDigTime(m_subsystemTerrain.Terrain.GetCellValue(cellFace.X + 1, cellFace.Y, cellFace.Z), SteelPickaxeBlock.Index) <= num3 && m_subsystemTerrain.Terrain.GetCellValue(cellFace.X + 1, cellFace.Y, cellFace.Z)!=0)
-									//	{
-									//		m_subsystemTerrain.ChangeCell(digValue.CellFace.X + 1, digValue.CellFace.Y, digValue.CellFace.Z, digValue.Value);
-									//		m_subsystemPickables.AddPickable(m_subsystemTerrain.Terrain.GetCellValue(cellFace.X + 1, cellFace.Y, cellFace.Z), 1, new Vector3(digValue.CellFace.X+1, digValue.CellFace.Y, digValue.CellFace.Z) + new Vector3(0.5f), null, null);
-									//	}
-									//	if (m.CalculateDigTime(m_subsystemTerrain.Terrain.GetCellValue(cellFace.X - 1, cellFace.Y, cellFace.Z), SteelPickaxeBlock.Index) <= num3 && m_subsystemTerrain.Terrain.GetCellValue(cellFace.X - 1, cellFace.Y, cellFace.Z)!=0)
-									//	{
-									//		m_subsystemTerrain.ChangeCell(digValue.CellFace.X - 1, digValue.CellFace.Y, digValue.CellFace.Z, digValue.Value);
-									//		m_subsystemPickables.AddPickable(m_subsystemTerrain.Terrain.GetCellValue(cellFace.X - 1, cellFace.Y, cellFace.Z), 1, new Vector3(digValue.CellFace.X-1, digValue.CellFace.Y, digValue.CellFace.Z) + new Vector3(0.5f), null, null);
-									//	}
-									//	if (m.CalculateDigTime(m_subsystemTerrain.Terrain.GetCellValue(cellFace.X, cellFace.Y + 1, cellFace.Z), SteelPickaxeBlock.Index) <= num3 && m_subsystemTerrain.Terrain.GetCellValue(cellFace.X , cellFace.Y+1, cellFace.Z) != 0)
-									//	{
-									//		m_subsystemTerrain.ChangeCell(digValue.CellFace.X, digValue.CellFace.Y + 1, digValue.CellFace.Z, digValue.Value);
-									//		m_subsystemPickables.AddPickable(m_subsystemTerrain.Terrain.GetCellValue(cellFace.X, cellFace.Y + 1, cellFace.Z), 1, new Vector3(digValue.CellFace.X, digValue.CellFace.Y+1, digValue.CellFace.Z) + new Vector3(0.5f), null, null);
-									//	}
-									//	if (m.CalculateDigTime(m_subsystemTerrain.Terrain.GetCellValue(cellFace.X, cellFace.Y - 1, cellFace.Z), SteelPickaxeBlock.Index) <= num3 && m_subsystemTerrain.Terrain.GetCellValue(cellFace.X , cellFace.Y-1, cellFace.Z) != 0)
-									//	{
-									//		m_subsystemTerrain.ChangeCell(digValue.CellFace.X, digValue.CellFace.Y - 1, digValue.CellFace.Z, digValue.Value);
-									//		m_subsystemPickables.AddPickable(m_subsystemTerrain.Terrain.GetCellValue(cellFace.X, cellFace.Y - 1, cellFace.Z), 1, new Vector3(digValue.CellFace.X, digValue.CellFace.Y-1, digValue.CellFace.Z) + new Vector3(0.5f), null, null);
-									//	}
-									//	if (m.CalculateDigTime(m_subsystemTerrain.Terrain.GetCellValue(cellFace.X, cellFace.Y, cellFace.Z + 1), SteelPickaxeBlock.Index) <= num3 && m_subsystemTerrain.Terrain.GetCellValue(cellFace.X , cellFace.Y, cellFace.Z+1) != 0)
-									//	{
-									//		m_subsystemTerrain.ChangeCell(digValue.CellFace.X, digValue.CellFace.Y, digValue.CellFace.Z + 1, digValue.Value);
-									//		m_subsystemPickables.AddPickable(m_subsystemTerrain.Terrain.GetCellValue(cellFace.X, cellFace.Y, cellFace.Z + 1), 1, new Vector3(digValue.CellFace.X, digValue.CellFace.Y, digValue.CellFace.Z+1) + new Vector3(0.5f), null, null);
-									//	}
-									//	if (m.CalculateDigTime(m_subsystemTerrain.Terrain.GetCellValue(cellFace.X, cellFace.Y, cellFace.Z - 1), SteelPickaxeBlock.Index) <= num3 && m_subsystemTerrain.Terrain.GetCellValue(cellFace.X , cellFace.Y, cellFace.Z-1) != 0)
-									//	{
-									//		m_subsystemTerrain.ChangeCell(digValue.CellFace.X, digValue.CellFace.Y, digValue.CellFace.Z - 1, digValue.Value);
-									//		m_subsystemPickables.AddPickable(m_subsystemTerrain.Terrain.GetCellValue(cellFace.X, cellFace.Y, cellFace.Z - 1), 1, new Vector3(digValue.CellFace.X, digValue.CellFace.Y, digValue.CellFace.Z-1) + new Vector3(0.5f), null, null);
-									//	}
+						//	if (m.CalculateDigTime(m_subsystemTerrain.Terrain.GetCellValue(cellFace.X + 1, cellFace.Y, cellFace.Z), SteelPickaxeBlock.Index) <= num3 && m_subsystemTerrain.Terrain.GetCellValue(cellFace.X + 1, cellFace.Y, cellFace.Z)!=0)
+						//	{
+						//		m_subsystemTerrain.ChangeCell(digValue.CellFace.X + 1, digValue.CellFace.Y, digValue.CellFace.Z, digValue.Value);
+						//		m_subsystemPickables.AddPickable(m_subsystemTerrain.Terrain.GetCellValue(cellFace.X + 1, cellFace.Y, cellFace.Z), 1, new Vector3(digValue.CellFace.X+1, digValue.CellFace.Y, digValue.CellFace.Z) + new Vector3(0.5f), null, null);
+						//	}
+						//	if (m.CalculateDigTime(m_subsystemTerrain.Terrain.GetCellValue(cellFace.X - 1, cellFace.Y, cellFace.Z), SteelPickaxeBlock.Index) <= num3 && m_subsystemTerrain.Terrain.GetCellValue(cellFace.X - 1, cellFace.Y, cellFace.Z)!=0)
+						//	{
+						//		m_subsystemTerrain.ChangeCell(digValue.CellFace.X - 1, digValue.CellFace.Y, digValue.CellFace.Z, digValue.Value);
+						//		m_subsystemPickables.AddPickable(m_subsystemTerrain.Terrain.GetCellValue(cellFace.X - 1, cellFace.Y, cellFace.Z), 1, new Vector3(digValue.CellFace.X-1, digValue.CellFace.Y, digValue.CellFace.Z) + new Vector3(0.5f), null, null);
+						//	}
+						//	if (m.CalculateDigTime(m_subsystemTerrain.Terrain.GetCellValue(cellFace.X, cellFace.Y + 1, cellFace.Z), SteelPickaxeBlock.Index) <= num3 && m_subsystemTerrain.Terrain.GetCellValue(cellFace.X , cellFace.Y+1, cellFace.Z) != 0)
+						//	{
+						//		m_subsystemTerrain.ChangeCell(digValue.CellFace.X, digValue.CellFace.Y + 1, digValue.CellFace.Z, digValue.Value);
+						//		m_subsystemPickables.AddPickable(m_subsystemTerrain.Terrain.GetCellValue(cellFace.X, cellFace.Y + 1, cellFace.Z), 1, new Vector3(digValue.CellFace.X, digValue.CellFace.Y+1, digValue.CellFace.Z) + new Vector3(0.5f), null, null);
+						//	}
+						//	if (m.CalculateDigTime(m_subsystemTerrain.Terrain.GetCellValue(cellFace.X, cellFace.Y - 1, cellFace.Z), SteelPickaxeBlock.Index) <= num3 && m_subsystemTerrain.Terrain.GetCellValue(cellFace.X , cellFace.Y-1, cellFace.Z) != 0)
+						//	{
+						//		m_subsystemTerrain.ChangeCell(digValue.CellFace.X, digValue.CellFace.Y - 1, digValue.CellFace.Z, digValue.Value);
+						//		m_subsystemPickables.AddPickable(m_subsystemTerrain.Terrain.GetCellValue(cellFace.X, cellFace.Y - 1, cellFace.Z), 1, new Vector3(digValue.CellFace.X, digValue.CellFace.Y-1, digValue.CellFace.Z) + new Vector3(0.5f), null, null);
+						//	}
+						//	if (m.CalculateDigTime(m_subsystemTerrain.Terrain.GetCellValue(cellFace.X, cellFace.Y, cellFace.Z + 1), SteelPickaxeBlock.Index) <= num3 && m_subsystemTerrain.Terrain.GetCellValue(cellFace.X , cellFace.Y, cellFace.Z+1) != 0)
+						//	{
+						//		m_subsystemTerrain.ChangeCell(digValue.CellFace.X, digValue.CellFace.Y, digValue.CellFace.Z + 1, digValue.Value);
+						//		m_subsystemPickables.AddPickable(m_subsystemTerrain.Terrain.GetCellValue(cellFace.X, cellFace.Y, cellFace.Z + 1), 1, new Vector3(digValue.CellFace.X, digValue.CellFace.Y, digValue.CellFace.Z+1) + new Vector3(0.5f), null, null);
+						//	}
+						//	if (m.CalculateDigTime(m_subsystemTerrain.Terrain.GetCellValue(cellFace.X, cellFace.Y, cellFace.Z - 1), SteelPickaxeBlock.Index) <= num3 && m_subsystemTerrain.Terrain.GetCellValue(cellFace.X , cellFace.Y, cellFace.Z-1) != 0)
+						//	{
+						//		m_subsystemTerrain.ChangeCell(digValue.CellFace.X, digValue.CellFace.Y, digValue.CellFace.Z - 1, digValue.Value);
+						//		m_subsystemPickables.AddPickable(m_subsystemTerrain.Terrain.GetCellValue(cellFace.X, cellFace.Y, cellFace.Z - 1), 1, new Vector3(digValue.CellFace.X, digValue.CellFace.Y, digValue.CellFace.Z-1) + new Vector3(0.5f), null, null);
+						//	}
 						//m_subsystemTerrain.ChangeCell(digValue.CellFace.X, digValue.CellFace.Y, digValue.CellFace.Z, digValue.Value);
 						//m_subsystemPickables.AddPickable(cellValue,1, new Vector3(digValue.CellFace.X, digValue.CellFace.Y, digValue.CellFace.Z) + new Vector3(0.5f),null,null);
 					}
 					else if (flag3)
 					{
-						
-						
 						while (true)
 						{
-							int value2 = m_subsystemTerrain.Terrain.GetCellContentsFast(cellFace.X, cellFace.Y+x1, cellFace.Z);
-							if (value2==OakWoodBlock.Index || value2==BirchWoodBlock.Index || value2==SpruceWoodBlock.Index)
+							int value2 = m_subsystemTerrain.Terrain.GetCellContentsFast(cellFace.X, cellFace.Y + x1, cellFace.Z);
+							if (value2 == OakWoodBlock.Index || value2 == BirchWoodBlock.Index || value2 == SpruceWoodBlock.Index)
 							{
 								//m_subsystemTerrain.DestroyCell(block2.ToolLevel, digValue.CellFace.X, digValue.CellFace.Y+x1, digValue.CellFace.Z, digValue.Value, false, false);
 								x1++;
-							}else
+							}
+							else
 							{
-								
 								break;
 							}
-							
 						}
 						int a = 4;
 						m_subsystemTerrain.DestroyCell(block2.ToolLevel, digValue.CellFace.X, digValue.CellFace.Y, digValue.CellFace.Z, digValue.Value, false, false);
 						if (x1 > 1)
 						{
-							
 							for (int x11 = cellFace.X - a; x11 < cellFace.X + a + 1; x11++)
 							{
 								for (int y11 = cellFace.Y; y11 < cellFace.Y + x1 + 1; y11++)
@@ -430,7 +421,6 @@ namespace Game
 										if (value2 == OakWoodBlock.Index || value2 == BirchWoodBlock.Index || value2 == SpruceWoodBlock.Index)
 										{
 											m_subsystemTerrain.DestroyCell(block2.ToolLevel, x11, y11, z11, digValue.Value, false, false);
-
 										}
 										if (value2 == OakLeavesBlock.Index || value2 == BirchLeavesBlock.Index || value2 == SpruceLeavesBlock.Index || value2 == TallSpruceLeavesBlock.Index)
 											m_subsystemTerrain.DestroyCell(block2.ToolLevel, x11, y11, z11, digValue.Value, false, false);
@@ -438,12 +428,11 @@ namespace Game
 								}
 							}
 						}
-						
 					}
 					else
-					m_subsystemTerrain.DestroyCell(block2.ToolLevel, digValue.CellFace.X, digValue.CellFace.Y, digValue.CellFace.Z, digValue.Value, false, false);
+						m_subsystemTerrain.DestroyCell(block2.ToolLevel, digValue.CellFace.X, digValue.CellFace.Y, digValue.CellFace.Z, digValue.Value, false, false);
 					m.m_subsystemSoundMaterials.PlayImpactSound(cellValue, new Vector3(cellFace.X, cellFace.Y, cellFace.Z), 2f);
-					m.DamageActiveTool(1+x1);
+					m.DamageActiveTool(1 + x1);
 					if (m.ComponentCreature.PlayerStats != null)
 					{
 						m.ComponentCreature.PlayerStats.BlocksDug++;
