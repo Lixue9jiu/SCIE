@@ -19,12 +19,12 @@ namespace Game
 			if (Charged)
 			{
 				m_fireTimeRemaining = MathUtils.Max(0f, m_fireTimeRemaining - dt);
-				if (m_fireTimeRemaining==0f)
+				if (m_fireTimeRemaining<1f)
 				{
 					Point3 coordinates = m_componentBlockEntity.Coordinates;
 					int data = Terrain.ExtractData(Utils.Terrain.GetCellValue(coordinates.X, coordinates.Y, coordinates.Z));
 					Driller(coordinates);
-					m_fireTimeRemaining = 5f;
+					m_fireTimeRemaining = 7f;
 				}
 			}
 		}
@@ -50,20 +50,44 @@ namespace Game
 			int value = GetSlotValue(8);
 			if (BlocksManager.Blocks[Terrain.ExtractContents(value)].Durability <= 0)
 				return;
-			int a = 30;
+			int a = 40;
 			for (int x1 = -a+point.X; x1 <  a + 1 + point.X; x1++)
 			{
 				for (int y1 = 0; y1 < point.Y; y1++)
 				{
 					for (int z1 = -a + point.Z; z1 <  a + 1 + point.Z; z1++)
 					{
-						int cellValue = Terrain.ReplaceLight(Utils.Terrain.GetCellValue(x1, y1, z1), 0);
+						int cellValue = Utils.Terrain.GetCellValueFast(x1, y1, z1);
 						var block = BlocksManager.Blocks[Terrain.ExtractContents(cellValue)];
+						if (block.BlockIndex == BasaltBlock.Index && cellValue!= BasaltBlock.Index && cellValue !=536870979 && cellValue !=1073741891 && cellValue != 1610612803)
+						{
+							
+							ComponentElectricDriller inventory = m_componentBlockEntity.Entity.FindComponent<ComponentElectricDriller>(throwOnError: true);
+							if (AcquireItems(inventory, cellValue, 1) != 0)
+							{
+								Charged = false;
+								return;
+							}
+								
+							Utils.SubsystemTerrain.ChangeCell(x1, y1, z1, 0, true);
+							DrillType type = DrillBlock.GetType(value);
+							RemoveSlotItems(8, 1);
+							if (DrillBlock.GetType(BlocksManager.DamageItem(value, 1)) == type && BlocksManager.DamageItem(value, 1) != value && GetDamage(BlocksManager.DamageItem(value, 1)) != GetDamage(value))
+							{
+								AddSlotItems(8, BlocksManager.DamageItem(value, 1), 1);
+							}
+							return;
+						}
 						if (block.BlockIndex==IronOreBlock.Index|| block.BlockIndex==CopperOreBlock.Index|| block.BlockIndex == DiamondOreBlock.Index || block.BlockIndex==GermaniumOreBlock.Index || block.BlockIndex ==SaltpeterOreBlock.Index || block.BlockIndex==SulphurOreBlock.Index|| block.BlockIndex==CoalOreBlock.Index)
 						{
-							Utils.SubsystemTerrain.ChangeCell(x1, y1, z1, 0, true);
+							
 							ComponentElectricDriller inventory = m_componentBlockEntity.Entity.FindComponent<ComponentElectricDriller>(throwOnError: true);
-							AcquireItems(inventory, cellValue, 1);
+							if (AcquireItems(inventory, cellValue, 1) != 0)
+							{
+								Charged = false;
+								return;
+							}
+							Utils.SubsystemTerrain.ChangeCell(x1, y1, z1, 0, true);
 							DrillType type = DrillBlock.GetType(value);
 							RemoveSlotItems(8, 1);
 							if (DrillBlock.GetType(BlocksManager.DamageItem(value, 1 )) == type && BlocksManager.DamageItem(value, 1) != value && GetDamage(BlocksManager.DamageItem(value, 1)) != GetDamage(value))

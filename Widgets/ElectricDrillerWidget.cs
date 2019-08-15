@@ -68,14 +68,16 @@ namespace Game
 		{
 			if (m_dispenseButton.IsClicked && m_componentDispenser.HeatLevel <= 0f)
 			{
-				m_componentDispenser.HeatLevel = 1000f;
+				//m_componentDispenser.HeatLevel = 1000f;
+				m_componentDispenser.Charged = true;
 			}
 			if (m_shootButton.IsClicked && m_componentDispenser.HeatLevel > 0f)
 			{
-				m_componentDispenser.HeatLevel = 0f;
+				//m_componentDispenser.HeatLevel = 0f;
+				m_componentDispenser.Charged = false;
 			}
-			m_dispenseButton.IsChecked = m_componentDispenser.HeatLevel != 0f;
-			m_shootButton.IsChecked = m_componentDispenser.HeatLevel == 0f;
+			m_dispenseButton.IsChecked = m_componentDispenser.Charged;
+			m_shootButton.IsChecked = !m_componentDispenser.Charged;
 			if (!m_componentDispenser.IsAddedToProject)
 				ParentWidget.Children.Remove(this);
 		}
