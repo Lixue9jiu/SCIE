@@ -340,39 +340,61 @@ namespace Game
 					BlockPlacementData digValue = block.GetDigValue(m_subsystemTerrain, m, cellValue, activeBlockValue, raycastResult);
 					if (flag2)
 					{
-
-					//	if (m.CalculateDigTime(m_subsystemTerrain.Terrain.GetCellValue(cellFace.X + 1, cellFace.Y, cellFace.Z), SteelPickaxeBlock.Index) <= num3 && m_subsystemTerrain.Terrain.GetCellValue(cellFace.X + 1, cellFace.Y, cellFace.Z)!=0)
-					//	{
-					//		m_subsystemTerrain.ChangeCell(digValue.CellFace.X + 1, digValue.CellFace.Y, digValue.CellFace.Z, digValue.Value);
-					//		m_subsystemPickables.AddPickable(m_subsystemTerrain.Terrain.GetCellValue(cellFace.X + 1, cellFace.Y, cellFace.Z), 1, new Vector3(digValue.CellFace.X+1, digValue.CellFace.Y, digValue.CellFace.Z) + new Vector3(0.5f), null, null);
-					//	}
-					//	if (m.CalculateDigTime(m_subsystemTerrain.Terrain.GetCellValue(cellFace.X - 1, cellFace.Y, cellFace.Z), SteelPickaxeBlock.Index) <= num3 && m_subsystemTerrain.Terrain.GetCellValue(cellFace.X - 1, cellFace.Y, cellFace.Z)!=0)
-					//	{
-					//		m_subsystemTerrain.ChangeCell(digValue.CellFace.X - 1, digValue.CellFace.Y, digValue.CellFace.Z, digValue.Value);
-					//		m_subsystemPickables.AddPickable(m_subsystemTerrain.Terrain.GetCellValue(cellFace.X - 1, cellFace.Y, cellFace.Z), 1, new Vector3(digValue.CellFace.X-1, digValue.CellFace.Y, digValue.CellFace.Z) + new Vector3(0.5f), null, null);
-					//	}
-					//	if (m.CalculateDigTime(m_subsystemTerrain.Terrain.GetCellValue(cellFace.X, cellFace.Y + 1, cellFace.Z), SteelPickaxeBlock.Index) <= num3 && m_subsystemTerrain.Terrain.GetCellValue(cellFace.X , cellFace.Y+1, cellFace.Z) != 0)
-					//	{
-					//		m_subsystemTerrain.ChangeCell(digValue.CellFace.X, digValue.CellFace.Y + 1, digValue.CellFace.Z, digValue.Value);
-					//		m_subsystemPickables.AddPickable(m_subsystemTerrain.Terrain.GetCellValue(cellFace.X, cellFace.Y + 1, cellFace.Z), 1, new Vector3(digValue.CellFace.X, digValue.CellFace.Y+1, digValue.CellFace.Z) + new Vector3(0.5f), null, null);
-					//	}
-					//	if (m.CalculateDigTime(m_subsystemTerrain.Terrain.GetCellValue(cellFace.X, cellFace.Y - 1, cellFace.Z), SteelPickaxeBlock.Index) <= num3 && m_subsystemTerrain.Terrain.GetCellValue(cellFace.X , cellFace.Y-1, cellFace.Z) != 0)
-					//	{
-					//		m_subsystemTerrain.ChangeCell(digValue.CellFace.X, digValue.CellFace.Y - 1, digValue.CellFace.Z, digValue.Value);
-					//		m_subsystemPickables.AddPickable(m_subsystemTerrain.Terrain.GetCellValue(cellFace.X, cellFace.Y - 1, cellFace.Z), 1, new Vector3(digValue.CellFace.X, digValue.CellFace.Y-1, digValue.CellFace.Z) + new Vector3(0.5f), null, null);
-					//	}
-					//	if (m.CalculateDigTime(m_subsystemTerrain.Terrain.GetCellValue(cellFace.X, cellFace.Y, cellFace.Z + 1), SteelPickaxeBlock.Index) <= num3 && m_subsystemTerrain.Terrain.GetCellValue(cellFace.X , cellFace.Y, cellFace.Z+1) != 0)
-					//	{
-					//		m_subsystemTerrain.ChangeCell(digValue.CellFace.X, digValue.CellFace.Y, digValue.CellFace.Z + 1, digValue.Value);
-					//		m_subsystemPickables.AddPickable(m_subsystemTerrain.Terrain.GetCellValue(cellFace.X, cellFace.Y, cellFace.Z + 1), 1, new Vector3(digValue.CellFace.X, digValue.CellFace.Y, digValue.CellFace.Z+1) + new Vector3(0.5f), null, null);
-					//	}
-					//	if (m.CalculateDigTime(m_subsystemTerrain.Terrain.GetCellValue(cellFace.X, cellFace.Y, cellFace.Z - 1), SteelPickaxeBlock.Index) <= num3 && m_subsystemTerrain.Terrain.GetCellValue(cellFace.X , cellFace.Y, cellFace.Z-1) != 0)
-					//	{
-					//		m_subsystemTerrain.ChangeCell(digValue.CellFace.X, digValue.CellFace.Y, digValue.CellFace.Z - 1, digValue.Value);
-					//		m_subsystemPickables.AddPickable(m_subsystemTerrain.Terrain.GetCellValue(cellFace.X, cellFace.Y, cellFace.Z - 1), 1, new Vector3(digValue.CellFace.X, digValue.CellFace.Y, digValue.CellFace.Z-1) + new Vector3(0.5f), null, null);
-					//	}
-						m_subsystemTerrain.ChangeCell(digValue.CellFace.X, digValue.CellFace.Y, digValue.CellFace.Z, digValue.Value);
-						m_subsystemPickables.AddPickable(cellValue,1, new Vector3(digValue.CellFace.X, digValue.CellFace.Y, digValue.CellFace.Z) + new Vector3(0.5f),null,null);
+						int num444 = 0;
+						for (int x11 = cellFace.X - 1; x11 < cellFace.X + 1 + 1; x11++)
+						{
+							for (int y11 = cellFace.Y - 1; y11 < cellFace.Y  + 2; y11++)
+							{
+								for (int z11 = cellFace.Z - 1; z11 < cellFace.Z + 1 + 1; z11++)
+								{
+									
+									int vvv = m_subsystemTerrain.Terrain.GetCellValue(x11, y11, z11);
+									if ((x11- cellFace.X )* (x11 - cellFace.X) + (y11 - cellFace.Y) * (y11 - cellFace.Y) + (z11 - cellFace.Z) * (z11 - cellFace.Z) > 1)
+									{
+										//break;
+									}
+									if (BlocksManager.Blocks[Terrain.ExtractContents(vvv)].IsPlaceable && !BlocksManager.Blocks[Terrain.ExtractContents(vvv)].IsDiggingTransparent && !BlocksManager.Blocks[Terrain.ExtractContents(vvv)].DefaultIsInteractive && BlocksManager.Blocks[Terrain.ExtractContents(vvv)].BlockIndex!=31)
+									{
+										
+										m_subsystemPickables.AddPickable(m_subsystemTerrain.Terrain.GetCellValue(x11, y11, z11), 1, new Vector3(x11, y11, z11) + new Vector3(0.5f), null, null);
+										m_subsystemTerrain.ChangeCell(x11, y11, z11, 0);
+									}
+								}
+									
+							}
+						}
+									//	if (m.CalculateDigTime(m_subsystemTerrain.Terrain.GetCellValue(cellFace.X + 1, cellFace.Y, cellFace.Z), SteelPickaxeBlock.Index) <= num3 && m_subsystemTerrain.Terrain.GetCellValue(cellFace.X + 1, cellFace.Y, cellFace.Z)!=0)
+									//	{
+									//		m_subsystemTerrain.ChangeCell(digValue.CellFace.X + 1, digValue.CellFace.Y, digValue.CellFace.Z, digValue.Value);
+									//		m_subsystemPickables.AddPickable(m_subsystemTerrain.Terrain.GetCellValue(cellFace.X + 1, cellFace.Y, cellFace.Z), 1, new Vector3(digValue.CellFace.X+1, digValue.CellFace.Y, digValue.CellFace.Z) + new Vector3(0.5f), null, null);
+									//	}
+									//	if (m.CalculateDigTime(m_subsystemTerrain.Terrain.GetCellValue(cellFace.X - 1, cellFace.Y, cellFace.Z), SteelPickaxeBlock.Index) <= num3 && m_subsystemTerrain.Terrain.GetCellValue(cellFace.X - 1, cellFace.Y, cellFace.Z)!=0)
+									//	{
+									//		m_subsystemTerrain.ChangeCell(digValue.CellFace.X - 1, digValue.CellFace.Y, digValue.CellFace.Z, digValue.Value);
+									//		m_subsystemPickables.AddPickable(m_subsystemTerrain.Terrain.GetCellValue(cellFace.X - 1, cellFace.Y, cellFace.Z), 1, new Vector3(digValue.CellFace.X-1, digValue.CellFace.Y, digValue.CellFace.Z) + new Vector3(0.5f), null, null);
+									//	}
+									//	if (m.CalculateDigTime(m_subsystemTerrain.Terrain.GetCellValue(cellFace.X, cellFace.Y + 1, cellFace.Z), SteelPickaxeBlock.Index) <= num3 && m_subsystemTerrain.Terrain.GetCellValue(cellFace.X , cellFace.Y+1, cellFace.Z) != 0)
+									//	{
+									//		m_subsystemTerrain.ChangeCell(digValue.CellFace.X, digValue.CellFace.Y + 1, digValue.CellFace.Z, digValue.Value);
+									//		m_subsystemPickables.AddPickable(m_subsystemTerrain.Terrain.GetCellValue(cellFace.X, cellFace.Y + 1, cellFace.Z), 1, new Vector3(digValue.CellFace.X, digValue.CellFace.Y+1, digValue.CellFace.Z) + new Vector3(0.5f), null, null);
+									//	}
+									//	if (m.CalculateDigTime(m_subsystemTerrain.Terrain.GetCellValue(cellFace.X, cellFace.Y - 1, cellFace.Z), SteelPickaxeBlock.Index) <= num3 && m_subsystemTerrain.Terrain.GetCellValue(cellFace.X , cellFace.Y-1, cellFace.Z) != 0)
+									//	{
+									//		m_subsystemTerrain.ChangeCell(digValue.CellFace.X, digValue.CellFace.Y - 1, digValue.CellFace.Z, digValue.Value);
+									//		m_subsystemPickables.AddPickable(m_subsystemTerrain.Terrain.GetCellValue(cellFace.X, cellFace.Y - 1, cellFace.Z), 1, new Vector3(digValue.CellFace.X, digValue.CellFace.Y-1, digValue.CellFace.Z) + new Vector3(0.5f), null, null);
+									//	}
+									//	if (m.CalculateDigTime(m_subsystemTerrain.Terrain.GetCellValue(cellFace.X, cellFace.Y, cellFace.Z + 1), SteelPickaxeBlock.Index) <= num3 && m_subsystemTerrain.Terrain.GetCellValue(cellFace.X , cellFace.Y, cellFace.Z+1) != 0)
+									//	{
+									//		m_subsystemTerrain.ChangeCell(digValue.CellFace.X, digValue.CellFace.Y, digValue.CellFace.Z + 1, digValue.Value);
+									//		m_subsystemPickables.AddPickable(m_subsystemTerrain.Terrain.GetCellValue(cellFace.X, cellFace.Y, cellFace.Z + 1), 1, new Vector3(digValue.CellFace.X, digValue.CellFace.Y, digValue.CellFace.Z+1) + new Vector3(0.5f), null, null);
+									//	}
+									//	if (m.CalculateDigTime(m_subsystemTerrain.Terrain.GetCellValue(cellFace.X, cellFace.Y, cellFace.Z - 1), SteelPickaxeBlock.Index) <= num3 && m_subsystemTerrain.Terrain.GetCellValue(cellFace.X , cellFace.Y, cellFace.Z-1) != 0)
+									//	{
+									//		m_subsystemTerrain.ChangeCell(digValue.CellFace.X, digValue.CellFace.Y, digValue.CellFace.Z - 1, digValue.Value);
+									//		m_subsystemPickables.AddPickable(m_subsystemTerrain.Terrain.GetCellValue(cellFace.X, cellFace.Y, cellFace.Z - 1), 1, new Vector3(digValue.CellFace.X, digValue.CellFace.Y, digValue.CellFace.Z-1) + new Vector3(0.5f), null, null);
+									//	}
+						//m_subsystemTerrain.ChangeCell(digValue.CellFace.X, digValue.CellFace.Y, digValue.CellFace.Z, digValue.Value);
+						//m_subsystemPickables.AddPickable(cellValue,1, new Vector3(digValue.CellFace.X, digValue.CellFace.Y, digValue.CellFace.Z) + new Vector3(0.5f),null,null);
 					}
 					else if (flag3)
 					{
