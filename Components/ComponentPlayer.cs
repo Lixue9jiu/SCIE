@@ -444,7 +444,7 @@ namespace Game
 					m.m_subsystemSoundMaterials.PlayImpactSound(cellValue, new Vector3(cellFace.X, cellFace.Y, cellFace.Z), 1f);
 					Vector3 position = raycastResult.RaycastStart + raycastResult.Distance * Vector3.Normalize(raycastResult.RaycastEnd - raycastResult.RaycastStart) + 0.1f * CellFace.FaceToVector3(cellFace.Face);
 					BlockDebrisParticleSystem particleSystem = block.CreateDebrisParticleSystem(m_subsystemTerrain, position, cellValue, 0.35f);
-					base.Project.FindSubsystem<SubsystemParticles>(throwOnError: true).AddParticleSystem(particleSystem);
+					Project.FindSubsystem<SubsystemParticles>(throwOnError: true).AddParticleSystem(particleSystem);
 				}
 			}
 			return result;

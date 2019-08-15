@@ -298,10 +298,8 @@ namespace Game
 		}
 	}
 
-	public class Condenser : InteractiveEntityDevice<ComponentCondenser>
+	public class Condenser : InteractiveEntityDevice<ComponentCondenser>, IElectricElementBlock
 	{
-        public bool Charged;
-        public int Energy;
 		public Condenser() : base("Condenser", "超大电容", "超大电容允许你存储一些电量，并在需要的时候释放出去") { Type = ElementType.Supply | ElementType.Connector; }
 		public static MachineMode GetMode(int data)
 		{
@@ -327,14 +325,22 @@ namespace Game
         {
             return face == 4 || face == 5 ? 114 : 117;
         }
-        public override void OnBlockAdded(SubsystemTerrain subsystemTerrain, int value, int oldValue)
-        {
-			base.OnBlockAdded(subsystemTerrain, value, oldValue);
-			Component.Powered = false;
-		}
 		public override Widget GetWidget(IInventory inventory, ComponentCondenser component)
 		{
 			return new CondenserWidget(inventory, component);
+		}
+		public ElectricElement CreateElectricElement(SubsystemElectricity subsystemElectricity, int value, int x, int y, int z)
+		{
+			return new CondenserElectricElement(subsystemElectricity, new Point3(x, y, z));
+		}
+		public ElectricConnectorType? GetConnectorType(SubsystemTerrain terrain, int value, int face, int connectorFace, int x, int y, int z)
+		{
+			return face == 4 || face == 5 ? (ElectricConnectorType?)ElectricConnectorType.Input : null;
+		}
+		public int GetConnectionMask(int value)
+		{
+			int? color = PaintableItemBlock.GetColor(Terrain.ExtractData(value));
+			return color.HasValue ? 1 << color.Value : 2147483647;
 		}
 	}
 	public class Charger : InventoryEntityDevice<ComponentCharger>

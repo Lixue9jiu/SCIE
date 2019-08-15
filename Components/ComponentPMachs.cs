@@ -23,6 +23,7 @@ namespace Game
 					switch (value)
 					{
 						case SandBlock.Index: text = "Ê¯Ó¢É°"; break;
+						case WoodenStairsBlock.Index:
 						case PlanksBlock.Index: text = "Ä¾Ð¼"; break;
 						case BrickBlock.Index: text = "Ëé×©"; break;
 						case GlassBlock.Index:
@@ -169,8 +170,8 @@ namespace Game
 	{
 		protected override string FindSmeltingRecipe()
 		{
+			m_count = 1;
 			m_speed = 1f;
-			m_count = 9;
 			string text = null;
 			for (int i = 0; i < m_furnaceSize; i++)
 			{
@@ -180,26 +181,46 @@ namespace Game
 				{
 					text = "Diamond";
 					m_speed = 0.1f;
-					m_count = 1;
 				}
-				else if (value == IronBlock.Index)
-				{
-					text = "IronPlate";
-				}
-				else if (value == CopperBlock.Index)
-				{
-					text = "CopperPlate";
-				}
-				else if (Terrain.ExtractContents(value) == MetalBlock.Index)
-				{
-					var type = MetalBlock.GetType(value);
-					if (type > 2)
+				else if(value == ItemBlock.IdTable["»¬Ê¯"])
+					text = "»¬Ê¯·Û";
+				else if (value == ItemBlock.IdTable["Plaster"])
+					text = "Ê¯¸à·Û";
+				else switch (Terrain.ExtractContents(value))
 					{
-						text = ((Materials)type - 3).ToString() + "Plate";
-						if (!ItemBlock.IdTable.ContainsKey(text))
-							return null;
+						case IronBlock.Index:
+							m_count = 9;
+							goto case IronFenceGateBlock.Index;
+						case IronFenceGateBlock.Index:
+						case IronHammerBlock.Index:
+						case IronLadderBlock.Index:
+							text = "IronPlate"; break;
+						case CopperBlock.Index:
+							m_count = 9;
+							goto case EmptyBucketBlock.Index;
+						case EmptyBucketBlock.Index:
+						case SwitchBlock.Index:
+						case ButtonBlock.Index:
+							text = "CopperPlate"; break;
+						case GlassBlock.Index:
+						case FramedGlassBlock.Index:
+						case WindowBlock.Index:
+							text = "Ëé²£Á§"; break;
+						case BrickBlock.Index:
+							text = "Ëé×©"; break;
+						case BricksBlock.Index:
+							m_count = 4;
+							goto case BrickBlock.Index;
+						case MetalBlock.Index:
+							var type = MetalBlock.GetType(value);
+							if (type > 2)
+							{
+								text = ((Materials)type - 3).ToString() + "Plate";
+								if (!ItemBlock.IdTable.ContainsKey(text))
+									return null;
+							}
+							break;
 					}
-				}
 			}
 			if (text != null)
 			{

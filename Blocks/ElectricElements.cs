@@ -175,6 +175,41 @@ namespace Game
 		}
 	}
 
+	public class CondenserElectricElement : ElectricElement
+	{
+		public bool m_isActionAllowed;
+		public double m_lastActionTime = -1e3;
+		public Condenser Condenser;
+		public float m_voltage;
+		protected double m_lastDispenseTime = double.NegativeInfinity;
+
+		public CondenserElectricElement(SubsystemElectricity subsystemElectricity, Point3 point)
+			: base(subsystemElectricity, new List<CellFace>
+			{
+				new CellFace(point.X, point.Y, point.Z, 4),
+				new CellFace(point.X, point.Y, point.Z, 5)
+			})
+		{
+			Condenser = ElementBlock.Block.GetDevice(point.X, point.Y, point.Z, Utils.Terrain.GetCellValueFast(point.X, point.Y, point.Z)) as Condenser;
+		}
+
+		public override bool Simulate()
+		{
+			if (CalculateHighInputsCount() > 0)
+			{
+				if (m_isActionAllowed && SubsystemElectricity.SubsystemTime.GameTime - m_lastActionTime > 0.1)
+				{
+					m_isActionAllowed = false;
+					m_lastActionTime = SubsystemElectricity.SubsystemTime.GameTime;
+					Condenser.Component.Charged ^= true;
+				}
+			}
+			else
+				m_isActionAllowed = true;
+			return false;
+		}
+	}
+
 	public class ABombElectricElement : ElectricElement
 	{
 		readonly IFuel Bomb;

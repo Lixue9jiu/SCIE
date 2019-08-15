@@ -85,6 +85,7 @@ namespace Game
 		{
 			return Terrain.ReplaceData(value, SetColor(Terrain.ExtractData(value), color));
 		}
+
 		public ElectricElement CreateElectricElement(SubsystemElectricity subsystemElectricity, int value, int x, int y, int z)
 		{
 			return new MachineElectricElement(subsystemElectricity, new Point3(x, y, z));
