@@ -19,8 +19,8 @@ namespace Game
 
 		public override IEnumerable<int> GetCreativeValues()
 		{
-			var arr = new int[7];
-			for (int i = 0; i < 7; i++)
+			var arr = new int[8];
+			for (int i = 0; i < 8; i++)
 				arr[i] = Terrain.ReplaceData(Index, i);
 			return arr;
 		}
