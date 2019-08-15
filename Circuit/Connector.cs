@@ -459,8 +459,8 @@ namespace Game
 		public BoundingBox[][] m_collisionBoxesByFace = new BoundingBox[3][];
 		public override Device Create(Point3 p, int value)
 		{
-			value = Terrain.ExtractData(value) >> 14 & 3;
-			Type = value == 2 ? ElementType.RodY : value == 1 ? ElementType.RodZ : ElementType.RodX;
+			//value = Terrain.ExtractData(value) >> 14 & 3;
+			Type = ElementType.Rod;// value == 2 ? ElementType.RodY : value == 1 ? ElementType.RodZ : ElementType.RodX;
 			return this;
 		}
 		public MachRod() : base("连接杆", "连接杆", 0)

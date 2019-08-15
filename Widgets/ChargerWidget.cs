@@ -6,8 +6,6 @@ namespace Game
 {
 	public class ChargerWidget : CanvasWidget
 	{
-		protected readonly CheckboxWidget m_acceptsDropsBox;
-
 		protected readonly ComponentBlockEntity m_componentBlockEntity;
 
 		protected readonly ComponentCharger m_componentDispenser;
@@ -90,7 +88,6 @@ namespace Game
 			m_dispenseButton.IsChecked = mode == MachineMode.Charge;
 			m_componentDispenser.Charged = mode == MachineMode.Charge;
 			m_shootButton.IsChecked = mode == MachineMode.Discharger;
-			//m_acceptsDropsBox.IsChecked = SixDirectionalBlock.GetAcceptsDrops(data);
 		}
 	}
 }

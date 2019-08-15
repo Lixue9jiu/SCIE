@@ -1049,6 +1049,13 @@
       "bab"
       "cdc"
     </Recipe>
+    <Recipe Result="Spring" ResultCount="1" RequiredHeatLevel="0" a="SteelLine" Description="制造弹簧">
+      "aaa"
+    </Recipe>
+    <Recipe Result="Springboard" ResultCount="1" RequiredHeatLevel="0" a="SteelPlate" b="Spring" Description="制造弹跳板">
+      "a"
+      "b"
+    </Recipe>
     <Recipe Result="ClothingBlock:38" ResultCount="1" RequiredHeatLevel="0" a="SteelPlate" Description="用钢制造头盔">
       " a"
       "a a"

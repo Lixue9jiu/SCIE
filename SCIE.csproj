@@ -59,7 +59,7 @@
   <ItemGroup>
     <Compile Include="Blocks\CubeMachines.cs" />
     <Compile Include="Common\EditElectricDialog.cs" />
-    <Compile Include="Blocks\GunSmoke2.cs" />
+    <Compile Include="Common\GunSmoke2.cs" />
     <Compile Include="Blocks\IEBatteryBlock.cs" />
     <Compile Include="Blocks\Musket3Block.cs" />
     <Compile Include="Chemistry\ChemicalBlock.cs" />

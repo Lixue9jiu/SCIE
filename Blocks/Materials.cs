@@ -234,7 +234,47 @@ namespace Game
 		}
 	}
 
-	/*public class Slab : MeshItem
+	/*public class MetalDetector : MeshItem
+	{
+		public BlockMesh m_pointerMesh = new BlockMesh();
+		public MetalDetector() : base("")
+		{
+			Model model = ContentManager.Get<Model>("Models/Compass");
+			Matrix boneAbsoluteTransform = BlockMesh.GetBoneAbsoluteTransform(model.FindMesh("Case").ParentBone);
+			Matrix boneAbsoluteTransform2 = BlockMesh.GetBoneAbsoluteTransform(model.FindMesh("Pointer").ParentBone);
+			m_standaloneBlockMesh.AppendModelMeshPart(model.FindMesh("Case").MeshParts[0], boneAbsoluteTransform * Matrix.CreateTranslation(0f, -0.01f, 0f), false, false, true, false, Color.Gray);
+			m_pointerMesh.AppendModelMeshPart(model.FindMesh("Pointer").MeshParts[0], boneAbsoluteTransform2 * Matrix.CreateTranslation(0f, -0.01f, 0f), false, false, false, false, Color.Gray);
+		}
+
+		public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
+		{
+			float radians = 0f;
+			if (environmentData != null && environmentData.SubsystemTerrain != null)
+			{
+				Vector3 forward = environmentData.InWorldMatrix.Forward;
+				Vector3 translation = environmentData.InWorldMatrix.Translation;
+				float num = float.MaxValue;
+				Vector3 v = Vector3.Zero;
+				for (int i = 0; i < m_magnets.Count && i < 8; i++)
+				{
+					Vector3 vector = m_magnets.Array[i];
+					float num2 = Vector3.DistanceSquared(compassPosition, vector);
+					if (num2 < num)
+					{
+						num = num2;
+						v = vector;
+					}
+				}
+				Vector3 vector = translation - v + new Vector3(0.5f);
+				radians = Vector2.Angle(v2: new Vector2(forward.X, forward.Z), v1: new Vector2(vector.X, vector.Z));
+			}
+			Matrix matrix2 = matrix;
+			Matrix matrix3 = Matrix.CreateRotationY(radians) * matrix;
+			BlocksManager.DrawMeshBlock(primitivesRenderer, m_standaloneBlockMesh, color, size * 6f, ref matrix2, environmentData);
+			BlocksManager.DrawMeshBlock(primitivesRenderer, m_pointerMesh, color, size * 6f, ref matrix3, environmentData);
+		}
+	}
+	public class Slab : MeshItem
 	{
 		public BlockMesh[] BlockMeshes = new BlockMesh[2];
 		public BoundingBox[][] m_collisionBoxes = new BoundingBox[2][];
