@@ -1028,11 +1028,22 @@
       "dccd"
       "effe"
     </Recipe>
-    <Recipe Result="Condenser" ResultCount="1" RequiredHeatLevel="0" a="CopperWire" b="SteelPlate" c="waterbucket" d="AluminumPlate" Description="用铝片制作一台电容蓄电池，可以存储电量">
+    <Recipe Result="Condenser" ResultCount="1" RequiredHeatLevel="0" a="CopperWire" b="SteelPlate" c="电容" d="AluminumPlate" Description="用铝片制作一台电容蓄电池，可以存储电量">
       "bddb"
       "acca"
       "acca"
       "bddb"
+    </Recipe>
+	<Recipe Result="ElectricDriller" ResultCount="1" RequiredHeatLevel="0" a="CopperWire" b="SteelPlate" c="电容" d="metalblock:32" e="driller" f="memorybank" g="ElectricMotor" Description="制作一台电子挖矿机">
+      "ceec"
+      "fddf"
+      "fggf"
+      "baab"
+    </Recipe>
+	<Recipe Result="电容" ResultCount="1" RequiredHeatLevel="0" a="CopperWire" b="SteelPlate" c="waterbucket" d="AluminumPlate" Description="用铝片制作一电容">
+      " d "
+      "aca"
+      " d "
     </Recipe>
     <Recipe Result="Charger" ResultCount="1" RequiredHeatLevel="0" a="CopperWire" b="WireDevice" c="metalblock:32" Description="充电放电装置，可以给电器充电也可以放电">
       "bbb"

@@ -60,17 +60,6 @@ namespace Game
 			m_standaloneBlockMesh.AppendMesh(modelName, meshName, boneTransform, tcTransform, color);
 			return this;
 		}
-		/*public MeshItem Transform(Matrix matrix)
-		{
-			m_standaloneBlockMesh.TransformPositions(matrix);
-			return this;
-		}
-		public MeshItem AppendMesh(BlockMesh mesh, Matrix matrix)
-		{
-			mesh.TransformPositions(matrix);
-			m_standaloneBlockMesh.AppendBlockMesh(mesh);
-			return this;
-		}*/
 		public static BlockMesh CreateRing()
 		{
 			var mesh = new BlockMesh();

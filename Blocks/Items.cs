@@ -222,7 +222,10 @@ namespace Game
 			.AppendMesh("Models/Ingots", "IronPlate", Matrix.CreateTranslation(0.5f, 0.3f, 0.5f) * Matrix.CreateScale(.5f), Matrix.Identity, Color.White)
 			.AppendMesh("Models/Ingots", "IronPlate", Matrix.CreateTranslation(0.5f, 0.6f, 0.5f) * Matrix.CreateScale(.5f), Matrix.Identity, Color.White),
 			new Rod(Materials.Plastic),
-			new Mould("Models/Battery", "Battery", Matrix.CreateTranslation(new Vector3(0.5f)) * Matrix.CreateScale(2f, 0.05f, 2f), Matrix.CreateTranslation(9f / 16f, -7f / 16f, 0f) * Matrix.CreateScale(20f), "晶圆", "晶圆"),
+			new Mould("Models/Battery", "Battery", Matrix.CreateTranslation(new Vector3(0.5f)) * Matrix.CreateScale(2f, 0.15f, 2f), Matrix.CreateTranslation(9f / 16f, -7f / 16f, 0f) * Matrix.CreateScale(20f), "晶圆", "晶圆"),
+			new Plate("电容", Color.Transparent, false)
+			.AppendMesh("Models/Rods", "SteelRod", Matrix.CreateTranslation(-0.0f, -0.8f, 0.0f), Matrix.Identity, Color.White)
+			.AppendMesh("Models/Battery", "Battery", Matrix.CreateScale(.7f) * Matrix.CreateTranslation(-0f, -0.8f, 0.0f), Matrix.CreateTranslation(9f / 16f, -7f / 16f, 0f), Color.DarkGray),
 			/*nnew Plate("128K RAM", Color.DarkGreen, true),
 			new Plate("256K RAM", Color.DarkGreen, true),
 			new Plate("512K RAM", Color.DarkGreen, true),
@@ -327,9 +330,9 @@ namespace Game
 			finally { stream.Close(); }*/
 			FactorioTransportBeltBlock.m_textures = new[]
 			{
-				GetTexture("Transport-belt_sprite.png"),//ContentManager.Get<Texture2D>("Textures/Factorio/Transport-belt_sprite"),
-				GetTexture("Fast-transport-belt_sprite.png"),//ContentManager.Get<Texture2D>("Textures/Factorio/Fast-transport-belt_sprite"),
-				GetTexture("Express-transport-belt_sprite.png"),//ContentManager.Get<Texture2D>("Textures/Factorio/Express-transport-belt_sprite")
+				GetTexture("Transport-belt_sprite.jpg"),//ContentManager.Get<Texture2D>("Textures/Factorio/Transport-belt_sprite"),
+				GetTexture("Fast-transport-belt_sprite.jpg"),//ContentManager.Get<Texture2D>("Textures/Factorio/Fast-transport-belt_sprite"),
+				GetTexture("Express-transport-belt_sprite.jpg"),//ContentManager.Get<Texture2D>("Textures/Factorio/Express-transport-belt_sprite")
 			};
 			var stream = Utils.GetTargetFile("IndustrialMod_en-us.lng", false);
 			if (stream == null) return;
