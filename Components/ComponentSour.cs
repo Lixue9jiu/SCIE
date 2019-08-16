@@ -44,7 +44,7 @@ namespace Game
 				{
 					if (m_slots[0].Count > 0)
 						m_slots[0].Count--;
-					for (int j = 0; j < 3; j++)
+					for (int j = 0; j < 2; j++)
 					{
 						if (result[j] != 0)
 						{

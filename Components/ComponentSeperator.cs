@@ -97,7 +97,7 @@ namespace Game
 			m_furnaceSize = SlotsCount - 1;
 		}
 
-		protected string FindSmeltingRecipe()
+		protected virtual string FindSmeltingRecipe()
 		{
 			Array.Clear(result, 0, 3);
 			string text = null;

@@ -18,7 +18,7 @@ namespace Game
         public int[] m_drawedTime = new int[4] { 0, 0, 0, 0 };
         public int FTBGeneratedCount = 0;
 
-        public static Vector3[] m_floorOffset = new Vector3[4]
+        public static Vector3[] m_floorOffset = new[]
         {
             new Vector3(-0.5f,0f,-0.5f),
             new Vector3(0.5f,0f,-0.5f),
@@ -290,7 +290,7 @@ namespace Game
 			m_blocks[point] = new FTBandItems(new FactorioTransportBelt(point, value), ++FTBGeneratedCount, m_blocks.TryGetValue(point, out FTBandItems items) ? items.items : null);
 		}
 
-        public static Point3[] m_surroundDirections = new Point3[]
+        public static Point3[] m_surroundDirections = new[]
         {
             new Point3(1,0,0),
             new Point3(-1,0,0),
@@ -298,7 +298,7 @@ namespace Game
             new Point3(0,0,-1)
         };
 
-        public static Point3[] m_surroundDownDirections = new Point3[]
+        public static Point3[] m_surroundDownDirections = new[]
         {
             new Point3(1,-1,0),
             new Point3(-1,-1,0),
@@ -578,9 +578,11 @@ namespace Game
                 m_primitivesRenderer.Flush(camera.ViewProjectionMatrix, false);
             }
             catch (Exception e)
-            {
-                Log.Warning("0: " + e.ToString());
-            }
+			{
+#if DEBUG
+				Log.Warning("0: " + e.ToString());
+#endif
+			}
         }
 
         public int[] DrawOrders

@@ -195,7 +195,7 @@ namespace Game
 
 		public override int GetDamageDestructionValue()
 		{
-			return ItemBlock.IdTable[""];
+			return ItemBlock.IdTable["Cylinder"];
 		}
 	}
 	public class FuelCylinder : Cylinder, IFuel

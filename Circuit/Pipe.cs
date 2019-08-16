@@ -12,26 +12,33 @@ namespace Game
 			var model = ContentManager.Get<Model>("Models/Battery");
 			var meshes = new BlockMesh[6];
 			int i;
-			BlockMesh blockMesh;
 			ModelMeshPart meshPart = model.FindMesh("Battery").MeshParts[0];
 			Matrix boneAbsoluteTransform = BlockMesh.GetBoneAbsoluteTransform(model.FindMesh("Battery").ParentBone);
 			for (i = 0; i < 6; i++)
 			{
-				blockMesh = new BlockMesh();
-				var vector = CellFace.FaceToVector3(i);
-				blockMesh.AppendModelMeshPart(meshPart, boneAbsoluteTransform * Matrix.CreateTranslation(0f, -0.2f, 0f) * Matrix.CreateScale(1f, 0.66f, 1f) *
-					Matrix.CreateRotationX(3.14159274f / 2f * vector.X) *
-					Matrix.CreateRotationY(3.14159274f / 2f * vector.Y) *
-					Matrix.CreateRotationZ(3.14159274f / 2f * vector.Z), false, false, false, false, Color.LightGray);
-				blockMesh.TransformTextureCoordinates(Matrix.CreateTranslation(-2f / 16f, 4f / 16f, 0f));
-				blockMesh.TransformPositions(Matrix.CreateTranslation(new Vector3(0.5f)));
+				var blockMesh = new BlockMesh();
+				var m = Matrix.CreateTranslation(0f, (i & 1) != 0 ? 0.3f : -0.3f, 0f);
+				//m = i >= 4 ? (i != 4 ? (Matrix.CreateRotationX(MathUtils.PI)) : Matrix.CreateTranslation(0.5f, 0f, 0.5f)) : (Matrix.CreateRotationX(MathUtils.PI / 2f) * Matrix.CreateTranslation(0f, 0f, -0.5f) * Matrix.CreateRotationY(i * MathUtils.PI / 2f) * Matrix.CreateTranslation(0.5f, 0.5f, 0.5f));
+				switch (i)
+				{
+					case 0:
+						m *= Matrix.CreateRotationX(MathUtils.PI / 2); break;
+					case 1:
+						m *= Matrix.CreateRotationX(MathUtils.PI / 2) * Matrix.CreateTranslation(0.3f, 0f, 0f); break;
+					case 4:
+						m *= Matrix.CreateRotationX(MathUtils.PI * 3 / 2) * Matrix.CreateTranslation(0.3f, 0f, 0f); break;
+					case 5:
+						m *= Matrix.CreateRotationZ(MathUtils.PI * 3 / 2); break;
+				}
+				blockMesh.AppendModelMeshPart(meshPart, boneAbsoluteTransform * m * Matrix.CreateScale(.66f) * Matrix.CreateTranslation(new Vector3(0.5f)), false, false, false, false, Color.White);
+				blockMesh.TransformTextureCoordinates(Matrix.CreateTranslation(-2 / 16f, 4 / 16f, 0f));
 				meshes[i] = blockMesh;
 			}
 			for (i = 0; i < 63; i++)
 			{
 				Meshes[i] = new BlockMesh();
 				for (int j = 0; j < 6; j++)
-					if (((i + 1) >> j & 1) != 0)
+					if (((i + 1) & 1 << j) != 0)
 						Meshes[i].AppendBlockMesh(meshes[j]);
 			}
 		}

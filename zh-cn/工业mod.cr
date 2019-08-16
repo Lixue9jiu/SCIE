@@ -1060,12 +1060,37 @@
       "bab"
       "cdc"
     </Recipe>
-    <Recipe Result="Spring" ResultCount="1" RequiredHeatLevel="0" a="SteelLine" Description="制造弹簧">
-      "aaa"
+    <Recipe Result="Spring" ResultCount="1" RequiredHeatLevel="0" a="SteelLine" Description="用钢丝制作弹簧">
+      " a"
+      " a"
+      " a"
+    </Recipe>
+   <Recipe Result="MachRod" ResultCount="1" RequiredHeatLevel="0" a="SteelRod" Description="制作连接杆">
+      "a"
+    </Recipe>
+   <Recipe Result="Switch" ResultCount="1" RequiredHeatLevel="0" a="stick" b="SteelSheet" c="WireDevice" Description="制作电闸">
+      "cac"
+      "bbb"
+    </Recipe>
+   <Recipe Result="Relay" ResultCount="1" RequiredHeatLevel="0" a="SteelRod" b="SteelSheet" c="Spring" d="WireDevice" Description="制作继电器">
+      " a"
+      "cdc"
+      "bbb"
     </Recipe>
     <Recipe Result="Springboard" ResultCount="1" RequiredHeatLevel="0" a="SteelPlate" b="Spring" Description="制造弹跳板">
       "a"
       "b"
+    </Recipe>
+    <Recipe Result="火花塞" ResultCount="5" RequiredHeatLevel="0" a="SteelRod" b="SteelSheet" c="RefractoryBrick" d="SteelIngot" Description="制作火花塞，使你的汽车发动起来">
+      "a b"
+      "bab"
+      "cdc"
+      "cdc"
+    </Recipe>
+   <Recipe Result="LED" ResultCount="1" RequiredHeatLevel="0" a="glass" b="LEDSheet" c="SteelSheet" Description="制作LED">
+      "aaaa"
+      "bbbb"
+      "cccc"
     </Recipe>
     <Recipe Result="ClothingBlock:38" ResultCount="1" RequiredHeatLevel="0" a="SteelPlate" Description="用钢制造头盔">
       " a"

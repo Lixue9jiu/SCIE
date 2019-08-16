@@ -110,7 +110,7 @@ namespace Game
 		}
 		public override int GetFaceTextureSlot(int face, int value)
 		{
-			return 0;
+			return 6;
 		}
 
 		public override BoundingBox[] GetCustomCollisionBoxes(SubsystemTerrain terrain, int value)

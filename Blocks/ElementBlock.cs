@@ -1,6 +1,5 @@
 using Engine;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace Game
 {
@@ -26,8 +25,6 @@ namespace Game
 			Block = (ElementBlock)BlocksManager.Blocks[Index];
 			WireBlock = (WireBlock)BlocksManager.Blocks[WireBlock.Index];
 			base.Initialize();
-			if (!Task.IsFaulted && !Task.IsCompleted)
-				Task.Wait();
 		}
 
 		public override IItem GetItem(ref int value)

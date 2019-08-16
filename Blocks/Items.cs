@@ -1,15 +1,13 @@
 ﻿using Engine;
 using Engine.Graphics;
-using Engine.Media;
 using LibPixz;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Threading.Tasks;
 
 namespace Game
 {
-	public partial class ItemBlock
+	partial class ItemBlock
 	{
 		static ItemBlock()
 		{
@@ -222,10 +220,19 @@ namespace Game
 			.AppendMesh("Models/Ingots", "IronPlate", Matrix.CreateTranslation(0.5f, 0.3f, 0.5f) * Matrix.CreateScale(.5f), Matrix.Identity, Color.White)
 			.AppendMesh("Models/Ingots", "IronPlate", Matrix.CreateTranslation(0.5f, 0.6f, 0.5f) * Matrix.CreateScale(.5f), Matrix.Identity, Color.White),
 			new Rod(Materials.Plastic),
+			new MeshItem("电容")
+			{
+				DefaultDisplayName = "电容"
+			}
+			.AppendMesh("Models/Rods", "SteelRod", Matrix.CreateTranslation(0f, -0.8f, 0f), Matrix.Identity, Color.White)
+			.AppendMesh("Models/Battery", "Battery", Matrix.CreateScale(.7f) * Matrix.CreateTranslation(0f, -0.8f, 0f), Matrix.CreateTranslation(9f / 16f, -7f / 16f, 0f), Color.DarkGray),
+			new MeshItem("火花塞")
+			{
+				DefaultDisplayName = "火花塞"
+			}
+			.AppendMesh("Models/Rods", "SteelRod", Matrix.CreateScale(.6f) * Matrix.CreateTranslation(0f, -0.5f, 0f), Matrix.Identity, Color.White)
+			.AppendMesh("Models/Battery", "Battery", Matrix.CreateScale(.2f, .6f, .2f) * Matrix.CreateTranslation(0f, -0.3f, 0f), Matrix.CreateTranslation(9f / 16f, -7f / 16f, 0f), Color.LightGray),
 			new Mould("Models/Battery", "Battery", Matrix.CreateTranslation(new Vector3(0.5f)) * Matrix.CreateScale(2f, 0.15f, 2f), Matrix.CreateTranslation(9f / 16f, -7f / 16f, 0f) * Matrix.CreateScale(20f), "晶圆", "晶圆"),
-			new Plate("电容", Color.Transparent, false)
-			.AppendMesh("Models/Rods", "SteelRod", Matrix.CreateTranslation(-0.0f, -0.8f, 0.0f), Matrix.Identity, Color.White)
-			.AppendMesh("Models/Battery", "Battery", Matrix.CreateScale(.7f) * Matrix.CreateTranslation(-0f, -0.8f, 0.0f), Matrix.CreateTranslation(9f / 16f, -7f / 16f, 0f), Color.DarkGray),
 			/*nnew Plate("128K RAM", Color.DarkGreen, true),
 			new Plate("256K RAM", Color.DarkGreen, true),
 			new Plate("512K RAM", Color.DarkGreen, true),
@@ -253,7 +260,10 @@ namespace Game
 				{
 					Voltage = 15
 				},
-				new Battery(Matrix.CreateTranslation(-2f / 16f, 4f / 16f, 0f), "伏打电池", "伏打电池", "VBattery"),
+				new Battery(Matrix.CreateTranslation(-2f / 16f, 4f / 16f, 0f), "伏打电池", "伏打电池", "VBattery")
+				{
+					Voltage = 36
+				},
 				new Pipe(0),
 				new Pipe(1),
 				new Pipe(2),

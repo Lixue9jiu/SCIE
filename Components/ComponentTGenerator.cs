@@ -35,7 +35,7 @@ namespace Game
 				{
 					if (m_slots[0].Count > 0)
 						m_slots[0].Count--;
-					for (int j = 0; j < 3; j++)
+					for (int j = 0; j < 2; j++)
 					{
 						if (result[j] != 0)
 						{
@@ -56,9 +56,10 @@ namespace Game
 			}
 		}
 
-		protected new string FindSmeltingRecipe()
+		protected override string FindSmeltingRecipe()
 		{
-			Array.Clear(result, 0, 3);
+			result[0] = 0;
+			result[1] = 0;
 			string text = null;
 			int i;
 			for (i = 0; i < m_furnaceSize; i++)

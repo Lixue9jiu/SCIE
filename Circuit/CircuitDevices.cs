@@ -263,33 +263,6 @@ namespace Game
         }
 	}
 
-	public class Transformer : CubeDevice
-	{
-		public Transformer() : base("变压器", "变压器是一种把交流电转化成直流电的机器") { }
-		public override void Simulate(ref int voltage)
-		{
-			if (voltage < 0)
-				voltage = (int)(-voltage * Math.Sqrt(2));
-		}
-		public override int GetFaceTextureSlot(int face, int value)
-		{
-			return face == 4 || face == 5 ? 107 : 121;
-		}
-	}
-	public class Inverter : CubeDevice
-	{
-		public Inverter() : base("逆变器", "逆变器是一种把直流电转化成交流电的机器") { }
-		public override void Simulate(ref int voltage)
-		{
-			if (voltage > 0)
-				voltage = (int)(-voltage / Math.Sqrt(2));
-		}
-		public override int GetFaceTextureSlot(int face, int value)
-		{
-			return face == 4 || face == 5 ? 239 : 121;
-		}
-	}
-
 	public class WaterExtractor : Separator
 	{
 		public WaterExtractor()
@@ -459,7 +432,7 @@ namespace Game
 
 		public override int GetFaceTextureSlot(int face, int value)
 		{
-			return face == 4 || face == 5 ? 107 : 236;
+			return face == 4 || face == 5 ? 107 : 128;
 		}
 	}
 	public class OilPlant : InventoryEntityDevice<ComponentOilPlant>
@@ -482,10 +455,6 @@ namespace Game
 			return new SeperatorWidget(inventory, component, "Widgets/OilPlantWidget");
 		}
 	}
-	/*public class ElectricMicroscope : CubeDevice
-	{
-
-	}*/
 	public class ElectricDriller : InventoryEntityDevice<ComponentElectricDriller>
 	{
 		public ElectricDriller() : base("ElectricDriller", "电子采矿机", "电子采矿机，一种电动采矿机") {  }

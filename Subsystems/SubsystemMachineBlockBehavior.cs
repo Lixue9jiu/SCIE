@@ -5,9 +5,7 @@ namespace Game
 {
 	public class SubsystemHPressBlockBehavior : SubsystemInventoryBlockBehavior<ComponentHPress>
 	{
-		public SubsystemHPressBlockBehavior() : base(null)
-		{
-		}
+		public SubsystemHPressBlockBehavior() : base(null) { }
 
 		public override int[] HandledBlocks => new[] { MetalBlock.Index };
 

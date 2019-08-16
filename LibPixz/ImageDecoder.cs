@@ -83,7 +83,7 @@ namespace LibPixz
 				{
 					var c = imagen[y, x];
 					var color = new Color(c.r, c.g, c.b, c.a);
-					if (MathUtils.Min(c.r, c.g, c.b) < 210)
+					if (MathUtils.Min(c.r, c.g, c.b) < 176)
 						bmp.SetPixel(x, y, color);
 				}
 			}
