@@ -402,7 +402,7 @@ namespace Game
 
 		public override Widget GetWidget(IInventory inventory, ComponentTGenerator component)
 		{
-			return new TGeneratorWidget(inventory, component);
+			return new SeperatorWidget(inventory, component);
 		}
 	}
 
@@ -479,9 +479,13 @@ namespace Game
 
 		public override Widget GetWidget(IInventory inventory, ComponentOilPlant component)
 		{
-			return new OilPlantWidget(inventory, component);
+			return new SeperatorWidget(inventory, component, "Widgets/OilPlantWidget");
 		}
 	}
+	/*public class ElectricMicroscope : CubeDevice
+	{
+
+	}*/
 	public class ElectricDriller : InventoryEntityDevice<ComponentElectricDriller>
 	{
 		public ElectricDriller() : base("ElectricDriller", "电子采矿机", "电子采矿机，一种电动采矿机") {  }

@@ -29,6 +29,9 @@ namespace Game
 			WidgetsManager.LoadWidgetContents(this, this, ContentManager.Get<XElement>(path));
 			m_inventoryGrid = Children.Find<GridPanelWidget>("InventoryGrid");
 			m_furnaceGrid = Children.Find<GridPanelWidget>("FurnaceGrid");
+			var label = Children.Find<LabelWidget>("Label1", false);
+			if (label != null)
+				label.Text = "ThermalGenerator";
 			m_result1 = Children.Find<InventorySlotWidget>("ResultSlot1");
 			m_result2 = Children.Find<InventorySlotWidget>("ResultSlot2");
 			m_result3 = Children.Find<InventorySlotWidget>("ResultSlot3");

@@ -25,7 +25,7 @@
     <EntityTemplate Name="ElectricFurnace" Guid="0855a288-af17-4955-81fa-aafaf97b92bd" InheritanceParent="9681f999-898b-4f5c-9ea8-f8cc331e97b3">
       <MemberComponentTemplate Name="ElectricFurnace" Guid="0f193a24-ac7d-4b4c-97c7-df652ca11b51" InheritanceParent="73a2ecbf-10c7-4133-85b4-4a35bd44c956" />
     </EntityTemplate>
-	<EntityTemplate Name="ElectricDriller" Guid="0877a211-af17-4955-81fa-aafaf97b92bd" InheritanceParent="9681f999-898b-4f5c-9ea8-f8cc331e97b3">
+    <EntityTemplate Name="ElectricDriller" Guid="0877a211-af17-4955-81fa-aafaf97b92bd" InheritanceParent="9681f999-898b-4f5c-9ea8-f8cc331e97b3">
       <MemberComponentTemplate Name="ElectricFurnace" Guid="5f293f24-ac7d-4b4c-97c7-df652ca11b51" InheritanceParent="83a2478f-10c7-4133-85b4-4a35bd44c956" />
     </EntityTemplate>
     <EntityTemplate Name="ElectricIFurnace" Guid="0855a279-af17-4955-81fa-aafaf97b92bd" InheritanceParent="9681f999-898b-4f5c-9ea8-f8cc331e97b3">
@@ -410,7 +410,7 @@
       <Parameter Name="SlotsCount" Guid="0b8d685f-f972-431b-9828-d30e0fbf33f1" Value="6" Type="int" />
       <Parameter Name="Class" Guid="1c8a9aed-22f9-45aa-aae3-039ba73b12b6" Value="Game.ComponentElectricIFurnace" Type="string" />
     </ComponentTemplate>
-	<ComponentTemplate Name="ElectricDriller" Description="An electric induction furnace" Guid="83a2478f-10c7-4133-85b4-4a35bd44c956" InheritanceParent="81a44c6a-c30a-4f53-8d64-0c30aabab8f9">
+    <ComponentTemplate Name="ElectricDriller" Description="An electric induction furnace" Guid="83a2478f-10c7-4133-85b4-4a35bd44c956" InheritanceParent="81a44c6a-c30a-4f53-8d64-0c30aabab8f9">
       <Parameter Name="SlotsCount" Guid="1b9d6871-f973-431b-9828-d30e0fbf33f1" Value="9" Type="int" />
       <Parameter Name="Class" Guid="8c8af1ed-22f9-45aa-aae3-039ba73b12b6" Value="Game.ComponentElectricDriller" Type="string" />
     </ComponentTemplate>

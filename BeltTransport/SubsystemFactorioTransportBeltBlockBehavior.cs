@@ -14,7 +14,6 @@ namespace Game
         public PrimitivesRenderer3D m_primitivesRenderer;
         public DrawBlockEnvironmentData m_drawBlockEnvironmentData = new DrawBlockEnvironmentData();
         public Dictionary<Point3, FTBandItems> m_blocks = new Dictionary<Point3, FTBandItems>();
-        public Texture2D[] m_textures;
         public double m_lastDrawtime = 0;
         public int[] m_drawedTime = new int[4] { 0, 0, 0, 0 };
         public int FTBGeneratedCount = 0;
@@ -229,12 +228,6 @@ namespace Game
         {
             base.Load(valuesDictionary);
 			m_subsystemTime = Project.FindSubsystem<SubsystemTime>(true);
-            m_textures = new Texture2D[3]
-            {
-                ContentManager.Get<Texture2D>("Textures/Factorio/Transport-belt_sprite"),
-                ContentManager.Get<Texture2D>("Textures/Factorio/Fast-transport-belt_sprite"),
-                ContentManager.Get<Texture2D>("Textures/Factorio/Express-transport-belt_sprite")
-            };
             m_primitivesRenderer = Project.FindSubsystem<SubsystemModelsRenderer>(true).PrimitivesRenderer;
             var values = valuesDictionary.GetValue("FactorioTransportBelt", string.Empty).Split('|');
 			if (values[0].Length > 0)
@@ -408,10 +401,9 @@ namespace Game
                     FactorioTransportBelt FTB = block.FTB;
 					Point3 position = FTB.position;
 					var FTBdisplayPosition = new Vector3(position.X + 0.5f, position.Y + (FTB.slopeType.HasValue ? 0.5f : 0.01f), position.Z + 0.5f);
-                    if (Vector3.Distance(FTBdisplayPosition, camera.ViewPosition) < SettingsManager.VisibilityRange + 10)
+                    if (Vector3.Distance(FTBdisplayPosition, camera.ViewPosition) < SettingsManager.VisibilityRange)
                     {
-                        TexturedBatch3D FTBtexturedBatch3D = m_primitivesRenderer.TexturedBatch(m_textures[FTB.color], true, 0, null, RasterizerState.CullCounterClockwiseScissor, null, SamplerState.PointClamp);
-                        var FTBdisplayVertices = new Vector3[4];
+						var FTBdisplayVertices = new Vector3[4];
 						int side;
                         for (side = 0; side < 4; side++)
                         {
@@ -426,9 +418,10 @@ namespace Game
 							m_drawBlockEnvironmentData.Light = SubsystemTerrain.Terrain.GetCellLightFast(x, y, z);
 						}
                         Vector4 FTBtextureVertices = FactorioTransportBeltBlock.m_texCoords[FTB.cornerType.HasValue ? FTB.cornerType.Value + 4 : FTB.rotation, m_drawedTime[FTB.color]];
-                        FTBtexturedBatch3D.QueueQuad(FTBdisplayVertices[0], FTBdisplayVertices[1], FTBdisplayVertices[2], FTBdisplayVertices[3], new Vector2(FTBtextureVertices.X, FTBtextureVertices.Y), new Vector2(FTBtextureVertices.Z, FTBtextureVertices.Y), new Vector2(FTBtextureVertices.Z, FTBtextureVertices.W), new Vector2(FTBtextureVertices.X, FTBtextureVertices.W), new Color(new Vector3(LightingManager.LightIntensityByLightValue[m_drawBlockEnvironmentData.Light])));
-                        //Log.Information(FTB.color + " " + m_drawedTime[FTB.color] + " " + m_drawedTime[3]);
-                        for (side = 0; side < 2; side++)
+						TexturedBatch3D texturedBatch3D = m_primitivesRenderer.TexturedBatch(FactorioTransportBeltBlock.m_textures[FTB.color], true, 0, null, RasterizerState.CullCounterClockwiseScissor, null, SamplerState.PointClamp);
+						texturedBatch3D.QueueQuad(FTBdisplayVertices[0], FTBdisplayVertices[1], FTBdisplayVertices[2], FTBdisplayVertices[3], new Vector2(FTBtextureVertices.X, FTBtextureVertices.Y), new Vector2(FTBtextureVertices.Z, FTBtextureVertices.Y), new Vector2(FTBtextureVertices.Z, FTBtextureVertices.W), new Vector2(FTBtextureVertices.X, FTBtextureVertices.W), new Color(new Vector3(LightingManager.LightIntensityByLightValue[m_drawBlockEnvironmentData.Light])));
+						//Log.Information(FTB.color + " " + m_drawedTime[FTB.color] + " " + m_drawedTime[3]);
+						for (side = 0; side < 2; side++)
                         {
                             for (int process = 4; process >= 0; process--)
                             {
@@ -582,7 +575,7 @@ namespace Game
                         block.justAddedItem.Clear();
                     }
                 }
-                m_primitivesRenderer.Flush(camera.ViewProjectionMatrix, false, int.MaxValue);
+                m_primitivesRenderer.Flush(camera.ViewProjectionMatrix, false);
             }
             catch (Exception e)
             {
@@ -644,8 +637,10 @@ namespace Game
             }
             catch (Exception e)
             {
-                Log.Warning(e);
-            }
+#if DEBUG
+				Log.Warning(e);
+#endif
+			}
         }
 
         public FactorioTransportBelt UpdateFTBAccordingToNeighbours(FactorioTransportBelt FTB)

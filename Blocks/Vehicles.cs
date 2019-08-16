@@ -5,7 +5,7 @@ namespace Game
 {
 	public class TexturedMeshItem : MeshItem
 	{
-		public static Texture2D WhiteTexture;
+		//public static Texture2D WhiteTexture;
 		public Texture2D Texture;
 		private readonly string ModelName;
 

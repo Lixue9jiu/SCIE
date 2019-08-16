@@ -1,7 +1,10 @@
 ﻿using Engine;
 using Engine.Graphics;
+using Engine.Media;
+using LibPixz;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading.Tasks;
 
 namespace Game
@@ -12,8 +15,8 @@ namespace Game
 		{
 			if (Task == null)
 				Task = Task.Run((Action)Load);
-			TexturedMeshItem.WhiteTexture = new Texture2D(1, 1, false, ColorFormat.Rgba8888);
-			TexturedMeshItem.WhiteTexture.SetData(0, new byte[] { 255, 255, 255, 255 });
+			//TexturedMeshItem.WhiteTexture = new Texture2D(1, 1, false, ColorFormat.Rgba8888);
+			//TexturedMeshItem.WhiteTexture.SetData(0, new byte[] { 255, 255, 255, 255 });
 			var stream = Utils.GetTargetFile("IndustrialMod.png");
 			try
 			{
@@ -283,8 +286,8 @@ namespace Game
 				new ElectricPump(),
 				new OilPlant(),
 				new WaterCuttingMachine(),
-				new TEDC(),
 				new ElectricDriller(),
+				new TEDC(),
 			};
 			IdTable = new Dictionary<string, int>(Items.Length)
 			{
@@ -313,7 +316,7 @@ namespace Game
 			Equation.Reactions = new HashSet<Equation>();
 			try
 			{
-				var reader = new StreamReader(stream);
+				var reader = new StreamReader(stream); 
 				while (true)
 				{
 					var line = reader.ReadLine();
@@ -322,6 +325,12 @@ namespace Game
 				}
 			}
 			finally { stream.Close(); }*/
+			FactorioTransportBeltBlock.m_textures = new[]
+			{
+				GetTexture("Transport-belt_sprite.png"),//ContentManager.Get<Texture2D>("Textures/Factorio/Transport-belt_sprite"),
+				GetTexture("Fast-transport-belt_sprite.png"),//ContentManager.Get<Texture2D>("Textures/Factorio/Fast-transport-belt_sprite"),
+				GetTexture("Express-transport-belt_sprite.png"),//ContentManager.Get<Texture2D>("Textures/Factorio/Express-transport-belt_sprite")
+			};
 			var stream = Utils.GetTargetFile("IndustrialMod_en-us.lng", false);
 			if (stream == null) return;
 			try
@@ -329,6 +338,15 @@ namespace Game
 				Utils.ReadKeyValueFile(Utils.TR, stream);
 			}
 			finally { stream.Close(); }
+		}
+
+		public static Texture2D GetTexture(string name)
+		{
+			var stream = Utils.GetTargetFile(name);
+			var img = Pixz.Decode(stream).Array[0];
+			var r = new Texture2D(img.Width, img.Height, false, ColorFormat.Rgba8888);
+			r.SetData(0, img.Pixels);
+			return r;
 		}
 
 		public static Dictionary<string, int> IdTable;

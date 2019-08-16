@@ -14,7 +14,7 @@ namespace Game
 		protected string m_smeltingRecipe, m_smeltingRecipe2;
 
 		//protected int m_music;
-		
+
 		public override int RemainsSlotIndex => -1;
 
 		public override int ResultSlotIndex => SlotsCount - 1;
@@ -105,38 +105,48 @@ namespace Game
 			for (i = 0; i < m_furnaceSize; i++)
 			{
 				if (GetSlotCount(i) <= 0) continue;
-				int value = GetSlotValue(i);
-				if (value == DirtBlock.Index)
+				int value = Terrain.ExtractContents(GetSlotValue(i)), x;
+				switch (value)
 				{
-					text = "AluminumOrePowder";
-					result[0] = SandBlock.Index;
-					result[1] = StoneChunkBlock.Index;
-					int x = m_random.Int() & 3;
-					if (x == 0)
-						result[2] = SaltpeterChunkBlock.Index;
-					else if (x == 1)
-						result[2] = ItemBlock.IdTable["AluminumOrePowder"];
-				}
-				else if (value == GraniteBlock.Index)
-				{
-					text = "明矾";
-					result[0] = SandBlock.Index;
-					result[1] = StoneChunkBlock.Index;
-					int x = m_random.Int() & 7;
-					if (x == 0)
-						result[2] = PigmentBlock.Index;
-					else if (x == 1)
-						result[2] = ItemBlock.IdTable["明矾"];
-					else if (x == 2)
-						result[2] = ItemBlock.IdTable["Plaster"];
-				}
-				else if (value == BasaltBlock.Index)
-				{
-					text = "ScrapIron";
-					result[0] = BasaltStairsBlock.Index;
-					int x = m_random.Int() & 7;
-					if (x == 1)
-						result[1] = ItemBlock.IdTable["滑石"];
+					case DirtBlock.Index:
+						text = "AluminumOrePowder";
+						result[0] = SandBlock.Index;
+						result[1] = StoneChunkBlock.Index;
+						x = m_random.Int() & 3;
+						if (x == 0)
+							result[2] = SaltpeterChunkBlock.Index;
+						else if (x == 1)
+							result[2] = ItemBlock.IdTable["AluminumOrePowder"];
+						break;
+
+					case GraniteBlock.Index:
+						text = "明矾";
+						result[0] = SandBlock.Index;
+						result[1] = StoneChunkBlock.Index;
+						x = m_random.Int() & 7;
+						if (x == 0)
+							result[2] = PigmentBlock.Index;
+						else if (x == 1)
+							result[2] = ItemBlock.IdTable["明矾"];
+						else if (x == 2)
+							result[2] = ItemBlock.IdTable["Plaster"];
+						break;
+
+					case BasaltBlock.Index:
+						text = "ScrapIron";
+						result[0] = BasaltStairsBlock.Index;
+						x = m_random.Int() & 7;
+						if (x == 1)
+							result[1] = ItemBlock.IdTable["滑石"];
+						break;
+
+					case CoalBlock.Index:
+						text = "ScrapIron";
+						result[0] = BasaltStairsBlock.Index;
+						x = m_random.Int() & 7;
+						if (x == 1)
+							result[1] = ItemBlock.IdTable["滑石"];
+						break;
 				}
 			}
 			if (text == null)
