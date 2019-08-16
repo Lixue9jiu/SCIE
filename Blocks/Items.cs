@@ -1,8 +1,11 @@
-﻿using Engine;
+﻿using Chemistry;
+using Engine;
 using Engine.Graphics;
+using Engine.Media;
 using LibPixz;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading.Tasks;
 
 namespace Game
@@ -325,7 +328,7 @@ namespace Game
 			Chemistry.GunpowderBlock.Items = list.Array;
 			for (i = 1; i < Chemistry.GunpowderBlock.Items.Length; i++)
 				IdTable.Add(Chemistry.GunpowderBlock.Items[i].GetCraftingId(), GunpowderBlock.Index | i << 14);
-			/*var stream = Utils.GetTargetFile("IndustrialEquations.txt");
+			var stream = Utils.GetTargetFile("IndustrialEquations.txt");
 			Equation.Reactions = new HashSet<Equation>();
 			try
 			{
@@ -334,17 +337,18 @@ namespace Game
 				{
 					var line = reader.ReadLine();
 					if (line == null) break;
-					Equation.Reactions.Add(Equation.Parse(line));
+					if (line.Length > 0)
+						Equation.Reactions.Add(Equation.Parse(line));
 				}
 			}
-			finally { stream.Close(); }*/
-			FactorioTransportBeltBlock.m_textures = new[]
+			finally { stream.Close(); }
+			FactorioTransportBeltBlock.Images = new[]
 			{
 				GetTexture("Transport-belt_sprite.jpg"),//ContentManager.Get<Texture2D>("Textures/Factorio/Transport-belt_sprite"),
 				GetTexture("Fast-transport-belt_sprite.jpg"),//ContentManager.Get<Texture2D>("Textures/Factorio/Fast-transport-belt_sprite"),
 				GetTexture("Express-transport-belt_sprite.jpg"),//ContentManager.Get<Texture2D>("Textures/Factorio/Express-transport-belt_sprite")
 			};
-			var stream = Utils.GetTargetFile("IndustrialMod_en-us.lng", false);
+			stream = Utils.GetTargetFile("IndustrialMod_en-us.lng", false);
 			if (stream == null) return;
 			try
 			{
@@ -353,13 +357,9 @@ namespace Game
 			finally { stream.Close(); }
 		}
 
-		public static Texture2D GetTexture(string name)
+		public static Image GetTexture(string name)
 		{
-			var stream = Utils.GetTargetFile(name);
-			var img = Pixz.Decode(stream).Array[0];
-			var r = new Texture2D(img.Width, img.Height, false, ColorFormat.Rgba8888);
-			r.SetData(0, img.Pixels);
-			return r;
+			return Pixz.Decode(Utils.GetTargetFile(name)).Array[0];
 		}
 
 		public static Dictionary<string, int> IdTable;

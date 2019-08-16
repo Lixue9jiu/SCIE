@@ -2,13 +2,13 @@
 using Engine.Graphics;
 using Engine.Media;
 using System.Collections.Generic;
-using System.IO;
 
 namespace Game
 {
 	public class FactorioTransportBeltBlock : FlatBlock
 	{
 		public const int Index = 400;
+		public static Image[] Images;
 		public static Texture2D[] m_textures;
 
 		public static int[,] m_cornerType2Rotations = new int[8, 3] {
@@ -44,6 +44,19 @@ namespace Game
 				for (int x = 0; x < m_texColCount; x++)
 					m_texCoords[y, x] = XYToTextureCoords(x, y);
 			//base.Initialize();
+		}
+
+		public static void InitTextures()
+		{
+			m_textures = new Texture2D[3];
+			var arr = Images;
+			for (int i = 0; i < arr.Length; i++)
+			{
+				var img = arr[i];
+				var r = new Texture2D(img.Width, img.Height, false, ColorFormat.Rgba8888);
+				r.SetData(0, img.Pixels);
+				m_textures[i] = r;
+			}
 		}
 
 		public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)

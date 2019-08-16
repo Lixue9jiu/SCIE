@@ -19,7 +19,7 @@ namespace Game
 			if (Charged && Powered)
 			{
 				m_fireTimeRemaining = MathUtils.Max(0f, m_fireTimeRemaining - dt);
-				if (m_fireTimeRemaining<1f)
+				if (m_fireTimeRemaining < 1f)
 				{
 					Point3 coordinates = m_componentBlockEntity.Coordinates;
 					int data = Terrain.ExtractData(Utils.Terrain.GetCellValue(coordinates.X, coordinates.Y, coordinates.Z));
@@ -44,7 +44,6 @@ namespace Game
 			valuesDictionary.SetValue("HeatLevel", Charged ? 1f : 0f);
 		}
 
-
 		protected void Driller(Point3 point)
 		{
 			int value = GetSlotValue(8);
@@ -53,16 +52,16 @@ namespace Game
 			if (BlocksManager.Blocks[Terrain.ExtractContents(value)].Durability <= 0)
 				return;
 			int a = 40;
-			bool flag=false;
-			for (int x1 = -a+point.X; x1 <  a + 1 + point.X; x1++)
+			bool flag = false;
+			for (int x1 = -a + point.X; x1 < a + 1 + point.X; x1++)
 			{
 				for (int y1 = 0; y1 < point.Y; y1++)
 				{
-					for (int z1 = -a + point.Z; z1 <  a + 1 + point.Z; z1++)
+					for (int z1 = -a + point.Z; z1 < a + 1 + point.Z; z1++)
 					{
 						int cellValue = Utils.Terrain.GetCellValueFast(x1, y1, z1);
 						var block = BlocksManager.Blocks[Terrain.ExtractContents(cellValue)];
-						if (value2!=0  && value3>0)
+						if (value2 != 0 && value3 > 0)
 						{
 							flag = true;
 							if (cellValue != value2)
@@ -88,18 +87,15 @@ namespace Game
 							}
 						}
 
-
-
-						if (block.BlockIndex == BasaltBlock.Index && cellValue!= BasaltBlock.Index && cellValue !=536870979 && cellValue !=1073741891 && cellValue != 1610612803 && !flag)
+						if (block.BlockIndex == BasaltBlock.Index && cellValue != BasaltBlock.Index && cellValue != 536870979 && cellValue != 1073741891 && cellValue != 1610612803 && !flag)
 						{
-							
 							ComponentElectricDriller inventory = m_componentBlockEntity.Entity.FindComponent<ComponentElectricDriller>(throwOnError: true);
 							if (AcquireItems(inventory, cellValue, 1) != 0)
 							{
 								Charged = false;
 								return;
 							}
-								
+
 							Utils.SubsystemTerrain.ChangeCell(x1, y1, z1, 0, true);
 							DrillType type = DrillBlock.GetType(value);
 							RemoveSlotItems(8, 1);
@@ -109,9 +105,8 @@ namespace Game
 							}
 							return;
 						}
-						if ((block.BlockIndex==IronOreBlock.Index|| block.BlockIndex==CopperOreBlock.Index|| block.BlockIndex == DiamondOreBlock.Index || block.BlockIndex==GermaniumOreBlock.Index || block.BlockIndex ==SaltpeterOreBlock.Index || block.BlockIndex==SulphurOreBlock.Index|| block.BlockIndex==CoalOreBlock.Index) && !flag)
+						if ((block.BlockIndex == IronOreBlock.Index || block.BlockIndex == CopperOreBlock.Index || block.BlockIndex == DiamondOreBlock.Index || block.BlockIndex == GermaniumOreBlock.Index || block.BlockIndex == SaltpeterOreBlock.Index || block.BlockIndex == SulphurOreBlock.Index || block.BlockIndex == CoalOreBlock.Index) && !flag)
 						{
-							
 							ComponentElectricDriller inventory = m_componentBlockEntity.Entity.FindComponent<ComponentElectricDriller>(throwOnError: true);
 							if (AcquireItems(inventory, cellValue, 1) != 0)
 							{
@@ -121,9 +116,9 @@ namespace Game
 							Utils.SubsystemTerrain.ChangeCell(x1, y1, z1, 0, true);
 							DrillType type = DrillBlock.GetType(value);
 							RemoveSlotItems(8, 1);
-							if (DrillBlock.GetType(BlocksManager.DamageItem(value, 1 )) == type && BlocksManager.DamageItem(value, 1) != value && GetDamage(BlocksManager.DamageItem(value, 1)) != GetDamage(value))
+							if (DrillBlock.GetType(BlocksManager.DamageItem(value, 1)) == type && BlocksManager.DamageItem(value, 1) != value && GetDamage(BlocksManager.DamageItem(value, 1)) != GetDamage(value))
 							{
-								AddSlotItems(8, BlocksManager.DamageItem(value, 1 ), 1);
+								AddSlotItems(8, BlocksManager.DamageItem(value, 1), 1);
 							}
 							return;
 						}
@@ -132,12 +127,13 @@ namespace Game
 			}
 			Charged = false;
 			return;
-
 		}
+
 		public virtual int GetDamage(int value)
 		{
 			return (Terrain.ExtractData(value) >> 4) & 0xFFF;
 		}
+
 		public override int GetSlotCapacity(int slotIndex, int value)
 		{
 			if (slotIndex != 8)
@@ -148,9 +144,6 @@ namespace Game
 				return (type == DrillType.DiamondDrill || type == DrillType.SteelDrill) ? base.GetSlotCapacity(slotIndex, value) : 0;
 			}
 			return 0;
-
 		}
-
-		
 	}
 }

@@ -76,6 +76,7 @@ namespace Game
 			var enumerator = ContentManager.CombineXml(ContentManager.Get<XElement>("CraftingRecipes"), ModsManager.GetEntries(".cr"), "Description", "Result", "Recipes").Descendants("Recipe").GetEnumerator();
 			if (!ItemBlock.Task.IsFaulted && !ItemBlock.Task.IsCompleted)
 				ItemBlock.Task.Wait();
+			FactorioTransportBeltBlock.InitTextures();
 			while (enumerator.MoveNext())
 			{
 				XElement xelement = enumerator.Current;

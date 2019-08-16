@@ -132,7 +132,7 @@ namespace Chemistry
 					if (i + 1 < s.Length)
 					{
 						c = s[i + 1];
-						count = char.IsLower(c) ? 2 : c == '2' && i < s.Length - 3 ? 4 : 1;
+						count = char.IsLower(c) ? 2 : s[i] == 'U' && c == '2' && i < s.Length - 3 ? 4 : 1;
 					}
 					else count = 1;
 					var atom = (AtomKind)Enum.Parse(type, s.Substring(i, count), false);
