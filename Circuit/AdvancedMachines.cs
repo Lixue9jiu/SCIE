@@ -4,6 +4,132 @@ using System;
 
 namespace Game
 {
+	public class Unpacker : Separator
+	{
+		public Unpacker()
+		{
+			Voltage = 100;
+			DefaultDisplayName = DefaultDescription = "去包装机";
+			Type |= ElementType.Pipe;
+		}
+
+		public override void Simulate(ref int voltage)
+		{
+			if (voltage > 1023 || voltage < Voltage)
+				return;
+			for (int i = 0; i < Component.SlotsCount; i++)
+			{
+				if (Component.GetSlotCount(i) > 0)
+				{
+					int value = Terrain.ExtractContents(Component.GetSlotValue(i));
+					switch (value)
+					{
+						case -1:
+							Component.RemoveSlotItems(i, 1);
+							ComponentInventoryBase.AcquireItems(Component, EmptyBucketBlock.Index, 1);
+							voltage = value << 10;
+							return;
+						case WaterBucketBlock.Index:
+						case MagmaBucketBlock.Index:
+						case PaintStripperBucketBlock.Index:
+							goto case -1;
+						case RottenMeatBlock.Index:
+							if (Terrain.ExtractData(Component.GetSlotValue(i)) >> 4 == 2)
+								goto case -1;
+							continue;
+					}
+				}
+			}
+		}
+
+		public override int GetFaceTextureSlot(int face, int value)
+		{
+			return face != 4 && face != 5 && face == (Terrain.ExtractData(value) >> 15) ? 235 : 124;
+		}
+	}
+
+	public class ElectricPump : CubeDevice
+	{
+		public ElectricPump() : base("电子泵", "电子泵是一种可以直接吸收液体于管道传输的机器", 150) { Type |= ElementType.Pipe; }
+
+		/*public override void Simulate(ref int voltage)
+		{
+		}*/
+
+		public override int GetFaceTextureSlot(int face, int value)
+		{
+			return face == 4 || face == 5 ? 107 : 128;
+		}
+	}
+
+	public class OilPlant : InventoryEntityDevice<ComponentOilPlant>
+	{
+		public OilPlant() : base("OilPlant", "石油化工厂", "石油化工厂可以用来处理石油，产生各种石油产品") { Type |= ElementType.Pipe; }
+
+		public override void Simulate(ref int voltage)
+		{
+			if (Component.Powered = voltage >= 310)
+				voltage -= 310;
+		}
+
+		public override int GetFaceTextureSlot(int face, int value)
+		{
+			return face != 4 && face != 5 ? face == (Terrain.ExtractData(value) >> 15) ? 123 : 124 : 107;
+		}
+
+		public override Widget GetWidget(IInventory inventory, ComponentOilPlant component)
+		{
+			return new SeperatorWidget(inventory, component, "Widgets/OilPlantWidget");
+		}
+	}
+
+	public class ElectricDriller : InventoryEntityDevice<ComponentElectricDriller>
+	{
+		public ElectricDriller() : base("ElectricDriller", "电子采矿机", "电子采矿机，一种电动采矿机") { }
+
+		public override void Simulate(ref int voltage)
+		{
+			if (Component.Powered = voltage >= 310)
+				voltage -= 310;
+		}
+
+		public override int GetFaceTextureSlot(int face, int value)
+		{
+			return face != 4 && face != 5 ? face == (Terrain.ExtractData(value) >> 15) ? 119 : 124 : 107;
+		}
+
+		public override Widget GetWidget(IInventory inventory, ComponentElectricDriller component)
+		{
+			return new ElectricDrillerWidget(inventory, component);
+		}
+	}
+
+	public class UThickener : Separator
+	{
+		public UThickener()
+		{
+			DefaultDisplayName = DefaultDescription = "铀浓缩机";
+		}
+
+		public override int GetFaceTextureSlot(int face, int value)
+		{
+			return face != 4 && face != 5 && face == (Terrain.ExtractData(value) >> 15) ? 131 : 221;
+		}
+	}
+
+	public class WaterExtractor : Separator
+	{
+		public WaterExtractor()
+		{
+			DefaultDisplayName = DefaultDescription = "重水提取机";
+		}
+
+		public override int GetFaceTextureSlot(int face, int value)
+		{
+			return face != 4 && face != 5 && face == (Terrain.ExtractData(value) >> 15) ? 236 : 224;
+		}
+	}
+
 	public class AirPump : CubeDevice
 	{
 		public AirPump() : base("抽气机", "抽气机", 130) { }
@@ -13,6 +139,7 @@ namespace Game
 			return face != 4 && face != 5 && face == (Terrain.ExtractData(value) >> 15) ? 220 : 239;
 		}
 	}
+
 	public class WaterCuttingMachine : CubeDevice
 	{
 		public WaterCuttingMachine() : base("水切割机", "水切割机", 180) { }
@@ -22,6 +149,7 @@ namespace Game
 			return face != 4 && face != 5 ? 209 : 241;
 		}
 	}
+
 	public class LED : CubeDevice, IBlockBehavior
 	{
 		public BlockMesh[] m_blockMeshesByFace = new BlockMesh[6];

@@ -1,29 +1,10 @@
 using Engine;
-using GameEntitySystem;
-using TemplatesDatabase;
 
 namespace Game
 {
-	public class ComponentOilPlant : ComponentMachine, IUpdateable
+	public class ComponentOilPlant : ComponentSeperator, IUpdateable
 	{
-		protected string m_smeltingRecipe;
-
-		//protected int m_music;
-		public bool Powered;
-
-		protected string m_smeltingRecipe2;
-
-		protected readonly int[] result = new int[3];
-
-		public override int RemainsSlotIndex => -1;
-
-		public override int ResultSlotIndex => SlotsCount - 1;
-
-		public override int FuelSlotIndex => -1;
-
-		public int UpdateOrder => 0;
-
-		public void Update(float dt)
+		public new void Update(float dt)
 		{
 			if (HeatLevel > 0f)
 			{
@@ -34,7 +15,7 @@ namespace Game
 			if (m_updateSmeltingRecipe)
 			{
 				m_updateSmeltingRecipe = false;
-				m_smeltingRecipe2 = FindSmeltingRecipe(0f);
+				m_smeltingRecipe2 = FindSmeltingRecipe();
 				if (m_smeltingRecipe2 != m_smeltingRecipe)
 				{
 					m_smeltingRecipe = m_smeltingRecipe2;
@@ -104,16 +85,10 @@ namespace Game
 			}
 		}
 
-		public override void Load(ValuesDictionary valuesDictionary, IdToEntityMap idToEntityMap)
-		{
-			base.Load(valuesDictionary, idToEntityMap);
-			m_furnaceSize = SlotsCount - 1;
-		}
-
-		protected string FindSmeltingRecipe(float heatLevel)
+		protected override string FindSmeltingRecipe()
 		{
 			string text = null;
-				
+
 			if (GetSlotValue(0) == 1310960 && GetSlotCount(0) > 0)
 			{
 				if (GetSlotValue(1) == ItemBlock.IdTable["CokeCoalPowder"] && GetSlotCount(1) > 0)
@@ -124,7 +99,7 @@ namespace Game
 					result[2] = 0;
 				}
 			}
-			if (GetSlotValue(0) == (240+16384*60) && GetSlotCount(0) > 0)
+			if (GetSlotValue(0) == (240 + 16384 * 60) && GetSlotCount(0) > 0)
 			{
 				if (GetSlotValue(1) == ItemBlock.IdTable["CokeCoalPowder"] && GetSlotCount(1) > 0)
 				{
@@ -150,7 +125,7 @@ namespace Game
 					}
 				}
 			}
-			if (text!=null)
+			if (text != null)
 			{
 				for (int i = 0; i < 3; i++)
 				{

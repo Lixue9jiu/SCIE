@@ -1,6 +1,7 @@
 ﻿using Engine;
 using Engine.Graphics;
 using Engine.Media;
+using LibPixz;
 using System.Collections.Generic;
 
 namespace Game
@@ -8,7 +9,6 @@ namespace Game
 	public class FactorioTransportBeltBlock : FlatBlock
 	{
 		public const int Index = 400;
-		public static Image[] Images;
 		public static Texture2D[] m_textures;
 
 		public static int[,] m_cornerType2Rotations = new int[8, 3] {
@@ -46,8 +46,19 @@ namespace Game
 			//base.Initialize();
 		}
 
+		public static Image GetTexture(string name)
+		{
+			return Pixz.Decode(Utils.GetTargetFile(name)).Array[0];
+		}
+
 		public static void InitTextures()
 		{
+			var Images = new[]
+			{
+				GetTexture("Transport-belt_sprite.jpg"),
+				GetTexture("Fast-transport-belt_sprite.jpg"),
+				GetTexture("Express-transport-belt_sprite.jpg"),
+			};
 			m_textures = new Texture2D[3];
 			var arr = Images;
 			for (int i = 0; i < arr.Length; i++)

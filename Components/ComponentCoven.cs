@@ -143,7 +143,7 @@ namespace Game
 					}
 					if (m_matchedIngredients[7] >= 1)
 					{
-						m_slots[ResultSlotIndex].Value = ItemBlock.IdTable["CokeCoal"];
+						m_slots[ResultSlotIndex].Value = ItemBlock.IdTable["CokeCoalChunk"];
 						m_slots[ResultSlotIndex].Count += m_matchedIngredients[7];
 					}
 					if (m_matchedIngredients[8] >= 1)

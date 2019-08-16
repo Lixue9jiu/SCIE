@@ -1,8 +1,6 @@
 ﻿using Chemistry;
 using Engine;
 using Engine.Graphics;
-using Engine.Media;
-using LibPixz;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -342,12 +340,6 @@ namespace Game
 				}
 			}
 			finally { stream.Close(); }
-			FactorioTransportBeltBlock.Images = new[]
-			{
-				GetTexture("Transport-belt_sprite.jpg"),//ContentManager.Get<Texture2D>("Textures/Factorio/Transport-belt_sprite"),
-				GetTexture("Fast-transport-belt_sprite.jpg"),//ContentManager.Get<Texture2D>("Textures/Factorio/Fast-transport-belt_sprite"),
-				GetTexture("Express-transport-belt_sprite.jpg"),//ContentManager.Get<Texture2D>("Textures/Factorio/Express-transport-belt_sprite")
-			};
 			stream = Utils.GetTargetFile("IndustrialMod_en-us.lng", false);
 			if (stream == null) return;
 			try
@@ -355,11 +347,6 @@ namespace Game
 				Utils.ReadKeyValueFile(Utils.TR, stream);
 			}
 			finally { stream.Close(); }
-		}
-
-		public static Image GetTexture(string name)
-		{
-			return Pixz.Decode(Utils.GetTargetFile(name)).Array[0];
 		}
 
 		public static Dictionary<string, int> IdTable;

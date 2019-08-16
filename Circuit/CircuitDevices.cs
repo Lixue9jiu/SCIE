@@ -84,19 +84,6 @@ namespace Game
 		}
 	}
 
-	public class UThickener : Separator
-	{
-		public UThickener()
-		{
-			DefaultDisplayName = DefaultDescription = "铀浓缩机";
-		}
-
-		public override int GetFaceTextureSlot(int face, int value)
-		{
-			return face != 4 && face != 5 && face == (Terrain.ExtractData(value) >> 15) ? 131 : 221;
-		}
-	}
-
 	public class Canpack : InteractiveEntityDevice<ComponentCanpack>
 	{
 		public Canpack() : base("Canpack", "灌装机", "灌装机是一种可以封装液体，变成液体罐头的机器", 80) { }
@@ -263,19 +250,6 @@ namespace Game
         }
 	}
 
-	public class WaterExtractor : Separator
-	{
-		public WaterExtractor()
-		{
-			DefaultDisplayName = DefaultDescription = "重水提取机";
-		}
-
-		public override int GetFaceTextureSlot(int face, int value)
-		{
-			return face != 4 && face != 5 && face == (Terrain.ExtractData(value) >> 15) ? 236 : 224;
-		}
-	}
-
 	public class Condenser : InteractiveEntityDevice<ComponentCondenser>, IElectricElementBlock
 	{
 		public Condenser() : base("Condenser", "超大电容", "超大电容允许你存储一些电量，并在需要的时候释放出去") { Type = ElementType.Supply | ElementType.Connector; }
@@ -321,6 +295,7 @@ namespace Game
 			return color.HasValue ? 1 << color.Value : 2147483647;
 		}
 	}
+
 	public class Charger : InventoryEntityDevice<ComponentCharger>
 	{
 		public Charger() : base("Charger", "充电器", "充电放电装置是一种可以为电池充电或者放电的装置") { Type = ElementType.Supply | ElementType.Connector; }
@@ -358,6 +333,7 @@ namespace Game
 			return new ChargerWidget(inventory, component);
 		}
 	}
+
 	public class TGenerator : InventoryEntityDevice<ComponentTGenerator>
 	{
 		public TGenerator() : base("TGenerator", "热能发电机", "热能发电机是一种利用金属温差发电的装置，它可以把岩浆转换为能量") { Type = ElementType.Supply | ElementType.Connector; }
@@ -379,102 +355,6 @@ namespace Game
 		}
 	}
 
-	public class Unpacker : Separator
-	{
-		public Unpacker()
-		{
-			Voltage = 100;
-			DefaultDisplayName = DefaultDescription = "去包装机";
-			Type |= ElementType.Pipe;
-		}
-
-		public override void Simulate(ref int voltage)
-		{
-			if (voltage > 1023 || voltage < Voltage)
-				return;
-			for (int i = 0; i < Component.SlotsCount; i++)
-			{
-				if (Component.GetSlotCount(i) > 0)
-				{
-					int value = Terrain.ExtractContents(Component.GetSlotValue(i));
-					switch (value)
-					{
-						case -1:
-							Component.RemoveSlotItems(i, 1);
-							ComponentInventoryBase.AcquireItems(Component, EmptyBucketBlock.Index, 1);
-							voltage = value << 10;
-							return;
-						case WaterBucketBlock.Index:
-						case MagmaBucketBlock.Index:
-						case PaintStripperBucketBlock.Index:
-							goto case -1;
-						case RottenMeatBlock.Index:
-							if(Terrain.ExtractData(Component.GetSlotValue(i)) >> 4 == 2)
-							goto case -1;
-							continue;
-					}
-				}
-			}
-		}
-
-		public override int GetFaceTextureSlot(int face, int value)
-		{
-			return face != 4 && face != 5 && face == (Terrain.ExtractData(value) >> 15) ? 235 : 124;
-		}
-	}
-	public class ElectricPump : CubeDevice
-	{
-		public ElectricPump() : base("电子泵", "电子泵是一种可以直接吸收液体于管道传输的机器", 150) { Type |= ElementType.Pipe; }
-
-		/*public override void Simulate(ref int voltage)
-		{
-		}*/
-
-		public override int GetFaceTextureSlot(int face, int value)
-		{
-			return face == 4 || face == 5 ? 107 : 128;
-		}
-	}
-	public class OilPlant : InventoryEntityDevice<ComponentOilPlant>
-	{
-		public OilPlant() : base("OilPlant", "石油化工厂", "石油化工厂可以用来处理石油，产生各种石油产品") { Type |= ElementType.Pipe; }
-
-		public override void Simulate(ref int voltage)
-		{
-			if (Component.Powered = voltage >= 310)
-				voltage -= 310;
-		}
-
-		public override int GetFaceTextureSlot(int face, int value)
-		{
-			return face != 4 && face != 5 ? face == (Terrain.ExtractData(value) >> 15) ? 123 : 124 : 107;
-		}
-
-		public override Widget GetWidget(IInventory inventory, ComponentOilPlant component)
-		{
-			return new SeperatorWidget(inventory, component, "Widgets/OilPlantWidget");
-		}
-	}
-	public class ElectricDriller : InventoryEntityDevice<ComponentElectricDriller>
-	{
-		public ElectricDriller() : base("ElectricDriller", "电子采矿机", "电子采矿机，一种电动采矿机") {  }
-
-		public override void Simulate(ref int voltage)
-		{
-			if (Component.Powered = voltage >= 310)
-				voltage -= 310;
-		}
-
-		public override int GetFaceTextureSlot(int face, int value)
-		{
-			return face != 4 && face != 5 ? face == (Terrain.ExtractData(value) >> 15) ? 119 : 124 : 107;
-		}
-
-		public override Widget GetWidget(IInventory inventory, ComponentElectricDriller component)
-		{
-			return new ElectricDrillerWidget(inventory, component);
-		}
-	}
 	public class Recycler : Separator
 	{
 		public Recycler()

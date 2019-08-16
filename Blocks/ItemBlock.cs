@@ -74,7 +74,7 @@ namespace Game
 			CraftingRecipesManager.m_recipes = new List<CraftingRecipe>();
 			var recipes = new List<CraftingRecipe>();
 			var enumerator = ContentManager.CombineXml(ContentManager.Get<XElement>("CraftingRecipes"), ModsManager.GetEntries(".cr"), "Description", "Result", "Recipes").Descendants("Recipe").GetEnumerator();
-			if (!ItemBlock.Task.IsFaulted && !ItemBlock.Task.IsCompleted)
+			if (!ItemBlock.Task.IsCompleted)
 				ItemBlock.Task.Wait();
 			FactorioTransportBeltBlock.InitTextures();
 			while (enumerator.MoveNext())

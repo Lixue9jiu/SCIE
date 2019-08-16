@@ -151,6 +151,7 @@ namespace Game
 		public override BoundingBox[] GetCustomCollisionBoxes(SubsystemTerrain terrain, int value) => m_collisionBoxes;
 		public override string GetCraftingId() => "SolarPanel" + Voltage.ToString();
 	}
+
 	public class Gearbox : ElectricMotor, IBlockBehavior, IUnstableBlock
 	{
 		public Gearbox()

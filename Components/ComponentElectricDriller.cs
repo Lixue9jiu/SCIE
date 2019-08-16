@@ -21,9 +21,7 @@ namespace Game
 				m_fireTimeRemaining = MathUtils.Max(0f, m_fireTimeRemaining - dt);
 				if (m_fireTimeRemaining < 1f)
 				{
-					Point3 coordinates = m_componentBlockEntity.Coordinates;
-					int data = Terrain.ExtractData(Utils.Terrain.GetCellValue(coordinates.X, coordinates.Y, coordinates.Z));
-					Driller(coordinates);
+					Driller(m_componentBlockEntity.Coordinates);
 					m_fireTimeRemaining = 7f;
 				}
 			}
@@ -63,14 +61,13 @@ namespace Game
 						var block = BlocksManager.Blocks[Terrain.ExtractContents(cellValue)];
 						if (value2 != 0 && value3 > 0)
 						{
-							flag = true;
 							if (cellValue != value2)
 							{
 								flag = true;
 							}
 							else
 							{
-								ComponentElectricDriller inventory = m_componentBlockEntity.Entity.FindComponent<ComponentElectricDriller>(throwOnError: true);
+								ComponentElectricDriller inventory = m_componentBlockEntity.Entity.FindComponent<ComponentElectricDriller>(true);
 								if (AcquireItems(inventory, cellValue, 1) != 0)
 								{
 									Charged = false;
@@ -89,7 +86,7 @@ namespace Game
 
 						if (block.BlockIndex == BasaltBlock.Index && cellValue != BasaltBlock.Index && cellValue != 536870979 && cellValue != 1073741891 && cellValue != 1610612803 && !flag)
 						{
-							ComponentElectricDriller inventory = m_componentBlockEntity.Entity.FindComponent<ComponentElectricDriller>(throwOnError: true);
+							ComponentElectricDriller inventory = m_componentBlockEntity.Entity.FindComponent<ComponentElectricDriller>(true);
 							if (AcquireItems(inventory, cellValue, 1) != 0)
 							{
 								Charged = false;
@@ -107,7 +104,7 @@ namespace Game
 						}
 						if ((block.BlockIndex == IronOreBlock.Index || block.BlockIndex == CopperOreBlock.Index || block.BlockIndex == DiamondOreBlock.Index || block.BlockIndex == GermaniumOreBlock.Index || block.BlockIndex == SaltpeterOreBlock.Index || block.BlockIndex == SulphurOreBlock.Index || block.BlockIndex == CoalOreBlock.Index) && !flag)
 						{
-							ComponentElectricDriller inventory = m_componentBlockEntity.Entity.FindComponent<ComponentElectricDriller>(throwOnError: true);
+							ComponentElectricDriller inventory = m_componentBlockEntity.Entity.FindComponent<ComponentElectricDriller>(true);
 							if (AcquireItems(inventory, cellValue, 1) != 0)
 							{
 								Charged = false;

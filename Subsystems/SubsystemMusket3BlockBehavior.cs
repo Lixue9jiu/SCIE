@@ -18,12 +18,12 @@ namespace Game
 				int activeSlotIndex = inventory.ActiveSlotIndex;
 				if (activeSlotIndex >= 0)
 				{
-					int slotValue = inventory.GetSlotValue(activeSlotIndex);
-					int slotCount = inventory.GetSlotCount(activeSlotIndex);
+					int slotValue = inventory.GetSlotValue(activeSlotIndex),
+						slotCount = inventory.GetSlotCount(activeSlotIndex);
 					int num = Terrain.ExtractContents(slotValue);
 					//int data = Terrain.ExtractData(slotValue);
-					int num2 = slotValue;
-					int num3 = 0;
+					int num2 = slotValue,
+						num3 = 0;
                     Vector3 dir = direction;
                     if (num == Musket3Block.Index && slotCount > 0)
 					{
@@ -75,9 +75,9 @@ namespace Game
 
 									if (m_subsystemTime.PeriodicGameTimeEvent(0.17, 0))
 									{
-										//  if (componentMiner.ComponentCreature.ComponentBody.ImmersionFactor > 0.4f)
-										//    m_subsystemAudio.PlaySound("Audio/MusketMisfire", 1f, m_random.UniformFloat(-0.1f, 0.1f), componentMiner.ComponentCreature.ComponentCreatureModel.EyePosition, 3f, true);
-										//   else
+										//if (componentMiner.ComponentCreature.ComponentBody.ImmersionFactor > 0.4f)
+										//	m_subsystemAudio.PlaySound("Audio/MusketMisfire", 1f, m_random.UniformFloat(-0.1f, 0.1f), componentMiner.ComponentCreature.ComponentCreatureModel.EyePosition, 3f, true);
+										// else
 										{
 											Vector3 eyePosition = componentMiner.ComponentCreature.ComponentCreatureModel.EyePosition;
 											Matrix matrix = componentMiner.ComponentCreature.ComponentBody.Matrix;
@@ -97,7 +97,7 @@ namespace Game
 												if (projectile != null)
 													projectile.ProjectileStoppedAction = ProjectileStoppedAction.Disappear;
 											}
-											//  m_subsystemAudio.Dispose();
+											//m_subsystemAudio.Dispose();
 											m_subsystemAudio.PlaySound("Audio/MusketFire", 1f, m_random.UniformFloat(-0.1f, 0.1f), componentMiner.ComponentCreature.ComponentCreatureModel.EyePosition, 10f, true);
 											//m_subsystemParticles.AddParticleSystem(new BurntDebrisParticleSystem(base.SubsystemTerrain, (vector2 + 0.3f * vector3)));
 											//fireParticleSystem = new FireParticleSystem(vector2 + 1.3f * vector3, 0.3f, 3f);
@@ -105,7 +105,7 @@ namespace Game
 											m_subsystemParticles.AddParticleSystem(new GunSmokeParticleSystem2(SubsystemTerrain, vector2 + 1.3f * dir, dir));
 											m_subsystemNoise.MakeNoise(vector2, 1f, 40f);
 
-											// componentMiner.ComponentCreature.ComponentBody.ApplyImpulse(-1f * vector3);
+											//componentMiner.ComponentCreature.ComponentBody.ApplyImpulse(-1f * vector3);
 										}
 									}
 									componentMiner.ComponentCreature.ComponentCreatureModel.AimHandAngleOrder = 1.4f;
