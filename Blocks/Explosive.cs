@@ -79,6 +79,7 @@ namespace Chemistry
 		{
 			return Terrain.ExtractContents(value) != Index ? base.GetItem(ref value) : Items[Terrain.ExtractData(value)];
 		}
+
 		public override IEnumerable<int> GetCreativeValues()
 		{
 			Items[0] = new Gunpowder();

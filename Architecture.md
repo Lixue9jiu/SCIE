@@ -5,6 +5,8 @@
 
 ~~~
 SCIE
+├─BeltTransport                传送带类
+│
 ├─Blocks                       方块物品类
 │  ├─4DirectionalMachines      4方向机器
 │  ├─6DirectionalMachines      6方向机器
@@ -16,7 +18,7 @@ SCIE
 │  ├─DrillerElectricElement    挖掘机电路元素
 │  ├─ElectricComponents        电子元件
 │  ├─ElementBlock              电路元素方块
-│  ├─Gunpowder                 火药类
+│  ├─Explosive                 爆炸物
 │  ├─ItemBlock                 物品系统
 │  ├─Items                     所有物品
 │  ├─LiquidPumpElectricElement 液体泵电路元素
@@ -41,6 +43,7 @@ SCIE
 │  └─Equation              方程式相关
 │
 ├─Common                   公共模块
+│  ├─Dialogs               对话框
 │  ├─I18N                  国际化相关
 │  ├─Utils                 公用函数
 │  └─Interfaces            模块目录
@@ -85,6 +88,8 @@ SCIE
 │  ├─ComponentUnloader           放置机组件
 │  └─ComponentVariant            生物变异相关组件
 │
+├─LibPixz                  JPG解码器
+│
 ├─en-us                    英文资源
 │
 ├─IndustrialMod            pak资源
@@ -102,13 +107,13 @@ SCIE
 │  ├─SubsystemInventoryBlockBehavior       容器实体方块行为
 │  ├─SubsystemItemBlockBehavior            物品方块行为
 │  ├─SubsystemLiquidPumpBlockBehavior      液体泵方块行为
-│  ├─SubsystemMachineToolBlockbehavior     机床方块行为
+│  ├─SubsystemMachineBlockBehavior         机器方块行为
 │  ├─SubsystemMineral                      矿物生成
 │  ├─SubsystemMusket2BlockBehavior         步枪方块行为
-│  ├─SubsystemNRotBlockBehavior            腐烂方块行为
-│  ├─SubsystemNSoilBlockBehavior           耕地方块行为
+│  ├─SubsystemMusket3BlockBehavior         连发枪方块行为
+│  ├─SubsystemNewBlockBehavior             替换原版的方块行为
 │  ├─SubsystemRailBlockBehavior            铁轨方块行为
-│  └─SubsystemSourceOfFireBlockBehavior    火源方块行为
+│  └─SubsystemSourceOfFireBlockBehavior    火源、动态光源方块行为
 │
 ├─Widgets               部件
 │  ├─BlastFurnaceWidget      高炉界面

@@ -26,9 +26,9 @@ namespace Game
 						m_instructionsLabel.Text = string.Empty;
 						break;
 				}
+				return;
 			}
-			else
-				ParentWidget.Children.Remove(this);
+			ParentWidget.Children.Remove(this);
 		}
 	}
 }

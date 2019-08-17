@@ -72,6 +72,11 @@ namespace Game
 
 		public override void Update()
 		{
+			if (!m_componentDispenser.IsAddedToProject)
+			{
+				ParentWidget.Children.Remove(this);
+				return;
+			}
 			m_fire.ParticlesPerSecond = m_componentDispenser.HeatLevel > 0f ? 24f : 0f;
 			m_progress.Value = m_componentDispenser.SmeltingProgress / 1000f;
 
@@ -84,11 +89,6 @@ namespace Game
 				m_componentDispenser.HeatLevel = 0f;
 			}
 			m_dispenseButton.IsChecked = m_componentDispenser.HeatLevel != 0f;
-
-			if (!m_componentDispenser.IsAddedToProject)
-			{
-				ParentWidget.Children.Remove(this);
-			}
 		}
 	}
 }

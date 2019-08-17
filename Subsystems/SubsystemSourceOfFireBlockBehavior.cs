@@ -170,29 +170,5 @@ namespace Game
 		{
 			return new Point3((int)MathUtils.Round(v.X), (int)MathUtils.Round(v.Y) + 1, (int)MathUtils.Round(v.Z));
 		}
-
-		/*public override void Load(ValuesDictionary valuesDictionary)
-		{
-			var s = valuesDictionary.GetValue<string>("Points", null);
-			if (!string.IsNullOrEmpty(s))
-			{
-				lightingPoints = HumanReadableConverter.ValuesListFromString<Point3>(';', s);
-				for (int i = 0; i < lightingPoints.Length; i++)
-				{
-					Point3 point = lightingPoints[i];
-					if (point != Point3.Zero)
-						SubsystemTerrain.ChangeCell(point.X, point.Y, point.Z, 0);
-				}
-			}
-			else
-				lightingPoints = new Point3[4];
-			base.Load(valuesDictionary);
-		}
-
-		public override void Save(ValuesDictionary valuesDictionary)
-		{
-			valuesDictionary.SetValue("Points", HumanReadableConverter.ValuesListToString(';', lightingPoints));
-			base.Save(valuesDictionary);
-		}*/
 	}
 }

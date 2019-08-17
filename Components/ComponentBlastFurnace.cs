@@ -18,8 +18,6 @@ namespace Game
 		public override int RemainsSlotIndex => SlotsCount - 3;
 		public override int ResultSlotIndex => SlotsCount - 4;
 
-		public int UpdateOrder => 0;
-
 		public void Update(float dt)
 		{
 			Point3 coordinates = m_componentBlockEntity.Coordinates;

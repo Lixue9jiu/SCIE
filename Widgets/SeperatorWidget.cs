@@ -15,8 +15,7 @@ namespace Game
 
 		protected readonly InventorySlotWidget m_result3;
 
-		protected readonly InventorySlotWidget m_cir1;
-		protected readonly InventorySlotWidget m_cir2;
+		protected readonly InventorySlotWidget m_cir1, m_cir2;
 
 		protected readonly GridPanelWidget m_inventoryGrid;
 

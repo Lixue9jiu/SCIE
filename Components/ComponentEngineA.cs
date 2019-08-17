@@ -16,8 +16,6 @@ namespace Game
 
 		public override int FuelSlotIndex => -1;
 
-		public int UpdateOrder => 0;
-
 		public void Update(float dt)
 		{
 			if (m_updateSmeltingRecipe)
@@ -26,8 +24,6 @@ namespace Game
 				string text = null;
 				if (base.GetSlotCount(RemainsSlotIndex) > 0 && Terrain.ExtractContents(base.GetSlotValue(RemainsSlotIndex)) == WaterBucketBlock.Index)
 					text = "bucket";
-				//while (text != null && SmeltingProgress <= 900f)
-				//{
 				if (text != null)
 				{
 					int resultSlotIndex = ResultSlotIndex;
@@ -45,7 +41,6 @@ namespace Game
 						m_fireTimeRemaining = SmeltingProgress;
 					}
 				}
-				//}
 			}
 			SmeltingProgress = m_fireTimeRemaining;
 			if (SmeltingProgress > 0f && HeatLevel>0f)
