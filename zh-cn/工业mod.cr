@@ -1120,6 +1120,16 @@
       "aba"
       "a a"
     </Recipe>
+	<Recipe Result="ClothingBlock:44" ResultCount="1" RequiredHeatLevel="0" a="iebattery:4" b="clothing:38" c="SteelSheet" Description="制作矿工帽">
+      " a"
+      " b"
+      "c c"
+    </Recipe>
+    <Recipe Result="IEBatteryBlock:4" ResultCount="1" RequiredHeatLevel="0" a="CuZnBattery" b="Switch" c="SteelSheet" d="lightbulb" Description="制作手电筒">
+      "cdc"
+      "cbc"
+      "cac"
+    </Recipe>
     <Recipe Result="SteelIngot" ResultCount="1" RequiredHeatLevel="1400" a="SteelGear" Description="拆除钢制齿轮">
       "a"
     </Recipe>
