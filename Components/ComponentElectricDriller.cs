@@ -133,12 +133,16 @@ namespace Game
 
 		public override int GetSlotCapacity(int slotIndex, int value)
 		{
-			if (slotIndex != 8)
+			if (slotIndex != 8 && slotIndex!=9)
 				return base.GetSlotCapacity(slotIndex, value);
 			if (slotIndex == 8 && Terrain.ExtractContents(value) == DrillBlock.Index)
 			{
 				var type = DrillBlock.GetType(value);
 				return (type == DrillType.DiamondDrill || type == DrillType.SteelDrill) ? base.GetSlotCapacity(slotIndex, value) : 0;
+			}
+			if (slotIndex == 9 && GetSlotCount(9)<1)
+			{
+				return base.GetSlotCapacity(slotIndex, value);
 			}
 			return 0;
 		}
