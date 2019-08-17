@@ -1,7 +1,5 @@
 ﻿using Engine;
 using Engine.Graphics;
-using Engine.Media;
-using LibPixz;
 using System.Collections.Generic;
 
 namespace Game
@@ -46,30 +44,6 @@ namespace Game
 			//base.Initialize();
 		}
 
-		public static Image GetTexture(string name)
-		{
-			return Pixz.Decode(Utils.GetTargetFile(name)).Array[0];
-		}
-
-		public static void InitTextures()
-		{
-			var Images = new[]
-			{
-				GetTexture("Transport-belt_sprite.jpg"),
-				GetTexture("Fast-transport-belt_sprite.jpg"),
-				GetTexture("Express-transport-belt_sprite.jpg"),
-			};
-			m_textures = new Texture2D[3];
-			var arr = Images;
-			for (int i = 0; i < arr.Length; i++)
-			{
-				var img = arr[i];
-				var r = new Texture2D(img.Width, img.Height, false, ColorFormat.Rgba8888);
-				r.SetData(0, img.Pixels);
-				m_textures[i] = r;
-			}
-		}
-
 		public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
 		{
 			ItemBlock.DrawFlatBlock(primitivesRenderer, value, size, ref matrix, m_textures[GetColor(Terrain.ExtractData(value))], color, false, environmentData);
@@ -82,6 +56,19 @@ namespace Game
 
 		public override IEnumerable<int> GetCreativeValues()
 		{
+			var arr = Item.Images;
+			if (Item.Task.IsCompleted && arr != null)
+			{
+				for (int i = 0; i < arr.Length; i++)
+				{
+					var img = arr[i];
+					var r = new Texture2D(img.Width, img.Height, false, ColorFormat.Rgba8888);
+					r.SetData(0, img.Pixels);
+					m_textures[i] = r;
+				}
+				Item.Images = null;
+				Item.Task.Dispose();
+			}
 			return new[] { Terrain.ReplaceData(BlockIndex, SetColor(0, 0)), Terrain.ReplaceData(BlockIndex, SetColor(0, 1)), Terrain.ReplaceData(BlockIndex, SetColor(0, 2)) };
 		}
 
@@ -93,10 +80,9 @@ namespace Game
 		public override void GetDropValues(SubsystemTerrain subsystemTerrain, int oldValue, int newValue, int toolLevel, List<BlockDropValue> dropValues, out bool showDebris)
 		{
 			showDebris = false;
-			int color = GetColor(Terrain.ExtractData(oldValue));
 			dropValues.Add(new BlockDropValue
 			{
-				Value = Terrain.MakeBlockValue(BlockIndex, 0, SetColor(0, color)),
+				Value = Terrain.MakeBlockValue(BlockIndex, 0, SetColor(0, GetColor(Terrain.ExtractData(oldValue)))),
 				Count = 1
 			});
 		}
@@ -189,8 +175,8 @@ namespace Game
 			return cornertype != null ? (data & -481) | 32 | (cornertype.Value & 7) << 6 : data & -481;
 		}
 
-		public static int m_texRowCount = 12;
-		public static int m_texColCount = 16;
+		public const int m_texRowCount = 12;
+		public const int m_texColCount = 16;
 		public static Vector4[,] m_texCoords = new Vector4[m_texRowCount, m_texColCount];
 
 		public static Vector4 XYToTextureCoords(int x, int y)

@@ -12,7 +12,7 @@ namespace LibPixz.Markers
 		public ushort[] table;
 	}
 
-	internal class Dqt : Marker
+	internal static class Dqt
 	{
 		//static string name = "DQT";
 
@@ -36,12 +36,13 @@ namespace LibPixz.Markers
 			if (tableId > 3)
 				throw new Exception("Invalid ID for quantization table");
 
-			var quantTable = new QuantTable();
-
-			quantTable.id = tableId;
-			quantTable.precision = (byte)(tableInfo >> 4); // High 4 bits of tableInfo
-			quantTable.valid = true;
-			quantTable.table = new ushort[64];
+			var quantTable = new QuantTable
+			{
+				id = tableId,
+				precision = (byte)(tableInfo >> 4), // High 4 bits of tableInfo
+				valid = true,
+				table = new ushort[64]
+			};
 
 			int sizeOfElement = quantTable.precision == 0 ? 1 : 2;
 

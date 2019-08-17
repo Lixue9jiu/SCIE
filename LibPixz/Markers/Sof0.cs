@@ -13,7 +13,7 @@ namespace LibPixz.Markers
 		public byte acHuffmanTable;
 	}
 
-	internal class Sof0 : Marker
+	internal static class Sof0
 	{
 		//static string name = "SOF0";
 

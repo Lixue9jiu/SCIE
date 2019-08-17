@@ -14,15 +14,14 @@
 		Fast
 	}*/
 
-	internal static class Common
+	internal static partial class Common
 	{
 		internal static float Clamp(float num, float min, float max)
 		{
 			if (num < min)
 				return min;
-			else if (num > max)
+			if (num > max)
 				return max;
-
 			return num;
 		}
 

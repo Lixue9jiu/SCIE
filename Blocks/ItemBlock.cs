@@ -8,6 +8,7 @@ using XmlUtilities;
 using System;
 using Engine.Media;
 using Engine.Audio;
+using System.Threading.Tasks;
 
 namespace Game
 {
@@ -15,6 +16,8 @@ namespace Game
 	public class Item : IItem
 	{
 		public static ElementBlock Block;
+		public static Task Task;
+		public static Image[] Images;
 		public static Func<string, int> DecodeResult1;
 		static void Initialize()
 		{
@@ -30,7 +33,26 @@ namespace Game
 			RandomJumpCamera.get_IsEntityControlEnabled1 = True;
 			StraightFlightCamera.get_IsEntityControlEnabled1 = True;
 			AudioManager.PlaySound1 = PlaySound;
+			ScreensManager.Initialized += Init;
 			Utils.TR = new Dictionary<string, string>();
+		}
+		internal static void Init()
+		{
+			if (Task == null)
+			{
+				ContentManager.Get("Textures/SteamBoat");
+				ContentManager.Get("Textures/Train");
+				ContentManager.Get("Textures/Creatures/Jaguar");
+				ContentManager.Get("Textures/tex");
+				ContentManager.Get("Textures/tex2");
+				Task = Task.Run((Action)ItemBlock.InitItems);
+			}
+			var stream = Utils.GetTargetFile("IndustrialMod.png");
+			try
+			{
+				ItemBlock.Texture = Texture2D.Load(stream);
+			}
+			finally { stream.Close(); }
 		}
 		public static bool True(object obj) => true;
 		public static void PlaySound(string name, float volume, float pitch, float pan)
@@ -74,16 +96,10 @@ namespace Game
 			CraftingRecipesManager.m_recipes = new List<CraftingRecipe>();
 			var recipes = new List<CraftingRecipe>();
 			var enumerator = ContentManager.CombineXml(ContentManager.Get<XElement>("CraftingRecipes"), ModsManager.GetEntries(".cr"), "Description", "Result", "Recipes").Descendants("Recipe").GetEnumerator();
-			if (!ItemBlock.Task.IsCompleted)
-				ItemBlock.Task.Wait();
-			FactorioTransportBeltBlock.InitTextures();
 			while (enumerator.MoveNext())
 			{
 				XElement xelement = enumerator.Current;
-				var craftingRecipe = new CraftingRecipe
-				{
-					Ingredients = new string[36]
-				};
+				var craftingRecipe = new CraftingRecipe { Ingredients = new string[36] };
 				string attributeValue = XmlUtils.GetAttributeValue<string>(xelement, "Result");
 				craftingRecipe.ResultValue = CraftingRecipesManager.DecodeResult(attributeValue);
 				craftingRecipe.ResultCount = XmlUtils.GetAttributeValue<int>(xelement, "ResultCount");

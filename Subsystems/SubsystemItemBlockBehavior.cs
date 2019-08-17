@@ -6,7 +6,15 @@ using TemplatesDatabase;
 
 namespace Game
 {
-
+	struct PointComparer : IComparer<Point2>
+	{
+		public int Compare(Point2 x, Point2 y)
+		{
+			if (x.X != y.X)
+				return x.X.CompareTo(y.X);
+			return x.Y.CompareTo(y.Y);
+		}
+	}
 	partial class Utils
 	{
 		public static TerrainGeometrySubsets GTV(int x, int z, TerrainGeometrySubsets geometry)
@@ -32,7 +40,7 @@ namespace Game
 						tgs, tgs, tgs
 					}
 				};
-				SubsystemItemBlockBehavior.Data[chunk.Coords] = geometry;
+				SubsystemItemBlockBehavior.Data.Add(chunk.Coords, geometry);
 			}
 			return geometry;
 		}
@@ -118,19 +126,22 @@ namespace Game
 		public static int[] m_drawOrders = { 0 };
 		public int[] DrawOrders => m_drawOrders;
 
-		public static Dictionary<Point2, TerrainGeometrySubsets> Data;
+		public static SortedMultiCollection<Point2, TerrainGeometrySubsets> Data;
 
 		public SubsystemItemBlockBehavior()
 		{
 			TerrainUpdater.GenerateChunkVertices1 = Utils.GenerateChunkVertices;
-			Data = new Dictionary<Point2, TerrainGeometrySubsets>();
+			Data = new SortedMultiCollection<Point2, TerrainGeometrySubsets>(16, new PointComparer());
 		}
 
 		public void Draw(Camera camera, int drawOrder)
 		{
-			for (var e = Data.Values.GetEnumerator(); e.MoveNext();)
+			var arr = Data.m_array;
+			int len = Data.Count;
+			for (int i = 0; i < len; i++)
 			{
-				var c = e.Current;
+				var c = arr[i].Value;
+				if (c == null) continue;
 				Display.BlendState = BlendState.Opaque;
 				Display.DepthStencilState = DepthStencilState.Default;
 				Display.RasterizerState = RasterizerState.CullCounterClockwiseScissor;

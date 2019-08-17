@@ -140,7 +140,6 @@ namespace Game
 	public partial class ItemBlock
 	{
 		public static Texture2D Texture;
-		public static Task Task;
 
 		public static void DrawCubeBlock(PrimitivesRenderer3D primitivesRenderer, int value, Vector3 size, ref Matrix matrix, Color color, Color topColor, DrawBlockEnvironmentData environmentData)
 		{

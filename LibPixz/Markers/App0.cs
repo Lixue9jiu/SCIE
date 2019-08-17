@@ -2,7 +2,7 @@
 
 namespace LibPixz.Markers
 {
-	internal class App0 : Marker
+	internal static class App0
 	{
 		//static string name = "APP0";
 

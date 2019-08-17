@@ -2,7 +2,7 @@
 
 namespace LibPixz.Markers
 {
-	internal class Default : Marker
+	internal static class Default
 	{
 		public static void Read(BinaryReader reader, ImgInfo imgInfo, Pixz.Markers markerId)
 		{

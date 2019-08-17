@@ -185,7 +185,6 @@
     <Compile Include="LibPixz\Colorspaces\Rgb.cs" />
     <Compile Include="LibPixz\Colorspaces\YCbCr.cs" />
     <Compile Include="LibPixz\Colorspaces\IColorspaceConverter.cs" />
-    <Compile Include="LibPixz\Colorspaces\Lab.cs" />
     <Compile Include="LibPixz\Common.cs" />
     <Compile Include="LibPixz\Huffman\BitReader.cs" />
     <Compile Include="LibPixz\Huffman\Huffman.cs" />
@@ -199,7 +198,6 @@
     <Compile Include="LibPixz\ImgOps.cs" />
     <Compile Include="LibPixz\Markers\Dht.cs" />
     <Compile Include="LibPixz\Markers\Dqt.cs" />
-    <Compile Include="LibPixz\Markers\Marker.cs" />
     <Compile Include="LibPixz\Markers\Sof0.cs" />
     <Compile Include="LibPixz\Markers\Sos.cs" />
     <Compile Include="LibPixz\PixzDecode.cs" />

@@ -3,7 +3,7 @@ using System.IO;
 
 namespace LibPixz.Markers
 {
-	internal class Dri : Marker
+	internal static class Dri
 	{
 		public const int RestartMarkerPeriod = 8;
 		//static string name = "DRI";
@@ -12,7 +12,7 @@ namespace LibPixz.Markers
 		{
 			//LogMarker(reader, name);
 
-			int length = reader.ReadBEUInt16();
+			reader.ReadBEUInt16();
 
 			ushort restartInterval = reader.ReadBEUInt16();
 

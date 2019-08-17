@@ -55,7 +55,7 @@ public class RottenMeatBlock : FluidBlock
 		};
 		rottenMeatBlock.Initialize();
 		m_standaloneBlockMesh = rottenMeatBlock.m_standaloneBlockMesh;
-		var block = new Game.PaintStripperBucketBlock
+		var block = new PaintStripperBucketBlock
 		{
 			DefaultShadowStrength = -1
 		};

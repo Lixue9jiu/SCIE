@@ -1,30 +1,16 @@
 ﻿using Chemistry;
 using Engine;
 using Engine.Graphics;
-using System;
+using Engine.Media;
+using LibPixz;
 using System.Collections.Generic;
 using System.IO;
-using System.Threading.Tasks;
 
 namespace Game
 {
 	partial class ItemBlock
 	{
-		static ItemBlock()
-		{
-			if (Task == null)
-				Task = Task.Run((Action)Load);
-			//TexturedMeshItem.WhiteTexture = new Texture2D(1, 1, false, ColorFormat.Rgba8888);
-			//TexturedMeshItem.WhiteTexture.SetData(0, new byte[] { 255, 255, 255, 255 });
-			var stream = Utils.GetTargetFile("IndustrialMod.png");
-			try
-			{
-				Texture = Texture2D.Load(stream);
-			}
-			finally { stream.Close(); }
-		}
-
-		internal static void Load()
+		internal static void InitItems()
 		{
 			var m = Matrix.CreateTranslation(0.5f, 0.4f, 0.5f);
 			var m2 = Matrix.CreateTranslation(13f / 16f, -3f / 16f, 0f) * Matrix.CreateScale(20f);
@@ -316,16 +302,20 @@ namespace Game
 					device.Index = i;
 				IdTable.Add(ElementBlock.Devices[i].GetCraftingId(), ElementBlock.Index | i << 14);
 			}
+			for (i = 1; i < Chemistry.GunpowderBlock.Items.Length; i++)
+				IdTable.Add(Chemistry.GunpowderBlock.Items[i].GetCraftingId(), GunpowderBlock.Index | i << 14);
+		}
+
+		internal static void Load()
+		{
 			var list = new DynamicArray<Item>(Chemistry.GunpowderBlock.Items)
 			{
 				Capacity = Chemistry.GunpowderBlock.Items.Length
 			};
-			for (i = 0; i < 1024; i++)
+			for (int i = 0; i < 1024; i++)
 				list.Add(new Mine((MineType)(i & 63), (i >> 6) / 4.0));
 			list.Capacity = list.Count;
 			Chemistry.GunpowderBlock.Items = list.Array;
-			for (i = 1; i < Chemistry.GunpowderBlock.Items.Length; i++)
-				IdTable.Add(Chemistry.GunpowderBlock.Items[i].GetCraftingId(), GunpowderBlock.Index | i << 14);
 			var stream = Utils.GetTargetFile("IndustrialEquations.txt");
 			Equation.Reactions = new HashSet<Equation>();
 			try
@@ -340,6 +330,13 @@ namespace Game
 				}
 			}
 			finally { stream.Close(); }
+			Item.Images = new[]
+			{
+				GetTexture("Transport-belt_sprite.jpg"),
+				GetTexture("Fast-transport-belt_sprite.jpg"),
+				GetTexture("Express-transport-belt_sprite.jpg"),
+			};
+			FactorioTransportBeltBlock.m_textures = new Texture2D[3];
 			stream = Utils.GetTargetFile("IndustrialMod_en-us.lng", false);
 			if (stream == null) return;
 			try
@@ -347,6 +344,11 @@ namespace Game
 				Utils.ReadKeyValueFile(Utils.TR, stream);
 			}
 			finally { stream.Close(); }
+		}
+
+		public static Image GetTexture(string name)
+		{
+			return Pixz.Decode(Utils.GetTargetFile(name)).Array[0];
 		}
 
 		public static Dictionary<string, int> IdTable;

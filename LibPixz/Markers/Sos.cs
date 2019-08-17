@@ -4,7 +4,7 @@ using System.IO;
 
 namespace LibPixz.Markers
 {
-	internal class Sos : Marker
+	internal static class Sos
 	{
 		//static string name = "SOS";
 

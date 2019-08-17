@@ -1,5 +1,7 @@
 using Engine;
+using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Game
 {
@@ -25,6 +27,10 @@ namespace Game
 			Block = (ElementBlock)BlocksManager.Blocks[Index];
 			WireBlock = (WireBlock)BlocksManager.Blocks[WireBlock.Index];
 			base.Initialize();
+			if (!Item.Task.IsCompleted)
+				Item.Task.Wait();
+			Item.Task.Dispose();
+			Item.Task = Task.Run((Action)Load);
 		}
 
 		public override IItem GetItem(ref int value)
@@ -133,6 +139,7 @@ namespace Game
 		public override void GetDropValues(SubsystemTerrain subsystemTerrain, int oldValue, int newValue, int toolLevel, List<BlockDropValue> dropValues, out bool showDebris)
 		{
 			GetItem(ref oldValue).GetDropValues(subsystemTerrain, Terrain.ReplaceData(Index, Terrain.ExtractData(oldValue) & 32767), newValue, toolLevel, dropValues, out showDebris);
+			showDebris = false;
 		}
 
 		public override BlockPlacementData GetPlacementValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, TerrainRaycastResult raycastResult)

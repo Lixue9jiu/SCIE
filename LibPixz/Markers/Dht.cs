@@ -19,7 +19,7 @@ namespace LibPixz.Markers
 		public Huffman.CodeInfo[] preIndexTable;
 	}
 
-	internal class Dht : Marker
+	internal static class Dht
 	{
 		//static string name = "DHT";
 
@@ -47,12 +47,13 @@ namespace LibPixz.Markers
 			if ((tableInfo & 0xe0) != 0)  // High 3 bits of tableInfo must be zero
 				throw new Exception("Invalid huffman table");
 
-			var huffmanTable = new HuffmanTable();
-
-			huffmanTable.id = tableId;
-			huffmanTable.type = (byte)((tableInfo >> 4) & 0x1); // Bit 4 of tableInfo
-			huffmanTable.valid = true;
-			huffmanTable.numSymbols = new byte[16];
+			var huffmanTable = new HuffmanTable
+			{
+				id = tableId,
+				type = (byte)((tableInfo >> 4) & 0x1), // Bit 4 of tableInfo
+				valid = true,
+				numSymbols = new byte[16]
+			};
 
 			for (int i = 0; i < 16; i++)
 			{

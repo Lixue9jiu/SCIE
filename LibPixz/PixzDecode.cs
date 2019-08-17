@@ -32,7 +32,7 @@ namespace LibPixz
 
 			var imgInfo = new ImgInfo();
 
-			for (long length = stream.Length; ; )
+			for (long length = stream.Length; ;)
 			{
 				int markerId;
 				do
@@ -88,8 +88,8 @@ namespace LibPixz
 						break;
 				}
 			}
-			end:
-			reader.Close();
+		end:
+			reader.Dispose();
 			return images;
 		}
 	}

@@ -5,7 +5,7 @@ namespace LibPixz
 	/// <summary>
 	/// Extensions for BinaryReader that enable reading big endian numbers,
 	/// </summary>
-	internal static class BinaryReaderEx
+	partial class Common
 	{
 		internal static ushort ReadBEUInt16(this BinaryReader reader)
 		{

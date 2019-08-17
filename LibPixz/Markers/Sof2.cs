@@ -2,7 +2,7 @@
 
 namespace LibPixz.Markers
 {
-	internal class Sof2 : Marker
+	internal static class Sof2
 	{
 		//static string name = "SOF2";
 

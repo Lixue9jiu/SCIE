@@ -1,9 +1,7 @@
 ﻿using Engine;
 using Engine.Media;
 using LibPixz.Colorspaces;
-using System;
 using System.IO;
-using System.Linq;
 
 namespace LibPixz
 {
@@ -21,7 +19,7 @@ namespace LibPixz
 		{
 			// Used for reading those nasty variable length codes
 			var bReader = new BitReader(reader);
-			float[][,] img = new float[imgInfo.numOfComponents][,];
+			var img = new float[imgInfo.numOfComponents][,];
 
 			imgInfo.deltaDc = new short[imgInfo.numOfComponents];
 
@@ -31,14 +29,16 @@ namespace LibPixz
 			// Determine the width of height of the MCU, based on the read subsampling
 			// values from all channels (don't know if this is the correct way for all cases)
 			// but it works for the most common ones
-			var componentMax = imgInfo.components.Aggregate((a, b) =>
+			var arr = imgInfo.components;
+			var componentMax = arr[0];
+			for (int i = 1; i < arr.Length; i++)
 			{
-				return new Markers.ComponentInfo()
+				componentMax = new Markers.ComponentInfo()
 				{
-					samplingFactorX = Math.Max(a.samplingFactorX, b.samplingFactorX),
-					samplingFactorY = Math.Max(a.samplingFactorY, b.samplingFactorY)
+					samplingFactorX = (byte)MathUtils.Max(componentMax.samplingFactorX, arr[i].samplingFactorX),
+					samplingFactorY = (byte)MathUtils.Max(componentMax.samplingFactorY, arr[i].samplingFactorY)
 				};
-			});
+			}
 
 			int sizeMcuX = blkSize * componentMax.samplingFactorX;
 			int sizeMcuY = blkSize * componentMax.samplingFactorY;
@@ -161,7 +161,7 @@ namespace LibPixz
 			}
 			else
 			{
-				converter = new Colorspaces.YCbCr();
+				converter = new YCbCr();
 			}
 
 			for (int y = 0; y < imgInfo.height; y++)

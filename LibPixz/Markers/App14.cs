@@ -10,14 +10,14 @@ namespace LibPixz.Markers
 		YCCK
 	}
 
-	internal class App14 : Marker
+	internal static class App14
 	{
 		//static string name = "APP14";
 
 		public static void Read(BinaryReader reader, ImgInfo imgInfo)
 		{
 			//LogMarker(reader, name);
-			ushort markerLength = reader.ReadBEUInt16();
+			reader.ReadBEUInt16();
 
 			reader.ReadBytes(11);
 
