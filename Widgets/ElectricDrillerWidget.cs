@@ -21,9 +21,8 @@ namespace Game
 
 		protected readonly SubsystemTerrain m_subsystemTerrain;
 
-		protected readonly InventorySlotWidget m_drillSlot;
-
-		protected readonly InventorySlotWidget m_batterySlot;
+		protected readonly InventorySlotWidget m_drillSlot,
+												m_batterySlot;
 
 		public ElectricDrillerWidget(IInventory inventory, ComponentElectricDriller componentDispenser)
 		{

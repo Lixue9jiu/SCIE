@@ -5,7 +5,7 @@ namespace Game
 {
 	public class CovenWidget : CanvasWidget
 	{
-		protected readonly ComponentMachine m_componentFurnace;
+		protected readonly ComponentMachine m_component;
 
 		protected readonly FireWidget m_fire;
 
@@ -25,9 +25,9 @@ namespace Game
 
 		//protected readonly InventorySlotWidget m_remainsSlot3;
 
-		public CovenWidget(IInventory inventory, ComponentMachine componentFurnace, string path = "Widgets/CovenWidget")
+		public CovenWidget(IInventory inventory, ComponentMachine component, string path = "Widgets/CovenWidget")
 		{
-			m_componentFurnace = componentFurnace;
+			m_component = component;
 			WidgetsManager.LoadWidgetContents(this, this, ContentManager.Get<XElement>(path));
 			m_inventoryGrid = Children.Find<GridPanelWidget>("InventoryGrid");
 			m_furnaceGrid = Children.Find<GridPanelWidget>("FurnaceGrid");
@@ -54,21 +54,21 @@ namespace Game
 				for (x = 0; x < m_furnaceGrid.ColumnsCount; x++)
 				{
 					inventorySlotWidget = new InventorySlotWidget();
-					inventorySlotWidget.AssignInventorySlot(componentFurnace, num++);
+					inventorySlotWidget.AssignInventorySlot(component, num++);
 					m_furnaceGrid.Children.Add(inventorySlotWidget);
 					m_furnaceGrid.SetWidgetCell(inventorySlotWidget, new Point2(x, y));
 				}
 			}
-			m_resultSlot.AssignInventorySlot(componentFurnace, 6);
-			m_remainsSlot.AssignInventorySlot(componentFurnace, 7);
-			m_remainsSlot2.AssignInventorySlot(componentFurnace, 8);
+			m_resultSlot.AssignInventorySlot(component, 6);
+			m_remainsSlot.AssignInventorySlot(component, 7);
+			m_remainsSlot2.AssignInventorySlot(component, 8);
 		}
 
 		public override void Update()
 		{
-			m_fire.ParticlesPerSecond = m_componentFurnace.HeatLevel > 0f ? 24f : 0f;
-			m_progress.Value = m_componentFurnace.SmeltingProgress;
-			if (!m_componentFurnace.IsAddedToProject)
+			m_fire.ParticlesPerSecond = m_component.HeatLevel > 0f ? 24f : 0f;
+			m_progress.Value = m_component.SmeltingProgress;
+			if (!m_component.IsAddedToProject)
 				ParentWidget.Children.Remove(this);
 		}
 	}

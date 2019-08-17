@@ -5,15 +5,13 @@ namespace Game
 {
 	public class FractionalTowerWidget : CanvasWidget
 	{
-		protected readonly ComponentMachine m_componentFurnace;
+		protected readonly ComponentMachine m_component;
 
 		protected readonly GridPanelWidget m_furnaceGrid;
 
-		protected readonly InventorySlotWidget m_result1;
-
-		protected readonly InventorySlotWidget m_result2;
-
-		protected readonly InventorySlotWidget m_result3;
+		protected readonly InventorySlotWidget m_result1,
+												m_result2,
+												m_result3;
 
 		protected readonly InventorySlotWidget m_cir1, m_cir2;
 
@@ -22,9 +20,9 @@ namespace Game
 		protected readonly ValueBarWidget m_progress;
 		protected readonly CheckboxWidget m_acceptsDropsBox;
 
-		public FractionalTowerWidget(IInventory inventory, ComponentMachine componentFurnace)
+		public FractionalTowerWidget(IInventory inventory, ComponentMachine component)
 		{
-			m_componentFurnace = componentFurnace;
+			m_component = component;
 			WidgetsManager.LoadWidgetContents(this, this, ContentManager.Get<XElement>("Widgets/FractionalTowerWidget"));
 			m_inventoryGrid = Children.Find<GridPanelWidget>("InventoryGrid");
 			m_furnaceGrid = Children.Find<GridPanelWidget>("FurnaceGrid");
@@ -55,22 +53,22 @@ namespace Game
 				for (x = 0; x < m_furnaceGrid.ColumnsCount; x++)
 				{
 					inventorySlotWidget = new InventorySlotWidget();
-					inventorySlotWidget.AssignInventorySlot(componentFurnace, num++);
+					inventorySlotWidget.AssignInventorySlot(component, num++);
 					m_furnaceGrid.Children.Add(inventorySlotWidget);
 					m_furnaceGrid.SetWidgetCell(inventorySlotWidget, new Point2(x, y));
 				}
 			}
-			m_result1.AssignInventorySlot(componentFurnace, num++);
-			m_result2.AssignInventorySlot(componentFurnace, num++);
-			m_result3.AssignInventorySlot(componentFurnace, num++);
-			m_cir1.AssignInventorySlot(componentFurnace, num++);
-			m_cir2.AssignInventorySlot(componentFurnace, num++);
+			m_result1.AssignInventorySlot(component, num++);
+			m_result2.AssignInventorySlot(component, num++);
+			m_result3.AssignInventorySlot(component, num++);
+			m_cir1.AssignInventorySlot(component, num++);
+			m_cir2.AssignInventorySlot(component, num++);
 		}
 
 		public override void Update()
 		{
-			m_progress.Value = m_componentFurnace.SmeltingProgress;
-			if (!m_componentFurnace.IsAddedToProject)
+			m_progress.Value = m_component.SmeltingProgress;
+			if (!m_component.IsAddedToProject)
 				ParentWidget.Children.Remove(this);
 		}
 	}

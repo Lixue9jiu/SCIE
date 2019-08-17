@@ -5,7 +5,7 @@ namespace Game
 {
 	public class FurnaceNWidget : CanvasWidget
 	{
-		protected readonly ComponentFurnaceN m_componentFurnace;
+		protected readonly ComponentFurnaceN m_component;
 
 		protected readonly FireWidget m_fire;
 
@@ -17,13 +17,12 @@ namespace Game
 
 		protected readonly ValueBarWidget m_progress;
 
-		protected readonly InventorySlotWidget m_remainsSlot;
+		protected readonly InventorySlotWidget m_remainsSlot,
+												m_resultSlot;
 
-		protected readonly InventorySlotWidget m_resultSlot;
-
-		public FurnaceNWidget(IInventory inventory, ComponentFurnaceN componentFurnace)
+		public FurnaceNWidget(IInventory inventory, ComponentFurnaceN component)
 		{
-			m_componentFurnace = componentFurnace;
+			m_component = component;
 			WidgetsManager.LoadWidgetContents(this, this, ContentManager.Get<XElement>("Widgets/FurnaceNWidget"));
 			m_inventoryGrid = Children.Find<GridPanelWidget>("InventoryGrid");
 			m_furnaceGrid = Children.Find<GridPanelWidget>("FurnaceGrid");
@@ -50,21 +49,21 @@ namespace Game
 				for (x = 0; x < m_furnaceGrid.ColumnsCount; x++)
 				{
 					inventorySlotWidget = new InventorySlotWidget();
-					inventorySlotWidget.AssignInventorySlot(componentFurnace, num++);
+					inventorySlotWidget.AssignInventorySlot(component, num++);
 					m_furnaceGrid.Children.Add(inventorySlotWidget);
 					m_furnaceGrid.SetWidgetCell(inventorySlotWidget, new Point2(x, y));
 				}
 			}
-			m_fuelSlot.AssignInventorySlot(componentFurnace, componentFurnace.FuelSlotIndex);
-			m_resultSlot.AssignInventorySlot(componentFurnace, componentFurnace.ResultSlotIndex);
-			m_remainsSlot.AssignInventorySlot(componentFurnace, componentFurnace.RemainsSlotIndex);
+			m_fuelSlot.AssignInventorySlot(component, component.FuelSlotIndex);
+			m_resultSlot.AssignInventorySlot(component, component.ResultSlotIndex);
+			m_remainsSlot.AssignInventorySlot(component, component.RemainsSlotIndex);
 		}
 
 		public override void Update()
 		{
-			m_fire.ParticlesPerSecond = m_componentFurnace.HeatLevel > 0f ? 24f : 0f;
-			m_progress.Value = m_componentFurnace.SmeltingProgress;
-			if (!m_componentFurnace.IsAddedToProject)
+			m_fire.ParticlesPerSecond = m_component.HeatLevel > 0f ? 24f : 0f;
+			m_progress.Value = m_component.SmeltingProgress;
+			if (!m_component.IsAddedToProject)
 				ParentWidget.Children.Remove(this);
 		}
 	}

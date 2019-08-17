@@ -3,8 +3,6 @@ namespace Game
 {
 	public class NewChestWidget : EntityWidget<ComponentInventoryBase>
 	{
-		public readonly ComponentInventoryBase Component;
-
 		protected readonly GridPanelWidget m_chestGrid;
 
 		public NewChestWidget(IInventory inventory, ComponentInventoryBase component, string text = "Freezer") : base(component, "Widgets/NewChestWidget")

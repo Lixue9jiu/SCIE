@@ -3,31 +3,22 @@ using System.Xml.Linq;
 
 namespace Game
 {
-	public class CReactorWidget : CanvasWidget
+	public class CReactorWidget : EntityWidget<ComponentMachine>
 	{
-		protected readonly ComponentMachine m_componentFurnace;
-
 		//protected readonly FireWidget m_fire;
 
 		//protected readonly InventorySlotWidget m_fuelSlot;
 
 		protected readonly GridPanelWidget m_furnaceGrid;
 
-		protected readonly InventorySlotWidget m_result1;
-
-		protected readonly InventorySlotWidget m_result2;
-
-		protected readonly InventorySlotWidget m_result3;
-
-		protected readonly GridPanelWidget m_inventoryGrid;
+		protected readonly InventorySlotWidget m_result1,
+												m_result2,
+												m_result3;
 
 		protected readonly ValueBarWidget m_progress;
 
-		public CReactorWidget(IInventory inventory, ComponentMachine componentFurnace)
+		public CReactorWidget(IInventory inventory, ComponentMachine component) : base(component, "Widgets/CReactorWidget")
 		{
-			m_componentFurnace = componentFurnace;
-			WidgetsManager.LoadWidgetContents(this, this, ContentManager.Get<XElement>("Widgets/CReactorWidget"));
-			m_inventoryGrid = Children.Find<GridPanelWidget>("InventoryGrid");
 			m_furnaceGrid = Children.Find<GridPanelWidget>("FurnaceGrid");
 			m_result1 = Children.Find<InventorySlotWidget>("ResultSlot1");
 			m_result2 = Children.Find<InventorySlotWidget>("ResultSlot2");
@@ -51,20 +42,20 @@ namespace Game
 				for (x = 0; x < m_furnaceGrid.ColumnsCount; x++)
 				{
 					inventorySlotWidget = new InventorySlotWidget();
-					inventorySlotWidget.AssignInventorySlot(componentFurnace, num++);
+					inventorySlotWidget.AssignInventorySlot(component, num++);
 					m_furnaceGrid.Children.Add(inventorySlotWidget);
 					m_furnaceGrid.SetWidgetCell(inventorySlotWidget, new Point2(x, y));
 				}
 			}
-			m_result1.AssignInventorySlot(componentFurnace, num);
-			m_result2.AssignInventorySlot(componentFurnace, num + 1);
-			m_result3.AssignInventorySlot(componentFurnace, num + 2);
+			m_result1.AssignInventorySlot(component, num);
+			m_result2.AssignInventorySlot(component, num + 1);
+			m_result3.AssignInventorySlot(component, num + 2);
 		}
 
 		public override void Update()
 		{
-			m_progress.Value = m_componentFurnace.SmeltingProgress;
-			if (!m_componentFurnace.IsAddedToProject)
+			m_progress.Value = m_component.SmeltingProgress;
+			if (!m_component.IsAddedToProject)
 				ParentWidget.Children.Remove(this);
 		}
 	}

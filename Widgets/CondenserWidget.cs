@@ -8,7 +8,7 @@ namespace Game
 	{
 		protected readonly ComponentBlockEntity m_componentBlockEntity;
 
-		protected readonly ComponentCondenser m_componentDispenser;
+		protected readonly ComponentCondenser m_component;
 
 		protected readonly ButtonWidget m_dispenseButton;
 
@@ -20,7 +20,7 @@ namespace Game
 
 		public CondenserWidget(IInventory inventory, ComponentCondenser component)
 		{
-			m_componentDispenser = component;
+			m_component = component;
 			m_componentBlockEntity = component.Entity.FindComponent<ComponentBlockEntity>(true);
 			WidgetsManager.LoadWidgetContents(this, this, ContentManager.Get<XElement>("Widgets/CondenserWidget"));
 			m_inventoryGrid = Children.Find<GridPanelWidget>("InventoryGrid");
@@ -44,31 +44,32 @@ namespace Game
 
 		public override void Update()
 		{
-			if (!m_componentDispenser.IsAddedToProject)
+			if (!m_component.IsAddedToProject)
 			{
 				ParentWidget.Children.Remove(this);
 				return;
 			}
-			Children.Find<LabelWidget>("DispenserLabel2").Text = m_componentDispenser.m_fireTimeRemaining.ToString() + "/1M E";
-			int value = Utils.Terrain.GetCellValue(m_componentBlockEntity.Coordinates.X, m_componentBlockEntity.Coordinates.Y, m_componentBlockEntity.Coordinates.Z);
+			Children.Find<LabelWidget>("DispenserLabel2").Text = m_component.m_fireTimeRemaining.ToString() + "/1M E";
+			Point3 coordinates = m_componentBlockEntity.Coordinates;
+			int value = Utils.Terrain.GetCellValue(coordinates.X, coordinates.Y, coordinates.Z);
 			int data = Terrain.ExtractData(value);
 			MachineMode mode = GetMode(data);
 			if (m_dispenseButton.IsClicked && mode == MachineMode.Discharger)
 			{
 				data = SetMode(data);
-				Utils.Terrain.SetCellValueFast(m_componentBlockEntity.Coordinates.X, m_componentBlockEntity.Coordinates.Y, m_componentBlockEntity.Coordinates.Z, Terrain.ReplaceData(value, data));
-				m_componentDispenser.Charged = true;
+				Utils.Terrain.SetCellValueFast(coordinates.X, coordinates.Y, coordinates.Z, Terrain.ReplaceData(value, data));
+				m_component.Charged = true;
 			}
 			if (m_shootButton.IsClicked && mode == MachineMode.Charge)
 			{
 				data = SetMode(data);
-				Utils.Terrain.SetCellValueFast(m_componentBlockEntity.Coordinates.X, m_componentBlockEntity.Coordinates.Y, m_componentBlockEntity.Coordinates.Z, Terrain.ReplaceData(value, data));
-				m_componentDispenser.Charged = false;
+				Utils.Terrain.SetCellValueFast(coordinates.X, coordinates.Y, coordinates.Z, Terrain.ReplaceData(value, data));
+				m_component.Charged = false;
 			}
 
-			m_progress.Value = 1f - m_componentDispenser.m_fireTimeRemaining / 1000000f;
+			m_progress.Value = 1f - m_component.m_fireTimeRemaining / 1000000f;
 			m_dispenseButton.IsChecked = mode == MachineMode.Charge;
-			m_componentDispenser.Charged = mode == MachineMode.Charge;
+			m_component.Charged = mode == MachineMode.Charge;
 			m_shootButton.IsChecked = mode == MachineMode.Discharger;
 		}
 	}

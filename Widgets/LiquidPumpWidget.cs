@@ -6,11 +6,11 @@ namespace Game
 	{
 		//protected readonly CheckboxWidget m_acceptsDropsBox;
 
-		protected readonly GridPanelWidget m_dispenserGrid;
+		protected readonly GridPanelWidget m_dispenserGrid,
+											m_dispenserGrid2;
 
 		protected readonly InventorySlotWidget m_drillSlot;
 
-		protected readonly GridPanelWidget m_dispenserGrid2;
 
 		public LiquidPumpWidget(IInventory inventory, ComponentInventoryBase componentDispenser) : base(componentDispenser, "Widgets/LiquidPumpWidget")
 		{

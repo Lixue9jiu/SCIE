@@ -23,11 +23,11 @@ namespace Game
 
 		protected readonly InventorySlotWidget m_drillSlot;
 
-		public DrillerWidget(IInventory inventory, ComponentInventoryBase componentDispenser)
+		public DrillerWidget(IInventory inventory, ComponentInventoryBase component)
 		{
-			m_componentDispenser = componentDispenser;
-			m_componentBlockEntity = componentDispenser.Entity.FindComponent<ComponentBlockEntity>(true);
-			m_subsystemTerrain = componentDispenser.Project.FindSubsystem<SubsystemTerrain>(true);
+			m_componentDispenser = component;
+			m_componentBlockEntity = component.Entity.FindComponent<ComponentBlockEntity>(true);
+			m_subsystemTerrain = component.Project.FindSubsystem<SubsystemTerrain>(true);
 			WidgetsManager.LoadWidgetContents(this, this, ContentManager.Get<XElement>("Widgets/DrillerWidget"));
 			m_inventoryGrid = Children.Find<GridPanelWidget>("InventoryGrid");
 			m_furnaceGrid = Children.Find<GridPanelWidget>("DispenserGrid");
@@ -53,12 +53,12 @@ namespace Game
 				for (x = 0; x < m_furnaceGrid.ColumnsCount; x++)
 				{
 					inventorySlotWidget = new InventorySlotWidget();
-					inventorySlotWidget.AssignInventorySlot(componentDispenser, num++);
+					inventorySlotWidget.AssignInventorySlot(component, num++);
 					m_furnaceGrid.Children.Add(inventorySlotWidget);
 					m_furnaceGrid.SetWidgetCell(inventorySlotWidget, new Point2(x, y));
 				}
 			}
-			m_drillSlot.AssignInventorySlot(componentDispenser, 8);
+			m_drillSlot.AssignInventorySlot(component, 8);
 		}
 
 		public override void Update()

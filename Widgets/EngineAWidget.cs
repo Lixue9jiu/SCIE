@@ -1,12 +1,9 @@
 using Engine;
-using System.Xml.Linq;
 
 namespace Game
 {
-	public class EngineAWidget : CanvasWidget
+	public class EngineAWidget : EntityWidget<ComponentMachine>
 	{
-		protected readonly ComponentMachine m_componentFurnace;
-
 		protected readonly FireWidget m_fire;
 
 		//protected readonly InventorySlotWidget m_fuelSlot;
@@ -16,19 +13,13 @@ namespace Game
 
 		protected readonly GridPanelWidget m_furnaceGrid;
 
-		protected readonly GridPanelWidget m_inventoryGrid;
-
 		protected readonly ValueBarWidget m_progress;
 
-		protected readonly InventorySlotWidget m_remainsSlot;
+		protected readonly InventorySlotWidget m_remainsSlot,
+												m_resultSlot;
 
-		protected readonly InventorySlotWidget m_resultSlot;
-
-		public EngineAWidget(IInventory inventory, ComponentMachine componentFurnace, string path = "Widgets/EngineAWidget")
+		public EngineAWidget(IInventory inventory, ComponentMachine component, string path = "Widgets/EngineAWidget") : base(component, path)
 		{
-			m_componentFurnace = componentFurnace;
-			WidgetsManager.LoadWidgetContents(this, this, ContentManager.Get<XElement>(path));
-			m_inventoryGrid = Children.Find<GridPanelWidget>("InventoryGrid");
 			m_furnaceGrid = Children.Find<GridPanelWidget>("FurnaceGrid");
 			m_dispenseButton = Children.Find<ButtonWidget>("DispenseButton", false);
 			m_fire = Children.Find<FireWidget>("Fire");
@@ -54,32 +45,31 @@ namespace Game
 				for (x = 0; x < m_furnaceGrid.ColumnsCount; x++)
 				{
 					inventorySlotWidget = new InventorySlotWidget();
-					inventorySlotWidget.AssignInventorySlot(componentFurnace, num++);
+					inventorySlotWidget.AssignInventorySlot(component, num++);
 					m_furnaceGrid.Children.Add(inventorySlotWidget);
 					m_furnaceGrid.SetWidgetCell(inventorySlotWidget, new Point2(x, y));
 				}
 			}
-			m_remainsSlot.AssignInventorySlot(componentFurnace, componentFurnace.RemainsSlotIndex);
-			m_resultSlot.AssignInventorySlot(componentFurnace, componentFurnace.ResultSlotIndex);
+			m_remainsSlot.AssignInventorySlot(component, component.RemainsSlotIndex);
+			m_resultSlot.AssignInventorySlot(component, component.ResultSlotIndex);
 		}
 
 		public override void Update()
 		{
-			m_fire.ParticlesPerSecond = m_componentFurnace.HeatLevel > 0f ? 24f : 0f;
-			m_progress.Value = m_componentFurnace.SmeltingProgress / 1000f;
-
-			if (m_dispenseButton.IsClicked && m_componentFurnace.HeatLevel <= 0f && m_componentFurnace.SmeltingProgress >= 0f)
+			m_fire.ParticlesPerSecond = m_component.HeatLevel > 0f ? 24f : 0f;
+			m_progress.Value = m_component.SmeltingProgress / 1000f;
+			if (m_dispenseButton.IsClicked && m_component.HeatLevel <= 0f && m_component.SmeltingProgress >= 0f)
 			{
-				m_componentFurnace.HeatLevel = 1000f;
+				m_component.HeatLevel = 1000f;
 			}
-			if (m_shootButton.IsClicked && m_componentFurnace.HeatLevel > 0f)
+			if (m_shootButton.IsClicked && m_component.HeatLevel > 0f)
 			{
-				m_componentFurnace.HeatLevel = 0f;
+				m_component.HeatLevel = 0f;
 			}
-			m_dispenseButton.IsChecked = m_componentFurnace.HeatLevel != 0f;
+			m_dispenseButton.IsChecked = m_component.HeatLevel != 0f;
 			//m_componentDispenser2.Charged = mode == MachineMode1.Charge;
-			m_shootButton.IsChecked = m_componentFurnace.HeatLevel == 0f;
-			if (!m_componentFurnace.IsAddedToProject)
+			m_shootButton.IsChecked = m_component.HeatLevel == 0f;
+			if (!m_component.IsAddedToProject)
 				ParentWidget.Children.Remove(this);
 		}
 	}

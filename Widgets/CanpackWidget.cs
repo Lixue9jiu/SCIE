@@ -5,7 +5,7 @@ namespace Game
 {
 	public class CanpackWidget : CanvasWidget
 	{
-		protected readonly ComponentMachine m_componentFurnace;
+		protected readonly ComponentMachine m_component;
 
 		protected readonly GridPanelWidget m_furnaceGrid;
 
@@ -16,9 +16,9 @@ namespace Game
 		protected readonly ValueBarWidget m_progress;
 		protected readonly CheckboxWidget m_acceptsDropsBox;
 
-		public CanpackWidget(IInventory inventory, ComponentMachine componentFurnace)
+		public CanpackWidget(IInventory inventory, ComponentMachine component)
 		{
-			m_componentFurnace = componentFurnace;
+			m_component = component;
 			WidgetsManager.LoadWidgetContents(this, this, ContentManager.Get<XElement>("Widgets/CanpackWidget"));
 			m_inventoryGrid = Children.Find<GridPanelWidget>("InventoryGrid");
 			m_furnaceGrid = Children.Find<GridPanelWidget>("FurnaceGrid");
@@ -45,18 +45,18 @@ namespace Game
 				for (x = 0; x < m_furnaceGrid.ColumnsCount; x++)
 				{
 					var inventorySlotWidget2 = new InventorySlotWidget();
-					inventorySlotWidget2.AssignInventorySlot(componentFurnace, num++);
+					inventorySlotWidget2.AssignInventorySlot(component, num++);
 					m_furnaceGrid.Children.Add(inventorySlotWidget2);
 					m_furnaceGrid.SetWidgetCell(inventorySlotWidget2, new Point2(x, y));
 				}
 			}
-			m_result1.AssignInventorySlot(componentFurnace, num++);
+			m_result1.AssignInventorySlot(component, num++);
 		}
 
 		public override void Update()
 		{
-			m_progress.Value = m_componentFurnace.SmeltingProgress;
-			if (!m_componentFurnace.IsAddedToProject)
+			m_progress.Value = m_component.SmeltingProgress;
+			if (!m_component.IsAddedToProject)
 				ParentWidget.Children.Remove(this);
 		}
 	}

@@ -7,9 +7,7 @@ namespace Game
 	{
 		protected readonly CheckboxWidget m_acceptsDropsBox;
 
-		protected readonly ComponentBlockEntity m_componentBlockEntity;
-
-		protected readonly ComponentMachine m_componentDispenser;
+		protected readonly ComponentMachine m_component;
 
 		protected readonly ButtonWidget m_dispenseButton;
 
@@ -18,8 +16,6 @@ namespace Game
 		protected readonly GridPanelWidget m_furnaceGrid;
 
 		protected readonly ButtonWidget m_shootButton;
-
-		protected readonly SubsystemTerrain m_subsystemTerrain;
 
 		protected readonly ValueBarWidget m_progress;
 
@@ -30,9 +26,7 @@ namespace Game
 
 		public ICEngineWidget(IInventory inventory, ComponentMachine component)
 		{
-			m_componentDispenser = component;
-			m_componentBlockEntity = component.Entity.FindComponent<ComponentBlockEntity>(true);
-			m_subsystemTerrain = component.Project.FindSubsystem<SubsystemTerrain>(true);
+			m_component = component;
 			WidgetsManager.LoadWidgetContents(this, this, ContentManager.Get<XElement>("Widgets/ICEngineWidget"));
 			m_inventoryGrid = Children.Find<GridPanelWidget>("InventoryGrid");
 			m_furnaceGrid = Children.Find<GridPanelWidget>("DispenserGrid");
@@ -72,23 +66,23 @@ namespace Game
 
 		public override void Update()
 		{
-			if (!m_componentDispenser.IsAddedToProject)
+			if (!m_component.IsAddedToProject)
 			{
 				ParentWidget.Children.Remove(this);
 				return;
 			}
-			m_fire.ParticlesPerSecond = m_componentDispenser.HeatLevel > 0f ? 24f : 0f;
-			m_progress.Value = m_componentDispenser.SmeltingProgress / 1000f;
+			m_fire.ParticlesPerSecond = m_component.HeatLevel > 0f ? 24f : 0f;
+			m_progress.Value = m_component.SmeltingProgress / 1000f;
 
-			if (m_dispenseButton.IsClicked && m_componentDispenser.HeatLevel <= 0f && m_componentDispenser.SmeltingProgress > 0f)
+			if (m_dispenseButton.IsClicked && m_component.HeatLevel <= 0f && m_component.SmeltingProgress > 0f)
 			{
-				m_componentDispenser.HeatLevel = 1000f;
+				m_component.HeatLevel = 1000f;
 			}
-			if (m_shootButton.IsClicked && m_componentDispenser.HeatLevel > 0f)
+			if (m_shootButton.IsClicked && m_component.HeatLevel > 0f)
 			{
-				m_componentDispenser.HeatLevel = 0f;
+				m_component.HeatLevel = 0f;
 			}
-			m_dispenseButton.IsChecked = m_componentDispenser.HeatLevel != 0f;
+			m_dispenseButton.IsChecked = m_component.HeatLevel != 0f;
 		}
 	}
 }

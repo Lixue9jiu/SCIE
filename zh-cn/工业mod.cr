@@ -982,13 +982,13 @@
       "bdcb"
       "bcec"
     </Recipe>
-	<Recipe Result="IEBatteryBlock:6" ResultCount="1" RequiredHeatLevel="0" a="ElectricMotor" b="SteelSheet" c="SteelRod" d="SteelPlate" e="CuZnBattery" f="SteelGear" Description="制作电锯">
+    <Recipe Result="IEBatteryBlock:6" ResultCount="1" RequiredHeatLevel="0" a="ElectricMotor" b="SteelSheet" c="SteelRod" d="SteelPlate" e="CuZnBattery" f="SteelGear" Description="制作电锯">
       "bbbb"
       "bcfa"
       "bdce"
       "bbbb"
     </Recipe>
-	<Recipe Result="IEBatteryBlock:7" ResultCount="1" RequiredHeatLevel="0" a="ElectricMotor" b="drill:0" c="SteelRod" d="SteelPlate" e="CuZnBattery" f="SteelGear" Description="制作电锯">
+    <Recipe Result="IEBatteryBlock:7" ResultCount="1" RequiredHeatLevel="0" a="ElectricMotor" b="drill:0" c="SteelRod" d="SteelPlate" e="CuZnBattery" f="SteelGear" Description="制作电锯">
       "bcfa"
       " dce"
     </Recipe>
@@ -1034,13 +1034,13 @@
       "acca"
       "bddb"
     </Recipe>
-	<Recipe Result="ElectricDriller" ResultCount="1" RequiredHeatLevel="0" a="CopperWire" b="SteelPlate" c="电容" d="metalblock:32" e="driller" f="memorybank" g="ElectricMotor" Description="制作一台电子挖矿机">
+    <Recipe Result="ElectricDriller" ResultCount="1" RequiredHeatLevel="0" a="CopperWire" b="SteelPlate" c="电容" d="metalblock:32" e="driller" f="memorybank" g="ElectricMotor" Description="制作一台电子挖矿机">
       "ceec"
       "fddf"
       "fggf"
       "baab"
     </Recipe>
-	<Recipe Result="电容" ResultCount="1" RequiredHeatLevel="0" a="CopperWire" b="SteelPlate" c="waterbucket" d="AluminumPlate" Description="用铝片制作一电容">
+    <Recipe Result="电容" ResultCount="1" RequiredHeatLevel="0" a="CopperWire" b="SteelPlate" c="waterbucket" d="AluminumPlate" Description="用铝片制作一电容">
       " d "
       "aca"
       " d "
@@ -1120,7 +1120,7 @@
       "aba"
       "a a"
     </Recipe>
-	<Recipe Result="ClothingBlock:44" ResultCount="1" RequiredHeatLevel="0" a="iebattery:4" b="clothing:38" c="SteelSheet" Description="制作矿工帽">
+    <Recipe Result="ClothingBlock:44" ResultCount="1" RequiredHeatLevel="0" a="iebattery:4" b="clothing:38" c="SteelSheet" Description="制作矿工帽">
       " a"
       " b"
       "c c"

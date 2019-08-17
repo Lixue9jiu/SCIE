@@ -22,11 +22,11 @@ namespace Game
 
 		//protected readonly ValueBarWidget m_progress;
 
-		public ChargerWidget(IInventory inventory, ComponentCharger componentDispenser)
+		public ChargerWidget(IInventory inventory, ComponentCharger component)
 		{
 			//m_componentDispenser = componentDispenser;
-			m_componentDispenser = componentDispenser;
-			m_componentBlockEntity = componentDispenser.Entity.FindComponent<ComponentBlockEntity>(true);
+			m_componentDispenser = component;
+			m_componentBlockEntity = component.Entity.FindComponent<ComponentBlockEntity>(true);
 			WidgetsManager.LoadWidgetContents(this, this, ContentManager.Get<XElement>("Widgets/ChargerWidget"));
 			m_inventoryGrid = Children.Find<GridPanelWidget>("InventoryGrid");
 			m_dispenserGrid = Children.Find<GridPanelWidget>("DispenserGrid");
@@ -53,7 +53,7 @@ namespace Game
 				for (x = 0; x < m_dispenserGrid.ColumnsCount; x++)
 				{
 					inventorySlotWidget = new InventorySlotWidget();
-					inventorySlotWidget.AssignInventorySlot(componentDispenser, num++);
+					inventorySlotWidget.AssignInventorySlot(component, num++);
 					m_dispenserGrid.Children.Add(inventorySlotWidget);
 					m_dispenserGrid.SetWidgetCell(inventorySlotWidget, new Point2(x, y));
 				}

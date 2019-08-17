@@ -6,9 +6,8 @@ namespace Game
 	{
 		protected readonly GridPanelWidget m_craftingGrid;
 
-		protected readonly InventorySlotWidget m_craftingRemainsSlot;
-
-		protected readonly InventorySlotWidget m_craftingResultSlot;
+		protected readonly InventorySlotWidget m_craftingRemainsSlot,
+												m_craftingResultSlot;
 
 		public MachineToolWidget(IInventory inventory, ComponentLargeCraftingTable componentCraftingTable) : base(componentCraftingTable, "Widgets/MachineToolWidget")
 		{

@@ -20,7 +20,7 @@ namespace Game
 
 	public class PresserWidget<T> : CanvasWidget where T : ComponentMachine
 	{
-		protected readonly T m_componentFurnace;
+		protected readonly T m_component;
 
 		protected readonly FireWidget m_fire;
 
@@ -36,7 +36,7 @@ namespace Game
 
 		public PresserWidget(IInventory inventory, T component, string path = null)
 		{
-			m_componentFurnace = component;
+			m_component = component;
 			WidgetsManager.LoadWidgetContents(this, this, ContentManager.Get<XElement>(path ?? "Widgets/PresserWidget"));
 			if (path == null)
 				Children.Find<LabelWidget>("ChestLabel").Text = component.ValuesDictionary.DatabaseObject.Name;
@@ -75,10 +75,10 @@ namespace Game
 
 		public override void Update()
 		{
-			if (!m_componentFurnace.IsAddedToProject)
+			if (!m_component.IsAddedToProject)
 				ParentWidget.Children.Remove(this);
-			m_fire.ParticlesPerSecond = m_componentFurnace.HeatLevel > 0f ? 24f : 0f;
-			m_progress.Value = m_componentFurnace.SmeltingProgress;
+			m_fire.ParticlesPerSecond = m_component.HeatLevel > 0f ? 24f : 0f;
+			m_progress.Value = m_component.SmeltingProgress;
 		}
 	}
 

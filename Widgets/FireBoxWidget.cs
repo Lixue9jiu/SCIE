@@ -5,7 +5,7 @@ namespace Game
 {
 	public class FireBoxWidget<T> : CanvasWidget where T : ComponentMachine
 	{
-		protected readonly T m_componentFurnace;
+		protected readonly T m_component;
 
 		protected readonly FireWidget m_fire;
 
@@ -23,7 +23,7 @@ namespace Game
 
 		public FireBoxWidget(IInventory inventory, T component, string path)
 		{
-			m_componentFurnace = component;
+			m_component = component;
 			WidgetsManager.LoadWidgetContents(this, this, ContentManager.Get<XElement>(path));
 			m_inventoryGrid = Children.Find<GridPanelWidget>("InventoryGrid");
 			m_fire = Children.Find<FireWidget>("Fire");
@@ -45,9 +45,9 @@ namespace Game
 
 		public override void Update()
 		{
-			m_fire.ParticlesPerSecond = m_componentFurnace.HeatLevel > 0f ? 24f : 0f;
-			m_progress.Value = m_componentFurnace.SmeltingProgress;
-			if (!m_componentFurnace.IsAddedToProject)
+			m_fire.ParticlesPerSecond = m_component.HeatLevel > 0f ? 24f : 0f;
+			m_progress.Value = m_component.SmeltingProgress;
+			if (!m_component.IsAddedToProject)
 				ParentWidget.Children.Remove(this);
 		}
 	}
