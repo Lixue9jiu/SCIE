@@ -352,7 +352,7 @@ namespace Game
 										//break;
 										if (BlocksManager.Blocks[Terrain.ExtractContents(vvv)].IsPlaceable && !BlocksManager.Blocks[Terrain.ExtractContents(vvv)].IsDiggingTransparent && !BlocksManager.Blocks[Terrain.ExtractContents(vvv)].DefaultIsInteractive && BlocksManager.Blocks[Terrain.ExtractContents(vvv)].BlockIndex != 31)
 										{
-											if (block.DefaultCategory != "Plants")
+											if (BlocksManager.Blocks[Terrain.ExtractContents(vvv)].DefaultCategory != "Plants")
 												m_subsystemPickables.AddPickable(m_subsystemTerrain.Terrain.GetCellValue(x11, y11, z11), 1, new Vector3(x11, y11, z11) + new Vector3(0.5f), null, null);
 											m_subsystemTerrain.ChangeCell(x11, y11, z11, 0);
 										}

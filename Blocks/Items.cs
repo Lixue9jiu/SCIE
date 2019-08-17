@@ -288,6 +288,7 @@ namespace Game
 				new WaterCuttingMachine(),
 				new ElectricDriller(),
 				new TEDC(),
+				new OilFractionalTower(),
 			};
 			IdTable = new Dictionary<string, int>(Items.Length)
 			{

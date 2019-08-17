@@ -16,12 +16,12 @@ namespace Game
 		protected readonly ValueBarWidget m_progress;
 		protected readonly CheckboxWidget m_acceptsDropsBox;
 
-		public SeperatorWidget(IInventory inventory, ComponentMachine component, string path = "Widgets/SeperatorWidget") : base(component, path)
+		public SeperatorWidget(IInventory inventory, ComponentMachine component, string name = "Seperator", string path = "Widgets/SeperatorWidget") : base(component, path)
 		{
 			m_furnaceGrid = Children.Find<GridPanelWidget>("FurnaceGrid");
 			var label = Children.Find<LabelWidget>("Label1", false);
 			if (label != null)
-				label.Text = "ThermalGenerator";
+				label.Text = name;
 			m_result1 = Children.Find<InventorySlotWidget>("ResultSlot1");
 			m_result2 = Children.Find<InventorySlotWidget>("ResultSlot2");
 			m_result3 = Children.Find<InventorySlotWidget>("ResultSlot3");

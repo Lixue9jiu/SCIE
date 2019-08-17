@@ -13,6 +13,9 @@ namespace Game
 		protected string m_smeltingRecipe, m_smeltingRecipe2;
 
 		//protected int m_music;
+		public bool Powered;
+		public int valuein;
+		public int value;
 		
 		public override int RemainsSlotIndex => -1;
 
@@ -74,6 +77,42 @@ namespace Game
 					m_smeltingRecipe = null;
 				if (num == 1 && m_smeltingRecipe == null)
 					m_smeltingRecipe = m_smeltingRecipe2;
+			}
+			int flag2222=0;
+			if (Utils.SubsystemTime.PeriodicGameTimeEvent(2.0, 0.0))
+			{
+				int cellValue2 = Utils.Terrain.GetCellValueFast(coordinates.X+1, coordinates.Y, coordinates.Z);
+				if (ElementBlock.Block.GetDevice(coordinates.X+1, coordinates.Y, coordinates.Z, cellValue2) is ElectricPump)
+				{
+					flag2222 = 1;
+				}
+				int cellValue3 = Utils.Terrain.GetCellValueFast(coordinates.X -1, coordinates.Y, coordinates.Z);
+				if (ElementBlock.Block.GetDevice(coordinates.X - 1, coordinates.Y, coordinates.Z, cellValue3) is ElectricPump)
+				{
+					flag2222 = 2;
+				}
+				int cellValue4 = Utils.Terrain.GetCellValueFast(coordinates.X , coordinates.Y, coordinates.Z+1);
+				if (ElementBlock.Block.GetDevice(coordinates.X , coordinates.Y, coordinates.Z+1, cellValue4) is ElectricPump)
+				{
+					flag2222 = 3;
+				}
+			//	int cellValue5 = Utils.Terrain.GetCellValueFast(coordinates.X, coordinates.Y, coordinates.Z-1);
+			//	if (ElementBlock.Block.GetDevice(coordinates.X, coordinates.Y, coordinates.Z - 1, cellValue5) is ElectricPump)
+			//	{
+			//		flag2222 = 4;
+			//	}
+			}
+			if (flag2222>0 && valuein<10000 && Powered)
+			{
+				int j = flag2222-1;
+					if (m_slots[1 + j].Value!=0 && m_slots[1 + j].Count>0)
+					{
+						value = m_slots[1 + j].Value<<10;
+						m_slots[1 + j].Count--;
+						flag2222 = 0;
+						
+					}
+				
 			}
 			if (m_smeltingRecipe == null)
 			{

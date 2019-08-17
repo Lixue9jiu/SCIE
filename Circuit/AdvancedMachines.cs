@@ -27,21 +27,36 @@ namespace Game
 						case -1:
 							Component.RemoveSlotItems(i, 1);
 							ComponentInventoryBase.AcquireItems(Component, EmptyBucketBlock.Index, 1);
-							voltage = value << 10;
 							return;
 						case WaterBucketBlock.Index:
+							voltage = WaterBlock.Index << 10;
+							goto case -1;
 						case MagmaBucketBlock.Index:
+							voltage = MagmaBlock.Index << 10;
+							goto case -1;
 						case PaintStripperBucketBlock.Index:
+							voltage = value << 10;
 							goto case -1;
 						case RottenMeatBlock.Index:
 							if (Terrain.ExtractData(Component.GetSlotValue(i)) >> 4 == 2)
+							{
+								voltage = 262384 << 10;
 								goto case -1;
+							}
+							else
+							{
+								voltage = value << 10;
+								goto case -1;
+							}
 							continue;
 					}
 				}
 			}
 		}
-
+		public override Widget GetWidget(IInventory inventory, ComponentSeperator component)
+		{
+			return new SeperatorWidget(inventory, component, "Unpacker");
+		}
 		public override int GetFaceTextureSlot(int face, int value)
 		{
 			return face != 4 && face != 5 && face == (Terrain.ExtractData(value) >> 15) ? 235 : 124;
@@ -52,9 +67,10 @@ namespace Game
 	{
 		public ElectricPump() : base("电子泵", "电子泵是一种可以直接吸收液体于管道传输的机器", 150) { Type |= ElementType.Pipe; }
 
-		/*public override void Simulate(ref int voltage)
+		public override void Simulate(ref int voltage)
 		{
-		}*/
+			voltage = voltage;
+		}
 
 		public override int GetFaceTextureSlot(int face, int value)
 		{
@@ -68,8 +84,14 @@ namespace Game
 
 		public override void Simulate(ref int voltage)
 		{
-			if (Component.Powered = voltage >= 310)
-				voltage -= 310;
+			if (Component.Powered = voltage >= 10000)
+			{
+				ComponentOilPlant inventory = Component.Entity.FindComponent<ComponentOilPlant>(true);
+				if (ComponentOilPlant.AcquireItems(inventory, voltage>>10, 1)==0)
+				{
+					voltage = 0;
+				}
+			}
 		}
 
 		public override int GetFaceTextureSlot(int face, int value)
@@ -79,9 +101,43 @@ namespace Game
 
 		public override Widget GetWidget(IInventory inventory, ComponentOilPlant component)
 		{
-			return new SeperatorWidget(inventory, component, "Widgets/OilPlantWidget");
+			return new SeperatorWidget(inventory, component, "OilPlant","Widgets/OilPlantWidget");
 		}
 	}
+
+	public class OilFractionalTower : InventoryEntityDevice<ComponentFractionalTower>
+	{
+		public OilFractionalTower() : base("OilTower", "石油裂解塔", "石油裂解塔可以用来蒸馏石油，处理原油") { Type |= ElementType.Pipe; }
+
+		public override void Simulate(ref int voltage)
+		{
+			Component.valuein = voltage;
+			Component.Powered = (voltage  > 0 && voltage<10000);
+			if (voltage >= 10000)
+			{
+				ComponentFractionalTower inventory = Component.Entity.FindComponent<ComponentFractionalTower>(true);
+				if (ComponentFractionalTower.AcquireItems(inventory, voltage >> 10, 1) == 0)
+				{
+					voltage = 0;
+				}
+			}else if(Component.value>=10000)
+			{
+				voltage = Component.value;
+				Component.value = 0;
+			}
+		}
+
+		public override int GetFaceTextureSlot(int face, int value)
+		{
+			return face != 4 && face != 5 ? 112 : 107;
+		}
+
+		public override Widget GetWidget(IInventory inventory, ComponentFractionalTower component)
+		{
+			return new SeperatorWidget(inventory, component, "OilFractionalTower", "Widgets/FractionalTowerWidget");
+		}
+	}
+
 
 	public class ElectricDriller : InventoryEntityDevice<ComponentElectricDriller>
 	{
@@ -115,6 +171,10 @@ namespace Game
 		{
 			return face != 4 && face != 5 && face == (Terrain.ExtractData(value) >> 15) ? 131 : 221;
 		}
+		public override Widget GetWidget(IInventory inventory, ComponentSeperator component)
+		{
+			return new SeperatorWidget(inventory, component, "UThinker");
+		}
 	}
 
 	public class WaterExtractor : Separator
@@ -127,6 +187,10 @@ namespace Game
 		public override int GetFaceTextureSlot(int face, int value)
 		{
 			return face != 4 && face != 5 && face == (Terrain.ExtractData(value) >> 15) ? 236 : 224;
+		}
+		public override Widget GetWidget(IInventory inventory, ComponentSeperator component)
+		{
+			return new SeperatorWidget(inventory, component, "WaterExtractor");
 		}
 	}
 

@@ -134,7 +134,7 @@ namespace Game
 
 		public override Widget GetWidget(IInventory inventory, ComponentElectrobath component)
 		{
-			return new SeperatorWidget(inventory, component, "Widgets/ElectrobathWidget");
+			return new SeperatorWidget(inventory, component, "ElectroBath", "Widgets/ElectrobathWidget");
 		}
 	}
 
@@ -351,7 +351,7 @@ namespace Game
 
 		public override Widget GetWidget(IInventory inventory, ComponentTGenerator component)
 		{
-			return new SeperatorWidget(inventory, component);
+			return new SeperatorWidget(inventory, component,"ThermalGenerator");
 		}
 	}
 
