@@ -17,11 +17,9 @@ namespace Game
 
 		protected readonly InventorySlotWidget m_remainsSlot;
 
-		protected readonly InventorySlotWidget m_resultSlot;
-
-		protected readonly InventorySlotWidget m_remainsSlot2;
-
-		protected readonly InventorySlotWidget m_remainsSlot3;
+		protected readonly InventorySlotWidget m_resultSlot,
+												m_remainsSlot2,
+												m_remainsSlot3;
 
 		public BlastFurnaceWidget(IInventory inventory, ComponentBlastFurnace componentFurnace)
 		{

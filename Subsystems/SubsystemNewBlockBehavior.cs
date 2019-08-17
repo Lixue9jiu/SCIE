@@ -47,6 +47,7 @@ namespace Game
 			}
 		}
 	}
+
 	public class SubsystemNSoilBlockBehavior : SubsystemSoilBlockBehavior, IUpdateable
 	{
 		public override void OnHitByProjectile(CellFace cellFace, WorldItem worldItem)

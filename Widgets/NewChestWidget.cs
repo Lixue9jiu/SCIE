@@ -1,41 +1,28 @@
 using Engine;
-using System.Xml.Linq;
-
 namespace Game
 {
-	public class NewChestWidget : CanvasWidget
+	public class NewChestWidget : EntityWidget<ComponentInventoryBase>
 	{
-		protected readonly GridPanelWidget m_inventoryGrid;
-
 		public readonly ComponentInventoryBase Component;
 
-		protected readonly GridPanelWidget m_chestNewGrid;
+		protected readonly GridPanelWidget m_chestGrid;
 
-		public override void Update()
+		public NewChestWidget(IInventory inventory, ComponentInventoryBase component, string text = "Freezer") : base(component, "Widgets/NewChestWidget")
 		{
-			if (!Component.IsAddedToProject)
-				ParentWidget.Children.Remove(this);
-		}
-
-		public NewChestWidget(IInventory inventory, ComponentInventoryBase component, string text = "Freezer")
-		{
-			Component = component;
-			WidgetsManager.LoadWidgetContents(this, this, ContentManager.Get<XElement>("Widgets/NewChestWidget"));
 			Children.Find<LabelWidget>("ChestLabel").Text = text;
 			if (Utils.TR.Count != 0)
 				Children.Find<LabelWidget>("InventoryLabel").Text = "±³°ü";
-			m_inventoryGrid = Children.Find<GridPanelWidget>("InventoryGrid");
-			m_chestNewGrid = Children.Find<GridPanelWidget>("ChestGrid");
+			m_chestGrid = Children.Find<GridPanelWidget>("ChestGrid");
 			int num = 0, y, x;
 			InventorySlotWidget inventorySlotWidget;
-			for (y = 0; y < m_chestNewGrid.RowsCount; y++)
+			for (y = 0; y < m_chestGrid.RowsCount; y++)
 			{
-				for (x = 0; x < m_chestNewGrid.ColumnsCount; x++)
+				for (x = 0; x < m_chestGrid.ColumnsCount; x++)
 				{
 					inventorySlotWidget = new InventorySlotWidget();
 					inventorySlotWidget.AssignInventorySlot(component, num++);
-					m_chestNewGrid.Children.Add(inventorySlotWidget);
-					m_chestNewGrid.SetWidgetCell(inventorySlotWidget, new Point2(x, y));
+					m_chestGrid.Children.Add(inventorySlotWidget);
+					m_chestGrid.SetWidgetCell(inventorySlotWidget, new Point2(x, y));
 				}
 			}
 			num = 6;

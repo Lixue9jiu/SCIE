@@ -16,8 +16,6 @@ namespace Game
 		public override int ResultSlotIndex => SlotsCount - 1;
 		public override int FuelSlotIndex => SlotsCount - 2;
 
-		public int UpdateOrder => 0;
-
 		public void Update(float dt)
 		{
 			if (Coordinates.Y < 0 || Coordinates.Y > 127)

@@ -32,6 +32,33 @@ namespace Game
 		public abstract Widget GetWidget(IInventory inventory, T component);
 	}
 
+	public abstract class SubsystemInventoryBlockBehavior<T, U, V> : SubsystemCraftingTableBlockBehavior where T : Component
+	{
+		public string Name;
+
+		protected SubsystemInventoryBlockBehavior(string name) { Name = name; }
+
+		public override void OnBlockAdded(int value, int oldValue, int x, int y, int z)
+		{
+			if (Name != null)
+				Project.CreateBlockEntity(Name, new Point3(x, y, z));
+		}
+
+		public override bool OnInteract(TerrainRaycastResult raycastResult, ComponentMiner componentMiner)
+		{
+			var entity = Utils.GetBlockEntity(raycastResult.CellFace.Point);
+			if (entity == null || componentMiner.ComponentPlayer == null)
+				return false;
+			componentMiner.ComponentPlayer.ComponentGui.ModalPanelWidget = GetWidget(componentMiner.Inventory, entity.Entity.FindComponent<T>(true));
+			AudioManager.PlaySound("Audio/UI/ButtonClick", 1f, 0f, 0f);
+			return true;
+		}
+
+		public override void OnHitByProjectile(CellFace cellFace, WorldItem worldItem) => Utils.OnHitByProjectile(cellFace, worldItem);
+
+		public abstract Widget GetWidget(IInventory inventory, T component);
+	}
+
 	public abstract class SubsystemFurnaceBlockBehavior<T> : SubsystemInventoryBlockBehavior<T> where T : Component
 	{
 		public static readonly Dictionary<Point3, FireParticleSystem> m_particleSystemsByCell = new Dictionary<Point3, FireParticleSystem>();
@@ -56,10 +83,15 @@ namespace Game
 
 		public override void OnBlockModified(int value, int oldValue, int x, int y, int z)
 		{
-			switch (FurnaceNBlock.GetHeatLevel(oldValue).CompareTo(FurnaceNBlock.GetHeatLevel(value)))
+			oldValue = FurnaceNBlock.GetHeatLevel(oldValue);
+			value = FurnaceNBlock.GetHeatLevel(value);
+			if (oldValue < value)
 			{
-				case -1: AddFire(x, y, z); return;
-				case 1: RemoveFire(new Point3(x, y, z)); return;
+				AddFire(x, y, z); return;
+			}
+			if (oldValue > value)
+			{
+				RemoveFire(new Point3(x, y, z));
 			}
 		}
 

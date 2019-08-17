@@ -26,7 +26,7 @@ namespace Game
 			new Vector3(-0.5f,0f,0.5f)
 		};
 
-		public static Vector3[,,] m_slopeOffset = new Vector3[4, 2, 4] {
+		public static Vector3[,,] m_slopeOffset = new[,,] {
 			{
 				{
 					new Vector3(-0.5f,-0.5f,-0.5f),
@@ -85,7 +85,7 @@ namespace Game
 			}
 		};
 
-		public static Vector3[,,] m_cornerItemOffset = new Vector3[8, 2, 5]
+		public static Vector3[,,] m_cornerItemOffset = new[, ,]
 		{//rotation, side, process
                 {//0
                     {

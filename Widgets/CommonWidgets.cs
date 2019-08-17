@@ -1,4 +1,5 @@
 using Engine;
+using GameEntitySystem;
 using System.Xml.Linq;
 
 namespace Game
@@ -74,10 +75,41 @@ namespace Game
 
 		public override void Update()
 		{
+			if (!m_componentFurnace.IsAddedToProject)
+				ParentWidget.Children.Remove(this);
 			m_fire.ParticlesPerSecond = m_componentFurnace.HeatLevel > 0f ? 24f : 0f;
 			m_progress.Value = m_componentFurnace.SmeltingProgress;
-			if (!m_componentFurnace.IsAddedToProject)
+		}
+	}
+
+	public class EntityWidget<T> : CanvasWidget where T : Component
+	{
+		protected readonly T m_component;
+		protected readonly GridPanelWidget m_inventoryGrid;
+
+		public EntityWidget(T component, string path)
+		{
+			m_component = component;
+			WidgetsManager.LoadWidgetContents(this, this, ContentManager.Get<XElement>(path));
+			m_inventoryGrid = Children.Find<GridPanelWidget>("InventoryGrid");
+		}
+
+		public override void Update()
+		{
+			if (!m_component.IsAddedToProject)
 				ParentWidget.Children.Remove(this);
 		}
 	}
+
+	/*public class FurnaceWidget<T> : EntityWidget<T> where T : Component
+	{
+		public FurnaceWidget(T component) : base(component)
+		{
+		}
+
+		public override void Update()
+		{
+			base.Update();
+		}
+	}*/
 }

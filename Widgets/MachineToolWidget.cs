@@ -1,25 +1,17 @@
 using Engine;
-using System.Xml.Linq;
 
 namespace Game
 {
-	public class MachineToolWidget : CanvasWidget
+	public class MachineToolWidget : EntityWidget<ComponentLargeCraftingTable>
 	{
-		protected readonly ComponentLargeCraftingTable m_componentCraftingTable;
-
 		protected readonly GridPanelWidget m_craftingGrid;
 
 		protected readonly InventorySlotWidget m_craftingRemainsSlot;
 
 		protected readonly InventorySlotWidget m_craftingResultSlot;
 
-		protected readonly GridPanelWidget m_inventoryGrid;
-
-		public MachineToolWidget(IInventory inventory, ComponentLargeCraftingTable componentCraftingTable)
+		public MachineToolWidget(IInventory inventory, ComponentLargeCraftingTable componentCraftingTable) : base(componentCraftingTable, "Widgets/MachineToolWidget")
 		{
-			m_componentCraftingTable = componentCraftingTable;
-			WidgetsManager.LoadWidgetContents(this, this, ContentManager.Get<XElement>("Widgets/MachineToolWidget"));
-			m_inventoryGrid = Children.Find<GridPanelWidget>("InventoryGrid");
 			m_craftingGrid = Children.Find<GridPanelWidget>("CraftingGrid");
 			m_craftingResultSlot = Children.Find<InventorySlotWidget>("CraftingResultSlot");
 			m_craftingRemainsSlot = Children.Find<InventorySlotWidget>("CraftingRemainsSlot");
@@ -44,19 +36,13 @@ namespace Game
 					{
 						Size = new Vector2(48f)
 					};*/
-					inventorySlotWidget.AssignInventorySlot(m_componentCraftingTable, num++);
+					inventorySlotWidget.AssignInventorySlot(m_component, num++);
 					m_craftingGrid.Children.Add(inventorySlotWidget);
 					m_craftingGrid.SetWidgetCell(inventorySlotWidget, new Point2(x, y));
 				}
 			}
-			m_craftingResultSlot.AssignInventorySlot(m_componentCraftingTable, m_componentCraftingTable.ResultSlotIndex);
-			m_craftingRemainsSlot.AssignInventorySlot(m_componentCraftingTable, m_componentCraftingTable.RemainsSlotIndex);
-		}
-
-		public override void Update()
-		{
-			if (!m_componentCraftingTable.IsAddedToProject)
-				ParentWidget.Children.Remove(this);
+			m_craftingResultSlot.AssignInventorySlot(m_component, m_component.ResultSlotIndex);
+			m_craftingRemainsSlot.AssignInventorySlot(m_component, m_component.RemainsSlotIndex);
 		}
 	}
 }

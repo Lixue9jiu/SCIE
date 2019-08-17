@@ -19,8 +19,6 @@ namespace Game
 
 		public override int ResultSlotIndex => SlotsCount - 2;
 
-		public int UpdateOrder => 0;
-
 		public void Update(float dt)
 		{
 			Point3 coordinates = m_componentBlockEntity.Coordinates;

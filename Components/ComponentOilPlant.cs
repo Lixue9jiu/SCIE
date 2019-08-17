@@ -88,6 +88,8 @@ namespace Game
 		protected override string FindSmeltingRecipe()
 		{
 			string text = null;
+			result[1] = 0;
+			result[2] = 0;
 
 			if (GetSlotValue(0) == 1310960 && GetSlotCount(0) > 0)
 			{
@@ -95,8 +97,6 @@ namespace Game
 				{
 					text = "RefinedOil";
 					result[0] = RottenMeatBlock.Index | 2 << 12 << 14;
-					result[1] = 0;
-					result[2] = 0;
 				}
 			}
 			if (GetSlotValue(0) == (240 + 16384 * 60) && GetSlotCount(0) > 0)
@@ -107,8 +107,6 @@ namespace Game
 					{
 						text = "RefinedOil2";
 						result[0] = RottenMeatBlock.Index | 2 << 7 << 14;
-						result[1] = 0;
-						result[2] = 0;
 					}
 				}
 			}
@@ -119,8 +117,6 @@ namespace Game
 					if (GetSlotValue(2) == WaterBlock.Index && GetSlotCount(2) > 0)
 					{
 						result[0] = RottenMeatBlock.Index | 2 << 5 << 14;
-						result[1] = 0;
-						result[2] = 0;
 						text = "RefinedOil3";
 					}
 				}

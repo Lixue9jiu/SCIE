@@ -1,33 +1,19 @@
 using Engine;
-using System.Xml.Linq;
 
 namespace Game
 {
-	public class LiquidPumpWidget : CanvasWidget
+	public class LiquidPumpWidget : EntityWidget<ComponentInventoryBase>
 	{
 		//protected readonly CheckboxWidget m_acceptsDropsBox;
 
-		protected readonly ComponentBlockEntity m_componentBlockEntity;
-
-		protected readonly ComponentInventoryBase m_componentDispenser;
-
 		protected readonly GridPanelWidget m_dispenserGrid;
-
-		protected readonly GridPanelWidget m_inventoryGrid;
-
-		protected readonly SubsystemTerrain m_subsystemTerrain;
 
 		protected readonly InventorySlotWidget m_drillSlot;
 
 		protected readonly GridPanelWidget m_dispenserGrid2;
 
-		public LiquidPumpWidget(IInventory inventory, ComponentInventoryBase componentDispenser)
+		public LiquidPumpWidget(IInventory inventory, ComponentInventoryBase componentDispenser) : base(componentDispenser, "Widgets/LiquidPumpWidget")
 		{
-			m_componentDispenser = componentDispenser;
-			m_componentBlockEntity = componentDispenser.Entity.FindComponent<ComponentBlockEntity>(true);
-			m_subsystemTerrain = componentDispenser.Project.FindSubsystem<SubsystemTerrain>(true);
-			WidgetsManager.LoadWidgetContents(this, this, ContentManager.Get<XElement>("Widgets/LiquidPumpWidget"));
-			m_inventoryGrid = Children.Find<GridPanelWidget>("InventoryGrid");
 			m_dispenserGrid = Children.Find<GridPanelWidget>("DispenserGrid");
 			m_dispenserGrid2 = Children.Find<GridPanelWidget>("DispenserGrid2");
 			m_drillSlot = Children.Find<InventorySlotWidget>("DrillSlot");
@@ -64,12 +50,6 @@ namespace Game
 				}
 			}
 			m_drillSlot.AssignInventorySlot(componentDispenser, 8);
-		}
-
-		public override void Update()
-		{
-			if (!m_componentDispenser.IsAddedToProject)
-				ParentWidget.Children.Remove(this);
 		}
 	}
 }

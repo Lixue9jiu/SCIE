@@ -6,7 +6,7 @@ using TemplatesDatabase;
 
 namespace Game
 {
-	struct PointComparer : IComparer<Point2>
+	public struct PointComparer : IComparer<Point2>
 	{
 		public int Compare(Point2 x, Point2 y)
 		{

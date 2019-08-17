@@ -11,7 +11,6 @@ namespace Game
 		//public int resultSlotIndex => SlotsCount - 1;
 		public override int FuelSlotIndex => -1;
 		public int Fuel2SlotIndex => 0;
-		public int UpdateOrder => 0;
 
 		public void Update(float dt)
 		{

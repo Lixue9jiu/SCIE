@@ -19,6 +19,8 @@ namespace Game
 
 		public int SlotIndex { get => -1; set => throw new NotImplementedException(); }
 
+		public int UpdateOrder => 0;
+
 		public float HeatLevel;
 
 		public float SmeltingProgress;
@@ -101,8 +103,6 @@ namespace Game
 		public override int ResultSlotIndex => SlotsCount - 1;
 
 		public override int FuelSlotIndex => -1;
-
-		public int UpdateOrder => 0;
 
 		public void Update(float dt)
 		{
