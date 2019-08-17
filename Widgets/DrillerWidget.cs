@@ -11,13 +11,12 @@ namespace Game
 
 		protected readonly ComponentInventoryBase m_componentDispenser;
 
-		protected readonly ButtonWidget m_dispenseButton;
-
 		protected readonly GridPanelWidget m_inventoryGrid;
 
 		protected readonly GridPanelWidget m_furnaceGrid;
 
-		protected readonly ButtonWidget m_shootButton;
+		protected readonly ButtonWidget m_dispenseButton,
+										m_shootButton;
 
 		protected readonly SubsystemTerrain m_subsystemTerrain;
 

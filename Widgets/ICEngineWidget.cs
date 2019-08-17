@@ -1,17 +1,10 @@
 using Engine;
-using System.Xml.Linq;
 
 namespace Game
 {
-	public class ICEngineWidget : CanvasWidget
+	public class ICEngineWidget : EntityWidget<ComponentMachine>
 	{
-		protected readonly CheckboxWidget m_acceptsDropsBox;
-
-		protected readonly ComponentMachine m_component;
-
 		protected readonly ButtonWidget m_dispenseButton;
-
-		protected readonly GridPanelWidget m_inventoryGrid;
 
 		protected readonly GridPanelWidget m_furnaceGrid;
 
@@ -24,11 +17,8 @@ namespace Game
 		//protected readonly ValueBarWidget m_progress;
 		protected readonly FireWidget m_fire;
 
-		public ICEngineWidget(IInventory inventory, ComponentMachine component)
+		public ICEngineWidget(IInventory inventory, ComponentMachine component) : base(component, "Widgets/ICEngineWidget")
 		{
-			m_component = component;
-			WidgetsManager.LoadWidgetContents(this, this, ContentManager.Get<XElement>("Widgets/ICEngineWidget"));
-			m_inventoryGrid = Children.Find<GridPanelWidget>("InventoryGrid");
 			m_furnaceGrid = Children.Find<GridPanelWidget>("DispenserGrid");
 			m_dispenseButton = Children.Find<ButtonWidget>("DispenseButton");
 			m_fire = Children.Find<FireWidget>("Fire");

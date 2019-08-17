@@ -3,10 +3,8 @@ using System.Xml.Linq;
 
 namespace Game
 {
-	public class SeperatorWidget : CanvasWidget
+	public class SeperatorWidget : EntityWidget<ComponentMachine>
 	{
-		protected readonly ComponentMachine m_component;
-
 		protected readonly GridPanelWidget m_furnaceGrid;
 
 		protected readonly InventorySlotWidget m_result1,
@@ -15,16 +13,11 @@ namespace Game
 
 		protected readonly InventorySlotWidget m_cir1, m_cir2;
 
-		protected readonly GridPanelWidget m_inventoryGrid;
-
 		protected readonly ValueBarWidget m_progress;
 		protected readonly CheckboxWidget m_acceptsDropsBox;
 
-		public SeperatorWidget(IInventory inventory, ComponentMachine component, string path = "Widgets/SeperatorWidget")
+		public SeperatorWidget(IInventory inventory, ComponentMachine component, string path = "Widgets/SeperatorWidget") : base(component, path)
 		{
-			m_component = component;
-			WidgetsManager.LoadWidgetContents(this, this, ContentManager.Get<XElement>(path));
-			m_inventoryGrid = Children.Find<GridPanelWidget>("InventoryGrid");
 			m_furnaceGrid = Children.Find<GridPanelWidget>("FurnaceGrid");
 			var label = Children.Find<LabelWidget>("Label1", false);
 			if (label != null)

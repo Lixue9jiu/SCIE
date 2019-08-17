@@ -17,13 +17,13 @@ namespace Game
 
 		protected readonly InventorySlotWidget m_remainsSlot;
 
-		protected readonly InventorySlotWidget m_resultSlot;
+		protected readonly InventorySlotWidget m_resultSlot,
+												m_remainsSlot2;
+
+		//protected readonly InventorySlotWidget m_remainsSlot3;
 
 		//protected readonly GridPanelWidget m_fuelGrid;
 
-		protected readonly InventorySlotWidget m_remainsSlot2;
-
-		//protected readonly InventorySlotWidget m_remainsSlot3;
 
 		public CovenWidget(IInventory inventory, ComponentMachine component, string path = "Widgets/CovenWidget")
 		{

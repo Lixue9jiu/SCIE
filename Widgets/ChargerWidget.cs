@@ -10,13 +10,12 @@ namespace Game
 
 		protected readonly ComponentCharger m_componentDispenser;
 
-		protected readonly ButtonWidget m_dispenseButton;
-
 		protected readonly GridPanelWidget m_dispenserGrid;
 
 		protected readonly GridPanelWidget m_inventoryGrid;
 
-		protected readonly ButtonWidget m_shootButton;
+		protected readonly ButtonWidget m_dispenseButton,
+										m_shootButton;
 
 		protected readonly InventorySlotWidget m_drillSlot;
 
@@ -67,20 +66,21 @@ namespace Game
 				ParentWidget.Children.Remove(this);
 				return;
 			}
-			int value = Utils.Terrain.GetCellValue(m_componentBlockEntity.Coordinates.X, m_componentBlockEntity.Coordinates.Y, m_componentBlockEntity.Coordinates.Z);
+			Point3 coordinates = m_componentBlockEntity.Coordinates;
+			int value = Utils.Terrain.GetCellValue(coordinates.X, coordinates.Y, coordinates.Z);
 			int data = Terrain.ExtractData(value);
 			MachineMode mode = GetMode(data);
 			if (m_dispenseButton.IsClicked && mode == MachineMode.Discharger)
 			{
 				data = SetMode(data);
 
-				Utils.Terrain.SetCellValueFast(m_componentBlockEntity.Coordinates.X, m_componentBlockEntity.Coordinates.Y, m_componentBlockEntity.Coordinates.Z, Terrain.ReplaceData(value, data));
+				Utils.Terrain.SetCellValueFast(coordinates.X, coordinates.Y, coordinates.Z, Terrain.ReplaceData(value, data));
 				m_componentDispenser.Charged = true;
 			}
 			if (m_shootButton.IsClicked && mode == MachineMode.Charge)
 			{
 				data = SetMode(data);
-				Utils.Terrain.SetCellValueFast(m_componentBlockEntity.Coordinates.X, m_componentBlockEntity.Coordinates.Y, m_componentBlockEntity.Coordinates.Z, Terrain.ReplaceData(value, data));
+				Utils.Terrain.SetCellValueFast(coordinates.X, coordinates.Y, coordinates.Z, Terrain.ReplaceData(value, data));
 				m_componentDispenser.Charged = false;
 			}
 

@@ -7,17 +7,14 @@ namespace Game
 	{
 		protected readonly CheckboxWidget m_acceptsDropsBox;
 
-		protected readonly ComponentBlockEntity m_componentBlockEntity;
-
 		protected readonly ComponentElectricDriller m_componentDispenser;
-
-		protected readonly ButtonWidget m_dispenseButton;
 
 		protected readonly GridPanelWidget m_inventoryGrid;
 
 		protected readonly GridPanelWidget m_furnaceGrid;
 
-		protected readonly ButtonWidget m_shootButton;
+		protected readonly ButtonWidget m_dispenseButton,
+										m_shootButton;
 
 		protected readonly SubsystemTerrain m_subsystemTerrain;
 
@@ -27,7 +24,6 @@ namespace Game
 		public ElectricDrillerWidget(IInventory inventory, ComponentElectricDriller componentDispenser)
 		{
 			m_componentDispenser = componentDispenser;
-			m_componentBlockEntity = componentDispenser.Entity.FindComponent<ComponentBlockEntity>(true);
 			m_subsystemTerrain = componentDispenser.Project.FindSubsystem<SubsystemTerrain>(true);
 			WidgetsManager.LoadWidgetContents(this, this, ContentManager.Get<XElement>("Widgets/ElectricDrillerWidget"));
 			m_inventoryGrid = Children.Find<GridPanelWidget>("InventoryGrid");

@@ -1,17 +1,12 @@
 using Engine;
-using System.Xml.Linq;
 
 namespace Game
 {
-	public class ElectricFurnaceWidget : CanvasWidget
+	public class ElectricFurnaceWidget : EntityWidget<ComponentElectricFurnace>
 	{
-		protected readonly ComponentElectricFurnace m_component;
-
 		protected readonly FireWidget m_fire;
 
 		protected readonly GridPanelWidget m_furnaceGrid;
-
-		protected readonly GridPanelWidget m_inventoryGrid;
 
 		protected readonly ValueBarWidget m_progress;
 
@@ -22,11 +17,8 @@ namespace Game
 
 		protected readonly CheckboxWidget m_acceptsDropsBox;
 
-		public ElectricFurnaceWidget(IInventory inventory, ComponentElectricFurnace component, string path = "Widgets/ElectricFurnaceWidget")
+		public ElectricFurnaceWidget(IInventory inventory, ComponentElectricFurnace component, string path = "Widgets/ElectricFurnaceWidget") : base(component, path)
 		{
-			m_component = component;
-			WidgetsManager.LoadWidgetContents(this, this, ContentManager.Get<XElement>(path));
-			m_inventoryGrid = Children.Find<GridPanelWidget>("InventoryGrid");
 			m_furnaceGrid = Children.Find<GridPanelWidget>("FurnaceGrid");
 			m_fire = Children.Find<FireWidget>("Fire");
 			m_progress = Children.Find<ValueBarWidget>("Progress");

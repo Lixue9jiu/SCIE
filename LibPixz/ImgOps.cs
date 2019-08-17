@@ -41,7 +41,7 @@ namespace LibPixz
 			{
 				for (int x = 0; x < tam; x++)
 				{
-					tablaCosUX[u, x] = (float)Math.Cos(((2 * x + 1) * u * Math.PI) / (2 * tam));
+					tablaCosUX[u, x] = (float)Math.Cos((2 * x + 1) * u * Math.PI / (2 * tam));
 					tablaCosUX[u, x] *= (float)Math.Sqrt(2.0 / tam);
 					if (u == 0) tablaCosUX[u, x] /= (float)Math.Sqrt(2f);
 				}
@@ -147,12 +147,12 @@ namespace LibPixz
 					{
 						for (x = 0, suma = 0; x < tamX; x++)
 						{
-							suma += (bloque[y, x]) * tCosXU[x, u];
+							suma += bloque[y, x] * tCosXU[x, u];
 						}
 
 						suma2 += suma * tCosYV[y, v];
 					}
-					bloqueDct[v, u] = (float)(Math.Round(suma2));
+					bloqueDct[v, u] = (float)Math.Round(suma2);
 				}
 			}
 		}

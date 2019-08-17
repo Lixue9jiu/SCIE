@@ -7,8 +7,6 @@ namespace Game
 	{
 		protected readonly ComponentMachine m_component;
 
-		//protected readonly FireWidget m_fire;
-
 		protected readonly GridPanelWidget m_furnaceGrid;
 
 		protected readonly GridPanelWidget m_inventoryGrid;
@@ -18,10 +16,6 @@ namespace Game
 		protected readonly InventorySlotWidget m_remainsSlot;
 
 		protected readonly InventorySlotWidget m_resultSlot;
-
-		//protected readonly InventorySlotWidget m_circuitSlot;
-
-		//protected readonly InventorySlotWidget m_circuit2Slot;
 
 		protected readonly CheckboxWidget m_acceptsDropsBox;
 

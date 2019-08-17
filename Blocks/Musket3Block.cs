@@ -9,13 +9,13 @@ namespace Game
 
 		public override void Initialize()
 		{
-			Model model = ContentManager.Get<Model>("Models/Musket");
-			Matrix boneAbsoluteTransform = BlockMesh.GetBoneAbsoluteTransform(model.FindMesh("Musket").ParentBone);
-			Matrix boneAbsoluteTransform2 = BlockMesh.GetBoneAbsoluteTransform(model.FindMesh("Hammer").ParentBone);
 			m_standaloneBlockMeshUnloaded = new BlockMesh();
+			Model model = ContentManager.Get<Model>("Models/Musket");
 			ReadOnlyList<ModelMeshPart> meshParts = model.FindMesh("Musket").MeshParts;
+			Matrix boneAbsoluteTransform = BlockMesh.GetBoneAbsoluteTransform(model.FindMesh("Musket").ParentBone);
 			m_standaloneBlockMeshUnloaded.AppendModelMeshPart(meshParts[0], boneAbsoluteTransform, false, false, false, false, Color.Gray);
 			meshParts = model.FindMesh("Hammer").MeshParts;
+			Matrix boneAbsoluteTransform2 = BlockMesh.GetBoneAbsoluteTransform(model.FindMesh("Hammer").ParentBone);
 			m_standaloneBlockMeshUnloaded.AppendModelMeshPart(meshParts[0], boneAbsoluteTransform2, false, false, false, false, Color.Gray);
 			m_standaloneBlockMeshLoaded = new BlockMesh();
 			meshParts = model.FindMesh("Musket").MeshParts;
@@ -25,7 +25,6 @@ namespace Game
 
 			Model model2 = ContentManager.Get<Model>("Models/Brick");
 			Matrix boneAbsoluteTransform3 = BlockMesh.GetBoneAbsoluteTransform(model2.FindMesh("Brick").ParentBone);
-
 			meshParts = model2.FindMesh("Brick").MeshParts;
 			m_standaloneBlockMeshUnloaded.AppendModelMeshPart(meshParts[0], Matrix.CreateRotationY(1.6f) * Matrix.CreateRotationX(1.6f) * Matrix.CreateScale(0.4f) * boneAbsoluteTransform3 * Matrix.CreateTranslation(0.01f, -0.07f, 0.05f), false, false, false, false, Color.DarkGray);
 			meshParts = model2.FindMesh("Brick").MeshParts;

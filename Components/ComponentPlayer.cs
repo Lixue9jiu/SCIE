@@ -20,7 +20,7 @@ namespace Game
 			if (m_subsystemTime.PeriodicGameTimeEvent(0.5, 0))
 			{
 				ReadOnlyList<int> readOnlyList = ComponentClothing.GetClothes(ClothingSlot.Head);
-				if ((readOnlyList.Count > 0 && ClothingBlock.GetClothingData(Terrain.ExtractData(readOnlyList[readOnlyList.Count - 1])).DisplayName == Utils.Get("潜水头盔")))
+				if (readOnlyList.Count > 0 && ClothingBlock.GetClothingData(Terrain.ExtractData(readOnlyList[readOnlyList.Count - 1])).DisplayName == Utils.Get("潜水头盔"))
 				{
 					if (ComponentBody.ImmersionFluidBlock != null && ComponentBody.ImmersionFluidBlock.BlockIndex == RottenMeatBlock.Index && ComponentBody.ImmersionDepth > 0.8f)
 						ComponentScreenOverlays.BlackoutFactor = 1f;
@@ -301,8 +301,8 @@ namespace Game
 				m.DigCellFace = cellFace;
 			}
 			bool flag2 = Terrain.ExtractContents(activeBlockValue) == IEBatteryBlock.Index,
-				 flag3 = flag2 & IEBatteryBlock.GetType(activeBlockValue) == BatteryType.ElectricSaw && (800) != BlocksManager.Blocks[Terrain.ExtractContents(activeBlockValue)].Durability;
-			flag2 &= IEBatteryBlock.GetType(activeBlockValue) == BatteryType.ElectricDrill && (800) != BlocksManager.Blocks[Terrain.ExtractContents(activeBlockValue)].Durability;
+				 flag3 = flag2 & IEBatteryBlock.GetType(activeBlockValue) == BatteryType.ElectricSaw && 800 != BlocksManager.Blocks[Terrain.ExtractContents(activeBlockValue)].Durability;
+			flag2 &= IEBatteryBlock.GetType(activeBlockValue) == BatteryType.ElectricDrill && 800 != BlocksManager.Blocks[Terrain.ExtractContents(activeBlockValue)].Durability;
 			float num3 = m.CalculateDigTime(cellValue, num2);
 			if (flag2 & IEBatteryBlock.GetType(activeBlockValue) == BatteryType.ElectricDrill && ((Terrain.ExtractData(activeBlockValue) >> 4) & 0xFFF) != BlocksManager.Blocks[Terrain.ExtractContents(activeBlockValue)].Durability)
 			{
@@ -352,7 +352,8 @@ namespace Game
 										//break;
 										if (BlocksManager.Blocks[Terrain.ExtractContents(vvv)].IsPlaceable && !BlocksManager.Blocks[Terrain.ExtractContents(vvv)].IsDiggingTransparent && !BlocksManager.Blocks[Terrain.ExtractContents(vvv)].DefaultIsInteractive && BlocksManager.Blocks[Terrain.ExtractContents(vvv)].BlockIndex != 31)
 										{
-											m_subsystemPickables.AddPickable(m_subsystemTerrain.Terrain.GetCellValue(x11, y11, z11), 1, new Vector3(x11, y11, z11) + new Vector3(0.5f), null, null);
+											if (block.DefaultCategory != "Plants")
+												m_subsystemPickables.AddPickable(m_subsystemTerrain.Terrain.GetCellValue(x11, y11, z11), 1, new Vector3(x11, y11, z11) + new Vector3(0.5f), null, null);
 											m_subsystemTerrain.ChangeCell(x11, y11, z11, 0);
 										}
 									}
