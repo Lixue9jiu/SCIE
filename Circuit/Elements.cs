@@ -163,9 +163,9 @@ namespace Game
 	{
 		public T Component;
 		public string Name;
-		public EntityDevice(string ename, string name, string description = "", int voltage = 0) : base(name, description, voltage)
+		public EntityDevice(string name, string description = "", int voltage = 0) : base(name, description, voltage)
 		{
-			Name = ename;
+			Name = GetType().Name;
 		}
 		public override Device Create(Point3 p, int value)
 		{
@@ -195,7 +195,7 @@ namespace Game
 	}
 	public abstract class InteractiveEntityDevice<T> : EntityDevice<T>, IInteractiveBlock where T : Component
 	{
-		protected InteractiveEntityDevice(string ename, string name, string description, int voltage = 0) : base(ename, name, description, voltage) { }
+		protected InteractiveEntityDevice(string name, string description, int voltage = 0) : base(name, description, voltage) { }
 
 		public virtual bool OnInteract(TerrainRaycastResult raycastResult, ComponentMiner componentMiner)
 		{
@@ -210,7 +210,7 @@ namespace Game
 	}
 	public abstract class InventoryEntityDevice<T> : InteractiveEntityDevice<T>, IElectricElementBlock where T : Component
 	{
-		protected InventoryEntityDevice(string ename, string name, string description, int voltage = 0) : base(ename, name, description, voltage) { }
+		protected InventoryEntityDevice(string name, string description, int voltage = 0) : base(name, description, voltage) { }
 
 		public ElectricElement CreateElectricElement(SubsystemElectricity subsystemElectricity, int value, int x, int y, int z)
 		{

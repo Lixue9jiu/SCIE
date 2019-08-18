@@ -52,10 +52,10 @@ namespace Game
 					case Musket2Block.LoadState.Empty:
 						m_instructionsLabel.Text = "Load bullet";
 						break;
-					case Musket2Block.LoadState.Gunpowder:
+					case Musket2Block.LoadState.Bullet:
 						m_instructionsLabel.Text = "Fire or Load bullet";
 						break;
-					case Musket2Block.LoadState.Wad:
+					case Musket2Block.LoadState.Bullet2:
 						m_instructionsLabel.Text = "Ready for Fire";
 						break;
 					default:

@@ -1,29 +1,19 @@
 using Engine;
-using System.Xml.Linq;
 
 namespace Game
 {
-	public class CanpackWidget : CanvasWidget
+	public class CanpackWidget : EntityWidget<ComponentMachine>
 	{
-		protected readonly ComponentMachine m_component;
-
-		protected readonly GridPanelWidget m_furnaceGrid;
-
-		protected readonly InventorySlotWidget m_result1;
-
-		protected readonly GridPanelWidget m_inventoryGrid;
+		protected readonly InventorySlotWidget m_result;
 
 		protected readonly ValueBarWidget m_progress;
+
 		protected readonly CheckboxWidget m_acceptsDropsBox;
 
-		public CanpackWidget(IInventory inventory, ComponentMachine component)
+		public CanpackWidget(IInventory inventory, ComponentMachine component) : base(component, "Widgets/CanpackWidget")
 		{
-			m_component = component;
-			WidgetsManager.LoadWidgetContents(this, this, ContentManager.Get<XElement>("Widgets/CanpackWidget"));
-			m_inventoryGrid = Children.Find<GridPanelWidget>("InventoryGrid");
 			m_furnaceGrid = Children.Find<GridPanelWidget>("FurnaceGrid");
-			m_result1 = Children.Find<InventorySlotWidget>("ResultSlot");
-
+			m_result = Children.Find<InventorySlotWidget>("ResultSlot");
 			m_acceptsDropsBox = Children.Find<CheckboxWidget>("AcceptsElectBox");
 			m_progress = Children.Find<ValueBarWidget>("Progress");
 
@@ -38,7 +28,6 @@ namespace Game
 					m_inventoryGrid.SetWidgetCell(inventorySlotWidget, new Point2(x, y));
 				}
 			}
-
 			num = 0;
 			for (y = 0; y < m_furnaceGrid.RowsCount; y++)
 			{
@@ -50,7 +39,7 @@ namespace Game
 					m_furnaceGrid.SetWidgetCell(inventorySlotWidget2, new Point2(x, y));
 				}
 			}
-			m_result1.AssignInventorySlot(component, num++);
+			m_result.AssignInventorySlot(component, num++);
 		}
 
 		public override void Update()

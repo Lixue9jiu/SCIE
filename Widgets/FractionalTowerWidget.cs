@@ -1,39 +1,16 @@
 using Engine;
-using System.Xml.Linq;
 
 namespace Game
 {
-	public class FractionalTowerWidget : CanvasWidget
+	public class FractionalTowerWidget : ProcessWidget<ComponentMachine>
 	{
-		protected readonly ComponentMachine m_component;
-
-		protected readonly GridPanelWidget m_furnaceGrid;
-
-		protected readonly InventorySlotWidget m_result1,
-												m_result2,
-												m_result3;
 		protected readonly ButtonWidget m_1Button,
 										m_2Button,
 		                                m_3Button;
 
-		protected readonly InventorySlotWidget m_cir1, m_cir2;
-
-		protected readonly GridPanelWidget m_inventoryGrid;
-
-		protected readonly ValueBarWidget m_progress;
-
-		public FractionalTowerWidget(IInventory inventory, ComponentMachine component)
+		public FractionalTowerWidget(IInventory inventory, ComponentMachine component) : base(component, "Widgets/FractionalTowerWidget")
 		{
-			m_component = component;
-			WidgetsManager.LoadWidgetContents(this, this, ContentManager.Get<XElement>("Widgets/FractionalTowerWidget"));
-			m_inventoryGrid = Children.Find<GridPanelWidget>("InventoryGrid");
 			m_furnaceGrid = Children.Find<GridPanelWidget>("FurnaceGrid");
-			m_result1 = Children.Find<InventorySlotWidget>("ResultSlot1");
-			m_result2 = Children.Find<InventorySlotWidget>("ResultSlot2");
-			m_result3 = Children.Find<InventorySlotWidget>("ResultSlot3");
-			m_cir1 = Children.Find<InventorySlotWidget>("CircuitSlot1");
-			m_cir2 = Children.Find<InventorySlotWidget>("CircuitSlot2");
-			m_progress = Children.Find<ValueBarWidget>("Progress");
 			m_1Button = Children.Find<ButtonWidget>("1Button");
 			m_2Button = Children.Find<ButtonWidget>("2Button");
 			m_3Button = Children.Find<ButtonWidget>("3Button");

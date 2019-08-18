@@ -2,18 +2,12 @@ using Engine;
 
 namespace Game
 {
-	public class ElectricFurnaceWidget : EntityWidget<ComponentElectricFurnace>
+	public class ElectricFurnaceWidget : ProcessWidget<ComponentElectricFurnace>
 	{
 		protected readonly FireWidget m_fire;
 
-		protected readonly GridPanelWidget m_furnaceGrid;
-
-		protected readonly ValueBarWidget m_progress;
-
 		protected readonly InventorySlotWidget m_remainsSlot,
 												m_resultSlot;
-
-		protected readonly InventorySlotWidget m_circuitSlot, m_circuit2Slot;
 
 		protected readonly CheckboxWidget m_acceptsDropsBox;
 
@@ -21,12 +15,9 @@ namespace Game
 		{
 			m_furnaceGrid = Children.Find<GridPanelWidget>("FurnaceGrid");
 			m_fire = Children.Find<FireWidget>("Fire");
-			m_progress = Children.Find<ValueBarWidget>("Progress");
 			m_resultSlot = Children.Find<InventorySlotWidget>("ResultSlot");
 			m_remainsSlot = Children.Find<InventorySlotWidget>("RemainsSlot");
 			m_acceptsDropsBox = Children.Find<CheckboxWidget>("AcceptsElectBox");
-			m_circuitSlot = Children.Find<InventorySlotWidget>("CircuitSlot");
-			m_circuit2Slot = Children.Find<InventorySlotWidget>("Circuit2Slot");
 			int num = 6, y, x;
 			InventorySlotWidget inventorySlotWidget;
 			for (y = 0; y < m_inventoryGrid.RowsCount; y++)
@@ -52,8 +43,8 @@ namespace Game
 			}
 			m_resultSlot.AssignInventorySlot(component, component.ResultSlotIndex);
 			m_remainsSlot.AssignInventorySlot(component, component.RemainsSlotIndex);
-			m_circuitSlot.AssignInventorySlot(component, component.Cir1SlotIndex);
-			m_circuit2Slot.AssignInventorySlot(component, component.Cir2SlotIndex);
+			m_cir1.AssignInventorySlot(component, component.Cir1SlotIndex);
+			m_cir2.AssignInventorySlot(component, component.Cir2SlotIndex);
 		}
 
 		public override void Update()

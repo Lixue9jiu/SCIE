@@ -1,19 +1,12 @@
 using Engine;
-using System.Xml.Linq;
 
 namespace Game
 {
-	public class DrillerWidget : CanvasWidget
+	public class DrillerWidget : EntityWidget<ComponentInventoryBase>
 	{
 		protected readonly CheckboxWidget m_acceptsDropsBox;
 
 		protected readonly ComponentBlockEntity m_componentBlockEntity;
-
-		protected readonly ComponentInventoryBase m_component;
-
-		protected readonly GridPanelWidget m_inventoryGrid;
-
-		protected readonly GridPanelWidget m_furnaceGrid;
 
 		protected readonly ButtonWidget m_dispenseButton,
 										m_shootButton;
@@ -22,13 +15,10 @@ namespace Game
 
 		protected readonly InventorySlotWidget m_drillSlot;
 
-		public DrillerWidget(IInventory inventory, ComponentInventoryBase component)
+		public DrillerWidget(IInventory inventory, ComponentInventoryBase component) : base(component, "Widgets/DrillerWidget")
 		{
-			m_component = component;
 			m_componentBlockEntity = component.Entity.FindComponent<ComponentBlockEntity>(true);
 			m_subsystemTerrain = component.Project.FindSubsystem<SubsystemTerrain>(true);
-			WidgetsManager.LoadWidgetContents(this, this, ContentManager.Get<XElement>("Widgets/DrillerWidget"));
-			m_inventoryGrid = Children.Find<GridPanelWidget>("InventoryGrid");
 			m_furnaceGrid = Children.Find<GridPanelWidget>("DispenserGrid");
 			m_dispenseButton = Children.Find<ButtonWidget>("DispenseButton");
 			m_shootButton = Children.Find<ButtonWidget>("ShootButton");

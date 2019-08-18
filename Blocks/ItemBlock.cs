@@ -38,21 +38,21 @@ namespace Game
 		}
 		internal static void Init()
 		{
-			if (Task == null)
-			{
-				ContentManager.Get("Textures/SteamBoat");
-				ContentManager.Get("Textures/Train");
-				ContentManager.Get("Textures/Creatures/Jaguar");
-				ContentManager.Get("Textures/tex");
-				ContentManager.Get("Textures/tex2");
-				Task = Task.Run((Action)ItemBlock.InitItems);
-			}
+			SteamBoat.BoatTexture = ContentManager.Get<Texture2D>("Textures/SteamBoat");
+			Train.TrainTexture = ContentManager.Get<Texture2D>("Textures/Train");
+			Carriage.TrainTexture = ContentManager.Get<Texture2D>("Textures/Creatures/Jaguar");
+			Airship.ATexture = ContentManager.Get<Texture2D>("Textures/tex");
+			Car.CarTexture = ContentManager.Get<Texture2D>("Textures/tex2");
 			var stream = Utils.GetTargetFile("IndustrialMod.png");
 			try
 			{
 				ItemBlock.Texture = Texture2D.Load(stream);
 			}
 			finally { stream.Close(); }
+			if (Task == null)
+			{
+				Task = Task.Run((Action)ItemBlock.InitItems);
+			}
 		}
 		public static bool True(object obj) => true;
 		public static void PlaySound(string name, float volume, float pitch, float pan)

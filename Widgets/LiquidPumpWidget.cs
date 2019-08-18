@@ -6,36 +6,35 @@ namespace Game
 	{
 		//protected readonly CheckboxWidget m_acceptsDropsBox;
 
-		protected readonly GridPanelWidget m_dispenserGrid,
-											m_dispenserGrid2;
+		protected readonly GridPanelWidget m_dispenserGrid;
 
 		protected readonly InventorySlotWidget m_drillSlot;
 
 
 		public LiquidPumpWidget(IInventory inventory, ComponentInventoryBase componentDispenser) : base(componentDispenser, "Widgets/LiquidPumpWidget")
 		{
-			m_dispenserGrid = Children.Find<GridPanelWidget>("DispenserGrid");
-			m_dispenserGrid2 = Children.Find<GridPanelWidget>("DispenserGrid2");
+			m_furnaceGrid = Children.Find<GridPanelWidget>("DispenserGrid");
+			m_dispenserGrid = Children.Find<GridPanelWidget>("DispenserGrid2");
 			m_drillSlot = Children.Find<InventorySlotWidget>("DrillSlot");
 			int num = 0, y, x;
+			for (y = 0; y < m_furnaceGrid.RowsCount; y++)
+			{
+				for (x = 0; x < m_furnaceGrid.ColumnsCount; x++)
+				{
+					var inventorySlotWidget = new InventorySlotWidget();
+					inventorySlotWidget.AssignInventorySlot(componentDispenser, num++);
+					m_furnaceGrid.Children.Add(inventorySlotWidget);
+					m_furnaceGrid.SetWidgetCell(inventorySlotWidget, new Point2(x, y));
+				}
+			}
 			for (y = 0; y < m_dispenserGrid.RowsCount; y++)
 			{
 				for (x = 0; x < m_dispenserGrid.ColumnsCount; x++)
 				{
-					var inventorySlotWidget = new InventorySlotWidget();
-					inventorySlotWidget.AssignInventorySlot(componentDispenser, num++);
-					m_dispenserGrid.Children.Add(inventorySlotWidget);
-					m_dispenserGrid.SetWidgetCell(inventorySlotWidget, new Point2(x, y));
-				}
-			}
-			for (y = 0; y < m_dispenserGrid2.RowsCount; y++)
-			{
-				for (x = 0; x < m_dispenserGrid2.ColumnsCount; x++)
-				{
 					var inventorySlotWidget2 = new InventorySlotWidget();
 					inventorySlotWidget2.AssignInventorySlot(componentDispenser, num++);
-					m_dispenserGrid2.Children.Add(inventorySlotWidget2);
-					m_dispenserGrid2.SetWidgetCell(inventorySlotWidget2, new Point2(x, y));
+					m_dispenserGrid.Children.Add(inventorySlotWidget2);
+					m_dispenserGrid.SetWidgetCell(inventorySlotWidget2, new Point2(x, y));
 				}
 			}
 			num = 6;

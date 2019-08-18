@@ -20,12 +20,9 @@ namespace Game
 						m_fireTimeRemaining = 1f;
 				}
 			}
-			if (m_smeltingRecipe2 != null)
-			{
-				if (m_smeltingRecipe == null)
-					m_smeltingRecipe = m_smeltingRecipe2;
-			}
-			if (m_smeltingRecipe != null)
+			if (m_smeltingRecipe2 != 0 && m_smeltingRecipe == 0)
+				m_smeltingRecipe = m_smeltingRecipe2;
+			if (m_smeltingRecipe != 0)
 			{
 				Powered = true;
 				m_fireTimeRemaining = MathUtils.Min(m_fireTimeRemaining - 0.01f * dt, 1f);
@@ -40,7 +37,7 @@ namespace Game
 						{
 							m_slots[1 + j].Value = result[j];
 							m_slots[1 + j].Count++;
-							m_smeltingRecipe = null;
+							m_smeltingRecipe = 0;
 							SmeltingProgress = 0f;
 							m_updateSmeltingRecipe = true;
 							m_fireTimeRemaining = 0f;
@@ -49,37 +46,34 @@ namespace Game
 				}
 			}
 			else
-			{
 				Powered = false;
-				//m_fireTimeRemaining = 0f;
-			}
 		}
 
-		protected override string FindSmeltingRecipe()
+		protected override int FindSmeltingRecipe()
 		{
 			result[0] = 0;
 			result[1] = 0;
-			string text = null;
+			int text = 0;
 			int i;
 			for (i = 0; i < m_furnaceSize; i++)
 			{
 				if (GetSlotCount(i) <= 0) continue;
 				if (Terrain.ExtractContents(GetSlotValue(i)) == MagmaBucketBlock.Index)
 				{
-					text = "AluminumOrePowder";
+					text = 1;
 					result[0] = EmptyBucketBlock.Index;
 					result[1] = BasaltBlock.Index;
 				}
 			}
-			if (text == null)
-				return null;
+			if (text == 0)
+				return 0;
 			for (i = 0; i < 3; i++)
 			{
 				Slot slot = m_slots[1 + i];
 				if (slot.Count != 0 && result[i] != 0 && (slot.Value != result[i] || slot.Count >= 40))
-					return null;
+					return 0;
 			}
-			return "";
+			return 1;
 		}
 	}
 }

@@ -3,7 +3,7 @@
   <LabelWidget CanvasWidget.Position="12, 14" Name="DispenserLabel" Text="GasolineEngine" Font="{Fonts/Pericles24}" Color="255, 255, 255, 192"/>
   <LabelWidget CanvasWidget.Position="306, 14" Name="InventoryLabel" Text="Inventory" Font="{Fonts/Pericles24}" Color="255, 255, 255, 192"/>
   <GridPanelWidget CanvasWidget.Position="306, 52" Name="InventoryGrid" ColumnsCount="4" RowsCount="4"/>
-  <GridPanelWidget CanvasWidget.Position="40, 52" Name="DispenserGrid" ColumnsCount="1" RowsCount="1"/>
+  <GridPanelWidget CanvasWidget.Position="40, 52" Name="FurnaceGrid" ColumnsCount="1" RowsCount="1"/>
   <InventorySlotWidget Name="ResultSlot" CanvasWidget.Position="40, 144" />
   <ValueBarWidget Name="Progress" CanvasWidget.Position="212, 52" LayoutDirection="Vertical" BarsCount="12" FlipDirection="false" UnlitBarColor="48, 48, 48, 80" LitBarColor="96, 48, 0" BarSize="24, 24" BarSubtexture="{Textures/Atlas/ProgressBar}"/>
   <CanvasWidget CanvasWidget.Position="12, 240" Size="228, 140" >

@@ -17,7 +17,7 @@ namespace Game
 
 		public override IEnumerable<int> GetCreativeValues()
 		{
-			return new[] { Index, Index | 1 << 14, Index | 2 << 14 };
+			return new[] { Index, Index | 1 << 14 };
 		}
 
 		public override int GetFaceTextureSlot(int face, int value)

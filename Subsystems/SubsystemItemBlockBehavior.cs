@@ -170,7 +170,7 @@ namespace Game
 			if (!(BlocksManager.Blocks[Terrain.ExtractContents(value)] is ItemBlock block))
 				return false;
 			var item = block.GetItem(ref value);
-			return !(block is Chemistry.GunpowderBlock) && (item is OreChunk || (item is Mould) || item is Brick || value == ItemBlock.IdTable["ScrapIron"]) && base.OnAim(start, direction, componentMiner, state);
+			return !(Terrain.ExtractContents(value) != GunpowderBlock.Index) && (item is OreChunk || (item is Mould) || item is Brick || value == ItemBlock.IdTable["ScrapIron"]) && base.OnAim(start, direction, componentMiner, state);
 		}
 
 		public override bool OnUse(Vector3 start, Vector3 direction, ComponentMiner componentMiner)

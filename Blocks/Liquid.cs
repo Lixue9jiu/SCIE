@@ -49,10 +49,10 @@ public class RottenMeatBlock : FluidBlock
 		};
 		var model = ContentManager.Get<Model>("Models/FullBucket");
 		var meshParts = model.FindMesh("Contents").MeshParts;
-		StandaloneBlockMesh.AppendModelMeshPart(meshParts[0], BlockMesh.GetBoneAbsoluteTransform(model.FindMesh("Contents").ParentBone) * Matrix.CreateRotationY(MathUtils.DegToRad(180f)) * Matrix.CreateTranslation(0f, -0.3f, 0f), false, false, false, false, new Color(30, 30, 30));
+		StandaloneBlockMesh.AppendModelMeshPart(meshParts[0], BlockMesh.GetBoneAbsoluteTransform(model.FindMesh("Contents").ParentBone) * Matrix.CreateRotationY(MathUtils.PI) * Matrix.CreateTranslation(0f, -0.3f, 0f), false, false, false, false, new Color(30, 30, 30));
 		StandaloneBlockMesh.TransformTextureCoordinates(Matrix.CreateTranslation(0.8125f, 0.6875f, 0f));
 		meshParts = model.FindMesh("Bucket").MeshParts;
-		StandaloneBlockMesh.AppendModelMeshPart(meshParts[0], BlockMesh.GetBoneAbsoluteTransform(model.FindMesh("Bucket").ParentBone) * Matrix.CreateRotationY(MathUtils.DegToRad(180f)) * Matrix.CreateTranslation(0f, -0.3f, 0f), false, false, false, false, Color.White);
+		StandaloneBlockMesh.AppendModelMeshPart(meshParts[0], BlockMesh.GetBoneAbsoluteTransform(model.FindMesh("Bucket").ParentBone) * Matrix.CreateRotationY(MathUtils.PI) * Matrix.CreateTranslation(0f, -0.3f, 0f), false, false, false, false, Color.White);
 		var rottenMeatBlock = new Game.RottenMeatBlock
 		{
 			DefaultShadowStrength = -1
@@ -72,7 +72,7 @@ public class RottenMeatBlock : FluidBlock
 		var arr = new int[13];
 		for (int i = 0; i < 13; i++)
 		{
-			arr[i] = Index | i << (18);
+			arr[i] = Index | i << 18;
 		}
 		return arr;
 	}
@@ -83,10 +83,6 @@ public class RottenMeatBlock : FluidBlock
 		{
 			case Type.RottenMeat:
 				BlocksManager.DrawMeshBlock(primitivesRenderer, m_standaloneBlockMesh, color, 2f * size, ref matrix, environmentData);
-				return;
-			case Type.Oil:
-				color = new Color(30, 30, 30);
-				BlocksManager.DrawCubeBlock(primitivesRenderer, Terrain.ReplaceContents(value, 18), new Vector3(size), ref matrix, color, color, environmentData);
 				return;
 			case Type.Hg:
 				BlocksManager.DrawMeshBlock(primitivesRenderer, StandaloneBlockMesh2, color, 2f * size, ref matrix, environmentData);

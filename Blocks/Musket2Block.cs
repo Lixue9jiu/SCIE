@@ -8,11 +8,9 @@ namespace Game
 		public enum LoadState
 		{
 			Empty,
-			Gunpowder,
-			Wad,
+			Bullet,
+			Bullet2,
 			Loaded,
-			Bullet = Gunpowder,
-			Bullet2 = Wad
 		}
 
 		public const int Index = 520;

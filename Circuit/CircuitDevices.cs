@@ -5,7 +5,10 @@ namespace Game
 {
 	public class Fridge : InventoryEntityDevice<ComponentNewChest>
 	{
-		public Fridge() : base("Freezer", "冰箱", "冰箱是保护食物的好地方，可以延缓食物的腐烂。 它最多可容纳16件物品。", 110) { }
+		public Fridge() : base("冰箱", "冰箱是保护食物的好地方，可以延缓食物的腐烂。 它最多可容纳16件物品。", 110)
+		{
+			Name = "Freezer";
+		}
 
 		public override void Simulate(ref int voltage)
 		{
@@ -32,7 +35,7 @@ namespace Game
 
 	public class Magnetizer : InventoryEntityDevice<ComponentMagnetizer>
 	{
-		public Magnetizer() : base("Magnetizer", "磁化机", "磁化机是通过在由线提供的强磁场中熔化钢锭来制造工业磁体的装置。", 12) { }
+		public Magnetizer() : base("磁化机", "磁化机是通过在由线提供的强磁场中熔化钢锭来制造工业磁体的装置。", 12) { }
 
 		public override void Simulate(ref int voltage)
 		{
@@ -59,7 +62,7 @@ namespace Game
 
 	public class Separator : InventoryEntityDevice<ComponentSeperator>
 	{
-		public Separator() : base("Seperator", "分离器", "分离器是通过高频旋转分离处材料的装置，它是离心机的缩小版本。", 120) { }
+		public Separator() : base("分离器", "分离器是通过高频旋转分离处材料的装置，它是离心机的缩小版本。", 120) { }
 
 		public override void Simulate(ref int voltage)
 		{
@@ -86,7 +89,7 @@ namespace Game
 
 	public class Canpack : InteractiveEntityDevice<ComponentCanpack>
 	{
-		public Canpack() : base("Canpack", "灌装机", "灌装机是一种可以封装液体，变成液体罐头的机器", 80) { Type |= ElementType.Pipe; }
+		public Canpack() : base("灌装机", "灌装机是一种可以封装液体，变成液体罐头的机器", 80) { Type |= ElementType.Pipe; }
 
 		public override void Simulate(ref int voltage)
 		{
@@ -121,7 +124,7 @@ namespace Game
 
 	public class Electrobath : InteractiveEntityDevice<ComponentElectrobath>
 	{
-		public Electrobath() : base("Electrobath", "电解机", "电解机是一种可以将电解质进行氧化还原反应的机器，在冶炼一些活泼金属上有重要的作用", 200) { }
+		public Electrobath() : base("电解机", "电解机是一种可以将电解质进行氧化还原反应的机器，在冶炼一些活泼金属上有重要的作用", 200) { }
 
 		public override void Simulate(ref int voltage)
 		{
@@ -203,9 +206,9 @@ namespace Game
 		}
 	}
 
-	public class EFurnace : InventoryEntityDevice<ComponentElectricFurnace>
+	public class ElectricFurnace : InventoryEntityDevice<ComponentElectricFurnace>
 	{
-		public EFurnace() : base("ElectricFurnace", "电阻炉", "电阻炉是一种通过电阻器加热物品的装置，它可以达到很高的温度，但需要大量的热量。", 300) { }
+		public ElectricFurnace() : base("电阻炉", "电阻炉是一种通过电阻器加热物品的装置，它可以达到很高的温度，但需要大量的热量。", 300) { }
 
 		public override void OnBlockAdded(SubsystemTerrain subsystemTerrain, int value, int oldValue)
 		{
@@ -228,9 +231,9 @@ namespace Game
 		}
 	}
 
-	public class EIFurnace : InventoryEntityDevice<ComponentElectricIFurnace>
+	public class ElectricIFurnace : InventoryEntityDevice<ComponentElectricIFurnace>
 	{
-		public EIFurnace() : base("ElectricIFurnace", "电磁感应炉", "电磁感应炉是一种通过电磁感应加热物品的装置，它可以达到很高的温度，但需要大量的电量。", 200) { }
+		public ElectricIFurnace() : base("电磁感应炉", "电磁感应炉是一种通过电磁感应加热物品的装置，它可以达到很高的温度，但需要大量的电量。", 200) { }
 
 		public override void Simulate(ref int voltage)
 		{
@@ -264,7 +267,7 @@ namespace Game
 
 	public class Condenser : InteractiveEntityDevice<ComponentCondenser>, IElectricElementBlock
 	{
-		public Condenser() : base("Condenser", "超大电容", "超大电容允许你存储一些电量，并在需要的时候释放出去") { Type = ElementType.Supply | ElementType.Connector; }
+		public Condenser() : base("超大电容", "超大电容允许你存储一些电量，并在需要的时候释放出去") { Type = ElementType.Supply | ElementType.Connector; }
 		public static MachineMode GetMode(int data)
 		{
 			return (MachineMode)(data >> 14 & 1);
@@ -310,7 +313,7 @@ namespace Game
 
 	public class Charger : InventoryEntityDevice<ComponentCharger>
 	{
-		public Charger() : base("Charger", "充电器", "充电放电装置是一种可以为电池充电或者放电的装置") { Type = ElementType.Supply | ElementType.Connector; }
+		public Charger() : base("充电器", "充电放电装置是一种可以为电池充电或者放电的装置") { Type = ElementType.Supply | ElementType.Connector; }
 		
 		public static MachineMode GetMode(int data)
 		{
@@ -352,7 +355,7 @@ namespace Game
 
 	public class TGenerator : InventoryEntityDevice<ComponentTGenerator>
 	{
-		public TGenerator() : base("TGenerator", "热能发电机", "热能发电机是一种利用金属温差发电的装置，它可以把岩浆转换为能量") { Type = ElementType.Supply | ElementType.Connector; }
+		public TGenerator() : base("热能发电机", "热能发电机是一种利用金属温差发电的装置，它可以把岩浆转换为能量") { Type = ElementType.Supply | ElementType.Connector; }
 
 		public override void Simulate(ref int voltage)
 		{

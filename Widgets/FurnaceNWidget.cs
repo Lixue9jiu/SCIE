@@ -1,30 +1,20 @@
 using Engine;
-using System.Xml.Linq;
 
 namespace Game
 {
-	public class FurnaceNWidget : CanvasWidget
+	public class FurnaceNWidget : EntityWidget<ComponentFurnace>
 	{
-		protected readonly ComponentFurnaceN m_component;
-
 		protected readonly FireWidget m_fire;
 
 		protected readonly InventorySlotWidget m_fuelSlot;
-
-		protected readonly GridPanelWidget m_furnaceGrid;
-
-		protected readonly GridPanelWidget m_inventoryGrid;
 
 		protected readonly ValueBarWidget m_progress;
 
 		protected readonly InventorySlotWidget m_remainsSlot,
 												m_resultSlot;
 
-		public FurnaceNWidget(IInventory inventory, ComponentFurnaceN component)
+		public FurnaceNWidget(IInventory inventory, ComponentFurnace component) : base(component, "Widgets/FurnaceNWidget")
 		{
-			m_component = component;
-			WidgetsManager.LoadWidgetContents(this, this, ContentManager.Get<XElement>("Widgets/FurnaceNWidget"));
-			m_inventoryGrid = Children.Find<GridPanelWidget>("InventoryGrid");
 			m_furnaceGrid = Children.Find<GridPanelWidget>("FurnaceGrid");
 			m_fire = Children.Find<FireWidget>("Fire");
 			m_progress = Children.Find<ValueBarWidget>("Progress");

@@ -2,27 +2,15 @@ using Engine;
 
 namespace Game
 {
-	public class CReactorWidget : EntityWidget<ComponentMachine>
+	public class CReactorWidget : ProcessWidget<ComponentMachine>
 	{
 		//protected readonly FireWidget m_fire;
 
 		//protected readonly InventorySlotWidget m_fuelSlot;
 
-		protected readonly GridPanelWidget m_furnaceGrid;
-
-		protected readonly InventorySlotWidget m_result1,
-												m_result2,
-												m_result3;
-
-		protected readonly ValueBarWidget m_progress;
-
 		public CReactorWidget(IInventory inventory, ComponentMachine component) : base(component, "Widgets/CReactorWidget")
 		{
 			m_furnaceGrid = Children.Find<GridPanelWidget>("FurnaceGrid");
-			m_result1 = Children.Find<InventorySlotWidget>("ResultSlot1");
-			m_result2 = Children.Find<InventorySlotWidget>("ResultSlot2");
-			m_result3 = Children.Find<InventorySlotWidget>("ResultSlot3");
-			m_progress = Children.Find<ValueBarWidget>("Progress");
 			int num = 6, y, x;
 			InventorySlotWidget inventorySlotWidget;
 			for (y = 0; y < m_inventoryGrid.RowsCount; y++)

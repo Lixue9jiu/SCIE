@@ -1,18 +1,13 @@
 using Engine;
-using System.Xml.Linq;
 using static Game.Charger;
 
 namespace Game
 {
-	public class ChargerWidget : CanvasWidget
+	public class ChargerWidget : EntityWidget<ComponentCharger>
 	{
 		protected readonly ComponentBlockEntity m_componentBlockEntity;
 
-		protected readonly ComponentCharger m_componentDispenser;
-
 		protected readonly GridPanelWidget m_dispenserGrid;
-
-		protected readonly GridPanelWidget m_inventoryGrid;
 
 		protected readonly ButtonWidget m_dispenseButton,
 										m_shootButton;
@@ -21,13 +16,9 @@ namespace Game
 
 		//protected readonly ValueBarWidget m_progress;
 
-		public ChargerWidget(IInventory inventory, ComponentCharger component)
+		public ChargerWidget(IInventory inventory, ComponentCharger component) : base(component, "Widgets/ChargerWidget")
 		{
-			//m_componentDispenser = componentDispenser;
-			m_componentDispenser = component;
 			m_componentBlockEntity = component.Entity.FindComponent<ComponentBlockEntity>(true);
-			WidgetsManager.LoadWidgetContents(this, this, ContentManager.Get<XElement>("Widgets/ChargerWidget"));
-			m_inventoryGrid = Children.Find<GridPanelWidget>("InventoryGrid");
 			m_dispenserGrid = Children.Find<GridPanelWidget>("DispenserGrid");
 			m_dispenseButton = Children.Find<ButtonWidget>("DispenseButton");
 			m_shootButton = Children.Find<ButtonWidget>("ShootButton");
@@ -61,7 +52,7 @@ namespace Game
 
 		public override void Update()
 		{
-			if (!m_componentDispenser.IsAddedToProject)
+			if (!m_component.IsAddedToProject)
 			{
 				ParentWidget.Children.Remove(this);
 				return;
@@ -75,18 +66,18 @@ namespace Game
 				data = SetMode(data);
 
 				Utils.Terrain.SetCellValueFast(coordinates.X, coordinates.Y, coordinates.Z, Terrain.ReplaceData(value, data));
-				m_componentDispenser.Charged = true;
+				m_component.Charged = true;
 			}
 			if (m_shootButton.IsClicked && mode == MachineMode.Charge)
 			{
 				data = SetMode(data);
 				Utils.Terrain.SetCellValueFast(coordinates.X, coordinates.Y, coordinates.Z, Terrain.ReplaceData(value, data));
-				m_componentDispenser.Charged = false;
+				m_component.Charged = false;
 			}
 
 			//m_progress.Value = m_componentDispenser2.m_fireTimeRemaining;
 			m_dispenseButton.IsChecked = mode == MachineMode.Charge;
-			m_componentDispenser.Charged = mode == MachineMode.Charge;
+			m_component.Charged = mode == MachineMode.Charge;
 			m_shootButton.IsChecked = mode == MachineMode.Discharger;
 		}
 	}

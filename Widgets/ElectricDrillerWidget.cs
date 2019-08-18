@@ -1,17 +1,10 @@
 using Engine;
-using System.Xml.Linq;
 
 namespace Game
 {
-	public class ElectricDrillerWidget : CanvasWidget
+	public class ElectricDrillerWidget : EntityWidget<ComponentElectricDriller>
 	{
 		protected readonly CheckboxWidget m_acceptsDropsBox;
-
-		protected readonly ComponentElectricDriller m_component;
-
-		protected readonly GridPanelWidget m_inventoryGrid;
-
-		protected readonly GridPanelWidget m_furnaceGrid;
 
 		protected readonly ButtonWidget m_dispenseButton,
 										m_shootButton;
@@ -21,12 +14,9 @@ namespace Game
 		protected readonly InventorySlotWidget m_drillSlot,
 												m_batterySlot;
 
-		public ElectricDrillerWidget(IInventory inventory, ComponentElectricDriller componentDispenser)
+		public ElectricDrillerWidget(IInventory inventory, ComponentElectricDriller component) : base(component, "Widgets/ElectricDrillerWidget")
 		{
-			m_component = componentDispenser;
-			m_subsystemTerrain = componentDispenser.Project.FindSubsystem<SubsystemTerrain>(true);
-			WidgetsManager.LoadWidgetContents(this, this, ContentManager.Get<XElement>("Widgets/ElectricDrillerWidget"));
-			m_inventoryGrid = Children.Find<GridPanelWidget>("InventoryGrid");
+			m_subsystemTerrain = component.Project.FindSubsystem<SubsystemTerrain>(true);
 			m_furnaceGrid = Children.Find<GridPanelWidget>("DispenserGrid");
 			m_dispenseButton = Children.Find<ButtonWidget>("DispenseButton");
 			m_shootButton = Children.Find<ButtonWidget>("ShootButton");
@@ -50,13 +40,13 @@ namespace Game
 				for (x = 0; x < m_furnaceGrid.ColumnsCount; x++)
 				{
 					inventorySlotWidget = new InventorySlotWidget();
-					inventorySlotWidget.AssignInventorySlot(componentDispenser, num++);
+					inventorySlotWidget.AssignInventorySlot(component, num++);
 					m_furnaceGrid.Children.Add(inventorySlotWidget);
 					m_furnaceGrid.SetWidgetCell(inventorySlotWidget, new Point2(x, y));
 				}
 			}
-			m_drillSlot.AssignInventorySlot(componentDispenser, 8);
-			m_batterySlot.AssignInventorySlot(componentDispenser, 9);
+			m_drillSlot.AssignInventorySlot(component, 8);
+			m_batterySlot.AssignInventorySlot(component, 9);
 		}
 
 		public override void Update()

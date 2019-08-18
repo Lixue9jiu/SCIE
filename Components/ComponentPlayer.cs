@@ -312,6 +312,10 @@ namespace Game
 			{
 				num3 = m.CalculateDigTime(cellValue, SteelAxeBlock.Index);
 			}
+			else if(activeBlockValue == ItemBlock.IdTable["Screwdriver"] && BlocksManager.Blocks[num2].GetCategory(num2) == Utils.Get("»úÆ÷"))
+			{
+				num3 = 0;
+			}
 			m.m_digProgress = num3 > 0f ? MathUtils.Saturate((float)(m_subsystemTime.GameTime - m.m_digStartTime) / num3) : 1f;
 			if (!m.CanUseTool(activeBlockValue))
 			{
@@ -325,7 +329,6 @@ namespace Game
 					}), true, true);
 				}
 			}
-
 			bool flag = m.ComponentPlayer != null && !m.ComponentPlayer.ComponentInput.IsControlledByTouch && m_subsystemGameInfo.WorldSettings.GameMode == GameMode.Creative;
 			bool result = false;
 			if (flag || (m.m_lastPokingPhase <= 0.5f && m.PokingPhase > 0.5f))
@@ -349,12 +352,11 @@ namespace Game
 									int vvv = m_subsystemTerrain.Terrain.GetCellValue(x11, y11, z11);
 									if ((x11 - cellFace.X) * (x11 - cellFace.X) + (y11 - cellFace.Y) * (y11 - cellFace.Y) + (z11 - cellFace.Z) * (z11 - cellFace.Z) <= 1)
 									{
-										//break;
 										if (BlocksManager.Blocks[Terrain.ExtractContents(vvv)].IsPlaceable && !BlocksManager.Blocks[Terrain.ExtractContents(vvv)].IsDiggingTransparent && !BlocksManager.Blocks[Terrain.ExtractContents(vvv)].DefaultIsInteractive && BlocksManager.Blocks[Terrain.ExtractContents(vvv)].BlockIndex != 31)
 										{
+											m_subsystemTerrain.ChangeCell(x11, y11, z11, 0);
 											if (BlocksManager.Blocks[Terrain.ExtractContents(vvv)].DefaultCategory != "Plants")
 												m_subsystemPickables.AddPickable(m_subsystemTerrain.Terrain.GetCellValue(x11, y11, z11), 1, new Vector3(x11, y11, z11) + new Vector3(0.5f), null, null);
-											m_subsystemTerrain.ChangeCell(x11, y11, z11, 0);
 										}
 									}
 								}

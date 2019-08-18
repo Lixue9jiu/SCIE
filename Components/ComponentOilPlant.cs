@@ -24,7 +24,7 @@ namespace Game
 				}
 			}
 			int i;
-			if (m_smeltingRecipe2 != null)
+			if (m_smeltingRecipe2 != 0)
 			{
 				int num = 0;
 				for (i = -1; i < 2; i++)
@@ -44,11 +44,11 @@ namespace Game
 					}
 				}
 				if (num == 0)
-					m_smeltingRecipe = null;
-				if (num == 1 && m_smeltingRecipe == null)
+					m_smeltingRecipe = 0;
+				if (num == 1 && m_smeltingRecipe == 0)
 					m_smeltingRecipe = m_smeltingRecipe2;
 			}
-			if (m_smeltingRecipe == null)
+			if (m_smeltingRecipe == 0)
 			{
 				HeatLevel = 0f;
 				m_fireTimeRemaining = 0f;
@@ -58,11 +58,11 @@ namespace Game
 				m_fireTimeRemaining = 100f;
 			if (m_fireTimeRemaining <= 0f)
 			{
-				m_smeltingRecipe = null;
+				m_smeltingRecipe = 0;
 				SmeltingProgress = 0f;
 				//m_music = -1;
 			}
-			if (m_smeltingRecipe != null)
+			if (m_smeltingRecipe != 0)
 			{
 				SmeltingProgress = MathUtils.Min(SmeltingProgress + 0.1f * dt, 1f);
 				if (SmeltingProgress >= 1f)
@@ -76,7 +76,7 @@ namespace Game
 						{
 							m_slots[3 + j].Value = result[j];
 							m_slots[3 + j].Count+=6;
-							m_smeltingRecipe = null;
+							m_smeltingRecipe = 0;
 							SmeltingProgress = 0f;
 							m_updateSmeltingRecipe = true;
 						}
@@ -85,27 +85,25 @@ namespace Game
 			}
 		}
 
-		protected override string FindSmeltingRecipe()
+		protected override int FindSmeltingRecipe()
 		{
-			string text = null;
+			int text = 0;
 			result[1] = 0;
 			result[2] = 0;
 
 			if (GetSlotValue(0) == 786672 && GetSlotCount(0) > 0 && GetSlotValue(1) == ItemBlock.IdTable["CokeCoalPowder"] && GetSlotCount(1) > 0 && Terrain.ExtractContents(GetSlotValue(2))==OakWoodBlock.Index)
 			{
-				
-					text = "RefinedOil";
-					result[0] = ItemBlock.IdTable["Rubber"];
-				
+				text = 1;
+				result[0] = ItemBlock.IdTable["Rubber"];
 			}
 			
-			if (text != null)
+			if (text != 0)
 			{
 				for (int i = 0; i < 3; i++)
 				{
 					Slot slot = m_slots[3 + i];
 					if (slot.Count != 0 && result[i] != 0 && (slot.Value != result[i] || slot.Count >= 40))
-						return null;
+						return 0;
 				}
 			}
 			return text;

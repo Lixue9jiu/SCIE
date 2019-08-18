@@ -88,7 +88,7 @@ namespace Game
 							{
 								switch (loadState)
 								{
-								case Musket2Block.LoadState.Gunpowder:
+								case Musket2Block.LoadState.Bullet:
 									flag = true;
 									value2 = Terrain.MakeBlockValue(214, 0, BulletBlock.SetBulletType(0, BulletBlock.BulletType.IronBullet));
 									s = 320f;
@@ -96,7 +96,7 @@ namespace Game
 									vector = new Vector3(0.01f, 0.01f, 0.05f);
 									goto default;
 								default:
-									if (loadState == Musket2Block.LoadState.Wad)
+									if (loadState == Musket2Block.LoadState.Bullet2)
 									{
 										flag = true;
 										value2 = Terrain.MakeBlockValue(214, 0, BulletBlock.SetBulletType(0, BulletBlock.BulletType.IronBullet));
@@ -138,10 +138,10 @@ namespace Game
 									m_subsystemNoise.MakeNoise(vector2, 1f, 40f);
 									componentMiner.ComponentCreature.ComponentBody.ApplyImpulse(-1f * vector3);
 								}
-								if (loadState == Musket2Block.LoadState.Gunpowder)
+								if (loadState == Musket2Block.LoadState.Bullet)
 									num2 = Terrain.MakeBlockValue(Terrain.ExtractContents(num2), 0, Musket2Block.SetLoadState(Terrain.ExtractData(num2), Musket2Block.LoadState.Empty));
-								if (loadState == Musket2Block.LoadState.Wad)
-									num2 = Terrain.MakeBlockValue(Terrain.ExtractContents(num2), 0, Musket2Block.SetLoadState(Terrain.ExtractData(num2), Musket2Block.LoadState.Gunpowder));
+								if (loadState == Musket2Block.LoadState.Bullet2)
+									num2 = Terrain.MakeBlockValue(Terrain.ExtractContents(num2), 0, Musket2Block.SetLoadState(Terrain.ExtractData(num2), Musket2Block.LoadState.Bullet));
 								num3 = 1;
 							}
 							if (Musket2Block.GetHammerState(Terrain.ExtractData(num2)))
@@ -167,7 +167,7 @@ namespace Game
 		}
 		public override int GetProcessInventoryItemCapacity(IInventory inventory, int slotIndex, int value)
 		{
-			return Terrain.ExtractContents(value) != Bullet2Block.Index || Musket2Block.GetLoadState(Terrain.ExtractData(inventory.GetSlotValue(slotIndex))) == Musket2Block.LoadState.Wad
+			return Terrain.ExtractContents(value) != Bullet2Block.Index || Musket2Block.GetLoadState(Terrain.ExtractData(inventory.GetSlotValue(slotIndex))) == Musket2Block.LoadState.Bullet2
 				? 0
 				: 1;
 		}
@@ -182,10 +182,10 @@ namespace Game
 				switch (loadState)
 				{
 				case Musket2Block.LoadState.Empty:
-					loadState = Musket2Block.LoadState.Gunpowder;
+					loadState = Musket2Block.LoadState.Bullet;
 					break;
-				case Musket2Block.LoadState.Gunpowder:
-					loadState = Musket2Block.LoadState.Wad;
+				case Musket2Block.LoadState.Bullet:
+					loadState = Musket2Block.LoadState.Bullet2;
 					break;
 				}
 				processedValue = 0;

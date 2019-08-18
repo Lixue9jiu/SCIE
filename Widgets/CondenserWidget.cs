@@ -4,25 +4,18 @@ using static Game.Charger;
 
 namespace Game
 {
-	public class CondenserWidget : CanvasWidget
+	public class CondenserWidget : EntityWidget<ComponentCondenser>
 	{
 		protected readonly ComponentBlockEntity m_componentBlockEntity;
-
-		protected readonly ComponentCondenser m_component;
-
-		protected readonly GridPanelWidget m_inventoryGrid;
 
 		protected readonly ButtonWidget m_dispenseButton,
 										m_shootButton;
 
 		protected readonly ValueBarWidget m_progress;
 
-		public CondenserWidget(IInventory inventory, ComponentCondenser component)
+		public CondenserWidget(IInventory inventory, ComponentCondenser component) : base(component, "Widgets/CondenserWidget")
 		{
-			m_component = component;
 			m_componentBlockEntity = component.Entity.FindComponent<ComponentBlockEntity>(true);
-			WidgetsManager.LoadWidgetContents(this, this, ContentManager.Get<XElement>("Widgets/CondenserWidget"));
-			m_inventoryGrid = Children.Find<GridPanelWidget>("InventoryGrid");
 			m_dispenseButton = Children.Find<ButtonWidget>("DispenseButton");
 			m_shootButton = Children.Find<ButtonWidget>("ShootButton");
 			m_progress = Children.Find<ValueBarWidget>("Progress");

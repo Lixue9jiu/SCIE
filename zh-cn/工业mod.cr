@@ -1053,13 +1053,13 @@
       "abba"
       " aa"
     </Recipe>
-    <Recipe Result="EFurnace" ResultCount="1" RequiredHeatLevel="0" a="CopperWire" b="SteelPlate" c="metalblock:64" d="FeAlCrAlloyResistor" Description="使电炉成为电力时代的强项">
+    <Recipe Result="ElectricFurnace" ResultCount="1" RequiredHeatLevel="0" a="CopperWire" b="SteelPlate" c="metalblock:64" d="FeAlCrAlloyResistor" Description="使电炉成为电力时代的强项">
       "baab"
       "bccb"
       "bddb"
       "bccb"
     </Recipe>
-    <Recipe Result="EIFurnace" ResultCount="1" RequiredHeatLevel="0" a="IndustrialMagnet" b="metalblock:32" c="metalblock:64" d="CopperWire" e="SteelRod" f="SteelPlate" Description="制作感应炉，用来熔化金属">
+    <Recipe Result="ElectricIFurnace" ResultCount="1" RequiredHeatLevel="0" a="IndustrialMagnet" b="metalblock:32" c="metalblock:64" d="CopperWire" e="SteelRod" f="SteelPlate" Description="制作感应炉，用来熔化金属">
       "abba"
       "dccd"
       "dccd"

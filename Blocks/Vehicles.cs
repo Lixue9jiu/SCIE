@@ -6,10 +6,10 @@ namespace Game
 	public class TexturedMeshItem : MeshItem
 	{
 		//public static Texture2D WhiteTexture;
-		public Texture2D Texture;
-		private readonly string ModelName;
+		public readonly Texture2D Texture;
+		protected readonly string ModelName;
 
-		public TexturedMeshItem(string name, string modelName, string meshName, Texture2D texture, float scale = 1, string description = null) : base(description)
+		public TexturedMeshItem(string name, string modelName, string meshName, Texture2D texture, string description = null, float scale = 1) : base(description)
 		{
 			DefaultDisplayName = name;
 			ModelName = modelName;
@@ -31,7 +31,9 @@ namespace Game
 
 	public class SteamBoat : TexturedMeshItem
 	{
-		public SteamBoat() : base("蒸汽船", "SteamBoat", "Cylinder", ContentManager.Get<Texture2D>("Textures/SteamBoat"), 1f, "蒸汽船可让您更安全，更快速地穿越大面积的水，就像您拥有足够的燃料一样，在最初的工业时代，这是一种强大的运输工具。")
+		public static Texture2D BoatTexture;
+
+		public SteamBoat() : base("蒸汽船", "SteamBoat", "Cylinder", BoatTexture, "蒸汽船可让您更安全，更快速地穿越大面积的水，就像您拥有足够的燃料一样，在最初的工业时代，这是一种强大的运输工具。")
 		{
 		}
 
@@ -42,7 +44,7 @@ namespace Game
 
 	public class Icebreaker : TexturedMeshItem
 	{
-		public Icebreaker() : base("破冰船", "SteamBoat", "Cylinder", ContentManager.Get<Texture2D>("Textures/SteamBoat"), 1f, "破冰船")
+		public Icebreaker() : base("破冰船", "SteamBoat", "Cylinder", SteamBoat.BoatTexture, "破冰船")
 		{
 		}
 
@@ -55,7 +57,9 @@ namespace Game
 
 	public class Train : TexturedMeshItem
 	{
-		public Train() : base("蒸汽机车", "Train", "Cylinder", ContentManager.Get<Texture2D>("Textures/Train"), 1f, "蒸汽机车是一种通过蒸汽机产生牵引力的铁路机车。 这些机车通过燃烧可燃材料（通常是煤）在锅炉中产生蒸汽来加燃料。 蒸汽移动往复活塞，机械连接到机车的主轮。 燃料和水供应都由机车携带。")
+		public static Texture2D TrainTexture;
+
+		public Train() : base("蒸汽机车", "Train", "Cylinder", TrainTexture, "蒸汽机车是一种通过蒸汽机产生牵引力的铁路机车。 这些机车通过燃烧可燃材料（通常是煤）在锅炉中产生蒸汽来加燃料。 蒸汽移动往复活塞，机械连接到机车的主轮。 燃料和水供应都由机车携带。")
 		{
 		}
 
@@ -66,7 +70,9 @@ namespace Game
 
 	public class Carriage : TexturedMeshItem
 	{
-		public Carriage() : base("车厢", "Minecart", "obj1", ContentManager.Get<Texture2D>("Textures/Creatures/Jaguar"), 1f, "可以过载在火车头的后面，装载大量的货物")
+		public static Texture2D TrainTexture;
+
+		public Carriage() : base("车厢", "Minecart", "obj1", TrainTexture, "可以过载在火车头的后面，装载大量的货物")
 		{
 		}
 
@@ -77,7 +83,8 @@ namespace Game
 
 	public class Airship : TexturedMeshItem
 	{
-		public Airship() : base("飞艇", "Airship", "small_airship", ContentManager.Get<Texture2D>("Textures/tex"), 0.2f, "使用比空气更轻的气体来产生浮力并使其飞行的工艺，其驱动动力源来自通过燃烧航空汽油的往复式发动机。")
+		public static Texture2D ATexture;
+		public Airship() : base("飞艇", "Airship", "small_airship", ATexture, "使用比空气更轻的气体来产生浮力并使其飞行的工艺，其驱动动力源来自通过燃烧航空汽油的往复式发动机。", 0.2f)
 		{
 		}
 
@@ -88,7 +95,8 @@ namespace Game
 
 	public class Car : TexturedMeshItem
 	{
-		public Car() : base("汽车", "Car", "ChamferBox01", ContentManager.Get<Texture2D>("Textures/tex2"), 0.5f, "一种使用内燃机，燃烧汽油获得动力，在平坦的地面上行驶的交通工具。")
+		public static Texture2D CarTexture;
+		public Car() : base("汽车", "Car", "ChamferBox01", CarTexture, "一种使用内燃机，燃烧汽油获得动力，在平坦的地面上行驶的交通工具。", 0.5f)
 		{
 		}
 

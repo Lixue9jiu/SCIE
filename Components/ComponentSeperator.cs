@@ -11,7 +11,7 @@ namespace Game
 
 		protected readonly int[] result = new int[3];
 
-		protected string m_smeltingRecipe, m_smeltingRecipe2;
+		protected int m_smeltingRecipe, m_smeltingRecipe2;
 
 		//protected int m_music;
 
@@ -40,20 +40,20 @@ namespace Game
 					//m_music = 0;
 				}
 			}
-			if (m_smeltingRecipe2 != null)
+			if (m_smeltingRecipe2 != 0)
 			{
 				if (!Powered)
 				{
 					SmeltingProgress = 0f;
 					HeatLevel = 0f;
-					m_smeltingRecipe = null;
+					m_smeltingRecipe = 0;
 				}
-				else if (m_smeltingRecipe == null)
+				else if (m_smeltingRecipe == 0)
 					m_smeltingRecipe = m_smeltingRecipe2;
 			}
 			if (!Powered)
-				m_smeltingRecipe = null;
-			if (m_smeltingRecipe == null)
+				m_smeltingRecipe = 0;
+			if (m_smeltingRecipe == 0)
 			{
 				HeatLevel = 0f;
 				m_fireTimeRemaining = 0f;
@@ -63,11 +63,11 @@ namespace Game
 				m_fireTimeRemaining = 100f;
 			if (m_fireTimeRemaining <= 0f)
 			{
-				m_smeltingRecipe = null;
+				m_smeltingRecipe = 0;
 				SmeltingProgress = 0f;
 				//m_music = -1;
 			}
-			if (m_smeltingRecipe != null)
+			if (m_smeltingRecipe != 0)
 			{
 				SmeltingProgress = MathUtils.Min(SmeltingProgress + 0.1f * dt, 1f);
 				if (SmeltingProgress >= 1f)
@@ -80,7 +80,7 @@ namespace Game
 						{
 							m_slots[1 + j].Value = result[j];
 							m_slots[1 + j].Count++;
-							m_smeltingRecipe = null;
+							m_smeltingRecipe = 0;
 							SmeltingProgress = 0f;
 							m_updateSmeltingRecipe = true;
 						}
@@ -95,19 +95,19 @@ namespace Game
 			m_furnaceSize = SlotsCount - 1;
 		}
 
-		protected virtual string FindSmeltingRecipe()
+		protected virtual int FindSmeltingRecipe()
 		{
 			Array.Clear(result, 0, 3);
-			string text = null;
+			int text = 0;
 			int i;
 			for (i = 0; i < 1; i++)
 			{
 				if (GetSlotCount(i) <= 0) continue;
-				int value = Terrain.ExtractContents(GetSlotValue(i)), x;
-				switch (value)
+				int content = Terrain.ExtractContents(GetSlotValue(i)), x;
+				switch (content)
 				{
 					case DirtBlock.Index:
-						text = "AluminumOrePowder";
+						text = 1;
 						result[0] = SandBlock.Index;
 						result[1] = StoneChunkBlock.Index;
 						x = m_random.Int() & 3;
@@ -118,7 +118,7 @@ namespace Game
 						break;
 
 					case GraniteBlock.Index:
-						text = "Ã÷·¯";
+						text = 2;
 						result[0] = SandBlock.Index;
 						result[1] = StoneChunkBlock.Index;
 						x = m_random.Int() & 7;
@@ -131,7 +131,7 @@ namespace Game
 						break;
 
 					case BasaltBlock.Index:
-						text = "ScrapIron";
+						text = 3;
 						result[0] = BasaltStairsBlock.Index;
 						x = m_random.Int() & 7;
 						if (x == 1)
@@ -139,23 +139,23 @@ namespace Game
 						break;
 
 					case CoalBlock.Index:
-						text = "ScrapIron";
-						result[0] = BasaltStairsBlock.Index;
-						x = m_random.Int() & 7;
-						if (x == 1)
-							result[1] = ItemBlock.IdTable["»¬Ê¯"];
+						text = 4;
+						result[0] = ItemBlock.IdTable["ÃºÔü"];
+						x = m_random.Int() & 1;
+						if (x == 0)
+							result[1] = ItemBlock.IdTable["Graphite"];
 						break;
 				}
 			}
-			if (text == null)
-				return null;
+			if (text == 0)
+				return 0;
 			for (i = 0; i < 3; i++)
 			{
 				Slot slot = m_slots[1 + i];
-				if (slot.Count != 0 && (slot.Value != result[i] || slot.Count >= 40))
-					return null;
+				if (slot.Count != 0 && result[i] != 0 && (slot.Value != result[i] || slot.Count >= 40))
+					return 0;
 			}
-			return "";
+			return text;
 		}
 	}
 }

@@ -83,7 +83,7 @@ namespace Game
 	public class OilPlant : InventoryEntityDevice<ComponentOilPlant>
 	{
 		public ComponentOilPlant Inventory;
-		public OilPlant() : base("OilPlant", "石油化工厂", "石油化工厂可以用来处理石油，产生各种石油产品")
+		public OilPlant() : base("石油化工厂", "石油化工厂可以用来处理石油，产生各种石油产品")
 		{
 			Type |= ElementType.Pipe;
 		}
@@ -118,9 +118,10 @@ namespace Game
 
 	public class OilFractionalTower : InventoryEntityDevice<ComponentFractionalTower>
 	{
-		public OilFractionalTower() : base("OilTower", "石油裂解塔", "分馏塔用于通过将化学化合物加热到一个或多个化合物部分将蒸发的温度来分离化学化合物，该机器通常用于石油化学。")
+		public OilFractionalTower() : base("石油裂解塔", "分馏塔用于通过将化学化合物加热到一个或多个化合物部分将蒸发的温度来分离化学化合物，该机器通常用于石油化学。")
 		{
 			Type |= ElementType.Pipe;
+			Name = "OilTower";
 		}
 
 		public override void Simulate(ref int voltage)
@@ -155,7 +156,7 @@ namespace Game
 
 	public class ElectricDriller : InventoryEntityDevice<ComponentElectricDriller>
 	{
-		public ElectricDriller() : base("ElectricDriller", "电子采矿机", "电子采矿机，一种电动采矿机", 310)
+		public ElectricDriller() : base("电子采矿机", "电子采矿机，一种电动采矿机", 310)
 		{
 		}
 

@@ -34,10 +34,10 @@ namespace Game
 
 		protected readonly InventorySlotWidget m_resultSlot;
 
-		public PresserWidget(IInventory inventory, ComponentMachine component, string path = null)
+		public PresserWidget(IInventory inventory, ComponentMachine component, string path = "Widgets/PresserWidget")
 		{
 			m_component = component;
-			WidgetsManager.LoadWidgetContents(this, this, ContentManager.Get<XElement>(path ?? "Widgets/PresserWidget"));
+			WidgetsManager.LoadWidgetContents(this, this, ContentManager.Get<XElement>(path));
 			if (path == null)
 				Children.Find<LabelWidget>("ChestLabel").Text = component.ValuesDictionary.DatabaseObject.Name;
 			if (Utils.TR.Count != 0)
@@ -86,6 +86,7 @@ namespace Game
 	{
 		protected readonly T m_component;
 		protected readonly GridPanelWidget m_inventoryGrid;
+		protected GridPanelWidget m_furnaceGrid;
 
 		public EntityWidget(T component, string path)
 		{
@@ -101,15 +102,43 @@ namespace Game
 		}
 	}
 
-	/*public class FurnaceWidget<T> : EntityWidget<T> where T : Component
+	public class ProcessWidget<T> : EntityWidget<T> where T : Component
 	{
-		public FurnaceWidget(T component) : base(component)
+		protected readonly ValueBarWidget m_progress;
+		protected readonly InventorySlotWidget m_result1,
+												m_result2,
+												m_result3;
+		protected readonly InventorySlotWidget m_cir1, m_cir2;
+
+		public ProcessWidget(T component, string path) : base(component, path)
 		{
+			m_progress = Children.Find<ValueBarWidget>("Progress");
+			m_result1 = Children.Find<InventorySlotWidget>("ResultSlot1");
+			m_result2 = Children.Find<InventorySlotWidget>("ResultSlot2");
+			m_result3 = Children.Find<InventorySlotWidget>("ResultSlot3");
+			m_cir1 = Children.Find<InventorySlotWidget>("CircuitSlot1", false);
+			m_cir2 = Children.Find<InventorySlotWidget>("CircuitSlot2", false);
 		}
 
-		public override void Update()
+		/*public override void Update()
 		{
 			base.Update();
+		}*/
+	}
+	/*public class ElectricMachWidget<T> : EntityWidget<T> where T : Component
+	{
+		protected readonly ValueBarWidget m_progress;
+
+		protected readonly InventorySlotWidget m_resultSlot;
+
+		protected readonly CheckboxWidget m_acceptsDropsBox;
+
+		public ElectricMachWidget(T component, string path) : base(component, path)
+		{
+			m_progress = Children.Find<ValueBarWidget>("Progress");
+			m_resultSlot = Children.Find<InventorySlotWidget>("ResultSlot");
+			m_remainsSlot = Children.Find<InventorySlotWidget>("RemainsSlot");
+			m_acceptsDropsBox = Children.Find<CheckboxWidget>("AcceptsElectBox");
 		}
 	}*/
 }
