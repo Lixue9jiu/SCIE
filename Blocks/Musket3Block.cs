@@ -47,9 +47,9 @@ namespace Game
 			return data != ((data & -4) | (int)(LoadState.Empty & LoadState.Loaded));
 		}
 
-		public static int DecreaseBullet(int data)
+		/*public static int DecreaseBullet(int data)
         {
 			return (data & ~255) | ((data & 0xF) << 4);
-        }
+        }*/
 	}
 }

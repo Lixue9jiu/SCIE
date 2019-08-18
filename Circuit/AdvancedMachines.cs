@@ -82,17 +82,23 @@ namespace Game
 
 	public class OilPlant : InventoryEntityDevice<ComponentOilPlant>
 	{
+		public ComponentOilPlant Inventory;
 		public OilPlant() : base("OilPlant", "石油化工厂", "石油化工厂可以用来处理石油，产生各种石油产品")
 		{
 			Type |= ElementType.Pipe;
+		}
+
+		public override void OnBlockAdded(SubsystemTerrain subsystemTerrain, int value, int oldValue)
+		{
+			base.OnBlockAdded(subsystemTerrain, value, oldValue);
+			Inventory = Component.Entity.FindComponent<ComponentOilPlant>(true);
 		}
 
 		public override void Simulate(ref int voltage)
 		{
 			if (Component.Powered = voltage >= 10000)
 			{
-				ComponentOilPlant inventory = Component.Entity.FindComponent<ComponentOilPlant>(true);
-				if (ComponentInventoryBase.AcquireItems(inventory, voltage >> 10, 1) == 0)
+				if (ComponentInventoryBase.AcquireItems(Inventory, voltage >> 10, 1) == 0)
 				{
 					voltage = 0;
 				}
@@ -311,7 +317,7 @@ namespace Game
 			}
 			m_glowPoint.Color = Color.Transparent;
 			value = v & ~(1 << 31);
-		a:
+			a:
 			if (Terrain.ReplaceLight(value ^ v, 0) == 0)
 				return;
 			Utils.Terrain.SetCellValueFast(x, y, z, value);
@@ -362,8 +368,6 @@ namespace Game
 		}
 
 		public override int GetFaceTextureSlot(int face, int value) => face > 3 ? 109 : Powered ? 109 : 111;
-
-		public override void Simulate(ref int voltage) => Powered = voltage >= 60;
 
 		public void Execute(string code)
 		{

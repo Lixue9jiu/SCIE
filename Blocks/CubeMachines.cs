@@ -4,13 +4,60 @@ using System.Collections.Generic;
 
 namespace Game
 {
-	public class CReactorBlock : PaintedCubeBlock
+	public abstract class CubeMachBlock : PaintedCubeBlock
 	{
-		public const int Index = 524;
-
-		public CReactorBlock() : base(0)
+		protected CubeMachBlock() : base(0)
 		{
 		}
+		public override IEnumerable<int> GetCreativeValues()
+		{
+			var arr = new int[17];
+			arr[0] = BlockIndex;
+			for (int i = 1; i < 17; i++)
+				arr[i] = BlockIndex | SetColor(0, i - 1) << 14;
+			return arr;
+		}
+
+		public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
+		{
+			color *= SubsystemPalette.GetColor(environmentData, GetPaintColor(value));
+			ItemBlock.DrawCubeBlock(primitivesRenderer, value, new Vector3(size), ref matrix, color, color, environmentData);
+		}
+
+		public override void GenerateTerrainVertices(BlockGeometryGenerator generator, TerrainGeometrySubsets geometry, int value, int x, int y, int z)
+		{
+			Utils.BlockGeometryGenerator.GenerateCubeVertices(this, value, x, y, z, SubsystemPalette.GetColor(generator, GetPaintColor(value)), Utils.GTV(x, z, geometry).OpaqueSubsetsByFace);
+		}
+
+		public override string GetCategory(int value)
+		{
+			return GetPaintColor(value).HasValue ? "Painted" : Utils.Get("机器");
+		}
+	}
+
+	public class MachineToolBlock : FourDirectionalBlock, IElectricElementBlock
+	{
+		public const int Index = 508;
+
+		public override int GetFaceTextureSlot(int face, int value)
+		{
+			return face == 4 ? 146 : 107;
+		}
+
+		public new ElectricElement CreateElectricElement(SubsystemElectricity subsystemElectricity, int value, int x, int y, int z)
+		{
+			return new CraftingMachineElectricElement(subsystemElectricity, new Point3(x, y, z));
+		}
+
+		public new ElectricConnectorType? GetConnectorType(SubsystemTerrain terrain, int value, int face, int connectorFace, int x, int y, int z)
+		{
+			return face == 4 || face == 5 ? (ElectricConnectorType?)ElectricConnectorType.Input : null;
+		}
+	}
+
+	public class CReactorBlock : CubeMachBlock
+	{
+		public const int Index = 524;
 
 		public override IEnumerable<int> GetCreativeValues()
 		{
@@ -30,16 +77,6 @@ namespace Game
 			return face == 4 ? 192 : 107;
 		}
 
-		public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
-		{
-			ItemBlock.DrawCubeBlock(primitivesRenderer, value, new Vector3(size), ref matrix, color, color, environmentData);
-		}
-
-		public override void GenerateTerrainVertices(BlockGeometryGenerator generator, TerrainGeometrySubsets geometry, int value, int x, int y, int z)
-		{
-			Utils.BlockGeometryGenerator.GenerateCubeVertices(this, value, x, y, z, SubsystemPalette.GetColor(generator, GetPaintColor(value)), Utils.GTV(x, z, geometry).OpaqueSubsetsByFace);
-		}
-
 		public override string GetDisplayName(SubsystemTerrain subsystemTerrain, int value)
 		{
 			return (Terrain.ExtractData(value) & 1024) != 0 ? Utils.Get("真空炉") : DefaultDisplayName;
@@ -51,46 +88,7 @@ namespace Game
 		}
 	}
 
-	public class MachineToolBlock : PaintedCubeBlock, IElectricElementBlock
-	{
-		public const int Index = 508;
-
-		public MachineToolBlock() : base(0)
-		{
-		}
-
-		public override int GetFaceTextureSlot(int face, int value)
-		{
-			return face == 4 ? 146 : 107;
-		}
-
-		public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
-		{
-			ItemBlock.DrawCubeBlock(primitivesRenderer, value, new Vector3(size), ref matrix, color, color, environmentData);
-		}
-
-		public override void GenerateTerrainVertices(BlockGeometryGenerator generator, TerrainGeometrySubsets geometry, int value, int x, int y, int z)
-		{
-			Utils.BlockGeometryGenerator.GenerateCubeVertices(this, value, x, y, z, SubsystemPalette.GetColor(generator, GetPaintColor(value)), Utils.GTV(x, z, geometry).OpaqueSubsetsByFace);
-		}
-
-		public ElectricElement CreateElectricElement(SubsystemElectricity subsystemElectricity, int value, int x, int y, int z)
-		{
-			return new CraftingMachineElectricElement(subsystemElectricity, new Point3(x, y, z));
-		}
-
-		public ElectricConnectorType? GetConnectorType(SubsystemTerrain terrain, int value, int face, int connectorFace, int x, int y, int z)
-		{
-			return face == 4 || face == 5 ? (ElectricConnectorType?)ElectricConnectorType.Input : null;
-		}
-
-		public int GetConnectionMask(int value)
-		{
-			return 2147483647;
-		}
-	}
-
-	public class BlastBlowerBlock : FourDirectionalBlock
+	public class BlastBlowerBlock : CubeMachBlock
 	{
 		public const int Index = 529;
 
@@ -98,33 +96,21 @@ namespace Game
 		{
 			return face == 4 || face == 5 ? 107 : 241;
 		}
-
-		public override BlockPlacementData GetPlacementValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, TerrainRaycastResult raycastResult)
-		{
-			return new BlockPlacementData { Value = value, CellFace = raycastResult.CellFace };
-		}
 	}
 
-	public class SpinnerBlock : FourDirectionalBlock
+	public class SpinnerBlock : CubeMachBlock
 	{
 		public const int Index = 535;
 
-		public SpinnerBlock() : base(207) { }
 		public override int GetFaceTextureSlot(int face, int value)
 		{
 			return face == 4 ? 118 : 115;
 		}
-		public override BlockPlacementData GetPlacementValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, TerrainRaycastResult raycastResult)
-		{
-			return new BlockPlacementData { Value = Index, CellFace = raycastResult.CellFace };
-		}
 	}
 
-	public class SourBlock : PaintedCubeBlock
+	public class SourBlock : CubeMachBlock
 	{
 		public const int Index = 507;
-
-		public SourBlock() : base(186) { }
 
 		public static readonly string[] Names = new[]
 		{
@@ -166,32 +152,15 @@ namespace Game
 			return SubsystemPalette.GetName(subsystemTerrain, GetPaintColor(value), Names[Terrain.ExtractData(value) >> 10]);
 		}
 
-		public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
-		{
-			ItemBlock.DrawCubeBlock(primitivesRenderer, value, new Vector3(size), ref matrix, color, color, environmentData);
-		}
-
-		public override void GenerateTerrainVertices(BlockGeometryGenerator generator, TerrainGeometrySubsets geometry, int value, int x, int y, int z)
-		{
-			Utils.BlockGeometryGenerator.GenerateCubeVertices(this, value, x, y, z, SubsystemPalette.GetColor(generator, GetPaintColor(value)), Utils.GTV(x, z, geometry).OpaqueSubsetsByFace);
-		}
 		public override BlockPlacementData GetPlacementValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, TerrainRaycastResult raycastResult)
 		{
-			return new BlockPlacementData
-			{
-				Value = value,
-				CellFace = raycastResult.CellFace
-			};
+			return new BlockPlacementData { Value = value, CellFace = raycastResult.CellFace };
 		}
 
 		public override void GetDropValues(SubsystemTerrain subsystemTerrain, int oldValue, int newValue, int toolLevel, List<BlockDropValue> dropValues, out bool showDebris)
 		{
-			showDebris = DestructionDebrisScale > 0f;
-			dropValues.Add(new BlockDropValue
-			{
-				Value = Terrain.ReplaceLight(oldValue, 0),
-				Count = 1
-			});
+			showDebris = false;
+			dropValues.Add(new BlockDropValue { Value = Terrain.ReplaceLight(oldValue, 0), Count = 1 });
 		}
 	}
 }

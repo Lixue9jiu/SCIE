@@ -56,28 +56,28 @@ namespace Game
 		public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
 		{
 			var type = GetType(value);
-			if (type == BatteryType.Flashlight)
+			BlockMesh mesh;
+			switch (type)
 			{
-				BlocksManager.DrawMeshBlock(primitivesRenderer, m_standaloneBlockMesh, color, size, ref matrix, environmentData);
-				return;
-			}
-			if (type == BatteryType.Electric_Prod)
-			{
-				BlocksManager.DrawMeshBlock(primitivesRenderer, m_standaloneBlockMesh2, color, size, ref matrix, environmentData);
-				return;
-			}
-			if (type == BatteryType.ElectricSaw)
-			{
-				BlocksManager.DrawMeshBlock(primitivesRenderer, m_standaloneBlockMesh3, color, size, ref matrix, environmentData);
-				return;
-			}
-			if (type == BatteryType.ElectricDrill)
-			{
-				BlocksManager.DrawMeshBlock(primitivesRenderer, m_standaloneBlockMesh4, color, size, ref matrix, environmentData);
-				return;
+				case BatteryType.Flashlight:
+					mesh = m_standaloneBlockMesh;
+					goto a;
+				case BatteryType.Electric_Prod:
+					mesh = m_standaloneBlockMesh2;
+					goto a;
+				case BatteryType.ElectricSaw:
+					mesh = m_standaloneBlockMesh3;
+					goto a;
+				case BatteryType.ElectricDrill:
+					mesh = m_standaloneBlockMesh;
+					goto a;
 			}
 			ItemBlock.DrawFlatBlock(primitivesRenderer, value, size, ref matrix, ItemBlock.Texture,
 				type == BatteryType.Fission_Battery ? Color.Cyan : type == BatteryType.Lead_Battery ? Color.Gray : color, false, environmentData);
+			return;
+			a:
+			BlocksManager.DrawMeshBlock(primitivesRenderer, mesh, color, size, ref matrix, environmentData);
+
 		}
 
 		public static BatteryType GetType(int value)
@@ -120,9 +120,9 @@ namespace Game
 		{
 			switch (GetType(value))
 			{
+				case BatteryType.Lead_Battery: return 1200;
 				case BatteryType.Fission_Battery: return 8000;
 				case BatteryType.Fusion_Battery: return 40000;
-				case BatteryType.Lead_Battery: return 1200;
 				case BatteryType.Cu_Zn_Battery:
 				case BatteryType.Flashlight:
 				case BatteryType.ElectricSaw:

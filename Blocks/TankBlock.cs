@@ -11,9 +11,9 @@ namespace Game
 			Tank,
 			Reductor
 		}
-		static readonly string[] Names = { "空油箱", "减压器" };
-		static readonly string[] Description = { "某些化学材料的容器，非常重且耐用。在化学领域有重要作用。", "减压器是一种可以降低液体或气体压力的机器，这是石油化学中必不可少的组成部分。" };
 		public const int Index = 522;
+		public static readonly string[] Names = { "空油箱", "减压器" };
+		public static readonly string[] Description = { "某些化学材料的容器，非常重且耐用。在化学领域有重要作用。", "减压器是一种可以降低液体或气体压力的机器，这是石油化学中必不可少的组成部分。" };
 
 		public override IEnumerable<int> GetCreativeValues()
 		{

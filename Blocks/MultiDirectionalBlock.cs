@@ -27,11 +27,11 @@ namespace Game
 		}
 		public override IEnumerable<int> GetCreativeValues()
 		{
-			var array = new int[17];
-			array[0] = BlockIndex;
+			var arr = new int[17];
+			arr[0] = BlockIndex;
 			for (int i = 1; i < 17; i++)
-				array[i] = BlockIndex | SetColor(0, i - 1) << 14;
-			return array;
+				arr[i] = BlockIndex | SetColor(0, i - 1) << 14;
+			return arr;
 		}
 		public override BlockPlacementData GetPlacementValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, TerrainRaycastResult raycastResult)
 		{
@@ -43,7 +43,7 @@ namespace Game
 		}
 		public override void GetDropValues(SubsystemTerrain subsystemTerrain, int oldValue, int newValue, int toolLevel, List<BlockDropValue> dropValues, out bool showDebris)
 		{
-			showDebris = DestructionDebrisScale > 0f;
+			showDebris = false;
 			dropValues.Add(new BlockDropValue
 			{
 				Value = Terrain.MakeBlockValue(oldValue, 0, SetDirection(Terrain.ExtractData(oldValue), 0)),
@@ -56,10 +56,10 @@ namespace Game
 			return false;
 		}
 
-		public override BlockDebrisParticleSystem CreateDebrisParticleSystem(SubsystemTerrain subsystemTerrain, Vector3 position, int value, float strength)
+		/*public override BlockDebrisParticleSystem CreateDebrisParticleSystem(SubsystemTerrain subsystemTerrain, Vector3 position, int value, float strength)
 		{
 			return new BlockDebrisParticleSystem(subsystemTerrain, position, strength, DestructionDebrisScale, SubsystemPalette.GetColor(subsystemTerrain, GetPaintColor(value)), GetFaceTextureSlot(0, value));
-		}
+		}*/
 
 		public override string GetDisplayName(SubsystemTerrain subsystemTerrain, int value)
 		{
