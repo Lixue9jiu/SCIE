@@ -134,7 +134,7 @@ namespace Game
 
 		public override Widget GetWidget(IInventory inventory, ComponentFractionalTower component)
 		{
-			return new SeperatorWidget(inventory, component, "OilFractionalTower", "Widgets/FractionalTowerWidget");
+			return new FractionalTowerWidget(inventory, component);
 		}
 	}
 

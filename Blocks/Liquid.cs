@@ -19,8 +19,8 @@ public class RottenMeatBlock : FluidBlock
 		D2O,
 		T2O,
 		RefinedGasoline,
-		Diesel
-
+		Diesel,
+		GasolineBucket
 	}
 	public const int Index = 240;
 	public BlockMesh m_standaloneBlockMesh;
@@ -41,7 +41,11 @@ public class RottenMeatBlock : FluidBlock
 			Color.White,
 			Color.White,
 			new Color(32, 80, 224),
-			new Color(32, 80, 224)
+			new Color(32, 80, 224),
+			new Color(255, 231, 186),
+			new Color(184, 134, 11),
+			Color.White,
+			Color.White
 		};
 		var model = ContentManager.Get<Model>("Models/FullBucket");
 		var meshParts = model.FindMesh("Contents").MeshParts;
@@ -65,10 +69,10 @@ public class RottenMeatBlock : FluidBlock
 	}
 	public override IEnumerable<int> GetCreativeValues()
 	{
-		var arr = new int[10];
-		for (int i = 0; i < 10; i++)
+		var arr = new int[13];
+		for (int i = 0; i < 13; i++)
 		{
-			arr[i] = Index | i << (14 + 4);
+			arr[i] = Index | i << (18);
 		}
 		return arr;
 	}
@@ -85,6 +89,9 @@ public class RottenMeatBlock : FluidBlock
 				BlocksManager.DrawCubeBlock(primitivesRenderer, Terrain.ReplaceContents(value, 18), new Vector3(size), ref matrix, color, color, environmentData);
 				return;
 			case Type.Hg:
+				BlocksManager.DrawMeshBlock(primitivesRenderer, StandaloneBlockMesh2, color, 2f * size, ref matrix, environmentData);
+				return;
+			case Type.GasolineBucket:
 				BlocksManager.DrawMeshBlock(primitivesRenderer, StandaloneBlockMesh2, color, 2f * size, ref matrix, environmentData);
 				return;
 			case Type.OilBucket:
@@ -123,7 +130,7 @@ public class RottenMeatBlock : FluidBlock
 	}
 	public override string GetCategory(int value)
 	{
-		return GetType(value) == Type.OilBucket ? "Tools" : GetType(value) != 0 ? "Terrain" : DefaultCategory;
+		return (GetType(value) == Type.OilBucket || GetType(value) == Type.GasolineBucket) ? "Tools" : GetType(value) != 0 ? "Terrain" : DefaultCategory;
 	}
 	public override Vector3 GetIconViewOffset(int value, DrawBlockEnvironmentData environmentData)
 	{

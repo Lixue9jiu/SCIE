@@ -12,13 +12,15 @@ namespace Game
 		protected readonly InventorySlotWidget m_result1,
 												m_result2,
 												m_result3;
+		protected readonly ButtonWidget m_1Button,
+										m_2Button,
+		                                m_3Button;
 
 		protected readonly InventorySlotWidget m_cir1, m_cir2;
 
 		protected readonly GridPanelWidget m_inventoryGrid;
 
 		protected readonly ValueBarWidget m_progress;
-		protected readonly CheckboxWidget m_acceptsDropsBox;
 
 		public FractionalTowerWidget(IInventory inventory, ComponentMachine component)
 		{
@@ -31,9 +33,10 @@ namespace Game
 			m_result3 = Children.Find<InventorySlotWidget>("ResultSlot3");
 			m_cir1 = Children.Find<InventorySlotWidget>("CircuitSlot1");
 			m_cir2 = Children.Find<InventorySlotWidget>("CircuitSlot2");
-			m_acceptsDropsBox = Children.Find<CheckboxWidget>("AcceptsElectBox");
 			m_progress = Children.Find<ValueBarWidget>("Progress");
-
+			m_1Button = Children.Find<ButtonWidget>("1Button");
+			m_2Button = Children.Find<ButtonWidget>("2Button");
+			m_3Button = Children.Find<ButtonWidget>("3Button");
 			int num = 6, y, x;
 			InventorySlotWidget inventorySlotWidget;
 			for (y = 0; y < m_inventoryGrid.RowsCount; y++)
@@ -67,7 +70,25 @@ namespace Game
 
 		public override void Update()
 		{
+			if (m_1Button.IsClicked && m_component.HeatLevel!=1)
+			{
+				//m_componentDispenser.HeatLevel = 1000f;
+				m_component.HeatLevel = 1;
+			}
+			if (m_2Button.IsClicked && m_component.HeatLevel != 2)
+			{
+				//m_componentDispenser.HeatLevel = 0f;
+				m_component.HeatLevel = 2;
+			}
+			if (m_3Button.IsClicked && m_component.HeatLevel != 3)
+			{
+				//m_componentDispenser.HeatLevel = 0f;
+				m_component.HeatLevel = 3;
+			}
 			m_progress.Value = m_component.SmeltingProgress;
+			m_1Button.IsChecked = m_component.HeatLevel == 1;
+			m_2Button.IsChecked = m_component.HeatLevel == 2;
+			m_3Button.IsChecked = m_component.HeatLevel == 3;
 			if (!m_component.IsAddedToProject)
 				ParentWidget.Children.Remove(this);
 		}

@@ -9,9 +9,11 @@
     <StackPanelWidget Direction="Horizontal">
     </StackPanelWidget>
   </CanvasWidget>
-  <CanvasWidget CanvasWidget.Position="12, 330" Size="228, 60" >
-    <StackPanelWidget Direction="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
-      <CheckboxWidget Name="AcceptsElectBox" Text="Electric Control" />
+  <CanvasWidget CanvasWidget.Position="32, 330" Size="228, 24" >
+    <StackPanelWidget Direction="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+      <BevelledButtonWidget Name="1Button" Text="1" Style="{Styles/ButtonStyle_ArrowUp}" />
+      <BevelledButtonWidget Name="2Button" Text="2" Style="{Styles/ButtonStyle_ArrowUp}" />
+	  <BevelledButtonWidget Name="3Button" Text="3" Style="{Styles/ButtonStyle_ArrowUp}" />
     </StackPanelWidget>
   </CanvasWidget>
   <ValueBarWidget Name="Progress" CanvasWidget.Position="58, 120" LayoutDirection="Vertical" BarsCount="8" FlipDirection="false" LitBarColor="96, 48, 0" UnlitBarColor="48, 48, 48, 80" BarSize="12, 12" BarSubtexture="{Textures/Atlas/ProgressBar}"/>
