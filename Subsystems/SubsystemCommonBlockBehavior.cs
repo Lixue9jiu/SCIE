@@ -32,31 +32,33 @@ namespace Game
 		public abstract Widget GetWidget(IInventory inventory, T component);
 	}
 
-	public abstract class SubsystemInventoryBlockBehavior<T, U, V> : SubsystemCraftingTableBlockBehavior where T : Component
+	public abstract class SubsystemCombinedBlockBehavior<T> : SubsystemCraftingTableBlockBehavior where T : Component
 	{
-		public string Name;
+		public readonly Dictionary<int, string> Names;
 
-		protected SubsystemInventoryBlockBehavior(string name) { Name = name; }
+		protected SubsystemCombinedBlockBehavior(Dictionary<int, string> names) { Names = names; }
 
 		public override void OnBlockAdded(int value, int oldValue, int x, int y, int z)
 		{
-			if (Name != null)
-				Project.CreateBlockEntity(Name, new Point3(x, y, z));
+			if (!Names.TryGetValue(Terrain.ExtractContents(value), out string name))
+				return;
+			Project.CreateBlockEntity(name, new Point3(x, y, z));
 		}
 
 		public override bool OnInteract(TerrainRaycastResult raycastResult, ComponentMiner componentMiner)
 		{
 			var entity = Utils.GetBlockEntity(raycastResult.CellFace.Point);
-			if (entity == null || componentMiner.ComponentPlayer == null)
+			if (entity == null || componentMiner.ComponentPlayer == null ||
+				!Names.TryGetValue(Utils.Terrain.GetCellContentsFast(raycastResult.CellFace.X, raycastResult.CellFace.Y, raycastResult.CellFace.Z), out string name))
 				return false;
-			componentMiner.ComponentPlayer.ComponentGui.ModalPanelWidget = GetWidget(componentMiner.Inventory, entity.Entity.FindComponent<T>(true));
+			componentMiner.ComponentPlayer.ComponentGui.ModalPanelWidget = GetWidget(componentMiner.Inventory, entity.Entity.FindComponent<T>(true), "Widgets/" + name + "Widget");
 			AudioManager.PlaySound("Audio/UI/ButtonClick", 1f, 0f, 0f);
 			return true;
 		}
 
 		public override void OnHitByProjectile(CellFace cellFace, WorldItem worldItem) => Utils.OnHitByProjectile(cellFace, worldItem);
 
-		public abstract Widget GetWidget(IInventory inventory, T component);
+		public abstract Widget GetWidget(IInventory inventory, T component, string path);
 	}
 
 	public abstract class SubsystemFurnaceBlockBehavior<T> : SubsystemInventoryBlockBehavior<T> where T : Component

@@ -48,7 +48,6 @@ namespace Game
 								voltage = value << 10;
 								goto case -1;
 							}
-							continue;
 					}
 				}
 			}
@@ -87,7 +86,7 @@ namespace Game
 			if (Component.Powered = voltage >= 10000)
 			{
 				ComponentOilPlant inventory = Component.Entity.FindComponent<ComponentOilPlant>(true);
-				if (ComponentOilPlant.AcquireItems(inventory, voltage>>10, 1)==0)
+				if (ComponentInventoryBase.AcquireItems(inventory, voltage>>10, 1)==0)
 				{
 					voltage = 0;
 				}
@@ -107,7 +106,7 @@ namespace Game
 
 	public class OilFractionalTower : InventoryEntityDevice<ComponentFractionalTower>
 	{
-		public OilFractionalTower() : base("OilTower", "石油裂解塔", "石油裂解塔可以用来蒸馏石油，处理原油") { Type |= ElementType.Pipe; }
+		public OilFractionalTower() : base("OilTower", "石油裂解塔", "分馏塔用于通过将化学化合物加热到一个或多个化合物部分将蒸发的温度来分离化学化合物，该机器通常用于石油化学。") { Type |= ElementType.Pipe; }
 
 		public override void Simulate(ref int voltage)
 		{
@@ -116,7 +115,7 @@ namespace Game
 			if (voltage >= 10000)
 			{
 				ComponentFractionalTower inventory = Component.Entity.FindComponent<ComponentFractionalTower>(true);
-				if (ComponentFractionalTower.AcquireItems(inventory, voltage >> 10, 1) == 0)
+				if (ComponentInventoryBase.AcquireItems(inventory, voltage >> 10, 1) == 0)
 				{
 					voltage = 0;
 				}

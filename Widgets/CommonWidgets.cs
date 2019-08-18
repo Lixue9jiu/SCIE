@@ -5,7 +5,7 @@ using System.Xml.Linq;
 namespace Game
 {
 	//´øFuelSlot
-	public class StoveWidget : PresserWidget<ComponentMachine>
+	public class StoveWidget : PresserWidget
 	{
 		protected readonly InventorySlotWidget m_fuelSlot;
 
@@ -18,9 +18,9 @@ namespace Game
 		}
 	}
 
-	public class PresserWidget<T> : CanvasWidget where T : ComponentMachine
+	public class PresserWidget : CanvasWidget
 	{
-		protected readonly T m_component;
+		protected readonly ComponentMachine m_component;
 
 		protected readonly FireWidget m_fire;
 
@@ -34,7 +34,7 @@ namespace Game
 
 		protected readonly InventorySlotWidget m_resultSlot;
 
-		public PresserWidget(IInventory inventory, T component, string path = null)
+		public PresserWidget(IInventory inventory, ComponentMachine component, string path = null)
 		{
 			m_component = component;
 			WidgetsManager.LoadWidgetContents(this, this, ContentManager.Get<XElement>(path ?? "Widgets/PresserWidget"));

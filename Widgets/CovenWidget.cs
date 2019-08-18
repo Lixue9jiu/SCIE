@@ -15,15 +15,12 @@ namespace Game
 
 		protected readonly ValueBarWidget m_progress;
 
-		protected readonly InventorySlotWidget m_remainsSlot;
-
-		protected readonly InventorySlotWidget m_resultSlot,
-												m_remainsSlot2;
-
-		//protected readonly InventorySlotWidget m_remainsSlot3;
+		protected readonly InventorySlotWidget m_remainsSlot,
+												m_resultSlot,
+												m_remainsSlot2,
+												m_remainsSlot3;
 
 		//protected readonly GridPanelWidget m_fuelGrid;
-
 
 		public CovenWidget(IInventory inventory, ComponentMachine component, string path = "Widgets/CovenWidget")
 		{
@@ -36,6 +33,7 @@ namespace Game
 			m_resultSlot = Children.Find<InventorySlotWidget>("ResultSlot");
 			m_remainsSlot = Children.Find<InventorySlotWidget>("RemainsSlot");
 			m_remainsSlot2 = Children.Find<InventorySlotWidget>("RemainsSlot2");
+			m_remainsSlot3 = Children.Find<InventorySlotWidget>("RemainsSlot3", false);
 			int num = 6, y, x;
 			InventorySlotWidget inventorySlotWidget;
 			for (y = 0; y < m_inventoryGrid.RowsCount; y++)
@@ -59,9 +57,11 @@ namespace Game
 					m_furnaceGrid.SetWidgetCell(inventorySlotWidget, new Point2(x, y));
 				}
 			}
-			m_resultSlot.AssignInventorySlot(component, 6);
-			m_remainsSlot.AssignInventorySlot(component, 7);
-			m_remainsSlot2.AssignInventorySlot(component, 8);
+			num = m_remainsSlot3 != null ? 8 : 6;
+			m_resultSlot.AssignInventorySlot(component, num);
+			m_remainsSlot.AssignInventorySlot(component, num + 1);
+			m_remainsSlot2.AssignInventorySlot(component, num + 2);
+			m_remainsSlot3?.AssignInventorySlot(component, 11);
 		}
 
 		public override void Update()

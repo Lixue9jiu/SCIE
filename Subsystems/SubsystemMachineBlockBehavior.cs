@@ -11,7 +11,7 @@ namespace Game
 
 		public override Widget GetWidget(IInventory inventory, ComponentHPress component)
 		{
-			return new PresserWidget<ComponentHPress>(inventory, component);
+			return new PresserWidget(inventory, component);
 		}
 
 		public override bool OnInteract(TerrainRaycastResult raycastResult, ComponentMiner componentMiner)

@@ -1,29 +1,29 @@
+using System.Collections.Generic;
+
 namespace Game
 {
-	public class SubsystemPresserBlockBehavior : SubsystemInventoryBlockBehavior<ComponentPresser>
+	public class SubsystemPMachsBlockBehavior : SubsystemCombinedBlockBehavior<ComponentMachine>
 	{
-		public SubsystemPresserBlockBehavior() : base("Presser")
+		public SubsystemPMachsBlockBehavior() : base(new Dictionary<int, string>
+		{
+			{ PresserBlock.Index, "Presser" },
+			{ KibblerBlock.Index, "Kibbler" },
+			{ PresserNNBlock.Index, "RiflingMachine" },
+			{ SqueezerBlock.Index, "Squeezer" }
+		})
 		{
 		}
 
-		public override int[] HandledBlocks => new[] { PresserBlock.Index };
+		public override int[] HandledBlocks => new[] {
+			PresserBlock.Index,
+			KibblerBlock.Index,
+			PresserNNBlock.Index,
+			SqueezerBlock.Index
+		};
 
-		public override Widget GetWidget(IInventory inventory, ComponentPresser component)
+		public override Widget GetWidget(IInventory inventory, ComponentMachine component, string path)
 		{
-			return new PresserWidget<ComponentPresser>(inventory, component);
-		}
-	}
-	public class SubsystemKibblerBlockBehavior : SubsystemInventoryBlockBehavior<ComponentKibbler>
-	{
-		public SubsystemKibblerBlockBehavior() : base("Kibbler")
-		{
-		}
-
-		public override int[] HandledBlocks => new[] { KibblerBlock.Index };
-
-		public override Widget GetWidget(IInventory inventory, ComponentKibbler component)
-		{
-			return new PresserWidget<ComponentKibbler>(inventory, component);
+			return new PresserWidget(inventory, component);
 		}
 	}
     public class SubsystemSourBlockBehavior : SubsystemInventoryBlockBehavior<ComponentMachine>
@@ -68,32 +68,6 @@ namespace Game
 			return null;
 		}
 
-	}
-	public class SubsystemPresserNNBlockBehavior : SubsystemInventoryBlockBehavior<ComponentPresserNN>
-	{
-		public SubsystemPresserNNBlockBehavior() : base("RiflingMachine")
-		{
-		}
-
-		public override int[] HandledBlocks => new[] { PresserNNBlock.Index };
-
-		public override Widget GetWidget(IInventory inventory, ComponentPresserNN component)
-		{
-			return new PresserWidget<ComponentPresserNN>(inventory, component);
-		}
-	}
-	public class SubsystemSqueezerBlockBehavior : SubsystemInventoryBlockBehavior<ComponentSqueezer>
-	{
-		public SubsystemSqueezerBlockBehavior() : base("Squeezer")
-		{
-		}
-
-		public override int[] HandledBlocks => new[] { SqueezerBlock.Index };
-
-		public override Widget GetWidget(IInventory inventory, ComponentSqueezer component)
-		{
-			return new PresserWidget<ComponentSqueezer>(inventory, component);
-		}
 	}
 	public class SubsystemCastMachBlockBehavior : SubsystemFurnaceBlockBehavior<ComponentCastMach>
 	{

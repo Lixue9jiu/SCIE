@@ -22,8 +22,7 @@ namespace Game
 						slotCount = inventory.GetSlotCount(activeSlotIndex);
 					int num = Terrain.ExtractContents(slotValue);
 					//int data = Terrain.ExtractData(slotValue);
-					int num2 = slotValue,
-						num3 = 0;
+					int num2 = slotValue;
                     Vector3 dir = direction;
                     if (num == Musket3Block.Index && slotCount > 0)
 					{
@@ -139,8 +138,8 @@ namespace Game
 						inventory.RemoveSlotItems(activeSlotIndex, 1);
 						inventory.AddSlotItems(activeSlotIndex, num2, 1);
 					}
-					if (num3 > 0)
-						componentMiner.DamageActiveTool(num3);
+					if (Utils.Random.Bool(0.1f))
+						componentMiner.DamageActiveTool(1);
 				}
 			}
 			return false;
