@@ -75,7 +75,7 @@ namespace Game
 						if (result[j] != 0)
 						{
 							m_slots[3 + j].Value = result[j];
-							m_slots[3 + j].Count+=1;
+							m_slots[3 + j].Count+=6;
 							m_smeltingRecipe = null;
 							SmeltingProgress = 0f;
 							m_updateSmeltingRecipe = true;

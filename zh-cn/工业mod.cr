@@ -76,7 +76,7 @@
     <Recipe Result="ZincIngot" ResultCount="1" RequiredHeatLevel="800" a="ZincOrePowder" b="CoalPowder" Description="冶炼锌矿粉获得锌">
       "abb"
     </Recipe>
-    <Recipe Result="BrassIngot" ResultCount="1" RequiredHeatLevel="1200" a="CopperOrePowder" b="CoalPowder" c="NickelOrePowder" Description="冶炼铜矿粉镍矿粉碳粉获得黄铜">
+    <Recipe Result="BrassIngot" ResultCount="1" RequiredHeatLevel="1200" a="CopperOrePowder" b="CoalPowder" c="ZincOrePowder" Description="冶炼铜矿粉锌矿粉碳粉获得黄铜">
       "acb"
     </Recipe>
     <Recipe Result="NickelIngot" ResultCount="1" RequiredHeatLevel="1200" a="NickelOrePowder" b="CoalPowder" c="pigment" Description="冶炼镍矿粉获得镍">
@@ -313,6 +313,15 @@
     <Recipe Result="RottenMeatBlock:96" ResultCount="1" RequiredHeatLevel="300" a="MercuryOreChunk" b="emptybucket" Description="冶炼汞">
       "aba"
     </Recipe>
+	<Recipe Result="Industrial Steel" ResultCount="1" RequiredHeatLevel="2000" a="IronOrePowder" b="NickelOrePowder" Description="铁粉加镍粉冶炼工业钢">
+      "aabb"
+    </Recipe>
+	<Recipe Result="Stainless Steel" ResultCount="1" RequiredHeatLevel="2000" a="IronOrePowder" b="ChromiumOrePowder" Description="铁粉加铬粉冶炼不锈钢">
+      "aabb"
+    </Recipe>
+	<Recipe Result="Gun-Steel" ResultCount="1" RequiredHeatLevel="2000" a="IronOrePowder" b="ChromiumOrePowder" c="NickelOrePowder" d="PlatinumOrePowder" Description="铁粉铬粉镍粉铂粉冶炼炮钢">
+      "abcd"
+    </Recipe>
   </Smelting>
   <Materials>
     <Recipe Result="MetalBlock:0" ResultCount="1" RequiredHeatLevel="0" a="IronPlate" Description="结合许多铁板来获得基本的机箱">
@@ -512,6 +521,11 @@
     <Recipe Result="Musket2Block" ResultCount="1" RequiredHeatLevel="0" a="planks" b="SteelPlate" c="RifleBarrel" Description="用钢板，枪管和木板制作步枪">
       "ccb"
       "aaa"
+    </Recipe>
+	<Recipe Result="Musket3Block" ResultCount="1" RequiredHeatLevel="0" a="planks" b="SteelPlate" c="枪管" d="SteelRod" e="Spring" Description="用钢板，枪管和木板弹簧制作自动步枪">
+      "cceb"
+      "ddea"
+	  "bb a"
     </Recipe>
     <Recipe Result="DrillBlock:0" ResultCount="1" RequiredHeatLevel="0" a="SteelIngot" Description="用钢锭制作钢钻">
       "aaa"
@@ -882,6 +896,13 @@
       "ece"
       "aba"
     </Recipe>
+	<Recipe Result="Unpacker" ResultCount="1" RequiredHeatLevel="0" a="Canpack" Description="制作一个去包装机">
+      "a"
+    </Recipe>
+	<Recipe Result="ElectricPump" ResultCount="1" RequiredHeatLevel="0" a="tank" b="IndustrialPiston" Description="制作一个电子泵">
+      "a"
+	  "b"
+    </Recipe>
     <Recipe Result="Empty" ResultCount="1" RequiredHeatLevel="0" a="IronPlate" Description="制作一个铁罐头">
       "a a"
       " a "
@@ -907,13 +928,13 @@
       "abba"
       "bbbb"
     </Recipe>
-    <Recipe Result="SteamBoat" ResultCount="1" RequiredHeatLevel="0" a="metalblock:32" b="boat" c="sengine" d="SteelRod" e="SteelPlate" Description="带有蒸汽机的船可以让您高速旅行">
+    <Recipe Result="SteamBoat" ResultCount="1" RequiredHeatLevel="0" a="metalblock:32" b="boat" c="sengine:0" d="SteelRod" e="SteelPlate" Description="带有蒸汽机的船可以让您高速旅行">
       "eaae"
       "ebbe"
       "dccd"
       "eaae"
     </Recipe>
-    <Recipe Result="Train" ResultCount="1" RequiredHeatLevel="0" a="SteelPlate" b="SteelWheel" c="sengine" d="SteelRod" e="tank" Description="带有蒸汽机车的蒸汽机车可以让您在铁路上高速行驶">
+    <Recipe Result="Train" ResultCount="1" RequiredHeatLevel="0" a="SteelPlate" b="SteelWheel" c="sengine:0" d="SteelRod" e="tank" Description="带有蒸汽机车的蒸汽机车可以让您在铁路上高速行驶">
       "eeda"
       "eca"
       "dd"
@@ -924,6 +945,22 @@
       "aaaa"
       " dd "
       "bbbb"
+    </Recipe>
+	<Recipe Result="Car" ResultCount="1" RequiredHeatLevel="0" a="metalblock:32" b="RubberWheel" d="SteelRod" c="sengine:4096" e="Gearbox" f="SteelGear" Description="汽车，一种陆上交通工具，然而只能走平地">
+      "bffb"
+      "dced"
+      "daad"
+      "bffb"
+    </Recipe>
+	<Recipe Result="Gearbox" ResultCount="1" RequiredHeatLevel="0" a="SteelGear" b="SteelRod" c="metalblock:0" Description="变速箱，可以传递机械能">
+      "aaa"
+      "bcb"
+      "aaa"
+    </Recipe>
+	<Recipe Result="RubberWheel" ResultCount="1" RequiredHeatLevel="0" a="SteelWheel" b="Rubber" Description="橡胶轮胎">
+      " b "
+      "bab"
+      " b "
     </Recipe>
     <Recipe Result="RailBlock" ResultCount="2" RequiredHeatLevel="0" a="SteelRod" b="stick" Description="火车可以在铁路上行驶">
       "aba"
@@ -1050,10 +1087,25 @@
       "aca"
       "bbb"
     </Recipe>
+	<Recipe Result="Cylinder" ResultCount="1" RequiredHeatLevel="0" a="Industrial Steel" b="不锈钢板" c="CopperPlate" Description="不锈钢板,工业钢合成气缸，内燃机的重要部件">
+      " a"
+      "bab"
+      "ccc"
+    </Recipe>
     <Recipe Result="CReactorBlock" ResultCount="1" RequiredHeatLevel="0" a="tank" b="SteelPlate" c="CopperRod" d="metalblock:0" Description="制造化学反应器以获得化学产品">
       "bbb"
       "cdc"
       "aaa"
+    </Recipe>
+	<Recipe Result="OilFractionalTower" ResultCount="1" RequiredHeatLevel="0" a="tank:0" b="SteelPlate" c="CopperRod" d="metalblock:32" Description="制造石油裂解塔以获得石油产品">
+      "bdb"
+      "cac"
+      "aaa"
+    </Recipe>
+	<Recipe Result="OilPlant" ResultCount="1" RequiredHeatLevel="0" a="tank:0" b="SteelPlate" c="CopperRod" d="metalblock:32" e="creactor" Description="制造石油裂解塔以获得石油产品">
+      "bdb"
+      "aea"
+      "cac"
     </Recipe>
     <Recipe Result="Magnetizer" ResultCount="1" RequiredHeatLevel="0" a="metalblock:0" b="CopperWire" c="SteelRod" d="furnace" Description="制造磁化器制造工业磁铁">
       "bbb"
@@ -1091,6 +1143,12 @@
       "aaaa"
       "bbbb"
       "cccc"
+    </Recipe>
+	<Recipe Result="EngineBlock:4096" ResultCount="1" RequiredHeatLevel="0" a="Cylinder" b="tank:0" c="火花塞" d="SteelGear" e="SteelRod" f="metalblock:32" g="电容" Description="制作LED">
+      "deed"
+      "baab"
+      "gaac"
+	  "dfed"
     </Recipe>
     <Recipe Result="ClothingBlock:38" ResultCount="1" RequiredHeatLevel="0" a="SteelPlate" Description="用钢制造头盔">
       " a"

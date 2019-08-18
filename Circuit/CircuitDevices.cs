@@ -212,7 +212,11 @@ namespace Game
 			base.OnBlockAdded(subsystemTerrain, value, oldValue);
 			Component.Powered = false;
 		}
-
+		public override void Simulate(ref int voltage)
+		{
+			base.Simulate(ref voltage);
+			Component.Powered = Powered;
+		}
 		public override int GetFaceTextureSlot(int face, int value)
 		{
 			return face != 4 && face != 5 && face == (Terrain.ExtractData(value) >> 15) ? 164 : 107;
@@ -269,7 +273,7 @@ namespace Game
         {
             if (Component.Charged)
             {
-				if (voltage > 0)
+				if ((voltage) > 0 && voltage<1024)
 				{
 					Component.m_fireTimeRemaining = MathUtils.Min(Component.m_fireTimeRemaining + voltage/10f, 1000000f);
 					voltage = 0;
@@ -317,6 +321,10 @@ namespace Game
 		
 		public override void Simulate(ref int voltage)
 		{
+			if (voltage>1023)
+			{
+				return;
+			}
 			if (Component.Charged)
 			{
 				if (Component.Powered = voltage >= 310)
@@ -348,6 +356,10 @@ namespace Game
 
 		public override void Simulate(ref int voltage)
 		{
+			if (voltage > 1023)
+			{
+				return;
+			}
 			if (Component.Powered)
 				voltage += 310;
 		}
