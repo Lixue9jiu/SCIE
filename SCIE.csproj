@@ -60,7 +60,6 @@
     <Compile Include="Blocks\4DirectionalMachines.cs" />
     <Compile Include="Blocks\6DirectionalMachines.cs" />
     <Compile Include="Blocks\CubeMachines.cs" />
-    <Compile Include="Blocks\BasaltBlock.cs" />
     <Compile Include="Blocks\MultiDirectionalBlock.cs" />
     <Compile Include="Blocks\Musket3Block.cs" />
     <Compile Include="Blocks\Musket2Block.cs" />
@@ -71,14 +70,15 @@
     <Compile Include="Blocks\MetalBlock.cs" />
     <Compile Include="Blocks\BulletBlock.cs" />
     <Compile Include="Blocks\Bullet2Block.cs" />
+    <Compile Include="Blocks\BasaltBlock.cs" />
+    <Compile Include="Blocks\RailBlock.cs" />
     <Compile Include="Blocks\ItemBlock.cs" />
     <Compile Include="Blocks\ElementBlock.cs" />
     <Compile Include="Chemistry\ChemicalBlock.cs" />
     <Compile Include="BeltTransport\FactorioTransportBeltBlock.cs" />
+    <Compile Include="Blocks\Explosive.cs" />
     <Compile Include="Blocks\CommonItems.cs" />
     <Compile Include="Blocks\Materials.cs" />
-    <Compile Include="Blocks\Explosive.cs" />
-    <Compile Include="Blocks\RailBlock.cs" />
     <Compile Include="Blocks\OresAndPowder.cs" />
     <Compile Include="Blocks\ElectricComponents.cs" />
     <Compile Include="Blocks\Liquid.cs" />

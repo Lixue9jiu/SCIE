@@ -7,7 +7,7 @@ namespace Game
 	{
 		protected readonly CheckboxWidget m_acceptsDropsBox;
 
-		protected readonly ComponentElectricDriller m_componentDispenser;
+		protected readonly ComponentElectricDriller m_component;
 
 		protected readonly GridPanelWidget m_inventoryGrid;
 
@@ -23,7 +23,7 @@ namespace Game
 
 		public ElectricDrillerWidget(IInventory inventory, ComponentElectricDriller componentDispenser)
 		{
-			m_componentDispenser = componentDispenser;
+			m_component = componentDispenser;
 			m_subsystemTerrain = componentDispenser.Project.FindSubsystem<SubsystemTerrain>(true);
 			WidgetsManager.LoadWidgetContents(this, this, ContentManager.Get<XElement>("Widgets/ElectricDrillerWidget"));
 			m_inventoryGrid = Children.Find<GridPanelWidget>("InventoryGrid");
@@ -61,20 +61,23 @@ namespace Game
 
 		public override void Update()
 		{
-			if (m_dispenseButton.IsClicked && !m_componentDispenser.Charged)
+			if (!m_component.IsAddedToProject)
+			{
+				ParentWidget.Children.Remove(this);
+				return;
+			}
+			if (m_dispenseButton.IsClicked && !m_component.Charged)
 			{
 				//m_componentDispenser.HeatLevel = 1000f;
-				m_componentDispenser.Charged = true;
+				m_component.Charged = true;
 			}
-			if (m_shootButton.IsClicked && m_componentDispenser.Charged)
+			if (m_shootButton.IsClicked && m_component.Charged)
 			{
 				//m_componentDispenser.HeatLevel = 0f;
-				m_componentDispenser.Charged = false;
+				m_component.Charged = false;
 			}
-			m_dispenseButton.IsChecked = m_componentDispenser.Charged;
-			m_shootButton.IsChecked = !m_componentDispenser.Charged;
-			if (!m_componentDispenser.IsAddedToProject)
-				ParentWidget.Children.Remove(this);
+			m_dispenseButton.IsChecked = m_component.Charged;
+			m_shootButton.IsChecked = !m_component.Charged;
 		}
 	}
 }

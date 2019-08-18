@@ -22,7 +22,7 @@ namespace Game
 			{
 				m_updateSmeltingRecipe = false;
 				string text = null;
-				if (base.GetSlotCount(RemainsSlotIndex) > 0 && base.GetSlotValue(RemainsSlotIndex) == (240 | 12 << 18) && SmeltingProgress<=950f)
+				if (base.GetSlotCount(RemainsSlotIndex) > 0 && base.GetSlotValue(RemainsSlotIndex) == (240 | 12 << 18) && SmeltingProgress <= 950f)
 					text = "bucket";
 				if (text != null)
 				{
@@ -43,7 +43,7 @@ namespace Game
 				}
 			}
 			SmeltingProgress = m_fireTimeRemaining;
-			if (SmeltingProgress > 0f && HeatLevel>0f)
+			if (SmeltingProgress > 0f && HeatLevel > 0f)
 			{
 				SmeltingProgress = MathUtils.Min(SmeltingProgress - 1f * dt, 1000f);
 				m_fireTimeRemaining = SmeltingProgress;

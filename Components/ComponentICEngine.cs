@@ -8,8 +8,8 @@ namespace Game
 	{
 		public override int RemainsSlotIndex => SlotsCount - 0;
 		public override int ResultSlotIndex => SlotsCount - 1;
-		//public int resultSlotIndex => SlotsCount - 1;
 		public override int FuelSlotIndex => -1;
+
 		public int Fuel2SlotIndex => 0;
 
 		public void Update(float dt)
@@ -25,7 +25,7 @@ namespace Game
 				if (text != null)
 				{
 					int resultSlotIndex = ResultSlotIndex;
-					if ( (90 != m_slots[ResultSlotIndex].Value || m_slots[ResultSlotIndex].Count >= 40))
+					if ((90 != m_slots[ResultSlotIndex].Value || m_slots[ResultSlotIndex].Count >= 40))
 						text = null;
 					else
 					{
@@ -67,6 +67,7 @@ namespace Game
 			m_fireTimeRemaining = valuesDictionary.GetValue("FireTimeRemaining", 0f);
 			HeatLevel = valuesDictionary.GetValue("HeatLevel", 0f);
 		}
+
 		public override int GetSlotCapacity(int slotIndex, int value)
 		{
 			return (slotIndex == Fuel2SlotIndex && value == (240 | 12 << 18)) ||

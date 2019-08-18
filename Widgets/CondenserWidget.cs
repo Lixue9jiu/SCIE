@@ -10,11 +10,10 @@ namespace Game
 
 		protected readonly ComponentCondenser m_component;
 
-		protected readonly ButtonWidget m_dispenseButton;
-
 		protected readonly GridPanelWidget m_inventoryGrid;
 
-		protected readonly ButtonWidget m_shootButton;
+		protected readonly ButtonWidget m_dispenseButton,
+										m_shootButton;
 
 		protected readonly ValueBarWidget m_progress;
 

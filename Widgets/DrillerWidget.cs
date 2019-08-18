@@ -9,7 +9,7 @@ namespace Game
 
 		protected readonly ComponentBlockEntity m_componentBlockEntity;
 
-		protected readonly ComponentInventoryBase m_componentDispenser;
+		protected readonly ComponentInventoryBase m_component;
 
 		protected readonly GridPanelWidget m_inventoryGrid;
 
@@ -24,7 +24,7 @@ namespace Game
 
 		public DrillerWidget(IInventory inventory, ComponentInventoryBase component)
 		{
-			m_componentDispenser = component;
+			m_component = component;
 			m_componentBlockEntity = component.Entity.FindComponent<ComponentBlockEntity>(true);
 			m_subsystemTerrain = component.Project.FindSubsystem<SubsystemTerrain>(true);
 			WidgetsManager.LoadWidgetContents(this, this, ContentManager.Get<XElement>("Widgets/DrillerWidget"));
@@ -62,6 +62,11 @@ namespace Game
 
 		public override void Update()
 		{
+			if (!m_component.IsAddedToProject)
+			{
+				ParentWidget.Children.Remove(this);
+				return;
+			}
 			Point3 coordinates = m_componentBlockEntity.Coordinates;
 			int value = m_subsystemTerrain.Terrain.GetCellValue(coordinates.X, coordinates.Y, coordinates.Z);
 			int data = Terrain.ExtractData(value);
@@ -84,8 +89,6 @@ namespace Game
 			m_dispenseButton.IsChecked = mode == MachineMode.Dispense;
 			m_shootButton.IsChecked = mode == MachineMode.Shoot;
 			m_acceptsDropsBox.IsChecked = SixDirectionalBlock.GetAcceptsDrops(data);
-			if (!m_componentDispenser.IsAddedToProject)
-				ParentWidget.Children.Remove(this);
 		}
 	}
 }

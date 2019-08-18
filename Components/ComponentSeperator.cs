@@ -100,7 +100,7 @@ namespace Game
 			Array.Clear(result, 0, 3);
 			string text = null;
 			int i;
-			for (i = 0; i < m_furnaceSize; i++)
+			for (i = 0; i < 1; i++)
 			{
 				if (GetSlotCount(i) <= 0) continue;
 				int value = Terrain.ExtractContents(GetSlotValue(i)), x;
@@ -152,7 +152,7 @@ namespace Game
 			for (i = 0; i < 3; i++)
 			{
 				Slot slot = m_slots[1 + i];
-				if (slot.Count != 0 && result[i] != 0 && (slot.Value != result[i] || slot.Count >= 40))
+				if (slot.Count != 0 && (slot.Value != result[i] || slot.Count >= 40))
 					return null;
 			}
 			return "";

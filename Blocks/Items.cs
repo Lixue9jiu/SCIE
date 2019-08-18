@@ -219,7 +219,6 @@ namespace Game
 			}
 			.AppendMesh("Models/Rods", "SteelRod", Matrix.CreateScale(.6f) * Matrix.CreateTranslation(0f, -0.5f, 0f), Matrix.Identity, Color.White)
 			.AppendMesh("Models/Battery", "Battery", Matrix.CreateScale(.2f, .6f, .2f) * Matrix.CreateTranslation(0f, -0.3f, 0f), Matrix.CreateTranslation(9f / 16f, -7f / 16f, 0f), Color.LightGray),
-			new Mould("Models/Battery", "Battery", Matrix.CreateTranslation(new Vector3(0.5f)) * Matrix.CreateScale(2f, 0.15f, 2f), Matrix.CreateTranslation(9f / 16f, -7f / 16f, 0f) * Matrix.CreateScale(20f), "晶圆", "晶圆"),
 			new Mould("Models/Ingots", "IronPlate",  Matrix.CreateScale(1.5f, 8.15f, 1.5f), Matrix.CreateTranslation(9f / 16f, -7f / 16f, 0f) * Matrix.CreateScale(20f), "不锈钢板", "不锈钢板"),
 			new Mould("Models/Ingots", "IronPlate",  Matrix.CreateScale(1.5f, 8.15f, 1.5f), Matrix.CreateTranslation(9f / 16f, -7f / 16f, 0f) * Matrix.CreateScale(20f), "工业钢板", "工业钢板"),
 			new Mould("Models/Rods", "SteelRod", Matrix.CreateTranslation(0f,-0.5f,0f) * Matrix.CreateScale(4f, 2f, 4f), Matrix.CreateTranslation(9f / 16f, -7f / 16f, 0f) * Matrix.CreateScale(20f), "炮钢棍", "炮钢棍"),
@@ -230,6 +229,7 @@ namespace Game
 			}
 			.AppendMesh("Models/Wheel", "Wheel",  Matrix.CreateTranslation(0.0f, 0f, 0.1f), Matrix.CreateTranslation(9f / 16f, -15f / 16f, 0f)* Matrix.CreateScale(40f), Color.White)
 			.AppendMesh("Models/Wheel", "Wheel",  Matrix.CreateTranslation(0f, 0f, 0f)*Matrix.CreateScale(2f), Matrix.CreateTranslation(9f / 16f, -7f / 16f, 0f)* Matrix.CreateScale(20f), Color.Black),
+			new Mould("Models/Battery", "Battery", Matrix.CreateTranslation(new Vector3(0.5f)) * Matrix.CreateScale(2f, 0.15f, 2f), Matrix.CreateTranslation(9f / 16f, -7f / 16f, 0f) * Matrix.CreateScale(20f), "晶圆", "晶圆"),
 			/*nnew Plate("128K RAM", Color.DarkGreen, true),
 			new Plate("256K RAM", Color.DarkGreen, true),
 			new Plate("512K RAM", Color.DarkGreen, true),

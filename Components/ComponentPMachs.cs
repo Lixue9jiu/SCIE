@@ -74,11 +74,13 @@ namespace Game
 		{
 			string text = null;
 			for (int i = 0; i < m_furnaceSize; i++)
-				if (GetSlotCount(i) > 0 && GetSlotValue(i) == ItemBlock.IdTable["SteelRod"])
-					text = "RifleBarrel";
-			for (int i = 0; i < m_furnaceSize; i++)
-				if (GetSlotCount(i) > 0 && GetSlotValue(i) == ItemBlock.IdTable["ÅÚ¸Ö¹÷"])
-				text = "Ç¹¹Ü";
+				if (GetSlotCount(i) > 0)
+				{
+					if (GetSlotValue(i) == ItemBlock.IdTable["SteelRod"])
+						text = "RifleBarrel";
+					else if (GetSlotValue(i) == ItemBlock.IdTable["ÅÚ¸Ö¹÷"])
+						text = "Ç¹¹Ü";
+				}
 			if (text != null)
 			{
 				Slot slot = m_slots[ResultSlotIndex];

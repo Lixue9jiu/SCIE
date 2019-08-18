@@ -70,6 +70,11 @@ namespace Game
 
 		public override void Update()
 		{
+			if (!m_component.IsAddedToProject)
+			{
+				ParentWidget.Children.Remove(this);
+				return;
+			}
 			if (m_1Button.IsClicked && m_component.HeatLevel!=1)
 			{
 				//m_componentDispenser.HeatLevel = 1000f;
@@ -89,8 +94,6 @@ namespace Game
 			m_1Button.IsChecked = m_component.HeatLevel == 1;
 			m_2Button.IsChecked = m_component.HeatLevel == 2;
 			m_3Button.IsChecked = m_component.HeatLevel == 3;
-			if (!m_component.IsAddedToProject)
-				ParentWidget.Children.Remove(this);
 		}
 	}
 }
