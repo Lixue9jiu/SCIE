@@ -322,23 +322,14 @@
     <MemberSubsystemTemplate Name="CastMachBlockBehavior" Guid="c07ffe64-402f-4b96-987a-6050eb7ed2d4" InheritanceParent="fefb9590-4972-4893-b02a-76063611b745">
       <Parameter Name="Class" Guid="9618537b-5607-40f1-8704-4c42f35ec016" Value="Game.SubsystemCastMachBlockBehavior" Type="string" />
     </MemberSubsystemTemplate>
-    <MemberSubsystemTemplate Name="PresserBlockBehavior" Guid="c0fffe62-402f-4b96-987a-6050eb7ed2d4" InheritanceParent="fefb9590-4972-4893-b02a-76063611b745">
-      <Parameter Name="Class" Guid="a618532b-5607-40f1-8704-4c42f35ec016" Value="Game.SubsystemPresserBlockBehavior" Type="string" />
+    <MemberSubsystemTemplate Name="PMachsBlockBehavior" Guid="c0fffe62-402f-4b96-987a-6050eb7ed2d4" InheritanceParent="fefb9590-4972-4893-b02a-76063611b745">
+      <Parameter Name="Class" Guid="a618532b-5607-40f1-8704-4c42f35ec016" Value="Game.SubsystemPMachsBlockBehavior" Type="string" />
     </MemberSubsystemTemplate>
     <MemberSubsystemTemplate Name="SourBlockBehavior" Guid="c1affe62-402f-4b96-987a-6050eb7ed2d4" InheritanceParent="fefb9590-4972-4893-b02a-76063611b745">
       <Parameter Name="Class" Guid="a62f532b-5607-40f1-8704-4c42f35ec016" Value="Game.SubsystemSourBlockBehavior" Type="string" />
     </MemberSubsystemTemplate>
     <MemberSubsystemTemplate Name="CReactorBlockBehavior" Guid="c0fffe92-402f-4b96-987a-6050eb7ed2d4" InheritanceParent="fefb9590-4972-4893-b02a-76063611b745">
       <Parameter Name="Class" Guid="a618537b-5607-40f1-8704-4c42f35ec016" Value="Game.SubsystemCReactorBlockBehavior" Type="string" />
-    </MemberSubsystemTemplate>
-    <MemberSubsystemTemplate Name="KibblerBlockBehavior" Guid="cffffe62-402f-4b96-987a-6050eb7ed2d4" InheritanceParent="fefb9590-4972-4893-b02a-76063611b745">
-      <Parameter Name="Class" Guid="a6185f2b-5607-40f1-8704-4c42f35ec016" Value="Game.SubsystemKibblerBlockBehavior" Type="string" />
-    </MemberSubsystemTemplate>
-    <MemberSubsystemTemplate Name="PresserNNBlockBehavior" Guid="cfffff62-402f-4b96-987a-6050eb7ed2d4" InheritanceParent="fefb9590-4972-4893-b02a-76063611b745">
-      <Parameter Name="Class" Guid="a6185e2b-5607-40f1-8704-4c42f35ec016" Value="Game.SubsystemPresserNNBlockBehavior" Type="string" />
-    </MemberSubsystemTemplate>
-    <MemberSubsystemTemplate Name="SqueezerBlockBehavior" Guid="cfffff63-402f-4b96-987a-6050eb7ed2d4" InheritanceParent="fefb9590-4972-4893-b02a-76063611b745">
-      <Parameter Name="Class" Guid="a6195e2b-5607-40f1-8704-4c42f35ec016" Value="Game.SubsystemSqueezerBlockBehavior" Type="string" />
     </MemberSubsystemTemplate>
     <MemberSubsystemTemplate Name="FurnaceNBlockBehavior" Guid="f07f0e62-402f-4b96-987a-6050eb7ed2d4" InheritanceParent="fefb9590-4972-4893-b02a-76063611b745">
       <Parameter Name="Class" Guid="8618532b-5607-40f1-8704-4c42f35ec016" Value="Game.SubsystemFurnaceNBlockBehavior" Type="string" />

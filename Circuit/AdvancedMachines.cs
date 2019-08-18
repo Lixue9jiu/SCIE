@@ -1,6 +1,5 @@
 ﻿using Engine;
 using Engine.Graphics;
-using System;
 
 namespace Game
 {
@@ -15,7 +14,7 @@ namespace Game
 
 		public override void Simulate(ref int voltage)
 		{
-			if (voltage > 1023 || voltage < Voltage)
+			if (voltage > 8192 || voltage < Voltage)
 				return;
 			for (int i = 0; i < Component.SlotsCount; i++)
 			{
@@ -48,15 +47,16 @@ namespace Game
 								voltage = value << 10;
 								goto case -1;
 							}
-							continue;
 					}
 				}
 			}
 		}
+
 		public override Widget GetWidget(IInventory inventory, ComponentSeperator component)
 		{
 			return new SeperatorWidget(inventory, component, "Unpacker");
 		}
+
 		public override int GetFaceTextureSlot(int face, int value)
 		{
 			return face != 4 && face != 5 && face == (Terrain.ExtractData(value) >> 15) ? 235 : 124;
@@ -65,11 +65,13 @@ namespace Game
 
 	public class ElectricPump : CubeDevice
 	{
-		public ElectricPump() : base("电子泵", "电子泵是一种可以直接吸收液体于管道传输的机器", 150) { Type |= ElementType.Pipe; }
+		public ElectricPump() : base("电子泵", "电子泵是一种可以直接吸收液体于管道传输的机器", 150)
+		{
+			Type |= ElementType.Pipe;
+		}
 
 		public override void Simulate(ref int voltage)
 		{
-			voltage = voltage;
 		}
 
 		public override int GetFaceTextureSlot(int face, int value)
@@ -80,14 +82,17 @@ namespace Game
 
 	public class OilPlant : InventoryEntityDevice<ComponentOilPlant>
 	{
-		public OilPlant() : base("OilPlant", "石油化工厂", "石油化工厂可以用来处理石油，产生各种石油产品") { Type |= ElementType.Pipe; }
+		public OilPlant() : base("OilPlant", "石油化工厂", "石油化工厂可以用来处理石油，产生各种石油产品")
+		{
+			Type |= ElementType.Pipe;
+		}
 
 		public override void Simulate(ref int voltage)
 		{
 			if (Component.Powered = voltage >= 10000)
 			{
 				ComponentOilPlant inventory = Component.Entity.FindComponent<ComponentOilPlant>(true);
-				if (ComponentOilPlant.AcquireItems(inventory, voltage>>10, 1)==0)
+				if (ComponentInventoryBase.AcquireItems(inventory, voltage >> 10, 1) == 0)
 				{
 					voltage = 0;
 				}
@@ -101,26 +106,30 @@ namespace Game
 
 		public override Widget GetWidget(IInventory inventory, ComponentOilPlant component)
 		{
-			return new SeperatorWidget(inventory, component, "OilPlant","Widgets/OilPlantWidget");
+			return new SeperatorWidget(inventory, component, "OilPlant", "Widgets/OilPlantWidget");
 		}
 	}
 
 	public class OilFractionalTower : InventoryEntityDevice<ComponentFractionalTower>
 	{
-		public OilFractionalTower() : base("OilTower", "石油裂解塔", "石油裂解塔可以用来蒸馏石油，处理原油") { Type |= ElementType.Pipe; }
+		public OilFractionalTower() : base("OilTower", "石油裂解塔", "分馏塔用于通过将化学化合物加热到一个或多个化合物部分将蒸发的温度来分离化学化合物，该机器通常用于石油化学。")
+		{
+			Type |= ElementType.Pipe;
+		}
 
 		public override void Simulate(ref int voltage)
 		{
 			Component.valuein = voltage;
-			Component.Powered = (voltage  > 0 && voltage<10000);
+			Component.Powered = voltage > 0 && voltage < 10000;
 			if (voltage >= 10000)
 			{
 				ComponentFractionalTower inventory = Component.Entity.FindComponent<ComponentFractionalTower>(true);
-				if (ComponentFractionalTower.AcquireItems(inventory, voltage >> 10, 1) == 0)
+				if (ComponentInventoryBase.AcquireItems(inventory, voltage >> 10, 1) == 0)
 				{
 					voltage = 0;
 				}
-			}else if(Component.value>=10000)
+			}
+			else if (Component.value >= 10000)
 			{
 				voltage = Component.value;
 				Component.value = 0;
@@ -138,15 +147,10 @@ namespace Game
 		}
 	}
 
-
 	public class ElectricDriller : InventoryEntityDevice<ComponentElectricDriller>
 	{
-		public ElectricDriller() : base("ElectricDriller", "电子采矿机", "电子采矿机，一种电动采矿机") { }
-
-		public override void Simulate(ref int voltage)
+		public ElectricDriller() : base("ElectricDriller", "电子采矿机", "电子采矿机，一种电动采矿机", 310)
 		{
-			if (Component.Powered = voltage >= 310)
-				voltage -= 310;
 		}
 
 		public override int GetFaceTextureSlot(int face, int value)
@@ -171,6 +175,7 @@ namespace Game
 		{
 			return face != 4 && face != 5 && face == (Terrain.ExtractData(value) >> 15) ? 131 : 221;
 		}
+
 		public override Widget GetWidget(IInventory inventory, ComponentSeperator component)
 		{
 			return new SeperatorWidget(inventory, component, "UThinker");
@@ -188,6 +193,7 @@ namespace Game
 		{
 			return face != 4 && face != 5 && face == (Terrain.ExtractData(value) >> 15) ? 236 : 224;
 		}
+
 		public override Widget GetWidget(IInventory inventory, ComponentSeperator component)
 		{
 			return new SeperatorWidget(inventory, component, "WaterExtractor");
@@ -196,7 +202,9 @@ namespace Game
 
 	public class AirPump : CubeDevice
 	{
-		public AirPump() : base("抽气机", "抽气机", 130) { }
+		public AirPump() : base("抽气机", "抽气机", 130)
+		{
+		}
 
 		public override int GetFaceTextureSlot(int face, int value)
 		{
@@ -206,7 +214,9 @@ namespace Game
 
 	public class WaterCuttingMachine : CubeDevice
 	{
-		public WaterCuttingMachine() : base("水切割机", "水切割机", 180) { }
+		public WaterCuttingMachine() : base("水切割机", "水切割机", 180)
+		{
+		}
 
 		public override int GetFaceTextureSlot(int face, int value)
 		{
@@ -220,6 +230,7 @@ namespace Game
 		public BoundingBox[][] m_collisionBoxesByFace = new BoundingBox[6][];
 		public GlowPoint m_glowPoint;
 		public bool LastPowered;
+
 		public LED() : base("LED", "LED", 12)
 		{
 			ModelMesh modelMesh = ContentManager.Get<Model>("Models/Leds").FindMesh("OneLed");
@@ -232,20 +243,26 @@ namespace Game
 				m_collisionBoxesByFace[i] = new[] { m_blockMeshesByFace[i].CalculateBoundingBox() };
 			}
 		}
+
 		public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
 		{
 			BlocksManager.DrawMeshBlock(primitivesRenderer, m_blockMeshesByFace[0], color, size, ref matrix, environmentData);
 		}
+
 		public override void GenerateTerrainVertices(Block block, BlockGeometryGenerator generator, TerrainGeometrySubsets geometry, int value, int x, int y, int z)
 		{
 			generator.GenerateMeshVertices(Block, x, y, z, m_blockMeshesByFace[Terrain.ExtractData(value) >> 14 & 7], SubsystemPalette.GetColor(generator, PaintableItemBlock.GetColor(Terrain.ExtractData(value))), null, geometry.SubsetOpaque);
 		}
+
 		public override int GetEmittedLightAmount(int value)
 		{
 			return ((Terrain.ExtractData(value) >> 17) & 1) * 15;
 		}
+
 		public override BoundingBox[] GetCustomCollisionBoxes(SubsystemTerrain terrain, int value) => m_collisionBoxesByFace[Terrain.ExtractData(value) >> 14 & 7];
+
 		public override bool IsFaceTransparent(SubsystemTerrain subsystemTerrain, int face, int value) => face != 4;
+
 		public override BlockPlacementData GetPlacementValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, TerrainRaycastResult raycastResult)
 		{
 			return new BlockPlacementData
@@ -303,9 +320,9 @@ namespace Game
 				Utils.SubsystemTerrain.TerrainUpdater.DowngradeChunkNeighborhoodState(chunkAtCell.Coords, 1, TerrainChunkState.InvalidLight, false);
 		}
 	}
+
 	/*public class ElectricMicroscope : CubeDevice
 	{
-
 	}
 	public class Dryer : FixedDevice
 	{
@@ -331,10 +348,12 @@ namespace Game
 			}
 		}
 	}*/
+
 	public class TEDC : CubeDevice, IInteractiveBlock
 	{
 		//public static Jint.Engine JsEngine;
 		public static ComponentPlayer ComponentPlayer;
+
 		protected static string lastcode = "";
 
 		public TEDC() : base("晶体管数字电子计算机", "晶体管数字电子计算机", 60)
@@ -370,18 +389,17 @@ namespace Game
 			return true;
 		}
 	}
+
 	public class AirCompressor : CubeDevice
 	{
-		public AirCompressor() : base("空气压缩机", "空气压缩机") { }
+		public AirCompressor() : base("空气压缩机", "空气压缩机", 60)
+		{
+		}
+
 		public override int GetFaceTextureSlot(int face, int value)
 		{
 			int direction = Terrain.ExtractData(value) >> 15;
 			return face == 4 || face == 5 ? 170 : face == direction ? 120 : face == CellFace.OppositeFace(direction) ? 110 : 170;
-		}
-		public override void Simulate(ref int voltage)
-		{
-			if (Powered = voltage >= 60)
-				voltage -= 60;
 		}
 	}
 }

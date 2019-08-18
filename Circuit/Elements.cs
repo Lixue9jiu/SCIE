@@ -128,7 +128,7 @@ namespace Game
 		public override string GetDescription() => DefaultDescription;
 		public override void Simulate(ref int voltage)
 		{
-			voltage &= 1023;
+			voltage &= 8191;
 			if (Powered = voltage >= Voltage)
 				voltage -= Voltage;
 			else voltage = 0;

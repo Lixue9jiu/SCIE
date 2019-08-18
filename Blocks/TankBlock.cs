@@ -9,11 +9,10 @@ namespace Game
 		public enum Type
 		{
 			Tank,
-			FractionatingTower,
 			Reductor
 		}
-		static readonly string[] Names = { "空油箱", "分馏塔", "减压器" };
-		static readonly string[] Description = { "某些化学材料的容器，非常重且耐用。在化学领域有重要作用。", "分馏塔用于通过将化学化合物加热到一个或多个化合物部分将蒸发的温度来分离化学化合物，该机器通常用于石油化学。", "减压器是一种可以降低液体或气体压力的机器，这是石油化学中必不可少的组成部分。" };
+		static readonly string[] Names = { "空油箱", "减压器" };
+		static readonly string[] Description = { "某些化学材料的容器，非常重且耐用。在化学领域有重要作用。", "减压器是一种可以降低液体或气体压力的机器，这是石油化学中必不可少的组成部分。" };
 		public const int Index = 522;
 
 		public override IEnumerable<int> GetCreativeValues()
@@ -23,8 +22,6 @@ namespace Game
 
 		public override int GetFaceTextureSlot(int face, int value)
 		{
-			if (GetType(value) == Type.FractionatingTower)
-				return face == 4 ? 107 : 112;
 			if (GetType(value) == Type.Reductor)
 				return 144;
 			return face == 4 || face == 5 ? 181 : 210;
@@ -42,7 +39,7 @@ namespace Game
 
 		public override void GetDropValues(SubsystemTerrain subsystemTerrain, int oldValue, int newValue, int toolLevel, List<BlockDropValue> dropValues, out bool showDebris)
 		{
-			showDebris = true;
+			showDebris = false;
 			dropValues.Add(new BlockDropValue { Value = oldValue, Count = 1 });
 		}
 
