@@ -9,6 +9,11 @@
   <EntityTemplate Name="AICreature" Guid="3f077159-f492-419b-859a-bb051de6339f" InheritanceParent="bc5be211-c1f8-4e50-9ffb-4fde625d2692">
     <MemberComponentTemplate Name="Variant" Guid="da33b9ad-acfa-4b82-83ac-0eb3bb1dfa11" InheritanceParent="8547d74d-d347-4644-a839-14adf11731d0" />
   </EntityTemplate>
+  <EntityTemplate Name="Player" Guid="4be6c1c5-d65d-4537-8a8b-a391969e6dc2">
+    <MemberComponentTemplate Name="FireflySurround" Guid="f7b98f0e-317f-4589-8033-ca605f92ee15" InheritanceParent="8547d74d-d347-4644-a839-14adf11731d0">
+      <Parameter Name="Class" Guid="56dd5d8f-8a84-4bb6-bb7c-bc42afe926d4" Value="Game.ComponentFireflySurround" Type="string" />
+    </MemberComponentTemplate>
+  </EntityTemplate>
   <Folder Name="Entities" Guid="5fcdf35f-7001-442c-883e-e0502b15d291">
     <EntityTemplate Name="EntityBlock" Guid="9681f999-898b-4f5c-9ea8-f8cc331e97b3">
       <MemberComponentTemplate Name="BlockEntity" Guid="a1d7dc3e-980d-461e-87ac-4358ed7d41b5" InheritanceParent="09a85cba-d94e-41b8-9497-f20ed942c17e" />

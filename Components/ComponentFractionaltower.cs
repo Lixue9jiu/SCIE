@@ -1,6 +1,5 @@
 using Engine;
 using GameEntitySystem;
-using System;
 using TemplatesDatabase;
 
 namespace Game
@@ -14,9 +13,10 @@ namespace Game
 
 		//protected int m_music;
 		public bool Powered;
+
 		public int valuein;
 		public int value;
-		
+
 		public override int RemainsSlotIndex => -1;
 
 		public override int ResultSlotIndex => SlotsCount - 1;
@@ -28,9 +28,9 @@ namespace Game
 		public void Update(float dt)
 		{
 			Point3 coordinates = m_componentBlockEntity.Coordinates;
-			
+
 			m_fireTimeRemaining = MathUtils.Max(0f, m_fireTimeRemaining - dt);
-				
+
 			if (m_updateSmeltingRecipe)
 			{
 				m_updateSmeltingRecipe = false;
@@ -64,57 +64,56 @@ namespace Game
 							if (j == 0 && i * i + k * k > 1 && cellContents != MetalBlock.Index)
 							{
 								num = 0;
-                                break;
+								break;
 							}
 						}
 					}
 				}
 				int cellValue = Utils.Terrain.GetCellValue(num3, num4 - 1, num5);
 				if ((Terrain.ExtractContents(cellValue) != FireBoxBlock.Index) || FurnaceNBlock.GetHeatLevel(cellValue) == 0)
-					num = 0; 
-                if (num == 0 || num2 == 0)
+					num = 0;
+				if (num == 0 || num2 == 0)
 					m_smeltingRecipe = null;
 				if (num == 1 && m_smeltingRecipe == null)
 					m_smeltingRecipe = m_smeltingRecipe2;
 			}
-			int flag2222=0;
+			int flag2222 = 0;
 			if (Utils.SubsystemTime.PeriodicGameTimeEvent(2.0, 0.0))
 			{
-				int cellValue2 = Utils.Terrain.GetCellValueFast(coordinates.X+1, coordinates.Y, coordinates.Z);
-				if (ElementBlock.Block.GetDevice(coordinates.X+1, coordinates.Y, coordinates.Z, cellValue2) is ElectricPump)
+				int cellValue2 = Utils.Terrain.GetCellValueFast(coordinates.X + 1, coordinates.Y, coordinates.Z);
+				if (ElementBlock.Block.GetDevice(coordinates.X + 1, coordinates.Y, coordinates.Z, cellValue2) is ElectricPump)
 				{
 					flag2222 = 1;
 				}
-				int cellValue3 = Utils.Terrain.GetCellValueFast(coordinates.X -1, coordinates.Y, coordinates.Z);
+				int cellValue3 = Utils.Terrain.GetCellValueFast(coordinates.X - 1, coordinates.Y, coordinates.Z);
 				if (ElementBlock.Block.GetDevice(coordinates.X - 1, coordinates.Y, coordinates.Z, cellValue3) is ElectricPump)
 				{
 					flag2222 = 2;
 				}
-				int cellValue4 = Utils.Terrain.GetCellValueFast(coordinates.X , coordinates.Y, coordinates.Z+1);
-				if (ElementBlock.Block.GetDevice(coordinates.X , coordinates.Y, coordinates.Z+1, cellValue4) is ElectricPump)
+				int cellValue4 = Utils.Terrain.GetCellValueFast(coordinates.X, coordinates.Y, coordinates.Z + 1);
+				if (ElementBlock.Block.GetDevice(coordinates.X, coordinates.Y, coordinates.Z + 1, cellValue4) is ElectricPump)
 				{
 					flag2222 = 3;
 				}
-			//	int cellValue5 = Utils.Terrain.GetCellValueFast(coordinates.X, coordinates.Y, coordinates.Z-1);
-			//	if (ElementBlock.Block.GetDevice(coordinates.X, coordinates.Y, coordinates.Z - 1, cellValue5) is ElectricPump)
-			//	{
-			//		flag2222 = 4;
-			//	}
+				//	int cellValue5 = Utils.Terrain.GetCellValueFast(coordinates.X, coordinates.Y, coordinates.Z-1);
+				//	if (ElementBlock.Block.GetDevice(coordinates.X, coordinates.Y, coordinates.Z - 1, cellValue5) is ElectricPump)
+				//	{
+				//		flag2222 = 4;
+				//	}
 			}
-			if (flag2222>0 && valuein<10000 && Powered && HeatLevel>0)
+			if (flag2222 > 0 && valuein < 10000 && Powered && HeatLevel > 0)
 			{
-				int j = (int)HeatLevel -1;
-					if (m_slots[1 + j].Value!=0 && m_slots[1 + j].Count>0)
-					{
-						value = m_slots[1 + j].Value<<10;
-						m_slots[1 + j].Count--;
-						flag2222 = 0;
-						
-					}else
+				int j = (int)HeatLevel - 1;
+				if (m_slots[1 + j].Value != 0 && m_slots[1 + j].Count > 0)
+				{
+					value = m_slots[1 + j].Value << 10;
+					m_slots[1 + j].Count--;
+					flag2222 = 0;
+				}
+				else
 				{
 					HeatLevel = 0;
 				}
-				
 			}
 			if (m_smeltingRecipe == null)
 			{
@@ -160,12 +159,14 @@ namespace Game
 			m_furnaceSize = SlotsCount - 1;
 			HeatLevel = valuesDictionary.GetValue("HeatLevel", 0f);
 		}
+
 		public override void Save(ValuesDictionary valuesDictionary, EntityToIdMap entityToIdMap)
 		{
 			this.SaveItems(valuesDictionary);
 			if (HeatLevel > 0f)
 				valuesDictionary.SetValue("HeatLevel", HeatLevel);
 		}
+
 		protected string FindSmeltingRecipe()
 		{
 			bool text = false;
