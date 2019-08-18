@@ -75,7 +75,7 @@ namespace Game
 						if (result[j] != 0)
 						{
 							m_slots[3 + j].Value = result[j];
-							m_slots[3 + j].Count++;
+							m_slots[3 + j].Count+=1;
 							m_smeltingRecipe = null;
 							SmeltingProgress = 0f;
 							m_updateSmeltingRecipe = true;
@@ -91,36 +91,14 @@ namespace Game
 			result[1] = 0;
 			result[2] = 0;
 
-			if (GetSlotValue(0) == 1310960 && GetSlotCount(0) > 0)
+			if (GetSlotValue(0) == 786672 && GetSlotCount(0) > 0 && GetSlotValue(1) == ItemBlock.IdTable["CokeCoalPowder"] && GetSlotCount(1) > 0 && Terrain.ExtractContents(GetSlotValue(2))==OakWoodBlock.Index)
 			{
-				if (GetSlotValue(1) == ItemBlock.IdTable["CokeCoalPowder"] && GetSlotCount(1) > 0)
-				{
+				
 					text = "RefinedOil";
-					result[0] = RottenMeatBlock.Index | 2 << 12 << 14;
-				}
+					result[0] = ItemBlock.IdTable["Rubber"];
+				
 			}
-			if (GetSlotValue(0) == (240 + 16384 * 60) && GetSlotCount(0) > 0)
-			{
-				if (GetSlotValue(1) == ItemBlock.IdTable["CokeCoalPowder"] && GetSlotCount(1) > 0)
-				{
-					if (GetSlotValue(2) == WaterBlock.Index && GetSlotCount(2) > 0)
-					{
-						text = "RefinedOil2";
-						result[0] = RottenMeatBlock.Index | 2 << 7 << 14;
-					}
-				}
-			}
-			if (GetSlotValue(0) == (240 + 16384 * 70) && GetSlotCount(0) > 0)
-			{
-				if (GetSlotValue(1) == ItemBlock.IdTable["CokeCoalPowder"] && GetSlotCount(1) > 0)
-				{
-					if (GetSlotValue(2) == WaterBlock.Index && GetSlotCount(2) > 0)
-					{
-						result[0] = RottenMeatBlock.Index | 2 << 5 << 14;
-						text = "RefinedOil3";
-					}
-				}
-			}
+			
 			if (text != null)
 			{
 				for (int i = 0; i < 3; i++)

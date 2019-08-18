@@ -23,15 +23,14 @@ namespace Game
 
 		public override int FuelSlotIndex => -1;
 
+		public float Heatlevel;
+
 		public void Update(float dt)
 		{
 			Point3 coordinates = m_componentBlockEntity.Coordinates;
-			if (HeatLevel > 0f)
-			{
-				m_fireTimeRemaining = MathUtils.Max(0f, m_fireTimeRemaining - dt);
-				if (m_fireTimeRemaining == 0f)
-					HeatLevel = 0f;
-			}
+			
+			m_fireTimeRemaining = MathUtils.Max(0f, m_fireTimeRemaining - dt);
+				
 			if (m_updateSmeltingRecipe)
 			{
 				m_updateSmeltingRecipe = false;
@@ -102,21 +101,24 @@ namespace Game
 			//		flag2222 = 4;
 			//	}
 			}
-			if (flag2222>0 && valuein<10000 && Powered)
+			if (flag2222>0 && valuein<10000 && Powered && HeatLevel>0)
 			{
-				int j = flag2222-1;
+				int j = (int)HeatLevel -1;
 					if (m_slots[1 + j].Value!=0 && m_slots[1 + j].Count>0)
 					{
 						value = m_slots[1 + j].Value<<10;
 						m_slots[1 + j].Count--;
 						flag2222 = 0;
 						
-					}
+					}else
+				{
+					HeatLevel = 0;
+				}
 				
 			}
 			if (m_smeltingRecipe == null)
 			{
-				HeatLevel = 0f;
+				//HeatLevel = 0f;
 				m_fireTimeRemaining = 0f;
 				//m_music = -1;
 			}
@@ -156,8 +158,14 @@ namespace Game
 		{
 			base.Load(valuesDictionary, idToEntityMap);
 			m_furnaceSize = SlotsCount - 1;
+			HeatLevel = valuesDictionary.GetValue("HeatLevel", 0f);
 		}
-
+		public override void Save(ValuesDictionary valuesDictionary, EntityToIdMap entityToIdMap)
+		{
+			this.SaveItems(valuesDictionary);
+			if (HeatLevel > 0f)
+				valuesDictionary.SetValue("HeatLevel", HeatLevel);
+		}
 		protected string FindSmeltingRecipe()
 		{
 			bool text = false;
