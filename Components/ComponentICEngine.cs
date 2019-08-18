@@ -18,14 +18,14 @@ namespace Game
 			{
 				m_updateSmeltingRecipe = false;
 				string text = null;
-				if (base.GetSlotCount(Fuel2SlotIndex) > 0 && Terrain.ExtractContents(base.GetSlotValue(Fuel2SlotIndex)) == WaterBucketBlock.Index)
+				if (base.GetSlotCount(Fuel2SlotIndex) > 0 && base.GetSlotValue(Fuel2SlotIndex) == (240 | 12 << 18) && SmeltingProgress <= 950f)
 					text = "bucket";
 				//while (text != null && SmeltingProgress <= 900f)
 				//{
 				if (text != null)
 				{
 					int resultSlotIndex = ResultSlotIndex;
-					if (m_slots[ResultSlotIndex].Count != 0 && (90 != m_slots[ResultSlotIndex].Value || m_slots[ResultSlotIndex].Count >= 40))
+					if ( (90 != m_slots[ResultSlotIndex].Value || m_slots[ResultSlotIndex].Count >= 40))
 						text = null;
 					else
 					{
@@ -33,7 +33,7 @@ namespace Game
 						{
 							m_slots[ResultSlotIndex].Value = 90;
 							m_slots[ResultSlotIndex].Count += 1;
-							m_slots[Fuel2SlotIndex].Count = 0;
+							m_slots[Fuel2SlotIndex].Count -= 1;
 							SmeltingProgress += 50f;
 						}
 						m_fireTimeRemaining = SmeltingProgress;
@@ -48,16 +48,28 @@ namespace Game
 				m_fireTimeRemaining = SmeltingProgress;
 				//HeatLevel = 1000f;
 			}
+			if (m_componentBlockEntity != null)
+			{
+				var c = m_componentBlockEntity.Coordinates;
+				TerrainChunk chunk = Utils.Terrain.GetChunkAtCell(c.X, c.Z);
+				if (chunk != null && chunk.State == TerrainChunkState.Valid)
+				{
+					int cellValue = chunk.GetCellValueFast(c.X & 15, c.Y, c.Z & 15);
+					Utils.SubsystemTerrain.ChangeCell(c.X, c.Y, c.Z, Terrain.ReplaceData(cellValue, FurnaceNBlock.SetHeatLevel(Terrain.ExtractData(cellValue), (int)MathUtils.Sign(HeatLevel))));
+				}
+			}
 		}
 
 		public override void Load(ValuesDictionary valuesDictionary, IdToEntityMap idToEntityMap)
 		{
 			base.Load(valuesDictionary, idToEntityMap);
 			m_furnaceSize = SlotsCount - 1;
+			m_fireTimeRemaining = valuesDictionary.GetValue("FireTimeRemaining", 0f);
+			HeatLevel = valuesDictionary.GetValue("HeatLevel", 0f);
 		}
 		public override int GetSlotCapacity(int slotIndex, int value)
 		{
-			return (slotIndex == Fuel2SlotIndex && Terrain.ExtractContents(value) == WaterBucketBlock.Index) ||
+			return (slotIndex == Fuel2SlotIndex && value == (240 | 12 << 18)) ||
 				(slotIndex == ResultSlotIndex && Terrain.ExtractContents(value) == EmptyBucketBlock.Index) ||
 				(slotIndex != Fuel2SlotIndex && slotIndex != ResultSlotIndex)
 				? base.GetSlotCapacity(slotIndex, value)

@@ -22,7 +22,7 @@ namespace Game
 			{
 				m_updateSmeltingRecipe = false;
 				string text = null;
-				if (base.GetSlotCount(RemainsSlotIndex) > 0 && Terrain.ExtractContents(base.GetSlotValue(RemainsSlotIndex)) == WaterBucketBlock.Index)
+				if (base.GetSlotCount(RemainsSlotIndex) > 0 && base.GetSlotValue(RemainsSlotIndex) == (240 | 12 << 18) && SmeltingProgress<=950f)
 					text = "bucket";
 				if (text != null)
 				{
@@ -35,7 +35,7 @@ namespace Game
 						{
 							m_slots[resultSlotIndex].Value = 90;
 							m_slots[resultSlotIndex].Count += 1;
-							m_slots[RemainsSlotIndex].Count = 0;
+							m_slots[RemainsSlotIndex].Count -= 1;
 							SmeltingProgress += 50f;
 						}
 						m_fireTimeRemaining = SmeltingProgress;
@@ -61,7 +61,7 @@ namespace Game
 
 		public override int GetSlotCapacity(int slotIndex, int value)
 		{
-			return (slotIndex == RemainsSlotIndex && Terrain.ExtractContents(value) == WaterBucketBlock.Index) ||
+			return (slotIndex == RemainsSlotIndex && value == (240 | 12 << 18)) ||
 				(slotIndex == ResultSlotIndex && Terrain.ExtractContents(value) == EmptyBucketBlock.Index) ||
 				(slotIndex != RemainsSlotIndex && slotIndex != ResultSlotIndex)
 				? base.GetSlotCapacity(slotIndex, value)

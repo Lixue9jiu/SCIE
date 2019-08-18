@@ -76,6 +76,9 @@ namespace Game
 			for (int i = 0; i < m_furnaceSize; i++)
 				if (GetSlotCount(i) > 0 && GetSlotValue(i) == ItemBlock.IdTable["SteelRod"])
 					text = "RifleBarrel";
+			for (int i = 0; i < m_furnaceSize; i++)
+				if (GetSlotCount(i) > 0 && GetSlotValue(i) == ItemBlock.IdTable["ÅÚ¸Ö¹÷"])
+				text = "Ç¹¹Ü";
 			if (text != null)
 			{
 				Slot slot = m_slots[ResultSlotIndex];
@@ -106,6 +109,10 @@ namespace Game
 						text = "IronPlate";
 					else if (value == CopperIngotBlock.Index)
 						text = "CopperPlate";
+					else if (value == ItemBlock.IdTable["Stainless Steel"])
+						text = "²»Ðâ¸Ö°å";
+					else if (value == ItemBlock.IdTable["Industrial Steel"])
+						text = "¹¤Òµ¸Ö°å";
 					else
 					{
 						var item = Item.Block.GetItem(ref value);

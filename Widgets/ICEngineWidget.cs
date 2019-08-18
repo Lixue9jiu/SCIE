@@ -73,6 +73,7 @@ namespace Game
 				m_component.HeatLevel = 0f;
 			}
 			m_dispenseButton.IsChecked = m_component.HeatLevel != 0f;
+			m_shootButton.IsChecked = m_component.HeatLevel == 0f;
 		}
 	}
 }
