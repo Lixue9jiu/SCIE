@@ -45,6 +45,10 @@ namespace Game
 		public override int RemoveSlotItems(int slotIndex, int count)
 		{
 			m_updateSmeltingRecipe = true;
+			if (GetSlotValue(slotIndex)== 262384 || GetSlotValue(slotIndex)==786672 || GetSlotValue(slotIndex)==1048816 || GetSlotValue(slotIndex)==1310960 || GetSlotValue(slotIndex)==WaterBlock.Index)
+			{
+				return 0;
+			}
 			return base.RemoveSlotItems(slotIndex, count);
 		}
 

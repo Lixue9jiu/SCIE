@@ -313,6 +313,15 @@
     <Recipe Result="RottenMeatBlock:96" ResultCount="1" RequiredHeatLevel="300" a="MercuryOreChunk" b="emptybucket" Description="冶炼汞">
       "aba"
     </Recipe>
+	<Recipe Result="Industrial Steel" ResultCount="1" RequiredHeatLevel="2000" a="IronOrePowder" b="NickelOrePowder" Description="铁粉加镍粉冶炼工业钢">
+      "aabb"
+    </Recipe>
+	<Recipe Result="Stainless Steel" ResultCount="1" RequiredHeatLevel="2000" a="IronOrePowder" b="ChromiumOrePowder" Description="铁粉加铬粉冶炼不锈钢">
+      "aabb"
+    </Recipe>
+	<Recipe Result="Gun-Steel" ResultCount="1" RequiredHeatLevel="2000" a="IronOrePowder" b="ChromiumOrePowder" c="NickelOrePowder" d="PlatinumOrePowder" Description="铁粉铬粉镍粉铂粉冶炼炮钢">
+      "abcd"
+    </Recipe>
   </Smelting>
   <Materials>
     <Recipe Result="MetalBlock:0" ResultCount="1" RequiredHeatLevel="0" a="IronPlate" Description="结合许多铁板来获得基本的机箱">
@@ -882,6 +891,13 @@
       "ece"
       "aba"
     </Recipe>
+	<Recipe Result="Unpacker" ResultCount="1" RequiredHeatLevel="0" a="Canpack" Description="制作一个去包装机">
+      "a"
+    </Recipe>
+	<Recipe Result="ElectricPump" ResultCount="1" RequiredHeatLevel="0" a="tank" b="IndustrialPiston" Description="制作一个电子泵">
+      "a"
+	  "b"
+    </Recipe>
     <Recipe Result="Empty" ResultCount="1" RequiredHeatLevel="0" a="IronPlate" Description="制作一个铁罐头">
       "a a"
       " a "
@@ -1050,10 +1066,25 @@
       "aca"
       "bbb"
     </Recipe>
+	<Recipe Result="Cylinder" ResultCount="1" RequiredHeatLevel="0" a="Industrial Steel" b="Stainless Steel" c="CopperPlate" Description="气缸，内燃机的重要部件">
+      " a"
+      "bab"
+      "ccc"
+    </Recipe>
     <Recipe Result="CReactorBlock" ResultCount="1" RequiredHeatLevel="0" a="tank" b="SteelPlate" c="CopperRod" d="metalblock:0" Description="制造化学反应器以获得化学产品">
       "bbb"
       "cdc"
       "aaa"
+    </Recipe>
+	<Recipe Result="OilFractionalTower" ResultCount="1" RequiredHeatLevel="0" a="tank" b="SteelPlate" c="CopperRod" d="metalblock:32" Description="制造石油裂解塔以获得石油产品">
+      "bdb"
+      "cac"
+      "aaa"
+    </Recipe>
+	<Recipe Result="OilPlant" ResultCount="1" RequiredHeatLevel="0" a="tank" b="SteelPlate" c="CopperRod" d="metalblock:32" e="creactor" Description="制造石油裂解塔以获得石油产品">
+      "bdb"
+      "aea"
+      "cac"
     </Recipe>
     <Recipe Result="Magnetizer" ResultCount="1" RequiredHeatLevel="0" a="metalblock:0" b="CopperWire" c="SteelRod" d="furnace" Description="制造磁化器制造工业磁铁">
       "bbb"

@@ -220,6 +220,8 @@ namespace Game
 			.AppendMesh("Models/Rods", "SteelRod", Matrix.CreateScale(.6f) * Matrix.CreateTranslation(0f, -0.5f, 0f), Matrix.Identity, Color.White)
 			.AppendMesh("Models/Battery", "Battery", Matrix.CreateScale(.2f, .6f, .2f) * Matrix.CreateTranslation(0f, -0.3f, 0f), Matrix.CreateTranslation(9f / 16f, -7f / 16f, 0f), Color.LightGray),
 			new Mould("Models/Battery", "Battery", Matrix.CreateTranslation(new Vector3(0.5f)) * Matrix.CreateScale(2f, 0.15f, 2f), Matrix.CreateTranslation(9f / 16f, -7f / 16f, 0f) * Matrix.CreateScale(20f), "晶圆", "晶圆"),
+			new Plate("不锈钢板", Color.White),
+			new Plate("工业钢板", Color.White),
 			/*nnew Plate("128K RAM", Color.DarkGreen, true),
 			new Plate("256K RAM", Color.DarkGreen, true),
 			new Plate("512K RAM", Color.DarkGreen, true),
