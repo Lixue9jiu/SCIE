@@ -94,8 +94,8 @@ namespace Game
 		{
 			if (voltage >= 10000)
 			{
-				ComponentCanpack inventory = Component.Entity.FindComponent<ComponentCanpack>(true);
-				if (ComponentCanpack.AcquireItems(inventory, voltage >> 10, 1) == 0)
+				var inventory = Component.Entity.FindComponent<ComponentCanpack>(true);
+				if (ComponentInventoryBase.AcquireItems(inventory, voltage >> 10, 1) == 0)
 				{
 					voltage = 0;
 				}

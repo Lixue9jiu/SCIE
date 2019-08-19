@@ -6,9 +6,9 @@ namespace Game
 
 		protected readonly InventorySlotWidget m_fuelSlot;
 
-		protected readonly ValueBarWidget m_progress;
-
 		protected readonly InventorySlotWidget m_resultSlot;
+
+		protected readonly ValueBarWidget m_progress;
 
 		public FireBoxWidget(IInventory inventory, T component, string path) : base(inventory, component, path)
 		{

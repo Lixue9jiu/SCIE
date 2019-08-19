@@ -13,12 +13,13 @@ namespace Game
 
 		protected readonly InventorySlotWidget m_inventorySlotWidget;
 
-		protected readonly int m_slotIndex;
+		protected readonly int m_slotIndex, Index;
 
-		public Musket2Widget(IInventory inventory, int slotIndex)
+		public Musket2Widget(IInventory inventory, int slotIndex, int index = Musket2Block.Index)
 		{
 			m_inventory = inventory;
 			m_slotIndex = slotIndex;
+			Index = index;
 			WidgetsManager.LoadWidgetContents(this, this, ContentManager.Get<XElement>("Widgets/Musket2Widget"));
 			m_inventoryGrid = Children.Find<GridPanelWidget>("InventoryGrid");
 			m_inventorySlotWidget = Children.Find<InventorySlotWidget>("InventorySlot");

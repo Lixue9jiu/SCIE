@@ -161,7 +161,6 @@
     <Compile Include="Widgets\CReactorWidget.cs" />
     <Compile Include="Widgets\SeperatorWidget.cs" />
     <Compile Include="Widgets\DepositWidget.cs" />
-    <Compile Include="Widgets\ICEngineWidget.cs" />
     <Compile Include="Widgets\ElectricFurnaceWidget.cs" />
     <Compile Include="Widgets\FractionalTowerWidget.cs" />
     <Compile Include="Widgets\CovenWidget.cs" />
@@ -169,10 +168,8 @@
     <Compile Include="Widgets\DrillerWidget.cs" />
     <Compile Include="Widgets\ElectricDrillerWidget.cs" />
     <Compile Include="Widgets\Musket2Widget.cs" />
-    <Compile Include="Widgets\Musket3Widget.cs" />
     <Compile Include="Widgets\FireBoxWidget.cs" />
-    <Compile Include="Widgets\Engine2Widget.cs" />
-    <Compile Include="Widgets\EngineAWidget.cs" />
+    <Compile Include="Widgets\EnginesWidget.cs" />
     <Compile Include="Widgets\NewChestWidget.cs" />
     <Compile Include="Widgets\MachineToolWidget.cs" />
     <Compile Include="Widgets\CommonWidgets.cs" />
