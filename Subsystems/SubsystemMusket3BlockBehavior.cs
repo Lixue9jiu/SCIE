@@ -72,7 +72,7 @@ namespace Game
 										componentFirstPersonModel.ItemRotationOrder = new Vector3(-0.7f, 0f, 0f);
 									}
 
-									if (m_subsystemTime.PeriodicGameTimeEvent(0.17, 0))
+									if (m_subsystemTime.PeriodicGameTimeEvent(0.17, 0) && Musket3Block.GetBulletNum(Terrain.ExtractData(inventory.GetSlotValue(activeSlotIndex)))>0)
 									{
 										//if (componentMiner.ComponentCreature.ComponentBody.ImmersionFactor > 0.4f)
 										//	m_subsystemAudio.PlaySound("Audio/MusketMisfire", 1f, m_random.UniformFloat(-0.1f, 0.1f), componentMiner.ComponentCreature.ComponentCreatureModel.EyePosition, 3f, true);
@@ -103,7 +103,13 @@ namespace Game
 											//m_subsystemParticles.AddParticleSystem(fireParticleSystem);m_random.UniformFloat(-0.1f, 0.1f)
 											m_subsystemParticles.AddParticleSystem(new GunSmokeParticleSystem2(SubsystemTerrain, vector2 + 1.3f * dir, dir));
 											m_subsystemNoise.MakeNoise(vector2, 1f, 40f);
-
+											
+											int value23 = Terrain.ExtractData(inventory.GetSlotValue(activeSlotIndex));
+											int num44 = Musket3Block.GetBulletNum(value23);
+											inventory.RemoveSlotItems(activeSlotIndex, 1);
+											inventory.AddSlotItems(activeSlotIndex, Terrain.MakeBlockValue(Musket3Block.Index, 0, Musket3Block.SetBulletNum(num44 - 1)), 1);
+											if (Utils.Random.Bool(0.1f))
+												componentMiner.DamageActiveTool(1);
 											//componentMiner.ComponentCreature.ComponentBody.ApplyImpulse(-1f * vector3);
 										}
 									}
@@ -138,11 +144,17 @@ namespace Game
 						inventory.RemoveSlotItems(activeSlotIndex, 1);
 						inventory.AddSlotItems(activeSlotIndex, num2, 1);
 					}
-					if (Utils.Random.Bool(0.1f))
-						componentMiner.DamageActiveTool(1);
+					
 				}
 			}
 			return false;
+		}
+
+		public override int GetProcessInventoryItemCapacity(IInventory inventory, int slotIndex, int value)
+		{
+			return Terrain.ExtractContents(value) != Bullet2Block.Index || Musket3Block.GetBulletNum(Terrain.ExtractData(inventory.GetSlotValue(slotIndex))) > 62
+				? 0
+				: 1;
 		}
 
 		public override void ProcessInventoryItem(IInventory inventory, int slotIndex, int value, int count, int processCount, out int processedValue, out int processedCount)
@@ -152,19 +164,13 @@ namespace Game
 			if (processCount == 1)
 			{
 				var loadState = Musket2Block.GetLoadState(Terrain.ExtractData(inventory.GetSlotValue(slotIndex)));
-				switch (loadState)
-				{
-					case Musket2Block.LoadState.Empty:
-						loadState = Musket2Block.LoadState.Bullet;
-						break;
-					case Musket2Block.LoadState.Bullet:
-						loadState = Musket2Block.LoadState.Bullet2;
-						break;
-				}
+				
 				processedValue = 0;
 				processedCount = 0;
 				inventory.RemoveSlotItems(slotIndex, 1);
-				inventory.AddSlotItems(slotIndex, Terrain.MakeBlockValue(Musket3Block.Index, 0, Musket2Block.SetBulletType(Musket2Block.SetLoadState(Terrain.ExtractData(inventory.GetSlotValue(slotIndex)), loadState), null)), 1);
+				int value22=Terrain.ExtractData(inventory.GetSlotValue(slotIndex));
+				int num = Musket3Block.GetBulletNum(value22);
+				inventory.AddSlotItems(slotIndex, Terrain.MakeBlockValue(Musket3Block.Index, 0, Musket3Block.SetBulletNum(num+1)), 1);
 			}
 		}
 	}
