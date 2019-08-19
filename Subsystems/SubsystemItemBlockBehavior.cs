@@ -222,6 +222,11 @@ namespace Game
 				Utils.SubsystemAudio.PlaySound("Audio/BlockPlaced", 1f, 0f, position, 3f, true);
 				return true;
 			}
+			else if (activeBlockValue == ItemBlock.IdTable["Telescope"])
+			{
+				var view = componentMiner.ComponentPlayer.View;
+				view.ActiveCamera = view.ActiveCamera is TelescopeCamera ? view.FindCamera<FppCamera>(true) : (Camera)new TelescopeCamera(view);
+			}
 			/*else if (activeBlockValue == ItemBlock.IdTable["Minecart"])
 			{
 				entity = DatabaseManager.CreateEntity(Project, "Carriage", true);
