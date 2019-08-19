@@ -136,7 +136,7 @@ namespace Game
 			new Cylinder(Matrix.CreateScale(40f, 80f, 40f), "Ar"),
 			new Powder("粗盐", "CrudeSalt", Color.White),
 			new Brick("石墨", "Graphite", new Color(44, 44, 44), Matrix.CreateTranslation(-32 % 16 / 16f, -32 / 16 / 16f, 0f), "石墨"),
-			new Powder("粗硅", "Coarse Si", Color.DarkGray),
+			new Powder("粗硅", "CoarseSi", Color.DarkGray),
 			new Powder("明矾", "Alum", Color.White),
 			new Powder("石英砂", "QuartzPowder", Color.White),
 			new Powder("苔粉", "Lichenin", Color.DarkGreen),
@@ -160,7 +160,7 @@ namespace Game
 				DefaultDisplayName = "石膏",
 				DefaultDescription = "石膏"
 			},
-			new Powder("石膏粉", "", Color.White),
+			new Powder("石膏粉", "CaSO4", Color.White),
 			new Powder("冰晶石", "Cryolite", Color.White),
 			new Mould("Models/Piston2", "Cylinder", Matrix.CreateTranslation(0.5f, 0.7f, 0.5f) * Matrix.CreateScale(0.6f), Matrix.CreateTranslation(4f, 3.8f, 0f), "A Cylinder made of alloy, Aluminum and steel, the neccessary part of many machine.", "Cylinder", 1.6f),
 			new LightMould("Models/Snowball", "Snowball", m, m2, "A Ball of Melting Iron.", "MeltingIron", 2.9f),

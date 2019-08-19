@@ -7,8 +7,6 @@ namespace Game
 	{
 		protected readonly ComponentBlockEntity m_componentBlockEntity;
 
-		protected readonly GridPanelWidget m_dispenserGrid;
-
 		protected readonly ButtonWidget m_dispenseButton,
 										m_shootButton;
 
@@ -19,23 +17,12 @@ namespace Game
 		public ChargerWidget(IInventory inventory, ComponentCharger component) : base(inventory, component, "Widgets/ChargerWidget")
 		{
 			m_componentBlockEntity = component.Entity.FindComponent<ComponentBlockEntity>(true);
-			m_dispenserGrid = Children.Find<GridPanelWidget>("DispenserGrid");
 			m_dispenseButton = Children.Find<ButtonWidget>("DispenseButton");
 			m_shootButton = Children.Find<ButtonWidget>("ShootButton");
 			//m_progress = Children.Find<ValueBarWidget>("Progress");
 			//m_acceptsDropsBox = Children.Find<CheckboxWidget>("AcceptsDropsBox");
 			//m_drillSlot = Children.Find<InventorySlotWidget>("DrillSlot");
-			int num = 0, y, x;
-			for (y = 0; y < m_dispenserGrid.RowsCount; y++)
-			{
-				for (x = 0; x < m_dispenserGrid.ColumnsCount; x++)
-				{
-					var inventorySlotWidget = new InventorySlotWidget();
-					inventorySlotWidget.AssignInventorySlot(component, num++);
-					m_dispenserGrid.Children.Add(inventorySlotWidget);
-					m_dispenserGrid.SetWidgetCell(inventorySlotWidget, new Point2(x, y));
-				}
-			}
+			InitGrid("DispenserGrid");
 		}
 
 		public override void Update()

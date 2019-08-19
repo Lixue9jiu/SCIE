@@ -4,11 +4,10 @@ namespace Game
 	{
 		protected readonly FireWidget m_fire;
 
-		protected readonly InventorySlotWidget m_fuelSlot;
+		protected readonly InventorySlotWidget m_fuelSlot,
+												m_resultSlot;
 
 		protected readonly ValueBarWidget m_progress;
-
-		protected readonly InventorySlotWidget m_resultSlot;
 
 		public FireBoxWidget(IInventory inventory, T component, string path) : base(inventory, component, path)
 		{
@@ -23,8 +22,7 @@ namespace Game
 		{
 			m_fire.ParticlesPerSecond = m_component.HeatLevel > 0f ? 24f : 0f;
 			m_progress.Value = m_component.SmeltingProgress;
-			if (!m_component.IsAddedToProject)
-				ParentWidget.Children.Remove(this);
+			base.Update();
 		}
 	}
 }

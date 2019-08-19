@@ -2,14 +2,9 @@ using Engine;
 
 namespace Game
 {
-	public class DrillerWidget : EntityWidget<ComponentInventoryBase>
+	public class DrillerWidget : MultiStateMachWidget<ComponentInventoryBase>
 	{
 		protected readonly CheckboxWidget m_acceptsDropsBox;
-
-		protected readonly ComponentBlockEntity m_componentBlockEntity;
-
-		protected readonly ButtonWidget m_dispenseButton,
-										m_shootButton;
 
 		protected readonly SubsystemTerrain m_subsystemTerrain;
 
@@ -17,10 +12,7 @@ namespace Game
 
 		public DrillerWidget(IInventory inventory, ComponentInventoryBase component) : base(inventory, component, "Widgets/DrillerWidget")
 		{
-			m_componentBlockEntity = component.Entity.FindComponent<ComponentBlockEntity>(true);
 			m_subsystemTerrain = component.Project.FindSubsystem<SubsystemTerrain>(true);
-			m_dispenseButton = Children.Find<ButtonWidget>("DispenseButton");
-			m_shootButton = Children.Find<ButtonWidget>("ShootButton");
 			m_acceptsDropsBox = Children.Find<CheckboxWidget>("AcceptsDropsBox");
 			m_drillSlot = Children.Find<InventorySlotWidget>("DrillSlot");
 			InitGrid("DispenserGrid");

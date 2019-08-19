@@ -1,11 +1,8 @@
 namespace Game
 {
-	public class ElectricDrillerWidget : EntityWidget<ComponentElectricDriller>
+	public class ElectricDrillerWidget : MultiStateMachWidget<ComponentElectricDriller>
 	{
 		protected readonly CheckboxWidget m_acceptsDropsBox;
-
-		protected readonly ButtonWidget m_dispenseButton,
-										m_shootButton;
 
 		protected readonly SubsystemTerrain m_subsystemTerrain;
 
@@ -14,14 +11,12 @@ namespace Game
 
 		public ElectricDrillerWidget(IInventory inventory, ComponentElectricDriller component) : base(inventory, component, "Widgets/ElectricDrillerWidget")
 		{
-			m_subsystemTerrain = component.Project.FindSubsystem<SubsystemTerrain>(true);
-			m_dispenseButton = Children.Find<ButtonWidget>("DispenseButton");
-			m_shootButton = Children.Find<ButtonWidget>("ShootButton");
 			m_drillSlot = Children.Find<InventorySlotWidget>("DrillSlot");
 			m_batterySlot = Children.Find<InventorySlotWidget>("BatterySlot");
 			InitGrid("DispenserGrid");
 			m_drillSlot.AssignInventorySlot(component, 8);
 			m_batterySlot.AssignInventorySlot(component, 9);
+			m_subsystemTerrain = component.Project.FindSubsystem<SubsystemTerrain>(true);
 		}
 
 		public override void Update()
