@@ -146,7 +146,7 @@ namespace Game
 			int i;
 			for (i = 0; i < DominantGenes.Length; i++)
 			{
-				sb.Append(((Trait)i).ToString())
+				sb.Append(Utils.TR.Count < 3 ? Utils.Names[i] : ((Trait)i).ToString())
 				.Append(": ")
 				.Append(DominantGenes[i].ToString())
 				.Append("  ");

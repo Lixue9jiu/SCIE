@@ -162,7 +162,7 @@ namespace Game
 			Data.Remove(chunk.Coords);
 		}
 
-		public override int[] HandledBlocks => new int[] { 90, GunpowderBlock.Index, RottenMeatBlock.Index, ItemBlock.Index };
+		public override int[] HandledBlocks => new int[] { 90, GunpowderBlock.Index, RottenMeatBlock.Index, ItemBlock.Index, TankBlock.Index };
 
 		public override bool OnAim(Vector3 start, Vector3 direction, ComponentMiner componentMiner, AimState state)
 		{
@@ -242,14 +242,30 @@ namespace Game
 					: rotation.X < 0 ? 1 : 3);
 				goto put;
 			}*/
-			else if (activeBlockValue == ItemBlock.IdTable["基因查看器"])
+			else if (activeBlockValue == ItemBlock.IdTable["基因查看器"] || Terrain.ExtractContents(activeBlockValue) == TankBlock.Index)
 			{
 				body = componentMiner.PickBody(start, direction);
 				if (body.HasValue && (!result.HasValue || body.Value.Distance < result.Value.Distance))
 				{
 					var cv = body.Value.ComponentBody.Entity.FindComponent<ComponentVariant>();
 					if (cv != null)
-						DialogsManager.ShowDialog(componentMiner.ComponentPlayer?.View.GameWidget, new MessageDialog("Result", cv.Genome.ToString(), "OK", null, null));
+					{
+						if (Terrain.ExtractContents(activeBlockValue) == TankBlock.Index)
+						{
+							int data = Terrain.ExtractData(activeBlockValue);
+							if (data != 0)
+							{
+								cv.Genome.DominantGenes[(int)TankBlock.GetTrait(data)] *= TankBlock.GetFactor(data);
+								cv.OnEntityAdded();
+								return true;
+							}
+						}
+						GameWidget gameWidget = componentMiner.ComponentPlayer.View.GameWidget;
+						DialogsManager.ShowDialog(gameWidget, new MessageDialog("Result", cv.Genome.ToString(), "OK", null, null)
+						{
+							Size = gameWidget.ActualSize * 0.8f
+						});
+					}
 					return true;
 				}
 			}

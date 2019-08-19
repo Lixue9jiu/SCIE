@@ -82,7 +82,10 @@ namespace Chemistry
 
 		public override IEnumerable<int> GetCreativeValues()
 		{
-			Items[0] = new Gunpowder();
+			if (!Item.Task.IsCompleted)
+				return new int[0];
+			if (Items[0] == null)
+				Items[0] = new Gunpowder();
 			var arr = new int[Items.Length];
 			int value = Index;
 			for (int i = 0; i < Items.Length; i++)
