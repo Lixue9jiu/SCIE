@@ -123,6 +123,16 @@ namespace Game
 					rider.StartDismounting();
 			}
 			TurnOrder = 0f;
+			if (componentEngine.HeatLevel <= 0f || componentBody.Mass > 1200f || !componentBody.StandingOnValue.HasValue)
+				return;
+			int value = Terrain.ExtractContents(componentBody.StandingOnValue.Value);
+			if (value == SoilBlock.Index)
+				componentBody.IsSneaking = true;
+			if (value == DirtBlock.Index || value == GrassBlock.Index)
+			{
+				var p = Terrain.ToCell(componentBody.Position);
+				Utils.SubsystemTerrain.ChangeCell(p.X, p.Y - 1, p.Z, Terrain.ReplaceContents(value, 168));
+			}
 		}
 
 		public override void Load(ValuesDictionary valuesDictionary, IdToEntityMap idToEntityMap)
@@ -131,7 +141,6 @@ namespace Game
 			m_componentBody = Entity.FindComponent<ComponentBody>(true);
 			m_componentDamage = Entity.FindComponent<ComponentDamage>(true);
 			componentEngine = Entity.FindComponent<ComponentEngineA>();
-			//Entity.FindComponent<ComponentModel>(true).TextureOverride = TexturedMeshItem.WhiteTexture;
 			m_componentBody.CollidedWithBody += CollidedWithBody;
 		}
 

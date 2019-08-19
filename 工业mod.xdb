@@ -150,6 +150,11 @@
         <Parameter Name="FireResilience" Guid="39e5b899-e2ba-4221-9f96-6b8710a8bcdf" Value="50" Type="float" />
       </MemberComponentTemplate>
     </EntityTemplate>
+    <EntityTemplate Name="Tractor" Guid="3f4abb7e-2ce4-43fa-9612-47d69bf788ba" InheritanceParent="3f3acc8e-1ce4-43fa-9614-47d69bf788ba">
+      <MemberComponentTemplate Name="Body" Guid="b6800018-ddd6-407b-bd4d-7be14c05d3eb">
+        <Parameter Name="Mass" Guid="ae127d38-1571-4901-a319-b21a8dc22175" Value="1000" Type="float" />
+      </MemberComponentTemplate>
+    </EntityTemplate>
     <EntityTemplate Name="Driller" Guid="411a989d-f12c-4ed5-9334-eacf21815b74" InheritanceParent="9681f999-898b-4f5c-9ea8-f8cc331e97b3">
       <MemberComponentTemplate Name="Driller" Guid="fc1a1be7-2b4d-49b1-90ad-14611ebb2878" InheritanceParent="aa15e6eb-9078-4abf-873f-4a8da609e287" />
     </EntityTemplate>
