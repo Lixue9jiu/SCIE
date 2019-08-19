@@ -352,12 +352,11 @@ namespace Game
 									int vvv = m_subsystemTerrain.Terrain.GetCellValue(x11, y11, z11);
 									if ((x11 - cellFace.X) * (x11 - cellFace.X) + (y11 - cellFace.Y) * (y11 - cellFace.Y) + (z11 - cellFace.Z) * (z11 - cellFace.Z) <= 1)
 									{
-										if (BlocksManager.Blocks[Terrain.ExtractContents(vvv)].IsPlaceable && !BlocksManager.Blocks[Terrain.ExtractContents(vvv)].IsDiggingTransparent && !BlocksManager.Blocks[Terrain.ExtractContents(vvv)].DefaultIsInteractive && BlocksManager.Blocks[Terrain.ExtractContents(vvv)].BlockIndex != 31)
+										if (BlocksManager.Blocks[Terrain.ExtractContents(vvv)].IsPlaceable && !BlocksManager.Blocks[Terrain.ExtractContents(vvv)].IsDiggingTransparent && !BlocksManager.Blocks[Terrain.ExtractContents(vvv)].DefaultIsInteractive && Terrain.ExtractContents(vvv) != 31)
 										{
-											
-											if (BlocksManager.Blocks[Terrain.ExtractContents(vvv)].DefaultCategory != "Plants")
-												m_subsystemPickables.AddPickable(m_subsystemTerrain.Terrain.GetCellValue(x11, y11, z11), 1, new Vector3(x11, y11, z11) + new Vector3(0.5f), null, null);
 											m_subsystemTerrain.ChangeCell(x11, y11, z11, 0);
+											if (BlocksManager.Blocks[Terrain.ExtractContents(vvv)].DefaultCategory != "Plants")
+												m_subsystemPickables.AddPickable(vvv, 1, new Vector3(x11, y11, z11) + new Vector3(0.5f), null, null);
 										}
 									}
 								}

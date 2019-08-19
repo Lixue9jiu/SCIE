@@ -231,6 +231,7 @@ namespace Game
 			.AppendMesh("Models/Wheel", "Wheel",  Matrix.CreateTranslation(0.0f, 0f, 0.1f), Matrix.CreateTranslation(9f / 16f, -15f / 16f, 0f)* Matrix.CreateScale(40f), Color.White)
 			.AppendMesh("Models/Wheel", "Wheel",  Matrix.CreateTranslation(0f, 0f, 0f)*Matrix.CreateScale(2f), Matrix.CreateTranslation(9f / 16f, -7f / 16f, 0f)* Matrix.CreateScale(20f), Color.Black),
 			new Mould("Models/Battery", "Battery", Matrix.CreateTranslation(new Vector3(0.5f)) * Matrix.CreateScale(2f, 0.15f, 2f), Matrix.CreateTranslation(9f / 16f, -7f / 16f, 0f) * Matrix.CreateScale(20f), "晶圆", "晶圆"),
+			new MouldItem("Syringe", "Models/Screwdriver", "obj1", Matrix.CreateRotationZ(0.5f) * Matrix.CreateTranslation(0f, -0.33f, 0f), Matrix.CreateTranslation(15f / 16f, 0f, 0f), "注射器", "注射器", 3.3f),
 			/*nnew Plate("128K RAM", Color.DarkGreen, true),
 			new Plate("256K RAM", Color.DarkGreen, true),
 			new Plate("512K RAM", Color.DarkGreen, true),
@@ -298,8 +299,9 @@ namespace Game
 				new OilPlant(),
 				new WaterCuttingMachine(),
 				new ElectricDriller(),
-				new TEDC(),
 				new OilFractionalTower(),
+				new Reductor(),
+				new TEDC(),
 			};
 			IdTable = new Dictionary<string, int>(Items.Length)
 			{

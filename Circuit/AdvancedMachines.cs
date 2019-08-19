@@ -63,6 +63,17 @@ namespace Game
 		}
 	}
 
+	public class Reductor : CubeDevice
+	{
+		public Reductor() : base("减压器", "减压器是一种可以降低液体或气体压力的机器，这是石油化学中必不可少的组成部分。", 100)
+		{
+		}
+		public override int GetFaceTextureSlot(int face, int value)
+		{
+			return 144;
+		}
+	}
+
 	public class ElectricPump : CubeDevice
 	{
 		public ElectricPump() : base("电子泵", "电子泵是一种可以直接吸收液体于管道传输的机器", 150)
