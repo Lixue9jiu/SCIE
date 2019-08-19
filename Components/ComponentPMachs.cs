@@ -22,13 +22,13 @@ namespace Game
 					int value = GetSlotValue(i);
 					switch (value)
 					{
-						case SandBlock.Index: text = "Ê¯Ó¢É°"; break;
+						case SandBlock.Index: text = "QuartzPowder"; break;
 						case WoodenStairsBlock.Index:
-						case PlanksBlock.Index: text = "Ä¾Ð¼"; break;
-						case BrickBlock.Index: text = "Ëé×©"; break;
+						case PlanksBlock.Index: text = "Sawdust"; break;
+						case BrickBlock.Index: text = "Brickbat"; break;
 						case GlassBlock.Index:
 						case FramedGlassBlock.Index:
-						case WindowBlock.Index: text = "Ëé²£Á§"; break;
+						case WindowBlock.Index: text = "BrokenGlass"; break;
 						case MalachiteChunkBlock.Index: text = "CopperOrePowder"; break;
 						default:
 							if (BlocksManager.Blocks[Terrain.ExtractContents(value)] is ChunkBlock block)
@@ -36,16 +36,16 @@ namespace Game
 								text = block.GetType().Name.Replace("ChunkBlock", "Powder");
 							}
 							else if (value == ItemBlock.IdTable["»¬Ê¯"])
-								text = "»¬Ê¯·Û";
+								text = "TalcumPowder";
 							else if (value == ItemBlock.IdTable["Plaster"])
-								text = "Ê¯¸à·Û";
+								text = "CaSO4";
 							else
 							{
 								var item = Item.Block.GetItem(ref value);
 								if (item is OreChunk)
 									text = item.GetCraftingId().Replace("Chunk", "Powder");
 								else if (item is Brick)
-									text = "Ëé×©";
+									goto case BrickBlock.Index;
 							}
 							if (!ItemBlock.IdTable.ContainsKey(text))
 								return null;
@@ -186,15 +186,15 @@ namespace Game
 			{
 				if (GetSlotCount(i) <= 0) continue;
 				int value = GetSlotValue(i);
-				if (GetSlotCount(i) > 0 && value == ItemBlock.IdTable["Ê¯Ä«"])
+				if (GetSlotCount(i) > 0 && value == ItemBlock.IdTable["Graphite"])
 				{
 					text = "Diamond";
 					m_speed = 0.1f;
 				}
 				else if (value == ItemBlock.IdTable["»¬Ê¯"])
-					text = "»¬Ê¯·Û";
+					text = "TalcumPowder";
 				else if (value == ItemBlock.IdTable["Plaster"])
-					text = "Ê¯¸à·Û";
+					text = "CaSO4";
 				else switch (Terrain.ExtractContents(value))
 					{
 						case IronBlock.Index:
@@ -214,9 +214,9 @@ namespace Game
 						case GlassBlock.Index:
 						case FramedGlassBlock.Index:
 						case WindowBlock.Index:
-							text = "Ëé²£Á§"; break;
+							text = "BrokenGlass"; break;
 						case BrickBlock.Index:
-							text = "Ëé×©"; break;
+							text = "Brickbat"; break;
 						case BricksBlock.Index:
 							m_count = 4;
 							goto case BrickBlock.Index;
