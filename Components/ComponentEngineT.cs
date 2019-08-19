@@ -4,7 +4,7 @@ using TemplatesDatabase;
 
 namespace Game
 {
-	public class ComponentEngineA : ComponentMachine, IUpdateable
+	public class ComponentEngineT : ComponentMachine, IUpdateable
 	{
 		protected string m_smeltingRecipe;
 
