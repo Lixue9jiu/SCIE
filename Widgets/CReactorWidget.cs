@@ -1,5 +1,3 @@
-using Engine;
-
 namespace Game
 {
 	public class CReactorWidget : ProcessWidget<ComponentMachine>
@@ -10,17 +8,7 @@ namespace Game
 
 		public CReactorWidget(IInventory inventory, ComponentMachine component) : base(inventory, component, "Widgets/CReactorWidget")
 		{
-			int num = 0, y, x;
-			for (y = 0; y < m_furnaceGrid.RowsCount; y++)
-			{
-				for (x = 0; x < m_furnaceGrid.ColumnsCount; x++)
-				{
-					var inventorySlotWidget = new InventorySlotWidget();
-					inventorySlotWidget.AssignInventorySlot(component, num++);
-					m_furnaceGrid.Children.Add(inventorySlotWidget);
-					m_furnaceGrid.SetWidgetCell(inventorySlotWidget, new Point2(x, y));
-				}
-			}
+			int num = InitGrid();
 			m_result1.AssignInventorySlot(component, num);
 			m_result2.AssignInventorySlot(component, num + 1);
 			m_result3.AssignInventorySlot(component, num + 2);

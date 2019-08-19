@@ -51,12 +51,12 @@ namespace Game
 
 		public override int GetDamage(int value)
 		{
-			return (Terrain.ExtractData(value) >> 8) & 0xFF;
+			return (Terrain.ExtractData(value) >> 10) & 255;
 		}
 
 		public override int SetDamage(int value, int damage)
 		{
-			return Terrain.ReplaceData(value, (Terrain.ExtractData(value) & -65281) | (MathUtils.Clamp(damage, 0, 255) << 8));
+			return Terrain.ReplaceData(value, (Terrain.ExtractData(value) & ~261120) | ((damage & 255) << 10));
 		}
 
 		public static LoadState GetLoadState(int data)

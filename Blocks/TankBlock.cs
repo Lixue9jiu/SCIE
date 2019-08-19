@@ -34,7 +34,7 @@ namespace Game
 
 		public override void Initialize()
 		{
-			m_standaloneBlockMesh.AppendMesh("Models/Screwdriver", "obj1", Matrix.CreateRotationZ(0.5f) * Matrix.CreateTranslation(0f, -0.33f, 0f), Matrix.CreateTranslation(15f / 16f, 0f, 0f) * Matrix.CreateScale(0.05f), Color.LightGray);
+			m_standaloneBlockMesh.AppendMesh("Models/Screwdriver", "obj1", Matrix.CreateRotationZ(0.5f) * Matrix.CreateTranslation(0f, -0.33f, 0f) * Matrix.CreateScale(3f), Matrix.CreateTranslation(15f / 16f, 0f, 0f) * Matrix.CreateScale(0.05f), Color.LightGray);
 			base.Initialize();
 		}
 

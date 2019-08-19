@@ -1,12 +1,9 @@
-using Engine;
-
 namespace Game
 {
 	public class ICEngineWidget : FireBoxWidget<ComponentMachine>
 	{
 		protected readonly ButtonWidget m_dispenseButton,
 										m_shootButton;
-		protected readonly InventorySlotWidget m_resultSlot;
 
 		public ICEngineWidget(IInventory inventory, ComponentMachine component) : base(inventory, component, "Widgets/ICEngineWidget")
 		{
@@ -14,18 +11,7 @@ namespace Game
 			m_shootButton = Children.Find<ButtonWidget>("ShootButton");
 			//m_acceptsDropsBox = Children.Find<CheckboxWidget>("AcceptsDropsBox");
 			//m_drillSlot = Children.Find<InventorySlotWidget>("DrillSlot");
-			m_resultSlot = Children.Find<InventorySlotWidget>("ResultSlot");
-			int num = 0, y, x;
-			for (y = 0; y < m_furnaceGrid.RowsCount; y++)
-			{
-				for (x = 0; x < m_furnaceGrid.ColumnsCount; x++)
-				{
-					var inventorySlotWidget = new InventorySlotWidget();
-					inventorySlotWidget.AssignInventorySlot(component, num++);
-					m_furnaceGrid.Children.Add(inventorySlotWidget);
-					m_furnaceGrid.SetWidgetCell(inventorySlotWidget, new Point2(x, y));
-				}
-			}
+			int num = InitGrid();
 			m_resultSlot.AssignInventorySlot(component, num++);
 		}
 

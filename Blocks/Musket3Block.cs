@@ -47,9 +47,14 @@ namespace Game
 			return data != ((data & -4) | (int)(LoadState.Empty & LoadState.Loaded));
 		}
 
-		/*public static int DecreaseBullet(int data)
+		public static int GetBulletNum(int data)
         {
-			return (data & ~255) | ((data & 0xF) << 4);
-        }*/
+			return data >> 4 & 63;
+        }
+
+		public static int SetBulletNum(int data)
+        {
+			return (data & ~63) | ((data & 63) << 4);
+        }
 	}
 }

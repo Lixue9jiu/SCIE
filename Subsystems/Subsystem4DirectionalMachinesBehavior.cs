@@ -57,7 +57,7 @@ namespace Game
 			switch (Terrain.ExtractData(Utils.Terrain.GetCellValueFast(c.X, c.Y, c.Z)) >> 10)
 			{
 				case 0:
-					return new SeparatorWidget(inventory, component, "Widgets/SourWidget");
+					return new SeparatorWidget(inventory, component, "Sour", "Widgets/SourWidget");
 				case 1:
 					return new DepositWidget(inventory, component);
 			}

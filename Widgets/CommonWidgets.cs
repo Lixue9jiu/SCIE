@@ -88,37 +88,11 @@ namespace Game
 		protected readonly GridPanelWidget m_inventoryGrid;
 		protected GridPanelWidget m_furnaceGrid;
 
-		public EntityWidget(T component, string path)
+		public EntityWidget(IInventory inventory, T component, string path)
 		{
 			m_component = component;
 			WidgetsManager.LoadWidgetContents(this, this, ContentManager.Get<XElement>(path));
 			m_inventoryGrid = Children.Find<GridPanelWidget>("InventoryGrid");
-		}
-
-		public override void Update()
-		{
-			if (!m_component.IsAddedToProject)
-				ParentWidget.Children.Remove(this);
-		}
-	}
-
-	public class ProcessWidget<T> : EntityWidget<T> where T : Component
-	{
-		protected readonly ValueBarWidget m_progress;
-		protected readonly InventorySlotWidget m_result1,
-												m_result2,
-												m_result3,
-												m_cir1, m_cir2;
-
-		public ProcessWidget(IInventory inventory, T component, string path) : base(component, path)
-		{
-			m_progress = Children.Find<ValueBarWidget>("Progress");
-			m_furnaceGrid = Children.Find<GridPanelWidget>("FurnaceGrid");
-			m_result1 = Children.Find<InventorySlotWidget>("ResultSlot1");
-			m_result2 = Children.Find<InventorySlotWidget>("ResultSlot2");
-			m_result3 = Children.Find<InventorySlotWidget>("ResultSlot3");
-			m_cir1 = Children.Find<InventorySlotWidget>("CircuitSlot1", false);
-			m_cir2 = Children.Find<InventorySlotWidget>("CircuitSlot2", false);
 			int num = 6, y, x;
 			for (y = 0; y < m_inventoryGrid.RowsCount; y++)
 			{
@@ -130,6 +104,49 @@ namespace Game
 					m_inventoryGrid.SetWidgetCell(inventorySlotWidget, new Point2(x, y));
 				}
 			}
+		}
+
+		public override void Update()
+		{
+			if (!m_component.IsAddedToProject)
+				ParentWidget.Children.Remove(this);
+		}
+
+		public int InitGrid(string name = "FurnaceGrid")
+		{
+			m_furnaceGrid = Children.Find<GridPanelWidget>(name);
+			int num = 0, y, x;
+			var component = (IInventory)m_component;
+			for (y = 0; y < m_furnaceGrid.RowsCount; y++)
+			{
+				for (x = 0; x < m_furnaceGrid.ColumnsCount; x++)
+				{
+					var inventorySlotWidget = new InventorySlotWidget();
+					inventorySlotWidget.AssignInventorySlot(component, num++);
+					m_furnaceGrid.Children.Add(inventorySlotWidget);
+					m_furnaceGrid.SetWidgetCell(inventorySlotWidget, new Point2(x, y));
+				}
+			}
+			return num;
+		}
+	}
+
+	public class ProcessWidget<T> : EntityWidget<T> where T : ComponentInventoryBase
+	{
+		protected readonly ValueBarWidget m_progress;
+		protected readonly InventorySlotWidget m_result1,
+												m_result2,
+												m_result3,
+												m_cir1, m_cir2;
+
+		public ProcessWidget(IInventory inventory, T component, string path) : base(inventory, component, path)
+		{
+			m_progress = Children.Find<ValueBarWidget>("Progress");
+			m_result1 = Children.Find<InventorySlotWidget>("ResultSlot1");
+			m_result2 = Children.Find<InventorySlotWidget>("ResultSlot2");
+			m_result3 = Children.Find<InventorySlotWidget>("ResultSlot3");
+			m_cir1 = Children.Find<InventorySlotWidget>("CircuitSlot1", false);
+			m_cir2 = Children.Find<InventorySlotWidget>("CircuitSlot2", false);
 		}
 
 		/*public override void Update()

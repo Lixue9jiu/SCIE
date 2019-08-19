@@ -16,7 +16,7 @@ namespace Game
 
 		//protected readonly ValueBarWidget m_progress;
 
-		public ChargerWidget(IInventory inventory, ComponentCharger component) : base(component, "Widgets/ChargerWidget")
+		public ChargerWidget(IInventory inventory, ComponentCharger component) : base(inventory, component, "Widgets/ChargerWidget")
 		{
 			m_componentBlockEntity = component.Entity.FindComponent<ComponentBlockEntity>(true);
 			m_dispenserGrid = Children.Find<GridPanelWidget>("DispenserGrid");
@@ -25,24 +25,12 @@ namespace Game
 			//m_progress = Children.Find<ValueBarWidget>("Progress");
 			//m_acceptsDropsBox = Children.Find<CheckboxWidget>("AcceptsDropsBox");
 			//m_drillSlot = Children.Find<InventorySlotWidget>("DrillSlot");
-			int num = 6, y, x;
-			InventorySlotWidget inventorySlotWidget;
-			for (y = 0; y < m_inventoryGrid.RowsCount; y++)
-			{
-				for (x = 0; x < m_inventoryGrid.ColumnsCount; x++)
-				{
-					inventorySlotWidget = new InventorySlotWidget();
-					inventorySlotWidget.AssignInventorySlot(inventory, num++);
-					m_inventoryGrid.Children.Add(inventorySlotWidget);
-					m_inventoryGrid.SetWidgetCell(inventorySlotWidget, new Point2(x, y));
-				}
-			}
-			num = 0;
+			int num = 0, y, x;
 			for (y = 0; y < m_dispenserGrid.RowsCount; y++)
 			{
 				for (x = 0; x < m_dispenserGrid.ColumnsCount; x++)
 				{
-					inventorySlotWidget = new InventorySlotWidget();
+					var inventorySlotWidget = new InventorySlotWidget();
 					inventorySlotWidget.AssignInventorySlot(component, num++);
 					m_dispenserGrid.Children.Add(inventorySlotWidget);
 					m_dispenserGrid.SetWidgetCell(inventorySlotWidget, new Point2(x, y));
@@ -64,7 +52,6 @@ namespace Game
 			if (m_dispenseButton.IsClicked && mode == MachineMode.Discharger)
 			{
 				data = SetMode(data);
-
 				Utils.Terrain.SetCellValueFast(coordinates.X, coordinates.Y, coordinates.Z, Terrain.ReplaceData(value, data));
 				m_component.Charged = true;
 			}

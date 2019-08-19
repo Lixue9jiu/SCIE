@@ -1,5 +1,4 @@
 using Engine;
-using System.Xml.Linq;
 using static Game.Charger;
 
 namespace Game
@@ -13,25 +12,12 @@ namespace Game
 
 		protected readonly ValueBarWidget m_progress;
 
-		public CondenserWidget(IInventory inventory, ComponentCondenser component) : base(component, "Widgets/CondenserWidget")
+		public CondenserWidget(IInventory inventory, ComponentCondenser component) : base(inventory, component, "Widgets/CondenserWidget")
 		{
 			m_componentBlockEntity = component.Entity.FindComponent<ComponentBlockEntity>(true);
 			m_dispenseButton = Children.Find<ButtonWidget>("DispenseButton");
 			m_shootButton = Children.Find<ButtonWidget>("ShootButton");
 			m_progress = Children.Find<ValueBarWidget>("Progress");
-
-			int num = 6, y, x;
-			InventorySlotWidget inventorySlotWidget;
-			for (y = 0; y < m_inventoryGrid.RowsCount; y++)
-			{
-				for (x = 0; x < m_inventoryGrid.ColumnsCount; x++)
-				{
-					inventorySlotWidget = new InventorySlotWidget();
-					inventorySlotWidget.AssignInventorySlot(inventory, num++);
-					m_inventoryGrid.Children.Add(inventorySlotWidget);
-					m_inventoryGrid.SetWidgetCell(inventorySlotWidget, new Point2(x, y));
-				}
-			}
 		}
 
 		public override void Update()
