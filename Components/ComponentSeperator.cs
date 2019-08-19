@@ -5,7 +5,7 @@ using TemplatesDatabase;
 
 namespace Game
 {
-	public class ComponentSeperator : ComponentMachine, IUpdateable
+	public class ComponentSeparator : ComponentMachine, IUpdateable
 	{
 		public bool Powered;
 

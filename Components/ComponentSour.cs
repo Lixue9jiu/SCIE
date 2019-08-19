@@ -3,7 +3,7 @@ using System;
 
 namespace Game
 {
-	public class ComponentSour : ComponentSeperator, IUpdateable
+	public class ComponentSour : ComponentSeparator, IUpdateable
 	{
 		public new void Update(float dt)
 		{

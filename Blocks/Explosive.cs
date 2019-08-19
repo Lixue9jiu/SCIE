@@ -24,7 +24,7 @@ namespace Game
 	public class PureGunpowder : Powder, IFuel
 	{
 		public readonly float ExplosionPressure;
-		public PureGunpowder(string name, Color color, float ep = 100f) : base(name, color)
+		public PureGunpowder(string name, Color color, float ep = 100f) : base(name, name, color)
 		{
 			ExplosionPressure = ep;
 		}

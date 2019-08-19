@@ -226,7 +226,7 @@ namespace Game
 		public PurePowder(string name, Color color) : this(new DispersionSystem(name), color)
 		{
 		}
-		public PurePowder(DispersionSystem system, Color color) : base("", color) => DefaultDescription = DefaultDisplayName = (System = system).ToString();
+		public PurePowder(DispersionSystem system, Color color) : base("", "", color) => DefaultDescription = DefaultDisplayName = (System = system).ToString();
 		public DispersionSystem GetDispersionSystem() => System;
 	}
 	public class FuelPowder : PurePowder, IFuel

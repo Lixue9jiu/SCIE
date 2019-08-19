@@ -2,7 +2,7 @@ using Engine;
 
 namespace Game
 {
-	public class ComponentTGenerator : ComponentSeperator, IUpdateable
+	public class ComponentTGenerator : ComponentSeparator, IUpdateable
 	{
 		public override int FuelSlotIndex => SlotsCount - 2;
 

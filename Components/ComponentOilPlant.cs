@@ -2,7 +2,7 @@ using Engine;
 
 namespace Game
 {
-	public class ComponentOilPlant : ComponentSeperator, IUpdateable
+	public class ComponentOilPlant : ComponentSeparator, IUpdateable
 	{
 		public new void Update(float dt)
 		{

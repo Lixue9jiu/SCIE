@@ -107,17 +107,29 @@ namespace Game
 		protected readonly ValueBarWidget m_progress;
 		protected readonly InventorySlotWidget m_result1,
 												m_result2,
-												m_result3;
-		protected readonly InventorySlotWidget m_cir1, m_cir2;
+												m_result3,
+												m_cir1, m_cir2;
 
-		public ProcessWidget(T component, string path) : base(component, path)
+		public ProcessWidget(IInventory inventory, T component, string path) : base(component, path)
 		{
 			m_progress = Children.Find<ValueBarWidget>("Progress");
+			m_furnaceGrid = Children.Find<GridPanelWidget>("FurnaceGrid");
 			m_result1 = Children.Find<InventorySlotWidget>("ResultSlot1");
 			m_result2 = Children.Find<InventorySlotWidget>("ResultSlot2");
 			m_result3 = Children.Find<InventorySlotWidget>("ResultSlot3");
 			m_cir1 = Children.Find<InventorySlotWidget>("CircuitSlot1", false);
 			m_cir2 = Children.Find<InventorySlotWidget>("CircuitSlot2", false);
+			int num = 6, y, x;
+			for (y = 0; y < m_inventoryGrid.RowsCount; y++)
+			{
+				for (x = 0; x < m_inventoryGrid.ColumnsCount; x++)
+				{
+					var inventorySlotWidget = new InventorySlotWidget();
+					inventorySlotWidget.AssignInventorySlot(inventory, num++);
+					m_inventoryGrid.Children.Add(inventorySlotWidget);
+					m_inventoryGrid.SetWidgetCell(inventorySlotWidget, new Point2(x, y));
+				}
+			}
 		}
 
 		/*public override void Update()

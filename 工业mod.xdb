@@ -27,7 +27,7 @@
     <EntityTemplate Name="OilPlant" Guid="26ffa277-af17-4955-81fa-aafaf97b92bd" InheritanceParent="9681f999-898b-4f5c-9ea8-f8cc331e97b3">
       <MemberComponentTemplate Name="OilPlant" Guid="0f473a13-ac7d-4b4c-97c7-df652ca11b51" InheritanceParent="84a2ff9e-10c7-4133-85b4-4a35bd44c956" />
     </EntityTemplate>
-	<EntityTemplate Name="OilTower" Guid="7611a279-ff17-4955-81fa-aafaf97b92bd" InheritanceParent="9681f999-898b-4f5c-9ea8-f8cc331e97b3">
+    <EntityTemplate Name="OilTower" Guid="7611a279-ff17-4955-81fa-aafaf97b92bd" InheritanceParent="9681f999-898b-4f5c-9ea8-f8cc331e97b3">
       <MemberComponentTemplate Name="OilTower" Guid="418f3f23-ac8d-4b4c-97c7-df652ca11b51" InheritanceParent="77f2119e-10c7-4133-85b4-4a35bd44c956" />
     </EntityTemplate>
     <EntityTemplate Name="ElectricFurnace" Guid="0855a288-af17-4955-81fa-aafaf97b92bd" InheritanceParent="9681f999-898b-4f5c-9ea8-f8cc331e97b3">
@@ -48,8 +48,8 @@
     <EntityTemplate Name="TGenerator" Guid="1877a775-af18-4955-81fa-aafaf97b92bd" InheritanceParent="9681f999-898b-4f5c-9ea8-f8cc331e97b3">
       <MemberComponentTemplate Name="Condenser" Guid="0f1aaf59-fc7d-4b4c-97c7-df652ca11b51" InheritanceParent="71f2eabd-10c7-4133-85b4-4a35bd44c956" />
     </EntityTemplate>
-    <EntityTemplate Name="Seperator" Guid="0855a387-af17-4955-81fa-aafaf97b92bd" InheritanceParent="9681f999-898b-4f5c-9ea8-f8cc331e97b3">
-      <MemberComponentTemplate Name="Seperator" Guid="0f193a26-ac7d-4b4c-97c7-df652ca11b51" InheritanceParent="73a2ecaf-10c7-4133-85b4-4a35bd44c956" />
+    <EntityTemplate Name="Separator" Guid="0855a387-af17-4955-81fa-aafaf97b92bd" InheritanceParent="9681f999-898b-4f5c-9ea8-f8cc331e97b3">
+      <MemberComponentTemplate Name="Separator" Guid="0f193a26-ac7d-4b4c-97c7-df652ca11b51" InheritanceParent="73a2ecaf-10c7-4133-85b4-4a35bd44c956" />
     </EntityTemplate>
     <EntityTemplate Name="Canpack" Guid="0855a486-af17-4955-81fa-aafaf97b92bd" InheritanceParent="9681f999-898b-4f5c-9ea8-f8cc331e97b3">
       <MemberComponentTemplate Name="Canpack" Guid="0f193a28-ac7d-4b4c-97c7-df652ca11b51" InheritanceParent="73a4ecaf-10c7-4133-85b4-4a35bd44c956" />
@@ -401,7 +401,7 @@
       <Parameter Name="SlotsCount" Guid="ff1d574d-f972-4311-9828-d30e0fbf33f1" Value="6" Type="int" />
       <Parameter Name="Class" Guid="7f2a89ff-22f9-45aa-aae4-039ba73b12b6" Value="Game.ComponentOilPlant" Type="string" />
     </ComponentTemplate>
-	<ComponentTemplate Name="OilTower" Description="A magnetizer" Guid="77f2119e-10c7-4133-85b4-4a35bd44c956" InheritanceParent="81a44c6a-c30a-4f53-8d64-0c30aabab8f9">
+    <ComponentTemplate Name="OilTower" Description="A magnetizer" Guid="77f2119e-10c7-4133-85b4-4a35bd44c956" InheritanceParent="81a44c6a-c30a-4f53-8d64-0c30aabab8f9">
       <Parameter Name="SlotsCount" Guid="22fd594d-f192-4311-9828-d30e0fbf33f1" Value="6" Type="int" />
       <Parameter Name="Class" Guid="71ff8911-22f9-45aa-aae4-039ba73b12b6" Value="Game.ComponentFractionalTower" Type="string" />
     </ComponentTemplate>
@@ -429,9 +429,9 @@
       <Parameter Name="SlotsCount" Guid="6b8d1fbf-f972-431b-9828-d30e0fbf33f1" Value="6" Type="int" />
       <Parameter Name="Class" Guid="1d8f9ff2-22f9-45bb-aae3-039ba73b22b6" Value="Game.ComponentTGenerator" Type="string" />
     </ComponentTemplate>
-    <ComponentTemplate Name="Seperator" Description="A chest that you can store items in" Guid="73a2ecaf-10c7-4133-85b4-4a35bd44c956" InheritanceParent="81a44c6a-c30a-4f53-8d64-0c30aabab8f9">
+    <ComponentTemplate Name="Separator" Description="A chest that you can store items in" Guid="73a2ecaf-10c7-4133-85b4-4a35bd44c956" InheritanceParent="81a44c6a-c30a-4f53-8d64-0c30aabab8f9">
       <Parameter Name="SlotsCount" Guid="1c8d574d-f972-431b-9828-d30e0fbf33f1" Value="6" Type="int" />
-      <Parameter Name="Class" Guid="1c9b89ff-22f9-45aa-aae3-039ba73b12b6" Value="Game.ComponentSeperator" Type="string" />
+      <Parameter Name="Class" Guid="1c9b89ff-22f9-45aa-aae3-039ba73b12b6" Value="Game.ComponentSeparator" Type="string" />
     </ComponentTemplate>
      <ComponentTemplate Name="Canpack" Description="" Guid="73a4ecaf-10c7-4133-85b4-4a35bd44c956" InheritanceParent="81a44c6a-c30a-4f53-8d64-0c30aabab8f9">
       <Parameter Name="SlotsCount" Guid="1c8d575f-f972-431b-9828-d30e0fbf33f1" Value="3" Type="int" />

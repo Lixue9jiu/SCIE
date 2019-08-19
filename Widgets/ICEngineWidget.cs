@@ -7,8 +7,6 @@ namespace Game
 		protected readonly ButtonWidget m_dispenseButton,
 										m_shootButton;
 
-		//protected readonly ValueBarWidget m_progress;
-
 		public ICEngineWidget(IInventory inventory, ComponentMachine component) : base(inventory, component, "Widgets/ICEngineWidget")
 		{
 			m_dispenseButton = Children.Find<ButtonWidget>("DispenseButton");
