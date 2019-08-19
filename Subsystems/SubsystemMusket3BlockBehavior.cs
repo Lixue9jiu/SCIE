@@ -47,7 +47,7 @@ namespace Game
 							}
 							else
 							{
-								direction.Y += 0.5f;
+								direction.Y += 0.3f;
 							}
 						}
                         
@@ -162,18 +162,20 @@ namespace Game
 		{
 			processedValue = value;
 			processedCount = count;
+			processCount = count;
 			int value22 = Terrain.ExtractData(inventory.GetSlotValue(slotIndex));
 			int num = Musket3Block.GetBulletNum(value22);
 			if (processCount + num < 64)
 			{
-				var loadState = Musket2Block.GetLoadState(Terrain.ExtractData(inventory.GetSlotValue(slotIndex)));
+				//var loadState = Musket2Block.GetLoadState(Terrain.ExtractData(inventory.GetSlotValue(slotIndex)));
 
 				processedValue = 0;
 				processedCount = 0;
+				//processCount = 0;
 				inventory.RemoveSlotItems(slotIndex, 1);
-
 				inventory.AddSlotItems(slotIndex, Terrain.MakeBlockValue(Musket3Block.Index, 0, Musket3Block.SetBulletNum(num + processCount)), 1);
 			}
+
 		}
 	}
 }
