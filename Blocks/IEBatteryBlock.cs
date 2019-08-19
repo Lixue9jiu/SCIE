@@ -69,7 +69,7 @@ namespace Game
 					mesh = m_standaloneBlockMesh3;
 					goto a;
 				case BatteryType.ElectricDrill:
-					mesh = m_standaloneBlockMesh;
+					mesh = m_standaloneBlockMesh4;
 					goto a;
 			}
 			ItemBlock.DrawFlatBlock(primitivesRenderer, value, size, ref matrix, ItemBlock.Texture,
