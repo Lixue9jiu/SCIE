@@ -159,12 +159,20 @@ namespace Game
 		public ElectricDriller() : base("电子采矿机", "电子采矿机，一种电动采矿机", 310)
 		{
 		}
-
+		public override void Simulate(ref int voltage)
+		{
+			base.Simulate(ref voltage);
+			Component.Powered = Powered;
+		}
 		public override int GetFaceTextureSlot(int face, int value)
 		{
 			return face != 4 && face != 5 ? face == (Terrain.ExtractData(value) >> 15) ? 119 : 124 : 107;
 		}
-
+		public override void OnBlockAdded(SubsystemTerrain subsystemTerrain, int value, int oldValue)
+		{
+			base.OnBlockAdded(subsystemTerrain, value, oldValue);
+			Component.Powered = false;
+		}
 		public override Widget GetWidget(IInventory inventory, ComponentElectricDriller component)
 		{
 			return new ElectricDrillerWidget(inventory, component);
