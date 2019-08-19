@@ -26,8 +26,8 @@ namespace Game
 			Model model2 = ContentManager.Get<Model>("Models/Brick");
 			Matrix boneAbsoluteTransform3 = BlockMesh.GetBoneAbsoluteTransform(model2.FindMesh("Brick").ParentBone);
 			meshParts = model2.FindMesh("Brick").MeshParts;
-			m_standaloneBlockMeshUnloaded.AppendModelMeshPart(meshParts[0], Matrix.CreateRotationY(1.6f) * Matrix.CreateRotationX(1.6f) * Matrix.CreateScale(0.4f) * boneAbsoluteTransform3 * Matrix.CreateTranslation(0.01f, -0.07f, 0.05f), false, false, false, false, Color.DarkGray);
-			m_standaloneBlockMeshLoaded.AppendModelMeshPart(meshParts[0], Matrix.CreateRotationY(1.6f) * Matrix.CreateRotationX(1.6f) * Matrix.CreateScale(0.4f) * boneAbsoluteTransform3 * Matrix.CreateTranslation(0.01f, -0.07f, 0.05f), false, false, false, false, Color.DarkGray);
+			m_standaloneBlockMeshUnloaded.AppendModelMeshPart(meshParts[0],Matrix.CreateScale(0.3f, 0.9f, 0.5f) * Matrix.CreateRotationX(1.6f)  * boneAbsoluteTransform3 * Matrix.CreateTranslation(-0.0375f, -0.10f, 0.00f) * Matrix.CreateRotationX(0.2f), false, false, false, false, Color.Black);
+			m_standaloneBlockMeshLoaded.AppendModelMeshPart(meshParts[0], Matrix.CreateScale(0.3f, 0.9f, 0.5f)  * Matrix.CreateRotationX(1.6f)  * boneAbsoluteTransform3 * Matrix.CreateTranslation(-0.0375f, -0.10f, 0.00f) * Matrix.CreateRotationX(0.2f), false, false, false, false, Color.Black);
 		}
 
 		public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)

@@ -16,7 +16,10 @@ namespace Game
 		{
 			if (m_updateSmeltingRecipe)
 			{
-				m_updateSmeltingRecipe = false;
+				if (m_slots[Fuel2SlotIndex].Count == 0)
+				{
+					m_updateSmeltingRecipe = false;
+				}
 				string text = null;
 				if (base.GetSlotCount(Fuel2SlotIndex) > 0 && base.GetSlotValue(Fuel2SlotIndex) == (240 | 12 << 18) && SmeltingProgress <= 950f)
 					text = "bucket";
@@ -25,7 +28,7 @@ namespace Game
 				if (text != null)
 				{
 					int resultSlotIndex = ResultSlotIndex;
-					if ((90 != m_slots[ResultSlotIndex].Value || m_slots[ResultSlotIndex].Count >= 40))
+					if (m_slots[resultSlotIndex].Count != 0 && (90 != m_slots[ResultSlotIndex].Value || m_slots[ResultSlotIndex].Count >= 40))
 						text = null;
 					else
 					{
@@ -36,6 +39,7 @@ namespace Game
 							m_slots[Fuel2SlotIndex].Count -= 1;
 							SmeltingProgress += 50f;
 						}
+						
 						m_fireTimeRemaining = SmeltingProgress;
 					}
 				}
@@ -47,6 +51,14 @@ namespace Game
 				SmeltingProgress = MathUtils.Min(SmeltingProgress - 1f * dt, 1000f);
 				m_fireTimeRemaining = SmeltingProgress;
 				//HeatLevel = 1000f;
+			}
+			if (SmeltingProgress < 0f )
+			{
+				SmeltingProgress = 0f;
+			}
+			if (SmeltingProgress == 0f && HeatLevel > 0f)
+			{
+				HeatLevel = 0f;
 			}
 			if (m_componentBlockEntity != null)
 			{
