@@ -67,14 +67,13 @@ namespace Game
 
 		protected string Id;
 
-		public Powder(Materials type) : this(type.ToStr() + Utils.Get("矿粉"), Colors[(int)type])
+		public Powder(Materials type) : this(type.ToStr() + Utils.Get("矿粉"), type.ToString() + "OrePowder", Colors[(int)type])
 		{
-			Id = type.ToString() + "OrePowder";
 		}
 
-		public Powder(string name, Color color, string description = null)
+		public Powder(string name, string id, Color color, string description = null)
 		{
-			Id = name;
+			Id = id;
 			DefaultDisplayName = Utils.Get(name);
 			Color = color;
 			DefaultTextureSlot = 198;
@@ -89,10 +88,8 @@ namespace Game
 		public readonly float HeatLevel;
 		public readonly float FuelFireDuration;
 
-		public CoalPowder(string name, Color color, float heatLevel = 1700f, float fuelFireDuration = 60f, string description = "煤粉是通过破碎煤块而得到的黑色粉末。它可以用作燃料。") : base(Utils.Get(name) + Utils.Get("粉"), color)
+		public CoalPowder(string name, Color color, float heatLevel, float fuelFireDuration, string description = "") : base(Utils.Get(name) + Utils.Get("粉"), name + "Powder", color, description)
 		{
-			Id = name + "Powder";
-			DefaultDescription = description;
 			HeatLevel = heatLevel;
 			FuelFireDuration = fuelFireDuration;
 		}

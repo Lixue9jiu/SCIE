@@ -52,9 +52,9 @@ namespace Game
 			}
 		}
 
-		public override Widget GetWidget(IInventory inventory, ComponentSeperator component)
+		public override Widget GetWidget(IInventory inventory, ComponentSeparator component)
 		{
-			return new SeperatorWidget(inventory, component, "Unpacker");
+			return new SeparatorWidget(inventory, component, "Unpacker");
 		}
 
 		public override int GetFaceTextureSlot(int face, int value)
@@ -112,7 +112,7 @@ namespace Game
 
 		public override Widget GetWidget(IInventory inventory, ComponentOilPlant component)
 		{
-			return new SeperatorWidget(inventory, component, "OilPlant", "Widgets/OilPlantWidget");
+			return new SeparatorWidget(inventory, component, "OilPlant", "Widgets/OilPlantWidget");
 		}
 	}
 
@@ -183,9 +183,9 @@ namespace Game
 			return face != 4 && face != 5 && face == (Terrain.ExtractData(value) >> 15) ? 131 : 221;
 		}
 
-		public override Widget GetWidget(IInventory inventory, ComponentSeperator component)
+		public override Widget GetWidget(IInventory inventory, ComponentSeparator component)
 		{
-			return new SeperatorWidget(inventory, component, "UThinker");
+			return new SeparatorWidget(inventory, component, "UThinker");
 		}
 	}
 
@@ -201,9 +201,9 @@ namespace Game
 			return face != 4 && face != 5 && face == (Terrain.ExtractData(value) >> 15) ? 236 : 224;
 		}
 
-		public override Widget GetWidget(IInventory inventory, ComponentSeperator component)
+		public override Widget GetWidget(IInventory inventory, ComponentSeparator component)
 		{
-			return new SeperatorWidget(inventory, component, "WaterExtractor");
+			return new SeparatorWidget(inventory, component, "WaterExtractor");
 		}
 	}
 

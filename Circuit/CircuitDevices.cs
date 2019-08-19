@@ -60,7 +60,7 @@ namespace Game
 		}
 	}
 
-	public class Separator : InventoryEntityDevice<ComponentSeperator>
+	public class Separator : InventoryEntityDevice<ComponentSeparator>
 	{
 		public Separator() : base("分离器", "分离器是通过高频旋转分离处材料的装置，它是离心机的缩小版本。", 120) { }
 
@@ -81,9 +81,9 @@ namespace Game
 			return face != 4 && face != 5 && face == (Terrain.ExtractData(value) >> 15) ? 240 : 107;
 		}
 
-		public override Widget GetWidget(IInventory inventory, ComponentSeperator component)
+		public override Widget GetWidget(IInventory inventory, ComponentSeparator component)
 		{
-			return new SeperatorWidget(inventory, component);
+			return new SeparatorWidget(inventory, component);
 		}
 	}
 
@@ -145,7 +145,7 @@ namespace Game
 
 		public override Widget GetWidget(IInventory inventory, ComponentElectrobath component)
 		{
-			return new SeperatorWidget(inventory, component, "ElectroBath", "Widgets/ElectrobathWidget");
+			return new SeparatorWidget(inventory, component, "ElectroBath", "Widgets/ElectrobathWidget");
 		}
 	}
 
@@ -374,7 +374,7 @@ namespace Game
 
 		public override Widget GetWidget(IInventory inventory, ComponentTGenerator component)
 		{
-			return new SeperatorWidget(inventory, component,"ThermalGenerator");
+			return new SeparatorWidget(inventory, component,"ThermalGenerator");
 		}
 	}
 

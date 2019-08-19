@@ -43,10 +43,6 @@ namespace Game
 			Name = Names[Terrain.ExtractData(value) >> 10];
 			base.OnBlockAdded(value, oldValue, x, y, z);
 		}
-		//public override Widget GetWidget(IInventory inventory, ComponentSour component)
-        //{
-        //    return new SeperatorWidget(inventory, component, "Widgets/SourWidget");
-        //}
 
 		public override bool OnInteract(TerrainRaycastResult raycastResult, ComponentMiner componentMiner)
 		{
@@ -61,7 +57,7 @@ namespace Game
 			switch (Terrain.ExtractData(Utils.Terrain.GetCellValueFast(c.X, c.Y, c.Z)) >> 10)
 			{
 				case 0:
-					return new SeperatorWidget(inventory, component, "Widgets/SourWidget");
+					return new SeparatorWidget(inventory, component, "Widgets/SourWidget");
 				case 1:
 					return new DepositWidget(inventory, component);
 			}
