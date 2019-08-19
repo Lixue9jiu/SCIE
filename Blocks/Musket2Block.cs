@@ -22,12 +22,12 @@ namespace Game
 		public override void Initialize()
 		{
 			Model model = ContentManager.Get<Model>("Models/Musket");
-			Matrix boneAbsoluteTransform = BlockMesh.GetBoneAbsoluteTransform(model.FindMesh("Musket").ParentBone);
-			Matrix boneAbsoluteTransform2 = BlockMesh.GetBoneAbsoluteTransform(model.FindMesh("Hammer").ParentBone);
 			m_standaloneBlockMeshUnloaded = new BlockMesh();
 			ReadOnlyList<ModelMeshPart> meshParts = model.FindMesh("Musket").MeshParts;
+			Matrix boneAbsoluteTransform = BlockMesh.GetBoneAbsoluteTransform(model.FindMesh("Musket").ParentBone);
 			m_standaloneBlockMeshUnloaded.AppendModelMeshPart(meshParts[0], boneAbsoluteTransform, false, false, false, false, Color.Gray);
 			meshParts = model.FindMesh("Hammer").MeshParts;
+			Matrix boneAbsoluteTransform2 = BlockMesh.GetBoneAbsoluteTransform(model.FindMesh("Hammer").ParentBone);
 			m_standaloneBlockMeshUnloaded.AppendModelMeshPart(meshParts[0], boneAbsoluteTransform2, false, false, false, false, Color.Gray);
 			m_standaloneBlockMeshLoaded = new BlockMesh();
 			meshParts = model.FindMesh("Musket").MeshParts;
