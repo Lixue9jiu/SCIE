@@ -106,6 +106,7 @@ namespace Game
 											
 											int value23 = Terrain.ExtractData(inventory.GetSlotValue(activeSlotIndex));
 											int num44 = Musket3Block.GetBulletNum(value23);
+											componentMiner.ComponentPlayer?.ComponentGui.DisplaySmallMessage((num44-1).ToString(), blinking: true, playNotificationSound: false);
 											inventory.RemoveSlotItems(activeSlotIndex, 1);
 											inventory.AddSlotItems(activeSlotIndex, Terrain.MakeBlockValue(Musket3Block.Index, 0, Musket3Block.SetBulletNum(num44 - 1)), 1);
 											if (Utils.Random.Bool(0.1f))
@@ -154,23 +155,24 @@ namespace Game
 		{
 			return Terrain.ExtractContents(value) != Bullet2Block.Index || Musket3Block.GetBulletNum(Terrain.ExtractData(inventory.GetSlotValue(slotIndex))) > 62
 				? 0
-				: 1;
+				: inventory.GetSlotCount(slotIndex);
 		}
 
 		public override void ProcessInventoryItem(IInventory inventory, int slotIndex, int value, int count, int processCount, out int processedValue, out int processedCount)
 		{
 			processedValue = value;
 			processedCount = count;
-			if (processCount == 1)
+			int value22 = Terrain.ExtractData(inventory.GetSlotValue(slotIndex));
+			int num = Musket3Block.GetBulletNum(value22);
+			if (processCount + num < 64)
 			{
 				var loadState = Musket2Block.GetLoadState(Terrain.ExtractData(inventory.GetSlotValue(slotIndex)));
-				
+
 				processedValue = 0;
 				processedCount = 0;
 				inventory.RemoveSlotItems(slotIndex, 1);
-				int value22=Terrain.ExtractData(inventory.GetSlotValue(slotIndex));
-				int num = Musket3Block.GetBulletNum(value22);
-				inventory.AddSlotItems(slotIndex, Terrain.MakeBlockValue(Musket3Block.Index, 0, Musket3Block.SetBulletNum(num+1)), 1);
+
+				inventory.AddSlotItems(slotIndex, Terrain.MakeBlockValue(Musket3Block.Index, 0, Musket3Block.SetBulletNum(num + processCount)), 1);
 			}
 		}
 	}
