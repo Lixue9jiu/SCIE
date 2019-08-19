@@ -114,6 +114,7 @@ namespace Game
 			});
 		}
 	}
+
 	public class FireBoxBlock : FurnaceNBlock
 	{
 		public new const int Index = 532;

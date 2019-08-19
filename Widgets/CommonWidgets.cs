@@ -18,15 +18,9 @@ namespace Game
 		}
 	}
 
-	public class PresserWidget : CanvasWidget
+	public class PresserWidget : EntityWidget<ComponentMachine>
 	{
-		protected readonly ComponentMachine m_component;
-
 		protected readonly FireWidget m_fire;
-
-		protected readonly GridPanelWidget m_furnaceGrid;
-
-		protected readonly GridPanelWidget m_inventoryGrid;
 
 		protected readonly ValueBarWidget m_progress;
 
@@ -34,49 +28,22 @@ namespace Game
 
 		protected readonly InventorySlotWidget m_resultSlot;
 
-		public PresserWidget(IInventory inventory, ComponentMachine component, string path = "Widgets/PresserWidget")
+		public PresserWidget(IInventory inventory, ComponentMachine component, string path = "Widgets/PresserWidget") : base(inventory, component, path)
 		{
-			m_component = component;
-			WidgetsManager.LoadWidgetContents(this, this, ContentManager.Get<XElement>(path));
 			if (path == null)
 				Children.Find<LabelWidget>("ChestLabel").Text = component.ValuesDictionary.DatabaseObject.Name;
-			if (Utils.TR.Count != 0)
+			if (Utils.TR.Count < 3)
 				Children.Find<LabelWidget>("InventoryLabel").Text = "±³°ü";
-			m_inventoryGrid = Children.Find<GridPanelWidget>("InventoryGrid");
-			m_furnaceGrid = Children.Find<GridPanelWidget>("FurnaceGrid");
 			m_fire = Children.Find<FireWidget>("Fire");
 			m_progress = Children.Find<ValueBarWidget>("Progress");
 			m_resultSlot = Children.Find<InventorySlotWidget>("ResultSlot");
-			int num = 6, y, x;
-			InventorySlotWidget inventorySlotWidget;
-			for (y = 0; y < m_inventoryGrid.RowsCount; y++)
-			{
-				for (x = 0; x < m_inventoryGrid.ColumnsCount; x++)
-				{
-					inventorySlotWidget = new InventorySlotWidget();
-					inventorySlotWidget.AssignInventorySlot(inventory, num++);
-					m_inventoryGrid.Children.Add(inventorySlotWidget);
-					m_inventoryGrid.SetWidgetCell(inventorySlotWidget, new Point2(x, y));
-				}
-			}
-			num = 0;
-			for (y = 0; y < m_furnaceGrid.RowsCount; y++)
-			{
-				for (x = 0; x < m_furnaceGrid.ColumnsCount; x++)
-				{
-					inventorySlotWidget = new InventorySlotWidget();
-					inventorySlotWidget.AssignInventorySlot(component, num++);
-					m_furnaceGrid.Children.Add(inventorySlotWidget);
-					m_furnaceGrid.SetWidgetCell(inventorySlotWidget, new Point2(x, y));
-				}
-			}
+			InitGrid("FurnaceGrid");
 			m_resultSlot.AssignInventorySlot(component, component.ResultSlotIndex);
 		}
 
 		public override void Update()
 		{
-			if (!m_component.IsAddedToProject)
-				ParentWidget.Children.Remove(this);
+			base.Update();
 			m_fire.ParticlesPerSecond = m_component.HeatLevel > 0f ? 24f : 0f;
 			m_progress.Value = m_component.SmeltingProgress;
 		}
@@ -106,12 +73,6 @@ namespace Game
 			}
 		}
 
-		public override void Update()
-		{
-			if (!m_component.IsAddedToProject)
-				ParentWidget.Children.Remove(this);
-		}
-
 		public int InitGrid(string name = "FurnaceGrid")
 		{
 			m_furnaceGrid = Children.Find<GridPanelWidget>(name);
@@ -128,6 +89,12 @@ namespace Game
 				}
 			}
 			return num;
+		}
+
+		public override void Update()
+		{
+			if (!m_component.IsAddedToProject)
+				ParentWidget.Children.Remove(this);
 		}
 	}
 
@@ -148,26 +115,20 @@ namespace Game
 			m_cir1 = Children.Find<InventorySlotWidget>("CircuitSlot1", false);
 			m_cir2 = Children.Find<InventorySlotWidget>("CircuitSlot2", false);
 		}
-
-		/*public override void Update()
-		{
-			base.Update();
-		}*/
 	}
-	/*public class ElectricMachWidget<T> : EntityWidget<T> where T : Component
+
+	public class MultiStateMachWidget<T> : EntityWidget<T> where T : Component
 	{
-		protected readonly ValueBarWidget m_progress;
+		protected readonly ComponentBlockEntity m_componentBlockEntity;
 
-		protected readonly InventorySlotWidget m_resultSlot;
+		protected readonly ButtonWidget m_dispenseButton,
+										m_shootButton;
 
-		protected readonly CheckboxWidget m_acceptsDropsBox;
-
-		public ElectricMachWidget(T component, string path) : base(component, path)
+		public MultiStateMachWidget(IInventory inventory, T component, string path) : base(inventory, component, path)
 		{
-			m_progress = Children.Find<ValueBarWidget>("Progress");
-			m_resultSlot = Children.Find<InventorySlotWidget>("ResultSlot");
-			m_remainsSlot = Children.Find<InventorySlotWidget>("RemainsSlot");
-			m_acceptsDropsBox = Children.Find<CheckboxWidget>("AcceptsElectBox");
+			m_componentBlockEntity = component.Entity.FindComponent<ComponentBlockEntity>(false);
+			m_dispenseButton = Children.Find<ButtonWidget>("DispenseButton");
+			m_shootButton = Children.Find<ButtonWidget>("ShootButton");
 		}
-	}*/
+	}
 }

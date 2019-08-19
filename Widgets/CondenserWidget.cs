@@ -3,20 +3,12 @@ using static Game.Charger;
 
 namespace Game
 {
-	public class CondenserWidget : EntityWidget<ComponentCondenser>
+	public class CondenserWidget : MultiStateMachWidget<ComponentCondenser>
 	{
-		protected readonly ComponentBlockEntity m_componentBlockEntity;
-
-		protected readonly ButtonWidget m_dispenseButton,
-										m_shootButton;
-
 		protected readonly ValueBarWidget m_progress;
 
 		public CondenserWidget(IInventory inventory, ComponentCondenser component) : base(inventory, component, "Widgets/CondenserWidget")
 		{
-			m_componentBlockEntity = component.Entity.FindComponent<ComponentBlockEntity>(true);
-			m_dispenseButton = Children.Find<ButtonWidget>("DispenseButton");
-			m_shootButton = Children.Find<ButtonWidget>("ShootButton");
 			m_progress = Children.Find<ValueBarWidget>("Progress");
 		}
 
@@ -46,7 +38,7 @@ namespace Game
 			}
 
 			m_progress.Value = 1f - m_component.m_fireTimeRemaining / 1000000f;
-			m_dispenseButton.IsChecked = mode == MachineMode.Charge;
+			m_dispenseButton.IsChecked =
 			m_component.Charged = mode == MachineMode.Charge;
 			m_shootButton.IsChecked = mode == MachineMode.Discharger;
 		}
