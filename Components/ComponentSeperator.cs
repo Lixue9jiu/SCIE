@@ -78,12 +78,12 @@ namespace Game
 						Slot slot = m_slots[FindAcquireSlotForItem(this, e.Current.Key)];
 						slot.Value = e.Current.Key;
 						slot.Count += e.Current.Value;
-						m_smeltingRecipe = 0;
-						SmeltingProgress = 0f;
-						m_updateSmeltingRecipe = true;
 					}
 					if (m_slots[RemainsSlotIndex].Count > 0)
 						m_slots[RemainsSlotIndex].Count--;
+					m_smeltingRecipe = 0;
+					SmeltingProgress = 0f;
+					m_updateSmeltingRecipe = true;
 				}
 			}
 		}

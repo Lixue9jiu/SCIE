@@ -319,7 +319,7 @@ namespace Game
 					device.Index = i;
 				IdTable.Add(ElementBlock.Devices[i].GetCraftingId(), ElementBlock.Index | i << 14);
 			}
-			for (i = 0; i < 15; i++)
+			for (i = 1; i < 15; i++)
 				IdTable.Add(ChemicalBlock.Items[i].GetCraftingId(), ChemicalBlock.Index | i << 14);
 			for (i = 1; i < Chemistry.GunpowderBlock.Items.Length; i++)
 				IdTable.Add(Chemistry.GunpowderBlock.Items[i].GetCraftingId(), GunpowderBlock.Index | i << 14);
