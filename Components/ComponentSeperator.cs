@@ -1,6 +1,6 @@
 using Engine;
 using GameEntitySystem;
-using System;
+using System.Collections.Generic;
 using TemplatesDatabase;
 
 namespace Game
@@ -9,13 +9,13 @@ namespace Game
 	{
 		public bool Powered;
 
-		protected readonly int[] result = new int[3];
+		protected readonly Dictionary<int, int> result = new Dictionary<int, int>();
 
 		protected int m_smeltingRecipe, m_smeltingRecipe2;
 
 		//protected int m_music;
 
-		public override int RemainsSlotIndex => -1;
+		public override int RemainsSlotIndex => 0;
 
 		public override int ResultSlotIndex => SlotsCount - 1;
 
@@ -32,7 +32,7 @@ namespace Game
 			if (m_updateSmeltingRecipe)
 			{
 				m_updateSmeltingRecipe = false;
-				m_smeltingRecipe2 = FindSmeltingRecipe();
+				m_smeltingRecipe2 = FindSmeltingRecipe(FindSmeltingRecipe());
 				if (m_smeltingRecipe2 != m_smeltingRecipe)
 				{
 					m_smeltingRecipe = m_smeltingRecipe2;
@@ -72,19 +72,18 @@ namespace Game
 				SmeltingProgress = MathUtils.Min(SmeltingProgress + 0.1f * dt, 1f);
 				if (SmeltingProgress >= 1f)
 				{
-					if (m_slots[0].Count > 0)
-						m_slots[0].Count--;
-					for (int j = 0; j < 3; j++)
+					var e = result.GetEnumerator();
+					while (e.MoveNext())
 					{
-						if (result[j] != 0)
-						{
-							m_slots[1 + j].Value = result[j];
-							m_slots[1 + j].Count++;
-							m_smeltingRecipe = 0;
-							SmeltingProgress = 0f;
-							m_updateSmeltingRecipe = true;
-						}
+						Slot slot = m_slots[FindAcquireSlotForItem(this, e.Current.Key)];
+						slot.Value = e.Current.Key;
+						slot.Count += e.Current.Value;
 					}
+					if (m_slots[RemainsSlotIndex].Count > 0)
+						m_slots[RemainsSlotIndex].Count--;
+					m_smeltingRecipe = 0;
+					SmeltingProgress = 0f;
+					m_updateSmeltingRecipe = true;
 				}
 			}
 		}
@@ -95,9 +94,21 @@ namespace Game
 			m_furnaceSize = SlotsCount - 1;
 		}
 
+		protected virtual int FindSmeltingRecipe(int value)
+		{
+			var e = result.GetEnumerator();
+			while (e.MoveNext())
+			{
+				int index = FindAcquireSlotForItem(this, e.Current.Key);
+				if (index < 0)
+					return 0;
+			}
+			return value;
+		}
+
 		protected virtual int FindSmeltingRecipe()
 		{
-			Array.Clear(result, 0, 3);
+			result.Clear();
 			int text = 0;
 			int i;
 			for (i = 0; i < 1; i++)
@@ -108,54 +119,232 @@ namespace Game
 				{
 					case DirtBlock.Index:
 						text = 1;
-						result[0] = SandBlock.Index;
-						result[1] = StoneChunkBlock.Index;
+						result[SandBlock.Index] = 1;
+						result[StoneChunkBlock.Index] = 1;
 						x = m_random.Int() & 3;
 						if (x == 0)
-							result[2] = SaltpeterChunkBlock.Index;
+							result[SaltpeterChunkBlock.Index] = 1;
 						else if (x == 1)
-							result[2] = ItemBlock.IdTable["AluminumOrePowder"];
+							result[ItemBlock.IdTable["AluminumOrePowder"]] = 1;
 						break;
 
 					case GraniteBlock.Index:
 						text = 2;
-						result[0] = SandBlock.Index;
-						result[1] = StoneChunkBlock.Index;
+						result[SandBlock.Index] = 1;
+						result[StoneChunkBlock.Index] = 1;
 						x = m_random.Int() & 7;
 						if (x == 0)
-							result[2] = PigmentBlock.Index;
+							result[PigmentBlock.Index] = 1;
 						else if (x == 1)
-							result[2] = ItemBlock.IdTable["Ã÷·¯"];
+							result[ItemBlock.IdTable["Ã÷·¯"]] = 1;
 						else if (x == 2)
-							result[2] = ItemBlock.IdTable["Plaster"];
+							result[ItemBlock.IdTable["Plaster"]] = 1;
 						break;
 
 					case BasaltBlock.Index:
 						text = 3;
-						result[0] = BasaltStairsBlock.Index;
+						result[BasaltStairsBlock.Index] = 1;
 						x = m_random.Int() & 7;
 						if (x == 1)
-							result[1] = ItemBlock.IdTable["»¬Ê¯"];
+							result[ItemBlock.IdTable["»¬Ê¯"]] = 1;
 						break;
 
 					case CoalBlock.Index:
 						text = 4;
-						result[0] = ItemBlock.IdTable["ÃºÔü"];
+						result[ItemBlock.IdTable["ÃºÔü"]] = 1;
 						x = m_random.Int() & 1;
 						if (x == 0)
-							result[1] = ItemBlock.IdTable["Graphite"];
+							result[ItemBlock.IdTable["Graphite"]] = 1;
 						break;
 				}
 			}
-			if (text == 0)
-				return 0;
-			for (i = 0; i < 3; i++)
-			{
-				Slot slot = m_slots[1 + i];
-				if (slot.Count != 0 && result[i] != 0 && (slot.Value != result[i] || slot.Count >= 40))
-					return 0;
-			}
 			return text;
+		}
+	}
+	public class ComponentRecycler : ComponentSeparator
+	{
+		public override int RemainsSlotIndex => 8;
+		public static readonly int[] Prices = {
+			20,
+			50,
+			35,
+			30,
+			35,
+			25,
+			25,
+			28,
+			48,
+			38,
+			28,
+			38,
+			35,
+			18,
+			15,
+		};
+		public Dictionary<string, int> Result = new Dictionary<string, int>();
+		public Dictionary<string, Dictionary<string, int>> Results = new Dictionary<string, Dictionary<string, int>>();
+
+		protected override int FindSmeltingRecipe()
+		{
+			Result.Clear();
+			result.Clear();
+			string id = null;
+			int value;
+			if (GetSlotCount(RemainsSlotIndex) > 0)
+			{
+				value = GetSlotValue(RemainsSlotIndex);
+				id = BlocksManager.Blocks[Terrain.ExtractContents(value)].CraftingId + ":" + Terrain.ExtractData(value);
+				if (id.IndexOf(':') < 0)
+					id += ":0";
+				GetValue(id);
+				Result = Results[id] ?? new Dictionary<string, int>();
+			}
+			if (id == null || Result.Count == 0)
+				return 0;
+			var e = Result.GetEnumerator();
+			while (e.MoveNext())
+			{
+				if (e.Current.Key.Length == 0) continue;
+				value = GetResult(e.Current.Key);
+				switch (Terrain.ExtractContents(value))
+				{
+					case GraniteBlock.Index:
+					case BasaltBlock.Index: value = ItemBlock.IdTable["Slag"]; break;
+					case PlanksBlock.Index: value = ItemBlock.IdTable["Sawdust"]; break;
+					case BrickBlock.Index: value = ItemBlock.IdTable["Brickbat"]; break;
+					case GlassBlock.Index: value = ItemBlock.IdTable["BrokenGlass"]; break;
+				}
+				result.Add(value, e.Current.Value);
+			}
+			return id.GetHashCode();
+		}
+
+		public static int GetResult(string id)
+		{
+			CraftingRecipesManager.DecodeIngredient(id, out string craftingId, out int? data);
+			return Terrain.MakeBlockValue(BlocksManager.FindBlocksByCraftingId(craftingId)[0].BlockIndex, 0, data ?? 0);
+		}
+
+		public void GetValue(string id)
+		{
+			if (Results.TryGetValue(id, out Dictionary<string, int> dic))
+				return;
+			Results.Add(id, null);
+			int min = 10000000, value = GetResult(id);
+			var d = new Dictionary<string, int>();
+			var list = CraftingRecipesManager.Recipes.m_list;
+			for (int i = 0; i < list.Count; i++)
+			{
+				if (list[i].RequiredHeatLevel < 1 && list[i].ResultValue == value)
+				{
+					int v = 0;
+					var arr = list[i].Ingredients;
+					for (int j = 0; j < arr.Length; j++)
+					{
+						string s = arr[j];
+						if (string.IsNullOrEmpty(s)) continue;
+						if (s.IndexOf(':') < 0)
+							s += ":0";
+						GetValue(s);
+						dic = Results[s];
+						if (dic == null)
+							continue;
+						v += dic[""];
+						var e = dic.GetEnumerator();
+						while (e.MoveNext())
+							if (e.Current.Key.Length != 0)
+							{
+								d.TryGetValue(e.Current.Key, out int count);
+								count += e.Current.Value / list[i].ResultCount;
+								if (count > 0)
+									d[e.Current.Key] = count;
+							}
+					}
+					v /= list[i].ResultCount;
+					if (v < min)
+					{
+						d[""] = v;
+						Results[id] = d;
+						min = v;
+						d = new Dictionary<string, int>();
+					}
+					else
+						d.Clear();
+				}
+			}
+			//if (Results[id] != null)
+				//Results[id][""] = min;
+		}
+		public override void Load(ValuesDictionary valuesDictionary, IdToEntityMap idToEntityMap)
+		{
+			Results.Clear();
+			var vals = new Dictionary<string, int>
+			{
+				{ "cobblestone:0", 1 },
+				{ "granite:0", 2 },
+				{ "basalt:0", 1 },
+				{ "sandstone:0", 1 },
+				{ "glass:0", 2 },
+				{ "marble:0", 5 },
+				{ "brick:0", 3 },
+				{ "coalchunk:0", 5 },
+				{ "malachitechunk:0", 9 },
+				{ "germaniumchunk:0", 14 },
+				{ "diamond:0", 45 },
+				{ "planks:0", 1 },
+				{ "cottonwad:0", 2 },
+				{ "waterbucket:0", 46 },
+				{ "piston:0", 14*9+2 },
+				{ "string:0", 1 },
+			};
+			string key;
+			vals.Add("item:" + Terrain.ExtractData(ItemBlock.IdTable["SteelGear"]), Prices[0] + 1);
+			vals.Add("item:" + Terrain.ExtractData(ItemBlock.IdTable["SteelWheel"]), Prices[0] + 1);
+			vals.Add("item:" + Terrain.ExtractData(ItemBlock.IdTable["RefractoryBrick"]), 10);
+			vals.Add("item:" + Terrain.ExtractData(ItemBlock.IdTable["Ç¹¹Ü"]), 21);
+			vals.Add("item:" + Terrain.ExtractData(ItemBlock.IdTable["RifleBarrel"]), 23);
+			vals.Add("item:" + Terrain.ExtractData(ItemBlock.IdTable["IndustrialMagnet"]), 24);
+			var e = vals.GetEnumerator();
+			while (e.MoveNext())
+			{
+				key = e.Current.Key;
+				Results.Add(key, new Dictionary<string, int>
+				{
+					{ "", e.Current.Value },
+					{ key, 1 }
+				});
+			}
+			for (var i = Materials.Steel; i <= Materials.Copper; i++)
+			{
+				key = i.ToString();
+				if (!ItemBlock.IdTable.TryGetValue(i.ToId(), out int value)) continue;
+				vals = new Dictionary<string, int>
+				{
+					{ "", Prices[(int)i] },
+					{ "chem:" + Terrain.ExtractData(value), 1 }
+				};
+				if (ItemBlock.IdTable.TryGetValue(key + "Ingot", out value))
+					Results.Add("item:" + Terrain.ExtractData(value), vals);
+				if (ItemBlock.IdTable.TryGetValue(key + "Line", out value))
+					Results.Add("item:" + Terrain.ExtractData(value), vals);
+				if (ItemBlock.IdTable.TryGetValue(key + "Plate", out value))
+					Results.Add("item:" + Terrain.ExtractData(value), vals);
+				if (ItemBlock.IdTable.TryGetValue(key + "Sheet", out value))
+					Results.Add("item:" + Terrain.ExtractData(value), vals);
+				if (ItemBlock.IdTable.TryGetValue(key + "Rod", out value))
+					Results.Add("item:" + Terrain.ExtractData(value), vals);
+			}
+			Results.Add("ironingot:0", new Dictionary<string, int>
+			{
+				{ "", 10 },
+				{ "chem:" + Terrain.ExtractData(ItemBlock.IdTable["Fe"]), 1 }
+			});
+			Results.Add("copperingot:0", new Dictionary<string, int>
+			{
+				{ "", 11 },
+				{ "chem:" + Terrain.ExtractData(ItemBlock.IdTable["Cu"]), 1 }
+			});
+			base.Load(valuesDictionary, idToEntityMap);
 		}
 	}
 }

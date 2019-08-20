@@ -2,7 +2,7 @@ namespace Game
 {
 	public class FireBoxWidget<T> : EntityWidget<T> where T : ComponentMachine
 	{
-		protected readonly FireWidget m_fire;
+		public readonly FireWidget m_fire;
 
 		protected readonly InventorySlotWidget m_fuelSlot,
 												m_resultSlot;

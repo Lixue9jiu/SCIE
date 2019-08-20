@@ -114,12 +114,13 @@ namespace Game
 						v = new Vector3(array[m] / (float)l, array2[m] / (float)l, 0f);
 					}
 					int cellValue = Terrain.ReplaceLight(Utils.Terrain.GetCellValue(x, y, z), 0);
-					var block = BlocksManager.Blocks[Terrain.ExtractContents(cellValue)];
-					if (num2 == 0 && block.BlockIndex == 92)
+					int content = Terrain.ExtractContents(cellValue);
+					var block = BlocksManager.Blocks[content];
+					if (content == 92)
 						num2 = 9;
-					if (block.IsPlaceable && !block.IsDiggingTransparent && !block.DefaultIsInteractive)
+					if (cellValue != (TorchBlock.Index | 5 << 14) && block.IsPlaceable && !block.IsDiggingTransparent && !block.DefaultIsInteractive)
 					{
-						Utils.SubsystemTerrain.ChangeCell(x, y, z, 0, true);
+						Utils.SubsystemTerrain.ChangeCell(x, y, z, 0);
 						Utils.SubsystemProjectiles.FireProjectile(cellValue, new Vector3(x + 0.5f, y + 0.5f, z + 0.5f) - 0.25f * vector, 60f * (vector - v), Vector3.Zero, null);
 						DrillType type = DrillBlock.GetType(value);
 						RemoveSlotItems(8, 1);
