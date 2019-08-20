@@ -155,14 +155,14 @@ namespace Game
 		{
 			return Terrain.ExtractContents(value) != Bullet2Block.Index || Musket3Block.GetBulletNum(Terrain.ExtractData(inventory.GetSlotValue(slotIndex))) > 62
 				? 0
-				: inventory.GetSlotCount(slotIndex);
+				: 1;
 		}
 
 		public override void ProcessInventoryItem(IInventory inventory, int slotIndex, int value, int count, int processCount, out int processedValue, out int processedCount)
 		{
 			processedValue = value;
 			processedCount = count;
-			processCount = count;
+			//processCount = count;
 			int value22 = Terrain.ExtractData(inventory.GetSlotValue(slotIndex));
 			int num = Musket3Block.GetBulletNum(value22);
 			if (processCount + num < 64)

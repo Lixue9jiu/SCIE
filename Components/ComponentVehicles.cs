@@ -130,11 +130,12 @@ namespace Game
 				if (componentEngine2.HeatLevel <= 0f || componentBody.Mass > 1200f || !componentBody.StandingOnValue.HasValue)
 					return;
 				int value = Terrain.ExtractContents(componentBody.StandingOnValue.Value);
+				Vector3 p2 = Vector3.Normalize(componentBody.Rotation.ToForwardVector());
 				if (value == SoilBlock.Index)
 					componentBody.IsSneaking = true;
 				if (value == DirtBlock.Index || value == GrassBlock.Index)
 				{
-					var p = Terrain.ToCell(componentBody.Position);
+					var p = Terrain.ToCell(componentBody.Position-p2*2f);
 					Utils.SubsystemTerrain.ChangeCell(p.X, p.Y - 1, p.Z, Terrain.ReplaceContents(value, 168));
 				}
 			}
