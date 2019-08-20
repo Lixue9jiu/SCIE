@@ -377,16 +377,29 @@ namespace Game
 		}
 	}
 
-	public class Recycler : Separator
+	public class Recycler : InventoryEntityDevice<ComponentRecycler>
 	{
-		public Recycler()
+		public Recycler() : base("回收机", "回收机", 110)
 		{
-			DefaultDisplayName = DefaultDescription = "回收机";
+		}
+
+		public override void Simulate(ref int voltage)
+		{
+			base.Simulate(ref voltage);
+			Component.Powered = Powered;
 		}
 
 		public override int GetFaceTextureSlot(int face, int value)
 		{
 			return face != 4 && face != 5 && face == (Terrain.ExtractData(value) >> 15) ? 147 : 107;
+		}
+
+		public override Widget GetWidget(IInventory inventory, ComponentRecycler component)
+		{
+			var widget = new CovenWidget(inventory, component, "Widgets/BlastFurnaceWidget");
+			widget.m_fire.IsVisible = false;
+			widget.Children.Find<StackPanelWidget>().IsVisible = false;
+			return widget;
 		}
 	}
 }

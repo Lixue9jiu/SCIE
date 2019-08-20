@@ -113,7 +113,7 @@ namespace Game
 			new Plate(Materials.Aluminum, true),
 			new Plate(Materials.Brass, true),
 			new Mould("Models/Battery", "Battery", Matrix.CreateRotationX(MathUtils.PI / 2) * Matrix.CreateTranslation(0.5f, 0.5f, 0f), Matrix.CreateTranslation(9f / 16f, -7f / 16f, 0f) * Matrix.CreateScale(20f), "工业磁铁", "IndustrialMagnet"),
-			new Brick("RefractoryBrick", "RefractoryBrick", new Color(255, 153, 18), Matrix.CreateTranslation(-32 % 16 / 16f, -32 / 16 / 16f, 0f), "耐火砖是一种耐火陶瓷材料，用于炉衬炉，窑炉，高级燃烧室和壁炉。 它具有耐高温性能，但导热系数低，能效高。"),
+			new Brick("耐火砖", "RefractoryBrick", new Color(255, 153, 18), Matrix.CreateTranslation(-32 % 16 / 16f, -32 / 16 / 16f, 0f), "耐火砖是一种耐火陶瓷材料，用于炉衬炉，窑炉，高级燃烧室和壁炉。 它具有耐高温性能，但导热系数低，能效高。"),
 			new CokeCoal(),
 			new Fan(Materials.Steel),
 			new Fan(Materials.Aluminum),
@@ -319,6 +319,8 @@ namespace Game
 					device.Index = i;
 				IdTable.Add(ElementBlock.Devices[i].GetCraftingId(), ElementBlock.Index | i << 14);
 			}
+			for (i = 0; i < 15; i++)
+				IdTable.Add(ChemicalBlock.Items[i].GetCraftingId(), ChemicalBlock.Index | i << 14);
 			for (i = 1; i < Chemistry.GunpowderBlock.Items.Length; i++)
 				IdTable.Add(Chemistry.GunpowderBlock.Items[i].GetCraftingId(), GunpowderBlock.Index | i << 14);
 		}

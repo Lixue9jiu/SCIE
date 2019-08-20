@@ -79,6 +79,26 @@ namespace Game
 			"挖掘速度",
 			"放火概率"
 		};
+		public static readonly string[] Ids =
+		{
+			"Fe",
+			"Au",
+			"Ag",
+			"Pb",
+			"pt",
+			"Zn",
+			"Sn",
+			"Cr",
+			"Ti",
+			"Ni",
+			"Al",
+			"U238",
+			"P",
+			"Fe",
+			"Cu",
+			"Hg",
+			"Ge"
+		};
 		public static readonly string[] Strings =
 		{
 			"钢",
@@ -140,6 +160,11 @@ namespace Game
 		public static string ToStr(this Materials m)
 		{
 			return Strings[(int)m];
+		}
+		[MethodImpl((MethodImplOptions)0x100)]
+		public static string ToId(this Materials m)
+		{
+			return Ids[(int)m];
 		}
 	}
 }

@@ -15,7 +15,7 @@ namespace Game
 			if (m_updateSmeltingRecipe)
 			{
 				m_updateSmeltingRecipe = false;
-				m_smeltingRecipe2 = FindSmeltingRecipe();
+				m_smeltingRecipe2 = FindSmeltingRecipe(FindSmeltingRecipe());
 				if (m_smeltingRecipe2 != m_smeltingRecipe)
 				{
 					m_smeltingRecipe = m_smeltingRecipe2;
@@ -67,20 +67,19 @@ namespace Game
 				SmeltingProgress = MathUtils.Min(SmeltingProgress + 0.1f * dt, 1f);
 				if (SmeltingProgress >= 1f)
 				{
+					var e = result.GetEnumerator();
+					while (e.MoveNext())
+					{
+						Slot slot = m_slots[FindAcquireSlotForItem(this, e.Current.Key)];
+						slot.Value = e.Current.Key;
+						slot.Count += e.Current.Value;
+						m_smeltingRecipe = 0;
+						SmeltingProgress = 0f;
+						m_updateSmeltingRecipe = true;
+					}
 					for (i = 0; i < 3; i++)
 						if (m_slots[i].Count > 0)
 							m_slots[i].Count--;
-					for (int j = 0; j < 3; j++)
-					{
-						if (result[j] != 0)
-						{
-							m_slots[3 + j].Value = result[j];
-							m_slots[3 + j].Count+=6;
-							m_smeltingRecipe = 0;
-							SmeltingProgress = 0f;
-							m_updateSmeltingRecipe = true;
-						}
-					}
 				}
 			}
 		}
@@ -88,23 +87,11 @@ namespace Game
 		protected override int FindSmeltingRecipe()
 		{
 			int text = 0;
-			result[1] = 0;
-			result[2] = 0;
-
-			if (GetSlotValue(0) == 786672 && GetSlotCount(0) > 0 && GetSlotValue(1) == ItemBlock.IdTable["CokeCoalPowder"] && GetSlotCount(1) > 0 && Terrain.ExtractContents(GetSlotValue(2))==OakWoodBlock.Index)
+			result.Clear();
+			if (GetSlotValue(0) == 786672 && GetSlotCount(0) > 0 && GetSlotValue(1) == ItemBlock.IdTable["CokeCoalPowder"] && GetSlotCount(1) > 0 && Terrain.ExtractContents(GetSlotValue(2)) == OakWoodBlock.Index)
 			{
 				text = 1;
-				result[0] = ItemBlock.IdTable["Rubber"];
-			}
-			
-			if (text != 0)
-			{
-				for (int i = 0; i < 3; i++)
-				{
-					Slot slot = m_slots[3 + i];
-					if (slot.Count != 0 && result[i] != 0 && (slot.Value != result[i] || slot.Count >= 40))
-						return 0;
-				}
+				result[ItemBlock.IdTable["Rubber"]] = 1;
 			}
 			return text;
 		}

@@ -43,6 +43,21 @@ namespace Game
 		static ChemicalBlock()
 		{
 			var list = new DynamicArray<IChemicalItem>(new IChemicalItem[]{
+				new PurePowder(Materials.Steel),
+				new PurePowder(Materials.Gold),
+				new PurePowder(Materials.Silver),
+				new PurePowder(Materials.Platinum),
+				new PurePowder(Materials.Lead),
+				new PurePowder(Materials.Stannary),
+				new PurePowder(Materials.Zinc),
+				new PurePowder(Materials.Chromium),
+				new PurePowder(Materials.Nickel),
+				new PurePowder(Materials.Aluminum),
+				new PurePowder(Materials.Titanium),
+				new PurePowder(Materials.Uranium),
+				new PurePowder(Materials.Iron),
+				new PurePowder(Materials.Copper),
+				new PurePowder(Materials.Germanium),
 				new FuelCylinder("H₂", 900, 180),
 				new Cylinder("O₂"),
 				new Cylinder("CO₂"),
@@ -223,6 +238,11 @@ namespace Game
 		public PurePowder(string name) : this(new DispersionSystem(name), Color.White)
 		{
 		}
+
+		public PurePowder(Materials type) : base(type.ToStr() + Utils.Get("粉"), type.ToId(), Colors[(int)type])
+		{
+		}
+
 		public PurePowder(string name, Color color) : this(new DispersionSystem(name), color)
 		{
 		}
