@@ -6,7 +6,7 @@ namespace Game
 	{
 		public override bool OnEditInventoryItem(IInventory inventory, int slotIndex, ComponentPlayer componentPlayer)
 		{
-			componentPlayer.ComponentGui.ModalPanelWidget = componentPlayer.ComponentGui.ModalPanelWidget == null ? new Musket2Widget(inventory, slotIndex, Musket3Block.Index) : null;
+			componentPlayer.ComponentGui.ModalPanelWidget = componentPlayer.ComponentGui.ModalPanelWidget == null ? new Musket2Widget(inventory, slotIndex) : null;
 			return true;
 		}
 
@@ -23,8 +23,8 @@ namespace Game
 					int num = Terrain.ExtractContents(slotValue);
 					//int data = Terrain.ExtractData(slotValue);
 					int num2 = slotValue;
-					Vector3 dir = direction;
-					if (num == Musket3Block.Index && slotCount > 0)
+                    Vector3 dir = direction;
+                    if (num == Musket3Block.Index && slotCount > 0)
 					{
 						if (!m_aimStartTimes.TryGetValue(componentMiner, out double value))
 						{
@@ -47,11 +47,11 @@ namespace Game
 							}
 							else
 							{
-								direction.Y += 0.5f;
+								direction.Y += 0.3f;
 							}
 						}
-
-						direction = Vector3.Normalize(direction + v * 2f);
+                        
+                        direction = Vector3.Normalize(direction + v * 2f);
 						switch (state)
 						{
 							case AimState.InProgress:
@@ -67,16 +67,16 @@ namespace Game
 										ComponentPlayer componentPlayer2 = componentMiner.ComponentPlayer;
 										if (componentPlayer2 != null)
 											componentPlayer2.ComponentGui.ShowAimingSights(start, direction);
-
+                                        
 										componentFirstPersonModel.ItemOffsetOrder = new Vector3(-0.21f, 0.15f, 0.08f);
 										componentFirstPersonModel.ItemRotationOrder = new Vector3(-0.7f, 0f, 0f);
 									}
 
-									if (m_subsystemTime.PeriodicGameTimeEvent(0.17, 0) && Musket3Block.GetBulletNum(Terrain.ExtractData(inventory.GetSlotValue(activeSlotIndex))) > 0)
+									if (m_subsystemTime.PeriodicGameTimeEvent(0.17, 0) && Musket3Block.GetBulletNum(Terrain.ExtractData(inventory.GetSlotValue(activeSlotIndex)))>0)
 									{
 										//if (componentMiner.ComponentCreature.ComponentBody.ImmersionFactor > 0.4f)
 										//	m_subsystemAudio.PlaySound("Audio/MusketMisfire", 1f, m_random.UniformFloat(-0.1f, 0.1f), componentMiner.ComponentCreature.ComponentCreatureModel.EyePosition, 3f, true);
-										//else
+										// else
 										{
 											Vector3 eyePosition = componentMiner.ComponentCreature.ComponentCreatureModel.EyePosition;
 											Matrix matrix = componentMiner.ComponentCreature.ComponentBody.Matrix;
@@ -103,7 +103,7 @@ namespace Game
 											//m_subsystemParticles.AddParticleSystem(fireParticleSystem);m_random.UniformFloat(-0.1f, 0.1f)
 											m_subsystemParticles.AddParticleSystem(new GunSmokeParticleSystem2(SubsystemTerrain, vector2 + 1.3f * dir, dir));
 											m_subsystemNoise.MakeNoise(vector2, 1f, 40f);
-
+											
 											int value23 = Terrain.ExtractData(inventory.GetSlotValue(activeSlotIndex));
 											int num44 = Musket3Block.GetBulletNum(value23);
 											componentMiner.ComponentPlayer?.ComponentGui.DisplaySmallMessage((num44-1).ToString(), blinking: true, playNotificationSound: false);
@@ -117,6 +117,7 @@ namespace Game
 									componentMiner.ComponentCreature.ComponentCreatureModel.AimHandAngleOrder = 1.4f;
 									componentMiner.ComponentCreature.ComponentCreatureModel.InHandItemOffsetOrder = new Vector3(-0.08f, -0.08f, 0.07f);
 									componentMiner.ComponentCreature.ComponentCreatureModel.InHandItemRotationOrder = new Vector3(-1.7f, 0f, 0f);
+
 									break;
 								}
 							case AimState.Cancelled:
@@ -144,6 +145,7 @@ namespace Game
 						inventory.RemoveSlotItems(activeSlotIndex, 1);
 						inventory.AddSlotItems(activeSlotIndex, num2, 1);
 					}
+					
 				}
 			}
 			return false;
@@ -160,17 +162,20 @@ namespace Game
 		{
 			processedValue = value;
 			processedCount = count;
+			processCount = count;
 			int value22 = Terrain.ExtractData(inventory.GetSlotValue(slotIndex));
 			int num = Musket3Block.GetBulletNum(value22);
 			if (processCount + num < 64)
 			{
-				var loadState = Musket2Block.GetLoadState(Terrain.ExtractData(inventory.GetSlotValue(slotIndex)));
+				//var loadState = Musket2Block.GetLoadState(Terrain.ExtractData(inventory.GetSlotValue(slotIndex)));
+
 				processedValue = 0;
 				processedCount = 0;
+				//processCount = 0;
 				inventory.RemoveSlotItems(slotIndex, 1);
-
 				inventory.AddSlotItems(slotIndex, Terrain.MakeBlockValue(Musket3Block.Index, 0, Musket3Block.SetBulletNum(num + processCount)), 1);
 			}
+
 		}
 	}
 }

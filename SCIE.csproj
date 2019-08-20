@@ -97,6 +97,7 @@
     <Compile Include="Components\ComponentCondenser.cs" />
     <Compile Include="Components\ComponentCReactor.cs" />
     <Compile Include="Components\ComponentDeposit.cs" />
+    <Compile Include="Components\ComponentEngineT.cs" />
     <Compile Include="Components\ComponentNewChest.cs" />
     <Compile Include="Components\ComponentDriller.cs" />
     <Compile Include="Components\ComponentElectricDriller.cs" />

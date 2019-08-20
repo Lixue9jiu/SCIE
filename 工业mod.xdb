@@ -160,6 +160,7 @@
       </MemberComponentTemplate>
     </EntityTemplate>
     <EntityTemplate Name="Tractor" Guid="3f4abb7e-2ce4-43fa-9612-47d69bf788ba" InheritanceParent="3f3acc8e-1ce4-43fa-9614-47d69bf788ba">
+	  <MemberComponentTemplate Name="Airship2Table" Guid="182995a9-10c6-4a2c-9ea5-725fffee2225" InheritanceParent="98fdc999-8ca8-4d0f-af8d-25bfe9b56a19" />
       <MemberComponentTemplate Name="Body" Guid="b6800018-ddd6-407b-bd4d-7be14c05d3eb">
         <Parameter Name="Mass" Guid="ae127d38-1571-4901-a319-b21a8dc22175" Value="1000" Type="float" />
       </MemberComponentTemplate>
@@ -471,6 +472,10 @@
      <ComponentTemplate Name="AirshipTable" Description="A steamengine" Guid="98fdc888-8ca8-4d0f-af8d-25bfe9b56a19" InheritanceParent="81a44c6a-c30a-4f53-8d64-0c30aabab8f9">
       <Parameter Name="Class" Guid="fb4c44fe-1d3c-467e-81bc-1796f68fbe51" Value="Game.ComponentEngineA" Type="string" />
       <Parameter Name="SlotsCount" Guid="3ddd5634-a4c0-4ad5-85f8-813ef26dae6b" Value="10" Type="int" />
+    </ComponentTemplate>
+	<ComponentTemplate Name="Airship2Table" Description="A steamengine" Guid="98fdc999-8ca8-4d0f-af8d-25bfe9b56a19" InheritanceParent="81a44c6a-c30a-4f53-8d64-0c30aabab8f9">
+      <Parameter Name="Class" Guid="2b1c551e-2d3c-467e-81bc-1796f68fbe51" Value="Game.ComponentEngineT" Type="string" />
+      <Parameter Name="SlotsCount" Guid="3d125634-a4c0-4ad5-85f8-813ef26dae6b" Value="8" Type="int" />
     </ComponentTemplate>
     <ComponentTemplate Name="Presser" Description="A presser" Guid="c9ff7906-de35-4e94-ba6e-90cd55cd19d4" InheritanceParent="81a44c6a-c30a-4f53-8d64-0c30aabab8fa">
       <Parameter Name="Class" Guid="fc4c23fe-1d3c-467e-81bc-1796f686be51" Value="Game.ComponentPresser" Type="string" />

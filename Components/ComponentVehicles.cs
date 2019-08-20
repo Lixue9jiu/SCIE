@@ -98,41 +98,84 @@ namespace Game
 	public class ComponentCar : ComponentBoatI, IUpdateable
 	{
 		protected ComponentEngineA componentEngine;
+		protected ComponentEngineT componentEngine2;
+
 
 		public new void Update(float dt)
 		{
-			var componentBody = m_componentBody;
-			componentBody.IsGravityEnabled = true;
-			componentBody.IsGroundDragEnabled = false;
-			Quaternion rotation = componentBody.Rotation;
-			float num = MathUtils.Atan2(2f * rotation.Y * rotation.W - 2f * rotation.X * rotation.Z, 1f - 2f * rotation.Y * rotation.Y - 2f * rotation.Z * rotation.Z);
-			if ((m_turnSpeed += 2.5f * Utils.SubsystemTime.GameTimeDelta * (TurnOrder - m_turnSpeed)) != 0 && componentEngine.HeatLevel > 0f && MoveOrder != 0f)
-				num -= m_turnSpeed * dt;
-			componentBody.Rotation = Quaternion.CreateFromAxisAngle(Vector3.UnitY, num);
-			ComponentRider rider = m_componentMount.Rider;
-			if (MoveOrder != 0f)
+			if (componentEngine2 != null)
 			{
-				if (rider != null && componentBody.StandingOnValue.HasValue && componentEngine != null && componentEngine.HeatLevel > 0f)
-					m_componentBody.Velocity += dt * 40f * MoveOrder * m_componentBody.Matrix.Forward;
-				MoveOrder = 0f;
+				var componentBody = m_componentBody;
+				componentBody.IsGravityEnabled = true;
+				componentBody.IsGroundDragEnabled = true;
+				Quaternion rotation = componentBody.Rotation;
+				float num = MathUtils.Atan2(2f * rotation.Y * rotation.W - 2f * rotation.X * rotation.Z, 1f - 2f * rotation.Y * rotation.Y - 2f * rotation.Z * rotation.Z);
+				if ((m_turnSpeed += 2.5f * Utils.SubsystemTime.GameTimeDelta * (TurnOrder - m_turnSpeed)) != 0 && componentEngine2.HeatLevel > 0f && MoveOrder != 0f)
+					num -= m_turnSpeed * dt;
+				componentBody.Rotation = Quaternion.CreateFromAxisAngle(Vector3.UnitY, num);
+				ComponentRider rider = m_componentMount.Rider;
+				if (MoveOrder != 0f)
+				{
+					if (rider != null && componentBody.StandingOnValue.HasValue && componentEngine2 != null && componentEngine2.HeatLevel > 0f)
+						m_componentBody.Velocity += dt * 10f * MoveOrder * m_componentBody.Matrix.Forward;
+					MoveOrder = 0f;
+				}
+				if (componentBody.ImmersionFactor > 0.95f)
+				{
+					m_componentDamage.Damage(0.005f * dt);
+					if (rider != null)
+						rider.StartDismounting();
+				}
+				TurnOrder = 0f;
+				if (componentEngine2.HeatLevel <= 0f || componentBody.Mass > 1200f || !componentBody.StandingOnValue.HasValue)
+					return;
+				int value = Terrain.ExtractContents(componentBody.StandingOnValue.Value);
+				if (value == SoilBlock.Index)
+					componentBody.IsSneaking = true;
+				if (value == DirtBlock.Index || value == GrassBlock.Index)
+				{
+					var p = Terrain.ToCell(componentBody.Position);
+					Utils.SubsystemTerrain.ChangeCell(p.X, p.Y - 1, p.Z, Terrain.ReplaceContents(value, 168));
+				}
 			}
-			if (componentBody.ImmersionFactor > 0.95f)
+			if (componentEngine != null)
 			{
-				m_componentDamage.Damage(0.005f * dt);
-				if (rider != null)
-					rider.StartDismounting();
+				var componentBody = m_componentBody;
+				componentBody.IsGravityEnabled = true;
+				componentBody.IsGroundDragEnabled = false;
+				Quaternion rotation = componentBody.Rotation;
+				float num = MathUtils.Atan2(2f * rotation.Y * rotation.W - 2f * rotation.X * rotation.Z, 1f - 2f * rotation.Y * rotation.Y - 2f * rotation.Z * rotation.Z);
+				if ((m_turnSpeed += 2.5f * Utils.SubsystemTime.GameTimeDelta * (TurnOrder - m_turnSpeed)) != 0 && componentEngine.HeatLevel > 0f && MoveOrder != 0f)
+					num -= m_turnSpeed * dt;
+				componentBody.Rotation = Quaternion.CreateFromAxisAngle(Vector3.UnitY, num);
+				ComponentRider rider = m_componentMount.Rider;
+				if (MoveOrder != 0f)
+				{
+					if (rider != null && componentBody.StandingOnValue.HasValue && componentEngine != null && componentEngine.HeatLevel > 0f)
+						m_componentBody.Velocity += dt * 40f * MoveOrder * m_componentBody.Matrix.Forward;
+					MoveOrder = 0f;
+				}
+				if (componentBody.ImmersionFactor > 0.95f)
+				{
+					m_componentDamage.Damage(0.005f * dt);
+					if (rider != null)
+						rider.StartDismounting();
+				}
+				TurnOrder = 0f;
+				if (componentEngine.HeatLevel <= 0f || componentBody.Mass > 1200f || !componentBody.StandingOnValue.HasValue)
+					return;
+				int value = Terrain.ExtractContents(componentBody.StandingOnValue.Value);
+				//if (value == SoilBlock.Index)
+				//	componentBody.IsSneaking = true;
+				//if (value == DirtBlock.Index || value == GrassBlock.Index)
+				//{
+				//	var p = Terrain.ToCell(componentBody.Position);
+				//	Utils.SubsystemTerrain.ChangeCell(p.X, p.Y - 1, p.Z, Terrain.ReplaceContents(value, 168));
+				//}
 			}
-			TurnOrder = 0f;
-			if (componentEngine.HeatLevel <= 0f || componentBody.Mass > 1200f || !componentBody.StandingOnValue.HasValue)
-				return;
-			int value = Terrain.ExtractContents(componentBody.StandingOnValue.Value);
-			if (value == SoilBlock.Index)
-				componentBody.IsSneaking = true;
-			if (value == DirtBlock.Index || value == GrassBlock.Index)
-			{
-				var p = Terrain.ToCell(componentBody.Position);
-				Utils.SubsystemTerrain.ChangeCell(p.X, p.Y - 1, p.Z, Terrain.ReplaceContents(value, 168));
-			}
+
+			
+
 		}
 
 		public override void Load(ValuesDictionary valuesDictionary, IdToEntityMap idToEntityMap)
@@ -141,6 +184,7 @@ namespace Game
 			m_componentBody = Entity.FindComponent<ComponentBody>(true);
 			m_componentDamage = Entity.FindComponent<ComponentDamage>(true);
 			componentEngine = Entity.FindComponent<ComponentEngineA>();
+			componentEngine2 = Entity.FindComponent<ComponentEngineT>();
 			m_componentBody.CollidedWithBody += CollidedWithBody;
 		}
 

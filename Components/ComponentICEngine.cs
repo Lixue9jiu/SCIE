@@ -48,7 +48,7 @@ namespace Game
 			SmeltingProgress = m_fireTimeRemaining;
 			if (SmeltingProgress > 0f && HeatLevel > 0f)
 			{
-				SmeltingProgress = MathUtils.Min(SmeltingProgress - 1f * dt, 1000f);
+				SmeltingProgress = MathUtils.Min(SmeltingProgress - 0.1f * dt, 1000f);
 				m_fireTimeRemaining = SmeltingProgress;
 				//HeatLevel = 1000f;
 			}
