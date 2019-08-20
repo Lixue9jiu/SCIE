@@ -182,7 +182,7 @@ namespace Chemistry
 
 		public bool Equals(Group other)
 		{
-			if (Count != other.Count)
+			if (Count != other.Count || Charge != other.Charge)
 				return false;
 			for (int i = 0; i < Count; i++)
 				if (!Array[i].Equals(other.Array[i]))

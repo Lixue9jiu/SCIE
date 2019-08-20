@@ -129,7 +129,7 @@ KHCO3+HCl==KCl+CO2↑+H2O
 2KClO3==2KCl+3O2↑
 KClO3+6HCl==KCl+3Cl2↑+3H2O
 
-N2+3H2=1400,H=2NH3[0;V2O5,46;30;0.7]
+N2+3H2=1400,H=2NH3;0;V2O5;46;30;0.7
 
 4NO2+H2S==4NO+SO3+H2O
 NO2+SO2==SO3+NO
@@ -155,18 +155,18 @@ Pb(NO3)2+H2S==PbS↓+2HNO3
 H⁺+OH⁻==H2O
 H⁺+CO3²⁻==HCO3⁻
 H⁺+HCO3⁻==H2O+CO2↑
-CO3²⁻ + 2Ag+== Ag2CO3↓
-CO3²⁻ + Ba2+== BaCO3↓
-CO3²⁻ + Ca2+== CaCO3↓
-3CO3²⁻ + 2Al3+ + 3H2O == 2Al(OH)3↓ + 3CO2↑
-3CO3²⁻ + 2Fe3+ +3H2O == 2Fe(OH)3↓ + 3CO2↑
-CO2 + 2AlO2⁻ + 3H2O ==2 Al(OH)3↓+ CO3²⁻
-CO2 + AlO2⁻ + 2H2O == Al(OH)3↓+ HCO3⁻
-CO2 + OH⁻ == HCO3⁻
-CO2 + Ba2+ + 2OH⁻== BaCO3↓ + H2O
-CO2 + 2OH⁻ == CO3²⁻ + H2O
+CO3²⁻ + 2Ag⁺== Ag2CO3↓
+CO3²⁻ + Ba2⁺== BaCO3↓
+CO3²⁻ + Ca2⁺== CaCO3↓
+3CO3²⁻ + 2Al3⁺ + 3H2O==2Al(OH)3↓ + 3CO2↑
+3CO3²⁻ + 2Fe3⁺ +3H2O==2Fe(OH)3↓ + 3CO2↑
+CO2 + 2AlO²⁻ + 3H2O ==2 Al(OH)3↓+ CO3²⁻
+CO2 + AlO²⁻ + 2H2O==Al(OH)3↓+ HCO3⁻
+CO2 + OH⁻==HCO3⁻
+CO2 + Ba2⁺ + 2OH⁻== BaCO3↓ + H2O
+CO2 + 2OH⁻==CO3²⁻ + H2O
 
-Cr2O7- + 6Fe2+ + 14H+ == 6Fe3+ + 2Cr3+ + 7H2O
-Fe + 2H+ = Fe2+ + H2↑
-Fe + Cu2+ = Fe2+ + Cu
-Fe + 2Fe3+ == 3Fe2+
+Cr2O7- + 6Fe²⁺ + 14H⁺==6Fe³⁺ + 2Cr³⁺ + 7H2O
+Fe + 2H⁺==Fe²⁺ + H2↑
+Fe + Cu2⁺==Fe²⁺ + Cu
+Fe + 2Fe³⁺==3Fe²⁺

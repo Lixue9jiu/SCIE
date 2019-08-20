@@ -38,7 +38,7 @@ namespace Game
 		public static TerrainBrush.Cell[][] OilPocketCells;
 		//public static TerrainBrush[] NaturalGasBrushes;
 		//public static Dictionary<long, int> MinesData;
-		public static DynamicArray<Metal> AlloysData;
+		public static DynamicArray<Metal> ChemData;
 
 		public override int[] HandledBlocks => new[]
 		{
@@ -87,12 +87,12 @@ namespace Game
 			base.Load(valuesDictionary);
 			Utils.Load(Project);
 			//Utils.SubsystemItemsScanner.ItemsScanned += GarbageCollectItems;
-			var arr = valuesDictionary.GetValue("AlloysData", "0").Split(',');
-			AlloysData = new DynamicArray<Metal>(arr.Length);
+			var arr = valuesDictionary.GetValue(nameof(ChemData), "0").Split(',');
+			ChemData = new DynamicArray<Metal>(arr.Length);
 			int i;
 			for (i = 0; i < arr.Length; i++)
 				if (short.TryParse(arr[i], NumberStyles.Integer, NumberFormatInfo.CurrentInfo, out short value))
-					AlloysData.Add((Metal)value);
+					ChemData.Add((Metal)value);
 			SmallBrushes = new TerrainBrush[16];
 			PtBrushes = new TerrainBrush[16];
 			BBrushes = new TerrainBrush[16];
@@ -183,17 +183,17 @@ namespace Game
 				sb.Append('=');
 				sb.Append(data.Value.ToString());
 			}*/
-			var sb = new StringBuilder(AlloysData.Count);
-			var values = AlloysData.Array;
+			var sb = new StringBuilder(ChemData.Count);
+			var values = ChemData.Array;
 			if (values.Length == 0)
 				return;
 			sb.Append(values[0].ToString());
-			for (int i = 1; i < AlloysData.Count; i++)
+			for (int i = 1; i < ChemData.Count; i++)
 			{
 				sb.Append(',');
 				sb.Append(values[i].ToString());
 			}
-			valuesDictionary.SetValue("AlloysData", sb.ToString());
+			valuesDictionary.SetValue(nameof(ChemData), sb.ToString());
 		}
 
 		public override void OnChunkInitialized(TerrainChunk chunk)
