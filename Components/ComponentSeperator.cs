@@ -163,7 +163,7 @@ namespace Game
 	}
 	public class ComponentRecycler : ComponentSeparator
 	{
-		public override int RemainsSlotIndex => 8;
+		public override int RemainsSlotIndex => 10;
 		public static readonly int[] Prices = {
 			20,
 			50,

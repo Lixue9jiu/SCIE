@@ -396,7 +396,7 @@ namespace Game
 
 		public override Widget GetWidget(IInventory inventory, ComponentRecycler component)
 		{
-			var widget = new SeparatorWidget(inventory, component, "Recycler","Widgets/RecyclerWidget");
+			var widget = new RecyclerWidget(inventory, component, "Recycler","Widgets/RecyclerWidget");
 			//widget.m_fire.IsVisible = false;
 			//widget.Children.Find<StackPanelWidget>().IsVisible = false;
 			return widget;
