@@ -8,8 +8,8 @@ namespace Game
 {
 	public static partial class Utils
 	{
-		public static readonly float[] AtomicWeights = new float[51];
-		public static readonly int[] AtomicNumbers = new int[51];
+		public static readonly float[] AtomicWeights = new float[50];
+		public static readonly int[] AtomicNumbers = new int[50];
 
 		public static float AtomicWeight(this AtomKind kind) => AtomicWeights[(int)kind];
 		public static float AtomicNumber(this AtomKind kind) => AtomicNumbers[(int)kind];
