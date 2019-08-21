@@ -28,17 +28,14 @@ namespace Game
 			}
 			if (m_1Button.IsClicked && m_component.HeatLevel!=1)
 			{
-				//m_componentDispenser.HeatLevel = 1000f;
 				m_component.HeatLevel = 1;
 			}
 			if (m_2Button.IsClicked && m_component.HeatLevel != 2)
 			{
-				//m_componentDispenser.HeatLevel = 0f;
 				m_component.HeatLevel = 2;
 			}
 			if (m_3Button.IsClicked && m_component.HeatLevel != 3)
 			{
-				//m_componentDispenser.HeatLevel = 0f;
 				m_component.HeatLevel = 3;
 			}
 			m_progress.Value = m_component.SmeltingProgress;

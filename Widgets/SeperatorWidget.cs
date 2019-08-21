@@ -50,8 +50,10 @@ namespace Game
 			{
 				for (x = 0; x < m_furnaceGrid.ColumnsCount; x++)
 				{
-					var inventorySlotWidget = new InventorySlotWidget();
-					inventorySlotWidget.Size_ = new Vector2(40, 40);
+					var inventorySlotWidget = new InventorySlotWidget
+					{
+						Size_ = new Vector2(40, 40)
+					};
 					inventorySlotWidget.AssignInventorySlot(component, num++);
 					m_furnaceGrid.Children.Add(inventorySlotWidget);
 					m_furnaceGrid.SetWidgetCell(inventorySlotWidget, new Point2(x, y));
@@ -68,6 +70,4 @@ namespace Game
 			base.Update();
 		}
 	}
-
-	
 }

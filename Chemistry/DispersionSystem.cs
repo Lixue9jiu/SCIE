@@ -87,7 +87,7 @@ namespace Chemistry
 			{
 				if (i.Current)
 				{
-					Equation.IonicReactions.Contains();
+					Equation.Reactions.Contains();
 					for (var j = Equation.IonicReactions.GetEnumerator(); j.MoveNext();)
 					{
 						j.Current;

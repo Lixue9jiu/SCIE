@@ -3,6 +3,7 @@ using Engine;
 using Engine.Graphics;
 using Engine.Media;
 using LibPixz;
+using System;
 using System.Collections.Generic;
 using System.IO;
 
@@ -239,7 +240,7 @@ namespace Game
 			new Plate("256K RAM", Color.DarkGreen, true),
 			new Plate("512K RAM", Color.DarkGreen, true),
 			new Plate("RISC CPU", Color.DarkGray, true),
-			new Plate("CISC CPU", Color.DarkGray, true),new Mould("Models/Ingots", "IronPlate",  Matrix.CreateScale(2f, 0.15f, 2f), Matrix.CreateTranslation(9f / 16f, -7f / 16f, 0f) * Matrix.CreateScale(20f), "不锈钢板", "不锈钢板"),
+			new Plate("CISC CPU", Color.DarkGray, true),
 			new CPanel(),*/
 		};
 			ElementBlock.Devices = new Device[]
@@ -344,8 +345,8 @@ namespace Game
 				{
 					var line = reader.ReadLine();
 					if (line == null) break;
-					if (line.Length > 0)
-						Equation.Reactions.Add(Equation.Parse(line));
+					if (line.Length > 0 && !Equation.Reactions.Add(Equation.Parse(line)))
+						throw new InvalidOperationException(line);
 				}
 			}
 			finally { stream.Close(); }

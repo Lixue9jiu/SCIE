@@ -158,10 +158,15 @@ namespace Game
 						point3 = point;
 					}
 				}
-				else if (point3 != Point3.Zero)
+				else
 				{
-					SubsystemTerrain.ChangeCell(point3.X, point3.Y, point3.Z, 0);
-					point3 = Point3.Zero;
+					if (point3 != Point3.Zero)
+					{
+						SubsystemTerrain.ChangeCell(point3.X, point3.Y, point3.Z, 0);
+						point3 = Point3.Zero;
+					}
+					if (value != ItemBlock.IdTable["Telescope"] && componentPlayer.View.ActiveCamera is TelescopeCamera)
+						componentPlayer.View.ActiveCamera = componentPlayer.View.FindCamera<FppCamera>(true);
 				}
 			}
 		}
