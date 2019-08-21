@@ -8,8 +8,8 @@ namespace Game
 {
 	public static partial class Utils
 	{
-		public static readonly float[] AtomicWeights = new float[51];
-		public static readonly int[] AtomicNumbers = new int[51];
+		public static readonly float[] AtomicWeights = new float[50];
+		public static readonly int[] AtomicNumbers = new int[50];
 
 		public static float AtomicWeight(this AtomKind kind) => AtomicWeights[(int)kind];
 		public static float AtomicNumber(this AtomKind kind) => AtomicNumbers[(int)kind];
@@ -182,7 +182,7 @@ namespace Chemistry
 
 		public bool Equals(Group other)
 		{
-			if (Count != other.Count)
+			if (Count != other.Count || Charge != other.Charge)
 				return false;
 			for (int i = 0; i < Count; i++)
 				if (!Array[i].Equals(other.Array[i]))
