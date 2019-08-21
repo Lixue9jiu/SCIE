@@ -68,6 +68,4 @@ namespace Game
 			base.Update();
 		}
 	}
-
-	
 }
