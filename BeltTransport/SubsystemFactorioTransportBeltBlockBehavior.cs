@@ -619,7 +619,7 @@ namespace Game
 					int updatedData = updatedFTB.Data;
 					if (updatedData != Terrain.ExtractData(newValue))
 					{
-						SubsystemTerrain.ChangeCell(position.X, position.Y, position.Z, Terrain.ReplaceData(newValue, updatedData), true);
+						SubsystemTerrain.ChangeCell(position.X, position.Y, position.Z, Terrain.ReplaceData(newValue, updatedData));
 						isUpdated = true;
 						if (updatedFTB.slopeType.HasValue)
 						{

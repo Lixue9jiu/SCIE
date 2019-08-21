@@ -44,7 +44,7 @@ namespace Game
             Vector2 cameraLook = componentInput.PlayerInput.CameraLook;
 			ComponentMiner componentMiner = componentPlayer.ComponentMiner;
 			int num2 = componentMiner.ActiveBlockValue;
-			if (num2!= ItemBlock.IdTable["Telescope"])
+			if (num2 != ItemBlock.IdTable["Telescope"])
 			{
 				var view5 = componentMiner.ComponentPlayer.View;
 				view5.ActiveCamera = view5.FindCamera<FppCamera>(true);
@@ -75,12 +75,12 @@ namespace Game
                 for (int j = 0; j <= 0; j++)
                 {
                     Vector3 v4 = 0.5f * (vector4 * i + v3 * j);
-                    Vector3 vector5 = vector + v4;
-                    Vector3 end = vector5 + vector3 + Vector3.Normalize(vector3) * 0.5f;
-                    TerrainRaycastResult? terrainRaycastResult = View.SubsystemViews.SubsystemTerrain.Raycast(vector5, end, false, true, (value, distance) => !(Terrain.ExtractContents(value)==0));
+                    Vector3 v5 = vector + v4;
+                    Vector3 end = v5 + vector3 + Vector3.Normalize(vector3) * 0.5f;
+                    TerrainRaycastResult? terrainRaycastResult = View.SubsystemViews.SubsystemTerrain.Raycast(v5, end, false, true, (value, distance) => !(Terrain.ExtractContents(value)==0));
                     if (terrainRaycastResult != null)
                     {
-                        num = (num != null) ? MathUtils.Min(num.Value, terrainRaycastResult.Value.Distance) : terrainRaycastResult.Value.Distance;
+                        num = num != null ? MathUtils.Min(num.Value, terrainRaycastResult.Value.Distance) : terrainRaycastResult.Value.Distance;
                     }
                 }
             }

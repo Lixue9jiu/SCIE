@@ -227,19 +227,21 @@ namespace Game
 					random = new Random(generator.m_seed + i + (f1 ^ f4 ^ f5 ^ f7 ^ fa ^ fc ^ fd) * j);
 					int jx16 = j << 4;
 					float num2 = generator.CalculateMountainRangeFactor(ix16, jx16);
-					const int index = BasaltBlock.Index, index2 = BasaltBlock.Index;
+					const int index = BasaltBlock.Index, index2 = GraniteBlock.Index;
 					for (k = 1 + (int)(2f * num2 * SimplexNoise.OctavedNoise(i ^ fe, j ^ ff, 0.33f, 1, 1f, 1f)); k-- != 0;)
-						chunk.PaintFastSelective(SmallBrushes[random.Int() & 15].Cells, ix16 | (random.Int() & 15), random.UniformInt(2, 30), jx16 | (random.Int() & 15), index2 | (int)BrushType.Au << 15);
+						chunk.PaintFastSelective(SmallBrushes[random.Int() & 15].Cells, ix16 | (random.Int() & 15), random.UniformInt(2, 30), jx16 | (random.Int() & 15), index | (int)BrushType.Au << 15);
 					for (k = 1 + (int)(2f * num2 * SimplexNoise.OctavedNoise(i + 713, j + f3, 0.33f, 1, 1f, 1f)); k-- != 0;)
-						chunk.PaintFastSelective(SmallBrushes[random.Int() & 15].Cells, ix16 | (random.Int() & 15), random.UniformInt(2, 30), jx16 | (random.Int() & 15), index2 | (int)BrushType.Ag << 15);
+						chunk.PaintFastSelective(SmallBrushes[random.Int() & 15].Cells, ix16 | (random.Int() & 15), random.UniformInt(2, 30), jx16 | (random.Int() & 15), index | (int)BrushType.Ag << 15);
 					for (k = 1 + (int)(2f * num2 * SimplexNoise.OctavedNoise(i + f2, j + 396, 0.33f, 1, 1f, 1f)); k-- != 0;)
-						chunk.PaintFastSelective(PtBrushes[random.Int() & 15].Cells, ix16 | (random.Int() & 15), random.UniformInt(2, 15), jx16 | (random.Int() & 15), index2 | (int)BrushType.Pt << 15);
+						chunk.PaintFastSelective(PtBrushes[random.Int() & 15].Cells, ix16 | (random.Int() & 15), random.UniformInt(2, 15), jx16 | (random.Int() & 15), index | (int)BrushType.Pt << 15);
 					for (k = 3 + (int)(2f * num2 * SimplexNoise.OctavedNoise(i + f6, j + 131, 0.33f, 1, 1f, 1f)); k-- != 0;)
-						chunk.PaintFastSelective(ABrushes[random.Int() & 15].Cells, ix16 | (random.Int() & 15), random.UniformInt(2, 50), jx16 | (random.Int() & 15), index | (int)BrushType.Pb << 15);
+						chunk.PaintFastSelective(ABrushes[random.Int() & 15].Cells, ix16 | (random.Int() & 15), random.UniformInt(20, 50), jx16 | (random.Int() & 15), index2 | (int)BrushType.Pb << 15);
+					for (k = 3 + (int)(2f * num2 * SimplexNoise.OctavedNoise(i + f2, j + fb, 0.33f, 1, 1f, 1f)); k-- != 0;)
+						chunk.PaintFastSelective(ABrushes[random.Int() & 15].Cells, ix16 | (random.Int() & 15), random.UniformInt(30, 60), jx16 | (random.Int() & 15), index2 | (int)BrushType.Zn << 15);
+					for (k = 3 + (int)(2f * num2 * SimplexNoise.OctavedNoise(i + 711, j + fb, 0.33f, 1, 1f, 1f)); k-- != 0;)
+						chunk.PaintFastSelective(BBrushes[random.Int() & 15].Cells, ix16 | (random.Int() & 15), random.UniformInt(25, 55), jx16 | (random.Int() & 15), index2 | (int)BrushType.Sn << 15);
 					for (k = (int)(0.5f + 2f * num2 * SimplexNoise.OctavedNoise(i + 432, j + f9, 0.33f, 1, 1f, 1f)); k-- != 0;)
 						chunk.PaintFastSelective(BBrushes[random.Int() & 15].Cells, ix16 | (random.Int() & 15), random.UniformInt(2, 15), jx16 | (random.Int() & 15), index | (int)BrushType.Hg << 15);
-					for (k = 3 + (int)(2f * num2 * SimplexNoise.OctavedNoise(i + 711, j + fb, 0.33f, 1, 1f, 1f)); k-- != 0;)
-						chunk.PaintFastSelective(BBrushes[random.Int() & 15].Cells, ix16 | (random.Int() & 15), random.UniformInt(2, 40), jx16 | (random.Int() & 15), index | (int)BrushType.Sn << 15);
 					for (k = 2 + (int)(2f * num2 * SimplexNoise.OctavedNoise(i + f8, j + 272, 0.33f, 1, 1f, 1f)); k-- != 0;)
 						chunk.PaintFastSelective(ABrushes[random.Int() & 15].Cells, ix16 | (random.Int() & 15), random.UniformInt(2, 50), jx16 | (random.Int() & 15), index | (int)BrushType.Ti << 15);
 					for (k = 2 + (int)(2f * num2 * SimplexNoise.OctavedNoise(i + fa, j + fc, 0.33f, 1, 1f, 1f)); k-- != 0;)
@@ -251,9 +253,9 @@ namespace Game
 					for (k = 9 + (int)(8f * num2 * SimplexNoise.OctavedNoise(i + f5 ^ f8 + f1, j + f9 - fc, 0.33f, 1, 1f, 1f)); k-- != 0;)
 						chunk.PaintMaskSelective(ABrushes[random.Int() & 15].Cells, ix16 | (random.Int() & 15), random.UniformInt(2, 50), jx16 | (random.Int() & 15), index | 32768 << 14);
 					for (k = 1 + (int)(2f * num2 * SimplexNoise.OctavedNoise(i + fc, j + f9, 0.33f, 1, 1f, 1f)); k-- != 0;)
-						chunk.PaintFastSelective(SmallBrushes[random.Int() & 15].Cells, ix16 | (random.Int() & 15), random.UniformInt(2, 20), jx16 | (random.Int() & 15), index2 | (int)BrushType.U << 15);
+						chunk.PaintFastSelective(SmallBrushes[random.Int() & 15].Cells, ix16 | (random.Int() & 15), random.UniformInt(2, 20), jx16 | (random.Int() & 15), index | (int)BrushType.U << 15);
 					for (k = 3 + (int)(2f * num2 * SimplexNoise.OctavedNoise(i + f3, j + f1, 0.33f, 1, 1f, 1f)); k-- != 0;)
-						chunk.PaintFastSelective(ABrushes[random.Int() & 15].Cells, ix16 | (random.Int() & 15), random.UniformInt(45, 70), jx16 | (random.Int() & 15), 3 | (int)BrushType.P << 15);
+						chunk.PaintFastSelective(ABrushes[random.Int() & 15].Cells, ix16 | (random.Int() & 15), random.UniformInt(45, 70), jx16 | (random.Int() & 15), index2 | (int)BrushType.P << 15);
 					if (generator.CalculateOceanShoreDistance(ix16, y << 4) < -90f)
 					{
 						int n = TerrainChunk.CalculateCellIndex(random.Int() & 15, 35, random.Int() & 15);

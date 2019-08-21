@@ -52,7 +52,7 @@ namespace Game
 				{
 					var inventorySlotWidget = new InventorySlotWidget
 					{
-						Size_ = new Vector2(40, 40)
+						Size_ = new Vector2(40)
 					};
 					inventorySlotWidget.AssignInventorySlot(component, num++);
 					m_furnaceGrid.Children.Add(inventorySlotWidget);

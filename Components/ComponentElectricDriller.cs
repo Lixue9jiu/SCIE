@@ -8,6 +8,7 @@ namespace Game
 	{
 		public bool Powered;
 		protected ComponentBlockEntity m_componentBlockEntity;
+		protected ComponentElectricDriller inventory;
 
 		public int UpdateOrder => 0;
 		public bool Charged;
@@ -33,6 +34,7 @@ namespace Game
 			m_componentBlockEntity = Entity.FindComponent<ComponentBlockEntity>(true);
 			m_fireTimeRemaining = valuesDictionary.GetValue("FireTimeRemaining", 0f);
 			Charged = valuesDictionary.GetValue("HeatLevel", 0f) != 0f ? true : false;
+			inventory = Entity.FindComponent<ComponentElectricDriller>(true);
 		}
 
 		public override void Save(ValuesDictionary valuesDictionary, EntityToIdMap entityToIdMap)
@@ -67,13 +69,13 @@ namespace Game
 							}
 							else
 							{
-								ComponentElectricDriller inventory = m_componentBlockEntity.Entity.FindComponent<ComponentElectricDriller>(true);
+								inventory = m_componentBlockEntity.Entity.FindComponent<ComponentElectricDriller>(true);
 								if (AcquireItems(inventory, cellValue, 1) != 0)
 								{
 									Charged = false;
 									return;
 								}
-								Utils.SubsystemTerrain.ChangeCell(x1, y1, z1, 0, true);
+								Utils.SubsystemTerrain.ChangeCell(x1, y1, z1, 0);
 								DrillType type = DrillBlock.GetType(value);
 								RemoveSlotItems(8, 1);
 								if (DrillBlock.GetType(BlocksManager.DamageItem(value, 1)) == type && BlocksManager.DamageItem(value, 1) != value && GetDamage(BlocksManager.DamageItem(value, 1)) != GetDamage(value))
@@ -86,14 +88,12 @@ namespace Game
 
 						if (block.BlockIndex == BasaltBlock.Index && cellValue != BasaltBlock.Index && cellValue != 536870979 && cellValue != 1073741891 && cellValue != 1610612803 && !flag)
 						{
-							ComponentElectricDriller inventory = m_componentBlockEntity.Entity.FindComponent<ComponentElectricDriller>(true);
 							if (AcquireItems(inventory, cellValue, 1) != 0)
 							{
 								Charged = false;
 								return;
 							}
-
-							Utils.SubsystemTerrain.ChangeCell(x1, y1, z1, 0, true);
+							Utils.SubsystemTerrain.ChangeCell(x1, y1, z1, 0);
 							DrillType type = DrillBlock.GetType(value);
 							RemoveSlotItems(8, 1);
 							if (DrillBlock.GetType(BlocksManager.DamageItem(value, 1)) == type && BlocksManager.DamageItem(value, 1) != value && GetDamage(BlocksManager.DamageItem(value, 1)) != GetDamage(value))
@@ -104,13 +104,13 @@ namespace Game
 						}
 						if ((block.BlockIndex == IronOreBlock.Index || block.BlockIndex == CopperOreBlock.Index || block.BlockIndex == DiamondOreBlock.Index || block.BlockIndex == GermaniumOreBlock.Index || block.BlockIndex == SaltpeterOreBlock.Index || block.BlockIndex == SulphurOreBlock.Index || block.BlockIndex == CoalOreBlock.Index) && !flag)
 						{
-							ComponentElectricDriller inventory = m_componentBlockEntity.Entity.FindComponent<ComponentElectricDriller>(true);
+							inventory = m_componentBlockEntity.Entity.FindComponent<ComponentElectricDriller>(true);
 							if (AcquireItems(inventory, cellValue, 1) != 0)
 							{
 								Charged = false;
 								return;
 							}
-							Utils.SubsystemTerrain.ChangeCell(x1, y1, z1, 0, true);
+							Utils.SubsystemTerrain.ChangeCell(x1, y1, z1, 0);
 							DrillType type = DrillBlock.GetType(value);
 							RemoveSlotItems(8, 1);
 							if (DrillBlock.GetType(BlocksManager.DamageItem(value, 1)) == type && BlocksManager.DamageItem(value, 1) != value && GetDamage(BlocksManager.DamageItem(value, 1)) != GetDamage(value))
@@ -133,14 +133,14 @@ namespace Game
 
 		public override int GetSlotCapacity(int slotIndex, int value)
 		{
-			if (slotIndex != 8 && slotIndex!=9)
+			if (slotIndex != 8 && slotIndex != 9)
 				return base.GetSlotCapacity(slotIndex, value);
 			if (slotIndex == 8 && Terrain.ExtractContents(value) == DrillBlock.Index)
 			{
 				var type = DrillBlock.GetType(value);
 				return (type == DrillType.DiamondDrill || type == DrillType.SteelDrill) ? base.GetSlotCapacity(slotIndex, value) : 0;
 			}
-			if (slotIndex == 9 && GetSlotCount(9)<1)
+			if (slotIndex == 9 && GetSlotCount(9) < 1)
 			{
 				return base.GetSlotCapacity(slotIndex, value);
 			}

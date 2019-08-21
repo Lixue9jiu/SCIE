@@ -4,7 +4,6 @@ namespace Game
 {
 	public class SubsystemMusket3BlockBehavior : SubsystemMusket2BlockBehavior
 	{
-		public SubsystemGameInfo m_subsystemGameInfo;
 		public override bool OnEditInventoryItem(IInventory inventory, int slotIndex, ComponentPlayer componentPlayer)
 		{
 			componentPlayer.ComponentGui.ModalPanelWidget = componentPlayer.ComponentGui.ModalPanelWidget == null ? new Musket2Widget(inventory, slotIndex) : null;
@@ -105,7 +104,7 @@ namespace Game
 											m_subsystemParticles.AddParticleSystem(new GunSmokeParticleSystem2(SubsystemTerrain, vector2 + 1.3f * dir, dir));
 											m_subsystemNoise.MakeNoise(vector2, 1f, 40f);
 											//SubsystemGameInfo m_subsystemGameInfo
-											if (m_subsystemGameInfo.WorldSettings.GameMode != GameMode.Creative)
+											if (Utils.SubsystemGameInfo.WorldSettings.GameMode != GameMode.Creative)
 											{
 												int value23 = Terrain.ExtractData(inventory.GetSlotValue(activeSlotIndex));
 												int num44 = Musket3Block.GetBulletNum(value23);

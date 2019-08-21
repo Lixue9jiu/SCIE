@@ -102,10 +102,11 @@ namespace Game
 			}
 		}
 
-		public static void PaintFastSelective(this TerrainChunk chunk, Cell[] cells, int x, int y, int z, int onlyInBlock = BasaltBlock.Index)
+		public static void PaintFastSelective(this TerrainChunk chunk, Cell[] cells, int x, int y, int z, int onlyInBlock)
 		{
 			x -= chunk.Origin.X;
 			z -= chunk.Origin.Y;
+			int val = Terrain.ReplaceContents(onlyInBlock, BasaltBlock.Index);
 			for (int i = 0; i < cells.Length; i++)
 			{
 				Cell cell = cells[i];
@@ -113,10 +114,10 @@ namespace Game
 				if (y2 >= 0 && y2 < 128)
 				{
 					int index = TerrainChunk.CalculateCellIndex(cell.X + x & 15, y2, cell.Z + z & 15);
-					if (Terrain.ExtractContents(onlyInBlock) == Terrain.ExtractContents(chunk.GetCellValueFast(index)))
+					if (Terrain.ExtractContents(chunk.GetCellValueFast(index)) == Terrain.ExtractContents(onlyInBlock))
 					{
 						//SubsystemMineral.StoreItemData(cell.Value);
-						chunk.SetCellValueFast(index, onlyInBlock);
+						chunk.SetCellValueFast(index, val);
 					}
 				}
 			}

@@ -346,5 +346,11 @@ namespace Game
 			});
 			base.Load(valuesDictionary, idToEntityMap);
 		}
+
+		public override int RemoveSlotItems(int slotIndex, int count)
+		{
+			m_updateSmeltingRecipe = true;
+			return m_smeltingRecipe != 0 && slotIndex == RemainsSlotIndex ? 0 : base.RemoveSlotItems(slotIndex, count);
+		}
 	}
 }
