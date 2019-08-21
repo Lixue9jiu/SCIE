@@ -103,7 +103,7 @@ public class RottenMeatBlock : FluidBlock
 	public override void GenerateTerrainVertices(BlockGeometryGenerator generator, TerrainGeometrySubsets geometry, int value, int x, int y, int z)
 	{
 		Type type = GetType(value);
-		if (type < Type.Oil || type > Type.T2O || type == Type.OilBucket)
+		if (type < Type.Oil || type > Type.T2O || type == Type.OilBucket || type == Type.GasolineBucket)
 			return;
 		Color color = Colors[(int)type - 1];
 		BlocksManager.FluidBlocks[WaterBlock.Index].GenerateFluidTerrainVertices(generator, value, x, y, z, color, color, geometry.OpaqueSubsetsByFace);
