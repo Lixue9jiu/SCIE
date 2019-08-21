@@ -226,6 +226,7 @@ namespace Game
 			{
 				var view = componentMiner.ComponentPlayer.View;
 				view.ActiveCamera = view.ActiveCamera is TelescopeCamera ? view.FindCamera<FppCamera>(true) : (Camera)new TelescopeCamera(view);
+				//return false;
 			}
 			/*else if (activeBlockValue == ItemBlock.IdTable["Minecart"])
 			{

@@ -32,8 +32,8 @@ namespace Game
 		{
 			if (path == null)
 				Children.Find<LabelWidget>("ChestLabel").Text = component.ValuesDictionary.DatabaseObject.Name;
-			if (Utils.TR.Count < 3)
-				Children.Find<LabelWidget>("InventoryLabel").Text = "교관";
+			//if (Utils.TR.Count < 3)
+			//	Children.Find<LabelWidget>("InventoryLabel").Text = "교관";
 			m_fire = Children.Find<FireWidget>("Fire");
 			m_progress = Children.Find<ValueBarWidget>("Progress");
 			m_resultSlot = Children.Find<InventorySlotWidget>("ResultSlot");

@@ -4,6 +4,7 @@ namespace Game
 {
 	public class SubsystemMusket3BlockBehavior : SubsystemMusket2BlockBehavior
 	{
+		public SubsystemGameInfo m_subsystemGameInfo;
 		public override bool OnEditInventoryItem(IInventory inventory, int slotIndex, ComponentPlayer componentPlayer)
 		{
 			componentPlayer.ComponentGui.ModalPanelWidget = componentPlayer.ComponentGui.ModalPanelWidget == null ? new Musket2Widget(inventory, slotIndex) : null;
@@ -103,14 +104,17 @@ namespace Game
 											//m_subsystemParticles.AddParticleSystem(fireParticleSystem);m_random.UniformFloat(-0.1f, 0.1f)
 											m_subsystemParticles.AddParticleSystem(new GunSmokeParticleSystem2(SubsystemTerrain, vector2 + 1.3f * dir, dir));
 											m_subsystemNoise.MakeNoise(vector2, 1f, 40f);
-											
-											int value23 = Terrain.ExtractData(inventory.GetSlotValue(activeSlotIndex));
-											int num44 = Musket3Block.GetBulletNum(value23);
-											componentMiner.ComponentPlayer?.ComponentGui.DisplaySmallMessage((num44-1).ToString(), blinking: true, playNotificationSound: false);
-											inventory.RemoveSlotItems(activeSlotIndex, 1);
-											inventory.AddSlotItems(activeSlotIndex, Terrain.MakeBlockValue(Musket3Block.Index, 0, Musket3Block.SetBulletNum(num44 - 1)), 1);
-											if (Utils.Random.Bool(0.1f))
-												componentMiner.DamageActiveTool(1);
+											//SubsystemGameInfo m_subsystemGameInfo
+											if (m_subsystemGameInfo.WorldSettings.GameMode != GameMode.Creative)
+											{
+												int value23 = Terrain.ExtractData(inventory.GetSlotValue(activeSlotIndex));
+												int num44 = Musket3Block.GetBulletNum(value23);
+												componentMiner.ComponentPlayer?.ComponentGui.DisplaySmallMessage((num44 - 1).ToString(), blinking: true, playNotificationSound: false);
+												inventory.RemoveSlotItems(activeSlotIndex, 1);
+												inventory.AddSlotItems(activeSlotIndex, Terrain.MakeBlockValue(Musket3Block.Index, 0, Musket3Block.SetBulletNum(num44 - 1)), 1);
+												if (Utils.Random.Bool(0.1f))
+													componentMiner.DamageActiveTool(1);
+											}
 											//componentMiner.ComponentCreature.ComponentBody.ApplyImpulse(-1f * vector3);
 										}
 									}
@@ -155,14 +159,14 @@ namespace Game
 		{
 			return Terrain.ExtractContents(value) != Bullet2Block.Index || Musket3Block.GetBulletNum(Terrain.ExtractData(inventory.GetSlotValue(slotIndex))) > 62
 				? 0
-				: inventory.GetSlotCount(slotIndex);
+				: 1;
 		}
 
 		public override void ProcessInventoryItem(IInventory inventory, int slotIndex, int value, int count, int processCount, out int processedValue, out int processedCount)
 		{
 			processedValue = value;
 			processedCount = count;
-			processCount = count;
+			//processCount = count;
 			int value22 = Terrain.ExtractData(inventory.GetSlotValue(slotIndex));
 			int num = Musket3Block.GetBulletNum(value22);
 			if (processCount + num < 64)
