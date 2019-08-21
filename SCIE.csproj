@@ -63,6 +63,7 @@
     <Compile Include="Blocks\MultiDirectionalBlock.cs" />
     <Compile Include="Blocks\Musket3Block.cs" />
     <Compile Include="Blocks\Musket2Block.cs" />
+    <Compile Include="Blocks\Musket4Block.cs" />
     <Compile Include="Blocks\SteelTools.cs" />
     <Compile Include="Blocks\TankBlock.cs" />
     <Compile Include="Blocks\DrillBlock.cs" />
@@ -152,6 +153,7 @@
     <Compile Include="Subsystems\SubsystemBullet2BlockBehavior.cs" />
     <Compile Include="Subsystems\SubsystemMusket2BlockBehavior.cs" />
     <Compile Include="Subsystems\SubsystemMusket3BlockBehavior.cs" />
+    <Compile Include="Subsystems\SubsystemMusket4BlockBehavior.cs" />
     <Compile Include="Subsystems\SubsystemRailBlockBehavior.cs" />
     <Compile Include="Subsystems\SubsystemNewBlockBehavior.cs" />
     <Compile Include="Subsystems\SubsystemSourceOfFireBlockBehavior.cs" />
