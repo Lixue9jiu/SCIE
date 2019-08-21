@@ -52,10 +52,13 @@ namespace Game
 										componentMiner.ComponentCreature.ComponentCreatureSounds.PlayMoanSound();
 										return true;
 									}
-									if (num4 > 0.2f && !Musket2Block.GetHammerState(Terrain.ExtractData(num2)))
+									var view2 = componentMiner.ComponentPlayer.View;
+									if (num4 > 0.2f && !(view2.ActiveCamera is TelescopeCamera2))
 									{
-										//num2 = Terrain.MakeBlockValue(num, 0, Musket2Block.SetHammerState(Terrain.ExtractData(num2), true));
-										//m_subsystemAudio.PlaySound("Audio/HammerCock", 1f, m_random.UniformFloat(-0.1f, 0.1f), 0f, 0f);
+										
+										view2.ActiveCamera = view2.ActiveCamera is TelescopeCamera2 ? view2.FindCamera<FppCamera>(true) : (Camera)new TelescopeCamera2(view2);
+										//view.ActiveCamera.
+										
 									}
 									ComponentFirstPersonModel componentFirstPersonModel = componentMiner.Entity.FindComponent<ComponentFirstPersonModel>();
 									if (componentFirstPersonModel != null)
@@ -73,6 +76,8 @@ namespace Game
 								}
 						
 							case AimState.Cancelled:
+								var view = componentMiner.ComponentPlayer.View;
+								view.ActiveCamera = view.ActiveCamera is TelescopeCamera2 ? view.FindCamera<FppCamera>(true) : (Camera)new TelescopeCamera2(view);
 								if (Musket2Block.GetHammerState(Terrain.ExtractData(num2)))
 								{
 									num2 = Terrain.MakeBlockValue(num, 0, Musket2Block.SetHammerState(Terrain.ExtractData(num2), false));
@@ -82,6 +87,8 @@ namespace Game
 								break;
 							case AimState.Completed:
 								{
+									var view3 = componentMiner.ComponentPlayer.View;
+									view3.ActiveCamera = view3.ActiveCamera is TelescopeCamera2 ? view3.FindCamera<FppCamera>(true) : (Camera)new TelescopeCamera2(view3);
 									bool flag = false;
 									int value2 = 0;
 									int num6 = 0;
@@ -94,7 +101,7 @@ namespace Game
 										value2 = Terrain.MakeBlockValue(214, 0, BulletBlock.SetBulletType(0, BulletBlock.BulletType.IronBullet));
 										s = 320f;
 										num6 = 1;
-										vector = new Vector3(0.01f, 0.01f, 0.05f);
+										vector = new Vector3(0.001f, 0.001f, 0.001f);
 									}
 									if (flag)
 									{
@@ -129,9 +136,11 @@ namespace Game
 									}
 									//if (Musket2Block.GetHammerState(Terrain.ExtractData(num2)))
 									//{
-										//num2 = Terrain.MakeBlockValue(Terrain.ExtractContents(num2), 0, Musket2Block.SetHammerState(Terrain.ExtractData(num2), false));
-										//m_subsystemAudio.PlaySound("Audio/HammerRelease", 1f, m_random.UniformFloat(-0.1f, 0.1f), 0f, 0f);
+									//num2 = Terrain.MakeBlockValue(Terrain.ExtractContents(num2), 0, Musket2Block.SetHammerState(Terrain.ExtractData(num2), false));
+									//m_subsystemAudio.PlaySound("Audio/HammerRelease", 1f, m_random.UniformFloat(-0.1f, 0.1f), 0f, 0f);
 									//}
+									var view5 = componentMiner.ComponentPlayer.View;
+									view5.ActiveCamera = view5.FindCamera<FppCamera>(true);
 									m_aimStartTimes.Remove(componentMiner);
 									break;
 								}
