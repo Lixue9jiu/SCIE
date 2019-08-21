@@ -9,7 +9,7 @@ namespace Game
 			if (m_updateSmeltingRecipe)
 			{
 				m_updateSmeltingRecipe = false;
-				m_smeltingRecipe2 = FindSmeltingRecipe(FindSmeltingRecipe());
+				m_smeltingRecipe2 = FindSmeltingRecipe();
 				if (m_smeltingRecipe2 != m_smeltingRecipe)
 				{
 					m_smeltingRecipe = m_smeltingRecipe2;
@@ -62,24 +62,29 @@ namespace Game
 		{
 			result.Clear();
 			int text = 0;
-			int i;
-			for (i = 0; i < m_furnaceSize; i++)
+			if (GetSlotCount(0) <= 0) return 0;
+			int content = Terrain.ExtractContents(GetSlotValue(0));
+			if (content == RottenMilkBucketBlock.Index || content == RottenPumpkinSoupBucketBlock.Index)
 			{
-				if (GetSlotCount(i) <= 0) continue;
-				int content = Terrain.ExtractContents(GetSlotValue(i));
-				if (content == RottenMilkBucketBlock.Index || content == RottenPumpkinSoupBucketBlock.Index)
-				{
-					text = 1;
-					result[SaltpeterChunkBlock.Index] = 1;
-					result[EmptyBucketBlock.Index] = 1;
-				}
-				else if (content < 255 && BlocksManager.Blocks[content] is FoodBlock || content == RottenMeatBlock.Index || content == RottenEggBlock.Index)
-				{
-					text = 1;
-					result[SaltpeterChunkBlock.Index] = 1;
-				}
+				text = 1;
+				result[EmptyBucketBlock.Index] = 1;
 			}
-			return text;
+			else if (content < 255 && BlocksManager.Blocks[content] is FoodBlock || content == RottenMeatBlock.Index || content == RottenEggBlock.Index)
+			{
+				text = 1;
+			}
+			if (text == 0)
+				return 0;
+			int i = 1;
+			for (; i < m_furnaceSize; i++)
+			{
+				if (GetSlotValue(i) == ItemBlock.IdTable["Bottle"])
+					break;
+			}
+			if (i != m_furnaceSize)
+				result.Add(ItemBlock.IdTable["Bottle"], -1);
+			result.Add(i == m_furnaceSize ? SaltpeterChunkBlock.Index : ItemBlock.IdTable["C2H5OH"], 1);
+			return FindSmeltingRecipe(text);
 		}
 	}
 }

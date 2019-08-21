@@ -11,7 +11,7 @@ namespace Game
 			if (m_updateSmeltingRecipe)
 			{
 				m_updateSmeltingRecipe = false;
-				m_smeltingRecipe2 = FindSmeltingRecipe(FindSmeltingRecipe());
+				m_smeltingRecipe2 = FindSmeltingRecipe();
 				if (m_smeltingRecipe2 != m_smeltingRecipe)
 				{
 					m_smeltingRecipe = m_smeltingRecipe2;
@@ -62,7 +62,7 @@ namespace Game
 					result[BasaltBlock.Index] = 1;
 				}
 			}
-			return text;
+			return FindSmeltingRecipe(text);
 		}
 	}
 }

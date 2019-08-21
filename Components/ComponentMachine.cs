@@ -38,6 +38,8 @@ namespace Game
 
 		public override void AddSlotItems(int slotIndex, int value, int count)
 		{
+			if (GetSlotCount(slotIndex) != 0 && (GetSlotValue(slotIndex) != value || GetSlotCount(slotIndex) + count > GetSlotCapacity(slotIndex, value)))
+				return;
 			base.AddSlotItems(slotIndex, value, count);
 			m_updateSmeltingRecipe = true;
 		}
@@ -45,7 +47,8 @@ namespace Game
 		public override int RemoveSlotItems(int slotIndex, int count)
 		{
 			m_updateSmeltingRecipe = true;
-			if (GetSlotValue(slotIndex)== 262384 || GetSlotValue(slotIndex)==786672 || GetSlotValue(slotIndex)==1048816 || GetSlotValue(slotIndex)==1310960 || GetSlotValue(slotIndex)==WaterBlock.Index)
+			int v = GetSlotValue(slotIndex);
+			if (v == 262384 || v == 786672 || v == 1048816 || v == 1310960 || v == WaterBlock.Index)
 			{
 				return 0;
 			}

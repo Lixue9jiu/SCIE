@@ -978,7 +978,7 @@
     <Recipe Result="AuZnBattery" ResultCount="1" RequiredHeatLevel="0" Remains="EmptyBucketBlock" RemainsCount="1" a="CuZnBattery" b="GoldPlate" Description="用Cu-Zn电池改装成Au-Zn电池">
       "bab"
     </Recipe>
-    <Recipe Result="VBattery" ResultCount="1" RequiredHeatLevel="0" Remains="EmptyBucketBlock" RemainsCount="1" a="ZincSheet" b="cottonwad" c="SilverSheet" d="waterbucket" Description="制作伏打电池">
+    <Recipe Result="VBattery" ResultCount="1" RequiredHeatLevel="0" Remains="EmptyBucketBlock" RemainsCount="1" a="ZincSheet" b="cottonwad" c="GoldSheet" d="waterbucket" Description="制作伏打电池">
       "abca"
       "bcab"
       "cabc"
