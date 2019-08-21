@@ -26,10 +26,10 @@
   <InventorySlotWidget Name="RemainsSlot" CanvasWidget.Position="178, 268" >
     <LabelWidget Text="..." Font="{Fonts/Pericles24}" Color="0, 0, 0, 64" HorizontalAlignment="Center" VerticalAlignment="Center"/>
   </InventorySlotWidget>
-  <InventorySlotWidget Name="CircuitSlot" CanvasWidget.Position="28, 268" >
+  <InventorySlotWidget Name="CircuitSlot1" CanvasWidget.Position="28, 268" >
     <LabelWidget Text="Circuit" Font="{Fonts/Pericles24}" Color="0, 0, 0, 64" HorizontalAlignment="Center" VerticalAlignment="Center"/>
   </InventorySlotWidget>
-  <InventorySlotWidget Name="Circuit2Slot" CanvasWidget.Position="28, 196" >
+  <InventorySlotWidget Name="CircuitSlot2" CanvasWidget.Position="28, 196" >
     <LabelWidget Text="Circuit" Font="{Fonts/Pericles24}" Color="0, 0, 0, 64" HorizontalAlignment="Center" VerticalAlignment="Center"/>
   </InventorySlotWidget>
   <LabelWidget CanvasWidget.Position="28, 14" Text="InductionFurnace" Font="{Fonts/Pericles24}" Color="255, 255, 255, 192"/>

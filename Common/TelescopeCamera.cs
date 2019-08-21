@@ -42,11 +42,11 @@ namespace Game
             Vector2 cameraLook = componentInput.PlayerInput.CameraLook;
             m_angles.X = MathUtils.NormalizeAngle(m_angles.X - 4f * cameraLook.X * dt + 0.5f * cameraSneakMove.X * dt);
             m_angles.Y = MathUtils.Clamp(MathUtils.NormalizeAngle(m_angles.Y + 4f * cameraLook.Y * dt), MathUtils.DegToRad(-45f), MathUtils.DegToRad(80f));
-            m_distance = MathUtils.Clamp(m_distance + 50f * cameraSneakMove.Z * dt, 2f, 100f);
+            m_distance = MathUtils.Clamp(m_distance + 50f * cameraSneakMove.Z * dt, 2f, 50f);
             var v = Vector3.Transform(new Vector3(m_distance, 0f, 0f), Matrix.CreateFromYawPitchRoll(m_angles.X, 0f, m_angles.Y));
             Vector3 vector = View.Target.ComponentBody.BoundingBox.Center();
             Vector3 vector2 = vector + v;
-            if (Vector3.Distance(vector2, m_position) < 100f)
+            if (Vector3.Distance(vector2, m_position) < 50f)
             {
                 Vector3 v2 = vector2 - m_position;
                 float s = MathUtils.Saturate(10f * dt);
