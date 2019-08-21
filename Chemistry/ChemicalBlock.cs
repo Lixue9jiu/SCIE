@@ -80,7 +80,7 @@ namespace Game
 				new Cylinder("(CN)₂"),
 				new Cylinder("Cl₂O"),
 				new Cylinder("ClO₂"),
-				new Bottle(new DispersionSystem("Br₂")),
+				new Bottle(new DispersionSystem("Br₂"), new Color(111, 21, 12)),
 				new PurePowder("Na₂O"),
 				new PurePowder("Na₂O₂", Color.LightYellow),
 				new PurePowder("MgO"),
