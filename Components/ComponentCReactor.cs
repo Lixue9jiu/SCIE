@@ -6,11 +6,11 @@ namespace Game
 {
 	public class ComponentCReactor : ComponentMachine, IUpdateable
 	{
-		protected string m_smeltingRecipe;
+		protected int m_smeltingRecipe,
+						m_smeltingRecipe2;
 
 		//protected int m_music;
 
-		protected string m_smeltingRecipe2;
 
 		public override int RemainsSlotIndex => -1;
 
@@ -38,7 +38,7 @@ namespace Game
 				}
 			}
 			int i;
-			if (m_smeltingRecipe2 != null)
+			if (m_smeltingRecipe2 != 0)
 			{
 				int num = 0;
 				for (i = -1; i < 2; i++)
@@ -58,11 +58,11 @@ namespace Game
 					}
 				}
 				if (num == 0)
-					m_smeltingRecipe = null;
-				if (num == 1 && m_smeltingRecipe == null)
+					m_smeltingRecipe = 0;
+				if (num == 1 && m_smeltingRecipe == 0)
 					m_smeltingRecipe = m_smeltingRecipe2;
 			}
-			if (m_smeltingRecipe == null)
+			if (m_smeltingRecipe == 0)
 			{
 				HeatLevel = 0f;
 				m_fireTimeRemaining = 0f;
@@ -72,11 +72,11 @@ namespace Game
 				m_fireTimeRemaining = 100f;
 			if (m_fireTimeRemaining <= 0f)
 			{
-				m_smeltingRecipe = null;
+				m_smeltingRecipe = 0;
 				SmeltingProgress = 0f;
 				//m_music = -1;
 			}
-			if (m_smeltingRecipe != null)
+			if (m_smeltingRecipe != 0)
 			{
 				SmeltingProgress = MathUtils.Min(SmeltingProgress + 0.1f * dt, 1f);
 				if (SmeltingProgress >= 1f)
@@ -84,9 +84,9 @@ namespace Game
 					for (i = 0; i < 3; i++)
 						if (m_slots[i].Count > 0)
 							m_slots[i].Count--;
-					m_slots[ResultSlotIndex].Value = ItemBlock.IdTable[m_smeltingRecipe];
+					m_slots[ResultSlotIndex].Value = m_smeltingRecipe;
 					m_slots[ResultSlotIndex].Count++;
-					m_smeltingRecipe = null;
+					m_smeltingRecipe = 0;
 					SmeltingProgress = 0f;
 					m_updateSmeltingRecipe = true;
 				}
@@ -99,7 +99,7 @@ namespace Game
 			m_furnaceSize = SlotsCount - 1;
 		}
 
-		protected string FindSmeltingRecipe(float heatLevel)
+		protected int FindSmeltingRecipe(float heatLevel)
 		{
 			string text = null;
 			int n = 1;
@@ -114,14 +114,16 @@ namespace Game
 						n = -n;
 				}
 			}
+			if (text == null)
+				return 0;
 			if (n == -4)
 			{
 				text = "CuZnBattery";
 				Slot slot = m_slots[ResultSlotIndex];
 				if (slot.Count != 0 && (slot.Value != ItemBlock.IdTable[text] || slot.Count >= 40))
-					return null;
+					return 0;
 			}
-			return text;
+			return ItemBlock.IdTable[text];
 		}
 	}
 }

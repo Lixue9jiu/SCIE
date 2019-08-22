@@ -32,7 +32,7 @@ namespace Game
 			if (m_updateSmeltingRecipe)
 			{
 				m_updateSmeltingRecipe = false;
-				m_smeltingRecipe2 = FindSmeltingRecipe(FindSmeltingRecipe());
+				m_smeltingRecipe2 = FindSmeltingRecipe();
 				if (m_smeltingRecipe2 != m_smeltingRecipe)
 				{
 					m_smeltingRecipe = m_smeltingRecipe2;
@@ -94,8 +94,10 @@ namespace Game
 			m_furnaceSize = SlotsCount - 1;
 		}
 
-		protected virtual int FindSmeltingRecipe(int value)
+		protected int FindSmeltingRecipe(int value)
 		{
+			if (value == 0)
+				return 0;
 			var e = result.GetEnumerator();
 			while (e.MoveNext())
 			{
@@ -158,7 +160,7 @@ namespace Game
 						break;
 				}
 			}
-			return text;
+			return FindSmeltingRecipe(text);
 		}
 	}
 	public class ComponentRecycler : ComponentSeparator

@@ -58,6 +58,9 @@ namespace Game
 				new PurePowder(Materials.Iron),
 				new PurePowder(Materials.Copper),
 				new PurePowder(Materials.Germanium),
+				new FuelPowder("C", Color.Black),
+				new FuelPowder("S", Color.Yellow, 1500f, 30f),
+				new PurePowder("I₂", Color.DarkMagenta),
 				new FuelCylinder("H₂", 900, 180),
 				new Cylinder("O₂"),
 				new Cylinder("CO₂"),
@@ -77,6 +80,7 @@ namespace Game
 				new Cylinder("(CN)₂"),
 				new Cylinder("Cl₂O"),
 				new Cylinder("ClO₂"),
+				new Bottle(new DispersionSystem("Br₂"), new Color(111, 21, 12)),
 				new PurePowder("Na₂O"),
 				new PurePowder("Na₂O₂", Color.LightYellow),
 				new PurePowder("MgO"),
@@ -104,9 +108,6 @@ namespace Game
 				new PurePowder("P₄O₆"),
 				new PurePowder("PCl₃"),
 				new PurePowder("PCl₅"),
-				new FuelPowder("C", Color.Black),
-				new FuelPowder("S", Color.Yellow, 1500f, 30f),
-				new PurePowder("I₂", Color.DarkMagenta),
 				});
 			for (int i = 0; i < Cations.Length; i++)
 			{
@@ -167,6 +168,7 @@ namespace Game
 			list.Add(new PurePowder("MgI₂"));
 			list.Add(new PurePowder("KI"));
 			list.Add(new PurePowder("CaI₂"));
+			list.Add(new PurePowder("BaI₂"));
 			list.Add(new PurePowder("AgBr", Color.LightYellow));
 			list.Add(new PurePowder("AgI", Color.Yellow));
 			list.Capacity = list.m_count;
@@ -230,6 +232,29 @@ namespace Game
 
 		public float GetHeatLevel(int value) => HeatLevel;
 		public float GetFuelFireDuration(int value) => FuelFireDuration;
+	}
+	public class Bottle : MeshItem, IChemicalItem
+	{
+		public string Id;
+		public readonly DispersionSystem System;
+
+		public Bottle(DispersionSystem system, Color color = default(Color)) : this(system.ToString(), null, color)
+		{
+			System = system;
+		}
+
+		public Bottle(string name, string id = null, Color color = default(Color)) : base(name)
+		{
+			System = DispersionSystem.Air;
+			Id = id ?? name;
+			DefaultDisplayName = DefaultDescription;
+			if (color.PackedValue != 0u)
+				m_standaloneBlockMesh.AppendMesh("Models/Glass", "content", Matrix.CreateRotationX(MathUtils.PI) * Matrix.CreateScale(0.5f, 0.5f, 0.3f) * Matrix.CreateTranslation(0f, -0.4f, 0f), Matrix.CreateTranslation(-1 / 16f, 0f, 0f), color);
+			m_standaloneBlockMesh.AppendMesh("Models/Glass", "glassbottle", Matrix.CreateRotationX(MathUtils.PI) * Matrix.CreateScale(0.5f, 0.5f, 0.3f) * Matrix.CreateTranslation(0f, -0.4f, 0f), Matrix.CreateTranslation(-1 / 16f, 0f, 0f), new Color(255, 255, 255, 64));
+		}
+
+		public override string GetCraftingId() => Id;
+		public DispersionSystem GetDispersionSystem() => System;
 	}
 	public class PurePowder : Powder, IChemicalItem
 	{

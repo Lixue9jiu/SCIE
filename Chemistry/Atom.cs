@@ -141,6 +141,11 @@ namespace Chemistry
 				else i++;
 			}
 		}
+		public static readonly Group Na = new Group("Na⁺");
+		public static readonly Group Mg = new Group("Mg²⁺");
+		public static readonly Group Al = new Group("Al³⁺");
+		public static readonly Group K = new Group("K⁺");
+		public static readonly Group NO3 = new Group("NO₃⁻");
 
 		/*public float AtomicWeight
 		{

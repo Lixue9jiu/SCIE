@@ -31,10 +31,10 @@ namespace Game
 	}
 	public partial class SubsystemMineral : SubsystemBlockBehavior
 	{
-		public static TerrainBrush[] SmallBrushes;
-		public static TerrainBrush[] PtBrushes;
-		public static TerrainBrush[] ABrushes;
-		public static TerrainBrush[] BBrushes;
+		public static TerrainBrush[] SmallBrushes,
+									PtBrushes,
+									ABrushes,
+									BBrushes;
 		public static TerrainBrush.Cell[][] OilPocketCells;
 		//public static TerrainBrush[] NaturalGasBrushes;
 		//public static Dictionary<long, int> MinesData;

@@ -96,11 +96,8 @@ namespace Game
 					for (int i = 0; i < m_furnaceSize; i++)
 						if (m_slots[i].Count > 0)
 							m_slots[i].Count--;
-					if (string.Equals(m_smeltingRecipe, "SteelWheel") || string.Equals(m_smeltingRecipe, "SteelGear") || string.Equals(m_smeltingRecipe, "ScrapIron"))
-					{
-						m_slots[ResultSlotIndex].Value = ItemBlock.IdTable[m_smeltingRecipe];
-						m_slots[ResultSlotIndex].Count++;
-					}
+					m_slots[ResultSlotIndex].Value = ItemBlock.IdTable[m_smeltingRecipe];
+					m_slots[ResultSlotIndex].Count++;
 					m_smeltingRecipe = null;
 					SmeltingProgress = 0f;
 					m_updateSmeltingRecipe = true;
@@ -125,20 +122,19 @@ namespace Game
 			for (int i = 0; i < m_furnaceSize; i++)
 			{
 				int slotvalue = GetSlotValue(1);
-				if (GetSlotCount(i) > 0 && slotvalue != 0)
+				if (GetSlotCount(i) <= 0 || slotvalue == 0) continue;
+				if (Terrain.ExtractContents(GetSlotValue(i)) == GlassBlock.Index && heatLevel > 1200f)
 				{
-					if (GetSlotValue(i) == ItemBlock.IdTable["SteelIngot"])
-					{
-						if (heatLevel < 1500f)
-							text = "ScrapIron";
-						else
-						{
-							if (slotvalue == ItemBlock.IdTable["SteelGearMould"])
-								text = "SteelGear";
-							else if (slotvalue == ItemBlock.IdTable["SteelWheelMould"])
-								text = "SteelWheel";
-						}
-					}
+					text = "Bottle";
+				}
+				else if (GetSlotValue(i) == ItemBlock.IdTable["SteelIngot"])
+				{
+					if (heatLevel < 1500f)
+						text = "ScrapIron";
+					else if (slotvalue == ItemBlock.IdTable["SteelGearMould"])
+						text = "SteelGear";
+					else if (slotvalue == ItemBlock.IdTable["SteelWheelMould"])
+						text = "SteelWheel";
 				}
 			}
 			if (text != null)
