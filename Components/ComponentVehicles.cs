@@ -275,7 +275,7 @@ namespace Game
 								}
 								break;
 							case CottonBlock.Index:
-								if (CottonBlock.GetSize(value444)>=6)
+								if (CottonBlock.GetSize(value444)>=0)
 								{
 									flag333 = true;
 

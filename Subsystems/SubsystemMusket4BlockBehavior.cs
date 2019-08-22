@@ -98,7 +98,7 @@ namespace Game
 									if (Musket4Block.GetBulletNum(Terrain.ExtractData(inventory.GetSlotValue(activeSlotIndex))) > 0)
 									{
 										flag = true;
-										value2 = Terrain.MakeBlockValue(214, 0, BulletBlock.SetBulletType(0, BulletBlock.BulletType.IronBullet));
+										value2 = Terrain.MakeBlockValue(214, 0, BulletBlock.SetBulletType(0, BulletBlock.BulletType.SBullet));
 										s = 320f;
 										num6 = 1;
 										vector = new Vector3(0.001f, 0.001f, 0.001f);

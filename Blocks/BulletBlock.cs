@@ -13,23 +13,24 @@ namespace Game
 			Buckshot,
 			BuckshotBall,
 			IronBullet,
-            CBullet
+            CBullet,
+			SBullet
 		}
 
 		public const int Index = 214;
 
 		protected static readonly string[] m_displayNames = new[]
 		{
-			"Musket Ball", "Buckshot", "Buckshot Ball", "IronBullet", "C-Bullet"
+			"Musket Ball", "Buckshot", "Buckshot Ball", "IronBullet", "C-Bullet","SnpierBullet"
 		};
 
-		protected static readonly float[] m_sizes = new[] { 1f, 1f, 0.33f, 1f ,0.5f};
+		protected static readonly float[] m_sizes = new[] { 1f, 1f, 0.33f, 1f ,0.5f,0.8f};
 
-		protected static readonly int[] m_textureSlots = new[] { 229, 231, 229, 229 ,229};
+		protected static readonly int[] m_textureSlots = new[] { 229, 231, 229, 229 ,229,229};
 
-		protected static readonly float[] m_weaponPowers = new[] { 60f, 0f, 3.6f, 90f ,50f};
+		protected static readonly float[] m_weaponPowers = new[] { 60f, 0f, 3.6f, 90f ,50f,200f};
 
-		protected static readonly float[] m_explosionPressures = new[] { 0f, 0f, 0f, 0.1f ,0.1f};
+		protected static readonly float[] m_explosionPressures = new[] { 0f, 0f, 0f, 0.1f ,0.1f,0.1f};
 
 		public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
 		{
