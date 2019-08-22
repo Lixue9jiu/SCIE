@@ -87,8 +87,14 @@ namespace Game
 								break;
 							case AimState.Completed:
 								{
+									Vector3 vvv2 = new Vector3(0f, 0f, 0f);
 									var view3 = componentMiner.ComponentPlayer.View;
-									view3.ActiveCamera = view3.ActiveCamera is TelescopeCamera2 ? view3.FindCamera<FppCamera>(true) : (Camera)new TelescopeCamera2(view3);
+									if (view3.ActiveCamera is TelescopeCamera2)
+									{
+										vvv2 = TelescopeCamera2.m_direction;
+										view3.ActiveCamera = view3.FindCamera<FppCamera>(true);
+									}
+									//view3.ActiveCamera = view3.ActiveCamera is TelescopeCamera2 ? view3.FindCamera<FppCamera>(true) : (Camera)new TelescopeCamera2(view3);
 									bool flag = false;
 									int value2 = 0;
 									int num6 = 0;
@@ -107,16 +113,18 @@ namespace Game
 									{
 										
 										{
+											//componentMiner.ComponentCreature.ComponentCreatureModel.EyePosition =Vector3.Normalize(vvv2);
 											Vector3 eyePosition = componentMiner.ComponentCreature.ComponentCreatureModel.EyePosition;
 											Matrix matrix = componentMiner.ComponentCreature.ComponentBody.Matrix;
 											Vector3 vector2 = eyePosition + matrix.Right * 0.3f - matrix.Up * 0.2f;
 											var vector3 = Vector3.Normalize(vector2 + direction * 10f - vector2);
+											var vector31= Vector3.Normalize(direction);
 											var vector4 = Vector3.Normalize(Vector3.Cross(vector3, Vector3.UnitY));
 											var v3 = Vector3.Normalize(Vector3.Cross(vector3, vector4));
 											for (int i = 0; i < num6; i++)
 											{
 												Vector3 v4 = m_random.UniformFloat(-vector.X, vector.X) * vector4 + m_random.UniformFloat(-vector.Y, vector.Y) * v3 + m_random.UniformFloat(-vector.Z, vector.Z) * vector3;
-												Projectile projectile = m_subsystemProjectiles.FireProjectile(value2, vector2, s * (vector3 + v4), Vector3.Zero, componentMiner.ComponentCreature);
+												Projectile projectile = m_subsystemProjectiles.FireProjectile(value2, vector2+vvv2, s * (vector31 + v4), Vector3.Zero, componentMiner.ComponentCreature);
 												if (projectile != null)
 													projectile.ProjectileStoppedAction = ProjectileStoppedAction.Disappear;
 											}

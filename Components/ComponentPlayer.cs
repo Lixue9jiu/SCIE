@@ -9,7 +9,7 @@ namespace Game
 		public new void Update(float dt)
 		{
 			PlayerInput playerInput = ComponentInput.PlayerInput;
-			if (ComponentInput.IsControlledByTouch && m_aimDirection.HasValue && !(View.ActiveCamera is TelescopeCamera2))
+			if (ComponentInput.IsControlledByTouch && m_aimDirection.HasValue)
 				playerInput.Look = Vector2.Zero;
 			if (ComponentMiner.Inventory != null)
 			{
