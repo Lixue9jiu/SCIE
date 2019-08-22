@@ -2,7 +2,7 @@
 using GameEntitySystem;
 using System.Linq;
 using TemplatesDatabase;
-
+using System.Collections.Generic;
 namespace Game
 {
 	public class ComponentBoatI : ComponentBoat, IUpdateable
@@ -99,6 +99,7 @@ namespace Game
 	{
 		protected ComponentEngineA componentEngine;
 		protected ComponentEngineT componentEngine2;
+		protected int use=0;
 
 
 		public new void Update(float dt)
@@ -110,14 +111,14 @@ namespace Game
 				componentBody.IsGroundDragEnabled = true;
 				Quaternion rotation = componentBody.Rotation;
 				float num = MathUtils.Atan2(2f * rotation.Y * rotation.W - 2f * rotation.X * rotation.Z, 1f - 2f * rotation.Y * rotation.Y - 2f * rotation.Z * rotation.Z);
-				if ((m_turnSpeed += 2.5f * Utils.SubsystemTime.GameTimeDelta * (TurnOrder - m_turnSpeed)) != 0 && componentEngine2.HeatLevel > 0f && MoveOrder != 0f)
+				if ((m_turnSpeed += 2.5f * Utils.SubsystemTime.GameTimeDelta * (TurnOrder - m_turnSpeed)) != 0 && componentEngine2.HeatLevel > 0f)
 					num -= m_turnSpeed * dt;
 				componentBody.Rotation = Quaternion.CreateFromAxisAngle(Vector3.UnitY, num);
 				ComponentRider rider = m_componentMount.Rider;
 				if (MoveOrder != 0f)
 				{
 					if (rider != null && componentBody.StandingOnValue.HasValue && componentEngine2 != null && componentEngine2.HeatLevel > 0f)
-						m_componentBody.Velocity += dt * 10f * MoveOrder * m_componentBody.Matrix.Forward;
+						m_componentBody.Velocity += dt * 7f * MoveOrder * m_componentBody.Matrix.Forward;
 					MoveOrder = 0f;
 				}
 				if (componentBody.ImmersionFactor > 0.95f)
@@ -127,16 +128,186 @@ namespace Game
 						rider.StartDismounting();
 				}
 				TurnOrder = 0f;
-				if (componentEngine2.HeatLevel <= 0f || componentBody.Mass > 1200f || !componentBody.StandingOnValue.HasValue)
+				if (componentEngine2.HeatLevel <= 0f || componentBody.Mass > 1200f || !componentBody.StandingOnValue.HasValue || m_componentBody.Velocity.LengthSquared()==0f)
 					return;
-				int value = Terrain.ExtractContents(componentBody.StandingOnValue.Value);
-				Vector3 p2 = Vector3.Normalize(componentBody.Rotation.ToForwardVector());
-				if (value == SoilBlock.Index)
-					componentBody.IsSneaking = true;
-				if (value == DirtBlock.Index || value == GrassBlock.Index)
+				if (componentEngine2.HeatLevel ==500f)
 				{
-					var p = Terrain.ToCell(componentBody.Position-p2*2f);
-					Utils.SubsystemTerrain.ChangeCell(p.X, p.Y - 1, p.Z, Terrain.ReplaceContents(value, 168));
+					int abb = -1;
+					int bb2 = -1;
+					//bool flagg = false;
+					//int use = 0;
+					for (int i=0;i<6;i++)
+					{
+						int va1=componentEngine2.GetSlotValue(i);
+						if (va1 == SaltpeterChunkBlock.Index && componentEngine2.GetSlotCount(i) > 0)
+						{
+							abb = i;
+						}
+					}
+					if (abb>=0 && use==0)
+					{
+						componentEngine2.m_slots[abb].Count -= 1;
+						//flagg = true;
+						use = 9;
+					}
+					int value = Terrain.ExtractContents(componentBody.StandingOnValue.Value);
+					Vector3 p2 = Vector3.Normalize(componentBody.Rotation.ToForwardVector());
+					Vector3 p3 = Vector3.Transform(p2, Matrix.CreateRotationY(MathUtils.PI / 2));
+					//if (value == SoilBlock.Index)
+						componentBody.IsSneaking = true;
+					
+					for (int aaa = -3; aaa < 3 + 1; aaa++)
+					{
+						var p = Terrain.ToCell(componentBody.Position - p2 * 2f + aaa * p3+new Vector3(0f,0.1f,0f));
+						int value2 = Utils.Terrain.GetCellContentsFast(p.X, p.Y - 1, p.Z);
+						if (value2 == DirtBlock.Index || value2 == GrassBlock.Index || value2 == SoilBlock.Index)
+						{
+							if (Utils.Terrain.GetCellContentsFast(p.X, p.Y, p.Z) == 0)
+							for (int i = 0; i < 6; i++)
+							{
+								int value23 = 0;
+								int va1 = componentEngine2.GetSlotValue(i);
+								switch (va1)
+								{
+									case 16557:
+										value23 = 20 | FlowerBlock.SetIsSmall(0, true) << 14;
+										break;
+									case 173:
+										value23 = 19 | TallGrassBlock.SetIsSmall(0, true) << 14;
+										break;
+									case 49325:
+										value23 = 25 | FlowerBlock.SetIsSmall(0, true) << 14;
+										break;
+									case 32941:
+										value23 = 24 | FlowerBlock.SetIsSmall(0, true) << 14;
+										break;
+									case 82093:
+										value23 = 174 | RyeBlock.SetSize(RyeBlock.SetIsWild(0, false), 0) << 14;
+										break;
+									case 65709:
+										value23 = 174 | RyeBlock.SetSize(RyeBlock.SetIsWild(0, false), 0) << 14;
+										break;
+									case 114861:
+										value23 = 131 | BasePumpkinBlock.SetSize(BasePumpkinBlock.SetIsDead(0, false), 0) << 14;
+										break;
+									case 98477:
+										value23 = 204 | CottonBlock.SetSize(CottonBlock.SetIsWild(0, false), 0) << 14;
+										break;
+								}
+								if (value23>0 && componentEngine2.GetSlotCount(i)>0 && Utils.Terrain.GetCellContentsFast(p.X, p.Y, p.Z) == 0)
+								{
+									componentEngine2.m_slots[i].Count -= 1;
+									Utils.SubsystemTerrain.ChangeCell(p.X, p.Y, p.Z, value23);
+									i += 6;
+								}
+							}
+							if (use>0 && value2 != (168 | SoilBlock.SetNitrogen(0, 3) << 14))
+							{
+								Utils.SubsystemTerrain.ChangeCell(p.X, p.Y - 1, p.Z, 168 | SoilBlock.SetNitrogen(0, 3) << 14);
+								use -= 1;
+							}
+							else
+							//cellFace.X + i, cellFace.Y, cellFace.Z + j, 168 | SoilBlock.SetNitrogen(Terrain.ExtractData(cellValueFast), 3) << 14
+							if (value2 != SoilBlock.Index)
+							Utils.SubsystemTerrain.ChangeCell(p.X, p.Y - 1, p.Z, Terrain.ReplaceContents(value, 168));
+						}
+					}
+				}
+				if (componentEngine2.HeatLevel == 499f)
+				{
+					//bool flagg = false;
+					//int use = 0;
+					int value = Terrain.ExtractContents(componentBody.StandingOnValue.Value);
+					Vector3 p2 = Vector3.Normalize(componentBody.Rotation.ToForwardVector());
+					Vector3 p3 = Vector3.Transform(p2, Matrix.CreateRotationY(MathUtils.PI / 2));
+					//if (value == SoilBlock.Index)
+					componentBody.IsSneaking = true;
+					for (int aaa = -3; aaa < 3 + 1; aaa++)
+					{
+						var p = Terrain.ToCell(componentBody.Position + p2 * 2f + aaa * p3 + new Vector3(0f, 0.1f, 0f));
+						int value2 = Utils.Terrain.GetCellContentsFast(p.X, p.Y, p.Z);
+						int value444 = Utils.Terrain.GetCellValueFast(p.X, p.Y, p.Z);
+						int value23=0;
+						bool flag333 = false;
+						IInventory inventory = componentBody.Entity.FindComponent<ComponentEngineT>(true);
+						switch (value2)
+						{
+							case RyeBlock.Index:
+								if (RyeBlock.GetSize(value444)>=6)
+								{
+									flag333 = true;
+									
+								}
+								break;
+							case PurpleFlowerBlock.Index:
+								if (!FlowerBlock.GetIsSmall(value444))
+								{
+									flag333 = true;
+
+								}
+								break;
+							case RedFlowerBlock.Index:
+								if (!FlowerBlock.GetIsSmall(value444))
+								{
+									flag333 = true;
+
+								}
+								break;
+							case WhiteFlowerBlock.Index:
+								if (!FlowerBlock.GetIsSmall(value444))
+								{
+									flag333 = true;
+
+								}
+								break;
+							case TallGrassBlock.Index:
+								if (!TallGrassBlock.GetIsSmall(value444))
+								{
+									flag333 = true;
+
+								}
+								break;
+							case PumpkinBlock.Index:
+								if (BasePumpkinBlock.GetSize(value444)>=4 || BasePumpkinBlock.GetIsDead(value444))
+								{
+									flag333 = true;
+
+								}
+								break;
+							case CottonBlock.Index:
+								if (CottonBlock.GetSize(value444)>=6)
+								{
+									flag333 = true;
+
+								}
+								break;
+							case RottenPumpkinBlock.Index:
+								 flag333 = true;
+								break;
+
+						}
+						if (flag333)
+						{
+							var list = new List<BlockDropValue>(8);
+							BlocksManager.Blocks[value2].GetDropValues(Utils.SubsystemTerrain, value444, 0, 3, list, out bool s);
+							for (int l = 0; l < list.Count; l++)
+							{
+								var blockDropValue = list[l];
+								//for (int i = 0; i <= blockDropValue.Count; i++)
+							    if (ComponentInventoryBase.AcquireItems(inventory, blockDropValue.Value, blockDropValue.Count) < blockDropValue.Count)
+								{
+									Utils.SubsystemTerrain.ChangeCell(p.X, p.Y, p.Z, 0);
+								}else
+								{
+									l += list.Count;
+								}
+
+							 }
+							
+						}
+					    
+						
+					}
 				}
 			}
 			if (componentEngine != null)

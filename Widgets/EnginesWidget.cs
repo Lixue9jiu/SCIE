@@ -128,8 +128,18 @@ namespace Game
 			{
 				m_component.HeatLevel = 0f;
 			}
+			if (m_dispenseButton2.IsClicked && m_component.HeatLevel !=500f && m_component.SmeltingProgress > 0f)
+			{
+				m_component.HeatLevel = 500f;
+			}
+			if (m_shootButton2.IsClicked && m_component.HeatLevel !=499f && m_component.SmeltingProgress > 0f)
+			{
+				m_component.HeatLevel = 499f;
+			}
 			m_dispenseButton.IsChecked = m_component.HeatLevel != 0f;
 			m_shootButton.IsChecked = m_component.HeatLevel == 0f;
+			m_dispenseButton2.IsChecked = m_component.HeatLevel == 500f;
+			m_shootButton2.IsChecked = m_component.HeatLevel == 499f;
 		}
 	}
 }
