@@ -169,6 +169,16 @@
         <Parameter Name="Mass" Guid="ae127d38-1571-4901-a319-b21a8dc22175" Value="1000" Type="float" />
       </MemberComponentTemplate>
     </EntityTemplate>
+	<EntityTemplate Name="Digger" Guid="3f4adf7e-2ce4-43fa-9612-47d69bf788ba" InheritanceParent="3f3acc8e-1ce4-43fa-9614-47d69bf788ba">
+	  <MemberComponentTemplate Name="Airship3Table" Guid="18df95a9-10c6-4a2c-9ea5-725fffee2225" InheritanceParent="98fdc111-8ca8-4d0f-af8d-25bfe9b56a19" />
+	  <MemberComponentTemplate Name="SimpleModel" Guid="411b2fd2-0db8-4604-9ee8-8504dbd3c7b1" InheritanceParent="cc5a4e72-0df9-4acf-a42e-ecb5a2a7baf5">
+        <Parameter Name="ModelName" Guid="222ef237-297f-47ca-950a-930ea7d6e881" Value="Models/Car2222" Type="string" />
+        <Parameter Name="TextureOverride" Guid="66e646e5-837a-4614-a9fe-b1f88d835b11" Value="Textures/tex4" Type="string" />
+      </MemberComponentTemplate>
+      <MemberComponentTemplate Name="Body" Guid="b6812318-ddd6-407b-bd4d-7be14c05d3eb">
+        <Parameter Name="Mass" Guid="fe127d39-1571-4931-a319-b21a8dc22475" Value="1000" Type="float" />
+      </MemberComponentTemplate>
+    </EntityTemplate>
     <EntityTemplate Name="Driller" Guid="411a989d-f12c-4ed5-9334-eacf21815b74" InheritanceParent="9681f999-898b-4f5c-9ea8-f8cc331e97b3">
       <MemberComponentTemplate Name="Driller" Guid="fc1a1be7-2b4d-49b1-90ad-14611ebb2878" InheritanceParent="aa15e6eb-9078-4abf-873f-4a8da609e287" />
     </EntityTemplate>
@@ -483,6 +493,10 @@
 	<ComponentTemplate Name="Airship2Table" Description="A steamengine" Guid="98fdc999-8ca8-4d0f-af8d-25bfe9b56a19" InheritanceParent="81a44c6a-c30a-4f53-8d64-0c30aabab8f9">
       <Parameter Name="Class" Guid="2b1c551e-2d3c-467e-81bc-1796f68fbe51" Value="Game.ComponentEngineT" Type="string" />
       <Parameter Name="SlotsCount" Guid="3d125634-a4c0-4ad5-85f8-813ef26dae6b" Value="8" Type="int" />
+    </ComponentTemplate>
+	<ComponentTemplate Name="Airship3Table" Description="A steamengine" Guid="98fdc111-8ca8-4d0f-af8d-25bfe9b56a19" InheritanceParent="81a44c6a-c30a-4f53-8d64-0c30aabab8f9">
+      <Parameter Name="Class" Guid="2b7c771e-2d3c-467e-81bc-1796f68fbe51" Value="Game.ComponentEngineT2" Type="string" />
+      <Parameter Name="SlotsCount" Guid="3d745634-a4c4-4ad5-85f8-813ef26dae6b" Value="11" Type="int" />
     </ComponentTemplate>
     <ComponentTemplate Name="Presser" Description="A presser" Guid="c9ff7906-de35-4e94-ba6e-90cd55cd19d4" InheritanceParent="81a44c6a-c30a-4f53-8d64-0c30aabab8fa">
       <Parameter Name="Class" Guid="fc4c23fe-1d3c-467e-81bc-1796f686be51" Value="Game.ComponentPresser" Type="string" />

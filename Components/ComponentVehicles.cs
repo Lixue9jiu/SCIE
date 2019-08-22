@@ -99,11 +99,83 @@ namespace Game
 	{
 		protected ComponentEngineA componentEngine;
 		protected ComponentEngineT componentEngine2;
+		protected ComponentEngineT2 componentEngine3;
 		protected int use=0;
 
 
 		public new void Update(float dt)
 		{
+			if (componentEngine3 != null)
+			{
+				var componentBody = m_componentBody;
+				componentBody.IsGravityEnabled = true;
+				componentBody.IsGroundDragEnabled = false;
+				Quaternion rotation = componentBody.Rotation;
+				float num = MathUtils.Atan2(2f * rotation.Y * rotation.W - 2f * rotation.X * rotation.Z, 1f - 2f * rotation.Y * rotation.Y - 2f * rotation.Z * rotation.Z);
+				if ((m_turnSpeed += 2.5f * Utils.SubsystemTime.GameTimeDelta * (TurnOrder - m_turnSpeed)) != 0 && componentEngine3.HeatLevel > 0f)
+					num -= m_turnSpeed * dt;
+				componentBody.Rotation = Quaternion.CreateFromAxisAngle(Vector3.UnitY, num);
+				ComponentRider rider = m_componentMount.Rider;
+				if (MoveOrder != 0f)
+				{
+					if (rider != null && componentBody.StandingOnValue.HasValue && componentEngine3 != null && componentEngine3.HeatLevel > 0f)
+						m_componentBody.Velocity += dt * 8f * MoveOrder * m_componentBody.Matrix.Forward;
+					MoveOrder = 0f;
+				}
+				if (componentBody.ImmersionFactor > 0.95f)
+				{
+					m_componentDamage.Damage(0.005f * dt);
+					if (rider != null)
+						rider.StartDismounting();
+				}
+				TurnOrder = 0f;
+				if (componentEngine3.HeatLevel <= 0f || componentBody.Mass > 1200f || !componentBody.StandingOnValue.HasValue)
+					return;
+				//int value = Terrain.ExtractContents(componentBody.StandingOnValue.Value);
+				if (componentEngine2.HeatLevel == 500f)
+				{
+					//bool flagg = false;
+					//int use = 0;
+					int value = Terrain.ExtractContents(componentBody.StandingOnValue.Value);
+					Vector3 p2 = Vector3.Normalize(componentBody.Rotation.ToForwardVector());
+					Vector3 p3 = Vector3.Transform(p2, Matrix.CreateRotationY(MathUtils.PI / 2));
+					//if (value == SoilBlock.Index)
+					componentBody.IsSneaking = true;
+					for (int aaa = -2; aaa < 2 + 1; aaa++)
+					{
+						for (int bbb = 0; bbb < 3; bbb++)
+						{
+							var p = Terrain.ToCell(componentBody.Position + p2 * 1.5f + aaa * p3 + new Vector3(0f, 0.1f, 0f));
+							int value2 = Utils.Terrain.GetCellContentsFast(p.X, p.Y+bbb, p.Z);
+							int value444 = Utils.Terrain.GetCellValueFast(p.X, p.Y+bbb, p.Z);
+							IInventory inventory = componentBody.Entity.FindComponent<ComponentEngineT2>(true);
+							var block = BlocksManager.Blocks[value2];
+							if (value2 > 0 && block.IsPlaceable && !block.IsDiggingTransparent && !block.DefaultIsInteractive && block.DefaultCategory=="Terrain")
+							{
+
+								if (ComponentInventoryBase.AcquireItems(inventory, value444, 1) < 1)
+								{
+									Utils.SubsystemTerrain.ChangeCell(p.X, p.Y+bbb, p.Z, 0);
+								}
+								else
+								{
+									aaa += 5;
+									bbb += 3;
+								}
+
+							}
+						}
+                    }
+				}
+				//if (value == SoilBlock.Index)
+				//	componentBody.IsSneaking = true;
+				//if (value == DirtBlock.Index || value == GrassBlock.Index)
+				//{
+				//	var p = Terrain.ToCell(componentBody.Position);
+				//	Utils.SubsystemTerrain.ChangeCell(p.X, p.Y - 1, p.Z, Terrain.ReplaceContents(value, 168));
+				//}
+				return;
+			}
 			if (componentEngine2 != null)
 			{
 				var componentBody = m_componentBody;
@@ -309,7 +381,12 @@ namespace Game
 						
 					}
 				}
+				return;
 			}
+
+
+			
+
 			if (componentEngine != null)
 			{
 				var componentBody = m_componentBody;
@@ -357,6 +434,7 @@ namespace Game
 			m_componentDamage = Entity.FindComponent<ComponentDamage>(true);
 			componentEngine = Entity.FindComponent<ComponentEngineA>();
 			componentEngine2 = Entity.FindComponent<ComponentEngineT>();
+			componentEngine3 = Entity.FindComponent<ComponentEngineT2>();
 			m_componentBody.CollidedWithBody += CollidedWithBody;
 		}
 

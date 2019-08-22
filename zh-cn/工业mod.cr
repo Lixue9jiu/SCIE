@@ -972,6 +972,11 @@
       "cdc"
       "eee"
     </Recipe>
+	<Recipe Result="CuZnBattery" ResultCount="1" RequiredHeatLevel="0" Remains="Bottle" RemainsCount="1" a="H2SO4" b="CopperPlate" c="CopperRod" d="ZincRod" Description="制作Cu-Zn电池">
+      "bcb"
+	  "bab"
+	  "bdb"
+    </Recipe>
     <Recipe Result="AgZnBattery" ResultCount="1" RequiredHeatLevel="0" Remains="EmptyBucketBlock" RemainsCount="1" a="CuZnBattery" b="SilverPlate" Description="用Cu-Zn电池改装成Ag-Zn电池">
       "bab"
     </Recipe>
