@@ -27,7 +27,10 @@ namespace Game
                     Vector3 dir = direction;
                     if (num == Musket4Block.Index && slotCount > 0)
 					{
-						if (!m_aimStartTimes.TryGetValue(componentMiner, out double value))
+						if (componentMiner.ComponentPlayer.View.ActiveCamera is TelescopeCamera2)
+							direction = Vector3.Normalize(TelescopeCamera2.m_direction);
+							//direction = componentMiner.ComponentCreature.ComponentCreatureModel.EyePosition - start;
+							if (!m_aimStartTimes.TryGetValue(componentMiner, out double value))
 						{
 							value = m_subsystemTime.GameTime;
 							m_aimStartTimes[componentMiner] = value;
@@ -87,11 +90,11 @@ namespace Game
 								break;
 							case AimState.Completed:
 								{
-									Vector3 vvv2 = new Vector3(0f, 0f, 0f);
+									//Vector3 vvv2 = new Vector3(0f, 0f, 0f);
 									var view3 = componentMiner.ComponentPlayer.View;
 									if (view3.ActiveCamera is TelescopeCamera2)
 									{
-										vvv2 = TelescopeCamera2.m_direction;
+										//vvv2 = TelescopeCamera2.m_direction;
 										view3.ActiveCamera = view3.FindCamera<FppCamera>(true);
 									}
 									//view3.ActiveCamera = view3.ActiveCamera is TelescopeCamera2 ? view3.FindCamera<FppCamera>(true) : (Camera)new TelescopeCamera2(view3);
@@ -124,7 +127,7 @@ namespace Game
 											for (int i = 0; i < num6; i++)
 											{
 												Vector3 v4 = m_random.UniformFloat(-vector.X, vector.X) * vector4 + m_random.UniformFloat(-vector.Y, vector.Y) * v3 + m_random.UniformFloat(-vector.Z, vector.Z) * vector3;
-												Projectile projectile = m_subsystemProjectiles.FireProjectile(value2, vector2+vvv2, s * (vector31 + v4), Vector3.Zero, componentMiner.ComponentCreature);
+												Projectile projectile = m_subsystemProjectiles.FireProjectile(value2, vector2, s * (vector31 + v4), Vector3.Zero, componentMiner.ComponentCreature);
 												if (projectile != null)
 													projectile.ProjectileStoppedAction = ProjectileStoppedAction.Disappear;
 											}
