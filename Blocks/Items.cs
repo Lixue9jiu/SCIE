@@ -313,6 +313,7 @@ namespace Game
 				new OilFractionalTower(),
 				new Reductor(),
 				new TEDC(),
+				new AirPresser(),
 			};
 			IdTable = new Dictionary<string, int>(Items.Length)
 			{

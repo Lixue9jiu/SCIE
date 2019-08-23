@@ -112,8 +112,8 @@ namespace Game
 				{
 					text = true;
 					result[0] = ItemBlock.IdTable["AluminumIngot"];
-					result[1]=0;
-					result[2]=0;
+					result[1] = 0;
+					result[2] = 0;
 				}
 			}
 			if (!text)
@@ -126,5 +126,23 @@ namespace Game
 			}
 			return "AluminumOrePowder";
 		}
+	}
+	public class ComponentAirPresser : ComponentMachine
+	{
+		public bool Powered;
+
+		//protected readonly int[] result = new int[3];
+
+		protected string m_smeltingRecipe;
+
+		//protected int m_music;
+
+		protected string m_smeltingRecipe2;
+
+		public override int RemainsSlotIndex => -1;
+
+		public override int ResultSlotIndex => SlotsCount - 1;
+
+		public override int FuelSlotIndex => -1;
 	}
 }

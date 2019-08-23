@@ -27,6 +27,9 @@
     <EntityTemplate Name="OilPlant" Guid="26ffa277-af17-4955-81fa-aafaf97b92bd" InheritanceParent="9681f999-898b-4f5c-9ea8-f8cc331e97b3">
       <MemberComponentTemplate Name="OilPlant" Guid="0f473a13-ac7d-4b4c-97c7-df652ca11b51" InheritanceParent="84a2ff9e-10c7-4133-85b4-4a35bd44c956" />
     </EntityTemplate>
+	<EntityTemplate Name="AirPresser" Guid="16ffa299-af17-4955-81fa-aafaf97b92bd" InheritanceParent="9681f999-898b-4f5c-9ea8-f8cc331e97b3">
+      <MemberComponentTemplate Name="AirPresser" Guid="9f414a13-ac7d-4b4c-97c7-df652ca11b51" InheritanceParent="84a2119e-10c7-4122-85b4-4a35bd44c956" />
+    </EntityTemplate>
     <EntityTemplate Name="OilTower" Guid="7611a279-ff17-4955-81fa-aafaf97b92bd" InheritanceParent="9681f999-898b-4f5c-9ea8-f8cc331e97b3">
       <MemberComponentTemplate Name="OilTower" Guid="418f3f23-ac8d-4b4c-97c7-df652ca11b51" InheritanceParent="77f2119e-10c7-4133-85b4-4a35bd44c956" />
     </EntityTemplate>
@@ -438,6 +441,10 @@
     <ComponentTemplate Name="OilPlant" Description="A magnetizer" Guid="84a2ff9e-10c7-4133-85b4-4a35bd44c956" InheritanceParent="81a44c6a-c30a-4f53-8d64-0c30aabab8f9">
       <Parameter Name="SlotsCount" Guid="ff1d574d-f972-4311-9828-d30e0fbf33f1" Value="6" Type="int" />
       <Parameter Name="Class" Guid="7f2a89ff-22f9-45aa-aae4-039ba73b12b6" Value="Game.ComponentOilPlant" Type="string" />
+    </ComponentTemplate>
+	<ComponentTemplate Name="AirPresser" Description="A magnetizer" Guid="84a2119e-10c7-4122-85b4-4a35bd44c956" InheritanceParent="81a44c6a-c30a-4f53-8d64-0c30aabab8f9">
+      <Parameter Name="SlotsCount" Guid="992d574d-f972-4311-9828-d30e0fbf33f1" Value="6" Type="int" />
+      <Parameter Name="Class" Guid="7f4f8911-22f9-45aa-aae4-039ba73b12b6" Value="Game.ComponentAirPresser" Type="string" />
     </ComponentTemplate>
     <ComponentTemplate Name="OilTower" Description="A magnetizer" Guid="77f2119e-10c7-4133-85b4-4a35bd44c956" InheritanceParent="81a44c6a-c30a-4f53-8d64-0c30aabab8f9">
       <Parameter Name="SlotsCount" Guid="22fd594d-f192-4311-9828-d30e0fbf33f1" Value="6" Type="int" />

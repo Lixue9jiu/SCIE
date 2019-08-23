@@ -114,6 +114,34 @@ namespace Game
 						SpruceWoodBlock.Index,
 						CactusBlock.Index
 					};
+
+					var point1 = CellFace.FaceToPoint3(FourDirectionalBlock.GetDirection(Utils.Terrain.GetCellValue(coordinates.X, coordinates.Y, coordinates.Z)));
+					int num31 = coordinates.X - point1.X;
+					int num41 = coordinates.Y - point1.Y;
+					int num51 = coordinates.Z - point1.Z;
+					int cellValue1 = Terrain.ReplaceLight(Utils.Terrain.GetCellValue(num31, num41 + 2, num51), 0);
+					if (ElementBlock.Block.GetDevice(num31, num41 + 2, num51, cellValue1) is AirPresser em && em.Powered)
+					{
+						var point3 = new Point3(num31, num41 + 2, num51);
+						var entity = Utils.GetBlockEntity(point3);
+						Component component3 = entity.Entity.FindComponent<ComponentAirPresser>();
+						if (entity != null && component3!=null)
+						{
+
+							IInventory inventory = entity.Entity.FindComponent<ComponentAirPresser>(true);
+							for (int i = 0; i < 6; i++)
+							{
+								//int value23 = 0;
+								int va1 = inventory.GetSlotValue(i);
+								if (va1 == ItemBlock.IdTable["¸ÖÆ¿"] && ComponentInventoryBase.AcquireItems(inventory, ItemBlock.IdTable["NH3"], 1)==0)
+								{
+									inventory.RemoveSlotItems(i,1);
+								}
+							}
+							
+						}
+					}
+
 					for (int l = 0; l < 7; l++)
 					{
 						if (m_matchedIngredients[l] > 0)

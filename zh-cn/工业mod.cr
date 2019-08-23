@@ -1054,6 +1054,12 @@
       "bddb"
       "ccec"
     </Recipe>
+	<Recipe Result="AirPresser" ResultCount="1" RequiredHeatLevel="0" a="SteelFan" b="SteelRod" c="SteelPlate" d="Cylinder" e="metalblock:32" f="piston" g="tank:0" h="Rubber" Description="制作一台气体压缩机">
+      "cggc"
+      "hddh"
+      "bffb"
+      "caec"
+    </Recipe>
     <Recipe Result="UThickener" ResultCount="1" RequiredHeatLevel="0" a="SteelFan" b="SteelRod" c="SteelPlate" d="IndustrialPiston" e="metalblock:32" f="piston" g="tank:0" Description="制作一台铀浓缩机">
       "cffc"
       "cddc"

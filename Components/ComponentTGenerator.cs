@@ -16,7 +16,7 @@ namespace Game
 				{
 					m_smeltingRecipe = m_smeltingRecipe2;
 					SmeltingProgress = 0f;
-					if (m_fireTimeRemaining == 0f)
+					if (m_fireTimeRemaining <= 0f)
 						m_fireTimeRemaining = 1f;
 				}
 			}
@@ -25,7 +25,7 @@ namespace Game
 			if (m_smeltingRecipe != 0)
 			{
 				Powered = true;
-				m_fireTimeRemaining = MathUtils.Min(m_fireTimeRemaining - 0.01f * dt, 1f);
+				m_fireTimeRemaining = MathUtils.Min(m_fireTimeRemaining - 0.1f * dt, 1f);
 				SmeltingProgress = 1f - m_fireTimeRemaining;
 				if (SmeltingProgress >= 1f)
 				{
@@ -37,6 +37,7 @@ namespace Game
 						slot.Count += e.Current.Value;
 						m_smeltingRecipe = 0;
 						SmeltingProgress = 0f;
+						//m_fireTimeRemaining = 1f;
 						m_updateSmeltingRecipe = true;
 					}
 					if (m_slots[0].Count > 0)
