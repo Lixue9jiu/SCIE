@@ -1,4 +1,4 @@
-using Engine;
+﻿using Engine;
 using GameEntitySystem;
 using TemplatesDatabase;
 
@@ -11,7 +11,7 @@ namespace Game
 
 		//protected int m_music;
 
-
+		protected readonly int[] result = new int[3];
 		public override int RemainsSlotIndex => -1;
 
 		public override int ResultSlotIndex => SlotsCount - 1;
@@ -84,11 +84,18 @@ namespace Game
 					for (i = 0; i < 3; i++)
 						if (m_slots[i].Count > 0)
 							m_slots[i].Count--;
-					m_slots[ResultSlotIndex].Value = m_smeltingRecipe;
-					m_slots[ResultSlotIndex].Count++;
-					m_smeltingRecipe = 0;
-					SmeltingProgress = 0f;
-					m_updateSmeltingRecipe = true;
+					for (int j = 0; j < 3; j++)
+					{
+						if (result[j] != 0)
+						{
+							int value = result[j];
+							m_slots[3 + j].Value = value;
+							m_slots[3 + j].Count++;
+							m_smeltingRecipe = 0;
+							SmeltingProgress = 0f;
+							m_updateSmeltingRecipe = true;
+						}
+					}
 				}
 			}
 		}
@@ -102,27 +109,34 @@ namespace Game
 		protected int FindSmeltingRecipe(float heatLevel)
 		{
 			string text = null;
-			int n = 1;
+			int n = 0;
 			for (int i = 0; i < m_furnaceSize; i++)
 			{
 				int value = GetSlotValue(i);
 				if (GetSlotCount(i) > 0)
 				{
-					if (value == ItemBlock.IdTable["ZincRod"])
-						n <<= 1;
-					else if (Terrain.ExtractContents(value) == PaintStripperBucketBlock.Index)
-						n = -n;
+					if (value == SulphurChunkBlock.Index)
+						n++;
+					else if (value == WaterBucketBlock.Index)
+						n += 10;
+					else if (value == ItemBlock.IdTable["Bottle"])
+						n += 100;
 				}
+			}
+			if (n == 111)
+			{
+				text = "H2SO4";
+				result[0] = ItemBlock.IdTable[text];
+				result[1] = EmptyBucketBlock.Index;
+			}
+			for (int i = 0; i < 3; i++)
+			{
+				Slot slot = m_slots[3 + i];
+				if (slot.Count != 0 && result[i] != 0 && (slot.Value != result[i] || slot.Count >= 40))
+					return 0;
 			}
 			if (text == null)
 				return 0;
-			if (n == -4)
-			{
-				text = "CuZnBattery";
-				Slot slot = m_slots[ResultSlotIndex];
-				if (slot.Count != 0 && (slot.Value != ItemBlock.IdTable[text] || slot.Count >= 40))
-					return 0;
-			}
 			return ItemBlock.IdTable[text];
 		}
 	}

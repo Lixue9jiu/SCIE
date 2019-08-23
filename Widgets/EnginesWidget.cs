@@ -97,7 +97,7 @@ namespace Game
 			                            m_dispenseButton2,
 										m_shootButton2;
 		protected readonly InventorySlotWidget m_remainsSlot;
-		public EngineTWidget(IInventory inventory, ComponentMachine component) : base(inventory, component, "Widgets/TractorWidget")
+		public EngineTWidget(IInventory inventory, ComponentMachine component, string path = "Widgets/TractorWidget") : base(inventory, component, path)
 		{
 			m_dispenseButton = Children.Find<ButtonWidget>("DispenseButton");
 			m_shootButton = Children.Find<ButtonWidget>("ShootButton");

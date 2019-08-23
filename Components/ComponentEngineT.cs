@@ -79,4 +79,8 @@ namespace Game
 				: 0;
 		}
 	}
+
+	public class ComponentEngineT2 : ComponentEngineT
+	{
+	}
 }

@@ -127,7 +127,7 @@ namespace Game
 											for (int i = 0; i < num6; i++)
 											{
 												Vector3 v4 = m_random.UniformFloat(-vector.X, vector.X) * vector4 + m_random.UniformFloat(-vector.Y, vector.Y) * v3 + m_random.UniformFloat(-vector.Z, vector.Z) * vector3;
-												Projectile projectile = m_subsystemProjectiles.FireProjectile(value2, vector2, s * (vector31 + v4), Vector3.Zero, componentMiner.ComponentCreature);
+												Projectile projectile = m_subsystemProjectiles.FireProjectile(value2, vector2 + 1.3f * dir, s * (vector31 + v4), Vector3.Zero, componentMiner.ComponentCreature);
 												if (projectile != null)
 													projectile.ProjectileStoppedAction = ProjectileStoppedAction.Disappear;
 											}
