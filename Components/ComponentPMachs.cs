@@ -38,7 +38,7 @@ namespace Game
 							else if (value == ItemBlock.IdTable["»¬Ê¯"])
 								text = "TalcumPowder";
 							else if (value == ItemBlock.IdTable["Plaster"])
-								text = "CaSO4";
+								text = "Gesso";
 							else
 							{
 								var item = Item.Block.GetItem(ref value);
@@ -194,7 +194,7 @@ namespace Game
 				else if (value == ItemBlock.IdTable["»¬Ê¯"])
 					text = "TalcumPowder";
 				else if (value == ItemBlock.IdTable["Plaster"])
-					text = "CaSO4";
+					text = "Gesso";
 				else switch (Terrain.ExtractContents(value))
 					{
 						case IronBlock.Index:

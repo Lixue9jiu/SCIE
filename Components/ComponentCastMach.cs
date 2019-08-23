@@ -106,7 +106,6 @@ namespace Game
 			int cellValue = Utils.Terrain.GetCellValue(coordinates.X, coordinates.Y, coordinates.Z);
 			if (Terrain.ExtractContents(cellValue) == 0)
 			{
-				Project.RemoveEntity(Entity, true);
 				return;
 			}
 			Utils.SubsystemTerrain.ChangeCell(coordinates.X, coordinates.Y, coordinates.Z, Terrain.ReplaceData(cellValue, FurnaceNBlock.SetHeatLevel(Terrain.ExtractData(cellValue), (int)MathUtils.Sign(HeatLevel))));

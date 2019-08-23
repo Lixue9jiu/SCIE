@@ -164,7 +164,7 @@ namespace Game
 				DefaultDisplayName = "石膏",
 				DefaultDescription = "石膏"
 			},
-			new Powder("石膏粉", "CaSO4", Color.White),
+			new Powder("石膏粉", "Gesso", Color.White),
 			new Powder("冰晶石", "Cryolite", Color.White),
 			new Mould("Models/Piston2", "Cylinder", Matrix.CreateTranslation(0.5f, 0.7f, 0.5f) * Matrix.CreateScale(0.6f), Matrix.CreateTranslation(4f, 3.8f, 0f), "A Cylinder made of alloy, Aluminum and steel, the neccessary part of many machine.", "Cylinder", 1.6f),
 			new LightMould("Models/Snowball", "Snowball", m, m2, "A Ball of Melting Iron.", "MeltingIron", 2.9f),
@@ -327,7 +327,7 @@ namespace Game
 					device.Index = i;
 				IdTable.Add(ElementBlock.Devices[i].GetCraftingId(), ElementBlock.Index | i << 14);
 			}
-			for (i = 1; i < 15; i++)
+			for (i = 1; i < ChemicalBlock.Items.Count; i++)
 				IdTable.Add(ChemicalBlock.Items.Array[i].GetCraftingId(), ChemicalBlock.Index | i << 14);
 			for (i = 1; i < Chemistry.GunpowderBlock.Items.Length; i++)
 				IdTable.Add(Chemistry.GunpowderBlock.Items[i].GetCraftingId(), GunpowderBlock.Index | i << 14);

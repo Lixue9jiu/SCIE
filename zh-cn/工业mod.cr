@@ -319,6 +319,9 @@
     <Recipe Result="Stainless Steel" ResultCount="1" RequiredHeatLevel="2000" a="IronOrePowder" b="ChromiumOrePowder" Description="铁粉加铬粉冶炼不锈钢">
       "aabb"
     </Recipe>
+    <Recipe Result="Si" ResultCount="1" RequiredHeatLevel="2000" a="QuartzPowder" b="CokeCoalPowder" Description="制取粗硅">
+      "abab"
+    </Recipe>
     <Recipe Result="Gun-Steel" ResultCount="1" RequiredHeatLevel="2000" a="IronOrePowder" b="ChromiumOrePowder" c="NickelOrePowder" d="PlatinumOrePowder" Description="铁粉铬粉镍粉铂粉冶炼炮钢">
       "abcd"
     </Recipe>
@@ -972,7 +975,7 @@
       "cdc"
       "eee"
     </Recipe>
-	<Recipe Result="CuZnBattery" ResultCount="1" RequiredHeatLevel="0" Remains="Bottle" RemainsCount="1" a="H2SO4" b="CopperPlate" c="CopperRod" d="ZincRod" Description="制作Cu-Zn电池">
+    <Recipe Result="CuZnBattery" ResultCount="1" RequiredHeatLevel="0" Remains="Bottle" RemainsCount="1" a="H2SO4" b="CopperPlate" c="CopperRod" d="ZincRod" Description="制作Cu-Zn电池">
       "bcb"
 	  "bab"
 	  "bdb"

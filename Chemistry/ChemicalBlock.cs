@@ -33,6 +33,7 @@ namespace Game
 			}
 			public ReactionSystem GetDispersionSystem() => System;
 		}
+
 		public new const int Index = 517;
 		public static readonly Group[] Cations = new[]{
 			new Group("Na⁺"),
@@ -147,9 +148,9 @@ namespace Game
 					list.Add(new PurePowder(Cations[i] + Anions[j], color));
 			}
 			list.Add(new PurePowder("H₂(SiO₃)"));
-			list.Add(new PurePowder("Na₂(SiO₃)"));
-			list.Add(new PurePowder("Mg(SiO₃)"));
-			list.Add(new PurePowder("Ca(SiO₃)"));
+			//list.Add(new PurePowder("Na₂(SiO₃)"));
+			//list.Add(new PurePowder("Mg(SiO₃)"));
+			//list.Add(new PurePowder("Ca(SiO₃)"));
 			list.Add(new PurePowder("Na(HCO₃)"));
 			list.Add(new PurePowder("Na₂S₂O₃"));
 			list.Add(new PurePowder("Ca(ClO)₂"));

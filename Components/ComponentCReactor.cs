@@ -1,4 +1,5 @@
-﻿using Engine;
+﻿using Chemistry;
+using Engine;
 using GameEntitySystem;
 using TemplatesDatabase;
 
@@ -138,6 +139,16 @@ namespace Game
 			if (text == null)
 				return 0;
 			return ItemBlock.IdTable[text];
+		}
+
+		public static ReactionSystem Get(int value)
+		{
+			int c = Terrain.ExtractContents(value);
+			switch (c)
+			{
+				default:
+					return null;
+			}
 		}
 	}
 }

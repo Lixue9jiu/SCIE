@@ -10,8 +10,7 @@ namespace Game
 	{
 		public Gunpowder() : base(Matrix.CreateScale(0.75f) * Matrix.CreateRotationX(4f) * Matrix.CreateRotationZ(3f), Matrix.CreateScale(1f) * Matrix.CreateTranslation(0.0625f, 0.875f, 0f), Color.White, false, Materials.Steel)
 		{
-			DefaultDisplayName = "Gunpowder";
-			DefaultDescription = BlocksManager.Blocks[GunpowderBlock.Index].DefaultDescription;
+			Id = "Gunpowder";
 		}
 		public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
 		{
@@ -51,7 +50,7 @@ namespace Chemistry
 		public new const int Index = 109;
 		public new static Item[] Items = new Item[]
 		{
-			null,
+			new Gunpowder(),
 			new PureGunpowder("精制炸药", new Color(24, 24, 24)),
 			new PureGunpowder("TNT", Color.Yellow, 150f),
 			new PureGunpowder("阿马托强力炸药", Color.Black, 180f),
@@ -82,10 +81,11 @@ namespace Chemistry
 
 		public override IEnumerable<int> GetCreativeValues()
 		{
-			if (Items[0] == null)
-				Items[0] = new Gunpowder();
 			if (Items.Length < 50)
 				return new int[0];
+			var item = (OreChunk)Items[0];
+			item.DefaultDisplayName = DefaultDisplayName;
+			item.DefaultDescription = DefaultDescription;
 			var arr = new int[Items.Length];
 			int value = Index;
 			for (int i = 0; i < Items.Length; i++)

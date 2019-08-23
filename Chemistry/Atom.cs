@@ -171,6 +171,11 @@ namespace Chemistry
 			Groups.Add(s, this);
 		}
 
+		public Group Get(string s)
+		{
+			return Groups.TryGetValue(s, out Group group) ? group : new Group(s);
+		}
+
 		public void Add(Stack stack)
 		{
 			if (Stack1.Count == 0)

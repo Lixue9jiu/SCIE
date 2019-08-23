@@ -37,7 +37,9 @@
       <MemberComponentTemplate Name="ElectricFurnace" Guid="5f293f24-ac7d-4b4c-97c7-df652ca11b51" InheritanceParent="83a2478f-10c7-4133-85b4-4a35bd44c956" />
     </EntityTemplate>
     <EntityTemplate Name="ElectricIFurnace" Guid="0855a279-af17-4955-81fa-aafaf97b92bd" InheritanceParent="9681f999-898b-4f5c-9ea8-f8cc331e97b3">
-      <MemberComponentTemplate Name="ElectricFurnace" Guid="0f193a56-ac7d-4b4c-97c7-df652ca11b51" InheritanceParent="73a2eccd-10c7-4133-85b4-4a35bd44c956" />
+      <MemberComponentTemplate Name="ElectricFurnace" Guid="0f193a56-ac7d-4b4c-97c7-df652ca11b51" InheritanceParent="77f2119e-10c7-4133-85b4-4a35bd44c956">
+        <Parameter Name="Class" Guid="1c8a9aed-22f9-45aa-aae3-039ba73b12b6" Value="Game.ComponentElectricIFurnace" Type="string" />
+      </MemberComponentTemplate>
     </EntityTemplate>
     <EntityTemplate Name="Charger" Guid="0855a779-af18-4955-81fa-aafaf97b92bd" InheritanceParent="9681f999-898b-4f5c-9ea8-f8cc331e97b3">
       <MemberComponentTemplate Name="Charger" Guid="0f197a59-ac7d-4b4c-97c7-df652ca11b51" InheritanceParent="73a2effd-10c7-4133-85b4-4a35bd44c956" />
@@ -160,8 +162,8 @@
       </MemberComponentTemplate>
     </EntityTemplate>
     <EntityTemplate Name="Tractor" Guid="3f4abb7e-2ce4-43fa-9612-47d69bf788ba" InheritanceParent="3f3acc8e-1ce4-43fa-9614-47d69bf788ba">
-	  <MemberComponentTemplate Name="Airship2Table" Guid="182995a9-10c6-4a2c-9ea5-725fffee2225" InheritanceParent="98fdc999-8ca8-4d0f-af8d-25bfe9b56a19" />
-	  <MemberComponentTemplate Name="SimpleModel" Guid="466a1fd2-0db8-4604-9ee8-8504dbd3c7b1" InheritanceParent="cc5a4e72-0df9-4acf-a42e-ecb5a2a7baf5">
+      <MemberComponentTemplate Name="Airship2Table" Guid="182995a9-10c6-4a2c-9ea5-725fffee2225" InheritanceParent="98fdc999-8ca8-4d0f-af8d-25bfe9b56a19" />
+      <MemberComponentTemplate Name="SimpleModel" Guid="466a1fd2-0db8-4604-9ee8-8504dbd3c7b1" InheritanceParent="cc5a4e72-0df9-4acf-a42e-ecb5a2a7baf5">
         <Parameter Name="ModelName" Guid="244ef237-297f-47ca-950a-930ea7d6e881" Value="Models/Car2222" Type="string" />
         <Parameter Name="TextureOverride" Guid="44e146e5-837a-4614-a9fe-b1f88d835b11" Value="Textures/tex4" Type="string" />
       </MemberComponentTemplate>
@@ -169,9 +171,9 @@
         <Parameter Name="Mass" Guid="ae127d38-1571-4901-a319-b21a8dc22175" Value="1000" Type="float" />
       </MemberComponentTemplate>
     </EntityTemplate>
-	<EntityTemplate Name="Digger" Guid="3f4adf7e-2ce4-43fa-9612-47d69bf788ba" InheritanceParent="3f3acc8e-1ce4-43fa-9614-47d69bf788ba">
-	  <MemberComponentTemplate Name="Airship3Table" Guid="18df95a9-10c6-4a2c-9ea5-725fffee2225" InheritanceParent="98fdc111-8ca8-4d0f-af8d-25bfe9b56a19" />
-	  <MemberComponentTemplate Name="SimpleModel" Guid="411b2fd2-0db8-4604-9ee8-8504dbd3c7b1" InheritanceParent="cc5a4e72-0df9-4acf-a42e-ecb5a2a7baf5">
+    <EntityTemplate Name="Digger" Guid="3f4adf7e-2ce4-43fa-9612-47d69bf788ba" InheritanceParent="3f3acc8e-1ce4-43fa-9614-47d69bf788ba">
+      <MemberComponentTemplate Name="Airship3Table" Guid="18df95a9-10c6-4a2c-9ea5-725fffee2225" InheritanceParent="98fdc111-8ca8-4d0f-af8d-25bfe9b56a19" />
+      <MemberComponentTemplate Name="SimpleModel" Guid="411b2fd2-0db8-4604-9ee8-8504dbd3c7b1" InheritanceParent="cc5a4e72-0df9-4acf-a42e-ecb5a2a7baf5">
         <Parameter Name="ModelName" Guid="222ef237-297f-47ca-950a-930ea7d6e881" Value="Models/Car2222" Type="string" />
         <Parameter Name="TextureOverride" Guid="66e646e5-837a-4614-a9fe-b1f88d835b11" Value="Textures/tex4" Type="string" />
       </MemberComponentTemplate>
@@ -232,22 +234,26 @@
       <MemberComponentTemplate Name="FireBox" Guid="e7b41946-dfe9-4331-900e-4c5f3ce25348" InheritanceParent="c93f7917-de35-4e94-ba6e-90cd55cd19d4" />
     </EntityTemplate>
     <EntityTemplate Name="BlastFurnace" Guid="a4a43456-d37d-455f-9a43-803260a915a9" InheritanceParent="9681f999-898b-4f5c-9ea8-f8cc331e97b3">
-      <MemberComponentTemplate Name="BlastFurnace" Guid="a7a43844-dfe9-4331-900e-4c5f3ce25348" InheritanceParent="f91f7946-de35-4e94-ba6e-90cd55cd19d4">
+      <MemberComponentTemplate Name="Furnace" Guid="a7a43844-dfe9-4331-900e-4c5f3ce25348" InheritanceParent="81a44c6a-c30a-4f53-8d64-0c30aabab8f9">
+        <Parameter Name="Class" Guid="fa4c53fe-1d3c-467e-81bc-1796f686be51" Value="Game.ComponentBlastFurnace" Type="string" />
         <Parameter Name="SlotsCount" Guid="3dfd5624-a4c0-4ad5-85f8-813ef26dae6b" Value="12" Type="int" />
       </MemberComponentTemplate>
     </EntityTemplate>
     <EntityTemplate Name="FractionalTower" Guid="a4a43567-d37d-455f-9a43-803260a915a9" InheritanceParent="9681f999-898b-4f5c-9ea8-f8cc331e97b3">
-      <MemberComponentTemplate Name="BlastFurnace" Guid="a7a43955-dfe9-4331-900e-4c5f3ce25348" InheritanceParent="f91f7969-de35-4e94-ba6e-90cd55cd19d4">
+      <MemberComponentTemplate Name="Furnace" Guid="a7a43955-dfe9-4331-900e-4c5f3ce25348" InheritanceParent="81a44c6a-c30a-4f53-8d64-0c30aabab8f9">
+        <Parameter Name="Class" Guid="fa4c77fe-1d3c-467e-81bc-1796f686be51" Value="Game.ComponentFractionalTower" Type="string" />
         <Parameter Name="SlotsCount" Guid="3dfd5624-a4d4-4ad5-85f8-813ef26dae6b" Value="6" Type="int" />
       </MemberComponentTemplate>
     </EntityTemplate>
     <EntityTemplate Name="CokeOven" Guid="a4a43467-d37d-455f-9a43-803260a915a9" InheritanceParent="9681f999-898b-4f5c-9ea8-f8cc331e97b3">
-      <MemberComponentTemplate Name="BlastFurnace" Guid="a7a43855-dfe9-4331-900e-4c5f3ce25348" InheritanceParent="f91f7957-de35-4e94-ba6e-90cd55cd19d4">
+      <MemberComponentTemplate Name="Furnace" Guid="a7a43855-dfe9-4331-900e-4c5f3ce25348" InheritanceParent="81a44c6a-c30a-4f53-8d64-0c30aabab8f9">
+        <Parameter Name="Class" Guid="fa4c65fe-1d3c-467e-81bc-1796f686be51" Value="Game.ComponentCoven" Type="string" />
         <Parameter Name="SlotsCount" Guid="3dfd5635-a4c0-4ad5-85f8-813ef26dae6b" Value="8" Type="int" />
       </MemberComponentTemplate>
     </EntityTemplate>
     <EntityTemplate Name="HearthFurnace" Guid="a4a43478-d37d-455f-9a43-803260a915a9" InheritanceParent="9681f999-898b-4f5c-9ea8-f8cc331e97b3">
-      <MemberComponentTemplate Name="BlastFurnace" Guid="a7a43866-dfe9-4331-900e-4c5f3ce25348" InheritanceParent="f91f7968-de35-4e94-ba6e-90cd55cd19d4">
+      <MemberComponentTemplate Name="Furnace" Guid="a7a43866-dfe9-4331-900e-4c5f3ce25348" InheritanceParent="81a44c6a-c30a-4f53-8d64-0c30aabab8f9">
+        <Parameter Name="Class" Guid="fa4c666e-1d3c-467e-81bc-1796f686be51" Value="Game.ComponentHearthFurnace" Type="string" />
         <Parameter Name="SlotsCount" Guid="3dfd5646-a4c0-4ad5-85f8-813ef26dae6b" Value="8" Type="int" />
       </MemberComponentTemplate>
     </EntityTemplate>
@@ -347,7 +353,7 @@
     <MemberSubsystemTemplate Name="Musket3BlockBehavior" Guid="6bf6bba1-4ac1-44a9-9e83-b4c659038fcf" InheritanceParent="fefb9590-4972-4893-b02a-76063611b745">
       <Parameter Name="Class" Guid="f1d1fefa-29ad-42ed-ad2e-ae59da4dbd62" Value="Game.SubsystemMusket3BlockBehavior" Type="string" />
     </MemberSubsystemTemplate>
-	<MemberSubsystemTemplate Name="Musket4BlockBehavior" Guid="6bf6bba1-4ac1-44a9-9e83-b4c659038fc9" InheritanceParent="fefb9590-4972-4893-b02a-76063611b745">
+    <MemberSubsystemTemplate Name="Musket4BlockBehavior" Guid="6bf6bba1-4ac1-44a9-9e83-b4c659038fc9" InheritanceParent="fefb9590-4972-4893-b02a-76063611b745">
       <Parameter Name="Class" Guid="f2f1fefa-29ad-42ed-ad2e-ae59da4dbd62" Value="Game.SubsystemMusket4BlockBehavior" Type="string" />
     </MemberSubsystemTemplate>
     <MemberSubsystemTemplate Name="HPressBlockBehavior" Guid="9681f999-898b-4f5c-9ea8-f8cc331e97b8" InheritanceParent="fefb9590-4972-4893-b02a-76063611b745">
@@ -441,10 +447,6 @@
       <Parameter Name="SlotsCount" Guid="0b8d684d-f972-431b-9828-d30e0fbf33f1" Value="9" Type="int" />
       <Parameter Name="Class" Guid="1c8a9aff-22f9-45aa-aae3-039ba73b12b6" Value="Game.ComponentElectricFurnace" Type="string" />
     </ComponentTemplate>
-    <ComponentTemplate Name="ElectricIFurnace" Description="An electric induction furnace" Guid="73a2eccd-10c7-4133-85b4-4a35bd44c956" InheritanceParent="81a44c6a-c30a-4f53-8d64-0c30aabab8f9">
-      <Parameter Name="SlotsCount" Guid="0b8d685f-f972-431b-9828-d30e0fbf33f1" Value="6" Type="int" />
-      <Parameter Name="Class" Guid="1c8a9aed-22f9-45aa-aae3-039ba73b12b6" Value="Game.ComponentElectricIFurnace" Type="string" />
-    </ComponentTemplate>
     <ComponentTemplate Name="ElectricDriller" Description="An electric induction furnace" Guid="83a2478f-10c7-4133-85b4-4a35bd44c956" InheritanceParent="81a44c6a-c30a-4f53-8d64-0c30aabab8f9">
       <Parameter Name="SlotsCount" Guid="1b9d6871-f973-431b-9828-d30e0fbf33f1" Value="10" Type="int" />
       <Parameter Name="Class" Guid="8c8af1ed-22f9-45aa-aae3-039ba73b12b6" Value="Game.ComponentElectricDriller" Type="string" />
@@ -490,11 +492,11 @@
       <Parameter Name="Class" Guid="fb4c44fe-1d3c-467e-81bc-1796f68fbe51" Value="Game.ComponentEngineA" Type="string" />
       <Parameter Name="SlotsCount" Guid="3ddd5634-a4c0-4ad5-85f8-813ef26dae6b" Value="10" Type="int" />
     </ComponentTemplate>
-	<ComponentTemplate Name="Airship2Table" Description="A steamengine" Guid="98fdc999-8ca8-4d0f-af8d-25bfe9b56a19" InheritanceParent="81a44c6a-c30a-4f53-8d64-0c30aabab8f9">
+    <ComponentTemplate Name="Airship2Table" Description="A steamengine" Guid="98fdc999-8ca8-4d0f-af8d-25bfe9b56a19" InheritanceParent="81a44c6a-c30a-4f53-8d64-0c30aabab8f9">
       <Parameter Name="Class" Guid="2b1c551e-2d3c-467e-81bc-1796f68fbe51" Value="Game.ComponentEngineT" Type="string" />
       <Parameter Name="SlotsCount" Guid="3d125634-a4c0-4ad5-85f8-813ef26dae6b" Value="8" Type="int" />
     </ComponentTemplate>
-	<ComponentTemplate Name="Airship3Table" Description="A steamengine" Guid="98fdc111-8ca8-4d0f-af8d-25bfe9b56a19" InheritanceParent="81a44c6a-c30a-4f53-8d64-0c30aabab8f9">
+    <ComponentTemplate Name="Airship3Table" Description="A steamengine" Guid="98fdc111-8ca8-4d0f-af8d-25bfe9b56a19" InheritanceParent="81a44c6a-c30a-4f53-8d64-0c30aabab8f9">
       <Parameter Name="Class" Guid="2b7c771e-2d3c-467e-81bc-1796f68fbe51" Value="Game.ComponentEngineT2" Type="string" />
       <Parameter Name="SlotsCount" Guid="3d745634-a4c4-4ad5-85f8-813ef26dae6b" Value="11" Type="int" />
     </ComponentTemplate>
@@ -532,18 +534,6 @@
     <ComponentTemplate Name="FireBox" Description="A firebox" Guid="c93f7917-de35-4e94-ba6e-90cd55cd19d4" InheritanceParent="81a44c6a-c30a-4f53-8d64-0c30aabab8f9">
       <Parameter Name="Class" Guid="fb4c24ff-1d3c-467e-81bc-1796f686be51" Value="Game.ComponentFireBox" Type="string" />
       <Parameter Name="SlotsCount" Guid="3dad5628-a4d0-4ad5-85f8-813ef26dae6b" Value="1" Type="int" />
-    </ComponentTemplate>
-    <ComponentTemplate Name="BlastFurnace" Description="A blastfurnace" Guid="f91f7946-de35-4e94-ba6e-90cd55cd19d4" InheritanceParent="81a44c6a-c30a-4f53-8d64-0c30aabab8f9">
-      <Parameter Name="Class" Guid="fa4c53fe-1d3c-467e-81bc-1796f686be51" Value="Game.ComponentBlastFurnace" Type="string" />
-    </ComponentTemplate>
-    <ComponentTemplate Name="CokeOven" Description="A coke oven" Guid="f91f7957-de35-4e94-ba6e-90cd55cd19d4" InheritanceParent="81a44c6a-c30a-4f53-8d64-0c30aabab8f9">
-      <Parameter Name="Class" Guid="fa4c65fe-1d3c-467e-81bc-1796f686be51" Value="Game.ComponentCoven" Type="string" />
-     </ComponentTemplate>
-    <ComponentTemplate Name="FractionalTower" Description="A fractional tower" Guid="f91f7969-de35-4e94-ba6e-90cd55cd19d4" InheritanceParent="81a44c6a-c30a-4f53-8d64-0c30aabab8f9">
-      <Parameter Name="Class" Guid="fa4c77fe-1d3c-467e-81bc-1796f686be51" Value="Game.ComponentFractionalTower" Type="string" />
-    </ComponentTemplate>
-    <ComponentTemplate Name="HearthFurnace" Description="A hearthfurnace" Guid="f91f7968-de35-4e94-ba6e-90cd55cd19d4" InheritanceParent="81a44c6a-c30a-4f53-8d64-0c30aabab8f9">
-      <Parameter Name="Class" Guid="fa4c666e-1d3c-467e-81bc-1796f686be51" Value="Game.ComponentHearthFurnace" Type="string" />
     </ComponentTemplate>
     <ComponentTemplate Name="Carriage" Description="A carriage" Guid="73a29f7f-10c7-4133-95b4-4a35bd44c956" InheritanceParent="7312ec8c-10c7-4133-85b4-4a35bd44c956">
       <Parameter Name="Class" Guid="1c0b89f0-22f9-45aa-aae3-039ba73b12b6" Value="Game.ComponentCarriage" Type="string" />
