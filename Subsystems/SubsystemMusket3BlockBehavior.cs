@@ -23,7 +23,7 @@ namespace Game
 					int num = Terrain.ExtractContents(slotValue);
 					//int data = Terrain.ExtractData(slotValue);
 					int num2 = slotValue;
-                    Vector3 dir = direction;
+                    //Vector3 dir = direction;
                     if (num == Musket3Block.Index && slotCount > 0)
 					{
 						if (!m_aimStartTimes.TryGetValue(componentMiner, out double value))
@@ -101,7 +101,9 @@ namespace Game
 											//m_subsystemParticles.AddParticleSystem(new BurntDebrisParticleSystem(base.SubsystemTerrain, (vector2 + 0.3f * vector3)));
 											//fireParticleSystem = new FireParticleSystem(vector2 + 1.3f * vector3, 0.3f, 3f);
 											//m_subsystemParticles.AddParticleSystem(fireParticleSystem);m_random.UniformFloat(-0.1f, 0.1f)
-											m_subsystemParticles.AddParticleSystem(new GunSmokeParticleSystem2(SubsystemTerrain, vector2 + 1.3f * dir, dir));
+											var view5 = componentMiner.ComponentPlayer.View;
+											Vector3 vector31 = Vector3.Normalize(view5.ActiveCamera.ViewDirection);
+											m_subsystemParticles.AddParticleSystem(new GunSmokeParticleSystem2(SubsystemTerrain, vector2 + 1.3f * vector31, vector31));
 											m_subsystemNoise.MakeNoise(vector2, 1f, 40f);
 											//SubsystemGameInfo m_subsystemGameInfo
 											if (Utils.SubsystemGameInfo.WorldSettings.GameMode != GameMode.Creative)
