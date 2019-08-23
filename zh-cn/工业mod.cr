@@ -980,6 +980,16 @@
 	  "bab"
 	  "bdb"
     </Recipe>
+	<Recipe Result="IEBatteryBlock:0" ResultCount="1" RequiredHeatLevel="0" Remains="Bottle" RemainsCount="1" a="H2SO4" b="CopperPlate" c="CopperRod" d="ZincRod" e="tank:0" Description="制作Cu-Zn可携带电池">
+      "bcb"
+	  "bab"
+	  "ded"
+    </Recipe>
+	<Recipe Result="IEBatteryBlock:1" ResultCount="1" RequiredHeatLevel="0" Remains="Bottle" RemainsCount="1" a="H2SO4" b="LeadPlate" c="CopperRod" d="ZincRod" e="tank:0" Description="用铅板锌棒制作铅酸可携带电池">
+      "bcb"
+	  "dad"
+	  "beb"
+    </Recipe>
     <Recipe Result="AgZnBattery" ResultCount="1" RequiredHeatLevel="0" Remains="EmptyBucketBlock" RemainsCount="1" a="CuZnBattery" b="SilverPlate" Description="用Cu-Zn电池改装成Ag-Zn电池">
       "bab"
     </Recipe>
@@ -1033,7 +1043,7 @@
       "bdce"
       "bbbb"
     </Recipe>
-    <Recipe Result="IEBatteryBlock:7" ResultCount="1" RequiredHeatLevel="0" a="ElectricMotor" b="drill:0" c="SteelRod" d="SteelPlate" e="CuZnBattery" f="SteelGear" Description="制作电锯">
+    <Recipe Result="IEBatteryBlock:7" ResultCount="1" RequiredHeatLevel="0" a="ElectricMotor" b="drill:0" c="SteelRod" d="SteelPlate" e="CuZnBattery" f="SteelGear" Description="制作电钻">
       "bcfa"
       " dce"
     </Recipe>
