@@ -6,13 +6,18 @@ using TemplatesDatabase;
 
 namespace Game
 {
-	public struct PointComparer : IComparer<Point2>
+	public partial class Comparer : IComparer<Point2>, IComparer<IChemicalItem>
 	{
 		public int Compare(Point2 x, Point2 y)
 		{
 			if (x.X != y.X)
 				return x.X.CompareTo(y.X);
 			return x.Y.CompareTo(y.Y);
+		}
+
+		public int Compare(IChemicalItem x, IChemicalItem y)
+		{
+			return x.GetDispersionSystem().GetHashCode() - y.GetDispersionSystem().GetHashCode();
 		}
 	}
 	partial class Utils
@@ -131,7 +136,7 @@ namespace Game
 		public SubsystemItemBlockBehavior()
 		{
 			TerrainUpdater.GenerateChunkVertices1 = Utils.GenerateChunkVertices;
-			Data = new SortedMultiCollection<Point2, TerrainGeometrySubsets>(16, new PointComparer());
+			Data = new SortedMultiCollection<Point2, TerrainGeometrySubsets>(16, new Comparer());
 		}
 
 		public void Draw(Camera camera, int drawOrder)

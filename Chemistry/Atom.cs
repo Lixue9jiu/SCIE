@@ -1,5 +1,4 @@
-﻿using Engine;
-using Game;
+﻿using Game;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -46,7 +45,7 @@ namespace Chemistry
 
 		public override int GetHashCode()
 		{
-			return (int)Atom | Count << 8;
+			return (int)Atom | Count << 6;
 		}
 
 		public override string ToString()
@@ -85,19 +84,48 @@ namespace Chemistry
 		}
 	}
 
-	public class Group : DynamicArray<Stack>, IEquatable<Group>
+	public class Group : IEquatable<Group>
 	{
+		public static readonly Dictionary<string, Group> Groups = new Dictionary<string, Group>(9);
+		public Stack Stack1,
+					 Stack2,
+					 Stack3;
+
+		/*public Stack this[int i]
+		{
+			get
+			{
+				return i == 0 ? Stack1 :
+					i == 1 ? Stack2 : Stack3;
+			}
+		}*/
+
+		public int Count
+		{
+			get
+			{
+				int n = Stack1.Count != 0 ? 1 : 0;
+				if (Stack2.Count != 0)
+				{
+					n++;
+				}
+				return Stack3.Count != 0 ? n + 1 : n;
+			}
+		}
+
 		public int Charge;
-
-		public Group() { }
-
-		public Group(int capacity) : base(capacity) { }
-
-		public Group(IEnumerable<Stack> items) : base(items) { }
 
 		public Group(string s)
 		{
 			if (string.IsNullOrEmpty(s)) return;
+			if (Groups.TryGetValue(s, out Group group))
+			{
+				Charge = group.Charge;
+				Stack1 = group.Stack1;
+				Stack2 = group.Stack2;
+				Stack3 = group.Stack3;
+				return;
+			}
 			char c = s[s.Length - 1];
 			if (c == '⁺')
 			{
@@ -140,7 +168,29 @@ namespace Chemistry
 				}
 				else i++;
 			}
+			Groups.Add(s, this);
 		}
+
+		public void Add(Stack stack)
+		{
+			if (Stack1.Count == 0)
+			{
+				Stack1 = stack;
+				return;
+			}
+			if (Stack2.Count == 0)
+			{
+				Stack2 = stack;
+				return;
+			}
+			if (Stack3.Count == 0)
+			{
+				Stack3 = stack;
+				return;
+			}
+			//throw new InvalidOperationException("Stack full");
+		}
+
 		public static readonly Group Na = new Group("Na⁺");
 		public static readonly Group Mg = new Group("Mg²⁺");
 		public static readonly Group Al = new Group("Al³⁺");
@@ -187,28 +237,24 @@ namespace Chemistry
 
 		public bool Equals(Group other)
 		{
-			if (Count != other.Count || Charge != other.Charge)
-				return false;
-			for (int i = 0; i < Count; i++)
-				if (!Array[i].Equals(other.Array[i]))
-					return false;
-			return true;
-		}
-
-		public override int GetHashCode()
-		{
-			int code = 0;
-			for (int i = 0; i < Count; i++)
-				code += Array[i].GetHashCode() * 107;
-			return code ^ Count << 27;
+			return Charge == other.Charge && Stack1.Equals(other.Stack1) && Stack2.Equals(other.Stack2) && Stack3.Equals(other.Stack3);
 		}
 
 		public override string ToString()
 		{
 			var sb = new StringBuilder();
-			int i = 0;
-			for (; i < Count; i++)
-				sb.Append(Array[i].ToString());
+			if (Stack1.Count != 0)
+			{
+				sb.Append(Stack1.ToString());
+			}
+			if (Stack2.Count != 0)
+			{
+				sb.Append(Stack2.ToString());
+			}
+			if (Stack3.Count != 0)
+			{
+				sb.Append(Stack3.ToString());
+			}
 			/*if (Charge != 0)
 			{
 				i = Math.Abs(Charge);
@@ -223,6 +269,11 @@ namespace Chemistry
 			return sb.ToString();
 		}
 
+		public override int GetHashCode()
+		{
+			return Charge.GetHashCode() << 27 | Stack1.GetHashCode() << 18 | Stack2.GetHashCode() << 9 | Stack3.GetHashCode();
+		}
+
 		public static Compound operator +(Group g1, Group g2)
 		{
 			if ((g1.Charge | g2.Charge) == 0)
@@ -234,11 +285,10 @@ namespace Chemistry
 				g2 = t;
 			}
 			int c1 = g1.Charge, c2 = -g2.Charge, gcd = Utils.GCD[c1, c2];
-			return new Compound(2)
-			{
-				{g1, c2 / gcd},
-				{g2, c1 / gcd}
-			};
+			var result = new Compound();
+			result.Add(g1, c2 / gcd);
+			result.Add(g2, c1 / gcd);
+			return result;
 		}
 
 		/*public static implicit operator Group(string s)

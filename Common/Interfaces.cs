@@ -19,7 +19,7 @@ namespace Game
 	}
 	public interface IChemicalItem : IItem
 	{
-		DispersionSystem GetDispersionSystem();
+		ReactionSystem GetDispersionSystem();
 	}
 	public interface IDurability
 	{

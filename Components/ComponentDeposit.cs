@@ -1,18 +1,26 @@
-﻿using GameEntitySystem;
-using TemplatesDatabase;
-
-namespace Game
+﻿namespace Game
 {
-	public class ComponentDeposit : ComponentSour
+	public class ComponentDeposit : ComponentSeparator
 	{
-		public override int RemainsSlotIndex => SlotsCount - 1;
-
-		public override int ResultSlotIndex => SlotsCount - 2;
-
-		public override void Load(ValuesDictionary valuesDictionary, IdToEntityMap idToEntityMap)
+		protected override int FindSmeltingRecipe()
 		{
-			base.Load(valuesDictionary, idToEntityMap);
-			m_furnaceSize = SlotsCount - 2;
+			result.Clear();
+			if (GetSlotCount(0) <= 0 || GetSlotValue(0) != ItemBlock.IdTable["QuartzPowder"])
+			{
+				return 0;
+			}
+			int text = 0;
+			int i;
+			for (i = 4; i < 6; i++)
+			{
+				if (GetSlotCount(i) <= 0) continue;
+				if (GetSlotValue(i) == ItemBlock.IdTable["C2H5OH"])
+					text = -text;
+				if (GetSlotValue(i) == ItemBlock.IdTable["C2H5OH"])
+					text = -text;
+			}
+			result[ItemBlock.IdTable["C2H5OH"]] = -1;
+			return FindSmeltingRecipe(text);
 		}
 	}
 }

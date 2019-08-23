@@ -6,35 +6,48 @@ using System.Text;
 
 namespace Chemistry
 {
-	/// <summary>
-	///     Represents a dispersion system.
-	/// </summary>
-	public struct DispersionSystem : ICloneable, IEquatable<DispersionSystem>
+	public class ReactionSystem : Dictionary<Compound, int>, ICloneable, IEquatable<ReactionSystem>
 	{
-		public static readonly CompoundsComparer Comparer = new CompoundsComparer();
-		public static readonly DispersionSystem Air = new DispersionSystem
-		{
-			DispersedPhase = new Dictionary<Compound, int>
-			{
+		public static readonly ReactionSystem Air = new ReactionSystem {
 				{ new Compound("N2"), 7800 },
 				{ new Compound("O2"), 2100 },
 				{ new Compound("O3"), 1 },
 				{ new Compound("H20"), 10 },
 				{ new Compound("CO2"), 3 }
-			}
 		};
-		public Dictionary<Compound, int> Dispersant;
-		public Dictionary<Compound, int> DispersedPhase;
+		//正数=溶解部分，负数=不溶部分
 
-		public DispersionSystem(int capacity)
+		public ReactionSystem()
 		{
-			Dispersant = new Dictionary<Compound, int>();
-			DispersedPhase = new Dictionary<Compound, int>(capacity);
 		}
 
-		public DispersionSystem(string s) : this(1)
+		public ReactionSystem(int capacity) : base(capacity)
 		{
-			AddCompounds(DispersedPhase, s);
+		}
+
+		public ReactionSystem(string s) : this(1)
+		{
+			AddCompounds(this, s);
+		}
+
+		public ReactionSystem(IDictionary<Compound, int> dictionary) : base(dictionary)
+		{
+		}
+
+		public void Normalize()
+		{
+			var list = new DynamicArray<Compound>();
+			for (var i = GetEnumerator(); i.MoveNext();)
+			{
+				var x = i.Current;
+				if (x.Value == 0)
+					list.Add(x.Key);
+			}
+			var arr = list.Array;
+			for (int i = 0; i < list.Count; i++)
+			{
+				Remove(arr[i]);
+			}
 		}
 
 		public static void AddCompounds(Dictionary<Compound, int> dict, string s, char separator = ',')
@@ -59,33 +72,44 @@ namespace Chemistry
 
 		public object Clone()
 		{
-			return new DispersionSystem
-			{
-				Dispersant = new Dictionary<Compound, int>(Dispersant),
-				DispersedPhase = new Dictionary<Compound, int>(DispersedPhase)
-			};
+			return new ReactionSystem(this);
 		}
 
 		public override bool Equals(object obj)
 		{
-			return obj is DispersionSystem && Equals((DispersionSystem)obj);
+			return obj is ReactionSystem && Equals((ReactionSystem)obj);
 		}
 
-		[MethodImpl((MethodImplOptions)0x100)]
-		public bool Equals(DispersionSystem other)
+		public bool Equals(ReactionSystem other)
 		{
-			return Comparer.Equals(Dispersant, other.Dispersant) && Comparer.Equals(DispersedPhase, other.DispersedPhase);
+			if (Count != other.Count)
+				return false;
+			var j = other.GetEnumerator();
+			for (var i = GetEnumerator(); i.MoveNext() && j.MoveNext();)
+			{
+				var x2 = i.Current;
+				var y2 = j.Current;
+				if (!x2.Key.Equals(y2.Key) || x2.Value != y2.Value)
+					return false;
+			}
+			return true;
 		}
 
 		public override int GetHashCode()
 		{
-			return Comparer.GetHashCode(Dispersant) * -1521134295 ^ Comparer.GetHashCode(DispersedPhase);
+			int code = 0;
+			for (var i = GetEnumerator(); i.MoveNext();)
+			{
+				var pair = i.Current;
+				code ^= pair.Key.GetHashCode() * 2111 | pair.Value << 24;
+			}
+			return code ^ Count << 28;
 		}
 
 		public override string ToString()
 		{
 			var sb = new StringBuilder();
-			for (var i = DispersedPhase.GetEnumerator(); i.MoveNext();)
+			for (var i = GetEnumerator(); i.MoveNext();)
 			{
 				var pair = i.Current;
 				if (pair.Value > 0)
@@ -104,7 +128,7 @@ namespace Chemistry
 			Equation equation = null;
 			int min = int.MaxValue, value,
 				cr, ratio = 0;
-			Dictionary<Compound, int>.Enumerator j;
+			Enumerator j;
 			for (var i = Equation.Reactions.GetEnumerator(); i.MoveNext();)
 			{
 				value = int.MaxValue;
@@ -112,7 +136,7 @@ namespace Chemistry
 				for (j = i.Current.Reactants.GetEnumerator(); j.MoveNext();)
 				{
 					Compound key = j.Current.Key;
-					if (!DispersedPhase.TryGetValue(key, out int val) && !Dispersant.TryGetValue(key, out val))
+					if (!TryGetValue(key, out int val))
 					{
 						value = int.MaxValue;
 						break;
@@ -135,26 +159,12 @@ namespace Chemistry
 			{
 				Compound key = j.Current.Key;
 				cr = ratio * j.Current.Value;
-				if (!DispersedPhase.TryGetValue(key, out value))
-				{
-					Dispersant[key] -= cr;
-				}
-				else
-					DispersedPhase[key] = value - cr;
+					this[key] -= cr;
 			}
 			for (j = equation.Products.GetEnumerator(); j.MoveNext();)
 			{
 				Compound key = j.Current.Key;
-				if (!DispersedPhase.TryGetValue(key, out value))
-				{
-					if (Dispersant.TryGetValue(key, out value))
-						Dispersant[key] = value + MathUtils.Abs(j.Current.Value);
-					else
-						goto a;
-					continue;
-				}
-				a:
-					DispersedPhase[key] = value + MathUtils.Abs(j.Current.Value);
+				this[key] +=  MathUtils.Abs(j.Current.Value);
 			}
 			return equation;
 		}
@@ -179,11 +189,12 @@ namespace Chemistry
 			return new DispersionSystem(s);
 		}*/
 		[MethodImpl((MethodImplOptions)0x100)]
-		public static implicit operator DispersionSystem(Compound c)
+		public static implicit operator ReactionSystem(Compound c)
 		{
-			var result = new DispersionSystem(1);
-			result.DispersedPhase.Add(c, 1);
-			return result;
+			return new ReactionSystem(1)
+			{
+				{ c, 1 }
+			};
 		}
 	}
 }

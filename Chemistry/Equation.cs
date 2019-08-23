@@ -23,14 +23,13 @@ namespace Chemistry
 	public class Equation : ICloneable, IEquatable<Equation>
 	{
 		public static HashSet<Equation> Reactions;
-		//public static HashSet<Equation> IonicReactions;
 
 		/// <summary>
 		///     Initializes an instance of the <see cref="Equation" /> class.
 		/// </summary>
 		/// <param name="reactants">The reactants.</param>
 		/// <param name="products">The products.</param>
-		public Equation(Dictionary<Compound, int> reactants, Dictionary<Compound, int> products)
+		public Equation(ReactionSystem reactants, ReactionSystem products)
 		{
 			Reactants = reactants;
 			Products = products;
@@ -38,20 +37,20 @@ namespace Chemistry
 
 		public Equation()
 		{
-			Reactants = new Dictionary<Compound, int>();
-			Products = new Dictionary<Compound, int>();
+			Reactants = new ReactionSystem();
+			Products = new ReactionSystem();
 			Catalysts = new Dictionary<Compound, int>();
 		}
 
 		/// <summary>
 		///     Gets the left-hand assignment (reactants) of the <see cref="Equation" />.
 		/// </summary>
-		public Dictionary<Compound, int> Reactants;
+		public ReactionSystem Reactants;
 
 		/// <summary>
 		///     Gets the right-hand assignment (products) of the <see cref="Equation" />.
 		/// </summary>
-		public Dictionary<Compound, int> Products;
+		public ReactionSystem Products;
 
 		public ushort Temperature, Rate, Heat, Conversion;
 		public Dictionary<Compound, int> Catalysts;
@@ -67,7 +66,7 @@ namespace Chemistry
 				s = x[0];
 				e.Rate = ushort.Parse(x[1], ic);
 				if (x.Length >= 2) {
-					DispersionSystem.AddCompounds(e.Catalysts, x[2]);
+					ReactionSystem.AddCompounds(e.Catalysts, x[2]);
 					if (x.Length >= 3)
 					{
 						e.Heat = ushort.Parse(x[3], ic);
@@ -79,8 +78,8 @@ namespace Chemistry
 			var l = s.Split('=');
 			if (l.Length < 3)
 				throw new ArgumentException("Invaild format", nameof(s));
-			DispersionSystem.AddCompounds(e.Reactants, l[0], '+');
-			DispersionSystem.AddCompounds(e.Products, l[2], '+');
+			ReactionSystem.AddCompounds(e.Reactants, l[0], '+');
+			ReactionSystem.AddCompounds(e.Products, l[2], '+');
 			var c = l[1].Split(new[]{','}, StringSplitOptions.RemoveEmptyEntries);
 			Condition cond = 0;
 			for (int i = 0; i < c.Length; i++)
@@ -101,7 +100,7 @@ namespace Chemistry
 
 		public object Clone()
 		{
-			return new Equation(new Dictionary<Compound, int>(Reactants), new Dictionary<Compound, int>(Products));
+			return new Equation(new ReactionSystem(Reactants), new ReactionSystem(Products));
 		}
 
 		/*/// <summary>
@@ -158,14 +157,14 @@ namespace Chemistry
 		public bool Equals(Equation other)
 		{
 			return other != null &&
-				   DispersionSystem.Comparer.Equals(Reactants, other.Reactants) &&
+				   Reactants.Equals(other.Reactants) &&
 				   Temperature == other.Temperature &&
 				   Conditions == other.Conditions;
 		}
 
 		public override int GetHashCode()
 		{
-			return (DispersionSystem.Comparer.GetHashCode(Reactants) * -1521134295 ^ Temperature) * -1521134295 ^ (int)Conditions;
+			return (Reactants.GetHashCode() * -1521134295 ^ Temperature) * -1521134295 ^ (int)Conditions;
 		}
 	}
 }

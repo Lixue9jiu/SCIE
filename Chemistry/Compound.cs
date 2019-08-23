@@ -1,26 +1,30 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 using System.Text;
 
 namespace Chemistry
 {
-	[Serializable]
-	public class Compound : Dictionary<Group, int>, ICloneable, IEquatable<Compound>
+	public struct Compound : ICloneable, IEquatable<Compound>
 	{
-		/*public Compound()
-		{
-		}*/
+		public Group Stack1, Stack2, Stack3;
+		public int   Count1, Count2;
 
-		public Compound(int capacity) : base(capacity)
+		//public int CrystalWater;
+
+		public int Count
 		{
+			get
+			{
+				int n = Stack1 != null ? 1 : 0;
+				if (Stack2 != null)
+				{
+					n++;
+				}
+				return Stack3 != null ? n + 1 : n;
+			}
 		}
 
-		public Compound(IDictionary<Group, int> dictionary) : base(dictionary)
-		{
-		}
-
-		public Compound(string s)
+		public Compound(string s) : this()
 		{
 			if (string.IsNullOrEmpty(s)) return;
 			var stack = new Stack<int>();
@@ -43,10 +47,55 @@ namespace Chemistry
 				Add(new Group(s.Substring(i)), 1);
 		}
 
-		[MethodImpl((MethodImplOptions)0x100)]
 		public object Clone()
 		{
-			return new Compound(this);
+			return new Compound
+			{
+				Stack1 = Stack1,
+				Stack2 = Stack2,
+				Stack3 = Stack3,
+				Count1 = Count1,
+				Count2 = Count2,
+			};
+		}
+
+		public void Add(Group group, int count = 1)
+		{
+#if DEBUG
+			if (count <= 0)
+				throw new ArgumentOutOfRangeException(nameof(count));
+#endif
+			if (Stack1 == null)
+			{
+				Stack1 = group;
+				Count1 = count;
+				return;
+			}
+			if (Stack2 == null)
+			{
+				Stack2 = group;
+				Count2 = count;
+				return;
+			}
+			if (Stack3 == null)
+			{
+				Stack3 = group;
+				if (count == 1)
+					return;
+				if (Count1 == 1)
+				{
+					Stack3 = Stack1;
+					Stack1 = group;
+					return;
+				}
+				if (Count2 == 1)
+				{
+					Stack3 = Stack2;
+					Stack2 = group;
+					return;
+				}
+			}
+			throw new InvalidOperationException("Stack full");
 		}
 
 		/*public float AtomicWeight
@@ -92,30 +141,28 @@ namespace Chemistry
 			return obj is Compound compound ? Equals(compound) : base.Equals(obj);
 		}
 
-		public bool Equals(Compound obj)
+		public bool Equals(Compound other)
 		{
-			if (Count != obj.Count)
-				return false;
-			var j = obj.GetEnumerator();
-			for (var i = GetEnumerator(); i.MoveNext() && j.MoveNext();)
-			{
-				var x = i.Current;
-				var y = j.Current;
-				if (!x.Key.Equals(y.Key) || x.Value != y.Value)
-					return false;
-			}
-			return true;
+			return Equals(Stack1, other.Stack1) && Equals(Stack2, other.Stack2) && Equals(Stack3, other.Stack3)
+				&& Count1 == other.Count1 && Count2 == other.Count2;
 		}
 
 		public override int GetHashCode()
 		{
-			int code = 0;
-			for (var i = GetEnumerator(); i.MoveNext();)
+			int code = Count1 << 3 ^ Count2;
+			if (Stack1 != null)
 			{
-				var pair = i.Current;
-				code ^= pair.Key.GetHashCode() * 2111 | pair.Value << 24;
+				code ^= Stack1.GetHashCode();
 			}
-			return code ^ Count << 28;
+			if (Stack2 != null)
+			{
+				code ^= Stack2.GetHashCode();
+			}
+			if (Stack3 != null)
+			{
+				code ^= Stack3.GetHashCode() * 2111;
+			}
+			return code;
 		}
 
 		/*public static Compound operator +(Compound c1, Compound c2)
@@ -194,47 +241,34 @@ namespace Chemistry
 		public override string ToString()
 		{
 			var sb = new StringBuilder();
-			for (var i = GetEnumerator(); i.MoveNext();)
+			if (Stack3 != null)
 			{
-				var pair = i.Current;
-				bool bracket = pair.Value > 1 && pair.Key.Count > 1;
+				sb.Append(Stack3.ToString());
+			}
+			bool bracket;
+			if (Stack1 != null)
+			{
+				bracket = Count1 > 1 && Stack1.Count > 1;
 				if (bracket)
 					sb.Append('(');
-				sb.Append(pair.Key.ToString());
+				sb.Append(Stack1.ToString());
 				if (bracket)
 					sb.Append(')');
-				if (pair.Value > 1)
-					sb.Append(pair.Value);
+				if (Count1 > 1)
+					sb.Append(Count1);
+			}
+			if (Stack2 != null)
+			{
+				bracket = Count2 > 1 && Stack2.Count > 1;
+				if (bracket)
+					sb.Append('(');
+				sb.Append(Stack2.ToString());
+				if (bracket)
+					sb.Append(')');
+				if (Count2 > 1)
+					sb.Append(Count2);
 			}
 			return sb.ToString();
-		}
-	}
-	public class CompoundsComparer : IEqualityComparer<Dictionary<Compound, int>>
-	{
-		public bool Equals(Dictionary<Compound, int> x, Dictionary<Compound, int> y)
-		{
-			if (x.Count != y.Count)
-				return false;
-			var j = y.GetEnumerator();
-			for (var i = x.GetEnumerator(); i.MoveNext() && j.MoveNext();)
-			{
-				var x2 = i.Current;
-				var y2 = j.Current;
-				if (!x2.Key.Equals(y2.Key) || x2.Value != y2.Value)
-					return false;
-			}
-			return true;
-		}
-
-		public int GetHashCode(Dictionary<Compound, int> obj)
-		{
-			int code = 0;
-			for (var i = obj.GetEnumerator(); i.MoveNext();)
-			{
-				var pair = i.Current;
-				code ^= pair.Key.GetHashCode() * 2111 | pair.Value << 24;
-			}
-			return code ^ obj.Count << 28;
 		}
 	}
 }

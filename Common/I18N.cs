@@ -53,8 +53,8 @@ namespace Game
 			"加速度系数",
 			"行走速度",
 			"爬梯速度",
-			"速度",
-			"飞行速度",
+			"起跳速度",
+			"创造模式飞行速度",
 			"飞行速度",
 			"游泳速度",
 			"转弯速度",
@@ -130,9 +130,8 @@ namespace Game
 		/// <param name="stream">要读取的流</param>
 		/// <param name="separator">分隔符</param>
 		/// <param name="commentchar">注释符</param>
-		public static void ReadKeyValueFile(Dictionary<string, string> dict, Stream stream, char separator = '=', char commentchar = '#')
+		public static void ReadKeyValueFile(Dictionary<string, string> dict, StreamReader reader, char separator = '=', char commentchar = '#')
 		{
-			var reader = new StreamReader(stream);
 			while (true)
 			{
 				var line = reader.ReadLine();
