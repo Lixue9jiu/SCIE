@@ -119,7 +119,7 @@ namespace Game
 				if (MoveOrder != 0f)
 				{
 					if (rider != null && componentBody.StandingOnValue.HasValue && componentEngine3 != null && componentEngine3.HeatLevel > 0f)
-						m_componentBody.Velocity += dt * 8f * MoveOrder * m_componentBody.Matrix.Forward;
+						m_componentBody.Velocity += dt * 4f * MoveOrder * m_componentBody.Matrix.Forward;
 					MoveOrder = 0f;
 				}
 				if (componentBody.ImmersionFactor > 0.95f)

@@ -222,7 +222,6 @@
     <Content Include="IndustrialMod\Widgets\CastMachWidget.xml" />
     <Content Include="IndustrialMod\Widgets\ChargerWidget.xml" />
     <Content Include="IndustrialMod\Widgets\CondenserWidget.xml" />
-    <Content Include="IndustrialMod\Widgets\CovenWidget.xml" />
     <Content Include="IndustrialMod\Widgets\CraftingRecipe.xml" />
     <Content Include="IndustrialMod\Widgets\CraftingRecipeSlot.xml" />
     <Content Include="IndustrialMod\Widgets\CReactorWidget.xml" />
@@ -247,7 +246,6 @@
     <Content Include="IndustrialMod\Widgets\NewChestWidget.xml" />
     <Content Include="IndustrialMod\Widgets\OilPlantWidget.xml" />
     <Content Include="IndustrialMod\Widgets\PresserWidget.xml" />
-    <Content Include="IndustrialMod\Widgets\SeperatorWidget.xml" />
     <Content Include="IndustrialMod\Widgets\SmeltingRecipe.xml" />
     <Content Include="IndustrialMod\Widgets\SourWidget.xml" />
   </ItemGroup>
