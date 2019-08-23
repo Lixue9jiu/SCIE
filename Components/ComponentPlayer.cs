@@ -236,13 +236,12 @@ namespace Game
 						var block2 = BlocksManager.Blocks[num4];
 						int num5 = 0;
 						var creativeValues = block2.GetCreativeValues();
-						if (block2.GetCreativeValues().Contains(value3))
+						if (creativeValues.Contains(value3))
 							num5 = value3;
 						if (num5 == 0 && !block2.IsNonDuplicable)
 						{
 							var list = new List<BlockDropValue>();
-							bool _;
-							block2.GetDropValues(m_subsystemTerrain, value3, 0, 2147483647, list, out _);
+							block2.GetDropValues(m_subsystemTerrain, value3, 0, 2147483647, list, out bool _);
 							if (list.Count > 0 && list[0].Count > 0)
 								num5 = list[0].Value;
 						}
@@ -271,7 +270,6 @@ namespace Game
 								}
 							}
 							if (num6 < 0)
-
 								num6 = componentCreativeInventory.ActiveSlotIndex;
 							componentCreativeInventory.RemoveSlotItems(num6, 2147483647);
 							componentCreativeInventory.AddSlotItems(num6, num5, 1);
@@ -312,7 +310,7 @@ namespace Game
 			{
 				num3 = m.CalculateDigTime(cellValue, SteelAxeBlock.Index);
 			}
-			else if(activeBlockValue == ItemBlock.IdTable["Screwdriver"] && BlocksManager.Blocks[num2].GetCategory(num2) == Utils.Get("»úÆ÷"))
+			else if (activeBlockValue == ItemBlock.IdTable["Screwdriver"] && BlocksManager.Blocks[num2].GetCategory(num2) == Utils.Get("»úÆ÷"))
 			{
 				num3 = 0;
 			}
@@ -343,20 +341,20 @@ namespace Game
 					BlockPlacementData digValue = block.GetDigValue(m_subsystemTerrain, m, cellValue, activeBlockValue, raycastResult);
 					if (flag2)
 					{
-						for (int x11 = cellFace.X - 1; x11 < cellFace.X + 2; x11++)
+						for (int x2 = cellFace.X - 1; x2 < cellFace.X + 2; x2++)
 						{
-							for (int y11 = cellFace.Y - 1; y11 < cellFace.Y + 2; y11++)
+							for (int y2 = cellFace.Y - 1; y2 < cellFace.Y + 2; y2++)
 							{
-								for (int z11 = cellFace.Z - 1; z11 < cellFace.Z + 2; z11++)
+								for (int z2 = cellFace.Z - 1; z2 < cellFace.Z + 2; z2++)
 								{
-									int vvv = m_subsystemTerrain.Terrain.GetCellValue(x11, y11, z11);
-									if ((x11 - cellFace.X) * (x11 - cellFace.X) + (y11 - cellFace.Y) * (y11 - cellFace.Y) + (z11 - cellFace.Z) * (z11 - cellFace.Z) <= 1)
+									int v = m_subsystemTerrain.Terrain.GetCellValue(x2, y2, z2);
+									if ((x2 - cellFace.X) * (x2 - cellFace.X) + (y2 - cellFace.Y) * (y2 - cellFace.Y) + (z2 - cellFace.Z) * (z2 - cellFace.Z) <= 1)
 									{
-										if (BlocksManager.Blocks[Terrain.ExtractContents(vvv)].IsPlaceable && !BlocksManager.Blocks[Terrain.ExtractContents(vvv)].IsDiggingTransparent && !BlocksManager.Blocks[Terrain.ExtractContents(vvv)].DefaultIsInteractive && Terrain.ExtractContents(vvv) != 31)
+										if (BlocksManager.Blocks[Terrain.ExtractContents(v)].IsPlaceable && !BlocksManager.Blocks[Terrain.ExtractContents(v)].IsDiggingTransparent && !BlocksManager.Blocks[Terrain.ExtractContents(v)].DefaultIsInteractive && Terrain.ExtractContents(v) != 31)
 										{
-											m_subsystemTerrain.ChangeCell(x11, y11, z11, 0);
-											if (BlocksManager.Blocks[Terrain.ExtractContents(vvv)].DefaultCategory != "Plants")
-												m_subsystemPickables.AddPickable(vvv, 1, new Vector3(x11, y11, z11) + new Vector3(0.5f), null, null);
+											m_subsystemTerrain.ChangeCell(x2, y2, z2, 0);
+											if (BlocksManager.Blocks[Terrain.ExtractContents(v)].DefaultCategory != "Plants")
+												m_subsystemPickables.AddPickable(v, 1, new Vector3(x2, y2, z2) + new Vector3(0.5f), null, null);
 										}
 									}
 								}
@@ -414,19 +412,19 @@ namespace Game
 						m_subsystemTerrain.DestroyCell(block2.ToolLevel, digValue.CellFace.X, digValue.CellFace.Y, digValue.CellFace.Z, digValue.Value, false, false);
 						if (x1 > 1)
 						{
-							for (int x11 = cellFace.X - a; x11 < cellFace.X + a + 1; x11++)
+							for (int x2 = cellFace.X - a; x2 < cellFace.X + a + 1; x2++)
 							{
-								for (int y11 = cellFace.Y; y11 < cellFace.Y + x1 + 1; y11++)
+								for (int y2 = cellFace.Y; y2 < cellFace.Y + x1 + 1; y2++)
 								{
-									for (int z11 = cellFace.Z - a; z11 < cellFace.Z + a + 1; z11++)
+									for (int z2 = cellFace.Z - a; z2 < cellFace.Z + a + 1; z2++)
 									{
-										int value2 = m_subsystemTerrain.Terrain.GetCellContentsFast(x11, y11, z11);
+										int value2 = m_subsystemTerrain.Terrain.GetCellContentsFast(x2, y2, z2);
 										if (value2 == OakWoodBlock.Index || value2 == BirchWoodBlock.Index || value2 == SpruceWoodBlock.Index)
 										{
-											m_subsystemTerrain.DestroyCell(block2.ToolLevel, x11, y11, z11, digValue.Value, false, false);
+											m_subsystemTerrain.DestroyCell(block2.ToolLevel, x2, y2, z2, digValue.Value, false, false);
 										}
 										if (value2 == OakLeavesBlock.Index || value2 == BirchLeavesBlock.Index || value2 == SpruceLeavesBlock.Index || value2 == TallSpruceLeavesBlock.Index)
-											m_subsystemTerrain.DestroyCell(block2.ToolLevel, x11, y11, z11, digValue.Value, false, false);
+											m_subsystemTerrain.DestroyCell(block2.ToolLevel, x2, y2, z2, digValue.Value, false, false);
 									}
 								}
 							}
