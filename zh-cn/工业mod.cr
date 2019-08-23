@@ -1040,6 +1040,11 @@
       "aeba"
       "cffc"
     </Recipe>
+    <Recipe Result="Recycler" ResultCount="1" RequiredHeatLevel="0" a="SteelPlate" b="SteelGear" c="WireDevice" d="tank:0" e="kibbler" f="chest:0" Description="制作回收机以回收材料">
+      "aba"
+      "cdf"
+      "aea"
+    </Recipe>
     <Recipe Result="AirCompressor" ResultCount="1" RequiredHeatLevel="0" a="SteelFan" b="SteelRod" c="SteelPlate" d="IndustrialPiston" e="metalblock:32" f="piston" g="tank:0" Description="制作一台空气压缩机">
       "caac"
       "dgfd"

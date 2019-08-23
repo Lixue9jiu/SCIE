@@ -1,8 +1,9 @@
 ﻿using Engine;
 using GameEntitySystem;
+using System.Collections.Generic;
 using System.Linq;
 using TemplatesDatabase;
-using System.Collections.Generic;
+
 namespace Game
 {
 	public class ComponentBoatI : ComponentBoat, IUpdateable
@@ -100,14 +101,13 @@ namespace Game
 		protected ComponentEngineA componentEngine;
 		protected ComponentEngineT componentEngine2;
 		protected ComponentEngineT2 componentEngine3;
-		protected int use=0;
-
+		protected int use = 0;
 
 		public new void Update(float dt)
 		{
+			var componentBody = m_componentBody;
 			if (componentEngine3 != null)
 			{
-				var componentBody = m_componentBody;
 				componentBody.IsGravityEnabled = true;
 				componentBody.IsGroundDragEnabled = false;
 				Quaternion rotation = componentBody.Rotation;
@@ -134,51 +134,36 @@ namespace Game
 				//int value = Terrain.ExtractContents(componentBody.StandingOnValue.Value);
 				if (componentEngine2.HeatLevel == 500f)
 				{
-					//bool flagg = false;
-					//int use = 0;
-					int value = Terrain.ExtractContents(componentBody.StandingOnValue.Value);
-					Vector3 p2 = Vector3.Normalize(componentBody.Rotation.ToForwardVector());
-					Vector3 p3 = Vector3.Transform(p2, Matrix.CreateRotationY(MathUtils.PI / 2));
-					//if (value == SoilBlock.Index)
-					componentBody.IsSneaking = true;
-					for (int aaa = -2; aaa < 2 + 1; aaa++)
+					var p2 = Vector3.Normalize(componentBody.Rotation.ToForwardVector());
+					var p3 = Vector3.Transform(p2, Matrix.CreateRotationY(MathUtils.PI / 2));
+					for (int a = -2; a < 2 + 1; a++)
 					{
-						for (int bbb = 0; bbb < 3; bbb++)
+						for (int b = 0; b < 3; b++)
 						{
-							var p = Terrain.ToCell(componentBody.Position + p2 * 1.5f + aaa * p3 + new Vector3(0f, 0.1f, 0f));
-							int value2 = Utils.Terrain.GetCellContentsFast(p.X, p.Y+bbb, p.Z);
-							int value444 = Utils.Terrain.GetCellValueFast(p.X, p.Y+bbb, p.Z);
+							var p = Terrain.ToCell(componentBody.Position + p2 * 1.5f + a * p3 + new Vector3(0f, 0.1f, 0f));
+							int value2 = Utils.Terrain.GetCellContentsFast(p.X, p.Y + b, p.Z);
+							int value444 = Utils.Terrain.GetCellValueFast(p.X, p.Y + b, p.Z);
 							IInventory inventory = componentBody.Entity.FindComponent<ComponentEngineT2>(true);
 							var block = BlocksManager.Blocks[value2];
-							if (value2 > 0 && block.IsPlaceable && !block.IsDiggingTransparent && !block.DefaultIsInteractive && block.DefaultCategory=="Terrain")
+							if (value2 > 0 && block.IsPlaceable && !block.IsDiggingTransparent && !block.DefaultIsInteractive && block.DefaultCategory == "Terrain")
 							{
-
 								if (ComponentInventoryBase.AcquireItems(inventory, value444, 1) < 1)
 								{
-									Utils.SubsystemTerrain.ChangeCell(p.X, p.Y+bbb, p.Z, 0);
+									Utils.SubsystemTerrain.ChangeCell(p.X, p.Y + b, p.Z, 0);
 								}
 								else
 								{
-									aaa += 5;
-									bbb += 3;
+									a += 5;
+									b += 3;
 								}
-
 							}
 						}
-                    }
+					}
 				}
-				//if (value == SoilBlock.Index)
-				//	componentBody.IsSneaking = true;
-				//if (value == DirtBlock.Index || value == GrassBlock.Index)
-				//{
-				//	var p = Terrain.ToCell(componentBody.Position);
-				//	Utils.SubsystemTerrain.ChangeCell(p.X, p.Y - 1, p.Z, Terrain.ReplaceContents(value, 168));
-				//}
 				return;
 			}
 			if (componentEngine2 != null)
 			{
-				var componentBody = m_componentBody;
 				componentBody.IsGravityEnabled = true;
 				componentBody.IsGroundDragEnabled = true;
 				Quaternion rotation = componentBody.Rotation;
@@ -200,80 +185,78 @@ namespace Game
 						rider.StartDismounting();
 				}
 				TurnOrder = 0f;
-				if (componentEngine2.HeatLevel <= 0f || componentBody.Mass > 1200f || !componentBody.StandingOnValue.HasValue || m_componentBody.Velocity.LengthSquared()==0f)
+				if (componentEngine2.HeatLevel <= 0f || componentBody.Mass > 1200f || !componentBody.StandingOnValue.HasValue || m_componentBody.Velocity.LengthSquared() == 0f)
 					return;
-				if (componentEngine2.HeatLevel ==500f)
+				if (componentEngine2.HeatLevel == 500f)
 				{
-					int abb = -1;
-					int bb2 = -1;
+					int ab = -1;
 					//bool flagg = false;
 					//int use = 0;
-					for (int i=0;i<6;i++)
+					for (int i = 0; i < 6; i++)
 					{
-						int va1=componentEngine2.GetSlotValue(i);
+						int va1 = componentEngine2.GetSlotValue(i);
 						if (va1 == SaltpeterChunkBlock.Index && componentEngine2.GetSlotCount(i) > 0)
 						{
-							abb = i;
+							ab = i;
 						}
 					}
-					if (abb>=0 && use==0)
+					if (ab >= 0 && use == 0)
 					{
-						componentEngine2.m_slots[abb].Count -= 1;
+						componentEngine2.m_slots[ab].Count -= 1;
 						//flagg = true;
 						use = 9;
 					}
 					int value = Terrain.ExtractContents(componentBody.StandingOnValue.Value);
-					Vector3 p2 = Vector3.Normalize(componentBody.Rotation.ToForwardVector());
-					Vector3 p3 = Vector3.Transform(p2, Matrix.CreateRotationY(MathUtils.PI / 2));
-					//if (value == SoilBlock.Index)
-						componentBody.IsSneaking = true;
-					
-					for (int aaa = -3; aaa < 3 + 1; aaa++)
+					var p2 = Vector3.Normalize(componentBody.Rotation.ToForwardVector());
+					var p3 = Vector3.Transform(p2, Matrix.CreateRotationY(MathUtils.PI / 2));
+					componentBody.IsSneaking = true;
+
+					for (int a = -3; a < 3 + 1; a++)
 					{
-						var p = Terrain.ToCell(componentBody.Position - p2 * 2f + aaa * p3+new Vector3(0f,0.1f,0f));
+						var p = Terrain.ToCell(componentBody.Position - p2 * 2f + a * p3 + new Vector3(0f, 0.1f, 0f));
 						int value2 = Utils.Terrain.GetCellContentsFast(p.X, p.Y - 1, p.Z);
 						if (value2 == DirtBlock.Index || value2 == GrassBlock.Index || value2 == SoilBlock.Index)
 						{
 							if (Utils.Terrain.GetCellContentsFast(p.X, p.Y, p.Z) == 0)
-							for (int i = 0; i < 6; i++)
-							{
-								int value23 = 0;
-								int va1 = componentEngine2.GetSlotValue(i);
-								switch (va1)
+								for (int i = 0; i < 6; i++)
 								{
-									case 16557:
-										value23 = 20 | FlowerBlock.SetIsSmall(0, true) << 14;
-										break;
-									case 173:
-										value23 = 19 | TallGrassBlock.SetIsSmall(0, true) << 14;
-										break;
-									case 49325:
-										value23 = 25 | FlowerBlock.SetIsSmall(0, true) << 14;
-										break;
-									case 32941:
-										value23 = 24 | FlowerBlock.SetIsSmall(0, true) << 14;
-										break;
-									case 82093:
-										value23 = 174 | RyeBlock.SetSize(RyeBlock.SetIsWild(0, false), 0) << 14;
-										break;
-									case 65709:
-										value23 = 174 | RyeBlock.SetSize(RyeBlock.SetIsWild(0, false), 0) << 14;
-										break;
-									case 114861:
-										value23 = 131 | BasePumpkinBlock.SetSize(BasePumpkinBlock.SetIsDead(0, false), 0) << 14;
-										break;
-									case 98477:
-										value23 = 204 | CottonBlock.SetSize(CottonBlock.SetIsWild(0, false), 0) << 14;
-										break;
+									int value23 = 0;
+									int va1 = componentEngine2.GetSlotValue(i);
+									switch (va1)
+									{
+										case 16557:
+											value23 = 20 | FlowerBlock.SetIsSmall(0, true) << 14;
+											break;
+										case 173:
+											value23 = 19 | TallGrassBlock.SetIsSmall(0, true) << 14;
+											break;
+										case 49325:
+											value23 = 25 | FlowerBlock.SetIsSmall(0, true) << 14;
+											break;
+										case 32941:
+											value23 = 24 | FlowerBlock.SetIsSmall(0, true) << 14;
+											break;
+										case 82093:
+											value23 = 174 | RyeBlock.SetSize(RyeBlock.SetIsWild(0, false), 0) << 14;
+											break;
+										case 65709:
+											value23 = 174 | RyeBlock.SetSize(RyeBlock.SetIsWild(0, false), 0) << 14;
+											break;
+										case 114861:
+											value23 = 131 | BasePumpkinBlock.SetSize(BasePumpkinBlock.SetIsDead(0, false), 0) << 14;
+											break;
+										case 98477:
+											value23 = 204 | CottonBlock.SetSize(CottonBlock.SetIsWild(0, false), 0) << 14;
+											break;
+									}
+									if (value23 > 0 && componentEngine2.GetSlotCount(i) > 0 && Utils.Terrain.GetCellContentsFast(p.X, p.Y, p.Z) == 0)
+									{
+										componentEngine2.m_slots[i].Count -= 1;
+										Utils.SubsystemTerrain.ChangeCell(p.X, p.Y, p.Z, value23);
+										i += 6;
+									}
 								}
-								if (value23>0 && componentEngine2.GetSlotCount(i)>0 && Utils.Terrain.GetCellContentsFast(p.X, p.Y, p.Z) == 0)
-								{
-									componentEngine2.m_slots[i].Count -= 1;
-									Utils.SubsystemTerrain.ChangeCell(p.X, p.Y, p.Z, value23);
-									i += 6;
-								}
-							}
-							if (use>0 && value2 != (168 | SoilBlock.SetNitrogen(0, 3) << 14))
+							if (use > 0 && value2 != (168 | SoilBlock.SetNitrogen(0, 3) << 14))
 							{
 								Utils.SubsystemTerrain.ChangeCell(p.X, p.Y - 1, p.Z, 168 | SoilBlock.SetNitrogen(0, 3) << 14);
 								use -= 1;
@@ -281,7 +264,7 @@ namespace Game
 							else
 							//cellFace.X + i, cellFace.Y, cellFace.Z + j, 168 | SoilBlock.SetNitrogen(Terrain.ExtractData(cellValueFast), 3) << 14
 							if (value2 != SoilBlock.Index)
-							Utils.SubsystemTerrain.ChangeCell(p.X, p.Y - 1, p.Z, Terrain.ReplaceContents(value, 168));
+								Utils.SubsystemTerrain.ChangeCell(p.X, p.Y - 1, p.Z, Terrain.ReplaceContents(value, 168));
 						}
 					}
 				}
@@ -290,106 +273,89 @@ namespace Game
 					//bool flagg = false;
 					//int use = 0;
 					int value = Terrain.ExtractContents(componentBody.StandingOnValue.Value);
-					Vector3 p2 = Vector3.Normalize(componentBody.Rotation.ToForwardVector());
-					Vector3 p3 = Vector3.Transform(p2, Matrix.CreateRotationY(MathUtils.PI / 2));
+					var p2 = Vector3.Normalize(componentBody.Rotation.ToForwardVector());
+					var p3 = Vector3.Transform(p2, Matrix.CreateRotationY(MathUtils.PI / 2));
 					//if (value == SoilBlock.Index)
 					componentBody.IsSneaking = true;
 					for (int aaa = -3; aaa < 3 + 1; aaa++)
 					{
 						var p = Terrain.ToCell(componentBody.Position + p2 * 2f + aaa * p3 + new Vector3(0f, 0.1f, 0f));
 						int value2 = Utils.Terrain.GetCellContentsFast(p.X, p.Y, p.Z);
-						int value444 = Utils.Terrain.GetCellValueFast(p.X, p.Y, p.Z);
-						int value23=0;
-						bool flag333 = false;
+						int value4 = Utils.Terrain.GetCellValueFast(p.X, p.Y, p.Z);
+						bool flag = false;
 						IInventory inventory = componentBody.Entity.FindComponent<ComponentEngineT>(true);
 						switch (value2)
 						{
 							case RyeBlock.Index:
-								if (RyeBlock.GetSize(value444)>=6)
+								if (RyeBlock.GetSize(value4) >= 6)
 								{
-									flag333 = true;
-									
+									flag = true;
 								}
 								break;
 							case PurpleFlowerBlock.Index:
-								if (!FlowerBlock.GetIsSmall(value444))
+								if (!FlowerBlock.GetIsSmall(value4))
 								{
-									flag333 = true;
-
+									flag = true;
 								}
 								break;
 							case RedFlowerBlock.Index:
-								if (!FlowerBlock.GetIsSmall(value444))
+								if (!FlowerBlock.GetIsSmall(value4))
 								{
-									flag333 = true;
-
+									flag = true;
 								}
 								break;
 							case WhiteFlowerBlock.Index:
-								if (!FlowerBlock.GetIsSmall(value444))
+								if (!FlowerBlock.GetIsSmall(value4))
 								{
-									flag333 = true;
-
+									flag = true;
 								}
 								break;
 							case TallGrassBlock.Index:
-								if (!TallGrassBlock.GetIsSmall(value444))
+								if (!TallGrassBlock.GetIsSmall(value4))
 								{
-									flag333 = true;
-
+									flag = true;
 								}
 								break;
 							case PumpkinBlock.Index:
-								if (BasePumpkinBlock.GetSize(value444)>=4 || BasePumpkinBlock.GetIsDead(value444))
+								if (BasePumpkinBlock.GetSize(value4) >= 4 || BasePumpkinBlock.GetIsDead(value4))
 								{
-									flag333 = true;
-
+									flag = true;
 								}
 								break;
 							case CottonBlock.Index:
-								if (CottonBlock.GetSize(value444)>=0)
+								if (CottonBlock.GetSize(value4) >= 0)
 								{
-									flag333 = true;
-
+									flag = true;
 								}
 								break;
 							case RottenPumpkinBlock.Index:
-								 flag333 = true;
+								flag = true;
 								break;
-
 						}
-						if (flag333)
+						if (flag)
 						{
 							var list = new List<BlockDropValue>(8);
-							BlocksManager.Blocks[value2].GetDropValues(Utils.SubsystemTerrain, value444, 0, 3, list, out bool s);
+							BlocksManager.Blocks[value2].GetDropValues(Utils.SubsystemTerrain, value4, 0, 3, list, out bool s);
 							for (int l = 0; l < list.Count; l++)
 							{
 								var blockDropValue = list[l];
 								//for (int i = 0; i <= blockDropValue.Count; i++)
-							    if (ComponentInventoryBase.AcquireItems(inventory, blockDropValue.Value, blockDropValue.Count) < blockDropValue.Count)
+								if (ComponentInventoryBase.AcquireItems(inventory, blockDropValue.Value, blockDropValue.Count) < blockDropValue.Count)
 								{
 									Utils.SubsystemTerrain.ChangeCell(p.X, p.Y, p.Z, 0);
-								}else
+								}
+								else
 								{
 									l += list.Count;
 								}
-
-							 }
-							
+							}
 						}
-					    
-						
 					}
 				}
 				return;
 			}
-
-
-			
-
 			if (componentEngine != null)
 			{
-				var componentBody = m_componentBody;
 				componentBody.IsGravityEnabled = true;
 				componentBody.IsGroundDragEnabled = false;
 				Quaternion rotation = componentBody.Rotation;
@@ -413,18 +379,7 @@ namespace Game
 				TurnOrder = 0f;
 				if (componentEngine.HeatLevel <= 0f || componentBody.Mass > 1200f || !componentBody.StandingOnValue.HasValue)
 					return;
-				int value = Terrain.ExtractContents(componentBody.StandingOnValue.Value);
-				//if (value == SoilBlock.Index)
-				//	componentBody.IsSneaking = true;
-				//if (value == DirtBlock.Index || value == GrassBlock.Index)
-				//{
-				//	var p = Terrain.ToCell(componentBody.Position);
-				//	Utils.SubsystemTerrain.ChangeCell(p.X, p.Y - 1, p.Z, Terrain.ReplaceContents(value, 168));
-				//}
 			}
-
-			
-
 		}
 
 		public override void Load(ValuesDictionary valuesDictionary, IdToEntityMap idToEntityMap)
@@ -454,8 +409,9 @@ namespace Game
 
 	public class ComponentTrain : Component, IUpdateable
 	{
-		static readonly Vector3 center = new Vector3(0.5f, 0, 0.5f);
-		static readonly Quaternion[] directions = new[]
+		private static readonly Vector3 center = new Vector3(0.5f, 0, 0.5f);
+
+		private static readonly Quaternion[] directions = new[]
 		{
 			Quaternion.CreateFromAxisAngle(Vector3.UnitY, 0),
 			Quaternion.CreateFromAxisAngle(Vector3.UnitY, MathUtils.PI * 0.5f),
@@ -463,25 +419,26 @@ namespace Game
 			Quaternion.CreateFromAxisAngle(Vector3.UnitY, MathUtils.PI * 1.5f)
 		};
 
-		static readonly Quaternion upwardDirection = Quaternion.CreateFromAxisAngle(new Vector3(1, 0, 0), MathUtils.PI * 0.25f);
-		static readonly Quaternion downwardDirection = Quaternion.CreateFromAxisAngle(new Vector3(1, 0, 0), MathUtils.PI * -0.25f);
-		static readonly Vector3[] forwardVectors = new[]
+		private static readonly Quaternion upwardDirection = Quaternion.CreateFromAxisAngle(new Vector3(1, 0, 0), MathUtils.PI * 0.25f);
+		private static readonly Quaternion downwardDirection = Quaternion.CreateFromAxisAngle(new Vector3(1, 0, 0), MathUtils.PI * -0.25f);
+
+		private static readonly Vector3[] forwardVectors = new[]
 		{
 			new Vector3(0, 0, -1),
 			new Vector3(-1, 0, 0),
 			new Vector3(0, 0, 1),
 			new Vector3(1, 0, 0)
 		};
-		
+
 		internal ComponentBody m_componentBody;
 		public ComponentTrain ParentBody;
 		protected ComponentDamage componentDamage;
 		protected float m_outOfMountTime;
-		ComponentMount m_componentMount;
+		private ComponentMount m_componentMount;
 		public ComponentEngine ComponentEngine;
-		int m_forwardDirection;
-		Quaternion rotation;
-		Vector3 forwardVector;
+		private int m_forwardDirection;
+		private Quaternion rotation;
+		private Vector3 forwardVector;
 
 		public int Direction
 		{
@@ -506,7 +463,7 @@ namespace Game
 				m_componentBody.CollidedWithBody += CollidedWithBody;
 			else
 				ParentBody = valuesDictionary.GetValue("ParentBody", default(EntityReference)).GetComponent<ComponentTrain>(Entity, idToEntityMap, false);
-			
+
 			Direction = valuesDictionary.GetValue("Direction", 0);
 		}
 
@@ -525,7 +482,7 @@ namespace Game
 				return;
 			Vector2 v = m_componentBody.Velocity.XZ - body.Velocity.XZ;
 			float amount = v.LengthSquared() * .3f;
-			if (amount < .02f || m_componentBody.Velocity.XZ.LengthSquared()==0f) return;
+			if (amount < .02f || m_componentBody.Velocity.XZ.LengthSquared() == 0f) return;
 			var health = body.Entity.FindComponent<ComponentHealth>();
 			if (health != null)
 				health.Injure(amount / health.AttackResilience, null, false, "Struck by a train");
@@ -612,7 +569,7 @@ namespace Game
 					m_componentBody.Position = new Vector3(m_componentBody.Position.X, m_componentBody.Position.Y, MathUtils.Floor(m_componentBody.Position.Z) + 0.5f);
 					break;
 			}
-			
+
 			if (ComponentEngine != null && ComponentEngine.HeatLevel >= 100f && m_componentBody.StandingOnValue.HasValue)
 			{
 				var result = Utils.SubsystemTerrain.Raycast(m_componentBody.Position, m_componentBody.Position + new Vector3(0, -3f, 0), false, true, null);
@@ -623,7 +580,7 @@ namespace Game
 			m_componentBody.Rotation = Quaternion.Slerp(m_componentBody.Rotation, rotation, 0.15f);
 		}
 
-		float SimulateRail(int railType)
+		private float SimulateRail(int railType)
 		{
 			if (RailBlock.IsCorner(railType))
 			{
@@ -641,7 +598,7 @@ namespace Game
 			return 0f;
 		}
 
-		bool Turn(int turnType)
+		private bool Turn(int turnType)
 		{
 			if (Direction == turnType)
 			{
@@ -660,7 +617,7 @@ namespace Game
 			return false;
 		}
 
-		static float GetOffsetOnDirection(Vector3 vec, int direction)
+		private static float GetOffsetOnDirection(Vector3 vec, int direction)
 		{
 			float offset = (direction & 1) == 0 ? vec.Z - MathUtils.Floor(vec.Z) : vec.X - MathUtils.Floor(vec.X);
 			return (direction & 2) == 0 ? 1 - offset : offset;

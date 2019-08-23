@@ -59,7 +59,7 @@ namespace Game
 				case 0:
 					return new SeparatorWidget(inventory, component, "Sour", "Widgets/SourWidget");
 				case 1:
-					return new DepositWidget(inventory, component);
+					return new SeparatorWidget(inventory, component, "Deposit");
 			}
 			return null;
 		}

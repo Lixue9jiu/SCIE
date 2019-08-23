@@ -7,13 +7,6 @@ using TemplatesDatabase;
 
 namespace Game
 {
-	[Flags]
-	public enum Metal : short
-	{
-		None, Al = 1, Cr = 1<<6, Mn = 1<<7,
-		Fe = 1<<8, Co = 1<<9, Ni = 1<<10, Cu = 1<<11, Zn = 1<<12, Ga = 1<<13,
-		Used = -32768
-	}
 	public enum BrushType
 	{
 		Au,
@@ -38,7 +31,6 @@ namespace Game
 		public static TerrainBrush.Cell[][] OilPocketCells;
 		//public static TerrainBrush[] NaturalGasBrushes;
 		//public static Dictionary<long, int> MinesData;
-		public static DynamicArray<Metal> ChemData;
 
 		public override int[] HandledBlocks => new[]
 		{
@@ -62,37 +54,17 @@ namespace Game
 			CoalBlock.Index*/
 		};
 
-		/*public static int StoreItemData(Metal key)
-		{
-			int i;
-			var arr = AlloysData.Array;
-			for (i = 1; i < AlloysData.Count; i++)
-				if (arr[i] == 0)
-				{
-					arr[i] = key;
-					return i;
-				}
-				if (arr[i] == key || (arr[i] & Metal.Used) == 0)
-					return i;
-			if (i == 262144)
-				return 0;
-			AlloysData.Add(key);
-			return i;
-			//MinesData.TryGetValue(key, out int count);
-			//MinesData[key] = count + 1;
-		}*/
-
 		public override void Load(ValuesDictionary valuesDictionary)
 		{
 			base.Load(valuesDictionary);
 			Utils.Load(Project);
 			//Utils.SubsystemItemsScanner.ItemsScanned += GarbageCollectItems;
-			var arr = valuesDictionary.GetValue(nameof(ChemData), "0").Split(',');
-			ChemData = new DynamicArray<Metal>(arr.Length);
+			var arr = valuesDictionary.GetValue("ChemData", "").Split(',');
+			//ChemicalBlock.Items = new DynamicArray<Metal>(arr.Length);
 			int i;
-			for (i = 0; i < arr.Length; i++)
+			/*for (i = 0; i < arr.Length; i++)
 				if (short.TryParse(arr[i], NumberStyles.Integer, NumberFormatInfo.CurrentInfo, out short value))
-					ChemData.Add((Metal)value);
+					ChemData.Add(value);*/
 			SmallBrushes = new TerrainBrush[16];
 			PtBrushes = new TerrainBrush[16];
 			BBrushes = new TerrainBrush[16];
@@ -182,7 +154,7 @@ namespace Game
 				sb.Append(data.Key.ToString());
 				sb.Append('=');
 				sb.Append(data.Value.ToString());
-			}*/
+			}
 			var sb = new StringBuilder(ChemData.Count);
 			var values = ChemData.Array;
 			if (values.Length == 0)
@@ -193,7 +165,7 @@ namespace Game
 				sb.Append(',');
 				sb.Append(values[i].ToString());
 			}
-			valuesDictionary.SetValue(nameof(ChemData), sb.ToString());
+			valuesDictionary.SetValue(nameof(ChemData), sb.ToString());*/
 		}
 
 		public override void OnChunkInitialized(TerrainChunk chunk)

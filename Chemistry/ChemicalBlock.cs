@@ -1,11 +1,38 @@
 ﻿using Chemistry;
 using Engine;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 
 namespace Game
 {
+	public class ChemicalCollection : SortedMultiCollection<IChemicalItem, bool>
+	{
+		public ChemicalCollection() : base(new Comparer())
+		{
+		}
+
+		public ChemicalCollection(int capacity) : base(capacity, new Comparer())
+		{
+		}
+
+		[MethodImpl((MethodImplOptions)0x100)]
+		public void Add(IChemicalItem item)
+		{
+			Add(item, false);
+		}
+	}
 	public class ChemicalBlock : ItemBlock
 	{
+		public class ChemicalItem : Item, IChemicalItem
+		{
+			public readonly ReactionSystem System;
+
+			public ChemicalItem(ReactionSystem system)
+			{
+				System = system;
+			}
+			public ReactionSystem GetDispersionSystem() => System;
+		}
 		public new const int Index = 517;
 		public static readonly Group[] Cations = new[]{
 			new Group("Na⁺"),
@@ -39,10 +66,11 @@ namespace Game
 			new Group("F⁻"),
 			new Group("AsO₄³⁻"),
 		};
-		public new static IChemicalItem[] Items;
+		public new static DynamicArray<IChemicalItem> Items;
 		static ChemicalBlock()
 		{
-			var list = new DynamicArray<IChemicalItem>(new IChemicalItem[]{
+			var list = new DynamicArray<IChemicalItem>
+			{
 				new PurePowder(Materials.Steel),
 				new PurePowder(Materials.Gold),
 				new PurePowder(Materials.Silver),
@@ -80,7 +108,7 @@ namespace Game
 				new Cylinder("(CN)₂"),
 				new Cylinder("Cl₂O"),
 				new Cylinder("ClO₂"),
-				new Bottle(new DispersionSystem("Br₂"), new Color(111, 21, 12)),
+				new Bottle(new ReactionSystem("Br₂"), new Color(111, 21, 12)),
 				new PurePowder("Na₂O"),
 				new PurePowder("Na₂O₂", Color.LightYellow),
 				new PurePowder("MgO"),
@@ -108,11 +136,10 @@ namespace Game
 				new PurePowder("P₄O₆"),
 				new PurePowder("PCl₃"),
 				new PurePowder("PCl₅"),
-				
-				});
+			};
 			for (int i = 0; i < Cations.Length; i++)
 			{
-				AtomKind atom = Cations[i].Array[0].Atom;
+				AtomKind atom = Cations[i].Stack1.Atom;
 				Color color = atom == AtomKind.Fe
 					? Cations[i].Charge == 2 ? Color.LightGreen : Color.DarkRed
 					: atom == AtomKind.Cu ? Color.Blue : Color.White;
@@ -172,22 +199,26 @@ namespace Game
 			list.Add(new PurePowder("BaI₂"));
 			list.Add(new PurePowder("AgBr", Color.LightYellow));
 			list.Add(new PurePowder("AgI", Color.Yellow));
-			list.Capacity = list.m_count;
-			Items = list.Array;
+			Items = list;
 		}
-		/*public override CraftingRecipe GetAdHocCraftingRecipe(SubsystemTerrain subsystemTerrain, string[] ingredients, float heatLevel)
-		{
-			return base.GetAdHocCraftingRecipe(subsystemTerrain, ingredients, heatLevel);
-		}*/
+
 		public override IItem GetItem(ref int value)
 		{
-			return Terrain.ExtractContents(value) != Index ? base.GetItem(ref value) : Items[Terrain.ExtractData(value)];
+			return Terrain.ExtractContents(value) != Index ? base.GetItem(ref value) : Items.Array[Terrain.ExtractData(value)];
 		}
+
+		public static void Store(ReactionSystem system)
+		{
+			/*var item = new ChemicalItem(system);
+			if (!Items.ContainsKey(item))
+				Items.Add(item);*/
+		}
+
 		public override IEnumerable<int> GetCreativeValues()
 		{
-			var arr = new int[Items.Length];
+			var arr = new int[Items.Count];
 			int value = Index;
-			for (int i = 0; i < Items.Length; i++)
+			for (int i = 0; i < Items.Count; i++)
 			{
 				arr[i] = value;
 				value += 1 << 14;
@@ -198,18 +229,18 @@ namespace Game
 	}
 	public class Cylinder : Mould, IChemicalItem
 	{
-		public readonly DispersionSystem System;
+		public readonly ReactionSystem System;
 
 		public Cylinder(string name) : base("Models/Cylinder", "obj1", Matrix.CreateScale(40f, 80f, 40f) * Matrix.CreateTranslation(0.5f, 0f, 0.5f), Matrix.CreateTranslation(9f / 16f, -7f / 16f, 0f), null, name, 1.5f)
 		{
-			DefaultDescription = DefaultDisplayName = (System = new DispersionSystem(name)).ToString();
+			DefaultDescription = DefaultDisplayName = (System = new ReactionSystem(name)).ToString();
 		}
 		public Cylinder(Matrix matrix, string name = "钢瓶") : base("Models/Cylinder", "obj1", matrix * Matrix.CreateTranslation(0.5f, 0f, 0.5f), Matrix.CreateTranslation(9f / 16f, -7f / 16f, 0f), null, name, 1.5f)
 		{
 			DefaultDescription = DefaultDisplayName = Utils.Get(name);
 		}
 		public override string GetCategory() => Utils.Get("化学");
-		public DispersionSystem GetDispersionSystem() => System;
+		public ReactionSystem GetDispersionSystem() => System;
 
 		public override int GetDamageDestructionValue()
 		{
@@ -237,16 +268,16 @@ namespace Game
 	public class Bottle : MeshItem, IChemicalItem
 	{
 		public string Id;
-		public readonly DispersionSystem System;
+		public readonly ReactionSystem System;
 
-		public Bottle(DispersionSystem system, Color color = default(Color)) : this(system.ToString(), null, color)
+		public Bottle(ReactionSystem system, Color color = default(Color)) : this(system.ToString(), null, color)
 		{
 			System = system;
 		}
 
 		public Bottle(string name, string id = null, Color color = default(Color)) : base(name)
 		{
-			System = DispersionSystem.Air;
+			System = ReactionSystem.Air;
 			Id = id ?? name;
 			DefaultDisplayName = DefaultDescription;
 			if (color.PackedValue != 0u)
@@ -255,25 +286,27 @@ namespace Game
 		}
 
 		public override string GetCraftingId() => Id;
-		public DispersionSystem GetDispersionSystem() => System;
+		public ReactionSystem GetDispersionSystem() => System;
 	}
 	public class PurePowder : Powder, IChemicalItem
 	{
-		public readonly DispersionSystem System;
+		public readonly ReactionSystem System;
 
-		public PurePowder(string name) : this(new DispersionSystem(name), Color.White)
+		public PurePowder(string name) : this(new ReactionSystem(name), Color.White)
 		{
 		}
 
 		public PurePowder(Materials type) : base(type.ToStr() + Utils.Get("粉"), type.ToId(), Colors[(int)type])
 		{
+			System = new ReactionSystem(type.ToId());
 		}
 
-		public PurePowder(string name, Color color) : this(new DispersionSystem(name), color)
+		public PurePowder(string name, Color color) : this(new ReactionSystem(name), color)
 		{
 		}
-		public PurePowder(DispersionSystem system, Color color) : base("", "", color) => DefaultDescription = DefaultDisplayName = (System = system).ToString();
-		public DispersionSystem GetDispersionSystem() => System;
+
+		public PurePowder(ReactionSystem system, Color color) : base("", "", color) => Id = DefaultDescription = DefaultDisplayName = (System = system).ToString();
+		public ReactionSystem GetDispersionSystem() => System;
 	}
 	public class FuelPowder : PurePowder, IFuel
 	{

@@ -6,6 +6,8 @@ namespace Game
 {
 	public class TankBlock : CubeBlock
 	{
+		public static readonly float[] Factors = { 0.95f, 1.05f, 1f, 0f };
+		public static readonly string[] Names = { "减弱基因", "增强基因", "基因", "消除基因" };
 		public const int Index = 522;
 		public BlockMesh m_standaloneBlockMesh = new BlockMesh();
 
@@ -17,17 +19,20 @@ namespace Game
 		public override IEnumerable<int> GetCreativeValues()
 		{
 			var arr = new int[(int)Trait.SetFireProbability * 2 + 1];
-			int value = Index, i;
+			int value = Index, i, j;
 			for (i = 0; i <= (int)Trait.SetFireProbability; i++)
 			{
 				arr[i] = value;
 				value += 1 << 14;
 			}
-			value = Index | 1 << 22;
-			for (i = 1; i <= (int)Trait.SetFireProbability; i++)
+			for (j = 1; j < 4; j++)
 			{
-				value += 1 << 14;
-				arr[i + (int)Trait.SetFireProbability] = value;
+				value += 1 << 22;
+				for (i = 1; i <= (int)Trait.SetFireProbability; i++)
+				{
+					value += 1 << 14;
+					arr[i + (int)Trait.SetFireProbability] = value;
+				}
 			}
 			return arr;
 		}
@@ -70,7 +75,7 @@ namespace Game
 			if (data == 0)
 				return DefaultDescription;
 			var trait = GetTrait(data);
-			return (Utils.TR.Count < 3 ? Utils.Names[(int)trait] : trait.ToString()) + Utils.Get(GetFactor(data) < 1f ? "减弱基因" : "增强基因");
+			return (Utils.TR.Count < 3 ? Utils.Names[(int)trait] : trait.ToString()) + Utils.Get(Names[data >> 8]);
 		}
 		public override string GetCategory(int value)
 		{
@@ -84,7 +89,7 @@ namespace Game
 
 		public static float GetFactor(int data)
 		{
-			return (data >> 8) != 0 ? 0.95f : 1.05f;
+			return Factors[data >> 8];
 		}
 	}
 }

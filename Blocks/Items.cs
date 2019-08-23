@@ -137,7 +137,10 @@ namespace Game
 			new Cylinder(Matrix.CreateScale(40f, 80f, 40f), "Ar"),
 			new Powder("粗盐", "CrudeSalt", Color.White),
 			new Brick("石墨", "Graphite", new Color(44, 44, 44), Matrix.CreateTranslation(-32 % 16 / 16f, -32 / 16 / 16f, 0f), "石墨"),
-			new Powder("粗硅", "CoarseSi", Color.DarkGray),
+			new PurePowder("Si", Color.DarkGray)
+			{
+				DefaultDisplayName = "粗硅"
+			},
 			new Powder("明矾", "Alum", Color.White),
 			new Powder("石英砂", "QuartzPowder", Color.White),
 			new Powder("苔粉", "Lichenin", Color.DarkGreen),
@@ -171,8 +174,6 @@ namespace Game
 			new LightMould("Models/Snowball", "Snowball", m, m2, "A Ball of Melting Aluminium.", "MeltingAluminium", 2.9f),
 			new LightMould("Models/Snowball", "Snowball", m, m2, "A Ball of Melting Copper.", "MeltingCopper", 2.9f),
 			new LightMould("Models/Snowball", "Snowball", m, m2, "A Ball of Melting Zinc.", "MeltingZinc", 2.9f),
-			new Plate("多晶硅", Color.DarkGray, true),
-			new Plate("单晶硅", Color.DarkGray, true),
 			new Alloy(Materials.Steel,"Stainless Steel"),
 			new Alloy(Materials.Aluminum, "Super Aluminium"),
 			new Alloy(Materials.Steel, "Si-Steel"),
@@ -183,6 +184,8 @@ namespace Game
 			new Powder("酵母", "Yeast", Color.White),
 			new Brick("混凝土砖", "ConcreteBrick", Color.Gray, Matrix.CreateTranslation(-32 % 16 / 16f, -32 / 16 / 16f, 0f), "混凝土砖"),
 			new Brick("多孔混凝土砖", "PorousConcreteBrick", Color.Gray, Matrix.CreateTranslation(-32 % 16 / 16f, -32 / 16 / 16f, 0f), "多孔混凝土砖"),
+			new Plate("多晶硅", Color.DarkGray, true),
+			new Plate("单晶硅", Color.DarkGray, true),
 			new Mould("Models/Snowball", "Snowball", Matrix.CreateTranslation(0.5f, 0.4f, 0.5f), Matrix.CreateTranslation(12f / 16f, -1f / 16f, 0f) * Matrix.CreateScale(20f), "A Ball of Rubber, an important component in the advanced industry", "Rubber", 2.6f),
 			new FoodCan("EmptyCan can be used to make food can","Empty",Color.Gray),
 			new FoodCan("MeatCan can store meat for a long time","Meat",Color.Gray),
@@ -236,10 +239,10 @@ namespace Game
 			.AppendMesh("Models/Wheel", "Wheel",  Matrix.CreateTranslation(0f, 0f, 0f)*Matrix.CreateScale(2f), Matrix.CreateTranslation(9f / 16f, -7f / 16f, 0f)* Matrix.CreateScale(20f), Color.Black),
 			new MouldItem("Telescope", "Models/Battery", "Battery", Matrix.CreateRotationX(MathUtils.PI / 2) * Matrix.CreateScale(.5f, .5f, 1.2f) * Matrix.CreateTranslation(0.5f, 0.5f, -0.3f), Matrix.CreateTranslation(9f / 16f, -7f / 16f, 0f), "望远镜", "望远镜", 1f)
 			.AppendMesh("Models/Battery", "Battery", Matrix.CreateRotationX(MathUtils.PI / 2) * Matrix.CreateScale(.7f) * Matrix.CreateTranslation(0.5f, 0.5f, 0.5f), Matrix.CreateTranslation(9f / 16f, -7f / 16f, 0f), Color.DarkGray),
+			new Bottle("硫酸","H2SO4"),
+			new Digger(),
 			new Mould("Models/Battery", "Battery", Matrix.CreateTranslation(new Vector3(0.5f)) * Matrix.CreateScale(2f, 0.15f, 2f), Matrix.CreateTranslation(9f / 16f, -7f / 16f, 0f) * Matrix.CreateScale(20f), "晶圆", "晶圆"),
 			new MouldItem("Syringe", "Models/Screwdriver", "obj1", Matrix.CreateRotationZ(0.5f) * Matrix.CreateTranslation(0f, -0.33f, 0f), Matrix.CreateTranslation(15f / 16f, 0f, 0f), "注射器", "注射器", 3f),
-			new Bottle("硫酸","H2SO4", new Color(244, 244, 244)),
-			new Digger(),
 			/*nnew Plate("128K RAM", Color.DarkGreen, true),
 			new Plate("256K RAM", Color.DarkGreen, true),
 			new Plate("512K RAM", Color.DarkGreen, true),
@@ -325,26 +328,22 @@ namespace Game
 				IdTable.Add(ElementBlock.Devices[i].GetCraftingId(), ElementBlock.Index | i << 14);
 			}
 			for (i = 1; i < 15; i++)
-				IdTable.Add(ChemicalBlock.Items[i].GetCraftingId(), ChemicalBlock.Index | i << 14);
+				IdTable.Add(ChemicalBlock.Items.Array[i].GetCraftingId(), ChemicalBlock.Index | i << 14);
 			for (i = 1; i < Chemistry.GunpowderBlock.Items.Length; i++)
 				IdTable.Add(Chemistry.GunpowderBlock.Items[i].GetCraftingId(), GunpowderBlock.Index | i << 14);
 		}
 
 		internal static void Load()
 		{
-			var list = new DynamicArray<Item>(Chemistry.GunpowderBlock.Items)
-			{
-				Capacity = Chemistry.GunpowderBlock.Items.Length
-			};
+			var list = new DynamicArray<Item>(Chemistry.GunpowderBlock.Items);
 			for (int i = 0; i < 1024; i++)
 				list.Add(new Mine((MineType)(i & 63), (i >> 6) / 4.0));
 			list.Capacity = list.Count;
 			Chemistry.GunpowderBlock.Items = list.Array;
-			var stream = Utils.GetTargetFile("IndustrialEquations.txt");
 			Equation.Reactions = new HashSet<Equation>();
+			var reader = new StreamReader(Utils.GetTargetFile("IndustrialEquations.txt")); 
 			try
 			{
-				var reader = new StreamReader(stream); 
 				while (true)
 				{
 					var line = reader.ReadLine();
@@ -353,7 +352,7 @@ namespace Game
 						throw new InvalidOperationException(line);
 				}
 			}
-			finally { stream.Close(); }
+			finally { reader.Close(); }
 			Item.Images = new[]
 			{
 				GetTexture("Transport-belt_sprite.jpg"),
@@ -361,13 +360,14 @@ namespace Game
 				GetTexture("Express-transport-belt_sprite.jpg"),
 			};
 			FactorioTransportBeltBlock.m_textures = new Texture2D[3];
-			stream = Utils.GetTargetFile("IndustrialMod_en-us.lng", false);
+			var stream = Utils.GetTargetFile("IndustrialMod_en-us.lng", false);
 			if (stream == null) return;
+			reader = new StreamReader(stream);
 			try
 			{
-				Utils.ReadKeyValueFile(Utils.TR, stream);
+				Utils.ReadKeyValueFile(Utils.TR, reader);
 			}
-			finally { stream.Close(); }
+			finally { reader.Close(); }
 		}
 
 		public static Image GetTexture(string name)

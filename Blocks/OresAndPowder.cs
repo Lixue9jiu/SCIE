@@ -65,7 +65,7 @@ namespace Game
 			new Color(205, 190, 112),
 		};
 
-		protected string Id;
+		public string Id;
 
 		public Powder(Materials type) : this(type.ToStr() + Utils.Get("¿ó·Û"), type.ToString() + "OrePowder", Colors[(int)type])
 		{

@@ -103,11 +103,13 @@ namespace Game
 					m_updateSmeltingRecipe = true;
 				}
 			}
-			if (Utils.Terrain.GetCellContents(coordinates.X, coordinates.Y, coordinates.Z) != 0)
+			int cellValue = Utils.Terrain.GetCellValue(coordinates.X, coordinates.Y, coordinates.Z);
+			if (Terrain.ExtractContents(cellValue) == 0)
 			{
-				int cellValue = Utils.Terrain.GetCellValue(coordinates.X, coordinates.Y, coordinates.Z);
-				Utils.SubsystemTerrain.ChangeCell(coordinates.X, coordinates.Y, coordinates.Z, Terrain.ReplaceData(cellValue, FurnaceNBlock.SetHeatLevel(Terrain.ExtractData(cellValue), HeatLevel > 0f ? 1 : 0)));
+				Project.RemoveEntity(Entity, true);
+				return;
 			}
+			Utils.SubsystemTerrain.ChangeCell(coordinates.X, coordinates.Y, coordinates.Z, Terrain.ReplaceData(cellValue, FurnaceNBlock.SetHeatLevel(Terrain.ExtractData(cellValue), (int)MathUtils.Sign(HeatLevel))));
 		}
 
 		public override void Load(ValuesDictionary valuesDictionary, IdToEntityMap idToEntityMap)
@@ -119,9 +121,9 @@ namespace Game
 		protected string FindSmeltingRecipe(float heatLevel)
 		{
 			string text = null;
+			int slotvalue = GetSlotValue(1);
 			for (int i = 0; i < m_furnaceSize; i++)
 			{
-				int slotvalue = GetSlotValue(1);
 				if (GetSlotCount(i) <= 0 || slotvalue == 0) continue;
 				if (Terrain.ExtractContents(GetSlotValue(i)) == GlassBlock.Index && heatLevel > 1200f)
 				{

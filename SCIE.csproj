@@ -89,7 +89,7 @@
     <Compile Include="Common\Dialogs.cs" />
     <Compile Include="Common\GunSmoke2.cs" />
     <Compile Include="Chemistry\Compound.cs" />
-    <Compile Include="Chemistry\DispersionSystem.cs" />
+    <Compile Include="Chemistry\ReactionSystem.cs" />
     <Compile Include="Chemistry\Equation.cs" />
     <Compile Include="Circuit\LockFreeQueue.cs" />
     <Compile Include="Common\TelescopeCamera.cs" />
@@ -163,7 +163,6 @@
     <Compile Include="Widgets\DrillerWidgets.cs" />
     <Compile Include="Widgets\FurnaceWidgets.cs" />
     <Compile Include="Widgets\SeperatorWidget.cs" />
-    <Compile Include="Widgets\DepositWidget.cs" />
     <Compile Include="Widgets\FractionalTowerWidget.cs" />
     <Compile Include="Widgets\CovenWidget.cs" />
     <Compile Include="Widgets\ChargerWidget.cs" />
