@@ -136,7 +136,7 @@ namespace Game
 				{
 					var p2 = Vector3.Normalize(componentBody.Rotation.ToForwardVector());
 					var p3 = Vector3.Transform(p2, Matrix.CreateRotationY(MathUtils.PI / 2));
-					for (int a = -2; a < 2 + 1; a++)
+					for (int a = -1; a < 1 + 1; a++)
 					{
 						for (int b = 0; b < 3; b++)
 						{
