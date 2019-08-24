@@ -82,9 +82,9 @@ namespace Game
 						int num41 = coordinates.Y;
 						int num51 = coordinates.Z;
 						int cellValue1 = Terrain.ReplaceLight(Utils.Terrain.GetCellValue(num31, num41 + 1, num51), 0);
-						if (ElementBlock.Block.GetDevice(num31, num41 + 2, num51, cellValue1) is AirPresser em && em.Powered)
+						if (ElementBlock.Block.GetDevice(num31, num41 + 1, num51, cellValue1) is AirPresser em && em.Powered)
 						{
-							var point3 = new Point3(num31, num41 + 2, num51);
+							var point3 = new Point3(num31, num41 + 1, num51);
 							var entity = Utils.GetBlockEntity(point3);
 							Component component3 = entity.Entity.FindComponent<ComponentAirPresser>();
 							if (entity != null && component3 != null)
@@ -95,10 +95,20 @@ namespace Game
 								{
 									//int value23 = 0;
 									int va1 = inventory.GetSlotValue(i);
-									if (va1 == ItemBlock.IdTable["∏÷∆ø"] && ComponentInventoryBase.AcquireItems(inventory, ItemBlock.IdTable["H2"], 1) == 0)
+									if (Utils.Random.Bool(0.66f))
 									{
-										inventory.RemoveSlotItems(i, 1);
+										if (va1 == ItemBlock.IdTable["∏÷∆ø"] && ComponentInventoryBase.AcquireItems(inventory, ItemBlock.IdTable["H2"], 1) == 0)
+										{
+											inventory.RemoveSlotItems(i, 1);
+										}
+									}else
+									{
+										if (va1 == ItemBlock.IdTable["∏÷∆ø"] && ComponentInventoryBase.AcquireItems(inventory, ItemBlock.IdTable["O2"], 1) == 0)
+										{
+											inventory.RemoveSlotItems(i, 1);
+										}
 									}
+									
 								}
 
 							}
@@ -147,7 +157,7 @@ namespace Game
 					result[2] = 0;
 					break;
 				}
-				if (value == ItemBlock.IdTable["’Ù¡ÛÀÆ"])
+				if (value == ItemBlock.IdTable["H2O"])
 				{
 					text = true;
 					result[0] = ItemBlock.IdTable["Bottle"];
