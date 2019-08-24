@@ -313,6 +313,7 @@ namespace Game
 				new Reductor(),
 				new TEDC(),
 				new AirPresser(),
+				new VaFurnace(),
 			};
 			IdTable = new Dictionary<string, int>(Items.Length)
 			{

@@ -191,6 +191,32 @@ namespace Game
 		}
 	}
 
+
+	public class VaFurnace : InventoryEntityDevice<ComponentVaFurnace>
+	{
+		public VaFurnace() : base("真空炉", "真空炉，一种把物品在真空中通过电加热的电器", 310)
+		{
+		}
+		public override void Simulate(ref int voltage)
+		{
+			base.Simulate(ref voltage);
+			Component.Powered = Powered;
+		}
+		public override int GetFaceTextureSlot(int face, int value)
+		{
+			return face != 4 && face != 5 ? face == (Terrain.ExtractData(value) >> 15) ? 130 : 159 : 107;
+		}
+		public override void OnBlockAdded(SubsystemTerrain subsystemTerrain, int value, int oldValue)
+		{
+			base.OnBlockAdded(subsystemTerrain, value, oldValue);
+			Component.Powered = false;
+		}
+		public override Widget GetWidget(IInventory inventory, ComponentVaFurnace component)
+		{
+			return new ElectricFurnaceWidget(inventory, component);
+		}
+	}
+
 	public class UThickener : Separator
 	{
 		public UThickener()

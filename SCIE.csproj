@@ -121,6 +121,7 @@
     <Compile Include="Components\ComponentSeperator.cs" />
     <Compile Include="Components\ComponentTGenerator.cs" />
     <Compile Include="Components\ComponentUnloader.cs" />
+    <Compile Include="Components\ComponentVaFurnace.cs" />
     <Compile Include="Components\ComponentVariant.cs" />
     <Compile Include="Components\ComponentCastMach.cs" />
     <Compile Include="Components\ComponentFireBox.cs" />
