@@ -416,7 +416,7 @@ namespace Game
 
 		public override int GetFaceTextureSlot(int face, int value)
 		{
-			return face != 4 && face != 5 && face == (Terrain.ExtractData(value) >> 15) ? 220 : 239;
+			return face != 4 && face != 5 && face == (Terrain.ExtractData(value) >> 15) ? 220 : 241;
 		}
 
 		public override Widget GetWidget(IInventory inventory, ComponentAirPresser component)

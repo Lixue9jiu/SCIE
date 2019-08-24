@@ -151,7 +151,7 @@
       <MemberComponentTemplate Name="OnFire" Guid="7f9d95a3-2f5a-4c6d-98a8-9b5ad07b32e5" InheritanceParent="93590d78-63b9-4cd6-bc41-e66864cbb050" />
       <MemberComponentTemplate Name="Mount" Guid="913f2b6f-c838-4f19-a139-b2ed5ff96493" InheritanceParent="d0b14127-39ce-4490-af00-fb4111e9c51e">
         <Parameter Name="MountOffset" Guid="36b364ca-89e1-4412-be70-a6b4aae705bc" Value="0.0,1.15,0.3" Type="Vector3" />
-        <Parameter Name="DismountOffset" Guid="bac7f4e4-b009-4fe1-b840-93843edd05b6" Value="0,0.5,0.4" Type="Vector3" />
+        <Parameter Name="DismountOffset" Guid="bac7f4e4-b009-4fe1-b840-93843edd05b6" Value="0,1.5,0.4" Type="Vector3" />
       </MemberComponentTemplate>
        <MemberComponentTemplate Name="Body" Guid="b6821145-ddd6-407b-bd4d-7be14c05d3eb" InheritanceParent="8edd1986-0dcc-424f-893a-491c089b821e">
         <Parameter Name="WaterSwayAngle" Guid="00136498-eb39-4058-850f-a12f2a86c16a" Value="0.04" Type="float" />
