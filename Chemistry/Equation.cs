@@ -90,6 +90,7 @@ namespace Chemistry
 					case 'U': cond |= Condition.UV; break;
 					case 'H': cond |= Condition.H; break;
 					case 'E': cond |= Condition.E; break;
+					case 'I': cond |= Condition.I; break;
 					default:
 						e.Temperature = ushort.Parse(c[i], ic);
 						break;
