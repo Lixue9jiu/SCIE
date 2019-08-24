@@ -73,7 +73,12 @@ namespace Game
 						ComponentCreatureModel.RowLeftOrder = playerInput.Move.X < -0.2f || playerInput.Move.Z > 0.2f;
 						ComponentCreatureModel.RowRightOrder = playerInput.Move.X > 0.2f || playerInput.Move.Z > 0.2f;
 					}
-					var c = mount.Entity.FindComponent<ComponentLocomotion>();
+					ComponentBody p = mount.ComponentBody;
+					while (p.ParentBody != null)
+					{
+						p = p.ParentBody;
+					}
+					var c = p.Entity.FindComponent<ComponentLocomotion>();
 					if (c != null)
 					{
 						c.WalkOrder = playerInput.Move.XZ;
@@ -94,7 +99,6 @@ namespace Game
 				ComponentLocomotion.JumpOrder = MathUtils.Max(playerInput.Jump ? 1 : 0, ComponentLocomotion.JumpOrder);
 			}
 			ComponentLocomotion.LookOrder += playerInput.Look * (SettingsManager.FlipVerticalAxis ? new Vector2(0f, -1f) : new Vector2(0f, 1f));
-			int num = Terrain.ExtractContents(ComponentMiner.ActiveBlockValue);
 			bool flag = false;
 			if (playerInput.Interact.HasValue && !flag && m_subsystemTime.GameTime - m_lastActionTime > 0.33000001311302185)
 			{
@@ -130,6 +134,7 @@ namespace Game
 					m_isAimBlocked = true;
 				}
 			}
+			int num = Terrain.ExtractContents(ComponentMiner.ActiveBlockValue);
 			var block = BlocksManager.Blocks[num];
 			float num2 = (m_subsystemGameInfo.WorldSettings.GameMode == GameMode.Creative || block is Musket2Block) ? 0.1f : 1.4f;
 			Vector3 viewPosition2 = View.ActiveCamera.ViewPosition;

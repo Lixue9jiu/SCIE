@@ -1,27 +1,15 @@
+using Chemistry;
 using Engine;
-using GameEntitySystem;
-using TemplatesDatabase;
 
 namespace Game
 {
-	public class ComponentVaFurnace : ComponentElectricFurnace, IUpdateable, ICraftingMachine
+	public class ComponentVaFurnace : ComponentSeparator, IUpdateable
 	{
-		public int SlotIndex { get; set; }
-		public bool Powered;
-		protected float m_speed;
-		protected CraftingRecipe m_smeltingRecipe2;
+		public override int RemainsSlotIndex => SlotsCount - 3;
 
-		public CraftingRecipe GetRecipe() => m_smeltingRecipe;
+		public override int ResultSlotIndex => SlotsCount - 4;
 
-		public new int RemainsSlotIndex => SlotsCount - 3;
-
-		public new int ResultSlotIndex => SlotsCount - 4;
-
-		public new int FuelSlotIndex => SlotsCount;
-
-		public int Cir1SlotIndex => SlotsCount - 2;
-
-		public int Cir2SlotIndex => SlotsCount - 1;
+		protected ReactionSystem system;
 
 		public new void Update(float dt)
 		{
@@ -29,33 +17,20 @@ namespace Game
 			{
 				m_fireTimeRemaining = MathUtils.Max(0f, m_fireTimeRemaining - dt);
 				if (m_fireTimeRemaining == 0f)
-					m_heatLevel = 0f;
+					HeatLevel = 0f;
 			}
 			if (m_updateSmeltingRecipe)
 			{
 				m_updateSmeltingRecipe = false;
-				CraftingRecipe craftingRecipe = FindSmeltingRecipe2(3000f);
-				if (craftingRecipe != m_smeltingRecipe)
+				m_smeltingRecipe2 = FindSmeltingRecipe();
+				if (m_smeltingRecipe2 != m_smeltingRecipe)
 				{
-					m_smeltingRecipe = craftingRecipe;
-					m_smeltingRecipe2 = craftingRecipe;
-					m_smeltingProgress = 0f;
-				}
-			}
-			if (m_smeltingRecipe2 != null)
-			{
-				if (!Powered)
-				{
-					m_smeltingProgress = 0f;
-					m_heatLevel = 0f;
-					m_smeltingRecipe = null;
-				}
-				else if (m_smeltingRecipe == null)
 					m_smeltingRecipe = m_smeltingRecipe2;
+					SmeltingProgress = 0f;
+					//m_music = 0;
+				}
 			}
-
-
-			if (m_smeltingRecipe2 != null)
+			if (Utils.SubsystemTime.PeriodicGameTimeEvent(0.2, 0.0) && m_smeltingRecipe2 != 0)
 			{
 				int num = 0;
 				for (int i = -1; i < 2; i++)
@@ -66,7 +41,7 @@ namespace Game
 						{
 							Point3 coordinates = m_componentBlockEntity.Coordinates;
 							int cellValue = Utils.Terrain.GetCellValue(coordinates.X + i, coordinates.Y + j, coordinates.Z + k);
-							if (i * i + j * j + k * k <= 1 && (ElementBlock.Block.GetDevice(coordinates.X + i, coordinates.Y + j, coordinates.Z + k, cellValue) is AirPump em && em.Powered))
+							if (i * i + j * j + k * k <= 1 && ElementBlock.Block.GetDevice(coordinates.X + i, coordinates.Y + j, coordinates.Z + k, cellValue) is AirPump em && em.Powered)
 							{
 								num = 1;
 								break;
@@ -74,78 +49,55 @@ namespace Game
 						}
 					}
 				}
-				if (num == 0)
-					m_smeltingRecipe = null;
-				if (num == 1 && m_smeltingRecipe == null)
+				if (num == 0 || !Powered)
+				{
+					SmeltingProgress = 0f;
+					HeatLevel = 0f;
+					m_smeltingRecipe = 0;
+				}
+				else if (m_smeltingRecipe == 0)
 					m_smeltingRecipe = m_smeltingRecipe2;
 			}
-
-
-
-			if (!Powered)
+			if (m_smeltingRecipe == 0)
 			{
-				m_smeltingProgress = 0f;
-				m_heatLevel = 0f;
-				m_smeltingRecipe = null;
-			}
-			if (m_smeltingRecipe == null)
-			{
-				m_heatLevel = 0f;
+				HeatLevel = 0f;
 				m_fireTimeRemaining = 0f;
+				//m_music = -1;
 			}
-			if (m_smeltingRecipe != null && m_fireTimeRemaining <= 0f)
-			{
-				m_heatLevel = 2000f;
-				m_fireTimeRemaining = 100f;
-			}
+			else
+				m_fireTimeRemaining = 1f;
 			if (m_fireTimeRemaining <= 0f)
 			{
-				m_smeltingRecipe = null;
-				m_smeltingProgress = 0f;
+				m_smeltingRecipe = 0;
+				SmeltingProgress = 0f;
+				//m_music = -1;
 			}
-			if (m_smeltingRecipe != null)
+			if (m_smeltingRecipe != 0)
 			{
-				m_smeltingProgress = MathUtils.Min(SmeltingProgress + m_speed * dt, 1f);
+				SmeltingProgress = MathUtils.Min(SmeltingProgress + 0.1f * dt, 1f);
 				if (SmeltingProgress >= 1f)
 				{
+					var e = result.GetEnumerator();
+					while (e.MoveNext())
+					{
+						Slot slot = m_slots[FindAcquireSlotForItem(this, e.Current.Key)];
+						slot.Value = e.Current.Key;
+						slot.Count += e.Current.Value;
+					}
 					for (int i = 0; i < m_furnaceSize; i++)
 						if (m_slots[i].Count > 0)
 							m_slots[i].Count--;
-					m_slots[ResultSlotIndex].Value = m_smeltingRecipe.ResultValue;
-					m_slots[ResultSlotIndex].Count += m_smeltingRecipe.ResultCount;
-					if (m_smeltingRecipe.RemainsValue != 0 && m_smeltingRecipe.RemainsCount > 0)
-					{
-						m_slots[RemainsSlotIndex].Value = m_smeltingRecipe.RemainsValue;
-						m_slots[RemainsSlotIndex].Count += m_smeltingRecipe.RemainsCount;
-					}
-					m_smeltingRecipe = null;
-					m_smeltingRecipe2 = null;
-					m_smeltingProgress = 0f;
+					m_smeltingRecipe = 0;
+					SmeltingProgress = 0f;
 					m_updateSmeltingRecipe = true;
 				}
 			}
 		}
 
-		public virtual CraftingRecipe FindSmeltingRecipe2(float heatlevel)
+		protected override int FindSmeltingRecipe()
 		{
-			return FindSmeltingRecipe(heatlevel);
-		}
-
-		public override void Load(ValuesDictionary valuesDictionary, IdToEntityMap idToEntityMap)
-		{
-			m_matchedIngredients = new string[36];
-			this.LoadItems(valuesDictionary);
-			m_componentBlockEntity = Entity.FindComponent<ComponentBlockEntity>(true);
-			m_fireTimeRemaining = valuesDictionary.GetValue("FireTimeRemaining", 0f);
-			m_furnaceSize = SlotsCount - 5;
-			m_updateSmeltingRecipe = true;
-			m_speed = 0.2f;
-		}
-
-		public override void Save(ValuesDictionary valuesDictionary, EntityToIdMap entityToIdMap)
-		{
-			this.SaveItems(valuesDictionary);
-			valuesDictionary.SetValue("FireTimeRemaining", m_fireTimeRemaining);
+			system = new ReactionSystem();
+			return FindSmeltingRecipe(result, FindSmeltingRecipe(result, system));
 		}
 	}
 }

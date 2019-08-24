@@ -4,7 +4,7 @@
 <Recipe Result="GermaniumChunkBlock" ResultCount="1" new-RequiredHeatLevel="900" a="germaniumorechunk:0" Description="冶炼锗矿石以获得锗晶体" />
 <Recipe Result="RodBlock" ResultCount="4" new-RequiredHeatLevel="1500" new-a="ironingot:0" Description="将铁锭锻造成棒" />
   <Smelting>
-    <Recipe Result="GunpowderBlock:1" ResultCount="3" RequiredHeatLevel="0" a="saltpeterchunk" b="SulphurPowder" c="CoalPowder" Description="将煤，硫和硝石混合制成火药">
+    <Recipe Result="GunpowderBlock:1" ResultCount="3" RequiredHeatLevel="0" a="saltpeterchunk" b="S" c="CoalPowder" Description="将煤，硫和硝石混合制成火药">
       "abc"
     </Recipe>
     <Recipe Result="IronIngotBlock" ResultCount="1" RequiredHeatLevel="1500" a="IronOrePowder" Description="冶炼铁矿粉获得铁">
@@ -79,7 +79,7 @@
     <Recipe Result="BrassIngot" ResultCount="1" RequiredHeatLevel="1200" a="CopperOrePowder" b="CoalPowder" c="ZincOrePowder" Description="冶炼铜矿粉锌矿粉碳粉获得黄铜">
       "acb"
     </Recipe>
-	<Recipe Result="H2O" ResultCount="1" RequiredHeatLevel="100" a="waterbucket" b="Bottle" Description="获得蒸馏水">
+    <Recipe Result="H2O" ResultCount="1" RequiredHeatLevel="100" a="waterbucket" b="Bottle" Description="获得蒸馏水">
       "ab"
     </Recipe>
     <Recipe Result="NickelIngot" ResultCount="1" RequiredHeatLevel="1200" a="NickelOrePowder" b="CoalPowder" c="pigment" Description="冶炼镍矿粉获得镍">
@@ -980,18 +980,18 @@
     </Recipe>
     <Recipe Result="CuZnBattery" ResultCount="1" RequiredHeatLevel="0" Remains="Bottle" RemainsCount="1" a="H2SO4" b="CopperPlate" c="CopperRod" d="ZincRod" Description="制作Cu-Zn电池">
       "bcb"
-	  "bab"
-	  "bdb"
+      "bab"
+      "bdb"
     </Recipe>
-	<Recipe Result="IEBatteryBlock:0" ResultCount="1" RequiredHeatLevel="0" Remains="Bottle" RemainsCount="1" a="H2SO4" b="CopperPlate" c="CopperRod" d="ZincRod" e="tank:0" Description="制作Cu-Zn可携带电池">
+    <Recipe Result="IEBatteryBlock:0" ResultCount="1" RequiredHeatLevel="0" Remains="Bottle" RemainsCount="1" a="H2SO4" b="CopperPlate" c="CopperRod" d="ZincRod" e="tank:0" Description="制作Cu-Zn可携带电池">
       "bcb"
-	  "bab"
-	  "ded"
+      "bab"
+      "ded"
     </Recipe>
-	<Recipe Result="IEBatteryBlock:1" ResultCount="1" RequiredHeatLevel="0" Remains="Bottle" RemainsCount="1" a="H2SO4" b="LeadPlate" c="CopperRod" d="ZincRod" e="tank:0" Description="用铅板锌棒制作铅酸可携带电池">
+    <Recipe Result="IEBatteryBlock:1" ResultCount="1" RequiredHeatLevel="0" Remains="Bottle" RemainsCount="1" a="H2SO4" b="LeadPlate" c="CopperRod" d="ZincRod" e="tank:0" Description="用铅板锌棒制作铅酸可携带电池">
       "bcb"
-	  "dad"
-	  "beb"
+      "dad"
+      "beb"
     </Recipe>
     <Recipe Result="AgZnBattery" ResultCount="1" RequiredHeatLevel="0" Remains="EmptyBucketBlock" RemainsCount="1" a="CuZnBattery" b="SilverPlate" Description="用Cu-Zn电池改装成Ag-Zn电池">
       "bab"
@@ -1067,7 +1067,7 @@
       "bddb"
       "ccec"
     </Recipe>
-	<Recipe Result="AirPresser" ResultCount="1" RequiredHeatLevel="0" a="SteelFan" b="SteelRod" c="SteelPlate" d="Cylinder" e="metalblock:32" f="piston" g="tank:0" h="Rubber" Description="制作一台气体压缩机">
+    <Recipe Result="AirPresser" ResultCount="1" RequiredHeatLevel="0" a="SteelFan" b="SteelRod" c="SteelPlate" d="Cylinder" e="metalblock:32" f="piston" g="tank:0" h="Rubber" Description="制作一台气体压缩机">
       "cggc"
       "hddh"
       "bffb"

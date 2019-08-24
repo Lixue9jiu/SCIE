@@ -66,7 +66,7 @@ namespace Chemistry
 				string r = arr[i];
 				for (; j < r.Length && r[j] <= '9' && '0' <= r[j]; j++)
 					n = n * 10 + r[j] - '0';
-				if (n == 0) n = 1;
+				if (n == 0) n = 1000;
 				char c = r[r.Length - 1];
 				if (c == '↑' || c == '↓')
 				{
@@ -133,7 +133,13 @@ namespace Chemistry
 			//Dissolve(c);
 		}
 
-		public Equation React()
+		public void Add(ReactionSystem system, int count = 1)
+		{
+			for (var i = system.GetEnumerator(); i.MoveNext();)
+				Add(i.Current.Key, i.Current.Value * count);
+		}
+
+		public Equation React(Condition condition, ushort t = 2200)
 		{
 			Equation equation = null;
 			int min = int.MaxValue, value,
@@ -141,7 +147,9 @@ namespace Chemistry
 			Enumerator j;
 			for (var i = Equation.Reactions.GetEnumerator(); i.MoveNext();)
 			{
-				value = int.MaxValue;
+				if (t < i.Current.Temperature || (condition & i.Current.Conditions) != i.Current.Conditions)
+					continue;
+				value = 0;
 				cr = int.MaxValue;
 				for (j = i.Current.Reactants.GetEnumerator(); j.MoveNext();)
 				{
@@ -163,18 +171,21 @@ namespace Chemistry
 					ratio = cr;
 				}
 			}
-			if (equation == null)
-				return equation;
-			for (j = equation.Reactants.GetEnumerator(); j.MoveNext();)
+			if (equation != null)
 			{
-				Compound key = j.Current.Key;
-				cr = ratio * j.Current.Value;
+				Compound key;
+				for (j = equation.Reactants.GetEnumerator(); j.MoveNext();)
+				{
+					key = j.Current.Key;
+					cr = ratio * MathUtils.Abs(j.Current.Value);
 					this[key] -= cr;
-			}
-			for (j = equation.Products.GetEnumerator(); j.MoveNext();)
-			{
-				Compound key = j.Current.Key;
-				this[key] += MathUtils.Abs(j.Current.Value);
+				}
+				for (j = equation.Products.GetEnumerator(); j.MoveNext();)
+				{
+					key = j.Current.Key;
+					cr = ratio * MathUtils.Abs(j.Current.Value);
+					Add(key, cr);
+				}
 			}
 			return equation;
 		}
@@ -196,9 +207,9 @@ namespace Chemistry
 				{
 					Group1 = group
 				};
-				Add(key, 100);
+				Add(key, 1000);
 				c.Remove(group);
-				Add(c, 100);
+				Add(c, 1000);
 			}
 		}
 		/*[MethodImpl((MethodImplOptions)0x100)]
@@ -211,7 +222,7 @@ namespace Chemistry
 		{
 			return new ReactionSystem(1)
 			{
-				{ c, 1 }
+				{ c, 1000 }
 			};
 		}
 	}

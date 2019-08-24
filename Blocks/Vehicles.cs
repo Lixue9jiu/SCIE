@@ -105,21 +105,22 @@ namespace Game
 
 	public class Tractor : TexturedMeshItem
 	{
-		public Tractor() : base("拖拉机", "Car2222", "Tractor_001", SteamBoat.BoatTexture , "一种使用内燃机，燃烧汽油获得动力，可以耕地施肥种植收割的农业用具。", 1.5f)
+		public Tractor() : base("拖拉机", "Car2222", "Tractor_001", Carriage.TrainTexture, "一种使用内燃机，燃烧汽油获得动力，可以耕地施肥种植收割的农业用具。", 4.5f)
 		{
 		}
 
-		public override Vector3 GetIconViewOffset(int value, DrawBlockEnvironmentData environmentData) => new Vector3(-0.6f, 0.6f, 0.5f);
+		public override Vector3 GetIconViewOffset(int value, DrawBlockEnvironmentData environmentData) => new Vector3(-0.6f, 0.6f, -0.8f);
 		public override string GetCraftingId() => "Tractor";
 	}
 
-	public class Digger : TexturedMeshItem
+	public class Digger : Car
 	{
-		public Digger() : base("盾构机", "Car", "ChamferBox01", Car.CarTexture, "一种使用内燃机，燃烧汽油获得动力，挖掘前面的方块的用具。", 0.5f)
+		public Digger()
 		{
+			DefaultDisplayName = "盾构机";
+			DefaultDescription = "一种使用内燃机，燃烧汽油获得动力，挖掘前面的方块的用具。";
 		}
 
-		public override Vector3 GetIconViewOffset(int value, DrawBlockEnvironmentData environmentData) => new Vector3(-0.6f, 0.6f, 0.5f);
 		public override string GetCraftingId() => "Digger";
 	}
 }

@@ -6,15 +6,10 @@ namespace Game
 {
 	public class ComponentKibbler : ComponentPMach
 	{
-		public override void Load(ValuesDictionary valuesDictionary, IdToEntityMap idToEntityMap)
-		{
-			base.Load(valuesDictionary, idToEntityMap);
-			m_count = 2;
-		}
-
 		protected override string FindSmeltingRecipe()
 		{
 			string text = null;
+			m_count = 2;
 			for (int i = 0; i < m_furnaceSize; i++)
 			{
 				if (GetSlotCount(i) > 0)
@@ -30,6 +25,9 @@ namespace Game
 						case FramedGlassBlock.Index:
 						case WindowBlock.Index: text = "BrokenGlass"; break;
 						case MalachiteChunkBlock.Index: text = "CopperOrePowder"; break;
+						case IronIngotBlock.Index: text = "Fe"; break;
+						case CopperIngotBlock.Index: text = "Cu"; break;
+						case SulphurChunkBlock.Index: text = "S"; break;
 						default:
 							if (BlocksManager.Blocks[Terrain.ExtractContents(value)] is ChunkBlock block)
 							{
@@ -44,6 +42,11 @@ namespace Game
 								var item = Item.Block.GetItem(ref value);
 								if (item is OreChunk)
 									text = item.GetCraftingId().Replace("Chunk", "Powder");
+								else if (item is MetalIngot ingot)
+								{
+									m_count = 1;
+									text = ingot.Type.ToId();
+								}
 								else if (item is Brick)
 									goto case BrickBlock.Index;
 							}
@@ -56,7 +59,7 @@ namespace Game
 			if (text != null)
 			{
 				Slot slot = m_slots[ResultSlotIndex];
-				if (slot.Count != 0 && (slot.Value != ItemBlock.IdTable[text] || 2 + slot.Count > 40))
+				if (slot.Count != 0 && (slot.Value != ItemBlock.IdTable[text] || m_count + slot.Count > 40))
 					return null;
 			}
 			return text;

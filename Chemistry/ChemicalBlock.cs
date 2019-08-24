@@ -23,17 +23,6 @@ namespace Game
 	}
 	public class ChemicalBlock : ItemBlock
 	{
-		public class ChemicalItem : Item, IChemicalItem
-		{
-			public readonly ReactionSystem System;
-
-			public ChemicalItem(ReactionSystem system)
-			{
-				System = system;
-			}
-			public ReactionSystem GetDispersionSystem() => System;
-		}
-
 		public new const int Index = 517;
 		public static readonly Group[] Cations = new[]{
 			new Group("Na⁺"),
@@ -44,9 +33,11 @@ namespace Game
 			new Group("Mn²⁺"),
 			new Group("Fe²⁺"),
 			new Group("Fe³⁺"),
+			new Group("Co²⁺"),
 			new Group("Ni²⁺"),
 			new Group("Cu²⁺"),
 			new Group("Zn²⁺"),
+			new Group("Cd²⁺"),
 			new Group("Ba²⁺"),
 			new Group("Ag⁺"),
 			new Group("Hg²⁺"),
@@ -55,15 +46,18 @@ namespace Game
 		};
 		public static readonly Group[] Anions = new[]{
 			new Group("OH⁻"),
+			new Group("F⁻"),
 			new Group("Cl⁻"),
-			new Group("NO₂⁻"),
+			new Group("Br⁻"),
+			new Group("I⁻"),
 			new Group("NO₃⁻"),
+			//new Group("NO₂⁻"),
 			new Group("S²⁻"),
-			new Group("SO₃²⁻"),
+			//new Group("SO₃²⁻"),
 			new Group("SO₄²⁻"),
 			new Group("CO₃²⁻"),
 			new Group("PO₄³⁻"),
-			new Group("F⁻"),
+			//new Group("AsO₃³⁻"),
 			new Group("AsO₄³⁻"),
 		};
 		public new static DynamicArray<IChemicalItem> Items;
@@ -136,8 +130,9 @@ namespace Game
 				new PurePowder("P₄O₆"),
 				new PurePowder("PCl₃"),
 				new PurePowder("PCl₅"),
-				new Bottle("蒸馏水","H2O", new Color(255, 255, 255)),
+				new Bottle("蒸馏水","H2O"),
 				new Bottle("H2SO4"),
+				new Bottle("H2SO3"),
 				new Bottle("HNO₃"),
 			};
 			for (int i = 0; i < Cations.Length; i++)
@@ -171,15 +166,13 @@ namespace Game
 			list.Add(new PurePowder("K(ClO₄)"));
 			list.Add(new PurePowder("Ca(ClO₄)₂"));
 			list.Add(new PurePowder("Ba(ClO₄)₂"));
-			list.Add(new PurePowder("Na(CN)"));
-			list.Add(new PurePowder("K(CN)"));
-			list.Add(new PurePowder("Ca(CN)₂"));
 			list.Add(new PurePowder("K₂(HPO₄)"));
 			list.Add(new PurePowder("K(H₂PO₄)"));
 			list.Add(new PurePowder("Na₂(HPO₄)"));
 			list.Add(new PurePowder("Na(H₂PO₄)"));
 			list.Add(new PurePowder("Na₂Cr₂O₇"));
 			list.Add(new PurePowder("K₂Cr₂O₇"));
+			list.Add(new PurePowder("Na₃P", Color.Red));
 			list.Add(new PurePowder("Cu₃P"));
 			list.Add(new PurePowder("NH₄H"));
 			list.Add(new PurePowder("LiH"));
@@ -187,25 +180,50 @@ namespace Game
 			list.Add(new PurePowder("MgH₂"));
 			list.Add(new PurePowder("KH"));
 			list.Add(new PurePowder("CaH₂"));
-			list.Add(new PurePowder("Na₃P", Color.Red));
+			list.Add(new PurePowder("NH₄(CN)"));
+			list.Add(new PurePowder("Na(CN)"));
+			list.Add(new PurePowder("Mg(CN)₂"));
+			list.Add(new PurePowder("K(CN)"));
+			list.Add(new PurePowder("Ca(CN)₂"));
+			list.Add(new PurePowder("Ba(CN)₂"));
 			list.Add(new Cylinder("C₂H₄"));
-			list.Add(new PurePowder("NaBr"));
-			list.Add(new PurePowder("MgBr₂"));
-			list.Add(new PurePowder("KBr"));
-			list.Add(new PurePowder("CaBr₂"));
-			list.Add(new PurePowder("NaI"));
-			list.Add(new PurePowder("MgI₂"));
-			list.Add(new PurePowder("KI"));
-			list.Add(new PurePowder("CaI₂"));
-			list.Add(new PurePowder("BaI₂"));
-			list.Add(new PurePowder("AgBr", Color.LightYellow));
-			list.Add(new PurePowder("AgI", Color.Yellow));
+			//list.Add(new PurePowder("AgBr", Color.LightYellow));
+			//list.Add(new PurePowder("AgI", Color.Yellow));
 			Items = list;
 		}
 
 		public override IItem GetItem(ref int value)
 		{
-			return Terrain.ExtractContents(value) != Index ? base.GetItem(ref value) : Items.Array[Terrain.ExtractData(value)];
+			return Terrain.ExtractContents(value) != Index ? base.GetItem(ref value) : Get(value);
+		}
+
+		public static IChemicalItem Get(int value)
+		{
+			int data;
+			switch(Terrain.ExtractContents(value))
+			{
+				case LimestoneBlock.Index:
+				case MarbleBlock.Index:
+				case MarbleSlabBlock.Index:
+				case MarbleStairsBlock.Index:
+					data = IdTable["CaCO3"];
+					goto a;
+				case PaintStripperBucketBlock.Index:
+					data = IdTable["H2SO3"];
+					goto a;
+				case PigmentBlock.Index:
+					data = IdTable["CaO"];
+					goto a;
+				case Index:
+					data = Terrain.ExtractData(value);
+					if(data < Items.Count)
+						return Items.Array[data];
+					data -= Items.Count;
+					return data < SubsystemMineral.Items.Count ? SubsystemMineral.Items.Array[data] : null;
+			}
+			return null;
+			a:
+			return Items.Array[Terrain.ExtractData(data)];
 		}
 
 		public static int Get(string key)
@@ -253,7 +271,7 @@ namespace Game
 
 		public override int GetDamageDestructionValue()
 		{
-			return ItemBlock.IdTable["Cylinder"];
+			return ItemBlock.IdTable[Utils.Get("钢瓶")];
 		}
 	}
 	public class FuelCylinder : Cylinder, IFuel
@@ -293,7 +311,10 @@ namespace Game
 				m_standaloneBlockMesh.AppendMesh("Models/Glass", "content", Matrix.CreateRotationX(MathUtils.PI) * Matrix.CreateScale(0.5f, 0.5f, 0.3f) * Matrix.CreateTranslation(0f, -0.4f, 0f), Matrix.CreateTranslation(-1 / 16f, 0f, 0f), color);
 			m_standaloneBlockMesh.AppendMesh("Models/Glass", "glassbottle", Matrix.CreateRotationX(MathUtils.PI) * Matrix.CreateScale(0.5f, 0.5f, 0.3f) * Matrix.CreateTranslation(0f, -0.4f, 0f), Matrix.CreateTranslation(-1 / 16f, 0f, 0f), new Color(255, 255, 255, 64));
 		}
-
+		public override int GetDamageDestructionValue()
+		{
+			return ItemBlock.IdTable["Bottle"];
+		}
 		public override string GetCraftingId() => Id;
 		public ReactionSystem GetDispersionSystem() => System;
 	}

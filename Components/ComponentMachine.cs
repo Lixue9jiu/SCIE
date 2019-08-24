@@ -1,6 +1,8 @@
-﻿using Engine;
+﻿using Chemistry;
+using Engine;
 using GameEntitySystem;
 using System;
+using System.Collections.Generic;
 using TemplatesDatabase;
 
 namespace Game
@@ -89,11 +91,70 @@ namespace Game
 				valuesDictionary.SetValue("HeatLevel", HeatLevel);
 		}
 
+		public int FindSmeltingRecipe(Dictionary<int, int> result, int value)
+		{
+			if (value == 0)
+				return 0;
+			var e = result.GetEnumerator();
+			while (e.MoveNext())
+			{
+				int index = FindAcquireSlotForItem(this, e.Current.Key);
+				if (index < 0)
+					return 0;
+			}
+			return value;
+		}
+
 		/*public static float GetFuelHeatLevel(int value)
 		{
 			Block block = BlocksManager.Blocks[Terrain.ExtractContents(value)];
 			return block is IFuel fuel ? fuel.GetHeatLevel(value) : block.FuelHeatLevel;
 		}*/
+		public int FindSmeltingRecipe(Dictionary<int, int> result, ReactionSystem system, Condition condition = Condition.H | Condition.l, ushort t = 2200)
+		{
+			result.Clear();
+			int value, count;
+			for (int i = 0; i < m_furnaceSize; i++)
+			{
+				if (GetSlotCount(i) <= 0) continue;
+				var item = ChemicalBlock.Get(base.GetSlotValue(i));
+				if (item != null)
+				{
+					system.Add(item.GetDispersionSystem(), GetSlotCount(i));
+					value = item.GetDamageDestructionValue();
+					if (value != 0)
+					{
+						result.TryGetValue(value, out count);
+						result[value] = count + GetSlotCount(i);
+					}
+				}
+			}
+			Equation equation = system.React(condition, t);
+			if (equation == null)
+				return 0;
+			system.Normalize();
+			Dictionary<Compound, int>.Enumerator e;
+			for (e = equation.Reactants.GetEnumerator(); e.MoveNext();)
+			{
+				result[ChemicalBlock.Get(e.Current.Key.ToString())] = -e.Current.Value / 1000;
+			}
+			for (e = system.GetEnumerator(); e.MoveNext();)
+			{
+				int val = ChemicalBlock.Get(e.Current.Key.ToString());
+				value = ChemicalBlock.Get(val).GetDamageDestructionValue();
+				if (value != 0)
+				{
+					result.TryGetValue(value, out count);
+					count -= e.Current.Value;
+					if (count < 0)
+						continue;
+					if (count > 0)
+						result[value] = count;
+				}
+				result[val] = e.Current.Value;
+			}
+			return equation.GetHashCode();
+		}
 	}
 	public abstract class ComponentPMach : ComponentMachine, IUpdateable
 	{

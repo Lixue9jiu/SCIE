@@ -266,7 +266,12 @@ namespace Game
 							int data = Terrain.ExtractData(activeBlockValue);
 							if (data != 0)
 							{
-								cv.Genome.DominantGenes[(int)TankBlock.GetTrait(data)] *= TankBlock.GetFactor(data);
+								float v = TankBlock.GetFactor(data);
+								ref float val = ref cv.Genome.DominantGenes[(int)TankBlock.GetTrait(data)];
+								if (v == 1f)
+									val += 0.1f;
+								else
+									val *= v;
 								cv.OnEntityAdded();
 								return true;
 							}

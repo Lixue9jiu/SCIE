@@ -18,7 +18,7 @@ namespace Game
 
 		public override IEnumerable<int> GetCreativeValues()
 		{
-			var arr = new int[(int)Trait.SetFireProbability * 2 + 1];
+			var arr = new int[(int)Trait.SetFireProbability * 4 + 1];
 			int value = Index, i, j;
 			for (i = 0; i <= (int)Trait.SetFireProbability; i++)
 			{
@@ -27,11 +27,11 @@ namespace Game
 			}
 			for (j = 1; j < 4; j++)
 			{
-				value += 1 << 22;
+				value = (1 << 22) * j | Index;
 				for (i = 1; i <= (int)Trait.SetFireProbability; i++)
 				{
 					value += 1 << 14;
-					arr[i + (int)Trait.SetFireProbability] = value;
+					arr[j * (int)Trait.SetFireProbability + i] = value;
 				}
 			}
 			return arr;

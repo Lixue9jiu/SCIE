@@ -1,18 +1,21 @@
 ﻿using Chemistry;
 using Engine;
 using GameEntitySystem;
+using System.Collections.Generic;
 using TemplatesDatabase;
 
 namespace Game
 {
 	public class ComponentCReactor : ComponentMachine, IUpdateable
 	{
+		protected float m_speed;
 		protected int m_smeltingRecipe,
 						m_smeltingRecipe2;
 
 		//protected int m_music;
 
-		protected readonly int[] result = new int[3];
+		protected readonly Dictionary<int, int> result = new Dictionary<int, int>();
+		protected ReactionSystem system;
 		public override int RemainsSlotIndex => -1;
 
 		public override int ResultSlotIndex => SlotsCount - 1;
@@ -30,7 +33,7 @@ namespace Game
 			if (m_updateSmeltingRecipe)
 			{
 				m_updateSmeltingRecipe = false;
-				m_smeltingRecipe2 = FindSmeltingRecipe(0f);
+				m_smeltingRecipe2 = FindSmeltingRecipe(1600f);
 				if (m_smeltingRecipe2 != m_smeltingRecipe)
 				{
 					m_smeltingRecipe = m_smeltingRecipe2;
@@ -79,24 +82,22 @@ namespace Game
 			}
 			if (m_smeltingRecipe != 0)
 			{
-				SmeltingProgress = MathUtils.Min(SmeltingProgress + 0.1f * dt, 1f);
+				SmeltingProgress = MathUtils.Min(SmeltingProgress + m_speed * dt, 1f);
 				if (SmeltingProgress >= 1f)
 				{
 					for (i = 0; i < 3; i++)
 						if (m_slots[i].Count > 0)
 							m_slots[i].Count--;
-					for (int j = 0; j < 3; j++)
+					var e = result.GetEnumerator();
+					while (e.MoveNext())
 					{
-						if (result[j] != 0)
-						{
-							int value = result[j];
-							m_slots[3 + j].Value = value;
-							m_slots[3 + j].Count++;
-							m_smeltingRecipe = 0;
-							SmeltingProgress = 0f;
-							m_updateSmeltingRecipe = true;
-						}
+						Slot slot = m_slots[FindAcquireSlotForItem(this, e.Current.Key)];
+						slot.Value = e.Current.Key;
+						slot.Count += e.Current.Value;
 					}
+					m_smeltingRecipe = 0;
+					SmeltingProgress = 0f;
+					m_updateSmeltingRecipe = true;
 				}
 			}
 		}
@@ -109,46 +110,43 @@ namespace Game
 
 		protected int FindSmeltingRecipe(float heatLevel)
 		{
-			string text = null;
 			int n = 0;
 			for (int i = 0; i < m_furnaceSize; i++)
 			{
 				int value = GetSlotValue(i);
 				if (GetSlotCount(i) > 0)
 				{
-					if (value == SulphurChunkBlock.Index)
-						n++;
+					if (value == ItemBlock.IdTable["S"])
+						n |= 1;
 					else if (value == WaterBucketBlock.Index)
-						n += 10;
+						n |= 2;
 					else if (value == ItemBlock.IdTable["Bottle"])
-						n += 100;
+						n |= 4;
 				}
 			}
-			if (n == 111)
+			if (n == 7)
 			{
-				text = "H2SO4";
-				result[0] = ItemBlock.IdTable[text];
-				result[1] = EmptyBucketBlock.Index;
+				m_speed = 0.1f;
+				result[ItemBlock.IdTable["H2SO4"]] = 1;
+				result[EmptyBucketBlock.Index] = 1;
 			}
-			for (int i = 0; i < 3; i++)
+			else
 			{
-				Slot slot = m_slots[3 + i];
-				if (slot.Count != 0 && result[i] != 0 && (slot.Value != result[i] || slot.Count >= 40))
+				m_speed = 1f;
+				system = new ReactionSystem();
+				n = FindSmeltingRecipe(result, system, Condition.l, (ushort)heatLevel);
+				if (n == 0)
 					return 0;
+				var e = result.GetEnumerator();
+				while (e.MoveNext())
+				{
+					int index = FindAcquireSlotForItem(this, e.Current.Key);
+					if (index < 0 || GetSlotCount(index) + e.Current.Value < 0)
+						return 0;
+				}
+				return n;
 			}
-			if (text == null)
-				return 0;
-			return ItemBlock.IdTable[text];
-		}
-
-		public static ReactionSystem Get(int value)
-		{
-			int c = Terrain.ExtractContents(value);
-			switch (c)
-			{
-				default:
-					return null;
-			}
+			return FindSmeltingRecipe(result, n);
 		}
 	}
 }
