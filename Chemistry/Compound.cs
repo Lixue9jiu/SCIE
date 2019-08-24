@@ -6,21 +6,42 @@ namespace Chemistry
 {
 	public struct Compound : ICloneable, IEquatable<Compound>
 	{
-		public Group Stack1, Stack2, Stack3;
+		public Group Group1, Group2, Group3;
 		public int   Count1, Count2;
 
 		//public int CrystalWater;
+
+		public int this[Group group]
+		{
+			get
+			{
+				if (group != null)
+				{
+					if (group.Equals(Group1))
+						return Count1;
+					if (group.Equals(Group2))
+						return Count2;
+					if (group.Equals(Group3))
+						return 1;
+				}
+				return 0;
+			}
+			set
+			{
+				Add(group, value);
+			}
+		}
 
 		public int Count
 		{
 			get
 			{
-				int n = Stack1 != null ? 1 : 0;
-				if (Stack2 != null)
+				int n = Group1 != null ? 1 : 0;
+				if (Group2 != null)
 				{
 					n++;
 				}
-				return Stack3 != null ? n + 1 : n;
+				return Group3 != null ? n + 1 : n;
 			}
 		}
 
@@ -51,9 +72,9 @@ namespace Chemistry
 		{
 			return new Compound
 			{
-				Stack1 = Stack1,
-				Stack2 = Stack2,
-				Stack3 = Stack3,
+				Group1 = Group1,
+				Group2 = Group2,
+				Group3 = Group3,
 				Count1 = Count1,
 				Count2 = Count2,
 			};
@@ -65,37 +86,54 @@ namespace Chemistry
 			if (count <= 0)
 				throw new ArgumentOutOfRangeException(nameof(count));
 #endif
-			if (Stack1 == null)
+			if (Group1 == null)
 			{
-				Stack1 = group;
+				Group1 = group;
 				Count1 = count;
 				return;
 			}
-			if (Stack2 == null)
+			if (Group2 == null)
 			{
-				Stack2 = group;
+				Group2 = group;
 				Count2 = count;
 				return;
 			}
-			if (Stack3 == null)
+			if (Group3 == null)
 			{
-				Stack3 = group;
+				Group3 = group;
 				if (count == 1)
 					return;
 				if (Count1 == 1)
 				{
-					Stack3 = Stack1;
-					Stack1 = group;
+					Group3 = Group1;
+					Group1 = group;
 					return;
 				}
 				if (Count2 == 1)
 				{
-					Stack3 = Stack2;
-					Stack2 = group;
+					Group3 = Group2;
+					Group2 = group;
 					return;
 				}
 			}
 			throw new InvalidOperationException("Stack full");
+		}
+
+		public bool Remove(Group group)
+		{
+			if (group == null)
+				return false;
+			if (group.Equals(Group1))
+				goto a;
+			if (group.Equals(Group2))
+				goto b;
+			if (group.Equals(Group3))
+				goto c;
+			return false;
+			a: Group1 = Group2;
+			b: Group2 = Group3;
+			c: Group3 = null;
+			return true;
 		}
 
 		/*public float AtomicWeight
@@ -143,24 +181,24 @@ namespace Chemistry
 
 		public bool Equals(Compound other)
 		{
-			return Equals(Stack1, other.Stack1) && Equals(Stack2, other.Stack2) && Equals(Stack3, other.Stack3)
+			return Equals(Group1, other.Group1) && Equals(Group2, other.Group2) && Equals(Group3, other.Group3)
 				&& Count1 == other.Count1 && Count2 == other.Count2;
 		}
 
 		public override int GetHashCode()
 		{
 			int code = Count1 << 3 ^ Count2;
-			if (Stack1 != null)
+			if (Group1 != null)
 			{
-				code ^= Stack1.GetHashCode();
+				code ^= Group1.GetHashCode();
 			}
-			if (Stack2 != null)
+			if (Group2 != null)
 			{
-				code ^= Stack2.GetHashCode();
+				code ^= Group2.GetHashCode();
 			}
-			if (Stack3 != null)
+			if (Group3 != null)
 			{
-				code ^= Stack3.GetHashCode() * 2111;
+				code ^= Group3.GetHashCode() * 2111;
 			}
 			return code;
 		}
@@ -241,28 +279,28 @@ namespace Chemistry
 		public override string ToString()
 		{
 			var sb = new StringBuilder();
-			if (Stack3 != null)
+			if (Group3 != null)
 			{
-				sb.Append(Stack3.ToString());
+				sb.Append(Group3.ToString());
 			}
 			bool bracket;
-			if (Stack1 != null)
+			if (Group1 != null)
 			{
-				bracket = Count1 > 1 && Stack1.Count > 1;
+				bracket = Count1 > 1 && Group1.Count > 1;
 				if (bracket)
 					sb.Append('(');
-				sb.Append(Stack1.ToString());
+				sb.Append(Group1.ToString());
 				if (bracket)
 					sb.Append(')');
 				if (Count1 > 1)
 					sb.Append(Count1);
 			}
-			if (Stack2 != null)
+			if (Group2 != null)
 			{
-				bracket = Count2 > 1 && Stack2.Count > 1;
+				bracket = Count2 > 1 && Group2.Count > 1;
 				if (bracket)
 					sb.Append('(');
-				sb.Append(Stack2.ToString());
+				sb.Append(Group2.ToString());
 				if (bracket)
 					sb.Append(')');
 				if (Count2 > 1)

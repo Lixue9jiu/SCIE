@@ -8,6 +8,7 @@ namespace Game
 		public Unpacker()
 		{
 			Voltage = 100;
+			Name = "Separator";
 			DefaultDisplayName = DefaultDescription = "去包装机";
 			Type |= ElementType.Pipe;
 		}
