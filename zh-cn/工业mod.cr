@@ -958,6 +958,20 @@
       "daad"
       "bffb"
     </Recipe>
+	<Recipe Result="Airship" ResultCount="1" RequiredHeatLevel="0" a="H2" b="boat" d="SteelRod" c="sengine:4096" e="AluminumPlate" f="SteelFan" Description="飞艇，一种空中交通工具">
+      "eeee"
+      "eaae"
+      "eaae"
+      "fbcf"
+    </Recipe>
+	<Recipe Result="Tractor" ResultCount="1" RequiredHeatLevel="0" a="Car" b="metalblock:32" d="SteelRod" c="chest" e="Gearbox" f="SteelGear" Description="拖拉机，一种陆上交通工具，可以耕地施肥收割">
+      "dbac"
+      "fefd"
+    </Recipe>
+	<Recipe Result="Digger" ResultCount="1" RequiredHeatLevel="0" a="Car" b="metalblock:32" d="drill:0" c="chest" e="Gearbox" f="SteelGear" Description="盾构机，一种陆上交通工具，可以钻隧道">
+      "deac"
+      "deff"
+    </Recipe>
     <Recipe Result="Gearbox" ResultCount="1" RequiredHeatLevel="0" a="SteelGear" b="SteelRod" c="metalblock:0" Description="变速箱，可以传递机械能">
       "aaa"
       "bcb"
