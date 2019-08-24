@@ -25,7 +25,7 @@ namespace Game
 			if (m_smeltingRecipe != 0)
 			{
 				Powered = true;
-				m_fireTimeRemaining = MathUtils.Min(m_fireTimeRemaining - 0.1f * dt, 1f);
+				m_fireTimeRemaining = MathUtils.Min(m_fireTimeRemaining - 0.01f * dt, 1f);
 				SmeltingProgress = 1f - m_fireTimeRemaining;
 				if (SmeltingProgress >= 1f)
 				{
