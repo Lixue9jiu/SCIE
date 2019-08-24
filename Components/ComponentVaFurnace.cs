@@ -53,6 +53,35 @@ namespace Game
 				else if (m_smeltingRecipe == null)
 					m_smeltingRecipe = m_smeltingRecipe2;
 			}
+
+
+			if (m_smeltingRecipe2 != null)
+			{
+				int num = 0;
+				for (int i = -1; i < 2; i++)
+				{
+					for (int j = -1; j < 2; j++)
+					{
+						for (int k = -1; k < 2; k++)
+						{
+							Point3 coordinates = m_componentBlockEntity.Coordinates;
+							int cellValue = Utils.Terrain.GetCellValue(coordinates.X + i, coordinates.Y + j, coordinates.Z + k);
+							if (i * i + j * j + k * k <= 1 && (ElementBlock.Block.GetDevice(coordinates.X + i, coordinates.Y + j, coordinates.Z + k, cellValue) is AirPump em && em.Powered))
+							{
+								num = 1;
+								break;
+							}
+						}
+					}
+				}
+				if (num == 0)
+					m_smeltingRecipe = null;
+				if (num == 1 && m_smeltingRecipe == null)
+					m_smeltingRecipe = m_smeltingRecipe2;
+			}
+
+
+
 			if (!Powered)
 			{
 				m_smeltingProgress = 0f;

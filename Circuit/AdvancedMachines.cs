@@ -213,7 +213,7 @@ namespace Game
 		}
 		public override Widget GetWidget(IInventory inventory, ComponentVaFurnace component)
 		{
-			return new ElectricFurnaceWidget(inventory, component);
+			return new ElectricFurnaceWidget(inventory, component, "Widgets/VaFurnaceWidget");
 		}
 	}
 
