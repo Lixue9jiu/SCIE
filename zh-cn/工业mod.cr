@@ -1091,6 +1091,12 @@
       "bddb"
       "bccb"
     </Recipe>
+	<Recipe Result="VaFurnace" ResultCount="1" RequiredHeatLevel="0" a="CopperWire" b="Stainless Steel" c="Rubber" d="FeAlCrAlloyResistor" e="ElectricIFurnace" Description="不锈钢，橡胶，线圈，电阻片制作一台真空炉">
+      "caac"
+      "beeb"
+      "bddb"
+      "caac"
+    </Recipe>
     <Recipe Result="ElectricIFurnace" ResultCount="1" RequiredHeatLevel="0" a="IndustrialMagnet" b="metalblock:32" c="metalblock:64" d="CopperWire" e="SteelRod" f="SteelPlate" Description="制作感应炉，用来熔化金属">
       "abba"
       "dccd"
