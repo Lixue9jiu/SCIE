@@ -105,7 +105,7 @@ namespace Game
 
 	public class Tractor : TexturedMeshItem
 	{
-		public Tractor() : base("拖拉机", "Car", "ChamferBox01", Car.CarTexture, "一种使用内燃机，燃烧汽油获得动力，可以耕地施肥种植收割的农业用具。", 0.5f)
+		public Tractor() : base("拖拉机", "Car2222", "Tractor_001", SteamBoat.BoatTexture , "一种使用内燃机，燃烧汽油获得动力，可以耕地施肥种植收割的农业用具。", 1.5f)
 		{
 		}
 
