@@ -869,7 +869,7 @@
       "bad"
       "ece"
     </Recipe>
-    <Recipe Result="BlastFurnaceBlock" ResultCount="1" RequiredHeatLevel="0" a="brick" b="furnaceN" Description="制作高炉鼓风机">
+    <Recipe Result="BlastFurnaceBlock" ResultCount="1" RequiredHeatLevel="0" a="brick" b="furnaceN:0" Description="制作高炉鼓风机">
       "aaa"
       "aba"
       "aaa"
@@ -879,13 +879,13 @@
       "beb"
       "ada"
     </Recipe>
-    <Recipe Result="CovenBlock" ResultCount="1" RequiredHeatLevel="0" a="RefractoryBrick" b="furnaceN" Description="制作焦炉以获得焦煤">
+    <Recipe Result="CovenBlock" ResultCount="1" RequiredHeatLevel="0" a="RefractoryBrick" b="furnaceN:0" Description="制作焦炉以获得焦煤">
       "aaaa"
       "abba"
       "abba"
       "aaaa"
     </Recipe>
-    <Recipe Result="HearthFurnaceBlock" ResultCount="1" RequiredHeatLevel="0" a="SteelIngot" b="furnaceN" Description="制作一个平炉，以提高煅烧铁金属的效率">
+    <Recipe Result="HearthFurnaceBlock" ResultCount="1" RequiredHeatLevel="0" a="SteelIngot" b="furnaceN:0" Description="制作一个平炉，以提高煅烧铁金属的效率">
       "aaaa"
       "abba"
       "abba"
@@ -1056,7 +1056,7 @@
       "aeba"
       "cffc"
     </Recipe>
-    <Recipe Result="Recycler" ResultCount="1" RequiredHeatLevel="0" a="SteelPlate" b="SteelGear" c="WireDevice" d="tank:0" e="kibbler" f="chest:0" Description="制作回收机以回收材料">
+    <Recipe Result="Recycler" ResultCount="1" RequiredHeatLevel="0" a="SteelPlate" b="SteelGear" c="WireDevice" d="tank:0" e="kibbler:0" f="chest:0" Description="制作回收机以回收材料">
       "aba"
       "cdf"
       "aea"

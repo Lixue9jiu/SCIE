@@ -31,6 +31,8 @@ namespace Game
 		public static TerrainBrush.Cell[][] OilPocketCells;
 		//public static TerrainBrush[] NaturalGasBrushes;
 		//public static Dictionary<long, int> MinesData;
+		public static Dictionary<string, int> Set = new Dictionary<string, int>();
+		public static DynamicArray<IChemicalItem> Items = new DynamicArray<IChemicalItem>();
 
 		public override int[] HandledBlocks => new[]
 		{
@@ -60,11 +62,13 @@ namespace Game
 			Utils.Load(Project);
 			//Utils.SubsystemItemsScanner.ItemsScanned += GarbageCollectItems;
 			var arr = valuesDictionary.GetValue("ChemData", "").Split(',');
-			//ChemicalBlock.Items = new DynamicArray<Metal>(arr.Length);
 			int i;
-			/*for (i = 0; i < arr.Length; i++)
-				if (short.TryParse(arr[i], NumberStyles.Integer, NumberFormatInfo.CurrentInfo, out short value))
-					ChemData.Add(value);*/
+			for (i = 0; i < arr.Length; i++)
+			{
+				if (arr[i].Length == 0) continue;
+				Set.Add(arr[i], i + 512);
+				Items.Add(new PurePowder(arr[i]));
+			}
 			SmallBrushes = new TerrainBrush[16];
 			PtBrushes = new TerrainBrush[16];
 			BBrushes = new TerrainBrush[16];
@@ -154,18 +158,18 @@ namespace Game
 				sb.Append(data.Key.ToString());
 				sb.Append('=');
 				sb.Append(data.Value.ToString());
-			}
-			var sb = new StringBuilder(ChemData.Count);
-			var values = ChemData.Array;
-			if (values.Length == 0)
+			}*/
+			if (Items.Count == 0)
 				return;
+			var sb = new StringBuilder(Items.Count);
+			var values = Items.Array;
 			sb.Append(values[0].ToString());
-			for (int i = 1; i < ChemData.Count; i++)
+			for (int i = 1; i < Items.Count; i++)
 			{
 				sb.Append(',');
 				sb.Append(values[i].ToString());
 			}
-			valuesDictionary.SetValue(nameof(ChemData), sb.ToString());*/
+			valuesDictionary.SetValue(nameof(Items), sb.ToString());
 		}
 
 		public override void OnChunkInitialized(TerrainChunk chunk)
@@ -271,6 +275,12 @@ namespace Game
 						SubsystemTerrain.ChangeCell(point.X + x, point.Y + y, point.Z + z, 0);
 					}
 			}
+		}
+
+		public override void Dispose()
+		{
+			Set.Clear();
+			base.Dispose();
 		}
 
 		/*public override void OnItemPlaced(int x, int y, int z, ref BlockPlacementData placementData, int itemValue)

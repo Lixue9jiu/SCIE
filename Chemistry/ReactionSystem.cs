@@ -6,6 +6,7 @@ using System.Text;
 
 namespace Chemistry
 {
+	//正数=溶解部分，负数=不溶部分
 	public class ReactionSystem : Dictionary<Compound, int>, ICloneable, IEquatable<ReactionSystem>
 	{
 		public static readonly ReactionSystem Air = new ReactionSystem {
@@ -15,24 +16,30 @@ namespace Chemistry
 				{ new Compound("H20"), 10 },
 				{ new Compound("CO2"), 3 }
 		};
-		//正数=溶解部分，负数=不溶部分
+		#region Constructors
+		public ReactionSystem() { }
 
-		public ReactionSystem()
-		{
-		}
-
-		public ReactionSystem(int capacity) : base(capacity)
-		{
-		}
+		public ReactionSystem(int capacity) : base(capacity) { }
 
 		public ReactionSystem(string s) : this(1)
 		{
 			AddCompounds(this, s);
 		}
 
-		public ReactionSystem(IDictionary<Compound, int> dictionary) : base(dictionary)
+		public ReactionSystem(IDictionary<Compound, int> dictionary) : base(dictionary) { }
+		#endregion
+		/*public new int this[Compound key]
 		{
-		}
+			get
+			{
+				TryGetValue(key, out int value);
+				return value;
+			}
+			set
+			{
+				base[key] = value;
+			}
+		}*/
 
 		public void Normalize()
 		{
@@ -118,9 +125,12 @@ namespace Chemistry
 			return sb.ToString();
 		}
 
-		public void Add(Compound c)
+		[MethodImpl((MethodImplOptions)0x100)]
+		public new void Add(Compound key, int count)
 		{
-			Dissolve(c);
+			TryGetValue(key, out int value);
+			this[key] = value + count;
+			//Dissolve(c);
 		}
 
 		public Equation React()
@@ -164,24 +174,32 @@ namespace Chemistry
 			for (j = equation.Products.GetEnumerator(); j.MoveNext();)
 			{
 				Compound key = j.Current.Key;
-				this[key] +=  MathUtils.Abs(j.Current.Value);
+				this[key] += MathUtils.Abs(j.Current.Value);
 			}
 			return equation;
 		}
 
 		public void Dissolve(Compound c)
 		{
-			Dissolve(c, Group.K);
-			Dissolve(c, Group.Na);
-			Dissolve(c, Group.NO3);
+			Dissolve(c, "K⁺");
+			Dissolve(c, "Na⁺");
+			Dissolve(c, "NO₃⁻");
 		}
 
-		public void Dissolve(Compound c, Group group)
+		public void Dissolve(Compound c, string ion)
 		{
-			/*if (c.TryGetValue(group, out int value))
+			var group = Group.Get(ion);
+			int value = c[group];
+			if (value != 0)
 			{
-				DispersedPhase.TryGetValue(new Compound(group), value);
-			}*/
+				var key = new Compound
+				{
+					Group1 = group
+				};
+				Add(key, 100);
+				c.Remove(group);
+				Add(c, 100);
+			}
 		}
 		/*[MethodImpl((MethodImplOptions)0x100)]
 		public static implicit operator DispersionSystem(string s)

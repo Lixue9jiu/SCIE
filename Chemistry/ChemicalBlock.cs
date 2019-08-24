@@ -62,7 +62,6 @@ namespace Game
 			new Group("SO₃²⁻"),
 			new Group("SO₄²⁻"),
 			new Group("CO₃²⁻"),
-			new Group("SiO₃²⁻"),
 			new Group("PO₄³⁻"),
 			new Group("F⁻"),
 			new Group("AsO₄³⁻"),
@@ -138,6 +137,8 @@ namespace Game
 				new PurePowder("PCl₃"),
 				new PurePowder("PCl₅"),
 				new Bottle("蒸馏水","H2O", new Color(255, 255, 255)),
+				new Bottle("H2SO4"),
+				new Bottle("HNO₃"),
 			};
 			for (int i = 0; i < Cations.Length; i++)
 			{
@@ -149,9 +150,9 @@ namespace Game
 					list.Add(new PurePowder(Cations[i] + Anions[j], color));
 			}
 			list.Add(new PurePowder("H₂(SiO₃)"));
-			//list.Add(new PurePowder("Na₂(SiO₃)"));
-			//list.Add(new PurePowder("Mg(SiO₃)"));
-			//list.Add(new PurePowder("Ca(SiO₃)"));
+			list.Add(new PurePowder("Na₂(SiO₃)"));
+			list.Add(new PurePowder("Mg(SiO₃)"));
+			list.Add(new PurePowder("Ca(SiO₃)"));
 			list.Add(new PurePowder("Na(HCO₃)"));
 			list.Add(new PurePowder("Na₂S₂O₃"));
 			list.Add(new PurePowder("Ca(ClO)₂"));
@@ -184,11 +185,9 @@ namespace Game
 			list.Add(new PurePowder("LiH"));
 			list.Add(new PurePowder("NaH"));
 			list.Add(new PurePowder("MgH₂"));
-			//list.Add(new PurePowder("AlH₃"));
 			list.Add(new PurePowder("KH"));
 			list.Add(new PurePowder("CaH₂"));
 			list.Add(new PurePowder("Na₃P", Color.Red));
-			//list.Add(new Cylinder("B₂H₆"));
 			list.Add(new Cylinder("C₂H₄"));
 			list.Add(new PurePowder("NaBr"));
 			list.Add(new PurePowder("MgBr₂"));
@@ -209,11 +208,19 @@ namespace Game
 			return Terrain.ExtractContents(value) != Index ? base.GetItem(ref value) : Items.Array[Terrain.ExtractData(value)];
 		}
 
-		public static void Store(ReactionSystem system)
+		public static int Get(string key)
 		{
-			/*var item = new ChemicalItem(system);
-			if (!Items.ContainsKey(item))
-				Items.Add(item);*/
+			if (IdTable.TryGetValue(key, out int value))
+				return value;
+			if (SubsystemMineral.Set.Count == 0)
+				return 0;
+			if (!SubsystemMineral.Set.TryGetValue(key, out value))
+			{
+				SubsystemMineral.Items.Add(new PurePowder(key));
+				value = 512 + SubsystemMineral.Set.Count;
+				SubsystemMineral.Set.Add(key, value);
+			}
+			return value;
 		}
 
 		public override IEnumerable<int> GetCreativeValues()
