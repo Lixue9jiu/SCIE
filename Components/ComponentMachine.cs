@@ -117,7 +117,7 @@ namespace Game
 			for (int i = 0; i < m_furnaceSize; i++)
 			{
 				if (GetSlotCount(i) <= 0) continue;
-				var item = ChemicalBlock.Get(base.GetSlotValue(i));
+				var item = ChemicalBlock.Get(GetSlotValue(i));
 				if (item != null)
 				{
 					system.Add(item.GetDispersionSystem(), GetSlotCount(i));
@@ -151,7 +151,12 @@ namespace Game
 					if (count > 0)
 						result[value] = count;
 				}
-				result[val] = e.Current.Value;
+				value = e.Current.Value;
+				if (value > 999)
+					value /= 1000;
+				if (value > 200)
+					value = 1;
+				result[val] = value;
 			}
 			return equation.GetHashCode();
 		}

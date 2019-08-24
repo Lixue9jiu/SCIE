@@ -85,9 +85,6 @@ namespace Game
 				SmeltingProgress = MathUtils.Min(SmeltingProgress + m_speed * dt, 1f);
 				if (SmeltingProgress >= 1f)
 				{
-					for (i = 0; i < 3; i++)
-						if (m_slots[i].Count > 0)
-							m_slots[i].Count--;
 					var e = result.GetEnumerator();
 					while (e.MoveNext())
 					{
@@ -110,6 +107,7 @@ namespace Game
 
 		protected int FindSmeltingRecipe(float heatLevel)
 		{
+			result.Clear();
 			int n = 0;
 			for (int i = 0; i < m_furnaceSize; i++)
 			{

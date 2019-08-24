@@ -65,7 +65,6 @@ namespace Game
 		{
 			var list = new DynamicArray<IChemicalItem>
 			{
-				new PurePowder(Materials.Steel),
 				new PurePowder(Materials.Gold),
 				new PurePowder(Materials.Silver),
 				new PurePowder(Materials.Platinum),
@@ -213,6 +212,12 @@ namespace Game
 					goto a;
 				case PigmentBlock.Index:
 					data = IdTable["CaO"];
+					goto a;
+				case ItemBlock.Index:
+					IItem item = Item.Block.GetItem(ref value);
+					if (item == null || item.GetCraftingId() != "ChromiumOrePowder")
+						break;
+					data = IdTable["Cr2O3"];
 					goto a;
 				case Index:
 					data = Terrain.ExtractData(value);
