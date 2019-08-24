@@ -75,6 +75,37 @@ namespace Game
 				{
 					if (m_slots[0].Count > 0)
 						m_slots[0].Count--;
+					if (result[0]== ItemBlock.IdTable["Bottle"])
+					{
+						Point3 coordinates = m_componentBlockEntity.Coordinates;
+						int num31 = coordinates.X;
+						int num41 = coordinates.Y;
+						int num51 = coordinates.Z;
+						int cellValue1 = Terrain.ReplaceLight(Utils.Terrain.GetCellValue(num31, num41 + 1, num51), 0);
+						if (ElementBlock.Block.GetDevice(num31, num41 + 2, num51, cellValue1) is AirPresser em && em.Powered)
+						{
+							var point3 = new Point3(num31, num41 + 2, num51);
+							var entity = Utils.GetBlockEntity(point3);
+							Component component3 = entity.Entity.FindComponent<ComponentAirPresser>();
+							if (entity != null && component3 != null)
+							{
+
+								IInventory inventory = entity.Entity.FindComponent<ComponentAirPresser>(true);
+								for (int i = 0; i < 6; i++)
+								{
+									//int value23 = 0;
+									int va1 = inventory.GetSlotValue(i);
+									if (va1 == ItemBlock.IdTable["¸ÖÆ¿"] && ComponentInventoryBase.AcquireItems(inventory, ItemBlock.IdTable["H2"], 1) == 0)
+									{
+										inventory.RemoveSlotItems(i, 1);
+									}
+								}
+
+							}
+						}
+					}
+
+
 					for (int j = 0; j < 3; j++)
 					{
 						if (result[j] != 0)
@@ -114,6 +145,15 @@ namespace Game
 					result[0] = ItemBlock.IdTable["AluminumIngot"];
 					result[1] = 0;
 					result[2] = 0;
+					break;
+				}
+				if (value == ItemBlock.IdTable["ÕôÁóË®"])
+				{
+					text = true;
+					result[0] = ItemBlock.IdTable["Bottle"];
+					result[1] = 0;
+					result[2] = 0;
+					break;
 				}
 			}
 			if (!text)

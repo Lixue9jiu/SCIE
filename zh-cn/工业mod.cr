@@ -79,6 +79,9 @@
     <Recipe Result="BrassIngot" ResultCount="1" RequiredHeatLevel="1200" a="CopperOrePowder" b="CoalPowder" c="ZincOrePowder" Description="冶炼铜矿粉锌矿粉碳粉获得黄铜">
       "acb"
     </Recipe>
+	<Recipe Result="H2O" ResultCount="1" RequiredHeatLevel="100" a="waterbucket" b="Bottle" Description="获得蒸馏水">
+      "ab"
+    </Recipe>
     <Recipe Result="NickelIngot" ResultCount="1" RequiredHeatLevel="1200" a="NickelOrePowder" b="CoalPowder" c="pigment" Description="冶炼镍矿粉获得镍">
       "abc"
     </Recipe>

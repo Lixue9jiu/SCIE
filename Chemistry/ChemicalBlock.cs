@@ -136,6 +136,7 @@ namespace Game
 				new PurePowder("P₄O₆"),
 				new PurePowder("PCl₃"),
 				new PurePowder("PCl₅"),
+				new Bottle("蒸馏水","H2O", new Color(255, 255, 255)),
 				new Bottle("H2SO4"),
 				new Bottle("HNO₃"),
 			};
