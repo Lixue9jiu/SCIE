@@ -73,9 +73,49 @@ namespace Game
 				SmeltingProgress = MathUtils.Min(SmeltingProgress + 0.1f * dt, 1f);
 				if (SmeltingProgress >= 1f)
 				{
-					if (m_slots[0].Count > 0)
-						m_slots[0].Count--;
-					if (result[0]== ItemBlock.IdTable["Bottle"])
+					
+					if (m_slots[0].Value == ItemBlock.IdTable["H2O"])
+					{
+						Point3 coordinates = m_componentBlockEntity.Coordinates;
+						int num31 = coordinates.X;
+						int num41 = coordinates.Y;
+						int num51 = coordinates.Z;
+						int cellValue1 = Terrain.ReplaceLight(Utils.Terrain.GetCellValue(num31, num41 + 1, num51), 0);
+						if (ElementBlock.Block.GetDevice(num31, num41 + 1, num51, cellValue1) is AirPresser em && em.Powered)
+						{
+							var point3 = new Point3(num31, num41 + 1, num51);
+							var entity = Utils.GetBlockEntity(point3);
+							Component component3 = entity.Entity.FindComponent<ComponentAirPresser>();
+							if (entity != null && component3 != null)
+							{
+
+								IInventory inventory = entity.Entity.FindComponent<ComponentAirPresser>(true);
+								for (int i = 0; i < 6; i++)
+								{
+									//int value23 = 0;
+									int va1 = inventory.GetSlotValue(i);
+									if (Utils.Random.Bool(0.50f))
+									{
+										if (va1 == ItemBlock.IdTable["멀틸"] && ComponentInventoryBase.AcquireItems(inventory, ItemBlock.IdTable["H2"], 1) == 0)
+										{
+											inventory.RemoveSlotItems(i, 1);
+											i += 6;
+										}
+									}else
+									{
+										if (va1 == ItemBlock.IdTable["멀틸"] && ComponentInventoryBase.AcquireItems(inventory, ItemBlock.IdTable["O2"], 1) == 0)
+										{
+											inventory.RemoveSlotItems(i, 1);
+											i += 6;
+										}
+									}
+									
+								}
+
+							}
+						}
+					}
+					if (m_slots[0].Value == ItemBlock.IdTable["S-NaCl"])
 					{
 						Point3 coordinates = m_componentBlockEntity.Coordinates;
 						int num31 = coordinates.X;
@@ -100,22 +140,25 @@ namespace Game
 										if (va1 == ItemBlock.IdTable["멀틸"] && ComponentInventoryBase.AcquireItems(inventory, ItemBlock.IdTable["H2"], 1) == 0)
 										{
 											inventory.RemoveSlotItems(i, 1);
-										}
-									}else
-									{
-										if (va1 == ItemBlock.IdTable["멀틸"] && ComponentInventoryBase.AcquireItems(inventory, ItemBlock.IdTable["O2"], 1) == 0)
-										{
-											inventory.RemoveSlotItems(i, 1);
+											i += 6;
 										}
 									}
-									
+									else
+									{
+										if (va1 == ItemBlock.IdTable["멀틸"] && ComponentInventoryBase.AcquireItems(inventory, ItemBlock.IdTable["Cl2"], 1) == 0)
+										{
+											inventory.RemoveSlotItems(i, 1);
+											i += 6;
+										}
+									}
+
 								}
 
 							}
 						}
 					}
-
-
+					if (m_slots[0].Count > 0)
+						m_slots[0].Count--;
 					for (int j = 0; j < 3; j++)
 					{
 						if (result[j] != 0)
@@ -161,6 +204,14 @@ namespace Game
 				{
 					text = true;
 					result[0] = ItemBlock.IdTable["Bottle"];
+					result[1] = 0;
+					result[2] = 0;
+					break;
+				}
+				if (value == ItemBlock.IdTable["S-NaCl"])
+				{
+					text = true;
+					result[0] = ItemBlock.IdTable["S-NaOH"];
 					result[1] = 0;
 					result[2] = 0;
 					break;

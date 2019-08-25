@@ -139,6 +139,8 @@ namespace Game
 				new Bottle("蒸馏水","H2O", new Color(255, 255, 255)),
 				new Bottle("H2SO4"),
 				new Bottle("HNO₃"),
+				new Bottle("饱和NaCl","S-NaCl", new Color(255, 255, 255)),
+				new Bottle("NaOH溶液","S-NaOH", new Color(255, 255, 255)),
 			};
 			for (int i = 0; i < Cations.Length; i++)
 			{

@@ -27,8 +27,8 @@ namespace Game
 
 		public override void Initialize()
 		{
-			m_standaloneBlockMesh.AppendMesh("Models/Battery", "Battery", Matrix.CreateRotationX(MathUtils.PI / 2) * Matrix.CreateScale(.5f, .5f, 1.2f) * Matrix.CreateTranslation(0.5f, 0.5f, -0.3f), Matrix.CreateTranslation(9f / 16f, -7f / 16f, 0f), Color.DarkGray);
-			m_standaloneBlockMesh.AppendMesh("Models/Battery", "Battery", Matrix.CreateRotationX(MathUtils.PI / 2) * Matrix.CreateScale(.7f) * Matrix.CreateTranslation(0.5f, 0.5f, 0.5f), Matrix.CreateTranslation(9f / 16f, -7f / 16f, 0f), Color.DarkGray);
+			m_standaloneBlockMesh.AppendMesh("Models/Battery", "Battery",Matrix.CreateScale(0.8f) * Matrix.CreateTranslation(0.0f, 0.0f, -0.0f), Matrix.CreateTranslation(9f / 16f, -7f / 16f, 0f), Color.DarkGray);
+			m_standaloneBlockMesh.AppendMesh("Models/Battery", "Battery",  Matrix.CreateScale(.6f) * Matrix.CreateTranslation(0.0f, -0.6f, 0.0f), Matrix.CreateTranslation(9f / 16f, -7f / 16f, 0f), Color.DarkGray);
 			m_standaloneBlockMesh2.AppendMesh("Models/Rods", "SteelRod", Matrix.CreateTranslation(0, -0.5f, 0), Matrix.Identity, Color.DarkGray);
 			m_standaloneBlockMesh3.AppendMesh("Models/Saw", "Saw", Matrix.CreateRotationX(1.6f) * Matrix.CreateRotationY(1.6f) * Matrix.CreateRotationY(0.8f) * Matrix.CreateRotationZ(0.8f) * Matrix.CreateTranslation(0.5f, -0.5f, 0.0f) * Matrix.CreateScale(.75f), Matrix.CreateTranslation(9f / 16f, -16f / 16f, 0f)*Matrix.CreateScale(100f), Color.White);
 			m_standaloneBlockMesh3.AppendMesh("Models/Brick", "Brick", Matrix.CreateRotationX(1.6f) * Matrix.CreateRotationY(-1.6f) * Matrix.CreateRotationY(0.8f) * Matrix.CreateRotationZ(0.8f) * Matrix.CreateScale(2f) * Matrix.CreateTranslation(0.3f, -0.5f, 0.1f), Matrix.CreateTranslation(9f / 16f, -7f / 16f, 0f), Color.DarkGray);
