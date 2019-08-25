@@ -4,7 +4,7 @@
 <Recipe Result="GermaniumChunkBlock" ResultCount="1" new-RequiredHeatLevel="900" a="germaniumorechunk:0" Description="冶炼锗矿石以获得锗晶体" />
 <Recipe Result="RodBlock" ResultCount="4" new-RequiredHeatLevel="1500" new-a="ironingot:0" Description="将铁锭锻造成棒" />
   <Smelting>
-    <Recipe Result="GunpowderBlock:1" ResultCount="3" RequiredHeatLevel="0" a="saltpeterchunk" b="SulphurPowder" c="CoalPowder" Description="将煤，硫和硝石混合制成火药">
+    <Recipe Result="GunpowderBlock:1" ResultCount="3" RequiredHeatLevel="0" a="saltpeterchunk" b="S" c="CoalPowder" Description="将煤，硫和硝石混合制成火药">
       "abc"
     </Recipe>
     <Recipe Result="IronIngotBlock" ResultCount="1" RequiredHeatLevel="1500" a="IronOrePowder" Description="冶炼铁矿粉获得铁">
