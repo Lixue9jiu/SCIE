@@ -742,10 +742,20 @@
       "aca"
       "aba"
     </Recipe>
-    <Recipe Result="SourBlock" ResultCount="1" RequiredHeatLevel="0" a="planks" b="stick" c="dirt" Description="制作一个发酵池">
+    <Recipe Result="SourBlock:0" ResultCount="1" RequiredHeatLevel="0" a="planks" b="stick" c="dirt" Description="制作一个发酵池">
       "aaa"
       "bcb"
       "aaa"
+    </Recipe>
+	<Recipe Result="SourBlock:1" ResultCount="1" RequiredHeatLevel="0" a="IronPlate" b="waterbucket" Description="制作一个沉淀池">
+      "a a"
+      "aba"
+      "aaa"
+    </Recipe>
+	<Recipe Result="SourBlock:2" ResultCount="1" RequiredHeatLevel="0" a="germaniumchunk" b="dispenser" c="piston" Description="制作一个分拣机">
+      "aba"
+      "bcb"
+      "aba"
     </Recipe>
     <Recipe Result="SqueezerBlock" ResultCount="1" RequiredHeatLevel="0" a="SteelGear" b="IndustrialPiston" c="metalblock:0" Description="制作一个挤压器来制作金属线">
       "aba"
