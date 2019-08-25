@@ -247,4 +247,12 @@ namespace Game
 			return null;
 		}
 	}
+	public class ComponentSorter : ComponentMachine
+	{
+		public override int RemainsSlotIndex => -1;
+
+		public override int ResultSlotIndex => - 1;
+
+		public override int FuelSlotIndex => -1;
+	}
 }

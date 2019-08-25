@@ -1,5 +1,6 @@
 using System.Collections.Generic;
-
+using Engine;
+using TemplatesDatabase;
 namespace Game
 {
 	public class SubsystemPMachsBlockBehavior : SubsystemCombinedBlockBehavior<ComponentMachine>
@@ -31,6 +32,7 @@ namespace Game
         public SubsystemSourBlockBehavior() : base("Sour")
         {
         }
+		public SubsystemBlockEntities m_subsystemBlockEntities;
 		public static string[] Names = new[]
 		{
 			"Sour",
@@ -43,6 +45,57 @@ namespace Game
 		{
 			Name = Names[Terrain.ExtractData(value) >> 10];
 			base.OnBlockAdded(value, oldValue, x, y, z);
+		}
+
+		public override void OnHitByProjectile(CellFace cellFace, WorldItem worldItem)
+		{
+			if (worldItem.ToRemove)
+			{
+				return;
+			}
+			ComponentBlockEntity blockEntity = m_subsystemBlockEntities.GetBlockEntity(cellFace.X, cellFace.Y, cellFace.Z);
+			Vector3 v = CellFace.FaceToVector3(cellFace.Face);
+			if (blockEntity != null)
+			{
+				var position = new Vector3(cellFace.Point) + new Vector3(0.5f) - 0.75f * v;
+				ComponentSorter inventory = blockEntity.Entity.FindComponent<ComponentSorter>(throwOnError: true);
+				if(inventory.GetSlotValue(0)==worldItem.Value)
+				{
+					worldItem.ToRemove = true;
+					v = new Vector3(0f,0f,1f);
+					Utils.SubsystemProjectiles.FireProjectile(worldItem.Value, position, -10f * v, Vector3.Zero, null);
+					return;
+				}
+				if (inventory.GetSlotValue(1) == worldItem.Value)
+				{
+					worldItem.ToRemove = true;
+					v = new Vector3(0f, 0f, -1f);
+					Utils.SubsystemProjectiles.FireProjectile(worldItem.Value, position, -10f * v, Vector3.Zero, null);
+					return;
+				}
+				if (inventory.GetSlotValue(2) == worldItem.Value)
+				{
+					worldItem.ToRemove = true;
+					v = new Vector3(1f, 0f, 0f);
+					Utils.SubsystemProjectiles.FireProjectile(worldItem.Value, position, -10f * v, Vector3.Zero, null);
+					return;
+				}
+				if (inventory.GetSlotValue(3) == worldItem.Value)
+				{
+					worldItem.ToRemove = true;
+					v = new Vector3(-1f, 0f, 0f);
+					Utils.SubsystemProjectiles.FireProjectile(worldItem.Value, position, -10f * v, Vector3.Zero, null);
+					return;
+				}
+				worldItem.ToRemove = true;
+				Utils.SubsystemProjectiles.FireProjectile(worldItem.Value, position, -10f * v, Vector3.Zero, null);
+				return;
+			}
+		}
+		public override void Load(ValuesDictionary valuesDictionary)
+		{
+			base.Load(valuesDictionary);
+			m_subsystemBlockEntities = base.Project.FindSubsystem<SubsystemBlockEntities>(throwOnError: true);
 		}
 
 		public override bool OnInteract(TerrainRaycastResult raycastResult, ComponentMiner componentMiner)
