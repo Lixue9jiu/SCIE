@@ -34,7 +34,8 @@ namespace Game
 		public static string[] Names = new[]
 		{
 			"Sour",
-			"Deposit"
+			"Deposit",
+			"Sorter"
 		};
 		public override int[] HandledBlocks => new[] { SourBlock.Index };
 
@@ -60,6 +61,8 @@ namespace Game
 					return new SeparatorWidget(inventory, component, "Sour", "Widgets/SourWidget");
 				case 1:
 					return new SeparatorWidget(inventory, component, "Deposit");
+				case 2:
+					return new SorterWidget(inventory, component);
 			}
 			return null;
 		}

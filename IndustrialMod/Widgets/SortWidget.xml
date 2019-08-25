@@ -1,0 +1,21 @@
+<FurnaceWidget xmlns="runtime-namespace:Game">
+  <BevelledRectangleWidget Size="614, 382" BevelSize="3" />
+  <CanvasWidget CanvasWidget.Position="28, 42" Size="66, 64">
+    <LabelWidget Text="Item" Font="{Fonts/Pericles24}" Color="0, 0, 0, 64" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+  </CanvasWidget>
+  <GridPanelWidget Name="InventoryGrid" CanvasWidget.Position="286, 52" ColumnsCount="4" RowsCount="4"/> 
+  <LabelWidget Name="Label1" CanvasWidget.Position="28, 14" Text="Sorter" Font="{Fonts/Pericles24}" Color="255, 255, 255, 192"/>
+  <LabelWidget CanvasWidget.Position="286, 14" Text="Inventory" Font="{Fonts/Pericles24}" Color="255, 255, 255, 192"/>
+  <InventorySlotWidget Name="Slot1" CanvasWidget.Position="100, 72" />
+  <LabelWidget Text="W" Font="{Fonts/Pericles24}" Color="0, 0, 0, 64" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+  </InventorySlotWidget>
+  <InventorySlotWidget Name="Slot2" CanvasWidget.Position="63, 144" />
+  <LabelWidget Text="A" Font="{Fonts/Pericles24}" Color="0, 0, 0, 64" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+  </InventorySlotWidget>
+  <InventorySlotWidget Name="Slot3" CanvasWidget.Position="100, 216" />
+  <LabelWidget Text="S" Font="{Fonts/Pericles24}" Color="0, 0, 0, 64" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+  </InventorySlotWidget>
+  <InventorySlotWidget Name="Slot4" CanvasWidget.Position="137, 144" />
+  <LabelWidget Text="E" Font="{Fonts/Pericles24}" Color="0, 0, 0, 64" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+  </InventorySlotWidget>
+</FurnaceWidget>

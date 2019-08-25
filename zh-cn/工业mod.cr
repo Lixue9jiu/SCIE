@@ -1150,8 +1150,8 @@
       "aca"
       "bbb"
     </Recipe>
-    <Recipe Result="Cylinder" ResultCount="1" RequiredHeatLevel="0" a="Industrial Steel" b="不锈钢板" c="CopperPlate" Description="不锈钢板,工业钢合成气缸，内燃机的重要部件">
-      " a"
+    <Recipe Result="Cylinder" ResultCount="1" RequiredHeatLevel="0" a="Industrial Steel" b="不锈钢板" c="CopperPlate" d="Rubber" Description="不锈钢板,工业钢合成气缸，内燃机的重要部件">
+      "dad"
       "bab"
       "ccc"
     </Recipe>
