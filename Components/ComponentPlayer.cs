@@ -81,6 +81,14 @@ namespace Game
 					var c = p.Entity.FindComponent<ComponentLocomotion>();
 					if (c != null)
 					{
+						if (playerInput.ToggleSneak)
+						{
+							ComponentMount componentMount = ComponentNGui.FindNearestMount(p.Entity, p);
+							if (componentMount != null)
+							{
+								p.Entity.FindComponent<ComponentRider>()?.StartMounting(componentMount);
+							}
+						}
 						c.WalkOrder = playerInput.Move.XZ;
 						c.FlyOrder = new Vector3(0f, playerInput.Move.Y, 0f);
 						c.TurnOrder = playerInput.Look * new Vector2(1f, 0f);
