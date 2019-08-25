@@ -316,10 +316,10 @@
     <Recipe Result="RottenMeatBlock:96" ResultCount="1" RequiredHeatLevel="300" a="MercuryOreChunk" b="emptybucket" Description="冶炼汞">
       "aba"
     </Recipe>
-    <Recipe Result="Industrial Steel" ResultCount="1" RequiredHeatLevel="2000" a="IronOrePowder" b="NickelOrePowder" Description="铁粉加镍粉冶炼工业钢">
+    <Recipe Result="Industrial Steel" ResultCount="1" RequiredHeatLevel="2000" a="MeltingIron" b="MeltingNickel" Description="铁加镍冶炼工业钢">
       "aabb"
     </Recipe>
-    <Recipe Result="Stainless Steel" ResultCount="1" RequiredHeatLevel="2000" a="IronOrePowder" b="ChromiumOrePowder" Description="铁粉加铬粉冶炼不锈钢">
+    <Recipe Result="Stainless Steel" ResultCount="1" RequiredHeatLevel="2000" a="MeltingIron" b="MeltingChromium" Description="铁加铬冶炼不锈钢">
       "aabb"
     </Recipe>
     <Recipe Result="Si" ResultCount="1" RequiredHeatLevel="2000" a="QuartzPowder" b="CokeCoalPowder" Description="制取粗硅">
@@ -747,12 +747,12 @@
       "bcb"
       "aaa"
     </Recipe>
-	<Recipe Result="SourBlock:1" ResultCount="1" RequiredHeatLevel="0" a="IronPlate" b="waterbucket" Description="制作一个沉淀池">
+	<Recipe Result="SourBlock:1024" ResultCount="1" RequiredHeatLevel="0" a="IronPlate" b="waterbucket" Description="制作一个沉淀池">
       "a a"
       "aba"
       "aaa"
     </Recipe>
-	<Recipe Result="SourBlock:2" ResultCount="1" RequiredHeatLevel="0" a="germaniumchunk" b="dispenser" c="piston" Description="制作一个分拣机">
+	<Recipe Result="SourBlock:2048" ResultCount="1" RequiredHeatLevel="0" a="germaniumchunk" b="dispenser" c="piston" Description="制作一个分拣机">
       "aba"
       "bcb"
       "aba"
