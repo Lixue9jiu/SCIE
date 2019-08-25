@@ -531,7 +531,7 @@
       <Parameter Name="Class" Guid="1c4146fe-1d3c-467e-81bc-1796f686be51" Value="Game.ComponentDeposit" Type="string" />
     </ComponentTemplate>
 	<ComponentTemplate Name="Sorter" Description="A Sour" Guid="c9bb7922-de35-4e94-ba6e-90cd55cd19d4" InheritanceParent="81a44c6a-c30a-4f53-8d64-0c30aabab8f9">
-      <Parameter Name="Class" Guid="125256fe-1d3c-467e-81bc-1796f686be51" Value="Game.ComponentInventoryBase" Type="string" />
+      <Parameter Name="Class" Guid="125256fe-1d3c-467e-81bc-1796f686be51" Value="Game.ComponentSorter" Type="string" />
     </ComponentTemplate>
     <ComponentTemplate Name="CReactor" Description="A presser" Guid="c9ff7976-de35-4e94-ba6e-90cd55cd19d4" InheritanceParent="81a44c6a-c30a-4f53-8d64-0c30aabab8f9">
       <Parameter Name="Class" Guid="fd4c23ff-1d3c-467e-81bc-1796f686be51" Value="Game.ComponentCReactor" Type="string" />
