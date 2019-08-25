@@ -2,6 +2,7 @@
 using GameEntitySystem;
 using System.Collections.Generic;
 using TemplatesDatabase;
+
 namespace Game
 {
 	public class ComponentDeposit : ComponentMachine, IUpdateable

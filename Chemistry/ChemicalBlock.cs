@@ -217,10 +217,17 @@ namespace Game
 					goto a;
 				case ItemBlock.Index:
 					IItem item = Item.Block.GetItem(ref value);
-					if (item == null || item.GetCraftingId() != "ChromiumOrePowder")
-						break;
-					data = IdTable["Cr2O3"];
-					goto a;
+					if (item != null)
+					{
+						string id = item.GetCraftingId();
+						if (id == "ChromiumOrePowder")
+							data = IdTable["Cr2O3"];
+						else if (id == "IronOrePowder")
+							data = IdTable["Fe2O3"];
+						else break;
+						goto a;
+					}
+					break;
 				case Index:
 					data = Terrain.ExtractData(value);
 					if(data < Items.Count)

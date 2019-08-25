@@ -91,7 +91,7 @@ namespace Game
 					componentRider.StartDismounting();
 				else
 				{
-					ComponentMount componentMount = FindNearestMount(componentRider);
+					ComponentMount componentMount = FindNearestMount(Entity, componentRider.ComponentCreature.ComponentBody);
 					if (componentMount != null)
 						componentRider.StartMounting(componentMount);
 				}
@@ -168,6 +168,7 @@ namespace Game
 					view.ActiveCamera = view.FindCamera<FixedCamera>(true);
 					DisplaySmallMessage(Utils.Get("固定视角"), false, false);
 				}
+#if !DEBUG
 				else if (view.ActiveCamera.GetType() == typeof(FlyCamera))
 				{
 					view.ActiveCamera = new RandomJumpCamera(view);
@@ -178,6 +179,7 @@ namespace Game
 					view.ActiveCamera = new StraightFlightCamera(view);
 					DisplaySmallMessage(Utils.Get("垂直飞行视角"), false, false);
 				}
+#endif
 				else
 				{
 					view.ActiveCamera = view.FindCamera<FppCamera>(true);
@@ -243,21 +245,20 @@ namespace Game
 			base.Load(valuesDictionary, idToEntityMap);
 		}
 
-		public ComponentMount FindNearestMount(ComponentRider rider)
+		public static ComponentMount FindNearestMount(Entity entity, ComponentBody body)
 		{
 			var bodies = new DynamicArray<ComponentBody>();
-			var body = rider.ComponentCreature.ComponentBody;
 			Utils.SubsystemBodies.FindBodiesAroundPoint(new Vector2(body.Position.X, body.Position.Z), 2.5f, bodies);
 			float num = 0f;
 			ComponentMount result = null;
 			foreach (ComponentMount m in bodies.Select(GetMount))
 			{
-				if (m == null || m.Entity == Entity) continue;
+				if (m == null || m.Entity == entity) continue;
 				ComponentBody p = m.ComponentBody;
 				while (p.ParentBody != null)
 				{
 					p = p.ParentBody;
-					if (p.Entity == Entity) goto b;
+					if (p.Entity == entity) goto b;
 				}
 				float score = 0f;
 				const float maxDistance = 7f;
