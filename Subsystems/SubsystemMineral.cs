@@ -280,6 +280,7 @@ namespace Game
 		public override void Dispose()
 		{
 			Set.Clear();
+			Items.Clear();
 			base.Dispose();
 		}
 

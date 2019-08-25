@@ -35,10 +35,12 @@ namespace Game
 	}
 	public class MetalIngot : MeshItem
 	{
+		public Materials Type;
 		protected string Id;
 
 		public MetalIngot(Materials type)
 		{
+			Type = type;
 			Id = type.ToString() + "Ingot";
 			string name = type.ToStr();
 			DefaultDisplayName = name + Utils.Get("¶§");

@@ -109,7 +109,7 @@ namespace Game
 		{
 		}
 
-		public override Vector3 GetIconViewOffset(int value, DrawBlockEnvironmentData environmentData) => new Vector3(-0.6f, 0.6f, 0.5f);
+		public override Vector3 GetIconViewOffset(int value, DrawBlockEnvironmentData environmentData) => new Vector3(-0.6f, 0.6f, -0.8f);
 		public override string GetCraftingId() => "Tractor";
 		public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
 		{
@@ -117,13 +117,14 @@ namespace Game
 		}
 	}
 
-	public class Digger : TexturedMeshItem
+	public class Digger : Car
 	{
-		public Digger() : base("盾构机", "Car", "ChamferBox01", Car.CarTexture, "一种使用内燃机，燃烧汽油获得动力，挖掘前面的方块的用具。", 0.5f)
+		public Digger()
 		{
+			DefaultDisplayName = "盾构机";
+			DefaultDescription = "一种使用内燃机，燃烧汽油获得动力，挖掘前面的方块的用具。";
 		}
 
-		public override Vector3 GetIconViewOffset(int value, DrawBlockEnvironmentData environmentData) => new Vector3(-0.6f, 0.6f, 0.5f);
 		public override string GetCraftingId() => "Digger";
 		public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
 		{

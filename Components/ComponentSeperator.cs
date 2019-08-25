@@ -94,18 +94,9 @@ namespace Game
 			m_furnaceSize = SlotsCount - 1;
 		}
 
-		protected int FindSmeltingRecipe(int value)
+		public int FindSmeltingRecipe(int value)
 		{
-			if (value == 0)
-				return 0;
-			var e = result.GetEnumerator();
-			while (e.MoveNext())
-			{
-				int index = FindAcquireSlotForItem(this, e.Current.Key);
-				if (index < 0)
-					return 0;
-			}
-			return value;
+			return FindSmeltingRecipe(result, value);
 		}
 
 		protected virtual int FindSmeltingRecipe()

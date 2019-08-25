@@ -122,7 +122,6 @@ namespace Game
 			new Airship(),
 			new Plate(Materials.Titanium, true),
 			new Icebreaker(),
-			new CoalPowder("Sulphur", Color.Yellow, 1500f, 30f, "硫粉是通过破碎硫块而得到的黄色粉末。它可以用作燃料。"),
 			new Powder("煤渣", "Ashes", new Color(125, 70, 70)),
 			new Powder("海带灰", "KelpAshes", Color.DarkGreen),
 			new Bucket("海带灰溶液", Color.DarkGreen),

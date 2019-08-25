@@ -32,7 +32,7 @@ namespace Game
 		}
 	}
 
-	public class ElectricFurnaceWidget : EntityWidget<ComponentElectricFurnace>
+	public class FurnaceWidget<T> : EntityWidget<T> where T : ComponentInventoryBase
 	{
 		protected readonly FireWidget m_fire;
 
@@ -44,9 +44,8 @@ namespace Game
 		protected readonly InventorySlotWidget m_cir1,
 												m_cir2;
 
-		public ElectricFurnaceWidget(IInventory inventory, ComponentElectricFurnace component, string path = "Widgets/ElectricFurnaceWidget") : base(inventory, component, path)
+		public FurnaceWidget(IInventory inventory, T component, string path) : base(inventory, component, path)
 		{
-			//m_component = component;
 			m_fire = Children.Find<FireWidget>("Fire");
 			m_resultSlot = Children.Find<InventorySlotWidget>("ResultSlot");
 			m_remainsSlot = Children.Find<InventorySlotWidget>("RemainsSlot");
@@ -55,10 +54,35 @@ namespace Game
 			m_cir2 = Children.Find<InventorySlotWidget>("CircuitSlot2", false);
 			m_progress = Children.Find<ValueBarWidget>("Progress");
 			InitGrid();
+		}
+	}
+
+	public class ElectricFurnaceWidget : FurnaceWidget<ComponentElectricFurnace>
+	{
+		public ElectricFurnaceWidget(IInventory inventory, ComponentElectricFurnace component, string path = "Widgets/ElectricFurnaceWidget") : base(inventory, component, path)
+		{
 			m_resultSlot.AssignInventorySlot(component, component.ResultSlotIndex);
 			m_remainsSlot.AssignInventorySlot(component, component.RemainsSlotIndex);
 			m_cir1.AssignInventorySlot(component, component.Cir1SlotIndex);
 			m_cir2.AssignInventorySlot(component, component.Cir2SlotIndex);
+		}
+
+		public override void Update()
+		{
+			m_fire.ParticlesPerSecond = m_component.HeatLevel > 0f ? 24f : 0f;
+			m_progress.Value = m_component.SmeltingProgress;
+			base.Update();
+		}
+	}
+
+	public class VaFurnaceWidget : FurnaceWidget<ComponentVaFurnace>
+	{
+		public VaFurnaceWidget(IInventory inventory, ComponentVaFurnace component, string path = "Widgets/VaFurnaceWidget") : base(inventory, component, path)
+		{
+			m_resultSlot.AssignInventorySlot(component, component.ResultSlotIndex);
+			m_remainsSlot.AssignInventorySlot(component, component.RemainsSlotIndex);
+			//m_cir1.AssignInventorySlot(component, component.Cir1SlotIndex);
+			//m_cir2.AssignInventorySlot(component, component.Cir2SlotIndex);
 		}
 
 		public override void Update()
