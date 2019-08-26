@@ -99,7 +99,7 @@ namespace Game
 					}
 					return;
 				}
-				v = Vector3.Normalize(worldItem.Velocity);
+				v = -CellFace.FaceToVector3(cellFace.Face);
 				worldItem.ToRemove = true;
 				if(Utils.SubsystemProjectiles.FireProjectile(worldItem.Value, position + 0.75f * v, 10f * v, Vector3.Zero, null) == null)
 				{
