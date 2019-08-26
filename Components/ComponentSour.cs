@@ -69,7 +69,7 @@ namespace Game
 				text = 1;
 				result[EmptyBucketBlock.Index] = 1;
 			}
-			else if (content < 255 && BlocksManager.Blocks[content] is FoodBlock || content == RottenMeatBlock.Index || content == RottenEggBlock.Index)
+			else if (content < 255 && BlocksManager.Blocks[content] is FoodBlock || content == RottenMeatBlock.Index || GetSlotValue(0) == ItemBlock.Index)
 			{
 				text = 1;
 			}
