@@ -325,7 +325,7 @@
     <Recipe Result="Si" ResultCount="1" RequiredHeatLevel="2000" a="QuartzPowder" b="CokeCoalPowder" Description="制取粗硅">
       "abab"
     </Recipe>
-    <Recipe Result="Gun-Steel" ResultCount="1" RequiredHeatLevel="2000" a="IronOrePowder" b="ChromiumOrePowder" c="NickelOrePowder" d="PlatinumOrePowder" Description="铁粉铬粉镍粉铂粉冶炼炮钢">
+    <Recipe Result="Gun-Steel" ResultCount="1" RequiredHeatLevel="2000" a="MeltingIron" b="MeltingChromium" c="MeltingNickel" d="PlatinumOrePowder" Description="铁铬镍铂粉冶炼炮钢">
       "abcd"
     </Recipe>
   </Smelting>

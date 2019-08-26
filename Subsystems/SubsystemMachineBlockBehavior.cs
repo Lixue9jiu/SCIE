@@ -1,6 +1,6 @@
 using Engine;
 using System.Collections.Generic;
-
+using TemplatesDatabase;
 namespace Game
 {
 	public class SubsystemHPressBlockBehavior : SubsystemInventoryBlockBehavior<ComponentHPress>
@@ -78,7 +78,13 @@ namespace Game
 	public class SubsystemCrusherBlockBehavior : SubsystemBlockBehavior
 	{
 		public override int[] HandledBlocks => new[] { CrusherBlock.Index };
+		public SubsystemPickables m_subsystemPickables;
 
+		public override void Load(ValuesDictionary valuesDictionary)
+		{
+			base.Load(valuesDictionary);
+			m_subsystemPickables = base.Project.FindSubsystem<SubsystemPickables>(throwOnError: true);
+		}
 		public override void OnHitByProjectile(CellFace cellFace, WorldItem worldItem)
 		{
 			if (!ComponentEngine.IsPowered(Utils.Terrain, cellFace.X, cellFace.Y, cellFace.Z) || worldItem.Velocity.Length() < 20f)
@@ -93,7 +99,10 @@ namespace Game
 			if (Terrain.ExtractContents(worldItem.Value) == 6)
 			{
 				for (l = 0; l < 5; l++)
-					Utils.SubsystemProjectiles.FireProjectile(79, position, -20f * v, Vector3.Zero, null);
+					if (Utils.SubsystemProjectiles.FireProjectile(79, position, -20f * v, Vector3.Zero, null) == null)
+					{
+						m_subsystemPickables.AddPickable(79, 1, position, 1f * (v), null);
+					}
 				worldItem.ToRemove = true;
 			}
 			else
@@ -104,7 +113,10 @@ namespace Game
 				{
 					var blockDropValue = list[l];
 					for (int i = 0; i <= blockDropValue.Count; i++)
-						Utils.SubsystemProjectiles.FireProjectile(blockDropValue.Value, position, -20f * v, Vector3.Zero, null);
+						if (Utils.SubsystemProjectiles.FireProjectile(blockDropValue.Value, position, -20f * v, Vector3.Zero, null)==null)
+						{
+							m_subsystemPickables.AddPickable(blockDropValue.Value, 1, position, 1f * (v), null);
+						}
 				}
 				worldItem.ToRemove = true;
 			}
@@ -114,7 +126,7 @@ namespace Game
 	public class SubsystemDiversionBlockBehavior : SubsystemBlockBehavior
 	{
 		public override int[] HandledBlocks => new[] { IceBlock.Index, DiversionBlock.Index };
-
+		public SubsystemPickables m_subsystemPickables;
 		public override void OnHitByProjectile(CellFace cellFace, WorldItem worldItem)
 		{
 			if (worldItem.ToRemove)
@@ -122,10 +134,17 @@ namespace Game
 			int value = SubsystemTerrain.Terrain.GetCellValue(cellFace.X, cellFace.Y, cellFace.Z);
 			if (Terrain.ExtractContents(value) != DiversionBlock.Index) return;
 			Vector3 v = CellFace.FaceToVector3(value - DiversionBlock.Index >> 14);
-			Utils.SubsystemProjectiles.FireProjectile(worldItem.Value, new Vector3(cellFace.X, cellFace.Y, cellFace.Z) + new Vector3(0.5f) + 0.75f * v, 30f * v, Vector3.Zero, null);
+			if (Utils.SubsystemProjectiles.FireProjectile(worldItem.Value, new Vector3(cellFace.X, cellFace.Y, cellFace.Z) + new Vector3(0.5f) + 0.75f * v, 30f * v, Vector3.Zero, null)==null)
+			{
+				m_subsystemPickables.AddPickable(worldItem.Value, 1, new Vector3(cellFace.X, cellFace.Y, cellFace.Z) + new Vector3(0.5f) + 0.75f * v, 1f * (v), null);
+			}
 			worldItem.ToRemove = true;
 		}
-
+		public override void Load(ValuesDictionary valuesDictionary)
+		{
+			base.Load(valuesDictionary);
+			m_subsystemPickables = base.Project.FindSubsystem<SubsystemPickables>(throwOnError: true);
+		}
 		public override void OnCollide(CellFace cellFace, float velocity, ComponentBody componentBody)
 		{
 			int x = cellFace.X,
@@ -140,7 +159,12 @@ namespace Game
 	public class SubsystemSpinnerBlockBehavior : SubsystemBlockBehavior
 	{
 		public override int[] HandledBlocks => new[] { SpinnerBlock.Index };
-
+		public SubsystemPickables m_subsystemPickables;
+		public override void Load(ValuesDictionary valuesDictionary)
+		{
+			base.Load(valuesDictionary);
+			m_subsystemPickables = base.Project.FindSubsystem<SubsystemPickables>(throwOnError: true);
+		}
 		public override void OnHitByProjectile(CellFace cellFace, WorldItem worldItem)
 		{
 			if (!ComponentEngine.IsPowered(Utils.Terrain, cellFace.X, cellFace.Y, cellFace.Z))
@@ -159,7 +183,10 @@ namespace Game
 				// {
 				//     int value = Terrain.ReplaceData(num2, 0);
 				//     base.SubsystemTerrain.ChangeCell(cellFace.X, cellFace.Y, cellFace.Z, value);
-				Utils.SubsystemProjectiles.FireProjectile(StringBlock.Index, position, -1f * v, Vector3.Zero, null);
+				if (Utils.SubsystemProjectiles.FireProjectile(StringBlock.Index, position, -1f * v, Vector3.Zero, null)==null)
+				{
+					m_subsystemPickables.AddPickable(StringBlock.Index, 1, position, -1f * (v), null);
+				}
 				worldItem.ToRemove = true;
 				//  }else
 				//  {
@@ -170,12 +197,18 @@ namespace Game
 			}
 			else if (Terrain.ExtractContents(worldItem.Value) == StringBlock.Index)
 			{
-				Utils.SubsystemProjectiles.FireProjectile(CanvasBlock.Index, position, -1f * v, Vector3.Zero, null);
+				if (Utils.SubsystemProjectiles.FireProjectile(CanvasBlock.Index, position, -1f * v, Vector3.Zero, null)==null)
+				{
+					m_subsystemPickables.AddPickable(CanvasBlock.Index, 1, position, -1f * (v), null);
+				}
 				worldItem.ToRemove = true;
 			}
 			else if (Terrain.ExtractContents(worldItem.Value) == CanvasBlock.Index)
 			{
-				Utils.SubsystemProjectiles.FireProjectile(CarpetBlock.Index, position, -1f * v, Vector3.Zero, null);
+				if(Utils.SubsystemProjectiles.FireProjectile(CarpetBlock.Index, position, -1f * v, Vector3.Zero, null) == null)
+				{
+					m_subsystemPickables.AddPickable(CarpetBlock.Index, 1, position, -1f * (v), null);
+				}
 				worldItem.ToRemove = true;
 			}
 		}
