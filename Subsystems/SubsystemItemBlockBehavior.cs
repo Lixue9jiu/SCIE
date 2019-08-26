@@ -20,6 +20,7 @@ namespace Game
 			return x.GetDispersionSystem().GetHashCode() - y.GetDispersionSystem().GetHashCode();
 		}
 	}
+
 	partial class Utils
 	{
 		public static TerrainGeometrySubsets GTV(int x, int z, TerrainGeometrySubsets geometry)
@@ -386,6 +387,7 @@ namespace Game
 			Utils.SubsystemAudio.PlaySound("Audio/BlockPlaced", 1f, 0f, position, 3f, true);
 			return true;
 		}
+
 		public override void OnCollide(CellFace cellFace, float velocity, ComponentBody componentBody)
 		{
 			if (cellFace.Face != 4)

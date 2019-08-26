@@ -85,7 +85,7 @@ namespace Game
 			"Au",
 			"Ag",
 			"Pb",
-			"pt",
+			"Pt",
 			"Zn",
 			"Sn",
 			"Cr",
