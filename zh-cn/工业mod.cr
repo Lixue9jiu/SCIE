@@ -10,6 +10,9 @@
     <Recipe Result="IronIngotBlock" ResultCount="1" RequiredHeatLevel="1500" a="IronOrePowder" Description="冶炼铁矿粉获得铁">
       "a"
     </Recipe>
+	<Recipe Result="IronIngotBlock" ResultCount="1" RequiredHeatLevel="1500" a="Fe" Description="冶炼铁粉获得铁">
+      "a"
+    </Recipe>
     <Recipe Result="IronIngotBlock" ResultCount="8" RequiredHeatLevel="2000" a="IronOrePowder" Description="冶炼铁矿粉获得铁">
       "aaaa"
     </Recipe>
@@ -40,6 +43,9 @@
     <Recipe Result="SilverIngot" ResultCount="1" RequiredHeatLevel="900" a="SilverOreChunk" Description="冶炼银矿石获得银">
       "a"
     </Recipe>
+	<Recipe Result="SilverIngot" ResultCount="1" RequiredHeatLevel="900" a="Ag" Description="冶炼银获得银">
+      "a"
+    </Recipe>
     <Recipe Result="SilverIngot" ResultCount="4" RequiredHeatLevel="900" a="SilverOreChunk" Description="冶炼银矿石获得银">
       "aaa"
     </Recipe>
@@ -55,6 +61,9 @@
     <Recipe Result="PlatinumIngot" ResultCount="1" RequiredHeatLevel="1800" a="PlatinumOreChunk" Description="冶炼铂矿石得到铂">
       "a"
     </Recipe>
+	<Recipe Result="PlatinumIngot" ResultCount="1" RequiredHeatLevel="1800" a="Pt" Description="冶炼铂得到铂">
+      "a"
+    </Recipe>
     <Recipe Result="PlatinumIngot" ResultCount="4" RequiredHeatLevel="1800" a="PlatinumOreChunk" Description="冶炼铂矿粉得到铂">
       "aaa"
     </Recipe>
@@ -67,6 +76,9 @@
     <Recipe Result="LeadIngot" ResultCount="1" RequiredHeatLevel="300" a="LeadRod" Description="冶炼铅棒获得铅">
       "a"
     </Recipe>
+	<Recipe Result="LeadIngot" ResultCount="1" RequiredHeatLevel="300" a="Pb" Description="冶炼铅获得铅">
+      "a"
+    </Recipe>
     <Recipe Result="LeadIngot" ResultCount="1" RequiredHeatLevel="300" a="LeadOreChunk" Description="冶炼铅矿石获得铅">
       "a"
     </Recipe>
@@ -76,6 +88,9 @@
     <Recipe Result="ZincIngot" ResultCount="1" RequiredHeatLevel="800" a="ZincOrePowder" b="CoalPowder" Description="冶炼锌矿粉获得锌">
       "abb"
     </Recipe>
+	<Recipe Result="ZincIngot" ResultCount="1" RequiredHeatLevel="800" a="Zn" b="CoalPowder" Description="冶炼锌粉获得锌">
+      "abb"
+    </Recipe>
     <Recipe Result="BrassIngot" ResultCount="1" RequiredHeatLevel="1200" a="CopperOrePowder" b="CoalPowder" c="ZincOrePowder" Description="冶炼铜矿粉锌矿粉碳粉获得黄铜">
       "acb"
     </Recipe>
@@ -83,6 +98,9 @@
       "ab"
     </Recipe>
     <Recipe Result="NickelIngot" ResultCount="1" RequiredHeatLevel="1200" a="NickelOrePowder" b="CoalPowder" c="pigment" Description="冶炼镍矿粉获得镍">
+      "abc"
+    </Recipe>
+	<Recipe Result="NickelIngot" ResultCount="1" RequiredHeatLevel="1200" a="Ni" b="CoalPowder" c="pigment" Description="冶炼镍粉获得镍">
       "abc"
     </Recipe>
     <Recipe Result="StannaryIngot" ResultCount="1" RequiredHeatLevel="300" a="StannaryOrePowder" Description="冶炼锡矿粉获得锡">
@@ -95,6 +113,9 @@
       "a"
     </Recipe>
     <Recipe Result="StannaryIngot" ResultCount="1" RequiredHeatLevel="300" a="StannaryOreChunk" Description="冶炼锡矿石获得锡">
+      "a"
+    </Recipe>
+	<Recipe Result="StannaryIngot" ResultCount="1" RequiredHeatLevel="300" a="Sn" Description="冶炼锡获得锡">
       "a"
     </Recipe>
     <Recipe Result="StannaryIngot" ResultCount="4" RequiredHeatLevel="300" a="StannaryOreChunk" Description="冶炼锡矿石获得锡">
@@ -187,6 +208,9 @@
     <Recipe Result="CopperIngotBlock" ResultCount="1" RequiredHeatLevel="1000" a="CopperOrePowder" Description="冶炼铜矿粉获得铜">
       "a"
     </Recipe>
+	<Recipe Result="CopperIngotBlock" ResultCount="1" RequiredHeatLevel="1000" a="Cu" Description="冶炼铜粉获得铜">
+      "a"
+    </Recipe>
     <Recipe Result="CopperIngotBlock" ResultCount="6" RequiredHeatLevel="1000" a="CopperOrePowder" Description="冶炼铜矿粉获得铜">
       "aaaa"
     </Recipe>
@@ -194,6 +218,9 @@
       "aaa"
     </Recipe>
     <Recipe Result="GermaniumChunkBlock" ResultCount="1" RequiredHeatLevel="900" a="GermaniumOrePowder" Description="冶炼锗矿粉以获得锗晶体">
+      "a"
+    </Recipe>
+	<Recipe Result="GermaniumChunkBlock" ResultCount="1" RequiredHeatLevel="900" a="Ge" Description="冶炼锗粉以获得锗晶体">
       "a"
     </Recipe>
     <Recipe Result="GermaniumChunkBlock" ResultCount="4" RequiredHeatLevel="900" a="germaniumorechunk:0" Description="冶炼锗矿石以获得锗晶体">
