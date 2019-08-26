@@ -122,13 +122,13 @@
     <Compile Include="Components\ComponentTGenerator.cs" />
     <Compile Include="Components\ComponentUnloader.cs" />
     <Compile Include="Components\ComponentVaFurnace.cs" />
-    <Compile Include="Components\ComponentVariant.cs" />
     <Compile Include="Components\ComponentCastMach.cs" />
     <Compile Include="Components\ComponentFireBox.cs" />
     <Compile Include="Components\ComponentEngine.cs" />
     <Compile Include="Components\ComponentPMachs.cs" />
     <Compile Include="Components\ComponentVehicles.cs" />
     <Compile Include="Components\ComponentMine.cs" />
+    <Compile Include="Components\ComponentVariant.cs" />
     <Compile Include="Components\ComponentNGui.cs" />
     <Compile Include="Components\ComponentPlayer.cs" />
     <Compile Include="Components\ComponentFireflySurround.cs" />

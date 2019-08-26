@@ -52,9 +52,9 @@ namespace Game
 	/// <typeparam name="T"></typeparam>
 	public class LockFreeQueue<T>
 	{
-		private int count;
-		private SingleLinkedNode<T> head;
-		private SingleLinkedNode<T> tail;
+		int count;
+		SingleLinkedNode<T> head;
+		SingleLinkedNode<T> tail;
 
 		/// <summary>
 		///     Initializes a new instance of the <see cref="LockFreeQueue&lt;T&gt;" /> class.
