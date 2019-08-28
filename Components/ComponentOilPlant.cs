@@ -91,7 +91,7 @@ namespace Game
 			if (GetSlotValue(0) == 786672 && GetSlotCount(0) > 0 && GetSlotValue(1) == ItemBlock.IdTable["CokeCoalPowder"] && GetSlotCount(1) > 0 && Terrain.ExtractContents(GetSlotValue(2)) == OakWoodBlock.Index)
 			{
 				text = 1;
-				result[ItemBlock.IdTable["Rubber"]] = 1;
+				result[ItemBlock.IdTable["Rubber"]] = 6;
 			}
 			return FindSmeltingRecipe(text);
 		}

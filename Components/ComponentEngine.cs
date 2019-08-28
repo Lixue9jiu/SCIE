@@ -94,9 +94,16 @@ namespace Game
 				m_music++;
 				if (SmeltingProgress >= 1.0)
 				{
-					for (int i = 0; i < m_furnaceSize; i++)
-						if (m_slots[i].Count > 0)
-							m_slots[i].Count--;
+					if (m_furnaceSize==1)
+					{
+						for (int i = 0; i < m_furnaceSize; i++)
+							if (m_slots[i].Count > 0)
+								m_slots[i].Count--;
+					}else
+					{
+						m_slots[RemainsSlotIndex].Count--;
+					}
+					
 					m_slots[ResultSlotIndex].Value = EmptyBucketBlock.Index;
 					m_slots[ResultSlotIndex].Count++;
 					m_smeltingRecipe = null;
@@ -119,7 +126,7 @@ namespace Game
 		public override void Load(ValuesDictionary valuesDictionary, IdToEntityMap idToEntityMap)
 		{
 			base.Load(valuesDictionary, idToEntityMap);
-			m_furnaceSize = SlotsCount - 2;
+			m_furnaceSize = SlotsCount - 3;
 			m_fireTimeRemaining = valuesDictionary.GetValue("FireTimeRemaining", 0f);
 			HeatLevel = valuesDictionary.GetValue("HeatLevel", 0f);
 		}
@@ -129,10 +136,16 @@ namespace Game
 			if (heatLevel < 100f)
 				return null;
 			string text = null;
-			for (int i = 0; i < m_furnaceSize; i++)
+			if (m_furnaceSize==1)
 			{
-				if (GetSlotCount(i) > 0)
-					if (Terrain.ExtractContents(base.GetSlotValue(i)) == WaterBucketBlock.Index)
+				if (GetSlotCount(0) > 0)
+					if (Terrain.ExtractContents(base.GetSlotValue(0)) == WaterBucketBlock.Index)
+						text = "bucket";
+			}
+			else
+			{
+				if (GetSlotCount(RemainsSlotIndex) > 0)
+					if (Terrain.ExtractContents(base.GetSlotValue(RemainsSlotIndex)) == WaterBucketBlock.Index)
 						text = "bucket";
 			}
 			if (text != null)

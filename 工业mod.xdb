@@ -83,7 +83,7 @@
     <EntityTemplate Name="SteamBoat" Guid="3f3abb7e-1ce4-43fa-9612-47d69bf788ba">
       <MemberComponentTemplate Name="BoatI" Guid="a372d5da-5307-4df6-929e-a51abcd70387" InheritanceParent="572b36f3-6ee6-442a-900f-b4caba94be39" />
       <MemberComponentTemplate Name="SteamEngine" Guid="e82420a9-10c6-4a2c-9ea5-725fffee2229" InheritanceParent="c93f7906-de35-4e94-ba6e-90cd55cd19d4">
-        <Parameter Name="SlotsCount" Guid="3ddd5623-a4c0-4ad5-85f8-813ef26dae6b" Value="19" Type="int" />
+        <Parameter Name="SlotsCount" Guid="3ddd5623-a4c0-4ad5-85f8-813ef26dae6b" Value="15" Type="int" />
       </MemberComponentTemplate>
       <MemberComponentTemplate Name="SimpleModel" Guid="459a8ad1-0db8-4604-9ee8-8504dbd3c7b1" InheritanceParent="cc5a4e72-0df9-4acf-a42e-ecb5a2a7baf5">
         <Parameter Name="ModelName" Guid="fe4ed206-297f-47ca-950a-930ea7d6e881" Value="Models/SteamBoat" Type="string" />
