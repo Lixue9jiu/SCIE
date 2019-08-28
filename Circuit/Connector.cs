@@ -237,7 +237,7 @@ namespace Game
 		public BlockMesh[] m_blockMeshes = new BlockMesh[16];
 
 		public BoundingBox[][] m_collisionBoxes = new BoundingBox[16][];
-		private readonly bool m_doubleSidedPlanks = true;
+		protected readonly bool m_doubleSidedPlanks = true;
 
 		public ElectricFences() : base("电栅栏", "通电后的电栅栏能对动物造成伤害", 300)
 		{

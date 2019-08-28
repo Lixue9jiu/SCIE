@@ -129,7 +129,7 @@ namespace Game
 			"燃气加热炉",
 			"玻璃退火窑",
 			"水泥回转窑",
-			"单晶炉",
+			//"单晶炉",
 		};
 
 		public override int GetFaceTextureSlot(int face, int value)
@@ -138,8 +138,8 @@ namespace Game
 		}
 		public override IEnumerable<int> GetCreativeValues()
 		{
-			var arr = new int[17 * 10];
-			for (int i = 0; i < 10; i++)
+			var arr = new int[17 * 9];
+			for (int i = 0; i < 9; i++)
 			{
 				arr[i * 17] = BlockIndex | i << 24;
 				for (int j = 1; j < 17; j++)
