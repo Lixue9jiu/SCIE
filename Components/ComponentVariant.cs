@@ -395,9 +395,10 @@ namespace Game
 			if (Period > 900 && OGenome != null)
 			{
 				genome = new Genome(OGenome, new float[OGenome.Length]);
-				float f = (float)LastTime / 6000;
+				float f = (float)LastTime / 9000;
 				if (f > 2.5f) goto a;
 				f = 1.5f - MathUtils.Cos(f * f / 2) / 2;
+				f = MathUtils.Min(f, 1.1f);
 				for (t = Trait.DayChaseRange; t <= Trait.NightChaseTime; t++)
 					if ((Utils.Random.Int() & 1) != 0)
 						genome[t] *= Utils.Random.UniformFloat(1f, f);

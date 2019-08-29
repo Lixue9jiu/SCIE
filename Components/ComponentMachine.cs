@@ -141,7 +141,10 @@ namespace Game
 			for (e = system.GetEnumerator(); e.MoveNext();)
 			{
 				int val = ChemicalBlock.Get(e.Current.Key.ToString());
+				if (ChemicalBlock.Get(val) == null)
+					return 0;
 				value = ChemicalBlock.Get(val).GetDamageDestructionValue();
+				
 				if (value != 0)
 				{
 					result.TryGetValue(value, out count);

@@ -14,7 +14,7 @@ namespace Game
 				{
 					m_smeltingRecipe = m_smeltingRecipe2;
 					SmeltingProgress = 0f;
-					if (m_fireTimeRemaining == 0f)
+					if (m_fireTimeRemaining <= 0f)
 						m_fireTimeRemaining = 1f;
 					//m_music = 0;
 				}
@@ -31,11 +31,13 @@ namespace Game
 			}
 			else if (m_smeltingRecipe != 0)
 			{
-				m_fireTimeRemaining = MathUtils.Min(m_fireTimeRemaining - 0.001f * dt, 1f);
+				m_fireTimeRemaining = MathUtils.Min(m_fireTimeRemaining - 0.001f* m_slots[0].Count * dt, 1f);
 				SmeltingProgress = 1f - m_fireTimeRemaining;
 				//m_fireTimeRemaining = SmeltingProgress;
 				if (SmeltingProgress >= 1f)
 				{
+					if (m_slots[0].Count > 0)
+						m_slots[0].Count--;
 					var e = result.GetEnumerator();
 					while (e.MoveNext())
 					{
@@ -46,8 +48,7 @@ namespace Game
 						SmeltingProgress = 0f;
 						m_updateSmeltingRecipe = true;
 					}
-					if (m_slots[0].Count > 0)
-						m_slots[0].Count--;
+					//if m_fireTimeRemaining = 1f;
 				}
 			}
 		}

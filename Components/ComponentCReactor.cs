@@ -127,9 +127,14 @@ namespace Game
 				m_speed = 0.1f;
 				result[ItemBlock.IdTable["H2SO4"]] = 1;
 				result[EmptyBucketBlock.Index] = 1;
+				result[ItemBlock.IdTable["S"]] = -1;
+				result[WaterBucketBlock.Index] = -1;
+				result[ItemBlock.IdTable["Bottle"]] = -1;
+
 			}
 			else
 			{
+				n = 0;
 				m_speed = 1f;
 				system = new ReactionSystem();
 				n = FindSmeltingRecipe(result, system, Condition.l, (ushort)heatLevel);
