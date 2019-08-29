@@ -103,20 +103,22 @@ namespace Game
 		{
 			"发酵池",
 			"沉淀池",
-			"分拣机"
+			"分拣机",
+			"钢箱子"
 		};
 
 		public static readonly string[] Descriptions = new[]
 		{
 			"发酵池，可以用腐烂的食物来发酵，生产硝石",
 			"沉淀池，可以用来沉淀某些特殊物质",
-			"分拣机，可以用来分拣不同物品"
+			"分拣机，可以用来分拣不同物品",
+			"钢箱子，更大的容积"
 		};
 
 		public override IEnumerable<int> GetCreativeValues()
 		{
-			var arr = new int[17 * 3];
-			for (int i = 0; i < 3; i++)
+			var arr = new int[17 * 4];
+			for (int i = 0; i < 4; i++)
 			{
 				arr[i * 17] = BlockIndex | i << 24;
 				for (int j = 1; j < 17; j++)
@@ -128,11 +130,13 @@ namespace Game
 		public override int GetFaceTextureSlot(int face, int value)
 		{
 			value = Terrain.ExtractData(value) >> 10;
-			if (value>=2)
+			if (value==2)
 				return 131;
+			if (value == 3)
+				return face == 4 || face == 5 ? 107 : face == (Terrain.ExtractData(value) >> 15) ? 106 : 107;
 			return value == 0 ? face == 4 ? 116 : 115 : face == 4 ? 224 : 107;
 		}
-
+		
 		public override string GetDescription(int value)
 		{
 			return Utils.Get(Descriptions[Terrain.ExtractData(value) >> 10]);

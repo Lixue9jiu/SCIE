@@ -73,6 +73,9 @@ namespace Game
 			else if (content < 255 && BlocksManager.Blocks[content] is FoodBlock || content == RottenMeatBlock.Index || GetSlotValue(0) == ItemBlock.Index)
 			{
 				text = 1;
+			}else if(content == RottenPumpkinBlock.Index)
+			{
+				text = 1;
 			}
 			if (text == 0)
 				return 0;

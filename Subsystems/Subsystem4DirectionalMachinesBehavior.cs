@@ -37,7 +37,8 @@ namespace Game
 		{
 			"Sour",
 			"Deposit",
-			"Sorter"
+			"Sorter",
+			"SChest"
 		};
 		public override int[] HandledBlocks => new[] { SourBlock.Index };
 
@@ -50,6 +51,10 @@ namespace Game
 		public override void OnHitByProjectile(CellFace cellFace, WorldItem worldItem)
 		{
 			if (worldItem.ToRemove)
+			{
+				return;
+			}
+			if (Terrain.ExtractData(Utils.Terrain.GetCellValueFast(cellFace.X, cellFace.Y, cellFace.Z))<2)
 			{
 				return;
 			}
@@ -133,6 +138,8 @@ namespace Game
 					return new SeparatorWidget(inventory, component, "Deposit");
 				case 2:
 					return new SorterWidget(inventory, component);
+				case 3:
+					return new SteelChestWidget(inventory, component);
 			}
 			return null;
 		}
