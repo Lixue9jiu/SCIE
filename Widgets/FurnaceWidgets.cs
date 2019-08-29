@@ -79,10 +79,10 @@ namespace Game
 	{
 		public VaFurnaceWidget(IInventory inventory, ComponentVaFurnace component, string path = "Widgets/VaFurnaceWidget") : base(inventory, component, path)
 		{
-			m_resultSlot.AssignInventorySlot(component, component.ResultSlotIndex);
-			m_remainsSlot.AssignInventorySlot(component, component.RemainsSlotIndex);
-			//m_cir1.AssignInventorySlot(component, component.Cir1SlotIndex);
-			//m_cir2.AssignInventorySlot(component, component.Cir2SlotIndex);
+			m_resultSlot.AssignInventorySlot(component, 4);
+			m_remainsSlot.AssignInventorySlot(component, 5);
+			m_cir1.AssignInventorySlot(component, 6);
+			m_cir2.AssignInventorySlot(component, 7);
 		}
 
 		public override void Update()

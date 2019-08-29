@@ -87,6 +87,8 @@ namespace Game
 		}
 		public override void OnHitByProjectile(CellFace cellFace, WorldItem worldItem)
 		{
+			if (worldItem.ToRemove)
+				return;
 			if (!ComponentEngine.IsPowered(Utils.Terrain, cellFace.X, cellFace.Y, cellFace.Z) || worldItem.Velocity.Length() < 20f)
 				return;
 			int l;
@@ -109,10 +111,17 @@ namespace Game
 			{
 				var list = new List<BlockDropValue>(8);
 				BlocksManager.Blocks[Terrain.ExtractContents(worldItem.Value)].GetDropValues(SubsystemTerrain, worldItem.Value, 0, 3, list, out bool s);
+				if (list.Count == 0)
+					return;
 				for (l = 0; l < list.Count; l++)
 				{
 					var blockDropValue = list[l];
-					for (int i = 0; i <= blockDropValue.Count; i++)
+					int a = 0;
+					if (blockDropValue.Count>1)
+					{
+						a = 1;
+					}
+					for (int i = 0; i < blockDropValue.Count+a; i++)
 						if (Utils.SubsystemProjectiles.FireProjectile(blockDropValue.Value, position, -20f * v, Vector3.Zero, null)==null)
 						{
 							m_subsystemPickables.AddPickable(blockDropValue.Value, 1, position, 1f * (v), null);

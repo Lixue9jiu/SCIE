@@ -9,6 +9,10 @@ namespace Game
 
 		public override int ResultSlotIndex => SlotsCount - 4;
 
+		public int Cir1SlotIndex => SlotsCount - 2;
+
+		public int Cir2SlotIndex => SlotsCount - 1;
+
 		protected ReactionSystem system;
 
 		public new void Update(float dt)
@@ -78,24 +82,39 @@ namespace Game
 				if (SmeltingProgress >= 1f)
 				{
 					var e = result.GetEnumerator();
+					for (int i = 0; i < 4; i++)
+							if (m_slots[i].Count > 0)
+								m_slots[i].Count--;
 					while (e.MoveNext())
 					{
 						Slot slot = m_slots[FindAcquireSlotForItem(this, e.Current.Key)];
-						slot.Value = e.Current.Key;
-						slot.Count += e.Current.Value;
+						m_slots[FindAcquireSlotForItem(this, e.Current.Key)].Value = e.Current.Key;
+						m_slots[FindAcquireSlotForItem(this, e.Current.Key)].Count += e.Current.Value;
 					}
-					for (int i = 0; i < m_furnaceSize; i++)
-						if (m_slots[i].Count > 0)
-							m_slots[i].Count--;
+					//
 					m_smeltingRecipe = 0;
 					SmeltingProgress = 0f;
 					m_updateSmeltingRecipe = true;
 				}
 			}
 		}
-
+		
 		protected override int FindSmeltingRecipe()
 		{
+			result.Clear();
+			int n = 0;
+			if (GetSlotValue(0)== ItemBlock.IdTable["Si"] && GetSlotValue(1) == ItemBlock.IdTable["Si"] && GetSlotValue(2) == ItemBlock.IdTable["Si"] && GetSlotValue(3) == ItemBlock.IdTable["Si"])
+			{
+				int x = m_random.Int() & 7;
+				if (x==1)
+				{
+					result[ItemBlock.IdTable["µ¥¾§¹è"]] = 1;
+				}
+				else
+				result[ItemBlock.IdTable["¶à¾§¹è"]] = 1;
+				n = 5;
+				return FindSmeltingRecipe(result, n);
+			}
 			system = new ReactionSystem();
 			return FindSmeltingRecipe(result, FindSmeltingRecipe(result, system));
 		}

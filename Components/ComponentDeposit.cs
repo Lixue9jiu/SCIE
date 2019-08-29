@@ -22,6 +22,11 @@ namespace Game
 				result[ItemBlock.IdTable["S-NaCl"]] = 1;
 				result[ItemBlock.IdTable["Bottle"]] = -1;
 			}
+			if (GetSlotValue(0) == ItemBlock.IdTable["QuartzPowder"])
+			{
+				text = 2;
+				result[ItemBlock.IdTable["SiO2"]] = 1;
+			}
 			return FindSmeltingRecipe(text);
 		}
 	}

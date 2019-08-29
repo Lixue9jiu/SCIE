@@ -130,6 +130,11 @@
     <Recipe Result="SteelIngot" ResultCount="1" RequiredHeatLevel="1500" Remains="ScrapIron" RemainsCount="2" a="ironingot" Description="冶炼铁锭以获得钢并去除硫">
       "aaa"
     </Recipe>
+	<Recipe Result="钢瓶" ResultCount="1" RequiredHeatLevel="0" a="SteelPlate" Description="用钢板制作钢瓶">
+      " a "
+	  "a a"
+	  " a "
+    </Recipe>
     <Recipe Result="MeltingIron" ResultCount="1" RequiredHeatLevel="2800" a="ironingot" Description="加热铁锭以获得融化的铁">
       "a"
     </Recipe>
@@ -783,6 +788,11 @@
       "aba"
       "bcb"
       "aba"
+    </Recipe>
+	<Recipe Result="SourBlock:3072" ResultCount="1" RequiredHeatLevel="0" a="SteelPlate" b="chest" Description="制作一个钢箱">
+      " a "
+      "aba"
+      " a "
     </Recipe>
     <Recipe Result="SqueezerBlock" ResultCount="1" RequiredHeatLevel="0" a="SteelGear" b="IndustrialPiston" c="metalblock:0" Description="制作一个挤压器来制作金属线">
       "aba"

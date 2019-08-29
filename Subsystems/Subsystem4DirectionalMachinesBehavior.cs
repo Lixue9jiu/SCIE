@@ -54,11 +54,32 @@ namespace Game
 			{
 				return;
 			}
-			if (Terrain.ExtractData(Utils.Terrain.GetCellValueFast(cellFace.X, cellFace.Y, cellFace.Z))<2)
+			if (Terrain.ExtractData(Utils.Terrain.GetCellValueFast(cellFace.X, cellFace.Y, cellFace.Z))<2048)
 			{
 				return;
 			}
 			ComponentBlockEntity blockEntity = m_subsystemBlockEntities.GetBlockEntity(cellFace.X, cellFace.Y, cellFace.Z);
+			if (Terrain.ExtractData(Utils.Terrain.GetCellValueFast(cellFace.X, cellFace.Y, cellFace.Z)) == 3*1024)
+			{
+				//ComponentBlockEntity blockEntity = m_subsystemBlockEntities.GetBlockEntity(cellFace.X, cellFace.Y, cellFace.Z);
+				if (blockEntity != null)
+				{
+					ComponentSorter inventory = blockEntity.Entity.FindComponent<ComponentSorter>(throwOnError: true);
+					Pickable pickable = worldItem as Pickable;
+					int num = pickable?.Count ?? 1;
+					int num2 = ComponentInventoryBase.AcquireItems(inventory, worldItem.Value, num);
+					if (num2 <= 0)
+					{
+						worldItem.ToRemove = true;
+					}
+					else if (pickable != null)
+					{
+						pickable.Count = num2;
+					}
+				}
+				return;
+			}
+			
 			Vector3 v = CellFace.FaceToVector3(cellFace.Face);
 			if (blockEntity != null)
 			{
