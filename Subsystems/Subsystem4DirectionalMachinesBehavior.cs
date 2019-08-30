@@ -83,6 +83,12 @@ namespace Game
 			Vector3 v = CellFace.FaceToVector3(cellFace.Face);
 			if (blockEntity != null)
 			{
+				Pickable pickable = worldItem as Pickable;
+				int num = pickable?.Count ?? 1;
+				if (num>1)
+				{
+					return;
+				}
 				var position = new Vector3(cellFace.Point) + new Vector3(0.5f);
 				ComponentSorter inventory = blockEntity.Entity.FindComponent<ComponentSorter>(throwOnError: true);
 				if(inventory.GetSlotValue(0)==worldItem.Value)

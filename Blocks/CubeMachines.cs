@@ -133,7 +133,7 @@ namespace Game
 			if (value==2)
 				return 131;
 			if (value == 3)
-				return face == 4 || face == 5 ? 107 : face == (Terrain.ExtractData(value) >> 15) ? 106 : 107;
+				return face == 4 || face == 5 ? 107 : 134;
 			return value == 0 ? face == 4 ? 116 : 115 : face == 4 ? 224 : 107;
 		}
 		
