@@ -149,6 +149,7 @@ namespace Game
 				new PurePowder("P₄O₆"),
 				new PurePowder("PCl₃"),
 				new PurePowder("PCl₅"),
+				new Cylinder("CH6"),
 			};
 			for (int i = 0; i < Cations.Length; i++)
 			{

@@ -1328,6 +1328,13 @@
       "cbc"
       "cac"
     </Recipe>
+	<Recipe Result="ABomb" ResultCount="1" RequiredHeatLevel="0" a="电容" b="SteelPlate" c="U235C" d="Circuit1" e="TNT" f="CopperWire" Description="制作手电筒">
+      "bbbbb"
+      "bcdfe"
+      "bc ce"
+	  "bcdfe"
+	  "bbbbb"
+    </Recipe>
     <Recipe Result="SteelIngot" ResultCount="1" RequiredHeatLevel="1400" a="SteelGear" Description="拆除钢制齿轮">
       "a"
     </Recipe>

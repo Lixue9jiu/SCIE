@@ -133,9 +133,18 @@ namespace Game
 							{
 								//int value23 = 0;
 								int va1 = inventory.GetSlotValue(i);
-								if (va1 == ItemBlock.IdTable["멀틸"] && ComponentInventoryBase.AcquireItems(inventory, ItemBlock.IdTable["NH3"], 1)==0)
+								if (Utils.Random.Bool(0.2f))
 								{
-									inventory.RemoveSlotItems(i,1);
+									if (va1 == ItemBlock.IdTable["멀틸"] && ComponentInventoryBase.AcquireItems(inventory, ItemBlock.IdTable["NH3"], 1) == 0)
+									{
+										inventory.RemoveSlotItems(i, 1);
+									}
+								}else
+								{
+									if (va1 == ItemBlock.IdTable["멀틸"] && ComponentInventoryBase.AcquireItems(inventory, ItemBlock.IdTable["CH6"], 1) == 0)
+									{
+										inventory.RemoveSlotItems(i, 1);
+									}
 								}
 							}
 							
