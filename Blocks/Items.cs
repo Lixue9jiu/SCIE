@@ -328,6 +328,7 @@ namespace Game
 				new AirPresser(),
 				new VaFurnace(),
 				new Centrifugal(),
+				new Workshop(),
 			};
 			IdTable = new Dictionary<string, int>(Items.Length)
 			{

@@ -4,7 +4,7 @@ namespace Game
 {
 	public class ComponentTGenerator : ComponentSeparator, IUpdateable
 	{
-		public override int FuelSlotIndex => SlotsCount - 2;
+		public override int FuelSlotIndex =>  - 2;
 
 		public new void Update(float dt)
 		{

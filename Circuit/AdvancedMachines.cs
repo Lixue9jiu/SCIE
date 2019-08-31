@@ -243,10 +243,6 @@ namespace Game
 	{
 		public Centrifugal() : base("离心机", "离心机，一种通过高速旋转来分离物品的机器", 310)
 		{
-			//DefaultDisplayName = DefaultDescription = "离心机";
-			//Voltage = 100;
-			//Name = "Separator";
-			//Type |= ElementType.Pipe;
 		}
 		public override void Simulate(ref int voltage)
 		{
@@ -262,6 +258,23 @@ namespace Game
 		public override Widget GetWidget(IInventory inventory, ComponentCentrifugal component)
 		{
 			return new SeparatorWidget(inventory, component, "Centrifugal");
+		}
+	}
+
+	public class Workshop : InventoryEntityDevice<ComponentLargeCraftingTable>
+	{
+		public Workshop() : base("车间", "车间，可以制造更多物品", 0)
+		{
+		}
+		public override int GetFaceTextureSlot(int face, int value)
+		{
+			//return face != 4 && face != 5 && face == (Terrain.ExtractData(value) >> 15) ? 240 : 147;
+			return face != 4 && face != 5 ?  107: 135;
+		}
+
+		public override Widget GetWidget(IInventory inventory, ComponentLargeCraftingTable component)
+		{
+			return new MachineToolWidget(inventory, component, "Widgets/MachineToolWidget2");
 		}
 	}
 
