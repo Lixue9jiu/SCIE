@@ -61,7 +61,7 @@ namespace Game
 			base.Load(valuesDictionary);
 			Utils.Load(Project);
 			//Utils.SubsystemItemsScanner.ItemsScanned += GarbageCollectItems;
-			var arr = valuesDictionary.GetValue("ChemData", "").Split(',');
+			var arr = valuesDictionary.GetValue("ChemData", "COCl2").Split(',');
 			int i;
 			for (i = 0; i < arr.Length; i++)
 			{

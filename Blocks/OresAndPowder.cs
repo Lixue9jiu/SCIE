@@ -63,6 +63,10 @@ namespace Game
 			new Color(34, 139, 34),
 			Color.White,
 			new Color(205, 190, 112),
+			Color.White,
+			Color.White,
+			Color.White,
+			Color.DarkYellow,
 		};
 
 		public string Id;

@@ -26,6 +26,7 @@ namespace Game
 		FeAlCrAlloy,
         Brass,
 		Plastic,
+		Vanadium
 	}
 	public class MetalBlock : PaintedCubeBlock, IElectricElementBlock
 	{
