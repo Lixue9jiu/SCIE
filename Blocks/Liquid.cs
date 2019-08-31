@@ -31,6 +31,7 @@ public class RottenMeatBlock : FluidBlock
 	public RottenMeatBlock() : base(1) { }
 	public override void Initialize()
 	{
+		//ContentManager.Dispose("IndustrialMod");
 		Colors = new[]
 		{
 			new Color(30, 30, 30),
