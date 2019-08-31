@@ -363,7 +363,7 @@
     <Recipe Result="Gun-Steel" ResultCount="1" RequiredHeatLevel="2000" a="MeltingIron" b="MeltingChromium" c="MeltingNickel" d="PlatinumOrePowder" Description="铁铬镍铂粉冶炼炮钢">
       "abcd"
     </Recipe>
-    <Recipe Result="V2O5" ResultCount="1" RequiredHeatLevel="1800" a="VanadiumPowder" Description="制取五氧化二钒">
+    <Recipe Result="V2O5" ResultCount="1" RequiredHeatLevel="1800" a="VanadiumOrePowder" Description="制取五氧化二钒">
       "a"
     </Recipe>
   </Smelting>

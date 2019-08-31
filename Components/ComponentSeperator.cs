@@ -236,9 +236,16 @@ namespace Game
 						if (x == 0)
 							result[PigmentBlock.Index] = 1;
 						else if (x == 1)
-							result[ItemBlock.IdTable["Ã÷·¯"]] = 1;
+							result[ItemBlock.IdTable["Alum"]] = 1;
 						else if (x == 2)
 							result[ItemBlock.IdTable["Plaster"]] = 1;
+						break;
+
+					case GravelBlock.Index:
+						text = 3;
+						x = m_random.Int() & 3;
+						if (x == 0)
+							result[ItemBlock.IdTable["Cryolite"]] = 1;
 						break;
 
 					case BasaltBlock.Index:
