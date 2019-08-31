@@ -81,6 +81,7 @@ namespace Game
 			}
 			return FindSmeltingRecipe(text);
 		}
+	}
 		public class ComponentUThicker : ComponentSeparator, IUpdateable
 		{
 
@@ -114,7 +115,7 @@ namespace Game
 		}
 
 
-	}
+	
 	public class ComponentSeparator : ComponentMachine, IUpdateable
 	{
 		public int Cir1SlotIndex => SlotsCount - 2;
