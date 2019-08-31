@@ -109,7 +109,7 @@ namespace Game
 		{
 			Id = "CokeCoalChunk";
 			DefaultDisplayName = Utils.Get("焦炭");
-			DefaultDescription = "焦炭看起来像炼焦煤获得的银块。 它可以用作工业领域中的燃料或还原剂。";
+			DefaultDescription = "焦炭看起来像炼焦煤获得的银块。它可以用作工业领域中的燃料或还原剂。";
 		}
 
 		public override string GetCategory() => "Items";

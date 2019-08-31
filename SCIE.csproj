@@ -168,7 +168,6 @@
     <Compile Include="Widgets\CovenWidget.cs" />
     <Compile Include="Widgets\ChargerWidget.cs" />
     <Compile Include="Widgets\CondenserWidget.cs" />
-    <Compile Include="Widgets\FireBoxWidget.cs" />
     <Compile Include="Widgets\EnginesWidget.cs" />
     <Compile Include="Widgets\NewChestWidget.cs" />
     <Compile Include="Widgets\MachineToolWidget.cs" />

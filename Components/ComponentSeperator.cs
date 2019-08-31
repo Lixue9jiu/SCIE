@@ -7,7 +7,6 @@ namespace Game
 {
 	public class ComponentCentrifugal : ComponentSeparator, IUpdateable
 	{
-		
 		protected override int FindSmeltingRecipe()
 		{
 			result.Clear();
@@ -16,7 +15,7 @@ namespace Game
 			for (i = 0; i < 1; i++)
 			{
 				if (GetSlotCount(i) <= 0) continue;
-				if (GetSlotValue(i)== ItemBlock.IdTable["UraniumOrePowder"])
+				if (GetSlotValue(i) == ItemBlock.IdTable["UraniumOrePowder"])
 				{
 					text = 6;
 					if (Utils.Random.Bool(0.007f))
@@ -82,11 +81,14 @@ namespace Game
 			}
 			return FindSmeltingRecipe(text);
 		}
-	
+	}
 
-    }
-	public class ComponentSeparator : ComponentMachine, IUpdateable
+	public class ComponentSeparator : ComponentMachine, IUpdateable, IElectricMachine
 	{
+		public int Cir1SlotIndex => SlotsCount - 2;
+
+		public int Cir2SlotIndex => SlotsCount - 1;
+
 		public bool Powered;
 
 		protected readonly Dictionary<int, int> result = new Dictionary<int, int>();
@@ -155,7 +157,7 @@ namespace Game
 			}
 			if (m_smeltingRecipe != 0)
 			{
-				SmeltingProgress = MathUtils.Min(SmeltingProgress + 0.1f  * dt, 1f);
+				SmeltingProgress = MathUtils.Min(SmeltingProgress + 0.1f * dt, 1f);
 				if (SmeltingProgress >= 1f)
 				{
 					var e = result.GetEnumerator();
@@ -167,7 +169,6 @@ namespace Game
 						slot.Value = e.Current.Key;
 						slot.Count += e.Current.Value;
 					}
-					
 					m_smeltingRecipe = 0;
 					SmeltingProgress = 0f;
 					m_updateSmeltingRecipe = true;
@@ -250,19 +251,26 @@ namespace Game
 
 					case CoalBlock.Index:
 						text = 4;
-						result[ItemBlock.IdTable["ÃºÔü"]] = 1;
+						result[ItemBlock.IdTable["Ashes"]] = 1;
 						x = m_random.Int() & 1;
 						if (x == 0)
 							result[ItemBlock.IdTable["Graphite"]] = 1;
 						break;
 				}
+				if (GetSlotValue(i) == ItemBlock.IdTable["Slag"] && (m_random.Int() & 1) != 0)
+				{
+					text = 5;
+					result[ItemBlock.IdTable["VanadiumPowder"]] = 1;
+				}
 			}
 			return FindSmeltingRecipe(text);
 		}
 	}
+
 	public class ComponentRecycler : ComponentSeparator
 	{
 		public override int RemainsSlotIndex => 10;
+
 		public static readonly int[] Prices = {
 			20,
 			50,
@@ -280,6 +288,7 @@ namespace Game
 			18,
 			15,
 		};
+
 		public Dictionary<string, int> Result = new Dictionary<string, int>();
 		public Dictionary<string, Dictionary<string, int>> Results = new Dictionary<string, Dictionary<string, int>>();
 
@@ -372,8 +381,9 @@ namespace Game
 				}
 			}
 			//if (Results[id] != null)
-				//Results[id][""] = min;
+			//Results[id][""] = min;
 		}
+
 		public override void Load(ValuesDictionary valuesDictionary, IdToEntityMap idToEntityMap)
 		{
 			Results.Clear();

@@ -4,7 +4,7 @@ using TemplatesDatabase;
 
 namespace Game
 {
-	public class ComponentElectricFurnace : ComponentFurnace, IUpdateable, ICraftingMachine
+	public class ComponentElectricFurnace : ComponentFurnace, IUpdateable, IElectricMachine
 	{
 		public int SlotIndex { get; set; }
 		public bool Powered;

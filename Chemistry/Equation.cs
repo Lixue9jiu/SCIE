@@ -39,7 +39,6 @@ namespace Chemistry
 		{
 			Reactants = new ReactionSystem();
 			Products = new ReactionSystem();
-			Catalysts = new Dictionary<Compound, int>();
 		}
 
 		/// <summary>
@@ -53,7 +52,6 @@ namespace Chemistry
 		public ReactionSystem Products;
 
 		public ushort Temperature, Rate, Heat, Conversion;
-		public Dictionary<Compound, int> Catalysts;
 		public Condition Conditions;
 
 		public static Equation Parse(string s)
@@ -66,13 +64,9 @@ namespace Chemistry
 				s = x[0];
 				e.Rate = ushort.Parse(x[1], ic);
 				if (x.Length >= 2) {
-					ReactionSystem.AddCompounds(e.Catalysts, x[2]);
+					e.Heat = ushort.Parse(x[3], ic);
 					if (x.Length >= 3)
-					{
-						e.Heat = ushort.Parse(x[3], ic);
-						if (x.Length >= 4)
-							e.Conversion = ushort.Parse(x[4], ic);
-					}
+						e.Conversion = ushort.Parse(x[4], ic);
 				}
 			}
 			var l = s.Split('=');

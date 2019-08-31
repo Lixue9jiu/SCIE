@@ -48,7 +48,6 @@ namespace Game
 						SmeltingProgress = 0f;
 						m_updateSmeltingRecipe = true;
 					}
-					//if m_fireTimeRemaining = 1f;
 				}
 			}
 		}

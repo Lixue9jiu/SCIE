@@ -9,10 +9,6 @@ namespace Game
 
 		public override int ResultSlotIndex => SlotsCount - 4;
 
-		public int Cir1SlotIndex => SlotsCount - 2;
-
-		public int Cir2SlotIndex => SlotsCount - 1;
-
 		protected ReactionSystem system;
 
 		public new void Update(float dt)
@@ -88,8 +84,8 @@ namespace Game
 					while (e.MoveNext())
 					{
 						Slot slot = m_slots[FindAcquireSlotForItem(this, e.Current.Key)];
-						m_slots[FindAcquireSlotForItem(this, e.Current.Key)].Value = e.Current.Key;
-						m_slots[FindAcquireSlotForItem(this, e.Current.Key)].Count += e.Current.Value;
+						slot.Value = e.Current.Key;
+						slot.Count += e.Current.Value;
 					}
 					//
 					m_smeltingRecipe = 0;
@@ -102,7 +98,6 @@ namespace Game
 		protected override int FindSmeltingRecipe()
 		{
 			result.Clear();
-			int n = 0;
 			if (GetSlotValue(0)== ItemBlock.IdTable["Si"] && GetSlotValue(1) == ItemBlock.IdTable["Si"] && GetSlotValue(2) == ItemBlock.IdTable["Si"] && GetSlotValue(3) == ItemBlock.IdTable["Si"])
 			{
 				int x = m_random.Int() & 7;
@@ -112,8 +107,7 @@ namespace Game
 				}
 				else
 				result[ItemBlock.IdTable["¶à¾§¹è"]] = 1;
-				n = 5;
-				return FindSmeltingRecipe(result, n);
+				return FindSmeltingRecipe(result, 5);
 			}
 			system = new ReactionSystem();
 			return FindSmeltingRecipe(result, FindSmeltingRecipe(result, system));

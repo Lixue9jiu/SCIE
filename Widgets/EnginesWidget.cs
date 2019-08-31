@@ -39,16 +39,11 @@ namespace Game
 
 	public class Engine2Widget : EngineAWidget
 	{
-		protected readonly InventorySlotWidget m_remainsSlot;
-		protected readonly InventorySlotWidget m_fuelSlot;
-		protected readonly InventorySlotWidget m_resultSlot;
+		protected new readonly InventorySlotWidget m_remainsSlot;
 		public Engine2Widget(IInventory inventory, ComponentMachine component) : base(inventory, component, "Widgets/Engine2Widget")
 		{
 			m_remainsSlot = Children.Find<InventorySlotWidget>("RemainsSlot");
-			m_fuelSlot = Children.Find<InventorySlotWidget>("FuelSlot");
-			m_resultSlot = Children.Find<InventorySlotWidget>("ResultSlot");
 			m_remainsSlot.AssignInventorySlot(component, component.RemainsSlotIndex);
-			m_fuelSlot.AssignInventorySlot(component, component.FuelSlotIndex);
 			m_resultSlot.AssignInventorySlot(component, component.ResultSlotIndex);
 		}
 
