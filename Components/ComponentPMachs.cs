@@ -37,6 +37,8 @@ namespace Game
 								text = "TalcumPowder";
 							else if (value == ItemBlock.IdTable["Plaster"])
 								text = "Gesso";
+							else if (value == 360515 || value==1074102339 || value ==537231427 || value == 1610973251)
+								text = "UraniumOrePowder";
 							else
 							{
 								var item = Item.Block.GetItem(ref value);

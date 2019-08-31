@@ -222,16 +222,46 @@ namespace Game
 		public UThickener()
 		{
 			DefaultDisplayName = DefaultDescription = "铀浓缩机";
+			Voltage = 100;
+			Name = "Separator";
+			//Type |= ElementType.Connector;
 		}
 
 		public override int GetFaceTextureSlot(int face, int value)
 		{
 			return face != 4 && face != 5 && face == (Terrain.ExtractData(value) >> 15) ? 131 : 221;
+			
 		}
 
 		public override Widget GetWidget(IInventory inventory, ComponentSeparator component)
 		{
 			return new SeparatorWidget(inventory, component, "UThinker");
+		}
+	}
+
+	public class Centrifugal : InventoryEntityDevice<ComponentCentrifugal>
+	{
+		public Centrifugal() : base("离心机", "离心机，一种通过高速旋转来分离物品的机器", 310)
+		{
+			//DefaultDisplayName = DefaultDescription = "离心机";
+			//Voltage = 100;
+			//Name = "Separator";
+			//Type |= ElementType.Pipe;
+		}
+		public override void Simulate(ref int voltage)
+		{
+			base.Simulate(ref voltage);
+			Component.Powered = Powered;
+		}
+		public override int GetFaceTextureSlot(int face, int value)
+		{
+			//return face != 4 && face != 5 && face == (Terrain.ExtractData(value) >> 15) ? 240 : 147;
+			return face != 4 && face != 5 ? face == (Terrain.ExtractData(value) >> 15) ? 240 : 241 : 147;
+		}
+
+		public override Widget GetWidget(IInventory inventory, ComponentCentrifugal component)
+		{
+			return new SeparatorWidget(inventory, component, "Centrifugal");
 		}
 	}
 

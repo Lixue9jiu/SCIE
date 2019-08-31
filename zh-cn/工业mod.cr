@@ -315,6 +315,9 @@
     <Recipe Result="ChromiumIngot" ResultCount="2" RequiredHeatLevel="1850" a="ChromiumLine" Description="将铬线铸造成铸锭">
       "aa"
     </Recipe>
+	<Recipe Result="ChromiumIngot" ResultCount="1" RequiredHeatLevel="1850" a="ChromiumOrePowder" b="CokeCoalPowder" Description="将铬粉铸造成铸锭">
+      "abb"
+    </Recipe>
     <Recipe Result="SteelIngot" ResultCount="1" RequiredHeatLevel="1400" a="SteelRod" Description="将钢棒锻造成铸锭">
       "a"
     </Recipe>
@@ -1112,6 +1115,12 @@
       "bdcb"
       "bcec"
     </Recipe>
+	<Recipe Result="Centrifugal" ResultCount="1" RequiredHeatLevel="0" a="CopperWire" b="不锈钢板" c="SteelGear" d="metalblock:32" e="Generator" f="Circuit1" g="Separator" Description="制作离心机以分离原材料">
+      "bffb"
+      "baab"
+      "bggb"
+      "bceb"
+    </Recipe>
     <Recipe Result="IEBatteryBlock:6" ResultCount="1" RequiredHeatLevel="0" a="ElectricMotor" b="SteelSheet" c="SteelRod" d="SteelPlate" e="CuZnBattery" f="SteelGear" Description="制作电锯">
       "bbbb"
       "bcfa"
@@ -1181,7 +1190,7 @@
       "acca"
       "bddb"
     </Recipe>
-    <Recipe Result="ElectricDriller" ResultCount="1" RequiredHeatLevel="0" a="CopperWire" b="SteelPlate" c="电容" d="metalblock:32" e="driller" f="memorybank" g="ElectricMotor" Description="制作一台电子挖矿机">
+    <Recipe Result="ElectricDriller" ResultCount="1" RequiredHeatLevel="0" a="CopperWire" b="SteelPlate" c="电容" d="metalblock:32" e="driller" f="Circuit1" g="ElectricMotor" Description="制作一台电子挖矿机">
       "ceec"
       "fddf"
       "fggf"
@@ -1191,6 +1200,18 @@
       " d "
       "aca"
       " d "
+    </Recipe>
+	<Recipe Result="电子二极管" ResultCount="2" RequiredHeatLevel="0" a="CopperWire" b="glass" c="CopperRod" d="AluminumPlate" e="StannaryIngot" f="多晶硅" Description="用铜棒，多晶硅，铝片，玻璃，锡锭制作电子二极管">
+      "cac"
+      "bfb"
+      "beb"
+	  "bdb"
+    </Recipe>
+	<Recipe Result="Circuit1" ResultCount="1" RequiredHeatLevel="0" a="CopperWire" b="电子二极管" c="germaniumchunk" d="memorybank" e="StannaryIngot" Description="用电子二极管，锡锭制作初级电路板">
+      "abba"
+      "beeb"
+      "cbbc"
+	  "adda"
     </Recipe>
     <Recipe Result="Charger" ResultCount="1" RequiredHeatLevel="0" a="CopperWire" b="WireDevice" c="metalblock:32" Description="充电放电装置，可以给电器充电也可以放电">
       "bbb"

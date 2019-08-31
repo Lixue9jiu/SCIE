@@ -5,6 +5,86 @@ using TemplatesDatabase;
 
 namespace Game
 {
+	public class ComponentCentrifugal : ComponentSeparator, IUpdateable
+	{
+		
+		protected override int FindSmeltingRecipe()
+		{
+			result.Clear();
+			int text = 0;
+			int i;
+			for (i = 0; i < 1; i++)
+			{
+				if (GetSlotCount(i) <= 0) continue;
+				if (GetSlotValue(i)== ItemBlock.IdTable["UraniumOrePowder"])
+				{
+					text = 6;
+					if (Utils.Random.Bool(0.007f))
+					{
+						result[ItemBlock.IdTable["U235P"]] = 1;
+					}
+					else
+					{
+						result[ItemBlock.IdTable["U238P"]] = 1;
+					}
+					//result[ItemBlock.IdTable["U238P"]] = 1;
+				}
+				int content = Terrain.ExtractContents(GetSlotValue(i)), x;
+				if (GetSlotValue(i) != content)
+					break;
+				switch (content)
+				{
+					case DirtBlock.Index:
+						text = 1;
+						result[SandBlock.Index] = 1;
+						result[StoneChunkBlock.Index] = 1;
+						x = m_random.Int() & 3;
+						if (x == 0)
+							result[SaltpeterChunkBlock.Index] = 1;
+						else if (x == 1)
+							result[ItemBlock.IdTable["AluminumOrePowder"]] = 1;
+						break;
+					case GraniteBlock.Index:
+						text = 2;
+						result[SandBlock.Index] = 1;
+						result[StoneChunkBlock.Index] = 1;
+						x = m_random.Int() & 7;
+						if (x == 0)
+							result[PigmentBlock.Index] = 1;
+						else if (x == 1)
+							result[ItemBlock.IdTable["Ã÷·¯"]] = 1;
+						else if (x == 2)
+							result[ItemBlock.IdTable["Plaster"]] = 1;
+						break;
+
+					case BasaltBlock.Index:
+						text = 3;
+						result[BasaltStairsBlock.Index] = 1;
+						x = m_random.Int() & 7;
+						if (x == 1)
+							result[ItemBlock.IdTable["»¬Ê¯"]] = 1;
+						break;
+
+					case CoalBlock.Index:
+						text = 4;
+						result[ItemBlock.IdTable["ÃºÔü"]] = 1;
+						x = m_random.Int() & 1;
+						if (x == 0)
+							result[ItemBlock.IdTable["Graphite"]] = 1;
+						break;
+					case SandBlock.Index:
+						text = 5;
+						result[ItemBlock.IdTable["B"]] = 1;
+						result[ItemBlock.IdTable["QuartzPowder"]] = 2;
+						result[StoneChunkBlock.Index] = 1;
+						break;
+				}
+			}
+			return FindSmeltingRecipe(text);
+		}
+	
+
+    }
 	public class ComponentSeparator : ComponentMachine, IUpdateable
 	{
 		public bool Powered;
@@ -23,6 +103,12 @@ namespace Game
 
 		public void Update(float dt)
 		{
+			Point3 coordinates = m_componentBlockEntity.Coordinates;
+			int cellValue = Utils.Terrain.GetCellValueFast(coordinates.X, coordinates.Y, coordinates.Z);
+			if (ElementBlock.Block.GetDevice(coordinates.X, coordinates.Y, coordinates.Z, cellValue) is Unpacker)
+			{
+				return;
+			}
 			if (HeatLevel > 0f)
 			{
 				m_fireTimeRemaining = MathUtils.Max(0f, m_fireTimeRemaining - dt);
@@ -69,7 +155,7 @@ namespace Game
 			}
 			if (m_smeltingRecipe != 0)
 			{
-				SmeltingProgress = MathUtils.Min(SmeltingProgress + 0.1f * dt, 1f);
+				SmeltingProgress = MathUtils.Min(SmeltingProgress + 0.1f  * dt, 1f);
 				if (SmeltingProgress >= 1f)
 				{
 					var e = result.GetEnumerator();
@@ -93,6 +179,7 @@ namespace Game
 		{
 			base.Load(valuesDictionary, idToEntityMap);
 			m_furnaceSize = SlotsCount - 1;
+			//m_updateSmeltingRecipe = true;
 		}
 
 		public int FindSmeltingRecipe(int value)
@@ -104,6 +191,24 @@ namespace Game
 		{
 			result.Clear();
 			int text = 0;
+			//
+			//if (ElementBlock.Block.GetDevice(coordinates.X, coordinates.Y, coordinates.Z, cellValue) is Centrifugal)
+			//{
+			//	if (GetSlotValue(0)== ItemBlock.IdTable["UraniumOrePowder"])
+			//	{
+			//		text = 8;
+			//		result[ItemBlock.IdTable["U235P"]] = 1;
+			//	}
+			//	return FindSmeltingRecipe(text);
+			//}
+			//if (ElementBlock.Block.GetDevice(coordinates.X, coordinates.Y, coordinates.Z, cellValue) is UThickener)
+			//{
+			//	return FindSmeltingRecipe(text);
+			//}
+			//if (ElementBlock.Block.GetDevice(coordinates.X, coordinates.Y, coordinates.Z, cellValue) is Unpacker)
+			//{
+			//	return FindSmeltingRecipe(text);
+			//}
 			int i;
 			for (i = 0; i < 1; i++)
 			{

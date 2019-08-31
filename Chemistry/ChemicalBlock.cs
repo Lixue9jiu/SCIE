@@ -135,6 +135,7 @@ namespace Game
 				new Bottle("HNO₃"),
 				new Bottle("饱和NaCl","S-NaCl", new Color(255, 255, 255)),
 				new Bottle("NaOH溶液","S-NaOH", new Color(255, 255, 255)),
+				new FuelPowder("B", Color.Black),
 			};
 			for (int i = 0; i < Cations.Length; i++)
 			{

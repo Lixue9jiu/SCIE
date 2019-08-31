@@ -53,7 +53,25 @@ namespace Game
 			ItemBlock.DrawFlatBlock(primitivesRenderer, value, size, ref matrix, ItemBlock.Texture, color, false, environmentData);
 		}
 	}
+	public class Circuit : FlatItem
+	{
+		public readonly string Id;
 
+		public Circuit(string craftingId, string name ,string name2)
+		{
+			Id = craftingId;
+			DefaultTextureSlot = 211;
+			DefaultDisplayName = name;
+			DefaultDescription = name2;
+		}
+
+		public override string GetCraftingId() => Id;
+
+		public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
+		{
+			ItemBlock.DrawFlatBlock(primitivesRenderer, value, size, ref matrix, ItemBlock.Texture, color, false, environmentData);
+		}
+	}
 	/*public class Diode : MeshItem
 	{
 		public Diode(string name) : base(name)
