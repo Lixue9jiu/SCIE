@@ -6,9 +6,8 @@ namespace Game
 {
 	public abstract class CubeMachBlock : PaintedCubeBlock
 	{
-		protected CubeMachBlock() : base(0)
-		{
-		}
+		protected CubeMachBlock() : base(0) { }
+
 		public override IEnumerable<int> GetCreativeValues()
 		{
 			var arr = new int[17];

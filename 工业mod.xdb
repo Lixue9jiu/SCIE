@@ -34,6 +34,12 @@
         <Parameter Name="Class" Guid="7f2a89ff-22f9-45aa-aae4-039ba73b12b6" Value="Game.ComponentOilPlant" Type="string" />
       </MemberComponentTemplate>
     </EntityTemplate>
+    <EntityTemplate Name="Centrifugal" Guid="26ffa288-af17-4966-81fa-aafaf97b92bf" InheritanceParent="9681f999-898b-4f5c-9ea8-f8cc331e97b3">
+      <MemberComponentTemplate Name="Centrifugal" Guid="0f473a24-ac7d-4b4c-97c7-df653ca11b51" InheritanceParent="81a44c6a-c30a-4f53-8d64-0c30aabab8f9">
+        <Parameter Name="SlotsCount" Guid="446d594d-f192-4311-9828-d30e0fbf33f1" Value="6" Type="int" />
+        <Parameter Name="Class" Guid="71338944-27f9-45aa-ffe4-039ba73b12b6" Value="Game.ComponentCentrifugal" Type="string" />
+      </MemberComponentTemplate>
+    </EntityTemplate>
     <EntityTemplate Name="AirPresser" Guid="16ffa299-af17-4955-81fa-aafaf97b92bd" InheritanceParent="9681f999-898b-4f5c-9ea8-f8cc331e97b3">
       <MemberComponentTemplate Name="AirPresser" Guid="9f414a13-ac7d-4b4c-97c7-df652ca11b51" InheritanceParent="81a44c6a-c30a-4f54-8d64-0c30aabab8fa">
         <Parameter Name="Class" Guid="7f4f8911-22f9-45aa-aae4-039ba73b12b6" Value="Game.ComponentAirPresser" Type="string" />
@@ -278,6 +284,11 @@
     <EntityTemplate Name="Sorter" Guid="b4f88a67-f47d-455f-9a43-803260a915a9" InheritanceParent="9681f999-898b-4f5c-9ea8-f8cc331e97b3">
       <MemberComponentTemplate Name="Sorter" Guid="e7f41772-dfe9-4331-900e-4c5f3ce25348" InheritanceParent="c93f7909-de35-4e94-ba6e-90cd55cd19d4">
         <Parameter Name="Class" Guid="125256fe-1d3c-467e-81bc-1796f686be51" Value="Game.ComponentSorter" Type="string" />
+      </MemberComponentTemplate>
+    </EntityTemplate>
+    <EntityTemplate Name="SChest" Guid="b5f99a67-f47d-455f-9a43-803260a915a9" InheritanceParent="b4f88a67-f47d-455f-9a43-803260a915a9">
+      <MemberComponentTemplate Name="Sorter" Guid="e7f41992-dfe1-4331-900e-4c5f3ce25348">
+        <Parameter Name="SlotsCount" Guid="7ded5979-a4c7-4ad5-85f9-813ef26dff6b" Value="25" Type="int" />
       </MemberComponentTemplate>
     </EntityTemplate>
     <EntityTemplate Name="CReactor" Guid="b4f43059-d37d-455f-9a43-803260a915a9" InheritanceParent="9681f999-898b-4f5c-9ea8-f8cc331e97b3">
