@@ -63,17 +63,15 @@ namespace Game
 		{
 			result.Clear();
 			int text = 0;
-			if (GetSlotCount(0) <= 0) return 0;
+			if (GetSlotCount(0) <= 0)
+				return 0;
 			int content = Terrain.ExtractContents(GetSlotValue(0));
 			if (content == RottenMilkBucketBlock.Index || content == RottenPumpkinSoupBucketBlock.Index)
 			{
 				text = 1;
 				result[EmptyBucketBlock.Index] = 1;
 			}
-			else if (content < 255 && BlocksManager.Blocks[content] is FoodBlock || content == RottenMeatBlock.Index || GetSlotValue(0) == ItemBlock.Index)
-			{
-				text = 1;
-			}else if(content == RottenPumpkinBlock.Index)
+			else if (content < 255 && BlocksManager.Blocks[content] is FoodBlock || content == RottenMeatBlock.Index || GetSlotValue(0) == ItemBlock.Index || content == RottenPumpkinBlock.Index)
 			{
 				text = 1;
 			}
