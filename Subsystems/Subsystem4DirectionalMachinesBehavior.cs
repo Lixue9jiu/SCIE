@@ -143,8 +143,8 @@ namespace Game
 		public override void Load(ValuesDictionary valuesDictionary)
 		{
 			base.Load(valuesDictionary);
-			m_subsystemBlockEntities = base.Project.FindSubsystem<SubsystemBlockEntities>(throwOnError: true);
-			m_subsystemPickables = base.Project.FindSubsystem<SubsystemPickables>(throwOnError: true);
+			m_subsystemBlockEntities = Project.FindSubsystem<SubsystemBlockEntities>(throwOnError: true);
+			m_subsystemPickables = Project.FindSubsystem<SubsystemPickables>(throwOnError: true);
 		}
 
 		public override bool OnInteract(TerrainRaycastResult raycastResult, ComponentMiner componentMiner)

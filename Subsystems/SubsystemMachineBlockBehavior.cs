@@ -83,7 +83,7 @@ namespace Game
 		public override void Load(ValuesDictionary valuesDictionary)
 		{
 			base.Load(valuesDictionary);
-			m_subsystemPickables = base.Project.FindSubsystem<SubsystemPickables>(throwOnError: true);
+			m_subsystemPickables = Project.FindSubsystem<SubsystemPickables>(throwOnError: true);
 		}
 		public override void OnHitByProjectile(CellFace cellFace, WorldItem worldItem)
 		{
@@ -152,7 +152,7 @@ namespace Game
 		public override void Load(ValuesDictionary valuesDictionary)
 		{
 			base.Load(valuesDictionary);
-			m_subsystemPickables = base.Project.FindSubsystem<SubsystemPickables>(throwOnError: true);
+			m_subsystemPickables = Project.FindSubsystem<SubsystemPickables>(throwOnError: true);
 		}
 		public override void OnCollide(CellFace cellFace, float velocity, ComponentBody componentBody)
 		{
@@ -172,7 +172,7 @@ namespace Game
 		public override void Load(ValuesDictionary valuesDictionary)
 		{
 			base.Load(valuesDictionary);
-			m_subsystemPickables = base.Project.FindSubsystem<SubsystemPickables>(throwOnError: true);
+			m_subsystemPickables = Project.FindSubsystem<SubsystemPickables>(throwOnError: true);
 		}
 		public override void OnHitByProjectile(CellFace cellFace, WorldItem worldItem)
 		{

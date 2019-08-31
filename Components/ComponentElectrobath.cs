@@ -10,11 +10,9 @@ namespace Game
 
 		protected readonly int[] result = new int[3];
 
-		protected string m_smeltingRecipe;
+		protected int m_smeltingRecipe, m_smeltingRecipe2;
 
 		//protected int m_music;
-
-		protected string m_smeltingRecipe2;
 
 		public override int RemainsSlotIndex => -1;
 
@@ -41,20 +39,20 @@ namespace Game
 					//m_music = 0;
 				}
 			}
-			if (m_smeltingRecipe2 != null)
+			if (m_smeltingRecipe2 != 0)
 			{
 				if (!Powered)
 				{
 					SmeltingProgress = 0f;
 					HeatLevel = 0f;
-					m_smeltingRecipe = null;
+					m_smeltingRecipe = 0;
 				}
-				else if (m_smeltingRecipe == null)
+				else if (m_smeltingRecipe == 0)
 					m_smeltingRecipe = m_smeltingRecipe2;
 			}
 			if (!Powered)
-				m_smeltingRecipe = null;
-			if (m_smeltingRecipe == null)
+				m_smeltingRecipe = 0;
+			if (m_smeltingRecipe == 0)
 			{
 				HeatLevel = 0f;
 				m_fireTimeRemaining = 0f;
@@ -64,16 +62,15 @@ namespace Game
 				m_fireTimeRemaining = 100f;
 			if (m_fireTimeRemaining <= 0f)
 			{
-				m_smeltingRecipe = null;
+				m_smeltingRecipe = 0;
 				SmeltingProgress = 0f;
 				//m_music = -1;
 			}
-			if (m_smeltingRecipe != null)
+			if (m_smeltingRecipe != 0)
 			{
 				SmeltingProgress = MathUtils.Min(SmeltingProgress + 0.1f * dt, 1f);
 				if (SmeltingProgress >= 1f)
 				{
-					
 					if (m_slots[0].Value == ItemBlock.IdTable["H2O"])
 					{
 						Point3 coordinates = m_componentBlockEntity.Coordinates;
@@ -88,30 +85,28 @@ namespace Game
 							Component component3 = entity.Entity.FindComponent<ComponentAirPresser>();
 							if (entity != null && component3 != null)
 							{
-
 								IInventory inventory = entity.Entity.FindComponent<ComponentAirPresser>(true);
 								for (int i = 0; i < 6; i++)
 								{
 									//int value23 = 0;
 									int va1 = inventory.GetSlotValue(i);
-									if (Utils.Random.Bool(0.50f))
+									if (Utils.Random.Bool(0.660f))
 									{
-										if (va1 == ItemBlock.IdTable["멀틸"] && ComponentInventoryBase.AcquireItems(inventory, ItemBlock.IdTable["H2"], 1) == 0)
-										{
-											inventory.RemoveSlotItems(i, 1);
-											i += 6;
-										}
-									}else
-									{
-										if (va1 == ItemBlock.IdTable["멀틸"] && ComponentInventoryBase.AcquireItems(inventory, ItemBlock.IdTable["O2"], 1) == 0)
+										if (va1 == ItemBlock.IdTable["멀틸"] && AcquireItems(inventory, ItemBlock.IdTable["H2"], 1) == 0)
 										{
 											inventory.RemoveSlotItems(i, 1);
 											i += 6;
 										}
 									}
-									
+									else
+									{
+										if (va1 == ItemBlock.IdTable["멀틸"] && AcquireItems(inventory, ItemBlock.IdTable["O2"], 1) == 0)
+										{
+											inventory.RemoveSlotItems(i, 1);
+											i += 6;
+										}
+									}
 								}
-
 							}
 						}
 					}
@@ -129,15 +124,14 @@ namespace Game
 							Component component3 = entity.Entity.FindComponent<ComponentAirPresser>();
 							if (entity != null && component3 != null)
 							{
-
 								IInventory inventory = entity.Entity.FindComponent<ComponentAirPresser>(true);
 								for (int i = 0; i < 6; i++)
 								{
 									//int value23 = 0;
 									int va1 = inventory.GetSlotValue(i);
-									if (Utils.Random.Bool(0.66f))
+									if (Utils.Random.Bool())
 									{
-										if (va1 == ItemBlock.IdTable["멀틸"] && ComponentInventoryBase.AcquireItems(inventory, ItemBlock.IdTable["H2"], 1) == 0)
+										if (va1 == ItemBlock.IdTable["멀틸"] && AcquireItems(inventory, ItemBlock.IdTable["H2"], 1) == 0)
 										{
 											inventory.RemoveSlotItems(i, 1);
 											i += 6;
@@ -145,15 +139,13 @@ namespace Game
 									}
 									else
 									{
-										if (va1 == ItemBlock.IdTable["멀틸"] && ComponentInventoryBase.AcquireItems(inventory, ItemBlock.IdTable["Cl2"], 1) == 0)
+										if (va1 == ItemBlock.IdTable["멀틸"] && AcquireItems(inventory, ItemBlock.IdTable["Cl2"], 1) == 0)
 										{
 											inventory.RemoveSlotItems(i, 1);
 											i += 6;
 										}
 									}
-
 								}
-
 							}
 						}
 					}
@@ -166,7 +158,7 @@ namespace Game
 							int value = result[j];
 							m_slots[1 + j].Value = value;
 							m_slots[1 + j].Count++;
-							m_smeltingRecipe = null;
+							m_smeltingRecipe = 0;
 							SmeltingProgress = 0f;
 							m_updateSmeltingRecipe = true;
 						}
@@ -181,12 +173,12 @@ namespace Game
 			m_furnaceSize = SlotsCount - 1;
 		}
 
-		protected string FindSmeltingRecipe()
+		protected int FindSmeltingRecipe()
 		{
-			bool text = false;
 			result[0] = 0;
 			result[1] = 0;
 			result[2] = 0;
+			int text = 0;
 			int i;
 			for (i = 0; i < m_furnaceSize; i++)
 			{
@@ -194,40 +186,42 @@ namespace Game
 				int value = GetSlotValue(i);
 				if (value == ItemBlock.IdTable["AluminumOrePowder"])
 				{
-					text = true;
-					result[0] = ItemBlock.IdTable["AluminumIngot"];
-					result[1] = 0;
-					result[2] = 0;
-					break;
+					text |= 1;
+				}
+				if (value == ItemBlock.IdTable["Cryolite"])
+				{
+					text |= 2;
 				}
 				if (value == ItemBlock.IdTable["H2O"])
 				{
-					text = true;
+					text = 8;
 					result[0] = ItemBlock.IdTable["Bottle"];
-					result[1] = 0;
-					result[2] = 0;
 					break;
 				}
 				if (value == ItemBlock.IdTable["S-NaCl"])
 				{
-					text = true;
+					text = 9;
 					result[0] = ItemBlock.IdTable["S-NaOH"];
-					result[1] = 0;
-					result[2] = 0;
 					break;
 				}
 			}
-			if (!text)
-				return null;
-			for (i = 0; i < 3; i++)
+			if ((text & 7) == 3)
+				result[0] = ItemBlock.IdTable["AluminumIngot"];
+			else
+				text &= ~3;
+			if (text != 0)
 			{
-				Slot slot = m_slots[1 + i];
-				if (slot.Count != 0 && result[i] != 0 && (slot.Value != result[i] || slot.Count >= 40))
-					return null;
+				for (i = 0; i < 3; i++)
+				{
+					Slot slot = m_slots[1 + i];
+					if (slot.Count != 0 && result[i] != 0 && (slot.Value != result[i] || slot.Count >= 40))
+						return 0;
+				}
 			}
-			return "AluminumOrePowder";
+			return text;
 		}
 	}
+
 	public class ComponentAirPresser : ComponentMachine
 	{
 		public bool Powered;
