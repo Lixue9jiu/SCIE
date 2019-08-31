@@ -940,6 +940,12 @@
       "beb"
       "ada"
     </Recipe>
+	<Recipe Result="Workshop" ResultCount="1" RequiredHeatLevel="0" a="Gearbox" b="SteelRod" c="Circuit1" d="machinetool" e="metalblock:32" Description="制造工业车间来制造更多工业产品">
+      "ebbe"
+      "cddc"
+      "caac"
+	  "ebbe"
+    </Recipe>
     <Recipe Result="CovenBlock" ResultCount="1" RequiredHeatLevel="0" a="RefractoryBrick" b="furnaceN:0" Description="制作焦炉以获得焦煤">
       "aaaa"
       "abba"
