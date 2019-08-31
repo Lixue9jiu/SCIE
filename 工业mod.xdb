@@ -40,6 +40,12 @@
         <Parameter Name="Class" Guid="71338944-27f9-45aa-ffe4-039ba73b12b6" Value="Game.ComponentCentrifugal" Type="string" />
       </MemberComponentTemplate>
     </EntityTemplate>
+	<EntityTemplate Name="Workshop" Guid="2611a299-af18-4966-81fa-aafaf97b92bf" InheritanceParent="9681f999-898b-4f5c-9ea8-f8cc331e97b3">
+      <MemberComponentTemplate Name="Workshop" Guid="5f484a24-ac7d-4b4c-97c7-df653ca11b51" InheritanceParent="84a2559e-10c7-4155-85b4-4a35bd55c956">
+	  <Parameter Name="SlotsCount" Guid="446d594d-f193-4344-9828-d30e0fbf33f1" Value="27" Type="int" />
+      <Parameter Name="Class" Guid="71668955-27f9-45ff-ffe4-039ba73b12b6" Value="Game.ComponentLargeCraftingTable" Type="string" />
+      </MemberComponentTemplate>
+    </EntityTemplate>
     <EntityTemplate Name="AirPresser" Guid="16ffa299-af17-4955-81fa-aafaf97b92bd" InheritanceParent="9681f999-898b-4f5c-9ea8-f8cc331e97b3">
       <MemberComponentTemplate Name="AirPresser" Guid="9f414a13-ac7d-4b4c-97c7-df652ca11b51" InheritanceParent="81a44c6a-c30a-4f54-8d64-0c30aabab8fa">
         <Parameter Name="Class" Guid="7f4f8911-22f9-45aa-aae4-039ba73b12b6" Value="Game.ComponentAirPresser" Type="string" />
