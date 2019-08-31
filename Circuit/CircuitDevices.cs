@@ -239,29 +239,29 @@ namespace Game
 			base.Simulate(ref voltage);
 			Component.Powered = Powered;
 		}
-        public override void OnBlockAdded(SubsystemTerrain subsystemTerrain, int value, int oldValue)
-        {
-            base.OnBlockAdded(subsystemTerrain, value, oldValue);
-            Component.Powered = false;
-        }
-        public override int GetFaceTextureSlot(int face, int value)
-        {
-            return face != 4 && face != 5 && face == (Terrain.ExtractData(value) >> 15) ? 165 : 107;
-        }
-        public override Widget GetWidget(IInventory inventory, ComponentElectricIFurnace component)
-        {
-            return new ElectricFurnaceWidget(inventory, component, "Widgets/ElectricIFurnaceWidget");
-        }
+		public override void OnBlockAdded(SubsystemTerrain subsystemTerrain, int value, int oldValue)
+		{
+			base.OnBlockAdded(subsystemTerrain, value, oldValue);
+			Component.Powered = false;
+		}
+		public override int GetFaceTextureSlot(int face, int value)
+		{
+			return face != 4 && face != 5 && face == (Terrain.ExtractData(value) >> 15) ? 165 : 107;
+		}
+		public override Widget GetWidget(IInventory inventory, ComponentElectricIFurnace component)
+		{
+			return new ElectricFurnaceWidget(inventory, component, "Widgets/ElectricIFurnaceWidget");
+		}
 	}
 
-    public class ElectricMotor : CubeDevice
-    {
-        public ElectricMotor() : base("电动机", "电动机是一种可以把电能转化为动能的机器", 310) { }
+	public class ElectricMotor : CubeDevice
+	{
+		public ElectricMotor() : base("电动机", "电动机是一种可以把电能转化为动能的机器", 310) { }
 		
 		public override int GetFaceTextureSlot(int face, int value)
-        {
-            return face == 4 || face == 5 ? 107 : 147;
-        }
+		{
+			return face == 4 || face == 5 ? 107 : 147;
+		}
 	}
 
 	public class Condenser : InteractiveEntityDevice<ComponentCondenser>, IElectricElementBlock, IItemAcceptableBlock
@@ -272,25 +272,25 @@ namespace Game
 			return (MachineMode)(data >> 14 & 1);
 		}
 		public override void Simulate(ref int voltage)
-        {
-            if (Component.Charged)
-            {
+		{
+			if (Component.Charged)
+			{
 				if ((voltage) > 0 && voltage<1024)
 				{
 					Component.m_fireTimeRemaining = MathUtils.Min(Component.m_fireTimeRemaining + voltage/10f, 1000000f);
 					voltage = 0;
 				}
 			}
-            else if (Component.m_fireTimeRemaining >= 310f)
-            {
+			else if (Component.m_fireTimeRemaining >= 310f)
+			{
 				Component.m_fireTimeRemaining -= 310f/10f;
 				voltage += 310;
-            }
-        }
-        public override int GetFaceTextureSlot(int face, int value)
-        {
-            return face == 4 || face == 5 ? 114 : 117;
-        }
+			}
+		}
+		public override int GetFaceTextureSlot(int face, int value)
+		{
+			return face == 4 || face == 5 ? 114 : 117;
+		}
 		public override Widget GetWidget(IInventory inventory, ComponentCondenser component)
 		{
 			return new CondenserWidget(inventory, component);
