@@ -15,7 +15,6 @@ namespace Game
 		{
 			result.Clear();
 			int text = 0;
-			int i;
 			if (GetSlotValue(0) == ItemBlock.IdTable["CrudeSalt"] && GetSlotValue(4) == CanvasBlock.Index && GetSlotValue(5) == ItemBlock.IdTable["Bottle"])
 			{
 				text = 1;

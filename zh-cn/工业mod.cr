@@ -130,10 +130,10 @@
     <Recipe Result="SteelIngot" ResultCount="1" RequiredHeatLevel="1500" Remains="ScrapIron" RemainsCount="2" a="ironingot" Description="冶炼铁锭以获得钢并去除硫">
       "aaa"
     </Recipe>
-	<Recipe Result="钢瓶" ResultCount="1" RequiredHeatLevel="0" a="SteelPlate" Description="用钢板制作钢瓶">
-      " a "
-	  "a a"
-	  " a "
+    <Recipe Result="钢瓶" ResultCount="1" RequiredHeatLevel="0" a="SteelPlate" Description="用钢板制作钢瓶">
+      " a"
+      "a a"
+      " a"
     </Recipe>
     <Recipe Result="MeltingIron" ResultCount="1" RequiredHeatLevel="2800" a="ironingot" Description="加热铁锭以获得融化的铁">
       "a"
@@ -315,7 +315,7 @@
     <Recipe Result="ChromiumIngot" ResultCount="2" RequiredHeatLevel="1850" a="ChromiumLine" Description="将铬线铸造成铸锭">
       "aa"
     </Recipe>
-	<Recipe Result="ChromiumIngot" ResultCount="1" RequiredHeatLevel="1850" a="ChromiumOrePowder" b="CokeCoalPowder" Description="将铬粉铸造成铸锭">
+    <Recipe Result="ChromiumIngot" ResultCount="1" RequiredHeatLevel="1850" a="ChromiumOrePowder" b="CokeCoalPowder" Description="将铬粉铸造成铸锭">
       "abb"
     </Recipe>
     <Recipe Result="SteelIngot" ResultCount="1" RequiredHeatLevel="1400" a="SteelRod" Description="将钢棒锻造成铸锭">
@@ -362,6 +362,9 @@
     </Recipe>
     <Recipe Result="Gun-Steel" ResultCount="1" RequiredHeatLevel="2000" a="MeltingIron" b="MeltingChromium" c="MeltingNickel" d="PlatinumOrePowder" Description="铁铬镍铂粉冶炼炮钢">
       "abcd"
+    </Recipe>
+    <Recipe Result="V2O5" ResultCount="1" RequiredHeatLevel="1800" a="VanadiumPowder" Description="制取五氧化二钒">
+      "a"
     </Recipe>
   </Smelting>
   <Materials>
@@ -792,7 +795,7 @@
       "bcb"
       "aba"
     </Recipe>
-	<Recipe Result="SourBlock:3072" ResultCount="1" RequiredHeatLevel="0" a="SteelPlate" b="chest" Description="制作一个钢箱">
+    <Recipe Result="SourBlock:3072" ResultCount="1" RequiredHeatLevel="0" a="SteelPlate" b="chest" Description="制作一个钢箱">
       " a "
       "aba"
       " a "
@@ -940,11 +943,11 @@
       "beb"
       "ada"
     </Recipe>
-	<Recipe Result="Workshop" ResultCount="1" RequiredHeatLevel="0" a="Gearbox" b="SteelRod" c="Circuit1" d="machinetool" e="metalblock:32" Description="制造工业车间来制造更多工业产品">
+    <Recipe Result="Workshop" ResultCount="1" RequiredHeatLevel="0" a="Gearbox" b="SteelRod" c="Circuit1" d="machinetool" e="metalblock:32" Description="制造工业车间来制造更多工业产品">
       "ebbe"
       "cddc"
       "caac"
-	  "ebbe"
+      "ebbe"
     </Recipe>
     <Recipe Result="CovenBlock" ResultCount="1" RequiredHeatLevel="0" a="RefractoryBrick" b="furnaceN:0" Description="制作焦炉以获得焦煤">
       "aaaa"
@@ -1121,7 +1124,7 @@
       "bdcb"
       "bcec"
     </Recipe>
-	<Recipe Result="Centrifugal" ResultCount="1" RequiredHeatLevel="0" a="CopperWire" b="不锈钢板" c="SteelGear" d="metalblock:32" e="Generator" f="Circuit1" g="Separator" Description="制作离心机以分离原材料">
+    <Recipe Result="Centrifugal" ResultCount="1" RequiredHeatLevel="0" a="CopperWire" b="不锈钢板" c="SteelGear" d="metalblock:32" e="Generator" f="Circuit1" g="Separator" Description="制作离心机以分离原材料">
       "bffb"
       "baab"
       "bggb"
@@ -1207,17 +1210,17 @@
       "aca"
       " d "
     </Recipe>
-	<Recipe Result="电子二极管" ResultCount="2" RequiredHeatLevel="0" a="CopperWire" b="glass" c="CopperRod" d="AluminumPlate" e="StannaryIngot" f="多晶硅" Description="用铜棒，多晶硅，铝片，玻璃，锡锭制作电子二极管">
+    <Recipe Result="电子二极管" ResultCount="2" RequiredHeatLevel="0" a="CopperWire" b="glass" c="CopperRod" d="AluminumPlate" e="StannaryIngot" f="多晶硅" Description="用铜棒，多晶硅，铝片，玻璃，锡锭制作电子二极管">
       "cac"
       "bfb"
       "beb"
-	  "bdb"
+      "bdb"
     </Recipe>
-	<Recipe Result="Circuit1" ResultCount="1" RequiredHeatLevel="0" a="CopperWire" b="电子二极管" c="germaniumchunk" d="memorybank" e="StannaryIngot" Description="用电子二极管，锡锭制作初级电路板">
+    <Recipe Result="Circuit1" ResultCount="1" RequiredHeatLevel="0" a="CopperWire" b="电子二极管" c="germaniumchunk" d="memorybank" e="StannaryIngot" Description="用电子二极管，锡锭制作初级电路板">
       "abba"
       "beeb"
       "cbbc"
-	  "adda"
+      "adda"
     </Recipe>
     <Recipe Result="Charger" ResultCount="1" RequiredHeatLevel="0" a="CopperWire" b="WireDevice" c="metalblock:32" Description="充电放电装置，可以给电器充电也可以放电">
       "bbb"

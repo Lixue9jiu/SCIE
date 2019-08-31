@@ -82,6 +82,7 @@ namespace Game
 				new PurePowder(Materials.Copper),
 				new PurePowder(Materials.Germanium),
 				new PurePowder(Materials.Vanadium),
+				new FuelPowder("B", Color.Black),
 				new FuelPowder("C", Color.Black),
 				new FuelPowder("S", Color.Yellow, 1500f, 30f),
 				new PurePowder("I₂", Color.DarkMagenta),
@@ -104,6 +105,21 @@ namespace Game
 				new Cylinder("(CN)₂"),
 				new Cylinder("Cl₂O"),
 				new Cylinder("ClO₂"),
+				new Bottle("H2O")
+				{
+					DefaultDisplayName = "蒸馏水"
+				},
+				new Bottle("H2SO4"),
+				new Bottle("H2SO3"),
+				new Bottle("HNO3"),
+				new Bottle("NaCl")
+				{
+					Id = "S-NaCl"
+				},
+				new Bottle("NaOH")
+				{
+					Id = "S-NaOH"
+				},
 				new Bottle(new ReactionSystem("Br₂"), new Color(111, 21, 12)),
 				new PurePowder("Na₂O"),
 				new PurePowder("Na₂O₂", Color.LightYellow),
@@ -133,19 +149,6 @@ namespace Game
 				new PurePowder("P₄O₆"),
 				new PurePowder("PCl₃"),
 				new PurePowder("PCl₅"),
-				new Bottle("蒸馏水","H2O"),
-				new Bottle("H2SO4"),
-				new Bottle("H2SO3"),
-				new Bottle("HNO₃"),
-				new Bottle(new ReactionSystem("NaCl"))
-				{
-					Id = "S-NaCl"
-				},
-				new Bottle(new ReactionSystem("NaOH"))
-				{
-					Id = "S-NaOH"
-				},
-				new FuelPowder("B", Color.Black),
 				new Cylinder("CH6"),
 			};
 			for (int i = 0; i < Cations.Length; i++)
@@ -330,8 +333,16 @@ namespace Game
 
 		public Bottle(string name, string id = null, Color color = default(Color)) : base(name)
 		{
-			System = ReactionSystem.Air;
-			Id = id ?? name;
+			if (id == null)
+			{
+				System = new ReactionSystem(name);
+				Id = name;
+			}
+			else
+			{
+				Id = id;
+				System = ReactionSystem.Air;
+			}
 			DefaultDisplayName = DefaultDescription;
 			if (color.PackedValue != 0u)
 				m_standaloneBlockMesh.AppendMesh("Models/Glass", "content", Matrix.CreateRotationX(MathUtils.PI) * Matrix.CreateScale(0.5f, 0.5f, 0.3f) * Matrix.CreateTranslation(0f, -0.4f, 0f), Matrix.CreateTranslation(-1 / 16f, 0f, 0f), color);

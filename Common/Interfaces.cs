@@ -12,6 +12,11 @@ namespace Game
 		int SlotIndex { get; set; }
 		CraftingRecipe GetRecipe();
 	}
+	public interface IElectricMachine : ICraftingMachine
+	{
+		int Cir1SlotIndex { get; }
+		int Cir2SlotIndex { get; }
+	}
 	public interface INode
 	{
 		//int GetWeight(int value = 0);
