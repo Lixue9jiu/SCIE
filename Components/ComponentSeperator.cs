@@ -82,8 +82,41 @@ namespace Game
 			return FindSmeltingRecipe(text);
 		}
 	}
+		public class ComponentUThicker : ComponentSeparator, IUpdateable
+		{
 
-	public class ComponentSeparator : ComponentMachine, IUpdateable, IElectricMachine
+			protected override int FindSmeltingRecipe()
+			{
+				result.Clear();
+				int text = 0;
+				int i;
+				for (i = 0; i < 1; i++)
+				{
+					if (GetSlotCount(i) <= 0) continue;
+					if (GetSlotValue(i) == ItemBlock.IdTable["U235P"] && GetSlotValue(4) == ItemBlock.IdTable["H2SO4"])
+					{
+						text = 8;
+						result[ItemBlock.IdTable["U235C"]] = 1;
+						result[ItemBlock.IdTable["Bottle"]] = 1;
+						result[ItemBlock.IdTable["H2SO4"]] = -1;
+					}
+					if (GetSlotValue(i) == ItemBlock.IdTable["U238P"] && GetSlotValue(4) == ItemBlock.IdTable["H2SO4"])
+					{
+						text = 9;
+						result[ItemBlock.IdTable["U238C"]] = 1;
+						result[ItemBlock.IdTable["Bottle"]] = 1;
+						result[ItemBlock.IdTable["H2SO4"]] = -1;
+					}
+				}
+				return FindSmeltingRecipe(text);
+			}
+
+
+		}
+
+
+	
+	public class ComponentSeparator : ComponentMachine, IUpdateable
 	{
 		public int Cir1SlotIndex => SlotsCount - 2;
 

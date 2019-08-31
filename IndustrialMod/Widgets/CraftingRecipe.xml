@@ -5,10 +5,10 @@
       <LabelWidget Name="CraftingRecipeWidget.Description" Font="{Fonts/Pericles18}" HorizontalAlignment="Center" VerticalAlignment="Near" TextAnchor="HorizontalCenter" WordWrap="true"/>
     </CanvasWidget>
     <CanvasWidget Name="CraftingRecipeWidget.Canvas" HorizontalAlignment="Center" Margin="0, 10">
-      <BevelledRectangleWidget Size="440, 300" BevelSize="3" />
-      <GridPanelWidget Name="CraftingRecipeWidget.Ingredients" CanvasWidget.Position="24, 32" ColumnsCount="4" RowsCount="4" Margin="0, 0"/>
-      <CraftingRecipeSlotWidget Name="CraftingRecipeWidget.Result" CanvasWidget.Position="353, 104"/>
-      <ArrowLineWidget Color="0, 0, 0, 96" Width="8" ArrowWidth="24" PointsString="280, 140; 320, 140" AbsoluteCoordinates="true"/>
+      <BevelledRectangleWidget Size="512, 372" BevelSize="3" />
+      <GridPanelWidget Name="CraftingRecipeWidget.Ingredients" CanvasWidget.Position="24, 32" ColumnsCount="5" RowsCount="5" Margin="0, 0"/>
+      <CraftingRecipeSlotWidget Name="CraftingRecipeWidget.Result" CanvasWidget.Position="425, 104"/>
+      <ArrowLineWidget Color="0, 0, 0, 96" Width="8" ArrowWidth="24" PointsString="352, 140; 392, 140" AbsoluteCoordinates="true"/>
     </CanvasWidget>
   </StackPanelWidget>
 </CraftingRecipeWidget>

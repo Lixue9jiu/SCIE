@@ -217,23 +217,22 @@ namespace Game
 		}
 	}
 
-	public class UThickener : Separator
+	public class UThickener : InventoryEntityDevice<ComponentUThicker>
 	{
-		public UThickener()
+		public UThickener() : base("铀浓缩机", "铀浓缩机，把粉末状的U浓缩成饼", 310)
 		{
-			DefaultDisplayName = DefaultDescription = "铀浓缩机";
-			Voltage = 100;
-			Name = "Separator";
-			//Type |= ElementType.Connector;
 		}
-
+		public override void Simulate(ref int voltage)
+		{
+			base.Simulate(ref voltage);
+			Component.Powered = Powered;
+		}
 		public override int GetFaceTextureSlot(int face, int value)
 		{
-			return face != 4 && face != 5 && face == (Terrain.ExtractData(value) >> 15) ? 131 : 221;
+			return face != 4 && face != 5 && face == (Terrain.ExtractData(value) >> 15) ? 136: 221;
 			
 		}
-
-		public override Widget GetWidget(IInventory inventory, ComponentSeparator component)
+		public override Widget GetWidget(IInventory inventory, ComponentUThicker component)
 		{
 			return new SeparatorWidget(inventory, component, "UThinker");
 		}

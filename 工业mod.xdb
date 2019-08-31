@@ -40,6 +40,12 @@
         <Parameter Name="Class" Guid="71338944-27f9-45aa-ffe4-039ba73b12b6" Value="Game.ComponentCentrifugal" Type="string" />
       </MemberComponentTemplate>
     </EntityTemplate>
+	<EntityTemplate Name="UThickener" Guid="2611a299-aa27-4966-81fa-aafaf97b92bf" InheritanceParent="9681f999-898b-4f5c-9ea8-f8cc331e97b3">
+      <MemberComponentTemplate Name="UThickener" Guid="0f486a24-af8d-4b4c-a7c7-df653ca11b51" InheritanceParent="81a44c6a-c30a-4f53-8d64-0c30aabab8f9">
+        <Parameter Name="SlotsCount" Guid="556d794d-f192-4314-9828-d30e0fbf44f1" Value="6" Type="int" />
+        <Parameter Name="Class" Guid="71348955-2719-45aa-ffe4-539ba73b12b6" Value="Game.ComponentUThicker" Type="string" />
+      </MemberComponentTemplate>
+    </EntityTemplate>
 	<EntityTemplate Name="Workshop" Guid="2611a299-af18-4966-81fa-aafaf97b92bf" InheritanceParent="9681f999-898b-4f5c-9ea8-f8cc331e97b3">
       <MemberComponentTemplate Name="Workshop" Guid="5f484a24-ac7d-4b4c-97c7-df653ca11b51" InheritanceParent="81a44c6a-c30a-4f53-8d64-0c30aabab8f9">
 	  <Parameter Name="SlotsCount" Guid="446d594d-f193-4344-9828-d30e0fbf33f1" Value="27" Type="int" />
