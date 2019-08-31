@@ -118,7 +118,7 @@ namespace Game
 	public class FireBoxBlock : FurnaceNBlock
 	{
 		public new const int Index = 532;
-		public static readonly string[] Names = new[]
+		public static readonly string[] Names =
 		{
 			"空气预热炉",
 			"退火炉",
@@ -169,7 +169,7 @@ namespace Game
 	{
 		public new const int Index = 504;
 
-		public static readonly string[] Names = new[]
+		public static readonly string[] Names =
 		{
 			"蒸汽机",
 			"斯特林发动机",
@@ -179,7 +179,7 @@ namespace Game
 			"柴油发动机",
 		};
 
-		public static readonly string[] Descriptions = new[]
+		public static readonly string[] Descriptions =
 		{
 			"早期工业时代的象征，是一项可以解放人力劳动力的伟大发明。",
 			"斯特林发动机",
@@ -189,7 +189,7 @@ namespace Game
 			"柴油发动机",
 		};
 
-		public static readonly int[] TSlots = new[]
+		public static readonly int[] TSlots =
 		{
 			// lit unlit
 			175<<8|143,

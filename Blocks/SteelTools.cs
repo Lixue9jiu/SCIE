@@ -136,7 +136,7 @@ namespace Game
 			return Utils.GetAdHocCraftingRecipe(Index, subsystemTerrain, ingredients, heatLevel);
 		}
 	}
-	public partial class Utils
+	partial class Utils
 	{
 		public static CraftingRecipe GetAdHocCraftingRecipe(int index, SubsystemTerrain subsystemTerrain, string[] ingredients, float heatLevel)
 		{

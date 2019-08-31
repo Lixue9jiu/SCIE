@@ -198,9 +198,9 @@ namespace Game
 			new MouldItem("Rectifier", "Models/MotionDetector", "MotionDetector", Matrix.CreateTranslation(new Vector3(0.5f)), Matrix.CreateScale(20f), "整流器", "整流器", 2f),
 			new MouldItem("ScR", "Models/Photodiode", "Photodiode", Matrix.CreateTranslation(new Vector3(0.5f)), Matrix.CreateScale(20f), "可控硅", "可控硅", 2f),
 			new MouldItem("LEDSheet", "Models/MotionDetector", "MotionDetector", Matrix.CreateTranslation(new Vector3(0.5f)), Matrix.CreateScale(20f), "LED贴片", "LED贴片", 2f),
-			//new Mould("Models/OBox", "Cube", Matrix.CreateTranslation(0.5f, 0.7f, 0.5f) * Matrix.CreateScale(0.6f), Matrix.CreateTranslation(4f, 3.8f, 0f), "A Cylinder made of alloy, Aluminum and steel, the neccessary part of many machine.", "Cube", 1.6f),
 			new Spring("弹簧", "弹簧"),
 			new Springboard("弹跳板", "弹跳板"),
+			//new Mould("Models/OBox", "Cube", Matrix.CreateTranslation(0.5f, 0.7f, 0.5f) * Matrix.CreateScale(0.6f), Matrix.CreateTranslation(4f, 3.8f, 0f), "A Cylinder made of alloy, Aluminum and steel, the neccessary part of many machine.", "Cube", 1.6f),
 			new Plate("散热片", Color.White, true)
 			.AppendMesh("Models/Ingots", "IronPlate", Matrix.CreateTranslation(0.5f, -0.6f, 0.5f) * Matrix.CreateScale(.5f), Matrix.Identity, Color.White)
 			.AppendMesh("Models/Ingots", "IronPlate", Matrix.CreateTranslation(0.5f, -0.3f, 0.5f) * Matrix.CreateScale(.5f), Matrix.Identity, Color.White)

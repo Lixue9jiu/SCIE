@@ -264,7 +264,7 @@ namespace Game
         }
 	}
 
-	public class Condenser : InteractiveEntityDevice<ComponentCondenser>, IElectricElementBlock
+	public class Condenser : InteractiveEntityDevice<ComponentCondenser>, IElectricElementBlock, IItemAcceptableBlock
 	{
 		public Condenser() : base("超大电容", "超大电容允许你存储一些电量，并在需要的时候释放出去") { Type = ElementType.Supply | ElementType.Connector; }
 		public static MachineMode GetMode(int data)
@@ -307,6 +307,9 @@ namespace Game
 		{
 			int? color = PaintableItemBlock.GetColor(Terrain.ExtractData(value));
 			return color.HasValue ? 1 << color.Value : 2147483647;
+		}
+		public new void OnHitByProjectile(CellFace cellFace, WorldItem worldItem)
+		{
 		}
 	}
 

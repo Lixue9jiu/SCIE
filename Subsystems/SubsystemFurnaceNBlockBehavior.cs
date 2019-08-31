@@ -26,7 +26,7 @@ namespace Game
 
 	public class SubsystemEngineBlockBehavior : SubsystemFurnaceBlockBehavior<ComponentMachine>
 	{
-		public static string[] Names = new[]
+		public static string[] Names =
 		{
 			"SteamEngine",
 			"HeatEngine",

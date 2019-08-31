@@ -9,7 +9,7 @@ namespace Game
 		public const int Index = 400;
 		public static Texture2D[] m_textures;
 
-		public static int[,] m_cornerType2Rotations = new[,]
+		public static int[,] m_cornerType2Rotations =
 		{
             //{OriginalRotation, TailRotation, TailBackRotation}
             {0,1,3 },
@@ -22,7 +22,7 @@ namespace Game
 			{1,0,2 }
 		};
 
-		public static int[,] m_rotations2CornerType = new[,]
+		public static int[,] m_rotations2CornerType =
 		{
             //{OriginalRotation, IsTailOnRight(true 1; false 0)}
             {1,0},
@@ -31,7 +31,7 @@ namespace Game
 			{2,6}
 		};
 
-		public static string[] m_displayNames = new[]
+		public static string[] m_displayNames =
 		{
 			"Factorio ",
 			"Factorio Fast ",

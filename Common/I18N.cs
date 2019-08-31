@@ -119,7 +119,7 @@ namespace Game
 			"汞",
 			"锗",
 			"Fe-Al-Cr合金",
-            "黄铜",
+			"黄铜",
 			"塑料",
 		};
 		public static Dictionary<string, string> TR;

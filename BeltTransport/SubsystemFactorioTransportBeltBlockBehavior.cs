@@ -15,10 +15,10 @@ namespace Game
 		public DrawBlockEnvironmentData m_drawBlockEnvironmentData = new DrawBlockEnvironmentData();
 		public Dictionary<Point3, FTBandItems> m_blocks = new Dictionary<Point3, FTBandItems>();
 		public double m_lastDrawtime = 0;
-		public int[] m_drawedTime = new[] { 0, 0, 0, 0 };
+		public int[] m_drawedTime = { 0, 0, 0, 0 };
 		public int FTBGeneratedCount = 0;
 
-		public static Vector3[] m_floorOffset = new[]
+		public static Vector3[] m_floorOffset =
 		{
 			new Vector3(-0.5f,0f,-0.5f),
 			new Vector3(0.5f,0f,-0.5f),
@@ -26,7 +26,7 @@ namespace Game
 			new Vector3(-0.5f,0f,0.5f)
 		};
 
-		public static Vector3[,,] m_slopeOffset = new[,,] {
+		public static Vector3[,,] m_slopeOffset = {
 			{
 				{
 					new Vector3(-0.5f,-0.5f,-0.5f),
@@ -85,7 +85,7 @@ namespace Game
 			}
 		};
 
-		public static Vector3[,,] m_cornerItemOffset = new[, ,]
+		public static Vector3[,,] m_cornerItemOffset =
 		{//rotation, side, process
                 {//0
                     {
@@ -217,7 +217,7 @@ namespace Game
 				}
 		};
 
-		public static int[] m_colorDrawScale = new[] { 16, 8, 4 };
+		public static int[] m_colorDrawScale = { 16, 8, 4 };
 
 		public override int[] HandledBlocks
 		{
@@ -322,7 +322,7 @@ namespace Game
 				m_blocks.Add(point, new FTBandItems(new FactorioTransportBelt(point, value), ++FTBGeneratedCount));
 		}
 
-		public static Point3[] m_surroundDirections = new[]
+		public static Point3[] m_surroundDirections =
 		{
 			new Point3(1,0,0),
 			new Point3(-1,0,0),
@@ -330,7 +330,7 @@ namespace Game
 			new Point3(0,0,-1)
 		};
 
-		public static Point3[] m_surroundDownDirections = new[]
+		public static Point3[] m_surroundDownDirections =
 		{
 			new Point3(1,-1,0),
 			new Point3(-1,-1,0),

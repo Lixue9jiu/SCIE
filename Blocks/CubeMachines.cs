@@ -99,7 +99,7 @@ namespace Game
 	{
 		public const int Index = 507;
 
-		public static readonly string[] Names = new[]
+		public static readonly string[] Names =
 		{
 			"发酵池",
 			"沉淀池",
@@ -107,11 +107,11 @@ namespace Game
 			"钢箱子"
 		};
 
-		public static readonly string[] Descriptions = new[]
+		public static readonly string[] Descriptions =
 		{
 			"发酵池，可以用腐烂的食物来发酵，生产硝石",
-			"沉淀池，可以用来沉淀某些特殊物质",
-			"分拣机，可以用来分拣不同物品",
+			"沉淀池，可用来沉淀某些特殊物质",
+			"分拣机，可用来分拣不同物品",
 			"钢箱子，更大的容积"
 		};
 
@@ -130,7 +130,7 @@ namespace Game
 		public override int GetFaceTextureSlot(int face, int value)
 		{
 			value = Terrain.ExtractData(value) >> 10;
-			if (value==2)
+			if (value == 2)
 				return 131;
 			if (value == 3)
 				return face == 4 || face == 5 ? 107 : face == (Terrain.ExtractData(value) >> 15) ? 106 : 107;

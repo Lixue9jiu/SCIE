@@ -24,7 +24,8 @@ namespace Game
 	public class ChemicalBlock : ItemBlock
 	{
 		public new const int Index = 517;
-		public static readonly Group[] Cations = new[]{
+		public static readonly Group[] Cations = 
+		{
 			new Group("Na⁺"),
 			new Group("Mg²⁺"),
 			new Group("Al³⁺"),
@@ -44,7 +45,8 @@ namespace Game
 			new Group("Pb²⁺"),
 			new Group("NH₄⁺"),
 		};
-		public static readonly Group[] Anions = new[]{
+		public static readonly Group[] Anions = 
+		{
 			new Group("OH⁻"),
 			new Group("F⁻"),
 			new Group("Cl⁻"),
