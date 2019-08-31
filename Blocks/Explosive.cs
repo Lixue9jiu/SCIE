@@ -185,6 +185,8 @@ namespace Game
 		{
 			return new BlockPlacementData { Value = value, CellFace = raycastResult.CellFace };
 		}
+
+		public override string GetCraftingId() => GetType().Name;
 	}
 
 	public class HBomb : ABomb, IFuel

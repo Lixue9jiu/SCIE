@@ -81,6 +81,7 @@ namespace Game
 				new PurePowder(Materials.Iron),
 				new PurePowder(Materials.Copper),
 				new PurePowder(Materials.Germanium),
+				new PurePowder(Materials.Vanadium),
 				new FuelPowder("C", Color.Black),
 				new FuelPowder("S", Color.Yellow, 1500f, 30f),
 				new PurePowder("I₂", Color.DarkMagenta),
@@ -123,6 +124,7 @@ namespace Game
 				new PurePowder("HgO", new Color(227, 23, 13)),
 				new PurePowder("PbO", Color.Yellow),
 				new PurePowder("PbO₂", Color.Black),
+				new PurePowder("V₂O₅", new Color(239, 120, 25)),
 				new PurePowder("CaC₂", new Color(25, 25, 25)),
 				new PurePowder("Mg₃N₂", Color.LightYellow),
 				new PurePowder("SiO₂"),
@@ -135,8 +137,14 @@ namespace Game
 				new Bottle("H2SO4"),
 				new Bottle("H2SO3"),
 				new Bottle("HNO₃"),
-				new Bottle("饱和NaCl","S-NaCl", new Color(255, 255, 255)),
-				new Bottle("NaOH溶液","S-NaOH", new Color(255, 255, 255)),
+				new Bottle(new ReactionSystem("NaCl"))
+				{
+					Id = "S-NaCl"
+				},
+				new Bottle(new ReactionSystem("NaOH"))
+				{
+					Id = "S-NaOH"
+				},
 				new FuelPowder("B", Color.Black),
 			};
 			for (int i = 0; i < Cations.Length; i++)

@@ -97,7 +97,11 @@ namespace Game
 			"Fe",
 			"Cu",
 			"Hg",
-			"Ge"
+			"Ge",
+			null,
+			null,
+			null,
+			"V"
 		};
 		public static readonly string[] Strings =
 		{
@@ -121,6 +125,7 @@ namespace Game
 			"Fe-Al-Cr合金",
 			"黄铜",
 			"塑料",
+			"钒"
 		};
 		public static Dictionary<string, string> TR;
 		/// <summary>
