@@ -86,15 +86,16 @@ namespace Game
 				if (SmeltingProgress >= 1f)
 				{
 					var e = result.GetEnumerator();
+					m_smeltingRecipe = 0;
+					SmeltingProgress = 0f;
+					m_updateSmeltingRecipe = true;
 					while (e.MoveNext())
 					{
 						Slot slot = m_slots[FindAcquireSlotForItem(this, e.Current.Key)];
 						slot.Value = e.Current.Key;
 						slot.Count += e.Current.Value;
 					}
-					m_smeltingRecipe = 0;
-					SmeltingProgress = 0f;
-					m_updateSmeltingRecipe = true;
+					
 				}
 			}
 		}
@@ -130,7 +131,7 @@ namespace Game
 				result[ItemBlock.IdTable["S"]] = -1;
 				result[WaterBucketBlock.Index] = -1;
 				result[ItemBlock.IdTable["Bottle"]] = -1;
-
+				return FindSmeltingRecipe(result, n);
 			}
 			else
 			{
