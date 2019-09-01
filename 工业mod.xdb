@@ -247,6 +247,10 @@
         <Parameter Name="ModelName" Guid="244ef777-297f-47ca-950a-930ea7d6e881" Value="Models/Tank" Type="string" />
         <Parameter Name="TextureOverride" Guid="77e14775-837a-4614-a9fe-b1f88d835b11" Value="Textures/SteamBoat" Type="string" />
       </MemberComponentTemplate>
+	  <MemberComponentTemplate Name="Mount" Guid="913f2b61-c83f-4f19-a13f-b2ed5ff96493">
+        <Parameter Name="MountOffset" Guid="36b3746a-89e1-6612-be70-a6b4aae705bc" Value="0,1.15,1.2" Type="Vector3" />
+        <Parameter Name="DismountOffset" Guid="bac8f8e4-b009-4fe1-b840-93843edd05b6" Value="0,1.5,0.4" Type="Vector3" />
+      </MemberComponentTemplate>
       <MemberComponentTemplate Name="Body" Guid="b6878818-ddd6-407b-bd4d-7be14c05d3eb">
         <Parameter Name="Mass" Guid="77127d38-1571-4971-a319-b21a8dc22175" Value="9000" Type="float" />
       </MemberComponentTemplate>

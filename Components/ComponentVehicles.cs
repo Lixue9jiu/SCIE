@@ -127,18 +127,19 @@ namespace Game
 				//rider = m_componentMount.Rider;
 				if (rider != null)
 				{
-					Vector3 xian1 = Vector3.Normalize(rider.ComponentCreature.ComponentCreatureModel.EyeRotation.ToForwardVector());
-					Vector3 xian2 = Vector3.Normalize(m_headBone.Transform.Forward);
-					float num2 = MathUtils.Acos(xian1.X * xian2.Z + xian1.Z * xian2.Y)*dt;
+					Vector3 xian = new Vector3(rider.ComponentCreature.ComponentCreatureModel.EyeRotation.ToForwardVector().X,0f, rider.ComponentCreature.ComponentCreatureModel.EyeRotation.ToForwardVector().Z);
+					Vector3 xian1 = Vector3.Normalize(xian);
+					Vector3 xian2 = Vector3.Normalize(m_componentBody.Matrix.Forward);
+					float num4 = xian1.X * xian2.X + xian1.Z * xian2.Z;
+					float num2 =  MathUtils.Acos(num4)*MathUtils.Sign(xian1.X*xian2.Z-xian1.Z*xian2.X);
+					//Vector3 xian3 = Vector3.Normalize(new Vector3(rider.ComponentCreature.ComponentCreatureModel.EyeRotation.ToForwardVector().X, rider.ComponentCreature.ComponentCreatureModel.EyeRotation.ToForwardVector().Y, 0f));
+					//float num5 = xian1.X * xian2.X + xian1.Y * xian2.Y;
+					//float num6 = MathUtils.Acos(num5) * MathUtils.Sign(xian3.X * xian2.Y - xian3.Y * xian2.X);
+					//float num44 = 0.1f;
 					//SetBoneTransform(m_headBone.Index, Matrix.CreateRotationY(num2));
 					//m_headBone.Transform.Forward = xian1;
-					m_headBone.Transform = m_headBone.Transform * Matrix.CreateRotationZ(num2);
+					m_headBone.Transform = m_headT * Matrix.CreateRotationZ(num2);
 				}
-				//m_headBone.Model_.CopyAbsoluteBoneTransformsTo
-				//Matrix m = m_headBone.Transform;
-				//Matrix.MultiplyRestricted(ref m, ref m, out Matrix.CreateRotationY(num2));
-				//componentBody.Rotation = Quaternion.CreateFromAxisAngle(Vector3.UnitY, num);
-				//rider.ComponentCreature.ComponentCreatureModel.EyeRotation.ToForwardVector()
 				if (componentBody.ImmersionFactor > 0.95f)
 				{
 					m_componentDamage.Damage(0.005f * dt);
@@ -146,9 +147,18 @@ namespace Game
 						rider.StartDismounting();
 				}
 				TurnOrder = 0f;
-				if (componentEngine4.HeatLevel <= 0f || componentBody.Mass > 1200f || !componentBody.StandingOnValue.HasValue)
+				if (componentEngine4.HeatLevel <= 0f || !componentBody.StandingOnValue.HasValue)
 					return;
-				return;
+				if (componentEngine2.HeatLevel == 499f && Utils.SubsystemTime.PeriodicGameTimeEvent(0.30, 0))
+				{
+					Vector3 xian77= new Vector3(rider.ComponentCreature.ComponentCreatureModel.EyeRotation.ToForwardVector().X, MathUtils.Clamp(rider.ComponentCreature.ComponentCreatureModel.EyeRotation.ToForwardVector().Y,-0.2f,0.2f), rider.ComponentCreature.ComponentCreatureModel.EyeRotation.ToForwardVector().Z);
+					//m_subsystemProjectiles.FireProjectile(value2, vector2 + 1.3f * dir, s * (vector31 + v4), Vector3.Zero, componentMiner.ComponentCreature);
+					Utils.SubsystemProjectiles.FireProjectile(Terrain.MakeBlockValue(214, 0, BulletBlock.SetBulletType(0, BulletBlock.BulletType.MiniBullet)),componentBody.Position+Vector3.Normalize(xian77)*1.8f+new Vector3(0f,1.5f,0f), Vector3.Normalize(xian77)*200f, Vector3.Zero, null);
+					Utils.SubsystemAudio.PlaySound("Audio/MusketFire", 1f, 0f, componentBody.Position, 10f, true);
+					componentBody.m_subsystemParticles.AddParticleSystem(new GunSmokeParticleSystem2(Utils.SubsystemTerrain, componentBody.Position + Vector3.Normalize(xian77) * 1.8f + new Vector3(0f, 1.8f, 0f), xian77));
+					//Utils.
+				}
+					return;
 			}
 			if (componentEngine3 != null)
 			{
@@ -449,6 +459,7 @@ namespace Game
 		public ModelBone m_bodyBone;
 		public ModelBone m_headBone;
 		public Matrix?[] m_boneTransforms;
+		public Matrix m_headT;
 		public Matrix? GetBoneTransform(int boneIndex)
 		{
 			return m_boneTransforms[boneIndex];
@@ -480,6 +491,7 @@ namespace Game
 				m_boneTransforms[0] = m_bodyBone.Transform;
 				m_headBone = m_model.FindBone("Head");
 				m_boneTransforms[1] = m_headBone.Transform;
+				m_headT= m_headBone.Transform;
 				//m_boneTransforms[0] = m_bodyBone;
 			}
 			else
