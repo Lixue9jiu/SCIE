@@ -124,9 +124,16 @@ namespace Game
 					MoveOrder = 0f;
 				}
 				//componentBody.
-				float num2 = 0.6f;
-				SetBoneTransform(m_headBone.Index, Matrix.CreateRotationY(num2));
-				componentBody.m_cachedMatrix = m_headBone.Transform * Matrix.CreateRotationY(num2);
+				//rider = m_componentMount.Rider;
+				if (rider != null)
+				{
+					Vector3 xian1 = Vector3.Normalize(rider.ComponentCreature.ComponentCreatureModel.EyeRotation.ToForwardVector());
+					Vector3 xian2 = Vector3.Normalize(m_headBone.Transform.Forward);
+					float num2 = MathUtils.Acos(xian1.X * xian2.Z + xian1.Z * xian2.Y)*dt;
+					//SetBoneTransform(m_headBone.Index, Matrix.CreateRotationY(num2));
+					//m_headBone.Transform.Forward = xian1;
+					m_headBone.Transform = m_headBone.Transform * Matrix.CreateRotationZ(num2);
+				}
 				//m_headBone.Model_.CopyAbsoluteBoneTransformsTo
 				//Matrix m = m_headBone.Transform;
 				//Matrix.MultiplyRestricted(ref m, ref m, out Matrix.CreateRotationY(num2));
