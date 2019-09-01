@@ -162,5 +162,6 @@ namespace Game
 
 	public class ComponentEngineT3 : ComponentEngineT
 	{
+		public Vector3 vet1;
 	}
 }

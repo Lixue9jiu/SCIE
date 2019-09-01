@@ -6,6 +6,7 @@ namespace Game
 {
 	public class ComponentNPlayer : ComponentPlayer, IUpdateable
 	{
+		public double m_time2=0f;
 		public new void Update(float dt)
 		{
 			PlayerInput playerInput = ComponentInput.PlayerInput;
@@ -146,6 +147,35 @@ namespace Game
 			var block = BlocksManager.Blocks[num];
 			float num2 = (m_subsystemGameInfo.WorldSettings.GameMode == GameMode.Creative || block is Musket2Block) ? 0.1f : 1.4f;
 			Vector3 viewPosition2 = View.ActiveCamera.ViewPosition;
+			if (mount != null && ComponentMiner.ActiveBlockValue==0)
+			{
+				var componentBoat44 = mount.Entity.FindComponent<ComponentEngineT3>();
+				if (playerInput.Aim.HasValue && componentBoat44 != null)
+				{
+					Vector2 value = playerInput.Aim.Value;
+					Vector3 v = View.ActiveCamera.ScreenToWorld(new Vector3(value, 1f), Matrix.Identity);
+					this.ComponentGui.ShowAimingSights(viewPosition2, Vector3.Normalize(v - viewPosition2));
+					componentBoat44.vet1 = Vector3.Normalize(v - viewPosition2);
+					if (componentBoat44.HeatLevel==499f)
+					{
+						componentBoat44.HeatLevel -= 10f;
+					}
+					
+					//if (componentBoat44.HeatLevel == 500f && m_subsystemTime.GameTime - m_time2>1f)
+					//{
+						//componentBoat44.HeatLevel -= 10f;
+				    m_time2 = m_subsystemTime.GameTime;
+					//}
+					return;
+				}
+				if (m_subsystemTime.GameTime-m_time2<2*dt)
+				{
+					if (componentBoat44.HeatLevel == 500f)
+						componentBoat44.HeatLevel -= 10f;
+						return;
+				}
+					
+			}
 			if (playerInput.Aim.HasValue && block.IsAimable && m_subsystemTime.GameTime - m_lastActionTime > num2)
 			{
 				if (!m_isAimBlocked)
