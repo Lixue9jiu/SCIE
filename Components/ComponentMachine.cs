@@ -35,6 +35,11 @@ namespace Game
 				if ((block is IFuel fuel ? fuel.GetHeatLevel(value) : block.FuelHeatLevel) < 1f)
 					return 0;
 			}
+			int v = GetSlotValue(slotIndex);
+			if ((v == 262384 || v == 786672 || v == 1048816 || v == 1310960 || v == WaterBlock.Index) && value!=v && v!=0)
+			{
+				return 0;
+			}
 			return base.GetSlotCapacity(slotIndex, value);
 		}
 

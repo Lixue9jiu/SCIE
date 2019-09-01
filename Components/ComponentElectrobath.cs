@@ -149,8 +149,11 @@ namespace Game
 							}
 						}
 					}
+					if (m_slots[0].Value == SaltpeterChunkBlock.Index)
+						m_slots[4].Count--;
 					if (m_slots[0].Count > 0)
 						m_slots[0].Count--;
+					
 					for (int j = 0; j < 3; j++)
 					{
 						if (result[j] != 0)
@@ -204,6 +207,13 @@ namespace Game
 					result[0] = ItemBlock.IdTable["S-NaOH"];
 					break;
 				}
+				if (GetSlotValue(0) == SaltpeterChunkBlock.Index && GetSlotValue(4)== ItemBlock.IdTable["Bottle"])
+				{
+					text =10;
+					result[0] = ItemBlock.IdTable["HNO3"];
+					break;
+				}
+				
 			}
 			if ((text & 7) == 3)
 				result[0] = ItemBlock.IdTable["AluminumIngot"];

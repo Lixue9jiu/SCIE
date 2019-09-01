@@ -11,7 +11,7 @@ public class RottenMeatBlock : FluidBlock
 		Oil,
 		OilBucket,
 		//Updraft = OilBucket,
-		LightOil,
+		LightOil,//3
 		HeavyOil,
 		Gasoline,//80
 		Hg,
@@ -20,12 +20,16 @@ public class RottenMeatBlock : FluidBlock
 		T2O,
 		RefinedGasoline,
 		Diesel,
-		GasolineBucket
+		GasolineBucket,
+		LightOilBucket,
+		HeavyOilBucket
 	}
 	public const int Index = 240;
 	public BlockMesh m_standaloneBlockMesh;
 	public BlockMesh StandaloneBlockMesh = new BlockMesh();
 	public BlockMesh StandaloneBlockMesh2;
+	public BlockMesh StandaloneBlockMesh3 = new BlockMesh();
+	public BlockMesh StandaloneBlockMesh4 = new BlockMesh();
 	public static Color[] Colors;
 
 	public RottenMeatBlock() : base(1) { }
@@ -46,6 +50,8 @@ public class RottenMeatBlock : FluidBlock
 			new Color(255, 231, 186),
 			new Color(184, 134, 11),
 			Color.White,
+			Color.White,
+			Color.White,
 			Color.White
 		};
 		var model = ContentManager.Get<Model>("Models/FullBucket");
@@ -54,6 +60,14 @@ public class RottenMeatBlock : FluidBlock
 		StandaloneBlockMesh.TransformTextureCoordinates(Matrix.CreateTranslation(0.8125f, 0.6875f, 0f));
 		meshParts = model.FindMesh("Bucket").MeshParts;
 		StandaloneBlockMesh.AppendModelMeshPart(meshParts[0], BlockMesh.GetBoneAbsoluteTransform(model.FindMesh("Bucket").ParentBone) * Matrix.CreateRotationY(MathUtils.PI) * Matrix.CreateTranslation(0f, -0.3f, 0f), false, false, false, false, Color.White);
+		meshParts = model.FindMesh("Contents").MeshParts;
+		StandaloneBlockMesh3.AppendModelMeshPart(meshParts[0], BlockMesh.GetBoneAbsoluteTransform(model.FindMesh("Contents").ParentBone) * Matrix.CreateRotationY(MathUtils.PI) * Matrix.CreateTranslation(0f, -0.3f, 0f), false, false, false, false, new Color(160, 82, 45));
+		StandaloneBlockMesh3.TransformTextureCoordinates(Matrix.CreateTranslation(0.8125f, 0.6875f, 0f));
+		StandaloneBlockMesh4.AppendModelMeshPart(meshParts[0], BlockMesh.GetBoneAbsoluteTransform(model.FindMesh("Contents").ParentBone) * Matrix.CreateRotationY(MathUtils.PI) * Matrix.CreateTranslation(0f, -0.3f, 0f), false, false, false, false, new Color(255, 231, 186));
+		StandaloneBlockMesh4.TransformTextureCoordinates(Matrix.CreateTranslation(0.8125f, 0.6875f, 0f));
+		meshParts = model.FindMesh("Bucket").MeshParts;
+		StandaloneBlockMesh3.AppendModelMeshPart(meshParts[0], BlockMesh.GetBoneAbsoluteTransform(model.FindMesh("Bucket").ParentBone) * Matrix.CreateRotationY(MathUtils.PI) * Matrix.CreateTranslation(0f, -0.3f, 0f), false, false, false, false, Color.White);
+		StandaloneBlockMesh4.AppendModelMeshPart(meshParts[0], BlockMesh.GetBoneAbsoluteTransform(model.FindMesh("Bucket").ParentBone) * Matrix.CreateRotationY(MathUtils.PI) * Matrix.CreateTranslation(0f, -0.3f, 0f), false, false, false, false,Color.White );
 		var rottenMeatBlock = new Game.RottenMeatBlock
 		{
 			DefaultShadowStrength = -1
@@ -70,8 +84,8 @@ public class RottenMeatBlock : FluidBlock
 	}
 	public override IEnumerable<int> GetCreativeValues()
 	{
-		var arr = new int[13];
-		for (int i = 0; i < 13; i++)
+		var arr = new int[15];
+		for (int i = 0; i < 15; i++)
 		{
 			arr[i] = Index | i << 18;
 		}
@@ -90,6 +104,12 @@ public class RottenMeatBlock : FluidBlock
 				return;
 			case Type.GasolineBucket:
 				BlocksManager.DrawMeshBlock(primitivesRenderer, StandaloneBlockMesh2, color, 2f * size, ref matrix, environmentData);
+				return;
+			case Type.HeavyOilBucket:
+				BlocksManager.DrawMeshBlock(primitivesRenderer, StandaloneBlockMesh3, color, 2f * size, ref matrix, environmentData);
+				return;
+			case Type.LightOilBucket:
+				BlocksManager.DrawMeshBlock(primitivesRenderer, StandaloneBlockMesh4, color, 2f * size, ref matrix, environmentData);
 				return;
 			case Type.OilBucket:
 			case Type.Asphalt:
@@ -127,7 +147,7 @@ public class RottenMeatBlock : FluidBlock
 	}
 	public override string GetCategory(int value)
 	{
-		return (GetType(value) == Type.OilBucket || GetType(value) == Type.GasolineBucket) ? "Tools" : GetType(value) != 0 ? "Terrain" : DefaultCategory;
+		return (GetType(value) == Type.OilBucket || GetType(value) == Type.GasolineBucket || GetType(value) == Type.LightOilBucket || GetType(value) == Type.HeavyOilBucket)  ? "Tools" : GetType(value) != 0 ? "Terrain" : DefaultCategory;
 	}
 	public override Vector3 GetIconViewOffset(int value, DrawBlockEnvironmentData environmentData)
 	{

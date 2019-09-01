@@ -23,6 +23,7 @@ namespace Game
 						while (enumerator.MoveNext())
 						{
 							var craftingRecipeSlotWidget = (CraftingRecipeSlotWidget)enumerator.Current;
+							craftingRecipeSlotWidget.Size = new Vector2(55f);
 							Point2 widgetCell = m_gridWidget.GetWidgetCell(craftingRecipeSlotWidget);
 							craftingRecipeSlotWidget.SetIngredient(m_recipe.Ingredients[widgetCell.X + widgetCell.Y * 6]);
 						}

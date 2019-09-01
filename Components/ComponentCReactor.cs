@@ -91,13 +91,44 @@ namespace Game
 					m_updateSmeltingRecipe = true;
 					while (e.MoveNext())
 					{
-						Slot slot = m_slots[FindAcquireSlotForItem(this, e.Current.Key)];
+						Slot slot = m_slots[FindAcquireSlotForItem(this, e.Current.Key, e.Current.Value)];
 						slot.Value = e.Current.Key;
 						slot.Count += e.Current.Value;
 					}
 					
 				}
 			}
+		}
+
+		public int FindAcquireSlotForItem(IInventory inventory, int value, int count)
+		{
+			if (count > 0)
+			{
+				for (int i = 0; i < inventory.SlotsCount; i++)
+				{
+					if (inventory.GetSlotCount(i) > 0 && inventory.GetSlotValue(i) == value && inventory.GetSlotCount(i) < inventory.GetSlotCapacity(i, value))
+					{
+						return i;
+					}
+				}
+				for (int j = 0; j < inventory.SlotsCount; j++)
+				{
+					if (inventory.GetSlotCount(j) == 0 && inventory.GetSlotCapacity(j, value) > 0)
+					{
+						return j;
+					}
+				}
+			}else
+			{
+				for (int i = 0; i < inventory.SlotsCount; i++)
+				{
+					if (inventory.GetSlotCount(i) > 0 && inventory.GetSlotValue(i) == value)
+					{
+						return i;
+					}
+				}
+			}
+			return -1;
 		}
 
 		public override void Load(ValuesDictionary valuesDictionary, IdToEntityMap idToEntityMap)
@@ -116,11 +147,17 @@ namespace Game
 				if (GetSlotCount(i) > 0)
 				{
 					if (value == ItemBlock.IdTable["S"])
-						n |= 1;
+						n += 1;
 					else if (value == WaterBucketBlock.Index)
-						n |= 2;
+						n += 2;
 					else if (value == ItemBlock.IdTable["Bottle"])
-						n |= 4;
+						n += 4;
+					else if (value == ItemBlock.IdTable["CH6"])
+						n += 8;
+					else if (value == ItemBlock.IdTable["Cl2"])
+						n += 9;
+					else if (value == ItemBlock.IdTable["HNO3"])
+						n += 10;
 				}
 			}
 			if (n == 7)
@@ -133,10 +170,21 @@ namespace Game
 				result[ItemBlock.IdTable["Bottle"]] = -1;
 				return FindSmeltingRecipe(result, n);
 			}
+			else if(n==27)
+			{
+				m_speed = 0.05f;
+				result[ItemBlock.IdTable["钢瓶"]] = 2;
+				result[ItemBlock.IdTable["CH6"]] = -1;
+				result[ItemBlock.IdTable["Cl2"]] = -1;
+				result[ItemBlock.IdTable["HNO3"]] = -1;
+				result[ItemBlock.IdTable["Bottle"]] = 1;
+				result[ItemBlock.IdTable["TNT"]] = 1;
+				return FindSmeltingRecipe(result, 8);
+			}
 			else
 			{
 				n = 0;
-				m_speed = 1f;
+				m_speed = 0.2f;
 				system = new ReactionSystem();
 				n = FindSmeltingRecipe(result, system, Condition.l, (ushort)heatLevel);
 				if (n == 0)

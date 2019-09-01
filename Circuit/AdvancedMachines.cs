@@ -43,6 +43,21 @@ namespace Game
 								voltage = 262384 << 10;
 								goto case -1;
 							}
+							else if (Terrain.ExtractData(Component.GetSlotValue(i)) >> 4 == 12)
+							{
+								voltage = (240 | 5 << 18) << 10;
+								goto case -1;
+							}
+							else if (Terrain.ExtractData(Component.GetSlotValue(i)) >> 4 == 13)
+							{
+								voltage = (240 | 3 << 18) << 10;
+								goto case -1;
+							}
+							else if (Terrain.ExtractData(Component.GetSlotValue(i)) >> 4 == 14)
+							{
+								voltage = (240 | 4 << 18) << 10;
+								goto case -1;
+							}
 							else
 							{
 								voltage = value << 10;

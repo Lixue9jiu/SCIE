@@ -153,8 +153,12 @@ namespace Game
 								}
 								else
 								{
-									a += 5;
-									b += 3;
+									Utils.SubsystemTerrain.ChangeCell(p.X, p.Y + b, p.Z, 0);
+									Utils.SubsystemPickables.AddPickable(value2, 1, new Vector3(p.X, p.Y + b, p.Z) + new Vector3(0.5f), null, null);
+									//m_subsystemPickables.AddPickable(v, 1, new Vector3(x2, y2, z2) + new Vector3(0.5f), null, null);
+									//m_subsystemTerrain.DestroyCell(block2.ToolLevel, x2, y2, z2, digValue.Value, false, false);
+									//a += 5;
+									//b += 3;
 								}
 							}
 						}
@@ -360,7 +364,7 @@ namespace Game
 				componentBody.IsGroundDragEnabled = false;
 				Quaternion rotation = componentBody.Rotation;
 				float num = MathUtils.Atan2(2f * rotation.Y * rotation.W - 2f * rotation.X * rotation.Z, 1f - 2f * rotation.Y * rotation.Y - 2f * rotation.Z * rotation.Z);
-				if ((m_turnSpeed += 2.5f * Utils.SubsystemTime.GameTimeDelta * (TurnOrder - m_turnSpeed)) != 0 && componentEngine.HeatLevel > 0f && MoveOrder != 0f)
+				if ((m_turnSpeed += 2.5f * Utils.SubsystemTime.GameTimeDelta * (TurnOrder - m_turnSpeed)) != 0 && componentEngine.HeatLevel > 0f)
 					num -= m_turnSpeed * dt;
 				componentBody.Rotation = Quaternion.CreateFromAxisAngle(Vector3.UnitY, num);
 				ComponentRider rider = m_componentMount.Rider;
