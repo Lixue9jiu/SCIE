@@ -40,15 +40,15 @@
         <Parameter Name="Class" Guid="71338944-27f9-45aa-ffe4-039ba73b12b6" Value="Game.ComponentCentrifugal" Type="string" />
       </MemberComponentTemplate>
     </EntityTemplate>
-	<EntityTemplate Name="UThickener" Guid="2611a299-aa27-4966-81fa-aafaf97b92bf" InheritanceParent="9681f999-898b-4f5c-9ea8-f8cc331e97b3">
+    <EntityTemplate Name="UThickener" Guid="2611a299-aa27-4966-81fa-aafaf97b92bf" InheritanceParent="9681f999-898b-4f5c-9ea8-f8cc331e97b3">
       <MemberComponentTemplate Name="UThickener" Guid="0f486a24-af8d-4b4c-a7c7-df653ca11b51" InheritanceParent="81a44c6a-c30a-4f53-8d64-0c30aabab8f9">
         <Parameter Name="SlotsCount" Guid="556d794d-f192-4314-9828-d30e0fbf44f1" Value="6" Type="int" />
         <Parameter Name="Class" Guid="71348955-2719-45aa-ffe4-539ba73b12b6" Value="Game.ComponentUThicker" Type="string" />
       </MemberComponentTemplate>
     </EntityTemplate>
-	<EntityTemplate Name="Workshop" Guid="2611a299-af18-4966-81fa-aafaf97b92bf" InheritanceParent="9681f999-898b-4f5c-9ea8-f8cc331e97b3">
+    <EntityTemplate Name="Workshop" Guid="2611a299-af18-4966-81fa-aafaf97b92bf" InheritanceParent="9681f999-898b-4f5c-9ea8-f8cc331e97b3">
       <MemberComponentTemplate Name="Workshop" Guid="5f484a24-ac7d-4b4c-97c7-df653ca11b51" InheritanceParent="81a44c6a-c30a-4f53-8d64-0c30aabab8f9">
-	  <Parameter Name="SlotsCount" Guid="446d594d-f193-4344-9828-d30e0fbf33f1" Value="27" Type="int" />
+      <Parameter Name="SlotsCount" Guid="446d594d-f193-4344-9828-d30e0fbf33f1" Value="27" Type="int" />
       <Parameter Name="Class" Guid="71668955-27f9-45ff-ffe4-039ba73b12b6" Value="Game.ComponentLargeCraftingTable" Type="string" />
       </MemberComponentTemplate>
     </EntityTemplate>
@@ -91,7 +91,7 @@
     </EntityTemplate>
     <EntityTemplate Name="TGenerator" Guid="1877a775-af18-4955-81fa-aafaf97b92bd" InheritanceParent="9681f999-898b-4f5c-9ea8-f8cc331e97b3">
       <MemberComponentTemplate Name="TGenerator" Guid="0f1aaf59-fc7d-4b4c-97c7-df652ca11b51" InheritanceParent="81a44c6a-c30a-4f54-8d64-0c30aabab8fa">
-	  <Parameter Name="SlotsCount" Guid="fb12aa6f-f972-431f-9828-d30e0fbf33f1" Value="6" Type="int" />
+      <Parameter Name="SlotsCount" Guid="fb12aa6f-f972-431f-9828-d30e0fbf33f1" Value="6" Type="int" />
         <Parameter Name="Class" Guid="1d8f9ff2-22f9-45bb-aae3-039ba73b22b6" Value="Game.ComponentTGenerator" Type="string" />
       </MemberComponentTemplate>
     </EntityTemplate>
@@ -238,23 +238,23 @@
         <Parameter Name="Mass" Guid="ae127d38-1571-4901-a319-b21a8dc22175" Value="1000" Type="float" />
       </MemberComponentTemplate>
     </EntityTemplate>
-	<EntityTemplate Name="Tank" Guid="3f4a127e-2ce4-43fa-9612-47d69bf788ba" InheritanceParent="3f3acc8e-1ce4-43fa-9614-47d69bf788ba">
+    <EntityTemplate Name="Tank" Guid="3f4a127e-2ce4-43fa-9612-47d69bf788ba" InheritanceParent="3f3acc8e-1ce4-43fa-9614-47d69bf788ba">
       <MemberComponentTemplate Name="EngineT2" Guid="f82ff5a9-10c6-4a2c-9ea5-725fffee2225" InheritanceParent="81a44c6a-c30a-4f53-8d64-0c30aabab8f9">
         <Parameter Name="Class" Guid="2b1c662e-2d3c-467e-81bc-1796f68fbe52" Value="Game.ComponentEngineT3" Type="string" />
-		<Parameter Name="SlotsCount" Guid="3d777734-a4c4-4ad5-85f8-814ef26dae6b" Value="11" Type="int" />
+        <Parameter Name="SlotsCount" Guid="3d777734-a4c4-4ad5-85f8-814ef26dae6b" Value="11" Type="int" />
       </MemberComponentTemplate>
       <MemberComponentTemplate Name="SimpleModel" Guid="488a1fd2-0db8-4684-9ee8-8504dbd3c7b1">
         <Parameter Name="ModelName" Guid="244ef777-297f-47ca-950a-930ea7d6e881" Value="Models/Tank" Type="string" />
         <Parameter Name="TextureOverride" Guid="77e14775-837a-4614-a9fe-b1f88d835b11" Value="Textures/SteamBoat" Type="string" />
       </MemberComponentTemplate>
-	  <MemberComponentTemplate Name="Mount" Guid="913f2b61-c83f-4f19-a13f-b2ed5ff96493">
+      <MemberComponentTemplate Name="Mount" Guid="913f2b61-c83f-4f19-a13f-b2ed5ff96493">
         <Parameter Name="MountOffset" Guid="36b3746a-89e1-6612-be70-a6b4aae705bc" Value="0,1.15,1.2" Type="Vector3" />
         <Parameter Name="DismountOffset" Guid="bac8f8e4-b009-4fe1-b840-93843edd05b6" Value="0,1.5,0.4" Type="Vector3" />
       </MemberComponentTemplate>
       <MemberComponentTemplate Name="Body" Guid="b6878818-ddd6-407b-bd4d-7be14c05d3eb">
         <Parameter Name="Mass" Guid="77127d38-1571-4971-a319-b21a8dc22175" Value="9000" Type="float" />
       </MemberComponentTemplate>
-	  <MemberComponentTemplate Name="Damage" Guid="fb61728d-8ff3-41bd-b693-545dea83af91">
+      <MemberComponentTemplate Name="Damage" Guid="fb61728d-8ff3-41bd-b693-545dea83af91">
         <Parameter Name="AttackResilience" Guid="f2e5b8ff-e2ba-4291-9f06-6b8710a8bcdf" Value="50000" Type="float" />
         <Parameter Name="FireResilience" Guid="f9e5ff00-e2ba-4221-9f96-6b8710a8bcdf" Value="50000" Type="float" />
       </MemberComponentTemplate>

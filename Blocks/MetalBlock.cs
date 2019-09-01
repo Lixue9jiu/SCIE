@@ -31,12 +31,12 @@ namespace Game
 	public class MetalBlock : PaintedCubeBlock, IElectricElementBlock
 	{
 		public const int Index = 510;
-		public static readonly string[] Names = new[]
+		public static readonly string[] Names =
 		{
 			"基础机器外壳", "高级机器外壳",
 			"防火砖墙"
 		};
-		public static readonly Color[] Colors = new[]
+		public static readonly Color[] Colors =
 		{
 			Color.White, Color.LightGray, new Color(255, 153, 18)//, Color.LightGray
 		};

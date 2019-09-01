@@ -100,7 +100,7 @@ namespace Game
 			}
 		}
 
-		public int FindAcquireSlotForItem(IInventory inventory, int value, int count)
+		public static int FindAcquireSlotForItem(IInventory inventory, int value, int count)
 		{
 			if (count > 0)
 			{
@@ -144,9 +144,9 @@ namespace Game
 			int n = 0;
 			for (int i = 0; i < m_furnaceSize; i++)
 			{
-				int value = GetSlotValue(i);
 				if (GetSlotCount(i) > 0)
 				{
+					int value = GetSlotValue(i);
 					if (value == ItemBlock.IdTable["S"])
 						n += 1;
 					else if (value == WaterBucketBlock.Index)

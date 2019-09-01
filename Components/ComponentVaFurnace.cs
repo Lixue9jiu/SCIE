@@ -5,6 +5,8 @@ namespace Game
 {
 	public class ComponentVaFurnace : ComponentSeparator, IUpdateable
 	{
+		protected float speed;
+
 		public override int RemainsSlotIndex => SlotsCount - 3;
 
 		public override int ResultSlotIndex => SlotsCount - 4;
@@ -74,40 +76,56 @@ namespace Game
 			}
 			if (m_smeltingRecipe != 0)
 			{
-				SmeltingProgress = MathUtils.Min(SmeltingProgress + 0.1f * dt, 1f);
+				SmeltingProgress = MathUtils.Min(SmeltingProgress + speed * dt, 1f);
 				if (SmeltingProgress >= 1f)
 				{
 					var e = result.GetEnumerator();
 					for (int i = 0; i < 4; i++)
-							if (m_slots[i].Count > 0)
-								m_slots[i].Count--;
+						if (m_slots[i].Count > 0)
+							m_slots[i].Count--;
 					while (e.MoveNext())
 					{
 						Slot slot = m_slots[FindAcquireSlotForItem(this, e.Current.Key)];
 						slot.Value = e.Current.Key;
 						slot.Count += e.Current.Value;
 					}
-					//
 					m_smeltingRecipe = 0;
 					SmeltingProgress = 0f;
 					m_updateSmeltingRecipe = true;
 				}
 			}
 		}
-		
+
 		protected override int FindSmeltingRecipe()
 		{
+			speed = 0.33f;
 			result.Clear();
-			if (GetSlotValue(0)== ItemBlock.IdTable["Si"] && GetSlotValue(1) == ItemBlock.IdTable["Si"] && GetSlotValue(2) == ItemBlock.IdTable["Si"] && GetSlotValue(3) == ItemBlock.IdTable["Si"])
+			int n = 0;
+			for (int i = 0; i < m_furnaceSize; i++)
 			{
-				int x = m_random.Int() & 7;
-				if (x==1)
+				if (GetSlotCount(i) > 0)
+				{
+					int value = GetSlotValue(i);
+					if (value == ItemBlock.IdTable["Si"])
+						n |= 1;
+					else if (value == ItemBlock.IdTable["H2"])
+						n |= 2;
+					else if (value == ItemBlock.IdTable["Cl2"])
+						n |= 4;
+				}
+			}
+			if (n == 7)
+			{
+				speed = 0.2f;
+				n = m_random.Int() & 7;
+				if (n == 1)
 				{
 					result[ItemBlock.IdTable["µ¥¾§¹è"]] = 1;
 				}
 				else
-				result[ItemBlock.IdTable["¶à¾§¹è"]] = 1;
-				return FindSmeltingRecipe(result, 5);
+					result[ItemBlock.IdTable["¶à¾§¹è"]] = 1;
+				result[ItemBlock.IdTable["¸ÖÆ¿"]] = 2;
+				return FindSmeltingRecipe(result, 2);
 			}
 			system = new ReactionSystem();
 			return FindSmeltingRecipe(result, FindSmeltingRecipe(result, system));
