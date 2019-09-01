@@ -102,7 +102,15 @@ namespace Game
 
 		public override Vector3 GetIconViewOffset(int value, DrawBlockEnvironmentData environmentData) => new Vector3(-0.6f, 0.6f, 0.5f);
 	}
+	public class Tank : TexturedMeshItem
+	{
+		//public static Texture2D CarTexture;
+		public Tank() : base("坦克", "Tank", "Body", Car.CarTexture, "一种使用内燃机，燃烧汽油获得动力，在平坦的地面上行驶的交通工具。", 0.5f)
+		{
+		}
 
+		public override Vector3 GetIconViewOffset(int value, DrawBlockEnvironmentData environmentData) => new Vector3(-0.6f, 0.6f, 0.5f);
+	}
 	public class Tractor : TexturedMeshItem
 	{
 		public Tractor() : base("拖拉机", "Car", "ChamferBox01", Car.CarTexture, "一种使用内燃机，燃烧汽油获得动力，可以耕地施肥种植收割的农业用具。", 0.5f)

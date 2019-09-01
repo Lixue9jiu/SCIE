@@ -255,6 +255,7 @@ namespace Game
 			.AppendMesh("Models/Rods", "SteelRod", Matrix.CreateTranslation(0.2f, -0.8f, 0f), Matrix.Identity, Color.White)
 			.AppendMesh("Models/Rods", "SteelRod", Matrix.CreateTranslation(-0.2f, -0.8f, 0f), Matrix.Identity, Color.White)
 			.AppendMesh("Models/Battery", "Battery", Matrix.CreateScale(.7f) * Matrix.CreateTranslation(0f, -0.8f, 0f), Matrix.CreateTranslation(-32 % 16 / 16f, -32 / 16 / 16f, 0f) * Matrix.CreateScale(20f), new Color(255, 255, 255, 32)),
+			new Tank(),
 			/*nnew Plate("128K RAM", Color.DarkGreen, true),
 			new Plate("256K RAM", Color.DarkGreen, true),
 			new Plate("512K RAM", Color.DarkGreen, true),

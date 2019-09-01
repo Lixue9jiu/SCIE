@@ -83,4 +83,8 @@ namespace Game
 	public class ComponentEngineT2 : ComponentEngineT
 	{
 	}
+
+	public class ComponentEngineT3 : ComponentEngineT
+	{
+	}
 }

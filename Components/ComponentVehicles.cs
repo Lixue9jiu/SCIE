@@ -3,7 +3,7 @@ using GameEntitySystem;
 using System.Collections.Generic;
 using System.Linq;
 using TemplatesDatabase;
-
+using Engine.Graphics;
 namespace Game
 {
 	public class ComponentBoatI : ComponentBoat, IUpdateable
@@ -101,11 +101,48 @@ namespace Game
 		protected ComponentEngineA componentEngine;
 		protected ComponentEngineT componentEngine2;
 		protected ComponentEngineT2 componentEngine3;
+		protected ComponentEngineT3 componentEngine4;
 		protected int use = 0;
 
 		public new void Update(float dt)
 		{
 			var componentBody = m_componentBody;
+			if (componentEngine4 != null)
+			{
+				componentBody.IsGravityEnabled = true;
+				componentBody.IsGroundDragEnabled = true;
+				Quaternion rotation = componentBody.Rotation;
+				float num = MathUtils.Atan2(2f * rotation.Y * rotation.W - 2f * rotation.X * rotation.Z, 1f - 2f * rotation.Y * rotation.Y - 2f * rotation.Z * rotation.Z);
+				if ((m_turnSpeed += 2.5f * Utils.SubsystemTime.GameTimeDelta * (TurnOrder - m_turnSpeed)) != 0 && componentEngine4.HeatLevel > 0f)
+					num -= m_turnSpeed * dt;
+				componentBody.Rotation = Quaternion.CreateFromAxisAngle(Vector3.UnitY, num);
+				ComponentRider rider = m_componentMount.Rider;
+				if (MoveOrder != 0f)
+				{
+					if (rider != null && componentBody.StandingOnValue.HasValue && componentEngine4 != null && componentEngine4.HeatLevel > 0f)
+						m_componentBody.Velocity += dt * 15f * MoveOrder * m_componentBody.Matrix.Forward;
+					MoveOrder = 0f;
+				}
+				//componentBody.
+				float num2 = 0.6f;
+				SetBoneTransform(m_headBone.Index, Matrix.CreateRotationY(num2));
+				componentBody.m_cachedMatrix = m_headBone.Transform * Matrix.CreateRotationY(num2);
+				//m_headBone.Model_.CopyAbsoluteBoneTransformsTo
+				//Matrix m = m_headBone.Transform;
+				//Matrix.MultiplyRestricted(ref m, ref m, out Matrix.CreateRotationY(num2));
+				//componentBody.Rotation = Quaternion.CreateFromAxisAngle(Vector3.UnitY, num);
+				//rider.ComponentCreature.ComponentCreatureModel.EyeRotation.ToForwardVector()
+				if (componentBody.ImmersionFactor > 0.95f)
+				{
+					m_componentDamage.Damage(0.005f * dt);
+					if (rider != null)
+						rider.StartDismounting();
+				}
+				TurnOrder = 0f;
+				if (componentEngine4.HeatLevel <= 0f || componentBody.Mass > 1200f || !componentBody.StandingOnValue.HasValue)
+					return;
+				return;
+			}
 			if (componentEngine3 != null)
 			{
 				componentBody.IsGravityEnabled = true;
@@ -394,7 +431,55 @@ namespace Game
 			componentEngine = Entity.FindComponent<ComponentEngineA>();
 			componentEngine2 = Entity.FindComponent<ComponentEngineT>();
 			componentEngine3 = Entity.FindComponent<ComponentEngineT2>();
+			componentEngine4 = Entity.FindComponent<ComponentEngineT3>();
 			m_componentBody.CollidedWithBody += CollidedWithBody;
+			//string value = valuesDictionary.GetValue<string>("ModelName");
+			if (componentEngine4!=null)
+			SetModel(ContentManager.Get<Model>("Models/Tank"));
+		}
+
+		public Model m_model;
+		public ModelBone m_bodyBone;
+		public ModelBone m_headBone;
+		public Matrix?[] m_boneTransforms;
+		public Matrix? GetBoneTransform(int boneIndex)
+		{
+			return m_boneTransforms[boneIndex];
+		}
+		public void SetBoneTransform(int boneIndex, Matrix? transformation)
+		{
+			m_boneTransforms[boneIndex] = transformation;
+		}
+		
+		public void SetModel(Model model)
+		{
+			m_model = model;
+			if (m_model != null)
+			{
+				m_boneTransforms = new Matrix?[m_model.Bones.Count];
+				
+				//AbsoluteBoneTransformsForCamera = new Matrix[m_model.Bones.Count];
+				//MeshDrawOrders = Enumerable.Range(0, m_model.Meshes.Count).ToArray();
+			}
+			else
+			{
+				m_boneTransforms = null;
+				//AbsoluteBoneTransformsForCamera = null;
+				//MeshDrawOrders = null;
+			}
+			if (m_model != null)
+			{
+				m_bodyBone = m_model.FindBone("Body");
+				m_boneTransforms[0] = m_bodyBone.Transform;
+				m_headBone = m_model.FindBone("Head");
+				m_boneTransforms[1] = m_headBone.Transform;
+				//m_boneTransforms[0] = m_bodyBone;
+			}
+			else
+			{
+				m_bodyBone = null;
+				m_headBone = null;
+			}
 		}
 
 		public void CollidedWithBody(ComponentBody body)
