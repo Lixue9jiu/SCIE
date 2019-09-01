@@ -57,7 +57,6 @@ namespace Game
 				//m_music = -1;
 			}
 
-			
 			if (m_smeltingRecipe != null)
 			{
 				SmeltingProgress = MathUtils.Min(SmeltingProgress + 0.15f * dt, 1f);
@@ -71,7 +70,7 @@ namespace Game
 					if (result[0] == (240 | 12 << 18) || result[0] != (240 | 13 << 18) || result[0] != (240 | 14 << 18))
 					{
 						m_slots[0].Count--;
-						m_slots[1].Count --;
+						m_slots[1].Count--;
 					}
 					if (result[0] != 0)
 					{
@@ -129,7 +128,7 @@ namespace Game
 			if (base.GetSlotValue(1) == EmptyBucketBlock.Index && base.GetSlotValue(0) == 1310960 && base.GetSlotCount(0) >= 1 && base.GetSlotCount(1) >= 1)
 			{
 				text = true;
-				result[0] = 240|12<<18;
+				result[0] = 240 | 12 << 18;
 			}
 			if (base.GetSlotValue(0) == EmptyBucketBlock.Index && base.GetSlotValue(1) == 1310960 && base.GetSlotCount(0) >= 1 && base.GetSlotCount(1) >= 1)
 			{
