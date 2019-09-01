@@ -17,7 +17,7 @@ namespace Game
 			if (value == ItemBlock.IdTable["UraniumOrePowder"])
 			{
 				text = 1;
-				result[Utils.Random.Bool(0.007f) ? ItemBlock.IdTable["U235P"] : ItemBlock.IdTable["U238P"]] = 1;
+				result[Utils.Random.Bool(.0072f) ? ItemBlock.IdTable["U235P"] : ItemBlock.IdTable["U238P"]] = 1;
 			}
 			return text != 0 ? FindSmeltingRecipe(text) : base.FindSmeltingRecipe();
 		}

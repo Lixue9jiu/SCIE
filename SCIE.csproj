@@ -98,7 +98,6 @@
     <Compile Include="Components\ComponentCondenser.cs" />
     <Compile Include="Components\ComponentCReactor.cs" />
     <Compile Include="Components\ComponentDeposit.cs" />
-    <Compile Include="Components\ComponentEngineT.cs" />
     <Compile Include="Components\ComponentNewChest.cs" />
     <Compile Include="Components\ComponentDriller.cs" />
     <Compile Include="Components\ComponentElectricDriller.cs" />
@@ -110,7 +109,7 @@
     <Compile Include="Components\ComponentBlastFurnace.cs" />
     <Compile Include="Components\ComponentCoven.cs" />
     <Compile Include="Components\ComponentHearthFurnace.cs" />
-    <Compile Include="Components\ComponentEngineA.cs" />
+    <Compile Include="Components\ComponentEngines.cs" />
     <Compile Include="Components\ComponentICEngine.cs" />
     <Compile Include="Components\ComponentLargeCraftingTable.cs" />
     <Compile Include="Components\ComponentLiquidPump.cs" />

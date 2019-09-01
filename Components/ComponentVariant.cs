@@ -158,7 +158,7 @@ namespace Game
 		}
 	}
 
-	public class ComponentVariant : Component, IUpdateable
+	public class ComponentVariant : Component//, IUpdateable
 	{
 		public Genome Genome;
 		public float[] OGenome;
@@ -617,7 +617,6 @@ namespace Game
 
 		public void Update(float dt)
 		{
-			return;
 			if (Utils.SubsystemTime.PeriodicGameTimeEvent(60, 0.0))
 			{
 				for (int i = (int)(Utils.SubsystemGameInfo.TotalElapsedGameTime - LastTime) / Period; i-- > 0;)

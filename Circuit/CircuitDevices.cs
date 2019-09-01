@@ -326,7 +326,7 @@ namespace Game
 		
 		public override void Simulate(ref int voltage)
 		{
-			if (voltage>1023)
+			if (voltage > 1023)
 			{
 				return;
 			}

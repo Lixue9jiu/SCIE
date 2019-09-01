@@ -172,10 +172,10 @@ namespace Game
 				var neighbors = new DynamicArray<Device>(6);
 				var Q = new Queue<Device>();
 				int count;
+				bool supply = false;
 				Q.Enqueue(v);
 				while (Q.Count > 0)
 				{
-					bool supply = false;
 					v = Q.Dequeue();
 					neighbors.Clear();
 					Block.GetAllConnectedNeighbors(Utils.Terrain, v, 4, neighbors);
@@ -244,6 +244,7 @@ namespace Game
 				Task.Delay(10).Wait();
 			}
 		}
+
 		public void QueueSimulate(Element[] elements)
 		{
 			Requests.Enqueue(elements);
