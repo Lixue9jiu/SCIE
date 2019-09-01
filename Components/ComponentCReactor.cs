@@ -9,6 +9,7 @@ namespace Game
 	public class ComponentCReactor : ComponentMachine, IUpdateable
 	{
 		protected float m_speed;
+
 		protected int m_smeltingRecipe,
 						m_smeltingRecipe2;
 
@@ -95,7 +96,6 @@ namespace Game
 						slot.Value = e.Current.Key;
 						slot.Count += e.Current.Value;
 					}
-					
 				}
 			}
 		}
@@ -118,7 +118,8 @@ namespace Game
 						return j;
 					}
 				}
-			}else
+			}
+			else
 			{
 				for (int i = 0; i < inventory.SlotsCount; i++)
 				{
@@ -152,7 +153,7 @@ namespace Game
 						n += 2;
 					else if (value == ItemBlock.IdTable["Bottle"])
 						n += 4;
-					else if (value == ItemBlock.IdTable["CH6"])
+					else if (value == ItemBlock.IdTable["C7H8"])
 						n += 8;
 					else if (value == ItemBlock.IdTable["Cl2"])
 						n += 9;
@@ -168,22 +169,19 @@ namespace Game
 				result[ItemBlock.IdTable["S"]] = -1;
 				result[WaterBucketBlock.Index] = -1;
 				result[ItemBlock.IdTable["Bottle"]] = -1;
-				return FindSmeltingRecipe(result, n);
 			}
-			else if(n==27)
+			else if (n == 27)
 			{
 				m_speed = 0.05f;
 				result[ItemBlock.IdTable["钢瓶"]] = 2;
-				result[ItemBlock.IdTable["CH6"]] = -1;
+				result[ItemBlock.IdTable["C7H8"]] = -1;
 				result[ItemBlock.IdTable["Cl2"]] = -1;
 				result[ItemBlock.IdTable["HNO3"]] = -1;
 				result[ItemBlock.IdTable["Bottle"]] = 1;
 				result[ItemBlock.IdTable["TNT"]] = 1;
-				return FindSmeltingRecipe(result, 8);
 			}
 			else
 			{
-				n = 0;
 				m_speed = 0.2f;
 				system = new ReactionSystem();
 				n = FindSmeltingRecipe(result, system, Condition.l, (ushort)heatLevel);

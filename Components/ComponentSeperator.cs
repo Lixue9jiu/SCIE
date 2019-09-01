@@ -11,112 +11,48 @@ namespace Game
 		{
 			result.Clear();
 			int text = 0;
+			const int i = 0;
+			if (GetSlotCount(i) <= 0) return 0;
+			int value = GetSlotValue(i);
+			if (value == ItemBlock.IdTable["UraniumOrePowder"])
+			{
+				text = 1;
+				result[Utils.Random.Bool(0.007f) ? ItemBlock.IdTable["U235P"] : ItemBlock.IdTable["U238P"]] = 1;
+			}
+			return text != 0 ? FindSmeltingRecipe(text) : base.FindSmeltingRecipe();
+		}
+	}
+
+	public class ComponentUThicker : ComponentSeparator, IUpdateable
+	{
+		protected override int FindSmeltingRecipe()
+		{
+			result.Clear();
+			int text = 0;
 			int i;
 			for (i = 0; i < 1; i++)
 			{
 				if (GetSlotCount(i) <= 0) continue;
-				if (GetSlotValue(i) == ItemBlock.IdTable["UraniumOrePowder"])
+				if (GetSlotValue(i) == ItemBlock.IdTable["U235P"] && GetSlotValue(4) == ItemBlock.IdTable["H2SO4"])
 				{
-					text = 6;
-					if (Utils.Random.Bool(0.007f))
-					{
-						result[ItemBlock.IdTable["U235P"]] = 1;
-					}
-					else
-					{
-						result[ItemBlock.IdTable["U238P"]] = 1;
-					}
-					//result[ItemBlock.IdTable["U238P"]] = 1;
+					text = 8;
+					result[ItemBlock.IdTable["U235C"]] = 1;
+					result[ItemBlock.IdTable["Bottle"]] = 1;
+					result[ItemBlock.IdTable["H2SO4"]] = -1;
 				}
-				int content = Terrain.ExtractContents(GetSlotValue(i)), x;
-				if (GetSlotValue(i) != content)
-					break;
-				switch (content)
+				if (GetSlotValue(i) == ItemBlock.IdTable["U238P"] && GetSlotValue(4) == ItemBlock.IdTable["H2SO4"])
 				{
-					case DirtBlock.Index:
-						text = 1;
-						result[SandBlock.Index] = 1;
-						result[StoneChunkBlock.Index] = 1;
-						x = m_random.Int() & 3;
-						if (x == 0)
-							result[SaltpeterChunkBlock.Index] = 1;
-						else if (x == 1)
-							result[ItemBlock.IdTable["AluminumOrePowder"]] = 1;
-						break;
-					case GraniteBlock.Index:
-						text = 2;
-						result[SandBlock.Index] = 1;
-						result[StoneChunkBlock.Index] = 1;
-						x = m_random.Int() & 7;
-						if (x == 0)
-							result[PigmentBlock.Index] = 1;
-						else if (x == 1)
-							result[ItemBlock.IdTable["Ã÷·¯"]] = 1;
-						else if (x == 2)
-							result[ItemBlock.IdTable["Plaster"]] = 1;
-						break;
-
-					case BasaltBlock.Index:
-						text = 3;
-						result[BasaltStairsBlock.Index] = 1;
-						x = m_random.Int() & 7;
-						if (x == 1)
-							result[ItemBlock.IdTable["»¬Ê¯"]] = 1;
-						break;
-
-					case CoalBlock.Index:
-						text = 4;
-						result[ItemBlock.IdTable["ÃºÔü"]] = 1;
-						x = m_random.Int() & 1;
-						if (x == 0)
-							result[ItemBlock.IdTable["Graphite"]] = 1;
-						break;
-					case SandBlock.Index:
-						text = 5;
-						result[ItemBlock.IdTable["B"]] = 1;
-						result[ItemBlock.IdTable["QuartzPowder"]] = 2;
-						result[StoneChunkBlock.Index] = 1;
-						break;
+					text = 9;
+					result[ItemBlock.IdTable["U238C"]] = 1;
+					result[ItemBlock.IdTable["Bottle"]] = 1;
+					result[ItemBlock.IdTable["H2SO4"]] = -1;
 				}
 			}
 			return FindSmeltingRecipe(text);
 		}
 	}
-		public class ComponentUThicker : ComponentSeparator, IUpdateable
-		{
 
-			protected override int FindSmeltingRecipe()
-			{
-				result.Clear();
-				int text = 0;
-				int i;
-				for (i = 0; i < 1; i++)
-				{
-					if (GetSlotCount(i) <= 0) continue;
-					if (GetSlotValue(i) == ItemBlock.IdTable["U235P"] && GetSlotValue(4) == ItemBlock.IdTable["H2SO4"])
-					{
-						text = 8;
-						result[ItemBlock.IdTable["U235C"]] = 1;
-						result[ItemBlock.IdTable["Bottle"]] = 1;
-						result[ItemBlock.IdTable["H2SO4"]] = -1;
-					}
-					if (GetSlotValue(i) == ItemBlock.IdTable["U238P"] && GetSlotValue(4) == ItemBlock.IdTable["H2SO4"])
-					{
-						text = 9;
-						result[ItemBlock.IdTable["U238C"]] = 1;
-						result[ItemBlock.IdTable["Bottle"]] = 1;
-						result[ItemBlock.IdTable["H2SO4"]] = -1;
-					}
-				}
-				return FindSmeltingRecipe(text);
-			}
-
-
-		}
-
-
-	
-	public class ComponentSeparator : ComponentMachine, IUpdateable
+	public class ComponentSeparator : ComponentMachine, IUpdateable, IElectricMachine
 	{
 		public int Cir1SlotIndex => SlotsCount - 2;
 
@@ -205,7 +141,6 @@ namespace Game
 						slot.Value = e.Current.Key;
 						slot.Count += e.Current.Value;
 					}
-					
 				}
 			}
 		}
@@ -226,7 +161,6 @@ namespace Game
 		{
 			result.Clear();
 			int text = 0;
-			//
 			//if (ElementBlock.Block.GetDevice(coordinates.X, coordinates.Y, coordinates.Z, cellValue) is Centrifugal)
 			//{
 			//	if (GetSlotValue(0)== ItemBlock.IdTable["UraniumOrePowder"])

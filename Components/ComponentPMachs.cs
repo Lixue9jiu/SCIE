@@ -37,7 +37,7 @@ namespace Game
 								text = "TalcumPowder";
 							else if (value == ItemBlock.IdTable["Plaster"])
 								text = "Gesso";
-							else if (value == 360515 || value==1074102339 || value ==537231427 || value == 1610973251)
+							else if (value == 360515 || value == 1074102339 || value == 537231427 || value == 1610973251)
 								text = "UraniumOrePowder";
 							else
 							{
@@ -67,6 +67,7 @@ namespace Game
 			return text;
 		}
 	}
+
 	public class ComponentPresserNN : ComponentPMach
 	{
 		public override void Load(ValuesDictionary valuesDictionary, IdToEntityMap idToEntityMap)
@@ -95,6 +96,7 @@ namespace Game
 			return text;
 		}
 	}
+
 	public class ComponentPresser : ComponentPMach
 	{
 		protected override string FindSmeltingRecipe()
@@ -141,6 +143,7 @@ namespace Game
 			return text;
 		}
 	}
+
 	public class ComponentSqueezer : ComponentPMach
 	{
 		public override void Load(ValuesDictionary valuesDictionary, IdToEntityMap idToEntityMap)
@@ -180,6 +183,7 @@ namespace Game
 			return text;
 		}
 	}
+
 	public class ComponentHPress : ComponentPresser
 	{
 		protected override string FindSmeltingRecipe()
@@ -246,7 +250,7 @@ namespace Game
 				}
 				return text;
 			}
-			a:
+		a:
 			m_count = 1;
 			return base.FindSmeltingRecipe();
 		}

@@ -125,13 +125,11 @@ namespace Game
 						var point3 = new Point3(num31, num41 + 2, num51);
 						var entity = Utils.GetBlockEntity(point3);
 						Component component3 = entity.Entity.FindComponent<ComponentAirPresser>();
-						if (entity != null && component3!=null)
+						if (entity != null && component3 != null)
 						{
-
 							IInventory inventory = entity.Entity.FindComponent<ComponentAirPresser>(true);
 							for (int i = 0; i < 6; i++)
 							{
-								//int value23 = 0;
 								int va1 = inventory.GetSlotValue(i);
 								if (Utils.Random.Bool(0.2f))
 								{
@@ -139,15 +137,15 @@ namespace Game
 									{
 										inventory.RemoveSlotItems(i, 1);
 									}
-								}else
+								}
+								else
 								{
-									if (va1 == ItemBlock.IdTable["¸ÖÆ¿"] && AcquireItems(inventory, ItemBlock.IdTable["CH6"], 1) == 0)
+									if (va1 == ItemBlock.IdTable["Bottle"] && AcquireItems(inventory, ItemBlock.IdTable["C7H8"], 1) == 0)
 									{
 										inventory.RemoveSlotItems(i, 1);
 									}
 								}
 							}
-							
 						}
 					}
 
