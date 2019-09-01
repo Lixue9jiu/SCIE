@@ -149,7 +149,12 @@ namespace Game
 				TurnOrder = 0f;
 				if (componentEngine4.HeatLevel <= 0f || !componentBody.StandingOnValue.HasValue)
 					return;
-				if (componentEngine2.HeatLevel == 499f && Utils.SubsystemTime.PeriodicGameTimeEvent(0.30, 0))
+				if (rider == null)
+					return;
+				ComponentMiner componentMiner = rider.Entity.FindComponent<ComponentMiner>();
+				
+				int num22 = Terrain.ExtractContents(componentMiner.ActiveBlockValue);
+				if (componentEngine2.HeatLevel == 499f && Utils.SubsystemTime.PeriodicGameTimeEvent(0.20, 0) && num22==521)
 				{
 					Vector3 xian77= new Vector3(rider.ComponentCreature.ComponentCreatureModel.EyeRotation.ToForwardVector().X, MathUtils.Clamp(rider.ComponentCreature.ComponentCreatureModel.EyeRotation.ToForwardVector().Y,-0.2f,0.2f), rider.ComponentCreature.ComponentCreatureModel.EyeRotation.ToForwardVector().Z);
 					//m_subsystemProjectiles.FireProjectile(value2, vector2 + 1.3f * dir, s * (vector31 + v4), Vector3.Zero, componentMiner.ComponentCreature);
@@ -157,8 +162,21 @@ namespace Game
 					Utils.SubsystemAudio.PlaySound("Audio/MusketFire", 1f, 0f, componentBody.Position, 10f, true);
 					componentBody.m_subsystemParticles.AddParticleSystem(new GunSmokeParticleSystem2(Utils.SubsystemTerrain, componentBody.Position + Vector3.Normalize(xian77) * 1.8f + new Vector3(0f, 1.8f, 0f), xian77));
 					//Utils.
+					//componentMiner.Inventory.ActiveSlotIndex;
+					componentMiner.Inventory_.RemoveSlotItems(componentMiner.Inventory.ActiveSlotIndex,1);
 				}
-					return;
+				if (componentEngine2.HeatLevel == 500f && Utils.SubsystemTime.PeriodicGameTimeEvent(0.75, 0) && num22 == 521)
+				{
+					Vector3 xian77 = new Vector3(rider.ComponentCreature.ComponentCreatureModel.EyeRotation.ToForwardVector().X, MathUtils.Clamp(rider.ComponentCreature.ComponentCreatureModel.EyeRotation.ToForwardVector().Y, -0.05f, 0.2f), rider.ComponentCreature.ComponentCreatureModel.EyeRotation.ToForwardVector().Z);
+					//m_subsystemProjectiles.FireProjectile(value2, vector2 + 1.3f * dir, s * (vector31 + v4), Vector3.Zero, componentMiner.ComponentCreature);
+					Utils.SubsystemProjectiles.FireProjectile(Terrain.MakeBlockValue(214, 0, BulletBlock.SetBulletType(0, BulletBlock.BulletType.Shell)), componentBody.Position + Vector3.Normalize(xian77) * 1.8f + new Vector3(0f, 1.5f, 0f), Vector3.Normalize(xian77) * 200f, Vector3.Zero, null);
+					Utils.SubsystemAudio.PlaySound("Audio/MusketFire", 1f, 0f, componentBody.Position, 10f, true);
+					componentBody.m_subsystemParticles.AddParticleSystem(new GunSmokeParticleSystem2(Utils.SubsystemTerrain, componentBody.Position + Vector3.Normalize(xian77) * 1.8f + new Vector3(0f, 1.8f, 0f), xian77));
+					//Utils.
+					//componentMiner.Inventory.ActiveSlotIndex;
+					componentMiner.Inventory_.RemoveSlotItems(componentMiner.Inventory.ActiveSlotIndex, 1);
+				}
+				return;
 			}
 			if (componentEngine3 != null)
 			{
@@ -314,9 +332,9 @@ namespace Game
 										i += 6;
 									}
 								}
-							if (use > 0 && value2 != (168 | SoilBlock.SetNitrogen(0, 3) << 14))
+							if (use > 0 && Utils.Terrain.GetCellValueFast(p.X, p.Y - 1, p.Z) < 98472 && value2 == SoilBlock.Index )
 							{
-								Utils.SubsystemTerrain.ChangeCell(p.X, p.Y - 1, p.Z, 168 | SoilBlock.SetNitrogen(0, 3) << 14);
+								Utils.SubsystemTerrain.ChangeCell(p.X, p.Y - 1, p.Z, 98472);
 								use -= 1;
 							}
 							else
