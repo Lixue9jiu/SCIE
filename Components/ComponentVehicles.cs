@@ -132,7 +132,8 @@ namespace Game
 						var p2 = Vector3.Normalize(componentBody.Rotation.ToForwardVector()* MoveOrder);
 						var p = Terrain.ToCell(componentBody.Position + p2 * 1.0f + new Vector3(0f, 0.5f, 0f));
 						int value2 = Utils.Terrain.GetCellContentsFast(p.X, p.Y, p.Z);
-						if (value2 != 0)
+						var block = BlocksManager.Blocks[Terrain.ExtractContents(value2)];
+						if (value2 != 0 && !block.IsTransparent)
 						{
 							m_componentBody.Velocity += 0.012f * 15f * new Vector3(0f, 30f, 0f);
 							jump = true;
@@ -195,6 +196,7 @@ namespace Game
 							flag = -1;
 							i += 6;
 						}
+
 					}
 					if (flag == -1)
 					{
@@ -225,14 +227,32 @@ namespace Game
 							flag = 1;
 							i += 6;
 						}
+						if (va1 == Terrain.MakeBlockValue(521, 0, Bullet2Block.SetBulletType(0, Bullet2Block.BulletType.UShell)))
+						{
+							abb = i;
+							flag = 2;
+							i += 6;
+						}
 					}
 					if (flag == 1)
 					{
 						Vector3 xian77 = new Vector3(rider.ComponentCreature.ComponentCreatureModel.EyeRotation.ToForwardVector().X, MathUtils.Clamp(rider.ComponentCreature.ComponentCreatureModel.EyeRotation.ToForwardVector().Y, -0.05f, 0.2f), rider.ComponentCreature.ComponentCreatureModel.EyeRotation.ToForwardVector().Z);
 						//m_subsystemProjectiles.FireProjectile(value2, vector2 + 1.3f * dir, s * (vector31 + v4), Vector3.Zero, componentMiner.ComponentCreature);
-						Utils.SubsystemProjectiles.FireProjectile(Terrain.MakeBlockValue(214, 0, BulletBlock.SetBulletType(0, BulletBlock.BulletType.Shell)), componentBody.Position + Vector3.Normalize(xian77) * 1.8f + new Vector3(0f, 1.5f, 0f), Vector3.Normalize(xian77) * 100f, Vector3.Zero, null);
+						Vector3 xian88 = new Vector3(componentEngine4.vet1.X, MathUtils.Clamp(componentEngine4.vet1.Y, -0.2f, 0.2f), componentEngine4.vet1.Z);
+						Utils.SubsystemProjectiles.FireProjectile(Terrain.MakeBlockValue(214, 0, BulletBlock.SetBulletType(0, BulletBlock.BulletType.Shell)), componentBody.Position + Vector3.Normalize(xian88) * 1.8f + new Vector3(0f, 1.5f, 0f), Vector3.Normalize(xian88) * 100f, Vector3.Zero, null);
 						Utils.SubsystemAudio.PlaySound("Audio/MusketFire", 1f, 0f, componentBody.Position, 10f, true);
-						componentBody.m_subsystemParticles.AddParticleSystem(new GunSmokeParticleSystem2(Utils.SubsystemTerrain, componentBody.Position + Vector3.Normalize(xian77) * 1.8f + new Vector3(0f, 1.8f, 0f), xian77));
+						componentBody.m_subsystemParticles.AddParticleSystem(new GunSmokeParticleSystem2(Utils.SubsystemTerrain, componentBody.Position + Vector3.Normalize(xian88) * 1.8f + new Vector3(0f, 1.8f, 0f), xian77));
+						//Utils.
+						componentEngine4.m_slots[abb].Count -= 1;
+					}
+					if (flag == 2)
+					{
+						Vector3 xian77 = new Vector3(rider.ComponentCreature.ComponentCreatureModel.EyeRotation.ToForwardVector().X, MathUtils.Clamp(rider.ComponentCreature.ComponentCreatureModel.EyeRotation.ToForwardVector().Y, -0.05f, 0.2f), rider.ComponentCreature.ComponentCreatureModel.EyeRotation.ToForwardVector().Z);
+						//m_subsystemProjectiles.FireProjectile(value2, vector2 + 1.3f * dir, s * (vector31 + v4), Vector3.Zero, componentMiner.ComponentCreature);
+						Vector3 xian88 = new Vector3(componentEngine4.vet1.X, MathUtils.Clamp(componentEngine4.vet1.Y, -0.2f, 0.2f), componentEngine4.vet1.Z);
+						Utils.SubsystemProjectiles.FireProjectile(Terrain.MakeBlockValue(214, 0, BulletBlock.SetBulletType(0, BulletBlock.BulletType.UShell)), componentBody.Position + Vector3.Normalize(xian88) * 1.8f + new Vector3(0f, 1.5f, 0f), Vector3.Normalize(xian88) * 100f, Vector3.Zero, null);
+						Utils.SubsystemAudio.PlaySound("Audio/MusketFire", 1f, 0f, componentBody.Position, 10f, true);
+						componentBody.m_subsystemParticles.AddParticleSystem(new GunSmokeParticleSystem2(Utils.SubsystemTerrain, componentBody.Position + Vector3.Normalize(xian88) * 1.8f + new Vector3(0f, 1.8f, 0f), xian77));
 						//Utils.
 						componentEngine4.m_slots[abb].Count -= 1;
 					}

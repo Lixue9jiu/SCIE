@@ -18,16 +18,26 @@ namespace Game
 				if (playerInput.SelectInventorySlot.HasValue)
 					ComponentMiner.Inventory.ActiveSlotIndex = MathUtils.Clamp(playerInput.SelectInventorySlot.Value, 0, 5);
 			}
-			if (m_subsystemTime.PeriodicGameTimeEvent(0.5, 0))
-			{
-				ReadOnlyList<int> readOnlyList = ComponentClothing.GetClothes(ClothingSlot.Head);
-				if (readOnlyList.Count > 0 && ClothingBlock.GetClothingData(Terrain.ExtractData(readOnlyList[readOnlyList.Count - 1])).DisplayName == Utils.Get("潜水头盔"))
-				{
-					if (ComponentBody.ImmersionFluidBlock != null && ComponentBody.ImmersionFluidBlock.BlockIndex == RottenMeatBlock.Index && ComponentBody.ImmersionDepth > 0.8f)
-						ComponentScreenOverlays.BlackoutFactor = 1f;
-					ComponentHealth.Air = 1f;
-				}
-			}
+		//	if (m_subsystemTime.PeriodicGameTimeEvent(0.5, 0))
+		//	{
+		//		ReadOnlyList<int> readOnlyList = ComponentClothing.GetClothes(ClothingSlot.Head);
+		//		if (readOnlyList.Count > 0 && ClothingBlock.GetClothingData(Terrain.ExtractData(readOnlyList[readOnlyList.Count - 1])).DisplayName == Utils.Get("潜水头盔"))
+		//		{
+		//			if (ComponentBody.ImmersionFluidBlock != null && ComponentBody.ImmersionFluidBlock.BlockIndex == RottenMeatBlock.Index && ComponentBody.ImmersionDepth > 0.8f)
+		//				ComponentScreenOverlays.BlackoutFactor = 1f;
+		//			ComponentHealth.Air = 1f;
+		//		}
+				//ReadOnlyList<int> readOnlyList2 = ComponentClothing.GetClothes(ClothingSlot.Torso);
+				//if (readOnlyList2.Count > 0 && ClothingBlock.GetClothingData(Terrain.ExtractData(readOnlyList[readOnlyList2.Count - 1])).DisplayName == Utils.Get("防热服"))
+				//{
+					//if (ComponentBody.ImmersionFluidBlock != null && ComponentBody.ImmersionFluidBlock.BlockIndex == RottenMeatBlock.Index && ComponentBody.ImmersionDepth > 0.8f)
+					//	ComponentScreenOverlays.BlackoutFactor = 1f;
+				//	ComponentHealth.m_componentOnFire.m_fireDuration = 0f;
+					//ComponentHealth.m_componentPlayer.ComponentVitalStats.m_lastTemperature = 10f;
+					//this.
+				//	ComponentVitalStats.m_temperature = 8f;
+				//}
+		//	}
 			ComponentMount mount = ComponentRider.Mount;
 			if (mount != null)
 			{

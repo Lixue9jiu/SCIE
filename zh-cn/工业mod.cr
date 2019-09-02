@@ -612,6 +612,12 @@
       " bbd"
 	  "bccb"
     </Recipe>
+	<Recipe Result="Bullet2Block:3" ResultCount="4" RequiredHeatLevel="0" a="U238C" b="BrassPlate" c="TNT" d="detonator" Description="用U238饼制作贫铀弹">
+      " aad"
+      "bccb"
+      " bbd"
+	  "bccb"
+    </Recipe>
     <Recipe Result="RifleBarrel" ResultCount="2" RequiredHeatLevel="0" Remains="SteelPlate" RemainsCount="1" a="musket2" Description="拆除步枪">
       "a"
     </Recipe>
@@ -702,7 +708,7 @@
       "bbbb"
       "cffc"
     </Recipe>
-    <Recipe Result="FactorioTransportBeltBlock" ResultCount="3" RequiredHeatLevel="0" a="SteelRod" b="ElectricMotor" c="leather" Description="制作传送带，远程输送物品">
+    <Recipe Result="FactorioTransportBeltBlock" ResultCount="6" RequiredHeatLevel="0" a="SteelRod" b="ElectricMotor" c="leather" Description="制作传送带，远程输送物品">
       "bca"
       " c"
       "aca"
@@ -1244,7 +1250,7 @@
       "cac"
 	  "cdc"
     </Recipe>
-	<Recipe Result="Circuit1" ResultCount="1" RequiredHeatLevel="0" a="CopperWire" b="电子二极管" c="germaniumchunk" d="memorybank" e="StannaryIngot" Description="用电子二极管，锡锭制作初级电路板">
+	<Recipe Result="Circuit1" ResultCount="2" RequiredHeatLevel="0" a="CopperWire" b="电子二极管" c="germaniumchunk" d="memorybank" e="StannaryIngot" Description="用电子二极管，锡锭制作初级电路板">
       "abba"
       "beeb"
       "cbbc"
@@ -1350,6 +1356,29 @@
       " a"
       " b"
       "c c"
+    </Recipe>
+	<Recipe Result="ClothingBlock:45" ResultCount="1" RequiredHeatLevel="0" a="AluminumPlate" b="StannaryIngot" c="canvas" Description="铝板锡锭棉布制作防热头盔">
+      "aaa"
+      "aba"
+      "ccc"
+    </Recipe>
+	<Recipe Result="ClothingBlock:46" ResultCount="1" RequiredHeatLevel="0" a="AluminumPlate" b="StannaryIngot" c="canvas" Description="铝板锡锭棉布制作防热服">
+      "abca"
+      "acba"
+      "abca"
+    </Recipe>
+	<Recipe Result="ClothingBlock:47" ResultCount="1" RequiredHeatLevel="0" a="AluminumPlate" b="StannaryIngot" c="canvas" Description="铝板锡锭棉布制作防热裤">
+      "acca"
+      "acca"
+      "bccb"
+    </Recipe>
+	<Recipe Result="ClothingBlock:48" ResultCount="1" RequiredHeatLevel="0" a="AluminumPlate" b="StannaryIngot" c="canvas" Description="铝板锡锭棉布制作防热靴">
+      "cccc"
+      "abba"
+    </Recipe>
+	<Recipe Result="ClothingBlock:49" ResultCount="1" RequiredHeatLevel="0" a="string" b="SteelLine" c="O2" Description="制作氧气瓶">
+      "acca"
+      " bb "
     </Recipe>
     <Recipe Result="IEBatteryBlock:4" ResultCount="1" RequiredHeatLevel="0" a="CuZnBattery" b="Switch" c="SteelSheet" d="lightbulb" Description="制作手电筒">
       "cdc"

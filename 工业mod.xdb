@@ -1,5 +1,6 @@
 <IndustrialMod>
   <Parameter Name="Class" Guid="7ecfafc4-4603-424c-87dd-1df59e7ef413" new-Value="Game.ComponentNPlayer" Type="string" />
+  <Parameter Name="Class" Guid="aa7f845d-165e-4fff-95f0-453cd4e14cea" new-Value="Game.ComponentNVitalStats" Type="string" />
   <Parameter Name="Class" Guid="8b3d07dc-6498-4691-9686-cf4edabb8f3f" new-Value="Game.ComponentNGui" Type="string" />
   <Parameter Name="Class" Guid="566663a5-0480-45c8-9266-18c8060a236c" new-Value="Game.ComponentLargeCraftingTable" Type="string" />
   <Parameter Name="Class" Guid="f04c23fe-1d3c-467e-81bc-1796f686be51" new-Value="Game.ComponentFurnaceN" Type="string" />
