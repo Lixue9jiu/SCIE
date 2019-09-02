@@ -2,7 +2,7 @@ using Engine;
 using GameEntitySystem;
 using System.Linq;
 using TemplatesDatabase;
-
+using Engine.Graphics;
 namespace Game
 {
 	public class ComponentNGui : ComponentGui, IUpdateable
@@ -98,6 +98,7 @@ namespace Game
 				if (componentRider.Mount != null != flag)
 				{
 					DisplaySmallMessage(Utils.Get(componentRider.Mount != null ? "上马" : "下马"), false, false);
+					//componentRider.Mount.ComponentBody.Entity.FindComponent<ComponentCar>(true).SetModel(ContentManager.Get<Model>("Models/Tank"));
 				}
 			}
 			if ((m_editItemButton.IsClicked || playerInput.EditItem) && m_nearbyEditableCell.HasValue)

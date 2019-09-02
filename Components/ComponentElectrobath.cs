@@ -129,7 +129,7 @@ namespace Game
 								{
 									//int value23 = 0;
 									int va1 = inventory.GetSlotValue(i);
-									if (Utils.Random.Bool())
+									if (Utils.Random.Bool(0.5f))
 									{
 										if (va1 == ItemBlock.IdTable["¸ÖÆ¿"] && AcquireItems(inventory, ItemBlock.IdTable["H2"], 1) == 0)
 										{
@@ -216,6 +216,12 @@ namespace Game
 				
 			}
 			if ((text & 7) == 3)
+			{
+				result[0] = ItemBlock.IdTable["AluminumIngot"];
+				result[1] = ItemBlock.IdTable["AluminumIngot"];
+			}
+				
+			else if (((text & 7) == 1))
 				result[0] = ItemBlock.IdTable["AluminumIngot"];
 			else
 				text &= ~3;

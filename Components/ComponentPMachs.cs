@@ -86,6 +86,8 @@ namespace Game
 						text = "RifleBarrel";
 					else if (GetSlotValue(i) == ItemBlock.IdTable["ÅÚ¸Ö¹÷"])
 						text = "Ç¹¹Ü";
+					else if (GetSlotValue(i) == ItemBlock.IdTable["Cannon"])
+						text = "CannonB";
 				}
 			if (text != null)
 			{

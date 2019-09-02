@@ -10,15 +10,16 @@ namespace Game
 		{
 			IronBullet,
 			HandBullet,
+			Shell
 		}
 
 		public const int Index = 521;
 
-		protected static readonly string[] m_displayNames = { "LeadBullet", "HandBullet" };
-		protected static readonly float[] m_sizes = { 1f, 1f };
-		protected static readonly int[] m_textureSlots = { 177, 193 };
+		protected static readonly string[] m_displayNames = { "LeadBullet", "RifleBullet" ,"Shell"};
+		protected static readonly float[] m_sizes = { 0.5f, 0.5f ,1f};
+		protected static readonly int[] m_textureSlots = { 177, 193 ,193};
 
-		public override IEnumerable<int> GetCreativeValues() => new[] { Terrain.MakeBlockValue(521, 0, SetBulletType(0, BulletType.IronBullet)), Terrain.MakeBlockValue(521, 0, SetBulletType(0, BulletType.HandBullet)), Index | 1 << 10 << 14 };
+		public override IEnumerable<int> GetCreativeValues() => new[] { Terrain.MakeBlockValue(521, 0, SetBulletType(0, BulletType.IronBullet)), Terrain.MakeBlockValue(521, 0, SetBulletType(0, BulletType.HandBullet)), Terrain.MakeBlockValue(521, 0, SetBulletType(0, BulletType.Shell)), Index | 1 << 10 << 14 };
 
 		public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
 		{
@@ -39,7 +40,7 @@ namespace Game
 
 		public override string GetDisplayName(SubsystemTerrain subsystemTerrain, int value)
 		{
-			return (Terrain.ExtractData(value) >> 10) != 0 ? Utils.Get("放置机") : DefaultDisplayName;
+			return (Terrain.ExtractData(value) >> 10) != 0 ? Utils.Get("放置机") : m_displayNames[Terrain.ExtractData(value)];
 		}
 
 		public override string GetDescription(int value)

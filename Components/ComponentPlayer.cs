@@ -168,7 +168,7 @@ namespace Game
 					//}
 					return;
 				}
-				if (m_subsystemTime.GameTime-m_time2<2*dt)
+				if (m_subsystemTime.GameTime-m_time2<2*dt && m_time2!=0)
 				{
 					if (componentBoat44.HeatLevel == 500f)
 						componentBoat44.HeatLevel -= 10f;

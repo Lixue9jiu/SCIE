@@ -256,6 +256,15 @@ namespace Game
 			.AppendMesh("Models/Rods", "SteelRod", Matrix.CreateTranslation(-0.2f, -0.8f, 0f), Matrix.Identity, Color.White)
 			.AppendMesh("Models/Battery", "Battery", Matrix.CreateScale(.7f) * Matrix.CreateTranslation(0f, -0.8f, 0f), Matrix.CreateTranslation(-32 % 16 / 16f, -32 / 16 / 16f, 0f) * Matrix.CreateScale(20f), new Color(255, 255, 255, 32)),
 			new Tank(),
+			new MeshItem("液压元件")
+			{
+				DefaultDisplayName = "液压元件"
+			}
+			.AppendMesh("Models/Rods", "SteelRod", Matrix.CreateTranslation(-0.0f, -0.8f, 0f), Matrix.Identity, Color.White)
+			.AppendMesh("Models/Battery", "Battery", Matrix.CreateScale(.5f) * Matrix.CreateTranslation(0f, -0.8f, 0f),  Matrix.CreateTranslation(9f / 16f, -7f / 16f, 0f), Color.Gray)
+			.AppendMesh("Models/Battery", "Battery", Matrix.CreateScale(.5f) * Matrix.CreateTranslation(0f, 0.1f, 0f),  Matrix.CreateTranslation(9f / 16f, -7f / 16f, 0f), Color.Black),
+			new MouldItem("Cannon", "Models/Battery", "Battery",  Matrix.CreateScale(.8f, 2.0f, .8f)*Matrix.CreateRotationX(MathUtils.PI / 2)  * Matrix.CreateTranslation(0.5f, 0.5f, -0.3f), Matrix.CreateTranslation(9f / 16f, -7f / 16f, 0f), "炮管(未镗)", "炮管(未镗)", 1f),
+			new MouldItem("CannonB", "Models/Battery", "Battery",  Matrix.CreateScale(.8f, 2.0f, .8f)*Matrix.CreateRotationX(MathUtils.PI / 2)  * Matrix.CreateTranslation(0.5f, 0.5f, -0.3f), Matrix.CreateTranslation(9f / 16f, -7f / 16f, 0f), "炮管", "炮管", 0.9f),
 			/*nnew Plate("128K RAM", Color.DarkGreen, true),
 			new Plate("256K RAM", Color.DarkGreen, true),
 			new Plate("512K RAM", Color.DarkGreen, true),

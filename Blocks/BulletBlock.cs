@@ -32,7 +32,7 @@ namespace Game
 
 		protected static readonly float[] m_weaponPowers = { 60f, 0f, 3.6f, 90f, 50f, 200f ,150f,400f};
 
-		protected static readonly float[] m_explosionPressures = { 0f, 0f, 0f, 0.1f, 0.1f, 0.1f ,30f,200f};
+		protected static readonly float[] m_explosionPressures = { 0f, 0f, 0f, 0.1f, 0.1f, 0.1f ,30f,400f};
 
 		public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
 		{
