@@ -4,7 +4,7 @@ namespace Game
 	{
 		protected readonly ButtonWidget m_1Button,
 										m_2Button,
-		                                m_3Button;
+										m_3Button;
 
 		public FractionalTowerWidget(IInventory inventory, ComponentMachine component) : base(inventory, component, "Widgets/FractionalTowerWidget")
 		{
@@ -26,7 +26,7 @@ namespace Game
 				ParentWidget.Children.Remove(this);
 				return;
 			}
-			if (m_1Button.IsClicked && m_component.HeatLevel!=1)
+			if (m_1Button.IsClicked && m_component.HeatLevel != 1)
 			{
 				m_component.HeatLevel = 1;
 			}

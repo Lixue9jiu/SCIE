@@ -45,10 +45,9 @@ namespace Game
 			m_slot4.AssignInventorySlot(component, num++);
 		}
 
-		public override void Update()
+		/*public override void Update()
 		{
-			
 			base.Update();
-		}
+		}*/
 	}
 }
