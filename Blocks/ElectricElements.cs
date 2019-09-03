@@ -87,9 +87,10 @@ namespace Game
 				if (inventory == null)
 					return false;
 				var position = new Vector3(Point) + new Vector3(0.5f, 1f, 0.5f);
-				Utils.SubsystemPickables.AddPickable(inventory.GetSlotValue(inventory.ResultSlotIndex), inventory.RemoveSlotItems(inventory.ResultSlotIndex, MathUtils.Min(inventory.GetSlotCount(inventory.ResultSlotIndex), n)), position, null, null);
-				if (inventory.GetSlotCount(inventory.RemainsSlotIndex) > 0)
-					Utils.SubsystemPickables.AddPickable(inventory.GetSlotValue(inventory.RemainsSlotIndex), inventory.RemoveSlotItems(inventory.RemainsSlotIndex, MathUtils.Min(inventory.GetSlotCount(inventory.RemainsSlotIndex), n)), position, null, null);
+				if (inventory.GetSlotCount(inventory.ResultSlotIndex) > 0 && inventory.GetSlotValue(inventory.ResultSlotIndex) != 0)
+				Utils.SubsystemPickables.AddPickable(inventory.GetSlotValue(inventory.ResultSlotIndex), inventory.RemoveSlotItems(inventory.ResultSlotIndex, 1), position, null, null);
+				if (inventory.GetSlotCount(inventory.RemainsSlotIndex) > 0 && inventory.GetSlotValue(inventory.RemainsSlotIndex)!=0)
+					Utils.SubsystemPickables.AddPickable(inventory.GetSlotValue(inventory.RemainsSlotIndex), inventory.RemoveSlotItems(inventory.RemainsSlotIndex, 1), position, null, null);
 			}
 			return false;
 		}
@@ -137,9 +138,10 @@ namespace Game
 							RemainsCount = 1
 						};
 						var position = new Vector3(Point) + new Vector3(0.5f, 1f, 0.5f);
-						Utils.SubsystemPickables.AddPickable(inventory.GetSlotValue(inventory.ResultSlotIndex), inventory.RemoveSlotItems(inventory.ResultSlotIndex, matchedRecipe.ResultCount * MathUtils.Min(inventory.GetSlotCount(inventory.ResultSlotIndex) / matchedRecipe.ResultCount, n)), position, null, null);
-						if (matchedRecipe.RemainsCount > 0)
-							Utils.SubsystemPickables.AddPickable(inventory.GetSlotValue(inventory.RemainsSlotIndex), inventory.RemoveSlotItems(inventory.RemainsSlotIndex, matchedRecipe.RemainsCount * MathUtils.Min(inventory.GetSlotCount(inventory.RemainsSlotIndex) / matchedRecipe.RemainsCount, n)), position, null, null);
+						if (inventory.GetSlotCount(inventory.ResultSlotIndex) > 0 && inventory.GetSlotValue(inventory.ResultSlotIndex) != 0)
+						Utils.SubsystemPickables.AddPickable(inventory.GetSlotValue(inventory.ResultSlotIndex), inventory.RemoveSlotItems(inventory.ResultSlotIndex, 1), position, null, null);
+						if (matchedRecipe.RemainsCount > 0 && inventory.GetSlotValue(inventory.RemainsSlotIndex)!=0)
+							Utils.SubsystemPickables.AddPickable(inventory.GetSlotValue(inventory.RemainsSlotIndex), inventory.RemoveSlotItems(inventory.RemainsSlotIndex, 1), position, null, null);
 					}
 				}
 			}
