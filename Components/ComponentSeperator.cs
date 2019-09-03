@@ -162,22 +162,16 @@ namespace Game
 			result.Clear();
 			int text = 0;
 			//if (ElementBlock.Block.GetDevice(coordinates.X, coordinates.Y, coordinates.Z, cellValue) is Centrifugal)
-			//{
 			//	if (GetSlotValue(0)== ItemBlock.IdTable["UraniumOrePowder"])
 			//	{
 			//		text = 8;
 			//		result[ItemBlock.IdTable["U235P"]] = 1;
 			//	}
 			//	return FindSmeltingRecipe(text);
-			//}
 			//if (ElementBlock.Block.GetDevice(coordinates.X, coordinates.Y, coordinates.Z, cellValue) is UThickener)
-			//{
 			//	return FindSmeltingRecipe(text);
-			//}
 			//if (ElementBlock.Block.GetDevice(coordinates.X, coordinates.Y, coordinates.Z, cellValue) is Unpacker)
-			//{
 			//	return FindSmeltingRecipe(text);
-			//}
 			int i;
 			for (i = 0; i < 1; i++)
 			{
@@ -214,6 +208,7 @@ namespace Game
 						x = m_random.Int() & 3;
 						if (x == 0)
 							result[ItemBlock.IdTable["Cryolite"]] = 1;
+						result[StoneChunkBlock.Index] = 1;
 						break;
 
 					case BasaltBlock.Index:

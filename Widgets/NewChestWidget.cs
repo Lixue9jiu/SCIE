@@ -1,4 +1,5 @@
 using Engine;
+
 namespace Game
 {
 	public class NewChestWidget : EntityWidget<ComponentInventoryBase>
@@ -11,6 +12,7 @@ namespace Game
 			InitGrid("ChestGrid");
 		}
 	}
+
 	public class SteelChestWidget : EntityWidget<ComponentInventoryBase>
 	{
 		public SteelChestWidget(IInventory inventory, ComponentInventoryBase component, string text = "SteelChest") : base(inventory, component, "Widgets/SChestWidget")

@@ -101,6 +101,7 @@ namespace Game
 	public class ProcessWidget<T> : EntityWidget<T> where T : ComponentInventoryBase
 	{
 		protected readonly ValueBarWidget m_progress;
+
 		protected readonly InventorySlotWidget m_result1,
 												m_result2,
 												m_result3,

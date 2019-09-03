@@ -41,6 +41,7 @@ namespace Game
 
 		protected readonly CheckboxWidget m_acceptsDropsBox;
 		protected readonly ValueBarWidget m_progress;
+
 		protected readonly InventorySlotWidget m_cir1,
 												m_cir2;
 

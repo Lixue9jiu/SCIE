@@ -1,4 +1,5 @@
 using Engine;
+
 namespace Game
 {
 	public class MachineToolWidget : EntityWidget<ComponentLargeCraftingTable>
@@ -13,19 +14,15 @@ namespace Game
 			//InitGrid("CraftingGrid");
 			m_furnaceGrid = Children.Find<GridPanelWidget>("CraftingGrid");
 			int num = 0, y, x;
-			float ss = 72f;
+			var size = new Vector2(m_furnaceGrid.RowsCount == 5 ? 60f : 72f);
 			for (y = 0; y < m_furnaceGrid.RowsCount; y++)
 			{
 				for (x = 0; x < m_furnaceGrid.ColumnsCount; x++)
 				{
-					if(m_furnaceGrid.RowsCount==5)
+					var inventorySlotWidget = new InventorySlotWidget
 					{
-						ss = 60f;
-					}
-						var inventorySlotWidget = new InventorySlotWidget
-						{
-							Size_ = new Vector2(ss)
-						};
+						Size_ = size
+					};
 					inventorySlotWidget.AssignInventorySlot(m_component, num++);
 					m_furnaceGrid.Children.Add(inventorySlotWidget);
 					m_furnaceGrid.SetWidgetCell(inventorySlotWidget, new Point2(x, y));

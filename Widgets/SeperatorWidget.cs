@@ -1,4 +1,5 @@
 using Engine;
+
 namespace Game
 {
 	public class SeparatorWidget : ProcessWidget<ComponentMachine>
@@ -30,6 +31,7 @@ namespace Game
 	{
 		protected readonly CheckboxWidget m_acceptsDropsBox;
 		protected readonly ValueBarWidget m_progress;
+
 		protected readonly InventorySlotWidget m_result1,
 												m_cir1, m_cir2;
 
@@ -45,7 +47,7 @@ namespace Game
 			m_progress = Children.Find<ValueBarWidget>("Progress");
 			m_furnaceGrid = Children.Find<GridPanelWidget>("FurnaceGrid");
 			int num = 0, y, x;
-			
+
 			for (y = 0; y < m_furnaceGrid.RowsCount; y++)
 			{
 				for (x = 0; x < m_furnaceGrid.ColumnsCount; x++)
@@ -63,7 +65,7 @@ namespace Game
 			m_cir1?.AssignInventorySlot(component, num++);
 			m_cir2?.AssignInventorySlot(component, num++);
 		}
-		
+
 		public override void Update()
 		{
 			m_progress.Value = m_component.SmeltingProgress;
