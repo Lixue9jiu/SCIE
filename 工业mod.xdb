@@ -123,6 +123,12 @@
         <Parameter Name="Class" Guid="1c9b89f0-22f9-45aa-aae3-039ba73b12b6" Value="Game.ComponentUnloader" Type="string" />
       </MemberComponentTemplate>
     </EntityTemplate>
+	<EntityTemplate Name="Inserter" Guid="2977a377-af17-4955-81fa-aafaf97b92bd" InheritanceParent="9681f999-898b-4f5c-9ea8-f8cc331e97b3">
+      <MemberComponentTemplate Name="Inserter" Guid="3f173a26-ac7d-4b4c-37c7-df6523a33b51" InheritanceParent="7312ec8c-10c7-4133-85b4-4a35bd44c956">
+	    <Parameter Name="SlotsCount" Guid="fcfd686f-f972-431b-9828-d31effbf33f1" Value="1" Type="int" />
+        <Parameter Name="Class" Guid="2f1b89f1-22f9-4566-aae3-039ba73b12b6" Value="Game.ComponentInserter" Type="string" />
+      </MemberComponentTemplate>
+    </EntityTemplate>
     <EntityTemplate Name="HPress" Guid="2955a387-af18-4955-81fa-aafaf97b92bd" InheritanceParent="9681f999-898b-4f5c-9ea8-f8cc331e97b3">
       <MemberComponentTemplate Name="HPress" Guid="0f173a26-ac7e-4b4c-97c7-df652ca11b51" InheritanceParent="81a44c6a-c30a-4f53-8d64-0c30aabab8fa">
         <Parameter Name="Class" Guid="1c9b89f0-22f9-45aa-aae3-039ba73b12b7" Value="Game.ComponentHPress" Type="string" />

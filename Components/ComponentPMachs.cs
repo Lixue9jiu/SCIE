@@ -52,7 +52,7 @@ namespace Game
 								else if (item is Brick)
 									goto case BrickBlock.Index;
 							}
-							if (!ItemBlock.IdTable.ContainsKey(text))
+							if (text==null||!ItemBlock.IdTable.ContainsKey(text))
 								return null;
 							break;
 					}

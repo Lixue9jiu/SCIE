@@ -931,6 +931,11 @@
       "aca"
       "aaa"
     </Recipe>
+	<Recipe Result="Bullet2Block:2048" ResultCount="1" RequiredHeatLevel="0" a="germaniumchunk" b="dispenser" c="IndustrialPiston" Description="做一个抓取机">
+      "aca"
+      "aba"
+      "aca"
+    </Recipe>
     <Recipe Result="BlastBlowerBlock" ResultCount="1" RequiredHeatLevel="0" a="rod" b="piston" c="metalblock:0" d="IronPlate" e="SteelGear" Description="制作高炉鼓风机">
       "bad"
       "bad"
