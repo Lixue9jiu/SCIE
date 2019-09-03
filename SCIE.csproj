@@ -32,11 +32,11 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
     <OutputPath>D:\Survivalcraft\Mods\工业mod\</OutputPath>
-    <LangVersion>7.1</LangVersion>
+    <LangVersion>7.2</LangVersion>
     <DefineConstants>DEBUG</DefineConstants>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
-    <LangVersion>7.1</LangVersion>
+    <LangVersion>7.2</LangVersion>
     <OutputPath>D:\Survivalcraft\Mods\工业mod\</OutputPath>
   </PropertyGroup>
   <ItemGroup>

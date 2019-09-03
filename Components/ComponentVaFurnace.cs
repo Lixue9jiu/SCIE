@@ -109,12 +109,12 @@ namespace Game
 					if (value == ItemBlock.IdTable["Si"])
 						n |= 1;
 					else if (value == ItemBlock.IdTable["H2"])
-						n |= 2;
+						n |= 5;
 					else if (value == ItemBlock.IdTable["Cl2"])
-						n |= 4;
+						n |= 6;
 				}
 			}
-			if (n == 7)
+			if (n == 12)
 			{
 				speed = 0.2f;
 				n = m_random.Int() & 7;
@@ -126,6 +126,10 @@ namespace Game
 					result[ItemBlock.IdTable["¶à¾§¹è"]] = 1;
 				result[ItemBlock.IdTable["HCl"]] = 2;
 				return FindSmeltingRecipe(result, 2);
+			}else if(n==4)
+			{
+				result[ItemBlock.IdTable["¶à¾§¹è"]] = 1;
+				return FindSmeltingRecipe(result, 3);
 			}
 			system = new ReactionSystem();
 			return FindSmeltingRecipe(result, FindSmeltingRecipe(result, system));

@@ -2,7 +2,7 @@ using Engine;
 using GameEntitySystem;
 using System.Linq;
 using TemplatesDatabase;
-
+using Engine.Graphics;
 namespace Game
 {
 	public class ComponentNGui : ComponentGui, IUpdateable
@@ -98,6 +98,7 @@ namespace Game
 				if (componentRider.Mount != null != flag)
 				{
 					DisplaySmallMessage(Utils.Get(componentRider.Mount != null ? "上马" : "下马"), false, false);
+					//componentRider.Mount.ComponentBody.Entity.FindComponent<ComponentCar>(true).SetModel(ContentManager.Get<Model>("Models/Tank"));
 				}
 			}
 			if ((m_editItemButton.IsClicked || playerInput.EditItem) && m_nearbyEditableCell.HasValue)
@@ -309,5 +310,178 @@ namespace Game
 		{
 			return b.Entity.FindComponent<ComponentMount>();
 		}
+	}
+	public class ComponentNVitalStats : ComponentVitalStats, IUpdateable
+	{
+		public new void Update(float dt)
+		{
+			if (m_componentPlayer.ComponentHealth.Health > 0f)
+			{
+				UpdateFood();
+				UpdateStamina();
+				UpdateSleep();
+				UpdateTemperature2();
+				UpdateWetness();
+			}
+			else
+			{
+				m_pantingSound.Stop();
+			}
+		}
+		public void UpdateTemperature2()
+		{
+			float gameTimeDelta = m_subsystemTime.GameTimeDelta;
+			bool flag = m_subsystemTime.PeriodicGameTimeEvent(300.0, 17.0);
+			float num = m_componentPlayer.ComponentClothing.Insulation * MathUtils.Lerp(1f, 0.05f, MathUtils.Saturate(4f * Wetness));
+			//m_componentPlayer.ComponentClothing.m_clothes;
+			
+			string str;
+			switch (m_componentPlayer.ComponentClothing.LeastInsulatedSlot)
+			{
+				case ClothingSlot.Head:
+					str = "head is";
+					break;
+				case ClothingSlot.Torso:
+					str = "chest is";
+					break;
+				case ClothingSlot.Legs:
+					str = "legs are";
+					break;
+				default:
+					str = "feet are";
+					break;
+			}
+			if (m_subsystemTime.PeriodicGameTimeEvent(2.0, 2.0 * (double)GetHashCode() % 1000.0 / 1000.0))
+			{
+				int x = Terrain.ToCell(m_componentPlayer.ComponentBody.Position.X);
+				int y = Terrain.ToCell(m_componentPlayer.ComponentBody.Position.Y + 0.1f);
+				int z = Terrain.ToCell(m_componentPlayer.ComponentBody.Position.Z);
+				m_subsystemMetersBlockBehavior.CalculateTemperature(x, y, z, 12f, num, out m_environmentTemperature, out m_environmentTemperatureFlux);
+			}
+			if (m_subsystemGameInfo.WorldSettings.GameMode != 0 && m_subsystemGameInfo.WorldSettings.AreAdventureSurvivalMechanicsEnabled)
+			{
+				float num2 = m_environmentTemperature - Temperature;
+				float num3 = 0.01f + 0.005f * m_environmentTemperatureFlux;
+				Temperature += MathUtils.Saturate(num3 * gameTimeDelta) * num2;
+			}
+			else
+			{
+				Temperature = 12f;
+			}
+			//if ()
+			int numm = 0;
+			ReadOnlyList<int> readOnlyList = m_componentPlayer.ComponentClothing.GetClothes(ClothingSlot.Head);
+			if (readOnlyList.Count > 0 && ClothingBlock.GetClothingData(Terrain.ExtractData(readOnlyList[readOnlyList.Count - 1])).Index == 45)
+				numm +=1;
+			ReadOnlyList<int> readOnlyList2 = m_componentPlayer.ComponentClothing.GetClothes(ClothingSlot.Torso);
+			if (readOnlyList2.Count > 0 && ClothingBlock.GetClothingData(Terrain.ExtractData(readOnlyList2[readOnlyList2.Count - 1])).Index == 46)
+				numm +=1;
+			ReadOnlyList<int> readOnlyList3 = m_componentPlayer.ComponentClothing.GetClothes(ClothingSlot.Legs);
+			if (readOnlyList3.Count > 0 && ClothingBlock.GetClothingData(Terrain.ExtractData(readOnlyList3[readOnlyList3.Count - 1])).Index == 47)
+				numm += 1;
+			ReadOnlyList<int> readOnlyList4 = m_componentPlayer.ComponentClothing.GetClothes(ClothingSlot.Feet);
+			if (readOnlyList4.Count > 0 && ClothingBlock.GetClothingData(Terrain.ExtractData(readOnlyList4[readOnlyList4.Count - 1])).Index == 48)
+				numm += 1;
+			if (numm==4)
+			Temperature = 12f;
+			numm = 0;
+			if (readOnlyList.Count > 0 && ClothingBlock.GetClothingData(Terrain.ExtractData(readOnlyList[readOnlyList.Count - 1])).Index == 43)
+				numm += 1;
+			if (readOnlyList2.Count > 0 && ClothingBlock.GetClothingData(Terrain.ExtractData(readOnlyList2[readOnlyList2.Count - 1])).Index == 49)
+				numm += 1;
+			if (numm == 2)
+			{
+				m_componentPlayer.ComponentHealth.Air = 1f;
+				//m_componentPlayer.ComponentClothing.GetClothes(ClothingSlot.Torso);
+					//ClothingBlock.
+			}
+				
+			if (Temperature <= 0f)
+			{
+				m_componentPlayer.ComponentHealth.Injure(1f, null, ignoreInvulnerability: false, "Froze to death");
+			}
+			else if (Temperature < 3f)
+			{
+				if (m_subsystemTime.PeriodicGameTimeEvent(10.0, 0.0))
+				{
+					m_componentPlayer.ComponentHealth.Injure(0.05f, null, ignoreInvulnerability: false, "Hypothermia");
+					string text = (Wetness > 0f) ? ("Your " + str + " freezing, dry your clothes!") : ((!(num < 1f)) ? ("Your " + str + " freezing, seek shelter!") : ("Your " + str + " freezing, get clothed!"));
+					m_componentPlayer.ComponentGui.DisplaySmallMessage(text, blinking: true, playNotificationSound: false);
+					m_componentPlayer.ComponentGui.TemperatureBarWidget.Flash(10);
+				}
+			}
+			else if (Temperature < 6f && ((m_lastTemperature >= 6f) | flag))
+			{
+				string text2 = (Wetness > 0f) ? ("Your " + str + " getting cold, dry your clothes") : ((!(num < 1f)) ? ("Your " + str + " getting cold, seek shelter") : ("Your " + str + " getting cold, get clothed"));
+				m_componentPlayer.ComponentGui.DisplaySmallMessage(text2, blinking: true, playNotificationSound: true);
+				m_componentPlayer.ComponentGui.TemperatureBarWidget.Flash(10);
+			}
+			else if (Temperature < 8f && ((m_lastTemperature >= 8f) | flag))
+			{
+				m_componentPlayer.ComponentGui.DisplaySmallMessage("You feel a bit chilly", blinking: true, playNotificationSound: false);
+				m_componentPlayer.ComponentGui.TemperatureBarWidget.Flash(10);
+			}
+			if (Temperature >= 24f)
+			{
+				if (m_subsystemTime.PeriodicGameTimeEvent(10.0, 0.0))
+				{
+					m_componentPlayer.ComponentGui.DisplaySmallMessage("It's too hot, run away!", blinking: true, playNotificationSound: false);
+					m_componentPlayer.ComponentHealth.Injure(0.05f, null, ignoreInvulnerability: false, "Overheated");
+					m_componentPlayer.ComponentGui.TemperatureBarWidget.Flash(10);
+				}
+				if (m_subsystemTime.PeriodicGameTimeEvent(8.0, 0.0))
+				{
+					m_temperatureBlackoutDuration = MathUtils.Max(m_temperatureBlackoutDuration, 6f);
+					m_componentPlayer.ComponentCreatureSounds.PlayMoanSound();
+				}
+			}
+			else if (Temperature > 20f && m_subsystemTime.PeriodicGameTimeEvent(10.0, 0.0))
+			{
+				m_componentPlayer.ComponentGui.DisplaySmallMessage("You feel hot", blinking: true, playNotificationSound: false);
+				m_temperatureBlackoutDuration = MathUtils.Max(m_temperatureBlackoutDuration, 3f);
+				m_componentPlayer.ComponentGui.TemperatureBarWidget.Flash(10);
+				m_componentPlayer.ComponentCreatureSounds.PlayMoanSound();
+			}
+			m_lastTemperature = Temperature;
+			m_componentPlayer.ComponentScreenOverlays.IceFactor = MathUtils.Saturate(1f - Temperature / 6f);
+			m_temperatureBlackoutDuration -= gameTimeDelta;
+			float num4 = MathUtils.Saturate(0.5f * m_temperatureBlackoutDuration);
+			m_temperatureBlackoutFactor = MathUtils.Saturate(m_temperatureBlackoutFactor + 2f * gameTimeDelta * (num4 - m_temperatureBlackoutFactor));
+			m_componentPlayer.ComponentScreenOverlays.BlackoutFactor = MathUtils.Max(m_temperatureBlackoutFactor, m_componentPlayer.ComponentScreenOverlays.BlackoutFactor);
+			if ((double)m_temperatureBlackoutFactor > 0.01)
+			{
+				m_componentPlayer.ComponentScreenOverlays.FloatingMessage = "Ugh...";
+				m_componentPlayer.ComponentScreenOverlays.FloatingMessageFactor = MathUtils.Saturate(10f * (m_temperatureBlackoutFactor - 0.9f));
+			}
+			if (m_environmentTemperature > 22f)
+			{
+				m_componentPlayer.ComponentGui.TemperatureBarWidget.BarSubtexture = ContentManager.Get<Subtexture>("Textures/Atlas/Temperature6");
+			}
+			else if (m_environmentTemperature > 18f)
+			{
+				m_componentPlayer.ComponentGui.TemperatureBarWidget.BarSubtexture = ContentManager.Get<Subtexture>("Textures/Atlas/Temperature5");
+			}
+			else if (m_environmentTemperature > 14f)
+			{
+				m_componentPlayer.ComponentGui.TemperatureBarWidget.BarSubtexture = ContentManager.Get<Subtexture>("Textures/Atlas/Temperature4");
+			}
+			else if (m_environmentTemperature > 10f)
+			{
+				m_componentPlayer.ComponentGui.TemperatureBarWidget.BarSubtexture = ContentManager.Get<Subtexture>("Textures/Atlas/Temperature3");
+			}
+			else if (m_environmentTemperature > 6f)
+			{
+				m_componentPlayer.ComponentGui.TemperatureBarWidget.BarSubtexture = ContentManager.Get<Subtexture>("Textures/Atlas/Temperature2");
+			}
+			else if (m_environmentTemperature > 2f)
+			{
+				m_componentPlayer.ComponentGui.TemperatureBarWidget.BarSubtexture = ContentManager.Get<Subtexture>("Textures/Atlas/Temperature1");
+			}
+			else
+			{
+				m_componentPlayer.ComponentGui.TemperatureBarWidget.BarSubtexture = ContentManager.Get<Subtexture>("Textures/Atlas/Temperature0");
+			}
+		}
+
 	}
 }

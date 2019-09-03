@@ -105,11 +105,17 @@ namespace Game
 	public class Tank : TexturedMeshItem
 	{
 		//public static Texture2D CarTexture;
-		public Tank() : base("坦克", "Tank", "Body", Car.CarTexture, "一种使用内燃机，燃烧汽油获得动力，在平坦的地面上行驶的交通工具。", 0.5f)
+		public Tank() : base("坦克", "Tank", "Body", SteamBoat.BoatTexture, "一种使用内燃机，燃烧汽油获得动力的战争机器。", -0.5f)
 		{
+			m_standaloneBlockMesh.AppendMesh("Models/Tank", "Head", Matrix.CreateScale(-0.5f)*Matrix.CreateTranslation(0f,0f,0f), Matrix.Identity, Color.White);
 		}
-
-		public override Vector3 GetIconViewOffset(int value, DrawBlockEnvironmentData environmentData) => new Vector3(-0.6f, 0.6f, 0.5f);
+		public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
+		{
+			//m_standaloneBlockMesh.AppendMesh
+			//
+			BlocksManager.DrawMeshBlock(primitivesRenderer, m_standaloneBlockMesh, Texture, color, size, ref matrix, environmentData);
+		}
+		public override Vector3 GetIconViewOffset(int value, DrawBlockEnvironmentData environmentData) => new Vector3(-0.6f, 1.2f, 0.5f);
 	}
 	public class Tractor : TexturedMeshItem
 	{

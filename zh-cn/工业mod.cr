@@ -130,10 +130,10 @@
     <Recipe Result="SteelIngot" ResultCount="1" RequiredHeatLevel="1500" Remains="ScrapIron" RemainsCount="2" a="ironingot" Description="冶炼铁锭以获得钢并去除硫">
       "aaa"
     </Recipe>
-    <Recipe Result="钢瓶" ResultCount="1" RequiredHeatLevel="0" a="SteelPlate" Description="用钢板制作钢瓶">
+	<Recipe Result="钢瓶" ResultCount="1" RequiredHeatLevel="0" a="SteelPlate" Description="用钢板制作钢瓶">
       " a "
-      "a a"
-      " a "
+	  "a a"
+	  " a "
     </Recipe>
     <Recipe Result="MeltingIron" ResultCount="1" RequiredHeatLevel="2800" a="ironingot" Description="加热铁锭以获得融化的铁">
       "a"
@@ -315,7 +315,7 @@
     <Recipe Result="ChromiumIngot" ResultCount="2" RequiredHeatLevel="1850" a="ChromiumLine" Description="将铬线铸造成铸锭">
       "aa"
     </Recipe>
-    <Recipe Result="ChromiumIngot" ResultCount="1" RequiredHeatLevel="1850" a="ChromiumOrePowder" b="CokeCoalPowder" Description="将铬粉铸造成铸锭">
+	<Recipe Result="ChromiumIngot" ResultCount="1" RequiredHeatLevel="1850" a="ChromiumOrePowder" b="CokeCoalPowder" Description="将铬粉铸造成铸锭">
       "abb"
     </Recipe>
     <Recipe Result="SteelIngot" ResultCount="1" RequiredHeatLevel="1400" a="SteelRod" Description="将钢棒锻造成铸锭">
@@ -362,6 +362,12 @@
     </Recipe>
     <Recipe Result="Gun-Steel" ResultCount="1" RequiredHeatLevel="2000" a="MeltingIron" b="MeltingChromium" c="MeltingNickel" d="PlatinumOrePowder" Description="铁铬镍铂粉冶炼炮钢">
       "abcd"
+    </Recipe>
+	<Recipe Result="炮钢棍" ResultCount="2" RequiredHeatLevel="2000" a="Gun-Steel" Description="冶炼炮钢棍">
+      "aa"
+    </Recipe>
+	<Recipe Result="Cannon" ResultCount="2" RequiredHeatLevel="2000" a="Gun-Steel" Description="炮钢冶炼炮管">
+      "aaaa"
     </Recipe>
   </Smelting>
   <Materials>
@@ -595,10 +601,22 @@
       "bcb"
       " d"
     </Recipe>
-     <Recipe Result="Bullet2Block:1" ResultCount="20" RequiredHeatLevel="0" a="LeadIngot" b="BrassSheet" c="TNT" d="detonator" Description="制作定装子弹">
+    <Recipe Result="Bullet2Block:1" ResultCount="20" RequiredHeatLevel="0" a="LeadIngot" b="BrassSheet" c="TNT" d="detonator" Description="制作定装子弹">
       " a"
       "bcb"
       " d"
+    </Recipe>
+	<Recipe Result="Bullet2Block:2" ResultCount="4" RequiredHeatLevel="0" a="LeadIngot" b="BrassPlate" c="TNT" d="detonator" Description="制作炮弹">
+      " aad"
+      "bccb"
+      " bbd"
+	  "bccb"
+    </Recipe>
+	<Recipe Result="Bullet2Block:3" ResultCount="4" RequiredHeatLevel="0" a="U238C" b="BrassPlate" c="TNT" d="detonator" Description="用U238饼制作贫铀弹">
+      " aad"
+      "bccb"
+      " bbd"
+	  "bccb"
     </Recipe>
     <Recipe Result="RifleBarrel" ResultCount="2" RequiredHeatLevel="0" Remains="SteelPlate" RemainsCount="1" a="musket2" Description="拆除步枪">
       "a"
@@ -690,7 +708,7 @@
       "bbbb"
       "cffc"
     </Recipe>
-    <Recipe Result="FactorioTransportBeltBlock" ResultCount="3" RequiredHeatLevel="0" a="SteelRod" b="ElectricMotor" c="leather" Description="制作传送带，远程输送物品">
+    <Recipe Result="FactorioTransportBeltBlock" ResultCount="6" RequiredHeatLevel="0" a="SteelRod" b="ElectricMotor" c="leather" Description="制作传送带，远程输送物品">
       "bca"
       " c"
       "aca"
@@ -792,7 +810,7 @@
       "bcb"
       "aba"
     </Recipe>
-    <Recipe Result="SourBlock:3072" ResultCount="1" RequiredHeatLevel="0" a="SteelPlate" b="chest" Description="制作一个钢箱">
+	<Recipe Result="SourBlock:3072" ResultCount="1" RequiredHeatLevel="0" a="SteelPlate" b="chest" Description="制作一个钢箱">
       " a "
       "aba"
       " a "
@@ -940,11 +958,11 @@
       "beb"
       "ada"
     </Recipe>
-    <Recipe Result="Workshop" ResultCount="1" RequiredHeatLevel="0" a="Gearbox" b="SteelRod" c="Circuit1" d="machinetool" e="metalblock:32" Description="制造工业车间来制造更多工业产品">
+	<Recipe Result="Workshop" ResultCount="1" RequiredHeatLevel="0" a="Gearbox" b="SteelRod" c="Circuit1" d="machinetool" e="metalblock:32" Description="制造工业车间来制造更多工业产品">
       "ebbe"
       "cddc"
       "caac"
-      "ebbe"
+	  "ebbe"
     </Recipe>
     <Recipe Result="CovenBlock" ResultCount="1" RequiredHeatLevel="0" a="RefractoryBrick" b="furnaceN:0" Description="制作焦炉以获得焦煤">
       "aaaa"
@@ -1024,6 +1042,13 @@
       "dced"
       "daad"
       "bffb"
+    </Recipe>
+	<Recipe Result="Tank" ResultCount="1" RequiredHeatLevel="0" a="metalblock:32" b="transportbelt:0" d="Gearbox" c="sengine:4096" e="液压元件" f="musket3" g="ElectricMotor" h="CannonB" Description="坦克，一种强大的战争机器">
+      "beheb"
+      "bfhfb"
+      "bagab"
+      "beaeb"
+	  "bcdcb"
     </Recipe>
     <Recipe Result="Airship" ResultCount="1" RequiredHeatLevel="0" a="H2" b="boat" d="SteelRod" c="sengine:4096" e="AluminumPlate" f="SteelFan" Description="飞艇，一种空中交通工具">
       "eeee"
@@ -1121,7 +1146,7 @@
       "bdcb"
       "bcec"
     </Recipe>
-    <Recipe Result="Centrifugal" ResultCount="1" RequiredHeatLevel="0" a="CopperWire" b="不锈钢板" c="SteelGear" d="metalblock:32" e="Generator" f="Circuit1" g="Separator" Description="制作离心机以分离原材料">
+	<Recipe Result="Centrifugal" ResultCount="1" RequiredHeatLevel="0" a="CopperWire" b="不锈钢板" c="SteelGear" d="metalblock:32" e="Generator" f="Circuit1" g="Separator" Description="制作离心机以分离原材料">
       "bffb"
       "baab"
       "bggb"
@@ -1141,6 +1166,12 @@
       "cccc"
       "daad"
       "aeba"
+      "cffc"
+    </Recipe>
+	<Recipe Result="AirPump" ResultCount="1" RequiredHeatLevel="0" a="SteelFan" b="SteelRod" c="SteelPlate" d="SteelGear" e="metalblock:32" f="Generator" g="tank:0" Description="制作抽气机">
+      "cggc"
+      "caac"
+      "caac"
       "cffc"
     </Recipe>
     <Recipe Result="Recycler" ResultCount="1" RequiredHeatLevel="0" a="SteelPlate" b="SteelGear" c="WireDevice" d="tank:0" e="kibbler:0" f="chest:0" Description="制作回收机以回收材料">
@@ -1207,17 +1238,23 @@
       "aca"
       " d "
     </Recipe>
-    <Recipe Result="电子二极管" ResultCount="2" RequiredHeatLevel="0" a="CopperWire" b="glass" c="CopperRod" d="AluminumPlate" e="StannaryIngot" f="多晶硅" Description="用铜棒，多晶硅，铝片，玻璃，锡锭制作电子二极管">
+	<Recipe Result="电子二极管" ResultCount="2" RequiredHeatLevel="0" a="CopperWire" b="glass" c="CopperRod" d="AluminumPlate" e="StannaryIngot" f="多晶硅" Description="用铜棒，多晶硅，铝片，玻璃，锡锭制作电子二极管">
       "cac"
       "bfb"
       "beb"
-      "bdb"
+	  "bdb"
     </Recipe>
-    <Recipe Result="Circuit1" ResultCount="1" RequiredHeatLevel="0" a="CopperWire" b="电子二极管" c="germaniumchunk" d="memorybank" e="StannaryIngot" Description="用电子二极管，锡锭制作初级电路板">
+	<Recipe Result="液压元件" ResultCount="2" RequiredHeatLevel="0" a="IndustrialPiston" b="Spring" c="不锈钢板" d="waterbucket" e="Rubber" f="Industrial Steel" Description="不锈钢板，工业钢制作液压元件">
+      "ebe"
+      " f "
+      "cac"
+	  "cdc"
+    </Recipe>
+	<Recipe Result="Circuit1" ResultCount="2" RequiredHeatLevel="0" a="CopperWire" b="电子二极管" c="germaniumchunk" d="memorybank" e="StannaryIngot" Description="用电子二极管，锡锭制作初级电路板">
       "abba"
       "beeb"
       "cbbc"
-      "adda"
+	  "adda"
     </Recipe>
     <Recipe Result="Charger" ResultCount="1" RequiredHeatLevel="0" a="CopperWire" b="WireDevice" c="metalblock:32" Description="充电放电装置，可以给电器充电也可以放电">
       "bbb"
@@ -1320,17 +1357,40 @@
       " b"
       "c c"
     </Recipe>
+	<Recipe Result="ClothingBlock:45" ResultCount="1" RequiredHeatLevel="0" a="AluminumPlate" b="StannaryIngot" c="canvas" Description="铝板锡锭棉布制作防热头盔">
+      "aaa"
+      "aba"
+      "ccc"
+    </Recipe>
+	<Recipe Result="ClothingBlock:46" ResultCount="1" RequiredHeatLevel="0" a="AluminumPlate" b="StannaryIngot" c="canvas" Description="铝板锡锭棉布制作防热服">
+      "abca"
+      "acba"
+      "abca"
+    </Recipe>
+	<Recipe Result="ClothingBlock:47" ResultCount="1" RequiredHeatLevel="0" a="AluminumPlate" b="StannaryIngot" c="canvas" Description="铝板锡锭棉布制作防热裤">
+      "acca"
+      "acca"
+      "bccb"
+    </Recipe>
+	<Recipe Result="ClothingBlock:48" ResultCount="1" RequiredHeatLevel="0" a="AluminumPlate" b="StannaryIngot" c="canvas" Description="铝板锡锭棉布制作防热靴">
+      "cccc"
+      "abba"
+    </Recipe>
+	<Recipe Result="ClothingBlock:49" ResultCount="1" RequiredHeatLevel="0" a="string" b="SteelLine" c="O2" Description="制作氧气瓶">
+      "acca"
+      " bb "
+    </Recipe>
     <Recipe Result="IEBatteryBlock:4" ResultCount="1" RequiredHeatLevel="0" a="CuZnBattery" b="Switch" c="SteelSheet" d="lightbulb" Description="制作手电筒">
       "cdc"
       "cbc"
       "cac"
     </Recipe>
-    <Recipe Result="ABomb" ResultCount="1" RequiredHeatLevel="0" a="电容" b="SteelPlate" c="U235C" d="Circuit1" e="TNT" f="CopperWire" Description="利用U235饼制作枪式核弹">
+	<Recipe Result="ABomb" ResultCount="1" RequiredHeatLevel="0" a="电容" b="SteelPlate" c="U235C" d="Circuit1" e="TNT" f="CopperWire" Description="利用U235饼制作枪式核弹">
       "bbbbb"
       "bcdfe"
       "bc ce"
-      "bcdfe"
-      "bbbbb"
+	  "bcdfe"
+	  "bbbbb"
     </Recipe>
     <Recipe Result="SteelIngot" ResultCount="1" RequiredHeatLevel="1400" a="SteelGear" Description="拆除钢制齿轮">
       "a"

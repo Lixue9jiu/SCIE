@@ -311,6 +311,7 @@ namespace Game
 				{
 					entity = DatabaseManager.CreateEntity(Project, "Tank", true);
 					entity.FindComponent<ComponentFrame>(true).Rotation = Quaternion.CreateFromAxisAngle(Vector3.UnitY, m_random.UniformFloat(0f, 6.283185f));
+					//entity.FindComponent<ComponentCar>(true).Load;
 					goto put;
 				}
 				else if (activeBlockValue == ItemBlock.IdTable["Car"])

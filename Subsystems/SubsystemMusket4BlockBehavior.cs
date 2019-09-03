@@ -90,11 +90,11 @@ namespace Game
 								break;
 							case AimState.Completed:
 								{
-									//Vector3 vvv2 = new Vector3(0f, 0f, 0f);
+									Vector3 vvv2 = new Vector3(0f, 0f, 0f);
 									var view3 = componentMiner.ComponentPlayer.View;
 									if (view3.ActiveCamera is TelescopeCamera2)
 									{
-										//vvv2 = TelescopeCamera2.m_direction;
+										vvv2 = TelescopeCamera2.m_direction;
 										view3.ActiveCamera = view3.FindCamera<FppCamera>(true);
 									}
 									//view3.ActiveCamera = view3.ActiveCamera is TelescopeCamera2 ? view3.FindCamera<FppCamera>(true) : (Camera)new TelescopeCamera2(view3);
@@ -102,6 +102,7 @@ namespace Game
 									int value2 = 0;
 									int num6 = 0;
 									float s = 0f;
+									dir = Vector3.Normalize(vvv2);
 									Vector3 vector = Vector3.Zero;
 									Musket2Block.LoadState loadState = Musket2Block.GetLoadState(data);
 									if (Musket4Block.GetBulletNum(Terrain.ExtractData(inventory.GetSlotValue(activeSlotIndex))) > 0)
