@@ -94,8 +94,11 @@
     <Recipe Result="BrassIngot" ResultCount="1" RequiredHeatLevel="1200" a="CopperOrePowder" b="CoalPowder" c="ZincOrePowder" Description="冶炼铜矿粉锌矿粉碳粉获得黄铜">
       "acb"
     </Recipe>
-    <Recipe Result="H2O" ResultCount="1" Remains="CrudeSalt" RemainsCount="1" RequiredHeatLevel="100" a="waterbucket" b="Bottle" Description="获得蒸馏水">
+    <Recipe Result="H2O" ResultCount="1" Remains="EmptyBucketBlock" RemainsCount="1" RequiredHeatLevel="100" a="waterbucket" b="Bottle" Description="获得蒸馏水">
       "ab"
+    </Recipe>
+	<Recipe Result="CrudeSalt" ResultCount="1" Remains="EmptyBucketBlock" RemainsCount="2" RequiredHeatLevel="100" a="waterbucket" Description="获得粗盐">
+      "aa"
     </Recipe>
     <Recipe Result="NickelIngot" ResultCount="1" RequiredHeatLevel="1200" a="NickelOrePowder" b="CoalPowder" c="pigment" Description="冶炼镍矿粉获得镍">
       "abc"
@@ -1074,10 +1077,15 @@
       "bab"
       " b "
     </Recipe>
-    <Recipe Result="RailBlock" ResultCount="2" RequiredHeatLevel="0" a="SteelRod" b="stick" Description="火车可以在铁路上行驶">
+    <Recipe Result="RailBlock" ResultCount="6" RequiredHeatLevel="0" a="SteelRod" b="stick" Description="火车可以在铁路上行驶">
       "aba"
       "aba"
       "aba"
+    </Recipe>
+	<Recipe Result="RailBlock" ResultCount="10" RequiredHeatLevel="0" a="Industrial Steel" b="stick" Description="火车可以在铁路上行驶">
+      " b "
+      "aba"
+      " b "
     </Recipe>
     <Recipe Result="Icebreaker" ResultCount="1" RequiredHeatLevel="0" a="SteelPlate" b="metalblock:32" c="SteelRod" d="SteamBoat" e="metalblock:96" Description="制作破冰船，使在冰上航行的梦想变为现实">
       "aba"

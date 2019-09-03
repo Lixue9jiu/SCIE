@@ -167,7 +167,7 @@ namespace Game
 		}
 		public override int GetProcessInventoryItemCapacity(IInventory inventory, int slotIndex, int value)
 		{
-			return Terrain.ExtractContents(value) != Bullet2Block.Index || Musket2Block.GetLoadState(Terrain.ExtractData(inventory.GetSlotValue(slotIndex))) == Musket2Block.LoadState.Bullet2
+			return value != Terrain.MakeBlockValue(214, 0, Bullet2Block.SetBulletType(0, Bullet2Block.BulletType.IronBullet)) || Musket2Block.GetLoadState(Terrain.ExtractData(inventory.GetSlotValue(slotIndex))) == Musket2Block.LoadState.Bullet2
 				? 0
 				: 1;
 		}

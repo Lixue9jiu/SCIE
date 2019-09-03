@@ -67,7 +67,7 @@ namespace Game
 						m_slots[0].Count--;
 						m_slots[1].Count -= 2;
 					}
-					if (result[0] == (240 | 12 << 18) || result[0] != (240 | 13 << 18) || result[0] != (240 | 14 << 18))
+					if (result[0] == (240 | 12 << 18) || result[0] == (240 | 13 << 18) || result[0] == (240 | 14 << 18))
 					{
 						m_slots[0].Count--;
 						m_slots[1].Count--;
