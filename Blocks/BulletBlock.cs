@@ -24,7 +24,7 @@ namespace Game
 
 		protected static readonly string[] m_displayNames =
 		{
-			"Musket Ball", "Buckshot", "Buckshot Ball", "IronBullet", "C-Bullet", "SnpierBullet","MiniShell","Shell","UShell"
+			"Musket Ball", "Buckshot", "Buckshot Ball", "IronBullet", "C-Bullet", "SnpierBullet", "MiniShell", "Shell", "UShell"
 		};
 
 		protected static readonly float[] m_sizes = { 1f, 1f, 0.33f, 1f, 0.5f, 0.8f ,1f,2f,2f};

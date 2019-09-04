@@ -148,29 +148,28 @@ namespace Game
 				{
 					int value = GetSlotValue(i);
 					if (value == ItemBlock.IdTable["S"])
-						n += 1;
-					else if (value == WaterBucketBlock.Index)
-						n += 2;
-					else if (value == ItemBlock.IdTable["Bottle"])
-						n += 4;
-					else if (value == ItemBlock.IdTable["C7H8"])
-						n += 8;
+						n |= 1;
+					else if (value == ItemBlock.IdTable["H2O"])
+						n |= 2;
 					else if (value == ItemBlock.IdTable["Cl2"])
-						n += 9;
+						n |= 4;
+					else if (value == ItemBlock.IdTable["C7H8"])
+						n |= 8;
 					else if (value == ItemBlock.IdTable["HNO3"])
-						n += 10;
+						n |= 16;
 				}
 			}
 			if (n == 7)
 			{
 				m_speed = 0.1f;
 				result[ItemBlock.IdTable["H2SO4"]] = 1;
-				result[EmptyBucketBlock.Index] = 1;
+				result[ItemBlock.IdTable["S-HCl"]] = 2;
+				result[ItemBlock.IdTable["钢瓶"]] = 1;
 				result[ItemBlock.IdTable["S"]] = -1;
-				result[WaterBucketBlock.Index] = -1;
-				result[ItemBlock.IdTable["Bottle"]] = -1;
+				result[ItemBlock.IdTable["H2O"]] = -1;
+				result[ItemBlock.IdTable["Cl2"]] = -1;
 			}
-			else if (n == 27)
+			else if (n == (4 | 8 | 16))
 			{
 				m_speed = 0.05f;
 				result[ItemBlock.IdTable["钢瓶"]] = 2;

@@ -120,6 +120,10 @@ namespace Game
 				{
 					Id = "S-NaOH"
 				},
+				new Bottle("盐酸")
+				{
+					Id = "S-HCl"
+				},
 				new Bottle(new ReactionSystem("Br₂"), new Color(111, 21, 12)),
 				new PurePowder("Na₂O"),
 				new PurePowder("Na₂O₂", Color.LightYellow),
@@ -305,8 +309,7 @@ namespace Game
 	}
 	public class FuelCylinder : Cylinder, IFuel
 	{
-		public readonly float HeatLevel;
-		public readonly float FuelFireDuration;
+		public readonly float HeatLevel, FuelFireDuration;
 		public FuelCylinder(string name, float heatLevel, float fuelFireDuration) : base(name)
 		{
 			HeatLevel = heatLevel;
@@ -377,8 +380,7 @@ namespace Game
 	}
 	public class FuelPowder : PurePowder, IFuel
 	{
-		public readonly float HeatLevel;
-		public readonly float FuelFireDuration;
+		public readonly float HeatLevel, FuelFireDuration;
 
 		public FuelPowder(string name, Color color, float heatLevel = 1700f, float fuelFireDuration = 60f, string description = "") : base(name, color)
 		{

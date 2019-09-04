@@ -16,7 +16,7 @@ namespace Game
 
 		public const int Index = 521;
 
-		protected static readonly string[] m_displayNames = { "LeadBullet", "RifleBullet" ,"Shell","UShell"};
+		protected static readonly string[] m_displayNames = { "LeadBullet", "RifleBullet", "Shell", "UShell"};
 		protected static readonly float[] m_sizes = { 0.5f, 0.5f ,1f ,1f};
 		protected static readonly int[] m_textureSlots = { 177, 193 ,193, 193};
 
