@@ -126,7 +126,8 @@ namespace Game
 					result[ItemBlock.IdTable["¶à¾§¹è"]] = 1;
 				result[ItemBlock.IdTable["HCl"]] = 2;
 				return FindSmeltingRecipe(result, 2);
-			}else if(n==4)
+			}
+			else if (n == 4)
 			{
 				result[ItemBlock.IdTable["¶à¾§¹è"]] = 1;
 				return FindSmeltingRecipe(result, 3);

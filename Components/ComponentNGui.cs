@@ -2,12 +2,13 @@ using Engine;
 using GameEntitySystem;
 using System.Linq;
 using TemplatesDatabase;
-using Engine.Graphics;
+
 namespace Game
 {
 	public class ComponentNGui : ComponentGui, IUpdateable
 	{
 		public ComponentGui ComponentGui;
+
 		public new void Update(float dt)
 		{
 			HandleInput();
@@ -302,7 +303,7 @@ namespace Game
 			var componentEngine3 = entity.FindComponent<ComponentEngineA>();
 			if (componentEngine3 != null)
 				return new EngineAWidget(inventory, componentEngine3);
-			
+
 			return null;
 		}
 
@@ -311,6 +312,7 @@ namespace Game
 			return b.Entity.FindComponent<ComponentMount>();
 		}
 	}
+
 	public class ComponentNVitalStats : ComponentVitalStats, IUpdateable
 	{
 		public new void Update(float dt)
@@ -328,13 +330,14 @@ namespace Game
 				m_pantingSound.Stop();
 			}
 		}
+
 		public void UpdateTemperature2()
 		{
 			float gameTimeDelta = m_subsystemTime.GameTimeDelta;
 			bool flag = m_subsystemTime.PeriodicGameTimeEvent(300.0, 17.0);
 			float num = m_componentPlayer.ComponentClothing.Insulation * MathUtils.Lerp(1f, 0.05f, MathUtils.Saturate(4f * Wetness));
 			//m_componentPlayer.ComponentClothing.m_clothes;
-			
+
 			string str;
 			switch (m_componentPlayer.ComponentClothing.LeastInsulatedSlot)
 			{
@@ -372,22 +375,22 @@ namespace Game
 			int numm = 0;
 			ReadOnlyList<int> readOnlyList = m_componentPlayer.ComponentClothing.GetClothes(ClothingSlot.Head);
 			if (readOnlyList.Count > 0 && ClothingBlock.GetClothingData(Terrain.ExtractData(readOnlyList[readOnlyList.Count - 1])).Index == 45)
-				numm +=1;
+				numm += 1;
 			ReadOnlyList<int> readOnlyList2 = m_componentPlayer.ComponentClothing.GetClothes(ClothingSlot.Torso);
 			if (readOnlyList2.Count > 0 && ClothingBlock.GetClothingData(Terrain.ExtractData(readOnlyList2[readOnlyList2.Count - 1])).Index == 46)
-				numm +=1;
+				numm += 1;
 			ReadOnlyList<int> readOnlyList3 = m_componentPlayer.ComponentClothing.GetClothes(ClothingSlot.Legs);
 			if (readOnlyList3.Count > 0 && ClothingBlock.GetClothingData(Terrain.ExtractData(readOnlyList3[readOnlyList3.Count - 1])).Index == 47)
 				numm += 1;
 			ReadOnlyList<int> readOnlyList4 = m_componentPlayer.ComponentClothing.GetClothes(ClothingSlot.Feet);
 			if (readOnlyList4.Count > 0 && ClothingBlock.GetClothingData(Terrain.ExtractData(readOnlyList4[readOnlyList4.Count - 1])).Index == 48)
 				numm += 1;
-			if (numm==4)
+			if (numm == 4)
 			{
 				Temperature = 12f;
 				Wetness = 0f;
 			}
-			
+
 			numm = 0;
 			if (readOnlyList.Count > 0 && ClothingBlock.GetClothingData(Terrain.ExtractData(readOnlyList[readOnlyList.Count - 1])).Index == 43)
 				numm += 1;
@@ -402,7 +405,7 @@ namespace Game
 				//m_componentPlayer.ComponentClothing.GetClothes(ClothingSlot.Torso);
 				//ClothingBlock.
 			}
-				
+
 			if (Temperature <= 0f)
 			{
 				m_componentPlayer.ComponentHealth.Injure(1f, null, ignoreInvulnerability: false, "Froze to death");
@@ -489,6 +492,5 @@ namespace Game
 				m_componentPlayer.ComponentGui.TemperatureBarWidget.BarSubtexture = ContentManager.Get<Subtexture>("Textures/Atlas/Temperature0");
 			}
 		}
-
 	}
 }

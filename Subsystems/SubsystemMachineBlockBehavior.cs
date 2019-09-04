@@ -93,7 +93,7 @@ namespace Game
 				return;
 			int l;
 			Vector3 v = CellFace.FaceToVector3(cellFace.Face);
-			Pickable pickable = worldItem as Pickable;
+			var pickable = worldItem as Pickable;
 			int num = pickable?.Count ?? 1;
 			if (num > 1)
 				return;
@@ -181,7 +181,7 @@ namespace Game
 			//int num1 = SubsystemTerrain.Terrain.GetCellValue(cellFace.X, cellFace.Y, cellFace.Z);
 			//int num2 = SubsystemTerrain.Terrain.GetCellContents(cellFace.X, cellFace.Y, cellFace.Z);
 			Vector3 v = CellFace.FaceToVector3(cellFace.Face);
-			Pickable pickable = worldItem as Pickable;
+			var pickable = worldItem as Pickable;
 			int num = pickable?.Count ?? 1;
 			if (num > 1)
 				return;

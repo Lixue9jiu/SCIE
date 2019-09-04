@@ -10,9 +10,7 @@ namespace Game
 	{
 		public int Compare(Point2 x, Point2 y)
 		{
-			if (x.X != y.X)
-				return x.X.CompareTo(y.X);
-			return x.Y.CompareTo(y.Y);
+			return x.X != y.X ? x.X.CompareTo(y.X) : x.Y.CompareTo(y.Y);
 		}
 
 		public int Compare(IChemicalItem x, IChemicalItem y)

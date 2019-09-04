@@ -94,16 +94,17 @@ namespace Game
 				m_music++;
 				if (SmeltingProgress >= 1.0)
 				{
-					if (m_furnaceSize==1)
+					if (m_furnaceSize == 1)
 					{
 						for (int i = 0; i < m_furnaceSize; i++)
 							if (m_slots[i].Count > 0)
 								m_slots[i].Count--;
-					}else
+					}
+					else
 					{
 						m_slots[RemainsSlotIndex].Count--;
 					}
-					
+
 					m_slots[ResultSlotIndex].Value = EmptyBucketBlock.Index;
 					m_slots[ResultSlotIndex].Count++;
 					m_smeltingRecipe = null;
@@ -136,7 +137,7 @@ namespace Game
 			if (heatLevel < 100f)
 				return null;
 			string text = null;
-			if (m_furnaceSize==1)
+			if (m_furnaceSize == 1)
 			{
 				if (GetSlotCount(0) > 0)
 					if (Terrain.ExtractContents(base.GetSlotValue(0)) == WaterBucketBlock.Index)

@@ -16,9 +16,9 @@ namespace Game
 
 		public const int Index = 521;
 
-		protected static readonly string[] m_displayNames = { "LeadBullet", "RifleBullet" ,"Shell","UShell"};
-		protected static readonly float[] m_sizes = { 0.5f, 0.5f ,1f ,1f};
-		protected static readonly int[] m_textureSlots = { 177, 193 ,193, 193};
+		protected static readonly string[] m_displayNames = { "LeadBullet", "RifleBullet", "Shell", "UShell" };
+		protected static readonly float[] m_sizes = { 0.5f, 0.5f, 1f, 1f };
+		protected static readonly int[] m_textureSlots = { 177, 193, 193, 193 };
 
 		public override IEnumerable<int> GetCreativeValues() => new[] { Terrain.MakeBlockValue(521, 0, SetBulletType(0, BulletType.IronBullet)), Terrain.MakeBlockValue(521, 0, SetBulletType(0, BulletType.HandBullet)), Terrain.MakeBlockValue(521, 0, SetBulletType(0, BulletType.Shell)), Terrain.MakeBlockValue(521, 0, SetBulletType(0, BulletType.UShell)), Index | 1 << 10 << 14, Index | 2 << 10 << 14 };
 
@@ -40,7 +40,7 @@ namespace Game
 		{
 			if ((Terrain.ExtractData(value) >> 10) > 0)
 				return base.GetPlacementValue(subsystemTerrain, componentMiner, value, raycastResult);
-			return  default;
+			return default;
 		}
 
 		public override string GetDisplayName(SubsystemTerrain subsystemTerrain, int value)
@@ -49,7 +49,7 @@ namespace Game
 				return Utils.Get("放置机");
 			if ((Terrain.ExtractData(value) >> 10) == 2)
 				return Utils.Get("Inserter");
-			return  m_displayNames[Terrain.ExtractData(value)];
+			return m_displayNames[Terrain.ExtractData(value)];
 		}
 
 		public override string GetDescription(int value)
@@ -58,7 +58,7 @@ namespace Game
 				return Utils.Get("放置机");
 			if ((Terrain.ExtractData(value) >> 10) == 2)
 				return Utils.Get("Inserter");
-			return  DefaultDescription;
+			return DefaultDescription;
 		}
 
 		public override string GetCategory(int value)
@@ -73,9 +73,9 @@ namespace Game
 
 		public override int GetFaceTextureSlot(int face, int value)
 		{
-			if ((Terrain.ExtractData(value) >> 10) ==1)
+			if ((Terrain.ExtractData(value) >> 10) == 1)
 				return face == GetDirection(value) ? 111 : 170;
-			if ((Terrain.ExtractData(value) >> 10) ==2)
+			if ((Terrain.ExtractData(value) >> 10) == 2)
 				return face == GetDirection(value) ? 131 : 170;
 			int bulletType = (int)GetBulletType(Terrain.ExtractData(value));
 			return bulletType < 0 || bulletType >= m_textureSlots.Length ? 177 : m_textureSlots[bulletType];
@@ -94,7 +94,7 @@ namespace Game
 		public new ElectricElement CreateElectricElement(SubsystemElectricity subsystemElectricity, int value, int x, int y, int z)
 		{
 			if ((Terrain.ExtractData(value) >> 10) == 1)
-			   return new UnloaderElectricElement(subsystemElectricity, new Point3(x, y, z));
+				return new UnloaderElectricElement(subsystemElectricity, new Point3(x, y, z));
 			if ((Terrain.ExtractData(value) >> 10) == 2)
 				return new InserterElectricElement(subsystemElectricity, new Point3(x, y, z));
 			return null;
@@ -161,14 +161,14 @@ namespace Game
 			}
 			int y = Point.Y;
 			//if ((n & 7) != 0 && (n & 7) != 7 && y >= 0 && y < 128)
-		//	{
-		//		int value = Utils.Terrain.GetCellValueFast(Point.X, y, Point.Z);
-		//		Utils.SubsystemTerrain.ChangeCell(Point.X, y, Point.Z, Terrain.ReplaceData(value, FourDirectionalBlock.SetDirection(Terrain.ExtractData(value), (n & 7) - 1)));
-		//	}
+			//	{
+			//		int value = Utils.Terrain.GetCellValueFast(Point.X, y, Point.Z);
+			//		Utils.SubsystemTerrain.ChangeCell(Point.X, y, Point.Z, Terrain.ReplaceData(value, FourDirectionalBlock.SetDirection(Terrain.ExtractData(value), (n & 7) - 1)));
+			//	}
 			if (n > 7 && SubsystemElectricity.SubsystemTime.GameTime - m_lastDispenseTime > 0.1)
 			{
 				ComponentBlockEntity blockEntity = Utils.SubsystemBlockEntities.GetBlockEntity(Point.X, y, Point.Z);
-				bool placed = false;
+				//bool placed = false;
 				if (blockEntity != null)
 				{
 					var componentUnloader = blockEntity.Entity.FindComponent<ComponentInserter>();
@@ -176,7 +176,7 @@ namespace Game
 						componentUnloader.Place();
 				}
 				//if (placed)
-					m_lastDispenseTime = SubsystemElectricity.SubsystemTime.GameTime;
+				m_lastDispenseTime = SubsystemElectricity.SubsystemTime.GameTime;
 			}
 			return false;
 		}

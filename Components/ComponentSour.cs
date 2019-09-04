@@ -31,7 +31,7 @@ namespace Game
 			}
 			else if (m_smeltingRecipe != 0)
 			{
-				m_fireTimeRemaining = MathUtils.Min(m_fireTimeRemaining - 0.001f* m_slots[0].Count * dt, 1f);
+				m_fireTimeRemaining = MathUtils.Min(m_fireTimeRemaining - 0.001f * m_slots[0].Count * dt, 1f);
 				SmeltingProgress = 1f - m_fireTimeRemaining;
 				//m_fireTimeRemaining = SmeltingProgress;
 				if (SmeltingProgress >= 1f)

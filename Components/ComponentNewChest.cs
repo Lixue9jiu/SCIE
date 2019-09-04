@@ -20,6 +20,7 @@ namespace Game
 			this.SaveItems(valuesDictionary);
 		}
 	}
+
 	public partial class Utils
 	{
 		public static void LoadItems(this ComponentInventoryBase inventory, ValuesDictionary valuesDictionary)

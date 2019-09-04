@@ -6,7 +6,8 @@ namespace Game
 {
 	public class ComponentNPlayer : ComponentPlayer, IUpdateable
 	{
-		public double m_time2=0f;
+		public double m_time2 = 0f;
+
 		public new void Update(float dt)
 		{
 			PlayerInput playerInput = ComponentInput.PlayerInput;
@@ -18,26 +19,26 @@ namespace Game
 				if (playerInput.SelectInventorySlot.HasValue)
 					ComponentMiner.Inventory.ActiveSlotIndex = MathUtils.Clamp(playerInput.SelectInventorySlot.Value, 0, 5);
 			}
-		//	if (m_subsystemTime.PeriodicGameTimeEvent(0.5, 0))
-		//	{
-		//		ReadOnlyList<int> readOnlyList = ComponentClothing.GetClothes(ClothingSlot.Head);
-		//		if (readOnlyList.Count > 0 && ClothingBlock.GetClothingData(Terrain.ExtractData(readOnlyList[readOnlyList.Count - 1])).DisplayName == Utils.Get("潜水头盔"))
-		//		{
-		//			if (ComponentBody.ImmersionFluidBlock != null && ComponentBody.ImmersionFluidBlock.BlockIndex == RottenMeatBlock.Index && ComponentBody.ImmersionDepth > 0.8f)
-		//				ComponentScreenOverlays.BlackoutFactor = 1f;
-		//			ComponentHealth.Air = 1f;
-		//		}
-				//ReadOnlyList<int> readOnlyList2 = ComponentClothing.GetClothes(ClothingSlot.Torso);
-				//if (readOnlyList2.Count > 0 && ClothingBlock.GetClothingData(Terrain.ExtractData(readOnlyList[readOnlyList2.Count - 1])).DisplayName == Utils.Get("防热服"))
-				//{
-					//if (ComponentBody.ImmersionFluidBlock != null && ComponentBody.ImmersionFluidBlock.BlockIndex == RottenMeatBlock.Index && ComponentBody.ImmersionDepth > 0.8f)
-					//	ComponentScreenOverlays.BlackoutFactor = 1f;
-				//	ComponentHealth.m_componentOnFire.m_fireDuration = 0f;
-					//ComponentHealth.m_componentPlayer.ComponentVitalStats.m_lastTemperature = 10f;
-					//this.
-				//	ComponentVitalStats.m_temperature = 8f;
-				//}
-		//	}
+			//	if (m_subsystemTime.PeriodicGameTimeEvent(0.5, 0))
+			//	{
+			//		ReadOnlyList<int> readOnlyList = ComponentClothing.GetClothes(ClothingSlot.Head);
+			//		if (readOnlyList.Count > 0 && ClothingBlock.GetClothingData(Terrain.ExtractData(readOnlyList[readOnlyList.Count - 1])).DisplayName == Utils.Get("潜水头盔"))
+			//		{
+			//			if (ComponentBody.ImmersionFluidBlock != null && ComponentBody.ImmersionFluidBlock.BlockIndex == RottenMeatBlock.Index && ComponentBody.ImmersionDepth > 0.8f)
+			//				ComponentScreenOverlays.BlackoutFactor = 1f;
+			//			ComponentHealth.Air = 1f;
+			//		}
+			//ReadOnlyList<int> readOnlyList2 = ComponentClothing.GetClothes(ClothingSlot.Torso);
+			//if (readOnlyList2.Count > 0 && ClothingBlock.GetClothingData(Terrain.ExtractData(readOnlyList[readOnlyList2.Count - 1])).DisplayName == Utils.Get("防热服"))
+			//{
+			//if (ComponentBody.ImmersionFluidBlock != null && ComponentBody.ImmersionFluidBlock.BlockIndex == RottenMeatBlock.Index && ComponentBody.ImmersionDepth > 0.8f)
+			//	ComponentScreenOverlays.BlackoutFactor = 1f;
+			//	ComponentHealth.m_componentOnFire.m_fireDuration = 0f;
+			//ComponentHealth.m_componentPlayer.ComponentVitalStats.m_lastTemperature = 10f;
+			//this.
+			//	ComponentVitalStats.m_temperature = 8f;
+			//}
+			//	}
 			ComponentMount mount = ComponentRider.Mount;
 			if (mount != null)
 			{
@@ -157,7 +158,7 @@ namespace Game
 			var block = BlocksManager.Blocks[num];
 			float num2 = (m_subsystemGameInfo.WorldSettings.GameMode == GameMode.Creative || block is Musket2Block) ? 0.1f : 1.4f;
 			Vector3 viewPosition2 = View.ActiveCamera.ViewPosition;
-			if (mount != null && ComponentMiner.ActiveBlockValue==0)
+			if (mount != null && ComponentMiner.ActiveBlockValue == 0)
 			{
 				var componentBoat44 = mount.Entity.FindComponent<ComponentEngineT3>();
 				if (playerInput.Aim.HasValue && componentBoat44 != null)
@@ -166,25 +167,24 @@ namespace Game
 					Vector3 v = View.ActiveCamera.ScreenToWorld(new Vector3(value, 1f), Matrix.Identity);
 					this.ComponentGui.ShowAimingSights(viewPosition2, Vector3.Normalize(v - viewPosition2));
 					componentBoat44.vet1 = Vector3.Normalize(v - viewPosition2);
-					if (componentBoat44.HeatLevel==499f)
+					if (componentBoat44.HeatLevel == 499f)
 					{
 						componentBoat44.HeatLevel -= 10f;
 					}
-					
+
 					//if (componentBoat44.HeatLevel == 500f && m_subsystemTime.GameTime - m_time2>1f)
 					//{
-						//componentBoat44.HeatLevel -= 10f;
-				    m_time2 = m_subsystemTime.GameTime;
+					//componentBoat44.HeatLevel -= 10f;
+					m_time2 = m_subsystemTime.GameTime;
 					//}
 					return;
 				}
-				if (m_subsystemTime.GameTime-m_time2<2*dt && m_time2!=0)
+				if (m_subsystemTime.GameTime - m_time2 < 2 * dt && m_time2 != 0)
 				{
 					if (componentBoat44.HeatLevel == 500f)
 						componentBoat44.HeatLevel -= 10f;
-						return;
+					return;
 				}
-					
 			}
 			if (playerInput.Aim.HasValue && block.IsAimable && m_subsystemTime.GameTime - m_lastActionTime > num2)
 			{

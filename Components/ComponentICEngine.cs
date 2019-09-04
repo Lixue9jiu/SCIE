@@ -39,7 +39,7 @@ namespace Game
 							m_slots[Fuel2SlotIndex].Count -= 1;
 							SmeltingProgress += 50f;
 						}
-						
+
 						m_fireTimeRemaining = SmeltingProgress;
 					}
 				}
@@ -52,7 +52,7 @@ namespace Game
 				m_fireTimeRemaining = SmeltingProgress;
 				//HeatLevel = 1000f;
 			}
-			if (SmeltingProgress < 0f )
+			if (SmeltingProgress < 0f)
 			{
 				SmeltingProgress = 0f;
 			}

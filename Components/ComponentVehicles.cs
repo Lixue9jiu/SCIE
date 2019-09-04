@@ -1,9 +1,10 @@
 ﻿using Engine;
+using Engine.Graphics;
 using GameEntitySystem;
 using System.Collections.Generic;
 using System.Linq;
 using TemplatesDatabase;
-using Engine.Graphics;
+
 namespace Game
 {
 	public class ComponentBoatI : ComponentBoat, IUpdateable
@@ -104,6 +105,7 @@ namespace Game
 		protected ComponentEngineT3 componentEngine4;
 		protected int use = 0;
 		protected bool jump = false;
+
 		public new void Update(float dt)
 		{
 			var componentBody = m_componentBody;
@@ -129,7 +131,7 @@ namespace Game
 						//	Vector3 newp = m_componentBody.Position + new Vector3(m_componentBody.Velocity.X, 0f, m_componentBody.Velocity.Z);
 						//	if ((newp.Y - m_componentBody.Position.Y) <2f)
 						//	{
-						var p2 = Vector3.Normalize(componentBody.Rotation.ToForwardVector()* MoveOrder);
+						var p2 = Vector3.Normalize(componentBody.Rotation.ToForwardVector() * MoveOrder);
 						var p = Terrain.ToCell(componentBody.Position + p2 * 1.0f + new Vector3(0f, 0.5f, 0f));
 						int value2 = Utils.Terrain.GetCellContentsFast(p.X, p.Y, p.Z);
 						var block = BlocksManager.Blocks[Terrain.ExtractContents(value2)];
@@ -146,26 +148,25 @@ namespace Game
 						//jump = false;
 					}
 				}
-				
-				
+
 				//if (jum)
 				//componentBody.
 				//rider = m_componentMount.Rider;
-					if (rider != null)
+				if (rider != null)
 				{
-					Vector3 xian = new Vector3(rider.ComponentCreature.ComponentCreatureModel.EyeRotation.ToForwardVector().X,0f, rider.ComponentCreature.ComponentCreatureModel.EyeRotation.ToForwardVector().Z);
-					Vector3 xian1 = Vector3.Normalize(xian);
-					Vector3 xian2 = Vector3.Normalize(m_componentBody.Matrix.Forward);
+					var xian = new Vector3(rider.ComponentCreature.ComponentCreatureModel.EyeRotation.ToForwardVector().X, 0f, rider.ComponentCreature.ComponentCreatureModel.EyeRotation.ToForwardVector().Z);
+					var xian1 = Vector3.Normalize(xian);
+					var xian2 = Vector3.Normalize(m_componentBody.Matrix.Forward);
 					float num4 = xian1.X * xian2.X + xian1.Z * xian2.Z;
-					float num2 =  MathUtils.Acos(num4)*MathUtils.Sign(xian1.X*xian2.Z-xian1.Z*xian2.X);
+					float num2 = MathUtils.Acos(num4) * MathUtils.Sign(xian1.X * xian2.Z - xian1.Z * xian2.X);
 					//Vector3 xian3 = Vector3.Normalize(new Vector3(rider.ComponentCreature.ComponentCreatureModel.EyeRotation.ToForwardVector().X, rider.ComponentCreature.ComponentCreatureModel.EyeRotation.ToForwardVector().Y, 0f));
 					//float num5 = xian1.X * xian2.X + xian1.Y * xian2.Y;
 					//float num6 = MathUtils.Acos(num5) * MathUtils.Sign(xian3.X * xian2.Y - xian3.Y * xian2.X);
 					//float num44 = 0.1f;
 					//SetBoneTransform(m_headBone.Index, Matrix.CreateRotationY(num2));
 					//m_headBone.Transform.Forward = xian1;
-					if (num2>0 || num2<0)
-					m_headBone.Transform = m_headT * Matrix.CreateRotationZ(num2);
+					if (num2 > 0 || num2 < 0)
+						m_headBone.Transform = m_headT * Matrix.CreateRotationZ(num2);
 				}
 				if (componentBody.ImmersionFactor > 0.95f)
 				{
@@ -179,16 +180,15 @@ namespace Game
 				if (rider == null)
 					return;
 				ComponentMiner componentMiner = rider.Entity.FindComponent<ComponentMiner>();
-				
+
 				int num22 = Terrain.ExtractContents(componentMiner.ActiveBlockValue);
-				
+
 				if (componentEngine4.HeatLevel == 489f && Utils.SubsystemTime.PeriodicGameTimeEvent(0.20, 0) && num22 == 0)
 				{
 					int abb = -1;
 					int flag = 0;
 					for (int i = 0; i < 6; i++)
 					{
-
 						int va1 = componentEngine4.GetSlotValue(i);
 						if (va1 == Terrain.MakeBlockValue(521, 0, Bullet2Block.SetBulletType(0, Bullet2Block.BulletType.HandBullet)))
 						{
@@ -196,12 +196,11 @@ namespace Game
 							flag = -1;
 							i += 6;
 						}
-
 					}
 					if (flag == -1)
 					{
-						Vector3 xian77 = new Vector3(rider.ComponentCreature.ComponentCreatureModel.EyeRotation.ToForwardVector().X, MathUtils.Clamp(rider.ComponentCreature.ComponentCreatureModel.EyeRotation.ToForwardVector().Y, -0.05f, 0.05f), rider.ComponentCreature.ComponentCreatureModel.EyeRotation.ToForwardVector().Z);
-						Vector3 xian88 = new Vector3(componentEngine4.vet1.X, MathUtils.Clamp(componentEngine4.vet1.Y, -0.2f, 0.2f), componentEngine4.vet1.Z);
+						var xian77 = new Vector3(rider.ComponentCreature.ComponentCreatureModel.EyeRotation.ToForwardVector().X, MathUtils.Clamp(rider.ComponentCreature.ComponentCreatureModel.EyeRotation.ToForwardVector().Y, -0.05f, 0.05f), rider.ComponentCreature.ComponentCreatureModel.EyeRotation.ToForwardVector().Z);
+						var xian88 = new Vector3(componentEngine4.vet1.X, MathUtils.Clamp(componentEngine4.vet1.Y, -0.2f, 0.2f), componentEngine4.vet1.Z);
 						//m_subsystemProjectiles.FireProjectile(value2, vector2 + 1.3f * dir, s * (vector31 + v4), Vector3.Zero, componentMiner.ComponentCreature);
 						Utils.SubsystemProjectiles.FireProjectile(Terrain.MakeBlockValue(214, 0, BulletBlock.SetBulletType(0, BulletBlock.BulletType.MiniBullet)), componentBody.Position + Vector3.Normalize(xian88) * 1.8f + new Vector3(0f, 1.5f, 0f), Vector3.Normalize(xian88) * 200f, Vector3.Zero, null);
 						Utils.SubsystemAudio.PlaySound("Audio/MusketFire", 1f, 0f, componentBody.Position, 10f, true);
@@ -219,7 +218,6 @@ namespace Game
 					int flag = 0;
 					for (int i = 0; i < 6; i++)
 					{
-
 						int va1 = componentEngine4.GetSlotValue(i);
 						if (va1 == Terrain.MakeBlockValue(521, 0, Bullet2Block.SetBulletType(0, Bullet2Block.BulletType.Shell)))
 						{
@@ -236,9 +234,9 @@ namespace Game
 					}
 					if (flag == 1)
 					{
-						Vector3 xian77 = new Vector3(rider.ComponentCreature.ComponentCreatureModel.EyeRotation.ToForwardVector().X, MathUtils.Clamp(rider.ComponentCreature.ComponentCreatureModel.EyeRotation.ToForwardVector().Y, -0.05f, 0.2f), rider.ComponentCreature.ComponentCreatureModel.EyeRotation.ToForwardVector().Z);
+						var xian77 = new Vector3(rider.ComponentCreature.ComponentCreatureModel.EyeRotation.ToForwardVector().X, MathUtils.Clamp(rider.ComponentCreature.ComponentCreatureModel.EyeRotation.ToForwardVector().Y, -0.05f, 0.2f), rider.ComponentCreature.ComponentCreatureModel.EyeRotation.ToForwardVector().Z);
 						//m_subsystemProjectiles.FireProjectile(value2, vector2 + 1.3f * dir, s * (vector31 + v4), Vector3.Zero, componentMiner.ComponentCreature);
-						Vector3 xian88 = new Vector3(componentEngine4.vet1.X, MathUtils.Clamp(componentEngine4.vet1.Y, -0.2f, 0.2f), componentEngine4.vet1.Z);
+						var xian88 = new Vector3(componentEngine4.vet1.X, MathUtils.Clamp(componentEngine4.vet1.Y, -0.2f, 0.2f), componentEngine4.vet1.Z);
 						Utils.SubsystemProjectiles.FireProjectile(Terrain.MakeBlockValue(214, 0, BulletBlock.SetBulletType(0, BulletBlock.BulletType.Shell)), componentBody.Position + Vector3.Normalize(xian88) * 1.8f + new Vector3(0f, 1.5f, 0f), Vector3.Normalize(xian88) * 100f, Vector3.Zero, null);
 						Utils.SubsystemAudio.PlaySound("Audio/MusketFire", 1f, 0f, componentBody.Position, 10f, true);
 						componentBody.m_subsystemParticles.AddParticleSystem(new GunSmokeParticleSystem2(Utils.SubsystemTerrain, componentBody.Position + Vector3.Normalize(xian88) * 1.8f + new Vector3(0f, 1.8f, 0f), xian77));
@@ -247,9 +245,9 @@ namespace Game
 					}
 					if (flag == 2)
 					{
-						Vector3 xian77 = new Vector3(rider.ComponentCreature.ComponentCreatureModel.EyeRotation.ToForwardVector().X, MathUtils.Clamp(rider.ComponentCreature.ComponentCreatureModel.EyeRotation.ToForwardVector().Y, -0.05f, 0.2f), rider.ComponentCreature.ComponentCreatureModel.EyeRotation.ToForwardVector().Z);
+						var xian77 = new Vector3(rider.ComponentCreature.ComponentCreatureModel.EyeRotation.ToForwardVector().X, MathUtils.Clamp(rider.ComponentCreature.ComponentCreatureModel.EyeRotation.ToForwardVector().Y, -0.05f, 0.2f), rider.ComponentCreature.ComponentCreatureModel.EyeRotation.ToForwardVector().Z);
 						//m_subsystemProjectiles.FireProjectile(value2, vector2 + 1.3f * dir, s * (vector31 + v4), Vector3.Zero, componentMiner.ComponentCreature);
-						Vector3 xian88 = new Vector3(componentEngine4.vet1.X, MathUtils.Clamp(componentEngine4.vet1.Y, -0.2f, 0.2f), componentEngine4.vet1.Z);
+						var xian88 = new Vector3(componentEngine4.vet1.X, MathUtils.Clamp(componentEngine4.vet1.Y, -0.2f, 0.2f), componentEngine4.vet1.Z);
 						Utils.SubsystemProjectiles.FireProjectile(Terrain.MakeBlockValue(214, 0, BulletBlock.SetBulletType(0, BulletBlock.BulletType.UShell)), componentBody.Position + Vector3.Normalize(xian88) * 1.8f + new Vector3(0f, 1.5f, 0f), Vector3.Normalize(xian88) * 100f, Vector3.Zero, null);
 						Utils.SubsystemAudio.PlaySound("Audio/MusketFire", 1f, 0f, componentBody.Position, 10f, true);
 						componentBody.m_subsystemParticles.AddParticleSystem(new GunSmokeParticleSystem2(Utils.SubsystemTerrain, componentBody.Position + Vector3.Normalize(xian88) * 1.8f + new Vector3(0f, 1.8f, 0f), xian77));
@@ -416,7 +414,7 @@ namespace Game
 										i += 6;
 									}
 								}
-							if (use > 0 && Utils.Terrain.GetCellValueFast(p.X, p.Y - 1, p.Z) < 98472 && value2 == SoilBlock.Index )
+							if (use > 0 && Utils.Terrain.GetCellValueFast(p.X, p.Y - 1, p.Z) < 98472 && value2 == SoilBlock.Index)
 							{
 								Utils.SubsystemTerrain.ChangeCell(p.X, p.Y - 1, p.Z, 98472);
 								use -= 1;
@@ -432,7 +430,7 @@ namespace Game
 				{
 					//bool flagg = false;
 					//int use = 0;
-					int value = Terrain.ExtractContents(componentBody.StandingOnValue.Value);
+					//int value; = Terrain.ExtractContents(componentBody.StandingOnValue.Value);
 					var p2 = Vector3.Normalize(componentBody.Rotation.ToForwardVector());
 					var p3 = Vector3.Transform(p2, Matrix.CreateRotationY(MathUtils.PI / 2));
 					//if (value == SoilBlock.Index)
@@ -553,8 +551,8 @@ namespace Game
 			componentEngine4 = Entity.FindComponent<ComponentEngineT3>();
 			m_componentBody.CollidedWithBody += CollidedWithBody;
 			//string value = valuesDictionary.GetValue<string>("ModelName");
-			if (componentEngine4!=null)
-			SetModel(ContentManager.Get<Model>("Models/Tank"));
+			if (componentEngine4 != null)
+				SetModel(ContentManager.Get<Model>("Models/Tank"));
 		}
 
 		public Model m_model;
@@ -562,22 +560,24 @@ namespace Game
 		public ModelBone m_headBone;
 		public Matrix?[] m_boneTransforms;
 		public Matrix m_headT = ContentManager.Get<Model>("Models/Tank").FindBone("Head").Transform;
+
 		public Matrix? GetBoneTransform(int boneIndex)
 		{
 			return m_boneTransforms[boneIndex];
 		}
+
 		public void SetBoneTransform(int boneIndex, Matrix? transformation)
 		{
 			m_boneTransforms[boneIndex] = transformation;
 		}
-		
+
 		public void SetModel(Model model)
 		{
 			m_model = model;
 			if (m_model != null)
 			{
 				m_boneTransforms = new Matrix?[m_model.Bones.Count];
-				
+
 				//AbsoluteBoneTransformsForCamera = new Matrix[m_model.Bones.Count];
 				//MeshDrawOrders = Enumerable.Range(0, m_model.Meshes.Count).ToArray();
 			}

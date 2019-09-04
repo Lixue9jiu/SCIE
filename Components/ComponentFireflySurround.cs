@@ -22,8 +22,10 @@ namespace Game
 
 			public Vector3 position,
 							nextPosition;
+
 			public double timeToStopMoving,
 						  spawnTime;
+
 			public float hue,
 						saturation;
 		}
@@ -44,7 +46,6 @@ namespace Game
 		{
 			get { return new[] { 10 }; }
 		}
-
 
 		public override void Load(ValuesDictionary valuesDictionary, IdToEntityMap idToEntityMap)
 		{

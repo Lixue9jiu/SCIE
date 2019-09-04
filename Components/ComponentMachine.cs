@@ -36,7 +36,7 @@ namespace Game
 					return 0;
 			}
 			int v = GetSlotValue(slotIndex);
-			if ((v == 262384 || v == 786672 || v == 1048816 || v == 1310960 || v == WaterBlock.Index) && value!=v && v!=0)
+			if ((v == 262384 || v == 786672 || v == 1048816 || v == 1310960 || v == WaterBlock.Index) && value != v && v != 0)
 			{
 				return 0;
 			}
@@ -115,6 +115,7 @@ namespace Game
 			Block block = BlocksManager.Blocks[Terrain.ExtractContents(value)];
 			return block is IFuel fuel ? fuel.GetHeatLevel(value) : block.FuelHeatLevel;
 		}*/
+
 		public int FindSmeltingRecipe(Dictionary<int, int> result, ReactionSystem system, Condition condition = Condition.H | Condition.l, ushort t = 2200)
 		{
 			result.Clear();
@@ -149,7 +150,7 @@ namespace Game
 				if (ChemicalBlock.Get(val) == null)
 					return 0;
 				value = ChemicalBlock.Get(val).GetDamageDestructionValue();
-				
+
 				if (value != 0)
 				{
 					result.TryGetValue(value, out count);
@@ -169,6 +170,7 @@ namespace Game
 			return equation.GetHashCode();
 		}
 	}
+
 	public abstract class ComponentPMach : ComponentMachine, IUpdateable
 	{
 		protected int m_count;
@@ -255,11 +257,12 @@ namespace Game
 			return null;
 		}
 	}
+
 	public class ComponentSorter : ComponentMachine
 	{
 		public override int RemainsSlotIndex => -1;
 
-		public override int ResultSlotIndex => - 1;
+		public override int ResultSlotIndex => -1;
 
 		public override int FuelSlotIndex => -1;
 	}
