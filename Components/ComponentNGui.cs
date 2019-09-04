@@ -383,7 +383,11 @@ namespace Game
 			if (readOnlyList4.Count > 0 && ClothingBlock.GetClothingData(Terrain.ExtractData(readOnlyList4[readOnlyList4.Count - 1])).Index == 48)
 				numm += 1;
 			if (numm==4)
-			Temperature = 12f;
+			{
+				Temperature = 12f;
+				Wetness = 0f;
+			}
+			
 			numm = 0;
 			if (readOnlyList.Count > 0 && ClothingBlock.GetClothingData(Terrain.ExtractData(readOnlyList[readOnlyList.Count - 1])).Index == 43)
 				numm += 1;
@@ -392,8 +396,11 @@ namespace Game
 			if (numm == 2)
 			{
 				m_componentPlayer.ComponentHealth.Air = 1f;
+				Stamina = 1f;
+
+				//m_componentPlayer.ComponentHealth.s
 				//m_componentPlayer.ComponentClothing.GetClothes(ClothingSlot.Torso);
-					//ClothingBlock.
+				//ClothingBlock.
 			}
 				
 			if (Temperature <= 0f)

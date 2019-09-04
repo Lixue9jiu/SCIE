@@ -344,6 +344,7 @@ namespace Game
 			Block block = BlocksManager.Blocks[Terrain.ExtractContents(cellValue)];
 			int activeBlockValue = m.ActiveBlockValue;
 			int num2 = Terrain.ExtractContents(activeBlockValue);
+			int num22 = Terrain.ExtractContents(cellValue);
 			Block block2 = BlocksManager.Blocks[num2];
 			int x1 = 0;
 			if (!m.DigCellFace.HasValue || m.DigCellFace.Value.X != cellFace.X || m.DigCellFace.Value.Y != cellFace.Y || m.DigCellFace.Value.Z != cellFace.Z)
@@ -363,9 +364,9 @@ namespace Game
 			{
 				num3 = m.CalculateDigTime(cellValue, SteelAxeBlock.Index);
 			}
-			else if (activeBlockValue == ItemBlock.IdTable["Screwdriver"] && BlocksManager.Blocks[num2].GetCategory(num2) == Utils.Get("»úÆ÷"))
+			if (activeBlockValue == ItemBlock.IdTable["Screwdriver"] && BlocksManager.Blocks[num22].GetCategory(cellValue) == Utils.Get("»úÆ÷"))
 			{
-				num3 = 0;
+				num3 = 0.5f;
 			}
 			m.m_digProgress = num3 > 0f ? MathUtils.Saturate((float)(m_subsystemTime.GameTime - m.m_digStartTime) / num3) : 1f;
 			if (!m.CanUseTool(activeBlockValue))

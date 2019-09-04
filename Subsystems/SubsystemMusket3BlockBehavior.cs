@@ -158,7 +158,7 @@ namespace Game
 
 		public override int GetProcessInventoryItemCapacity(IInventory inventory, int slotIndex, int value)
 		{
-			return Terrain.ExtractContents(value) != Bullet2Block.Index || Musket3Block.GetBulletNum(Terrain.ExtractData(inventory.GetSlotValue(slotIndex))) > 62
+			return value != Terrain.MakeBlockValue(521, 0, Bullet2Block.SetBulletType(0, Bullet2Block.BulletType.HandBullet)) || Musket3Block.GetBulletNum(Terrain.ExtractData(inventory.GetSlotValue(slotIndex))) > 62
 				? 0
 				: 1;
 		}

@@ -137,7 +137,7 @@ namespace Game
 					m_updateSmeltingRecipe = true;
 					while (e.MoveNext())
 					{
-						Slot slot = m_slots[FindAcquireSlotForItem(this, e.Current.Key)];
+						Slot slot = m_slots[ComponentCReactor.FindAcquireSlotForItem(this, e.Current.Key, e.Current.Value)];
 						slot.Value = e.Current.Key;
 						slot.Count += e.Current.Value;
 					}

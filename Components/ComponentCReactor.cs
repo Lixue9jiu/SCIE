@@ -172,11 +172,11 @@ namespace Game
 			else if (n == (4 | 8 | 16))
 			{
 				m_speed = 0.05f;
-				result[ItemBlock.IdTable["钢瓶"]] = 2;
+				result[ItemBlock.IdTable["钢瓶"]] = 1;
 				result[ItemBlock.IdTable["C7H8"]] = -1;
 				result[ItemBlock.IdTable["Cl2"]] = -1;
 				result[ItemBlock.IdTable["HNO3"]] = -1;
-				result[ItemBlock.IdTable["Bottle"]] = 1;
+				result[ItemBlock.IdTable["Bottle"]] = 2;
 				result[ItemBlock.IdTable["TNT"]] = 1;
 			}
 			else

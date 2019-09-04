@@ -617,7 +617,7 @@ namespace Game
 
 		public void Update(float dt)
 		{
-			return;
+			//return;
 			if (Utils.SubsystemTime.PeriodicGameTimeEvent(60, 0.0))
 			{
 				for (int i = (int)(Utils.SubsystemGameInfo.TotalElapsedGameTime - LastTime) / Period; i-- > 0;)

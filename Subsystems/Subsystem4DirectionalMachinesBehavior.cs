@@ -198,17 +198,39 @@ namespace Game
 			return new CReactorWidget(inventory, component);
 		}
 	}
-	public class SubsystemUnloaderBlockBehavior : SubsystemInventoryBlockBehavior<ComponentUnloader>
+	public class SubsystemUnloaderBlockBehavior : SubsystemInventoryBlockBehavior<ComponentInventoryBase>
 	{
 		public override int[] HandledBlocks => new[] { Bullet2Block.Index };
-
+		public static string[] Names = new[]
+		{
+			"Unloader",
+			"Inserter",
+		};
 		public SubsystemUnloaderBlockBehavior() : base("Unloader")
 		{
 		}
-
-		public override Widget GetWidget(IInventory inventory, ComponentUnloader component)
+		public override void OnBlockAdded(int value, int oldValue, int x, int y, int z)
 		{
-			return new NewChestWidget(inventory, component, "Unloader");
+			Name = Names[(Terrain.ExtractData(value) >> 10)-1];
+			base.OnBlockAdded(value, oldValue, x, y, z);
+		}
+		//public override Widget GetWidget(IInventory inventory, ComponentUnloader component)
+		//{
+		//	return new NewChestWidget(inventory, component, "Unloader");
+		//}
+		public override Widget GetWidget(IInventory inventory, ComponentInventoryBase component)
+		{
+			var c = component.Entity.FindComponent<ComponentBlockEntity>(true).Coordinates;
+			switch (Terrain.ExtractData(Utils.Terrain.GetCellValueFast(c.X, c.Y, c.Z)) >> 10)
+			{
+				case 0:
+					return null;
+				case 1:
+					return new NewChestWidget(inventory, component, "Unloader");
+				case 2:
+					return new NewChestWidget(inventory, component, "Inserter", "Widgets/NewChest2Widget");
+			}
+			return null;
 		}
 	}
 }
