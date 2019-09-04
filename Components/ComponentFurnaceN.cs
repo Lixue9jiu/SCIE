@@ -5,7 +5,10 @@ namespace Game
 {
 	public class ComponentFurnaceN : ComponentFurnace, IUpdateable, ICraftingMachine
 	{
-		public ComponentFurnaceN() { m_matchedIngredients = new string[36]; }
+		public ComponentFurnaceN()
+		{
+			m_matchedIngredients = new string[36];
+		}
 
 		public new int RemainsSlotIndex => SlotsCount - 1;
 

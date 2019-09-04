@@ -124,7 +124,7 @@ namespace Game
 						Utils.SubsystemProjectiles.FireProjectile(cellValue, new Vector3(x + 0.5f, y + 0.5f, z + 0.5f) - 0.25f * vector, 60f * (vector - v), Vector3.Zero, null);
 						DrillType type = DrillBlock.GetType(value);
 						RemoveSlotItems(8, 1);
-						if (DrillBlock.GetType(BlocksManager.DamageItem(value, 1 + num2)) == type && BlocksManager.DamageItem(value, 1 + num2) != value && GetDamage(BlocksManager.DamageItem(value, 1 + num2))!= GetDamage(value))
+						if (DrillBlock.GetType(BlocksManager.DamageItem(value, 1 + num2)) == type && BlocksManager.DamageItem(value, 1 + num2) != value && GetDamage(BlocksManager.DamageItem(value, 1 + num2)) != GetDamage(value))
 						{
 							AddSlotItems(8, BlocksManager.DamageItem(value, 1 + num2), 1);
 						}
@@ -133,10 +133,12 @@ namespace Game
 				}
 			}
 		}
+
 		public virtual int GetDamage(int value)
 		{
 			return (Terrain.ExtractData(value) >> 4) & 0xFFF;
 		}
+
 		public override int GetSlotCapacity(int slotIndex, int value)
 		{
 			if (slotIndex != 8)

@@ -17,6 +17,7 @@ namespace Game
 		FL = 16,
 		Torpedo = 32
 	}
+
 	public class ComponentMine : Component
 	{
 		public ComponentBody ComponentBody;
@@ -24,6 +25,7 @@ namespace Game
 		public float ExplosionPressure;
 		public MineType MineType;
 		public double Delay;
+
 		public override void Load(ValuesDictionary valuesDictionary, IdToEntityMap idToEntityMap)
 		{
 			base.Load(valuesDictionary, idToEntityMap);
@@ -34,6 +36,7 @@ namespace Game
 			if ((MineType & MineType.Torpedo) != 0)
 				ComponentBody.Density = .8f;
 		}
+
 		public override void Save(ValuesDictionary valuesDictionary, EntityToIdMap entityToIdMap)
 		{
 			base.Save(valuesDictionary, entityToIdMap);
@@ -43,6 +46,7 @@ namespace Game
 			if (Delay != 0)
 				valuesDictionary.SetValue("Delay", Delay);
 		}
+
 		public void CollidedWithBody(ComponentBody body)
 		{
 			if ((MineType & MineType.Sensitive) == 0 && body.Density - 2f < .1f)
@@ -54,6 +58,7 @@ namespace Game
 			}
 			Fire();
 		}
+
 		public void Fire()
 		{
 			if (Delay > .0)
@@ -66,6 +71,7 @@ namespace Game
 			var p = Terrain.ToCell(ComponentBody.Position);
 			Utils.SubsystemExplosions.AddExplosion(p.X, p.Y, p.Z, ExplosionPressure, (MineType & MineType.Incendiary) != 0, false);
 		}
+
 		public void PositionChanged(ComponentFrame frame)
 		{
 			if ((frame.Position - ComponentBody.Position).LengthSquared() > .216f)
@@ -75,6 +81,7 @@ namespace Game
 			}
 		}
 	}
+
 	/*public class ComponentSteelTrap : Component
 	{
 		public float Damage;

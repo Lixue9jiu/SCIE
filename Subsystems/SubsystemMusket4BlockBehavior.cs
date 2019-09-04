@@ -90,7 +90,7 @@ namespace Game
 								break;
 							case AimState.Completed:
 								{
-									Vector3 vvv2 = new Vector3(0f, 0f, 0f);
+									var vvv2 = new Vector3(0f, 0f, 0f);
 									var view3 = componentMiner.ComponentPlayer.View;
 									if (view3.ActiveCamera is TelescopeCamera2)
 									{

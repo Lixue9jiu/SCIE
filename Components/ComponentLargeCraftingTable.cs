@@ -101,7 +101,7 @@ namespace Game
 		public override void Load(ValuesDictionary valuesDictionary, IdToEntityMap idToEntityMap)
 		{
 			this.LoadItems(valuesDictionary);
-			   m_craftingGridSize = (int)MathUtils.Sqrt((double)(SlotsCount - 2));
+			m_craftingGridSize = (int)MathUtils.Sqrt((double)(SlotsCount - 2));
 			if (m_craftingGridSize < 1 || m_craftingGridSize > 6)
 				throw new InvalidOperationException("Invalid crafting grid size.");
 			m_matchedIngredients = new string[36];

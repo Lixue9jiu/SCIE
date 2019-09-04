@@ -65,7 +65,7 @@ namespace Game
 				if (blockEntity != null)
 				{
 					ComponentSorter inventory = blockEntity.Entity.FindComponent<ComponentSorter>(throwOnError: true);
-					Pickable pickable = worldItem as Pickable;
+					var pickable = worldItem as Pickable;
 					int num = pickable?.Count ?? 1;
 					int num2 = ComponentInventoryBase.AcquireItems(inventory, worldItem.Value, num);
 					if (num2 <= 0)
@@ -83,7 +83,7 @@ namespace Game
 			Vector3 v = CellFace.FaceToVector3(cellFace.Face);
 			if (blockEntity != null)
 			{
-				Pickable pickable = worldItem as Pickable;
+				var pickable = worldItem as Pickable;
 				int num = pickable?.Count ?? 1;
 				if (num>1)
 				{
