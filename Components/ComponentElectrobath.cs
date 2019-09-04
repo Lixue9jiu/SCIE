@@ -214,12 +214,12 @@ namespace Game
 					break;
 				}
 			}
-			if ((text & 7) == 3)
+			if (text  == 3)
 			{
 				result[0] = ItemBlock.IdTable["AluminumIngot"];
 				result[1] = ItemBlock.IdTable["AluminumIngot"];
 			}
-			else if (((text & 7) == 1))
+			else if ((text  == 1))
 				result[0] = ItemBlock.IdTable["AluminumIngot"];
 			else
 				text &= ~3;
