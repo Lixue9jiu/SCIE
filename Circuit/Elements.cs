@@ -129,6 +129,8 @@ namespace Game
 		public override void Simulate(ref int voltage)
 		{
 			voltage &= 8191;
+			if (voltage > 8000)
+				return;
 			if (Powered = voltage >= Voltage)
 				voltage -= Voltage;
 			else voltage = 0;

@@ -19,7 +19,7 @@ namespace Game
 				return;
 			for (int i = 0; i < Component.SlotsCount; i++)
 			{
-				if (Component.GetSlotCount(i) > 0)
+				if (Component.GetSlotCount(i) > 0 && voltage<8000)
 				{
 					int value = Terrain.ExtractContents(Component.GetSlotValue(i));
 					switch (value)

@@ -13,6 +13,8 @@ namespace Game
 		}
 		public override void Simulate(ref int voltage)
 		{
+			if (voltage > 8000)
+				return;
 			if (Powered)
 				voltage += Voltage;
 		}
@@ -163,6 +165,7 @@ namespace Game
 		public override void Simulate(ref int voltage)
 		{
 			Powered = false;
+			return;
 			if (Powered)
 			{
 				voltage += 400;
