@@ -273,9 +273,11 @@ namespace Game
 		}
 		public override void Simulate(ref int voltage)
 		{
+			if (voltage > 8000)
+				return;
 			if (Component.Charged)
 			{
-				if ((voltage) > 0 && voltage<1024)
+				if ((voltage) > 0 && voltage<8024)
 				{
 					Component.m_fireTimeRemaining = MathUtils.Min(Component.m_fireTimeRemaining + voltage/10f, 1000000f);
 					voltage = 0;
@@ -326,7 +328,7 @@ namespace Game
 		
 		public override void Simulate(ref int voltage)
 		{
-			if (voltage > 1023)
+			if (voltage > 8023)
 			{
 				return;
 			}
@@ -361,7 +363,7 @@ namespace Game
 
 		public override void Simulate(ref int voltage)
 		{
-			if (voltage > 1023)
+			if (voltage > 8023)
 			{
 				return;
 			}
