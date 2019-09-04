@@ -159,13 +159,23 @@ namespace Game
 						n |= 16;
 				}
 			}
-			if (n == 7)
+			if (n == 3)
 			{
 				m_speed = 0.1f;
 				result[ItemBlock.IdTable["H2SO4"]] = 1;
-				result[ItemBlock.IdTable["S-HCl"]] = 2;
-				result[ItemBlock.IdTable["钢瓶"]] = 1;
+				//result[ItemBlock.IdTable["S-HCl"]] = 2;
+				//result[ItemBlock.IdTable["钢瓶"]] = 1;
 				result[ItemBlock.IdTable["S"]] = -1;
+				result[ItemBlock.IdTable["H2O"]] = -1;
+				//result[ItemBlock.IdTable["Cl2"]] = -1;
+			}
+			else if (n == 6)
+			{
+				m_speed = 0.1f;
+				//result[ItemBlock.IdTable["H2SO4"]] = 1;
+				result[ItemBlock.IdTable["S-HCl"]] = 1;
+				result[ItemBlock.IdTable["钢瓶"]] = 1;
+				//result[ItemBlock.IdTable["S"]] = -1;
 				result[ItemBlock.IdTable["H2O"]] = -1;
 				result[ItemBlock.IdTable["Cl2"]] = -1;
 			}
