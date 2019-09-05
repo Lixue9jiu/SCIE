@@ -36,7 +36,7 @@ namespace Game
 					return 0;
 			}
 			int v = GetSlotValue(slotIndex);
-			if ((v == 262384 || v == 786672 || v == 1048816 || v == 1310960 || v == WaterBlock.Index) && value != v && v != 0)
+			if ((v == 262384 || v == 786672 || v == 1048816 || v == 1310960 || v == WaterBlock.Index || v == MagmaBlock.Index) && value != v && v != 0)
 			{
 				return 0;
 			}
@@ -55,10 +55,15 @@ namespace Game
 		{
 			m_updateSmeltingRecipe = true;
 			int v = GetSlotValue(slotIndex);
-			if (v == 262384 || v == 786672 || v == 1048816 || v == 1310960 || v == WaterBlock.Index)
+			if (v == 262384 || v == 786672 || v == 1048816 || v == 1310960 || v == WaterBlock.Index || v==MagmaBlock.Index)
 			{
 				return 0;
 			}
+			return base.RemoveSlotItems(slotIndex, count);
+		}
+
+		public int RemoveSlotItems2(int slotIndex, int count)
+		{
 			return base.RemoveSlotItems(slotIndex, count);
 		}
 
@@ -109,7 +114,22 @@ namespace Game
 			}
 			return value;
 		}
-
+		public new void DropAllItems(Vector3 position)
+		{
+			SubsystemPickables subsystemPickables = base.Project.FindSubsystem<SubsystemPickables>(throwOnError: true);
+			for (int i = 0; i < SlotsCount; i++)
+			{
+				int slotCount = GetSlotCount(i);
+				int v = GetSlotValue(i);
+				if (slotCount > 0 && !(v == 262384 || v == 786672 || v == 1048816 || v == 1310960 || v == WaterBlock.Index || v == MagmaBlock.Index))
+				{
+					int slotValue = GetSlotValue(i);
+					int count = RemoveSlotItems(i, slotCount);
+					Vector3 value = m_random.UniformFloat(5f, 10f) * Vector3.Normalize(new Vector3(m_random.UniformFloat(-1f, 1f), m_random.UniformFloat(1f, 2f), m_random.UniformFloat(-1f, 1f)));
+					subsystemPickables.AddPickable(slotValue, count, position, value, null);
+				}
+			}
+		}
 		/*public static float GetFuelHeatLevel(int value)
 		{
 			Block block = BlocksManager.Blocks[Terrain.ExtractContents(value)];

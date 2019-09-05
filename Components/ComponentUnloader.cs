@@ -93,7 +93,7 @@ namespace Game
 			var entity = Utils.GetBlockEntity(coor2);
 			if (entity == null)
 				return false;
-			Component component = entity.Entity.FindComponent<ComponentInventoryBase>();
+			ComponentInventoryBase component = entity.Entity.FindComponent<ComponentInventoryBase>();
 			if (component != null)
 			{
 				IInventory inventory = entity.Entity.FindComponent<ComponentInventoryBase>();
@@ -112,11 +112,37 @@ namespace Game
 							}
 						}
 						else
-						{
-							Vector3 vector2 = position + 0.6f * vector;
-							Utils.SubsystemPickables.AddPickable(inventory.GetSlotValue(i), 1, vector2, 1.8f * (vector + m_random.Vector3(0.2f, false)), null);
-							inventory.RemoveSlotItems(i, 1);
-							return true;
+						{//v == 262384 || v == 786672 || v == 1048816 || v == 1310960 || v == WaterBlock.Index || v==MagmaBlock.Index
+							int v = inventory.GetSlotValue(i);
+							if (v == 262384 || v == 786672 || v == 1048816 || v == 1310960 || v == WaterBlock.Index || v == MagmaBlock.Index)
+							{
+								Point3 coor3 = coordinates + new Point3((int)vector.X, (int)vector.Y, (int)vector.Z);
+								var entity2 = Utils.GetBlockEntity(coor3);
+								if (entity2!=null)
+								{
+									ComponentMachine component2 = entity2.Entity.FindComponent<ComponentMachine>();
+									if (component2!=null)
+									{
+										IInventory inventory2 = entity2.Entity.FindComponent<ComponentInventoryBase>();
+										if (ComponentInventoryBase.AcquireItems(inventory2, v, 1) < 1)
+										{
+											//ComponentInventoryBase.
+											ComponentMachine component3 = entity.Entity.FindComponent<ComponentMachine>();
+											component3.RemoveSlotItems2(i,1);
+											//inventory.re;
+										}
+									}
+								}
+								return false;
+							}
+							else
+							{
+								Vector3 vector2 = position + 0.6f * vector;
+								Utils.SubsystemPickables.AddPickable(inventory.GetSlotValue(i), 1, vector2, 1.8f * (vector + m_random.Vector3(0.2f, false)), null);
+								inventory.RemoveSlotItems(i, 1);
+								return true;
+							}
+							
 						}
 					}
 				}
