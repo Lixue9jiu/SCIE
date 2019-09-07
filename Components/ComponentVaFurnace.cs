@@ -107,11 +107,11 @@ namespace Game
 				{
 					int value = GetSlotValue(i);
 					if (value == ItemBlock.IdTable["Si"])
-						n |= 1;
+						n += 1;
 					else if (value == ItemBlock.IdTable["H2"])
-						n |= 5;
+						n += 5;
 					else if (value == ItemBlock.IdTable["Cl2"])
-						n |= 6;
+						n += 6;
 				}
 			}
 			if (n == 12)

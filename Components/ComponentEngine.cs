@@ -12,6 +12,8 @@ namespace Game
 
 		public Point3 Coordinates;
 
+		public float m_speed = 1f;
+
 		public override int RemainsSlotIndex => SlotsCount - 3;
 		public override int ResultSlotIndex => SlotsCount - 1;
 		public override int FuelSlotIndex => SlotsCount - 2;
@@ -22,7 +24,7 @@ namespace Game
 				return;
 			if (HeatLevel > 0f)
 			{
-				m_fireTimeRemaining = MathUtils.Max(0f, m_fireTimeRemaining - dt);
+				m_fireTimeRemaining = MathUtils.Max(0f, m_fireTimeRemaining - dt*m_speed);
 				if (m_fireTimeRemaining == 0f)
 					HeatLevel = 0f;
 			}
@@ -88,7 +90,7 @@ namespace Game
 			}
 			if (m_smeltingRecipe != null)
 			{
-				SmeltingProgress = MathUtils.Min(SmeltingProgress + 0.02f * dt, 1f);
+				SmeltingProgress = MathUtils.Min(SmeltingProgress + 0.02f * dt * m_speed, 1f);
 				if (m_music % 90 == 0)
 					Utils.SubsystemAudio.PlaySound("Audio/SteamEngine", 1f, 0f, new Vector3(Coordinates), 4f, true);
 				m_music++;
@@ -116,6 +118,14 @@ namespace Game
 			{
 				var c = m_componentBlockEntity.Coordinates;
 				TerrainChunk chunk = Utils.Terrain.GetChunkAtCell(c.X, c.Z);
+				if (Terrain.ExtractData(Utils.Terrain.GetCellValueFast(c.X, c.Y, c.Z)) >> 10 == 2)
+				{
+					m_speed = 0.6f;
+				}else
+				{
+					m_speed = 1f;
+				}
+					
 				if (chunk != null && chunk.State == TerrainChunkState.Valid)
 				{
 					int cellValue = chunk.GetCellValueFast(c.X & 15, c.Y, c.Z & 15);

@@ -753,10 +753,11 @@ namespace Game
 				var r = body.Rotation;
 				Utils.SubsystemTime.QueueGameTimeDelayedExecution(Utils.SubsystemTime.GameTime + 0.23 * level, delegate
 				{
-					if (body.Velocity.XZ.LengthSquared() > 30f)
+					if (Vector3.Distance(body.Position , m_componentBody.Position)>1f && body.Velocity.LengthSquared()>30f)
 					{
 						m_componentBody.Position = pos;
 						m_componentBody.Rotation = r;
+						m_componentBody.Velocity = body.Velocity*0.01f;
 					}
 				});
 				m_outOfMountTime = Vector3.DistanceSquared(ParentBody.m_componentBody.Position, m_componentBody.Position) > 8f
