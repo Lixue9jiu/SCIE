@@ -232,6 +232,26 @@ namespace Game
 		}
 	}
 
+	public class RControl : InventoryEntityDevice<ComponentRControl>
+	{
+		public RControl() : base("核反应控制器", "核反应控制器,控制燃料棒，碳棒，控制棒的及监视核反应堆的状态")
+		{
+		}
+		public override int GetFaceTextureSlot(int face, int value)
+		{
+			return face != 4 && face != 5 ? face == (Terrain.ExtractData(value) >> 15) ? 139 : 141 : 138;
+		}
+		public override void OnBlockAdded(SubsystemTerrain subsystemTerrain, int value, int oldValue)
+		{
+			base.OnBlockAdded(subsystemTerrain, value, oldValue);
+			//Component.Powered = false;
+		}
+		public override Widget GetWidget(IInventory inventory, ComponentRControl component)
+		{
+			return new RControlWidget(inventory, component);
+		}
+	}
+
 	public class UThickener : InventoryEntityDevice<ComponentUThicker>
 	{
 		public UThickener() : base("铀浓缩机", "铀浓缩机，把粉末状的U浓缩成饼", 310)

@@ -117,7 +117,7 @@ namespace Game
 				{
 					var blockDropValue = list[l];
 					int a = 0;
-					if (blockDropValue.Count>1)
+					if (list.Count > 1)
 					{
 						a = 1;
 					}

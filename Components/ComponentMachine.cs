@@ -286,4 +286,89 @@ namespace Game
 
 		public override int FuelSlotIndex => -1;
 	}
+
+	public class ComponentRCore : ComponentMachine, IUpdateable
+	{
+		public override int RemainsSlotIndex => -1;
+
+		public override int ResultSlotIndex => -1;
+
+		public override int FuelSlotIndex => -1;
+
+		//public override float m_fireTimeRemaining;
+		//public float HeatLevel;
+		public float veloc;
+		public void Update(float dt)
+		{
+			if (Utils.SubsystemTime.PeriodicGameTimeEvent(0.2, 0.0))
+			{
+				if (m_updateSmeltingRecipe)
+				{
+					m_fireTimeRemaining = 0f;
+					veloc = 1f;
+					for (int i = 0; i < SlotsCount; i++)
+					{
+						//if ()
+						int va1 = GetSlotValue(i);
+						
+						if (Terrain.ExtractContents(va1) == FuelRodBlock.Index)
+						{
+							if (FuelRodBlock.GetType(va1) == RodType.UFuelRod)
+							{
+								m_fireTimeRemaining += 2;
+							}
+							if (FuelRodBlock.GetType(va1) == RodType.ControlRod)
+							{
+								m_fireTimeRemaining -= 2;
+								veloc -= 0.2f;
+							}
+							if (FuelRodBlock.GetType(va1) == RodType.CarbonRod)
+							{
+								m_fireTimeRemaining += 1;
+								veloc += 0.2f;
+							}
+						}
+					}
+				}
+				m_fireTimeRemaining = MathUtils.Max(0f, m_fireTimeRemaining );
+				HeatLevel = MathUtils.Max(0f, HeatLevel + m_fireTimeRemaining * 0.5f -0.1f);
+				//HeatLevel += m_fireTimeRemaining*5;
+				for (int i = 0; i < SlotsCount; i++)
+				{
+					//if ()
+					int va1 = GetSlotValue(i);
+					if (Terrain.ExtractContents(va1) == FuelRodBlock.Index)
+					{
+						if (Utils.Random.Bool(0.006f))
+						{
+							RemoveSlotItems(i, 1);
+							if (BlocksManager.DamageItem(va1, (int)m_fireTimeRemaining)!=0)
+							{
+								AddSlotItems(i, BlocksManager.DamageItem(va1, (int)m_fireTimeRemaining), 1);
+							}
+						}
+					}
+					else
+					{
+						RemoveSlotItems(i,1);
+					}
+
+	    		}
+			}
+		}
+
+
+	}
+
+
+
+
+	public class ComponentHChanger : ComponentMachine
+	{
+		public override int RemainsSlotIndex => -1;
+
+		public override int ResultSlotIndex => -1;
+
+		public override int FuelSlotIndex => -1;
+	}
 }

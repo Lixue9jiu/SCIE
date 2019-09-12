@@ -90,7 +90,12 @@ namespace Game
 			DefaultDescription = description;
 		}
 
-		public Mould(string modelName, string meshName, Matrix boneTransform, Matrix tcTransform, string description = "", string name = "", float size = 1) : this(modelName, meshName, boneTransform, tcTransform, Color.LightGray, size)
+		public Mould(string modelName, string meshName, Matrix boneTransform, Matrix tcTransform, string description = "", string name = "", float size = 1 ) : this(modelName, meshName, boneTransform, tcTransform, Color.LightGray, size)
+		{
+			DefaultDisplayName = name;
+			DefaultDescription = description;
+		}
+		public Mould(string modelName, string meshName, Matrix boneTransform, Matrix tcTransform, Color color, string description = "", string name = "" ,float size = 1) : this(modelName, meshName, boneTransform, tcTransform, color, size)
 		{
 			DefaultDisplayName = name;
 			DefaultDescription = description;

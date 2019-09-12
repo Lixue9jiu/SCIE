@@ -103,7 +103,10 @@ namespace Game
 			"发酵池",
 			"沉淀池",
 			"分拣机",
-			"钢箱子"
+			"钢箱子",
+			"石墨核反应堆核心",
+			"石墨核反应堆顶部",
+			"热交换器"
 		};
 
 		public static readonly string[] Descriptions =
@@ -111,13 +114,16 @@ namespace Game
 			"发酵池，可以用腐烂的食物来发酵，生产硝石",
 			"沉淀池，可用来沉淀某些特殊物质",
 			"分拣机，可用来分拣不同物品",
-			"钢箱子，更大的容积"
+			"钢箱子，更大的容积",
+			"石墨核反应堆核心，用来进行核反应的核心装置，以石墨作为减速剂的初代核装置",
+			"石墨核反应堆顶部",
+			"热交换器，当其中有水时，反应堆输出的热量让水转变成蒸汽"
 		};
 
 		public override IEnumerable<int> GetCreativeValues()
 		{
-			var arr = new int[17 * 4];
-			for (int i = 0; i < 4; i++)
+			var arr = new int[17 * 8];
+			for (int i = 0; i < 8; i++)
 			{
 				arr[i * 17] = BlockIndex | i << 24;
 				for (int j = 1; j < 17; j++)
@@ -133,6 +139,12 @@ namespace Game
 				return 131;
 			if (value == 3)
 				return face == 4 || face == 5 ? 107 : 134;
+			if (value == 4)
+				return face == 4 || face == 5 ? 138 : 137;
+			if (value == 6)
+				return face == 4 || face == 5 ? 141 : 140;
+			if (value == 5)
+				return face == 4 || face == 5 ? 138 : 141;
 			return value == 0 ? face == 4 ? 116 : 115 : face == 4 ? 224 : 107;
 		}
 		

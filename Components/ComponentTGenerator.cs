@@ -51,7 +51,7 @@ namespace Game
 			result.Clear();
 			int text = 0;
 			int i;
-			for (i = 0; i < m_furnaceSize; i++)
+			for (i = 0; i < 1; i++)
 			{
 				if (GetSlotCount(i) <= 0) continue;
 				if (Terrain.ExtractContents(GetSlotValue(i)) == MagmaBucketBlock.Index)

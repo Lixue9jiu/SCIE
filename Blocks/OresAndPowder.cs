@@ -57,7 +57,7 @@ namespace Game
 			Color.White,
 			new Color(120, 120, 120),
 			new Color(199, 97, 20),
-			Color.White,
+			Color.LightGreen,
 			Color.White,
 			new Color(139, 69, 19),
 			new Color(34, 139, 34),
