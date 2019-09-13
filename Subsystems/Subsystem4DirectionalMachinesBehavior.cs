@@ -1,6 +1,7 @@
-using System.Collections.Generic;
 using Engine;
+using System.Collections.Generic;
 using TemplatesDatabase;
+
 namespace Game
 {
 	public class SubsystemPMachsBlockBehavior : SubsystemCombinedBlockBehavior<ComponentMachine>
@@ -27,12 +28,15 @@ namespace Game
 			return new PresserWidget(inventory, component);
 		}
 	}
-    public class SubsystemSourBlockBehavior : SubsystemInventoryBlockBehavior<ComponentMachine>
-    {
-        public SubsystemSourBlockBehavior() : base("Sour")
-        {
-        }
+
+	public class SubsystemSourBlockBehavior : SubsystemInventoryBlockBehavior<ComponentMachine>
+	{
+		public SubsystemSourBlockBehavior() : base("Sour")
+		{
+		}
+
 		public SubsystemBlockEntities m_subsystemBlockEntities;
+
 		public static string[] Names = new[]
 		{
 			"Sour",
@@ -40,6 +44,7 @@ namespace Game
 			"Sorter",
 			"SChest"
 		};
+
 		public override int[] HandledBlocks => new[] { SourBlock.Index };
 
 		public override void OnBlockAdded(int value, int oldValue, int x, int y, int z)
@@ -47,19 +52,21 @@ namespace Game
 			Name = Names[Terrain.ExtractData(value) >> 10];
 			base.OnBlockAdded(value, oldValue, x, y, z);
 		}
+
 		public SubsystemPickables m_subsystemPickables;
+
 		public override void OnHitByProjectile(CellFace cellFace, WorldItem worldItem)
 		{
 			if (worldItem.ToRemove)
 			{
 				return;
 			}
-			if (Terrain.ExtractData(Utils.Terrain.GetCellValueFast(cellFace.X, cellFace.Y, cellFace.Z))<2048)
+			if (Terrain.ExtractData(Utils.Terrain.GetCellValueFast(cellFace.X, cellFace.Y, cellFace.Z)) < 2048)
 			{
 				return;
 			}
 			ComponentBlockEntity blockEntity = m_subsystemBlockEntities.GetBlockEntity(cellFace.X, cellFace.Y, cellFace.Z);
-			if (Terrain.ExtractData(Utils.Terrain.GetCellValueFast(cellFace.X, cellFace.Y, cellFace.Z)) == 3*1024)
+			if (Terrain.ExtractData(Utils.Terrain.GetCellValueFast(cellFace.X, cellFace.Y, cellFace.Z)) == 3 * 1024)
 			{
 				//ComponentBlockEntity blockEntity = m_subsystemBlockEntities.GetBlockEntity(cellFace.X, cellFace.Y, cellFace.Z);
 				if (blockEntity != null)
@@ -79,25 +86,25 @@ namespace Game
 				}
 				return;
 			}
-			
+
 			Vector3 v = CellFace.FaceToVector3(cellFace.Face);
 			if (blockEntity != null)
 			{
 				var pickable = worldItem as Pickable;
 				int num = pickable?.Count ?? 1;
-				if (num>1)
+				if (num > 1)
 				{
 					return;
 				}
 				var position = new Vector3(cellFace.Point) + new Vector3(0.5f);
 				ComponentSorter inventory = blockEntity.Entity.FindComponent<ComponentSorter>(throwOnError: true);
-				if(inventory.GetSlotValue(0)==worldItem.Value)
+				if (inventory.GetSlotValue(0) == worldItem.Value)
 				{
 					worldItem.ToRemove = true;
-					v = new Vector3(0f,0f,1f);
-					if(Utils.SubsystemProjectiles.FireProjectile(worldItem.Value, position+0.75f*v, 10f * v, Vector3.Zero, null)== null)
-				    {
-						m_subsystemPickables.AddPickable(worldItem.Value, 1, position + 0.75f * v, 1f * (v), null);
+					v = new Vector3(0f, 0f, 1f);
+					if (Utils.SubsystemProjectiles.FireProjectile(worldItem.Value, position + 0.75f * v, 10f * v, Vector3.Zero, null) == null)
+					{
+						m_subsystemPickables.AddPickable(worldItem.Value, 1, position + 0.75f * v, 1f * v, null);
 					}
 					return;
 				}
@@ -105,9 +112,9 @@ namespace Game
 				{
 					worldItem.ToRemove = true;
 					v = new Vector3(0f, 0f, -1f);
-					if(Utils.SubsystemProjectiles.FireProjectile(worldItem.Value, position + 0.75f * v, 10f * v, Vector3.Zero, null) == null)
-				    {
-						m_subsystemPickables.AddPickable(worldItem.Value, 1, position + 0.75f * v, 1f * (v), null);
+					if (Utils.SubsystemProjectiles.FireProjectile(worldItem.Value, position + 0.75f * v, 10f * v, Vector3.Zero, null) == null)
+					{
+						m_subsystemPickables.AddPickable(worldItem.Value, 1, position + 0.75f * v, 1f * v, null);
 					}
 					return;
 				}
@@ -115,9 +122,9 @@ namespace Game
 				{
 					worldItem.ToRemove = true;
 					v = new Vector3(1f, 0f, 0f);
-					if(Utils.SubsystemProjectiles.FireProjectile(worldItem.Value, position + 0.75f * v, 10f * v, Vector3.Zero, null) == null)
-				    {
-						m_subsystemPickables.AddPickable(worldItem.Value, 1, position + 0.75f * v, 1f * (v), null);
+					if (Utils.SubsystemProjectiles.FireProjectile(worldItem.Value, position + 0.75f * v, 10f * v, Vector3.Zero, null) == null)
+					{
+						m_subsystemPickables.AddPickable(worldItem.Value, 1, position + 0.75f * v, 1f * v, null);
 					}
 					return;
 				}
@@ -125,21 +132,22 @@ namespace Game
 				{
 					worldItem.ToRemove = true;
 					v = new Vector3(-1f, 0f, 0f);
-					if(Utils.SubsystemProjectiles.FireProjectile(worldItem.Value, position + 0.75f * v, 10f * v, Vector3.Zero, null) == null)
-				    {
-						m_subsystemPickables.AddPickable(worldItem.Value, 1, position + 0.75f * v, 1f * (v), null);
+					if (Utils.SubsystemProjectiles.FireProjectile(worldItem.Value, position + 0.75f * v, 10f * v, Vector3.Zero, null) == null)
+					{
+						m_subsystemPickables.AddPickable(worldItem.Value, 1, position + 0.75f * v, 1f * v, null);
 					}
 					return;
 				}
 				v = -CellFace.FaceToVector3(cellFace.Face);
 				worldItem.ToRemove = true;
-				if(Utils.SubsystemProjectiles.FireProjectile(worldItem.Value, position + 0.75f * v, 10f * v, Vector3.Zero, null) == null)
+				if (Utils.SubsystemProjectiles.FireProjectile(worldItem.Value, position + 0.75f * v, 10f * v, Vector3.Zero, null) == null)
 				{
-					m_subsystemPickables.AddPickable(worldItem.Value, 1, position + 0.75f * v, 1f * (v), null);
+					m_subsystemPickables.AddPickable(worldItem.Value, 1, position + 0.75f * v, 1f * v, null);
 				}
 				return;
 			}
 		}
+
 		public override void Load(ValuesDictionary valuesDictionary)
 		{
 			base.Load(valuesDictionary);
@@ -154,6 +162,7 @@ namespace Game
 				widget.Children.Find<LabelWidget>("Label", false).Text = Utils.Get(SourBlock.Names[type]);
 			return true;
 		}
+
 		public override Widget GetWidget(IInventory inventory, ComponentMachine component)
 		{
 			var c = component.Entity.FindComponent<ComponentBlockEntity>(true).Coordinates;
@@ -170,8 +179,8 @@ namespace Game
 			}
 			return null;
 		}
-
 	}
+
 	public class SubsystemCastMachBlockBehavior : SubsystemFurnaceBlockBehavior<ComponentCastMach>
 	{
 		public override int[] HandledBlocks => new[] { CastMachBlock.Index };
@@ -185,6 +194,7 @@ namespace Game
 			return new CastMachWidget(inventory, component);
 		}
 	}
+
 	public class SubsystemCReactorBlockBehavior : SubsystemInventoryBlockBehavior<ComponentCReactor>
 	{
 		public SubsystemCReactorBlockBehavior() : base("CReactor")
@@ -198,22 +208,27 @@ namespace Game
 			return new CReactorWidget(inventory, component);
 		}
 	}
+
 	public class SubsystemUnloaderBlockBehavior : SubsystemInventoryBlockBehavior<ComponentInventoryBase>
 	{
 		public override int[] HandledBlocks => new[] { Bullet2Block.Index };
+
 		public static string[] Names = new[]
 		{
 			"Unloader",
 			"Inserter",
 		};
+
 		public SubsystemUnloaderBlockBehavior() : base("Unloader")
 		{
 		}
+
 		public override void OnBlockAdded(int value, int oldValue, int x, int y, int z)
 		{
-			Name = Names[(Terrain.ExtractData(value) >> 10)-1];
+			Name = Names[(Terrain.ExtractData(value) >> 10) - 1];
 			base.OnBlockAdded(value, oldValue, x, y, z);
 		}
+
 		//public override Widget GetWidget(IInventory inventory, ComponentUnloader component)
 		//{
 		//	return new NewChestWidget(inventory, component, "Unloader");

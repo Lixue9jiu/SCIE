@@ -621,7 +621,7 @@ namespace Game
 	{
 		private static readonly Vector3 center = new Vector3(0.5f, 0, 0.5f);
 
-		private static readonly Quaternion[] directions = new[]
+		private static readonly Quaternion[] directions =
 		{
 			Quaternion.CreateFromAxisAngle(Vector3.UnitY, 0),
 			Quaternion.CreateFromAxisAngle(Vector3.UnitY, MathUtils.PI * 0.5f),
@@ -632,7 +632,7 @@ namespace Game
 		private static readonly Quaternion upwardDirection = Quaternion.CreateFromAxisAngle(new Vector3(1, 0, 0), MathUtils.PI * 0.25f);
 		private static readonly Quaternion downwardDirection = Quaternion.CreateFromAxisAngle(new Vector3(1, 0, 0), MathUtils.PI * -0.25f);
 
-		private static readonly Vector3[] forwardVectors = new[]
+		private static readonly Vector3[] forwardVectors =
 		{
 			new Vector3(0, 0, -1),
 			new Vector3(-1, 0, 0),
@@ -753,11 +753,11 @@ namespace Game
 				var r = body.Rotation;
 				Utils.SubsystemTime.QueueGameTimeDelayedExecution(Utils.SubsystemTime.GameTime + 0.23 * level, delegate
 				{
-					if (Vector3.Distance(body.Position , m_componentBody.Position)>1f && body.Velocity.LengthSquared()>30f)
+					if (Vector3.Distance(body.Position, m_componentBody.Position) > 1f && body.Velocity.LengthSquared() > 30f)
 					{
 						m_componentBody.Position = pos;
 						m_componentBody.Rotation = r;
-						m_componentBody.Velocity = body.Velocity*0.01f;
+						m_componentBody.Velocity = body.Velocity * 0.01f;
 					}
 				});
 				m_outOfMountTime = Vector3.DistanceSquared(ParentBody.m_componentBody.Position, m_componentBody.Position) > 8f

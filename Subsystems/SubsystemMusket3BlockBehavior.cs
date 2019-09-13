@@ -23,8 +23,8 @@ namespace Game
 					int num = Terrain.ExtractContents(slotValue);
 					//int data = Terrain.ExtractData(slotValue);
 					int num2 = slotValue;
-                    //Vector3 dir = direction;
-                    if (num == Musket3Block.Index && slotCount > 0)
+					//Vector3 dir = direction;
+					if (num == Musket3Block.Index && slotCount > 0)
 					{
 						if (!m_aimStartTimes.TryGetValue(componentMiner, out double value))
 						{
@@ -50,8 +50,8 @@ namespace Game
 								direction.Y += 0.3f;
 							}
 						}
-                        
-                        direction = Vector3.Normalize(direction + v * 2f);
+
+						direction = Vector3.Normalize(direction + v * 2f);
 						switch (state)
 						{
 							case AimState.InProgress:
@@ -67,12 +67,12 @@ namespace Game
 										ComponentPlayer componentPlayer2 = componentMiner.ComponentPlayer;
 										if (componentPlayer2 != null)
 											componentPlayer2.ComponentGui.ShowAimingSights(start, direction);
-                                        
+
 										componentFirstPersonModel.ItemOffsetOrder = new Vector3(-0.21f, 0.15f, 0.08f);
 										componentFirstPersonModel.ItemRotationOrder = new Vector3(-0.7f, 0f, 0f);
 									}
 
-									if (m_subsystemTime.PeriodicGameTimeEvent(0.17, 0) && Musket3Block.GetBulletNum(Terrain.ExtractData(inventory.GetSlotValue(activeSlotIndex)))>0)
+									if (m_subsystemTime.PeriodicGameTimeEvent(0.17, 0) && Musket3Block.GetBulletNum(Terrain.ExtractData(inventory.GetSlotValue(activeSlotIndex))) > 0)
 									{
 										//if (componentMiner.ComponentCreature.ComponentBody.ImmersionFactor > 0.4f)
 										//	m_subsystemAudio.PlaySound("Audio/MusketMisfire", 1f, m_random.UniformFloat(-0.1f, 0.1f), componentMiner.ComponentCreature.ComponentCreatureModel.EyePosition, 3f, true);
@@ -150,7 +150,6 @@ namespace Game
 						inventory.RemoveSlotItems(activeSlotIndex, 1);
 						inventory.AddSlotItems(activeSlotIndex, num2, 1);
 					}
-					
 				}
 			}
 			return false;
@@ -180,7 +179,6 @@ namespace Game
 				inventory.RemoveSlotItems(slotIndex, 1);
 				inventory.AddSlotItems(slotIndex, Terrain.MakeBlockValue(Musket3Block.Index, 0, Musket3Block.SetBulletNum(num + processCount)), 1);
 			}
-
 		}
 	}
 }

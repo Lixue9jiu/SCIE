@@ -139,14 +139,7 @@ namespace LibPixz
 				switch (imgInfo.colorMode)
 				{
 					case Markers.App14ColorMode.Unknown:
-						if (imgInfo.numOfComponents == 3)
-						{
-							converter = new Rgb();
-						}
-						else
-						{
-							converter = new YCbCr();
-						}
+						converter = imgInfo.numOfComponents == 3 ? new Rgb() : (IColorspaceConverter)new YCbCr();
 						break;
 					case Markers.App14ColorMode.YCbCr:
 						converter = new YCbCr();

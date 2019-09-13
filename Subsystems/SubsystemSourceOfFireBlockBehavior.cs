@@ -1,7 +1,7 @@
-using System;
-using System.Collections.Generic;
 using Engine;
 using Game;
+using System;
+using System.Collections.Generic;
 
 public class TorchBlock : Game.TorchBlock
 {
@@ -24,6 +24,7 @@ public class TorchBlock : Game.TorchBlock
 		showDebris = false;
 	}
 }
+
 namespace Game
 {
 	public class SubsystemSourceOfFireBlockBehavior : SubsystemTorchBlockBehavior, IUpdateable
@@ -33,15 +34,18 @@ namespace Game
 
 		public override int[] HandledBlocks
 		{
-			get { return new[]
-				{
+			get
+			{
+				return new[]
+			  {
 					17,
 					31,
 					92,
 					104,
 					132,
 					209
-				}; }
+				};
+			}
 		}
 
 		public int UpdateOrder => 0;
@@ -115,6 +119,7 @@ namespace Game
 		{
 			Utils.RemoveElementsInChunk(chunk, m_particleSystemsByCell.Keys, RemoveTorch);
 		}
+
 		public override void OnNeighborBlockChanged(int x, int y, int z, int neighborX, int neighborY, int neighborZ)
 		{
 			int value = SubsystemTerrain.Terrain.GetCellValueFast(x, y, z);

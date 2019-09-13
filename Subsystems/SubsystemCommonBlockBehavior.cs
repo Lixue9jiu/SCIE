@@ -9,7 +9,10 @@ namespace Game
 	{
 		public string Name;
 
-		protected SubsystemInventoryBlockBehavior(string name) { Name = name; }
+		protected SubsystemInventoryBlockBehavior(string name)
+		{
+			Name = name;
+		}
 
 		public override void OnBlockAdded(int value, int oldValue, int x, int y, int z)
 		{
@@ -36,7 +39,10 @@ namespace Game
 	{
 		public readonly Dictionary<int, string> Names;
 
-		protected SubsystemCombinedBlockBehavior(Dictionary<int, string> names) { Names = names; }
+		protected SubsystemCombinedBlockBehavior(Dictionary<int, string> names)
+		{
+			Names = names;
+		}
 
 		public override void OnBlockAdded(int value, int oldValue, int x, int y, int z)
 		{
@@ -67,7 +73,9 @@ namespace Game
 
 		public static SubsystemParticles m_subsystemParticles;
 
-		protected SubsystemFurnaceBlockBehavior(string name) : base(name) { }
+		protected SubsystemFurnaceBlockBehavior(string name) : base(name)
+		{
+		}
 
 		public override void OnBlockAdded(int value, int oldValue, int x, int y, int z)
 		{
