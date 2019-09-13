@@ -42,7 +42,10 @@ namespace Game
 			"Sour",
 			"Deposit",
 			"Sorter",
-			"SChest"
+			"SChest",
+			"RCore",
+			"RHead",
+			"TChange"
 		};
 
 		public override int[] HandledBlocks => new[] { SourBlock.Index };
@@ -84,6 +87,10 @@ namespace Game
 						pickable.Count = num2;
 					}
 				}
+				return;
+			}
+			if (Terrain.ExtractData(Utils.Terrain.GetCellValueFast(cellFace.X, cellFace.Y, cellFace.Z)) > 3 * 1024)
+			{
 				return;
 			}
 
@@ -175,6 +182,12 @@ namespace Game
 				case 2:
 					return new SorterWidget(inventory, component);
 				case 3:
+					return new SteelChestWidget(inventory, component);
+				case 4:
+					return new NewChestWidget(inventory, component ,"ReactorCore");
+				case 5:
+					return new NewChestWidget(inventory, component ,"RactorHead");
+				case 6:
 					return new SteelChestWidget(inventory, component);
 			}
 			return null;

@@ -242,10 +242,10 @@ namespace Game
 			new MouldItem("Syringe", "Models/Screwdriver", "obj1", Matrix.CreateRotationZ(0.5f) * Matrix.CreateTranslation(0f, -0.33f, 0f), Matrix.CreateTranslation(15f / 16f, 0f, 0f), "注射器", "注射器", 3f),
 			new Mould("Models/Battery", "Battery", Matrix.CreateTranslation(new Vector3(0.5f)) * Matrix.CreateScale(2f, 0.15f, 2f), Matrix.CreateTranslation(9f / 16f, -7f / 16f, 0f) * Matrix.CreateScale(20f), "晶圆", "晶圆"),
 			new Powder(Materials.Vanadium),
-			new Powder("U235", "U235P", Color.White),
-			new Powder("U238", "U238P", Color.White),
-			new Mould("Models/Rods", "SteelRod", Matrix.CreateTranslation(0f,-0.5f,0f) * Matrix.CreateScale(16f,0.5f, 16f), Matrix.CreateTranslation(9f / 16f, -3f / 16f, 0f) * Matrix.CreateScale(20f), "U235C", "U235C"),
-			new Mould("Models/Rods", "SteelRod", Matrix.CreateTranslation(0f,-0.5f,0f) * Matrix.CreateScale(16f,0.5f, 16f), Matrix.CreateTranslation(9f / 16f, -3f / 16f, 0f) * Matrix.CreateScale(20f), "U238C", "U238C"),
+			new Powder("U235", "U235P", Color.LightGreen),
+			new Powder("U238", "U238P", Color.DarkGreen),
+			new Mould("Models/Rods", "SteelRod", Matrix.CreateTranslation(0f,-0.5f,0f) * Matrix.CreateScale(16f,0.5f, 16f), Matrix.CreateTranslation(9f / 16f, -3f / 16f, 0f) * Matrix.CreateScale(20f),Color.LightGreen, "U235C", "U235C"),
+			new Mould("Models/Rods", "SteelRod", Matrix.CreateTranslation(0f,-0.5f,0f) * Matrix.CreateScale(16f,0.5f, 16f), Matrix.CreateTranslation(9f / 16f, -3f / 16f, 0f) * Matrix.CreateScale(20f),Color.DarkGreen, "U238C", "U238C"),
 			//new Wire("CopperWire"),
 			new Circuit("Circuit1", "初级电路板", "初级电路板，由电线，电子管够成的电路板"),
 			new MeshItem("电子二极管")
@@ -339,6 +339,7 @@ namespace Game
 				new VaFurnace(),
 				new Centrifugal(),
 				new Workshop(),
+				new RControl(),
 			};
 			IdTable = new Dictionary<string, int>(Items.Length)
 			{

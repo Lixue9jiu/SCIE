@@ -187,7 +187,7 @@ namespace Game
 			{
 				if (GetSlotCount(i) <= 0) continue;
 				int value = GetSlotValue(i);
-				if (value == ItemBlock.IdTable["AluminumOrePowder"])
+				if (value == ItemBlock.IdTable["AluminumOrePowder"] && i==0)
 				{
 					text |= 1;
 				}
@@ -195,13 +195,13 @@ namespace Game
 				{
 					text |= 2;
 				}
-				if (value == ItemBlock.IdTable["H2O"])
+				if (value == ItemBlock.IdTable["H2O"] && i==0)
 				{
 					text = 8;
 					result[0] = ItemBlock.IdTable["Bottle"];
 					break;
 				}
-				if (value == ItemBlock.IdTable["S-NaCl"])
+				if (value == ItemBlock.IdTable["S-NaCl"] && i==0)
 				{
 					text = 9;
 					result[0] = ItemBlock.IdTable["S-NaOH"];
