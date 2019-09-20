@@ -340,6 +340,8 @@ namespace Game
 				new Centrifugal(),
 				new Workshop(),
 				new RControl(),
+				new Hchanger(),
+				new Turbine()
 			};
 			IdTable = new Dictionary<string, int>(Items.Length)
 			{

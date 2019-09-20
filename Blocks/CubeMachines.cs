@@ -106,7 +106,7 @@ namespace Game
 			"钢箱子",
 			"石墨核反应堆核心",
 			"石墨核反应堆顶部",
-			"热交换器"
+			//"热交换器"
 		};
 
 		public static readonly string[] Descriptions =
@@ -117,13 +117,13 @@ namespace Game
 			"钢箱子，更大的容积",
 			"石墨核反应堆核心，用来进行核反应的核心装置，以石墨作为减速剂的初代核装置",
 			"石墨核反应堆顶部",
-			"热交换器，当其中有水时，反应堆输出的热量让水转变成蒸汽"
+			//"热交换器，当其中有水时，反应堆输出的热量让水转变成蒸汽"
 		};
 
 		public override IEnumerable<int> GetCreativeValues()
 		{
-			var arr = new int[17 * 8];
-			for (int i = 0; i < 8; i++)
+			var arr = new int[17 * 6];
+			for (int i = 0; i < 6; i++)
 			{
 				arr[i * 17] = BlockIndex | i << 24;
 				for (int j = 1; j < 17; j++)

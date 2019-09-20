@@ -315,6 +315,7 @@ namespace Game
 		}
 	}
 
+
 	public class Charger : InventoryEntityDevice<ComponentCharger>
 	{
 		public Charger() : base("充电器", "充电放电装置是一种可以为电池充电或者放电的装置") { Type = ElementType.Supply | ElementType.Connector; }
@@ -375,10 +376,35 @@ namespace Game
 		{
 			return face != 4 && face != 5 && face == (Terrain.ExtractData(value) >> 15) ? 125 : 107;
 		}
-
+		//return face != 4 && face != 5 ? face == (Terrain.ExtractData(value) >> 15) ? 240 : 241 : 147;
 		public override Widget GetWidget(IInventory inventory, ComponentTGenerator component)
 		{
 			return new SeparatorWidget(inventory, component,"ThermalGenerator");
+		}
+	}
+
+	public class Turbine : InventoryEntityDevice<ComponentTurbine>
+	{
+		public Turbine() : base("蒸汽涡轮机", "蒸汽涡轮机是一种利用高压蒸汽发电的装置，它可以把蒸汽转换为能量") { Type = ElementType.Supply | ElementType.Connector; }
+
+		public override void Simulate(ref int voltage)
+		{
+			if (voltage > 8023)
+			{
+				return;
+			}
+			if (Component.Powered)
+				voltage += Component.Output*60;
+			//voltage = MathUtils.Max(8023,voltage);
+		}
+		public override int GetFaceTextureSlot(int face, int value)
+		{
+			return face != 4 && face != 5 ? face == (Terrain.ExtractData(value) >> 15) ? 147 : 125 : 220;
+		}
+		//return face != 4 && face != 5 ? face == (Terrain.ExtractData(value) >> 15) ? 240 : 241 : 147;
+		public override Widget GetWidget(IInventory inventory, ComponentTurbine component)
+		{
+			return new TurbineWidget(inventory, component);
 		}
 	}
 

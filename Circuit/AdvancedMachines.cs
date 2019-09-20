@@ -19,7 +19,7 @@ namespace Game
 				return;
 			for (int i = 0; i < Component.SlotsCount; i++)
 			{
-				if (Component.GetSlotCount(i) > 0 && voltage<8000)
+				if (Component.GetSlotCount(i) > 0 && voltage<8192)
 				{
 					int value = Terrain.ExtractContents(Component.GetSlotValue(i));
 					switch (value)
@@ -125,6 +125,7 @@ namespace Game
 		{
 			if (Component.Powered = voltage >= 10000)
 			{
+				Inventory = Component.Entity.FindComponent<ComponentOilPlant>(true);
 				if (ComponentInventoryBase.AcquireItems(Inventory, voltage >> 10, 1) == 0)
 				{
 					voltage = 0;
@@ -142,6 +143,45 @@ namespace Game
 			return new SeparatorWidget(inventory, component, "OilPlant", "Widgets/OilPlantWidget");
 		}
 	}
+
+
+
+	public class Hchanger : InventoryEntityDevice<ComponentHChanger>
+	{
+		public ComponentHChanger Inventory;
+		public Hchanger() : base("热交换器", "通过热交换让水变成蒸汽")
+		{
+			Type |= ElementType.Pipe;
+		}
+
+		public override void OnBlockAdded(SubsystemTerrain subsystemTerrain, int value, int oldValue)
+		{
+			base.OnBlockAdded(subsystemTerrain, value, oldValue);
+			Inventory = Component.Entity.FindComponent<ComponentHChanger>(true);
+		}
+
+		public override void Simulate(ref int voltage)
+		{
+			if (voltage >= 10000)
+			{
+				Inventory = Component.Entity.FindComponent<ComponentHChanger>(true);
+				if (ComponentInventoryBase.AcquireItems(Inventory, voltage >> 10, 1) == 0)
+				{
+					voltage = 0;
+				}
+			}
+		}
+		public override int GetFaceTextureSlot(int face, int value)
+		{
+			return face != 4 && face != 5 ? face == (Terrain.ExtractData(value) >> 15) ? 138 : 140 : 141;
+		}
+		//return face == 4 || face == 5 ? 141 : 140;
+		public override Widget GetWidget(IInventory inventory, ComponentHChanger component)
+		{
+			return new HchangerWidget(inventory, component);
+		}
+	}
+
 
 	public class OilFractionalTower : InventoryEntityDevice<ComponentFractionalTower>
 	{
