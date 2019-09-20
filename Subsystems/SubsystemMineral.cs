@@ -1,7 +1,5 @@
 ﻿using Engine;
-using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Text;
 using TemplatesDatabase;
 
@@ -22,16 +20,20 @@ namespace Game
 		U,
 		P
 	}
+
 	public partial class SubsystemMineral : SubsystemBlockBehavior
 	{
 		public static TerrainBrush[] SmallBrushes,
 									PtBrushes,
 									ABrushes,
 									BBrushes;
+
 		public static TerrainBrush.Cell[][] OilPocketCells;
+
 		//public static TerrainBrush[] NaturalGasBrushes;
 		//public static Dictionary<long, int> MinesData;
 		public static Dictionary<string, int> Set = new Dictionary<string, int>();
+
 		public static DynamicArray<IChemicalItem> Items = new DynamicArray<IChemicalItem>();
 
 		public override int[] HandledBlocks => new[]
@@ -248,6 +250,7 @@ namespace Game
 					chunk.PaintSelective(OilPocketCells[random.Int() & 15], x << 16 | (random.Int() & 15), random.UniformInt(40, 70), y << 16 | (random.Int() & 15), 3);
 			}
 		}
+
 		public override void OnNeighborBlockChanged(int x, int y, int z, int neighborX, int neighborY, int neighborZ)
 		{
 			if (Utils.SubsystemGameInfo.WorldSettings.EnvironmentBehaviorMode != EnvironmentBehaviorMode.Living || y <= 0)

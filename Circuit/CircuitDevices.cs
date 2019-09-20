@@ -277,7 +277,7 @@ namespace Game
 				return;
 			if (Component.Charged)
 			{
-				if ((voltage) > 0 && voltage<8024)
+				if (voltage > 0 && voltage<8024)
 				{
 					Component.m_fireTimeRemaining = MathUtils.Min(Component.m_fireTimeRemaining + voltage/10f, 1000000f);
 					voltage = 0;

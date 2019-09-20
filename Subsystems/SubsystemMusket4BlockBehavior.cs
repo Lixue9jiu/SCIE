@@ -5,6 +5,7 @@ namespace Game
 	public class SubsystemMusket4BlockBehavior : SubsystemMusket2BlockBehavior
 	{
 		public SubsystemGameInfo m_subsystemGameInfo;
+
 		public override bool OnEditInventoryItem(IInventory inventory, int slotIndex, ComponentPlayer componentPlayer)
 		{
 			componentPlayer.ComponentGui.ModalPanelWidget = componentPlayer.ComponentGui.ModalPanelWidget == null ? new Musket2Widget(inventory, slotIndex) : null;
@@ -24,13 +25,13 @@ namespace Game
 					int num = Terrain.ExtractContents(slotValue);
 					int data = Terrain.ExtractData(slotValue);
 					int num2 = slotValue;
-                    Vector3 dir = direction;
-                    if (num == Musket4Block.Index && slotCount > 0)
+					Vector3 dir = direction;
+					if (num == Musket4Block.Index && slotCount > 0)
 					{
 						if (componentMiner.ComponentPlayer.View.ActiveCamera is TelescopeCamera2)
 							direction = Vector3.Normalize(TelescopeCamera2.m_direction);
-							//direction = componentMiner.ComponentCreature.ComponentCreatureModel.EyePosition - start;
-							if (!m_aimStartTimes.TryGetValue(componentMiner, out double value))
+						//direction = componentMiner.ComponentCreature.ComponentCreatureModel.EyePosition - start;
+						if (!m_aimStartTimes.TryGetValue(componentMiner, out double value))
 						{
 							value = m_subsystemTime.GameTime;
 							m_aimStartTimes[componentMiner] = value;
@@ -43,9 +44,8 @@ namespace Game
 							Y = SimplexNoise.OctavedNoise(num5 + 100f, 2f, 3, 2f, 0.5f),
 							Z = SimplexNoise.OctavedNoise(num5 + 200f, 2f, 3, 2f, 0.5f)
 						};
-		
-                        
-                        direction = Vector3.Normalize(direction);
+
+						direction = Vector3.Normalize(direction);
 						switch (state)
 						{
 							case AimState.InProgress:
@@ -58,10 +58,8 @@ namespace Game
 									var view2 = componentMiner.ComponentPlayer.View;
 									if (num4 > 0.2f && !(view2.ActiveCamera is TelescopeCamera2))
 									{
-										
 										view2.ActiveCamera = view2.ActiveCamera is TelescopeCamera2 ? view2.FindCamera<FppCamera>(true) : (Camera)new TelescopeCamera2(view2);
 										//view.ActiveCamera.
-										
 									}
 									ComponentFirstPersonModel componentFirstPersonModel = componentMiner.Entity.FindComponent<ComponentFirstPersonModel>();
 									if (componentFirstPersonModel != null)
@@ -77,7 +75,7 @@ namespace Game
 									componentMiner.ComponentCreature.ComponentCreatureModel.InHandItemRotationOrder = new Vector3(-1.7f, 0f, 0f);
 									break;
 								}
-						
+
 							case AimState.Cancelled:
 								var view = componentMiner.ComponentPlayer.View;
 								view.ActiveCamera = view.ActiveCamera is TelescopeCamera2 ? view.FindCamera<FppCamera>(true) : (Camera)new TelescopeCamera2(view);
@@ -115,14 +113,13 @@ namespace Game
 									}
 									if (flag)
 									{
-										
 										{
 											//componentMiner.ComponentCreature.ComponentCreatureModel.EyePosition =Vector3.Normalize(vvv2);
 											Vector3 eyePosition = componentMiner.ComponentCreature.ComponentCreatureModel.EyePosition;
 											Matrix matrix = componentMiner.ComponentCreature.ComponentBody.Matrix;
 											Vector3 vector2 = eyePosition + matrix.Right * 0.3f - matrix.Up * 0.2f;
 											var vector3 = Vector3.Normalize(vector2 + direction * 10f - vector2);
-											var vector31= Vector3.Normalize(direction);
+											var vector31 = Vector3.Normalize(direction);
 											var vector4 = Vector3.Normalize(Vector3.Cross(vector3, Vector3.UnitY));
 											var v3 = Vector3.Normalize(Vector3.Cross(vector3, vector4));
 											for (int i = 0; i < num6; i++)
@@ -144,7 +141,6 @@ namespace Game
 											if (Utils.Random.Bool(0.1f))
 												componentMiner.DamageActiveTool(1);
 										}
-										
 									}
 									//if (Musket2Block.GetHammerState(Terrain.ExtractData(num2)))
 									//{
@@ -163,7 +159,6 @@ namespace Game
 					//	inventory.RemoveSlotItems(activeSlotIndex, 1);
 					//	inventory.AddSlotItems(activeSlotIndex, num2, 1);
 					//}
-					
 				}
 			}
 			return false;
@@ -193,7 +188,6 @@ namespace Game
 				inventory.RemoveSlotItems(slotIndex, 1);
 				inventory.AddSlotItems(slotIndex, Terrain.MakeBlockValue(Musket4Block.Index, 0, Musket4Block.SetBulletNum(num + processCount)), 1);
 			}
-
 		}
 	}
 }

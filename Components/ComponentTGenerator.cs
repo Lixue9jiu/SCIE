@@ -35,7 +35,6 @@ namespace Game
 						slot.Count += e.Current.Value;
 						m_smeltingRecipe = 0;
 						SmeltingProgress = 0f;
-						//m_fireTimeRemaining = 1f;
 						m_updateSmeltingRecipe = true;
 					}
 					if (m_slots[0].Count > 0)

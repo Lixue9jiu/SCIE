@@ -181,7 +181,7 @@ namespace Game
 				}
 			}
 			Vector3 vector6 = num != null ? vector + Vector3.Normalize(vector3) * MathUtils.Max(num.Value - 0.5f, 0.2f) : vector + vector3;
-			m_direction = Vector3.Normalize(vector6 - vector) * (m_distance);
+			m_direction = Vector3.Normalize(vector6 - vector) * m_distance;
 			SetupPerspectiveCamera(vector6 + new Vector3(0f, 0.15f, 0f), vector6 - vector, Vector3.UnitY);
 		}
 

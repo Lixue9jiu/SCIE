@@ -214,12 +214,12 @@ namespace Game
 					break;
 				}
 			}
-			if (text  == 3)
+			if (text == 3)
 			{
 				result[0] = ItemBlock.IdTable["AluminumIngot"];
 				result[1] = ItemBlock.IdTable["AluminumIngot"];
 			}
-			else if ((text  == 1))
+			else if (text == 1)
 				result[0] = ItemBlock.IdTable["AluminumIngot"];
 			else
 				text &= ~3;
@@ -240,13 +240,7 @@ namespace Game
 	{
 		public bool Powered;
 
-		//protected readonly int[] result = new int[3];
-
-		protected string m_smeltingRecipe;
-
-		//protected int m_music;
-
-		protected string m_smeltingRecipe2;
+		protected string m_smeltingRecipe, m_smeltingRecipe2;
 
 		public override int RemainsSlotIndex => -1;
 

@@ -27,19 +27,19 @@ namespace Game
 			}
 		};
 
-		public override int[] HandledBlocks => new [] { RailBlock.Index };
+		public override int[] HandledBlocks => new[] { RailBlock.Index };
 
 		public override void OnBlockAdded(int value, int oldValue, int x, int y, int z)
 		{
 			UpdateCornerState(value, x, y, z, 1);
 		}
 
-		void UpdateCornerState(int value, int x, int y, int z, int step)
+		private void UpdateCornerState(int value, int x, int y, int z, int step)
 		{
 			var resultType = default(int?);
 			var neighbors = new bool[4];
 			var raisedNeighbors = new bool[4];
-			
+
 			for (int i = 0; i < 4; i++)
 			{
 				for (int k = 0; k < 3; k++)
@@ -58,7 +58,7 @@ namespace Game
 					}
 				}
 			}
-			
+
 			if (neighbors[0] && neighbors[3])
 				resultType = 1;
 			else if (neighbors[0] && neighbors[1])
