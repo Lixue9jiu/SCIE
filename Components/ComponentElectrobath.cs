@@ -4,7 +4,7 @@ using TemplatesDatabase;
 
 namespace Game
 {
-	public class ComponentElectrobath : ComponentMachine, IUpdateable
+	public class ComponentElectrobath : ComponentSMachine, IUpdateable
 	{
 		public bool Powered;
 
@@ -14,11 +14,7 @@ namespace Game
 
 		//protected int m_music;
 
-		public override int RemainsSlotIndex => -1;
-
 		public override int ResultSlotIndex => SlotsCount - 1;
-
-		public override int FuelSlotIndex => -1;
 
 		public void Update(float dt)
 		{
@@ -187,7 +183,8 @@ namespace Game
 			{
 				if (GetSlotCount(i) <= 0) continue;
 				int value = GetSlotValue(i);
-				if (value == ItemBlock.IdTable["AluminumOrePowder"] && i==0)
+				bool v = i == 0;
+				if (value == ItemBlock.IdTable["AluminumOrePowder"] && v)
 				{
 					text |= 1;
 				}
@@ -195,13 +192,13 @@ namespace Game
 				{
 					text |= 2;
 				}
-				if (value == ItemBlock.IdTable["H2O"] && i==0)
+				if (value == ItemBlock.IdTable["H2O"] && v)
 				{
 					text = 8;
 					result[0] = ItemBlock.IdTable["Bottle"];
 					break;
 				}
-				if (value == ItemBlock.IdTable["S-NaCl"] && i==0)
+				if (value == ItemBlock.IdTable["S-NaCl"] && v)
 				{
 					text = 9;
 					result[0] = ItemBlock.IdTable["S-NaOH"];
@@ -216,7 +213,7 @@ namespace Game
 			}
 			if (text == 3)
 			{
-				result[0] = ItemBlock.IdTable["AluminumIngot"];
+				result[0] =
 				result[1] = ItemBlock.IdTable["AluminumIngot"];
 			}
 			else if (text == 1)
@@ -236,16 +233,10 @@ namespace Game
 		}
 	}
 
-	public class ComponentAirPresser : ComponentMachine
+	public class ComponentAirPresser : ComponentSMachine
 	{
 		public bool Powered;
 
-		protected string m_smeltingRecipe, m_smeltingRecipe2;
-
-		public override int RemainsSlotIndex => -1;
-
 		public override int ResultSlotIndex => SlotsCount - 1;
-
-		public override int FuelSlotIndex => -1;
 	}
 }

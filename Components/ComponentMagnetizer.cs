@@ -4,15 +4,13 @@ using TemplatesDatabase;
 
 namespace Game
 {
-	public class ComponentMagnetizer : ComponentMachine, IUpdateable
+	public class ComponentMagnetizer : ComponentSMachine, IUpdateable
 	{
 		public bool Powered;
 
 		protected string m_smeltingRecipe, m_smeltingRecipe2;
 
 		//protected int m_music;
-
-		public override int RemainsSlotIndex => -1;
 
 		public override int ResultSlotIndex => SlotsCount - 1;
 

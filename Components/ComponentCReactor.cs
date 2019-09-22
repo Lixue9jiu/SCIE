@@ -6,7 +6,7 @@ using TemplatesDatabase;
 
 namespace Game
 {
-	public class ComponentCReactor : ComponentMachine, IUpdateable
+	public class ComponentCReactor : ComponentSMachine, IUpdateable
 	{
 		protected float m_speed;
 
@@ -17,11 +17,8 @@ namespace Game
 
 		protected readonly Dictionary<int, int> result = new Dictionary<int, int>();
 		protected ReactionSystem system;
-		public override int RemainsSlotIndex => -1;
 
 		public override int ResultSlotIndex => SlotsCount - 1;
-
-		public override int FuelSlotIndex => -1;
 
 		public void Update(float dt)
 		{

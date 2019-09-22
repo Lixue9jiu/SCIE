@@ -4,7 +4,7 @@ using TemplatesDatabase;
 
 namespace Game
 {
-	public class ComponentEngineA : ComponentMachine, IUpdateable
+	public class ComponentEngineA : ComponentSMachine, IUpdateable
 	{
 		protected string m_smeltingRecipe;
 
@@ -13,8 +13,6 @@ namespace Game
 		public override int RemainsSlotIndex => SlotsCount - 2;
 
 		public override int ResultSlotIndex => SlotsCount - 1;
-
-		public override int FuelSlotIndex => -1;
 
 		public void Update(float dt)
 		{
@@ -80,7 +78,7 @@ namespace Game
 		}
 	}
 
-	public class ComponentEngineT : ComponentMachine, IUpdateable
+	public class ComponentEngineT : ComponentSMachine, IUpdateable
 	{
 		protected string m_smeltingRecipe;
 
@@ -89,8 +87,6 @@ namespace Game
 		public override int RemainsSlotIndex => SlotsCount - 2;
 
 		public override int ResultSlotIndex => SlotsCount - 1;
-
-		public override int FuelSlotIndex => -1;
 
 		public void Update(float dt)
 		{

@@ -55,7 +55,7 @@ namespace Game
 		{
 			m_updateSmeltingRecipe = true;
 			int v = GetSlotValue(slotIndex);
-			if (v == 262384 || v == 786672 || v == 1048816 || v == 1310960 || v == WaterBlock.Index || v==MagmaBlock.Index)
+			if (v == 262384 || v == 786672 || v == 1048816 || v == 1310960 || v == WaterBlock.Index || v == MagmaBlock.Index)
 			{
 				return 0;
 			}
@@ -114,6 +114,7 @@ namespace Game
 			}
 			return value;
 		}
+
 		public new void DropAllItems(Vector3 position)
 		{
 			SubsystemPickables subsystemPickables = base.Project.FindSubsystem<SubsystemPickables>(throwOnError: true);
@@ -130,6 +131,7 @@ namespace Game
 				}
 			}
 		}
+
 		/*public static float GetFuelHeatLevel(int value)
 		{
 			Block block = BlocksManager.Blocks[Terrain.ExtractContents(value)];
@@ -191,7 +193,7 @@ namespace Game
 		}
 	}
 
-	public abstract class ComponentPMach : ComponentMachine, IUpdateable
+	public abstract class ComponentPMach : ComponentSMachine, IUpdateable
 	{
 		protected int m_count;
 		protected float m_speed;
@@ -201,11 +203,7 @@ namespace Game
 
 		protected string m_smeltingRecipe2;
 
-		public override int RemainsSlotIndex => -1;
-
 		public override int ResultSlotIndex => SlotsCount - 1;
-
-		public override int FuelSlotIndex => -1;
 
 		public void Update(float dt)
 		{
@@ -278,7 +276,7 @@ namespace Game
 		}
 	}
 
-	public class ComponentSorter : ComponentMachine
+	public class ComponentSMachine : ComponentMachine
 	{
 		public override int RemainsSlotIndex => -1;
 
@@ -287,17 +285,16 @@ namespace Game
 		public override int FuelSlotIndex => -1;
 	}
 
-	public class ComponentRCore : ComponentMachine, IUpdateable
+	public class ComponentSorter : ComponentSMachine
 	{
-		public override int RemainsSlotIndex => -1;
+	}
 
-		public override int ResultSlotIndex => -1;
-
-		public override int FuelSlotIndex => -1;
-
+	public class ComponentRCore : ComponentSMachine, IUpdateable
+	{
 		//public override float m_fireTimeRemaining;
 		//public float HeatLevel;
 		public float veloc;
+
 		public void Update(float dt)
 		{
 			if (Utils.SubsystemTime.PeriodicGameTimeEvent(0.2, 0.0))
@@ -313,7 +310,7 @@ namespace Game
 					{
 						//if ()
 						int va1 = GetSlotValue(i);
-						
+
 						if (Terrain.ExtractContents(va1) == FuelRodBlock.Index)
 						{
 							if (FuelRodBlock.GetType(va1) == RodType.UFuelRod)
@@ -364,14 +361,11 @@ namespace Game
 					}
 					else
 					{
-						RemoveSlotItems(i,1);
+						RemoveSlotItems(i, 1);
 					}
-
-	    		}
+				}
 			}
 		}
-
-
 	}
 
 
