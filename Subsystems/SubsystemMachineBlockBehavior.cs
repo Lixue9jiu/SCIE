@@ -266,8 +266,17 @@ namespace Game
 
 		public override int[] HandledBlocks => new[] { LiquidPumpBlock.Index };
 
+
+		public override void OnHitByProjectile(CellFace cellFace, WorldItem worldItem)
+		{
+			//if (SixDirectionalBlock.GetAcceptsDrops(Terrain.ExtractData(Utils.Terrain.GetCellValue(cellFace.X, cellFace.Y, cellFace.Z))))
+				Utils.OnHitByProjectile(cellFace, worldItem);
+		}
+
 		public override bool OnInteract(TerrainRaycastResult raycastResult, ComponentMiner componentMiner)
 		{
+
+
 			if (Utils.SubsystemGameInfo.WorldSettings.GameMode != GameMode.Adventure)
 			{
 				var blockEntity = Utils.GetBlockEntity(raycastResult.CellFace.Point);

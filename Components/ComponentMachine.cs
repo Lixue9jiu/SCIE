@@ -298,9 +298,12 @@ namespace Game
 		public void Update(float dt)
 		{
 			if (Utils.SubsystemTime.PeriodicGameTimeEvent(0.2, 0.0))
+				
 			{
+				int veo = 0;
 				if (m_updateSmeltingRecipe)
 				{
+					
 					m_fireTimeRemaining = 0f;
 					veloc = 1f;
 					for (int i = 0; i < SlotsCount; i++)
@@ -313,6 +316,7 @@ namespace Game
 							if (FuelRodBlock.GetType(va1) == RodType.UFuelRod)
 							{
 								m_fireTimeRemaining += 2;
+								veo += 0;
 							}
 							if (FuelRodBlock.GetType(va1) == RodType.ControlRod)
 							{
@@ -327,21 +331,26 @@ namespace Game
 						}
 					}
 				}
-				m_fireTimeRemaining = MathUtils.Max(0f, m_fireTimeRemaining);
-				HeatLevel = MathUtils.Max(0f, HeatLevel + m_fireTimeRemaining * 0.5f - 0.1f);
+				veloc = MathUtils.Max(veloc,0);
+				m_fireTimeRemaining = MathUtils.Max(0f, m_fireTimeRemaining );
+				HeatLevel = MathUtils.Max(0f, HeatLevel + m_fireTimeRemaining * 0.5f -0.1f);
 				//HeatLevel += m_fireTimeRemaining*5;
+				Point3 coordinates = m_componentBlockEntity.Coordinates;
+				if (HeatLevel>3000)
+				Utils.SubsystemExplosions.TryExplodeBlock(coordinates.X, coordinates.Y, coordinates.Z, LargeGunpowderKegBlock.Index);
+				if (m_fireTimeRemaining>0)
 				for (int i = 0; i < SlotsCount; i++)
 				{
 					//if ()
 					int va1 = GetSlotValue(i);
 					if (Terrain.ExtractContents(va1) == FuelRodBlock.Index)
 					{
-						if (Utils.Random.Bool(0.006f))
+						if (Utils.Random.Bool(0.006f*veloc))
 						{
 							RemoveSlotItems(i, 1);
-							if (BlocksManager.DamageItem(va1, (int)m_fireTimeRemaining) != 0)
+							if (BlocksManager.DamageItem(va1, 1) !=0)
 							{
-								AddSlotItems(i, BlocksManager.DamageItem(va1, (int)m_fireTimeRemaining), 1);
+								AddSlotItems(i, BlocksManager.DamageItem(va1, 1), 1);
 							}
 						}
 					}
@@ -354,7 +363,113 @@ namespace Game
 		}
 	}
 
-	/*public class ComponentHChanger : ComponentSMachine
+
+
+
+	public class ComponentHChanger : ComponentMachine, IUpdateable
 	{
-	}*/
+		public override int RemainsSlotIndex => -1;
+
+		public override int ResultSlotIndex => -1;
+
+		public override int FuelSlotIndex => -1;
+
+		public int Pressure;
+
+		public int Output;
+
+		public void Update(float dt)
+		{
+			if (Utils.SubsystemTime.PeriodicGameTimeEvent(0.5, 0.0))
+			{
+				Pressure = 0;
+				Output = 0;
+				Point3 coordinates = m_componentBlockEntity.Coordinates;
+				var point = CellFace.FaceToPoint3(Terrain.ExtractData(Utils.Terrain.GetCellValue(coordinates.X, coordinates.Y, coordinates.Z)) >> 15);
+				int num3 = coordinates.X - point.X;
+				int num4 = coordinates.Y - point.Y;
+				int num5 = coordinates.Z - point.Z, v;
+				int cellValue = Terrain.ReplaceLight(Utils.Terrain.GetCellValue(num3, num4, num5), 0);
+				//int cellContents = Terrain.ExtractContents(cellValue);Terrain.ExtractData(value) >> 15
+				if (4 == Terrain.ExtractData(cellValue) >> 10)
+				{
+					var point3 = new Point3(num3, num4, num5);
+					var entity = Utils.GetBlockEntity(point3);
+					ComponentRCore component3 = entity.Entity.FindComponent<ComponentRCore>();
+					if (entity != null && component3 != null)
+					{
+						Pressure = (int)(component3.HeatLevel/100);
+
+
+						if (Pressure > 0)
+						{
+
+							
+								for (int i = 0; i < 8; i++)
+								{
+									int slotValue = GetSlotValue(i);
+									int num = Terrain.ExtractContents(slotValue);
+									if (slotValue == WaterBlock.Index)
+									{
+										if (Utils.SubsystemTime.PeriodicGameTimeEvent((5*30/Pressure/10)/1f, 0.0))
+										m_slots[i].Count--;
+										Output += Pressure;
+										component3.HeatLevel -= 2*Output;
+										break;
+										
+									}
+
+								
+							}
+						}
+
+
+					}
+				
+				}
+
+			}
+
+		}
+	}
+
+
+
+	public class ComponentTurbine : ComponentMachine, IUpdateable
+	{
+
+		public int Pressure;
+
+		public int Output;
+		public bool Powered;
+
+		public void Update(float dt)
+		{
+			if (Utils.SubsystemTime.PeriodicGameTimeEvent(0.5, 0.0))
+			{
+				Pressure = 0;
+				Output = 0;
+				Point3 coordinates = m_componentBlockEntity.Coordinates;
+				var point = CellFace.FaceToPoint3(Terrain.ExtractData(Utils.Terrain.GetCellValue(coordinates.X, coordinates.Y, coordinates.Z)) >> 15);
+				int num3 = coordinates.X - point.X;
+				int num4 = coordinates.Y - point.Y;
+				int num5 = coordinates.Z - point.Z, v;
+				int cellValue = Terrain.ReplaceLight(Utils.Terrain.GetCellValue(num3, num4, num5), 0);
+				//int cellContents = Terrain.ExtractContents(cellValue);Terrain.ExtractData(value) >> 15
+				if (ElementBlock.Block.GetDevice(num3, num4, num5, cellValue) is Hchanger)
+				{
+					var point3 = new Point3(num3, num4, num5);
+					var entity = Utils.GetBlockEntity(point3);
+					ComponentHChanger component3 = entity.Entity.FindComponent<ComponentHChanger>();
+					Output = component3.Output;
+
+				}
+				Powered = Output > 0;
+
+			}
+
+		}
+	}
+
+
 }

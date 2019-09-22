@@ -35,6 +35,12 @@
         <Parameter Name="Class" Guid="7f2a89ff-22f9-45aa-aae4-039ba73b12b6" Value="Game.ComponentOilPlant" Type="string" />
       </MemberComponentTemplate>
     </EntityTemplate>
+	<EntityTemplate Name="Hchanger" Guid="3711a277-af17-4955-81fa-aafaf97b92bd" InheritanceParent="9681f999-898b-4f5c-9ea8-f8cc331e97b3">
+      <MemberComponentTemplate Name="Hchanger" Guid="8f883a13-ac7d-4b4c-97c7-df652ca11b51" InheritanceParent="81a44c6a-c30a-4f54-8d64-0c30aabab8fa">
+        <Parameter Name="Class" Guid="7f2a89ff-88f9-4588-aae4-039ba73b12b6" Value="Game.ComponentHChanger" Type="string" />
+		<Parameter Name="SlotsCount" Guid="3b83574d-f373-431b-9828-d30e0fbf33f1" Value="8" Type="int" />
+      </MemberComponentTemplate>
+    </EntityTemplate>
     <EntityTemplate Name="Centrifugal" Guid="26ffa288-af17-4966-81fa-aafaf97b92bf" InheritanceParent="9681f999-898b-4f5c-9ea8-f8cc331e97b3">
       <MemberComponentTemplate Name="Centrifugal" Guid="0f473a24-ac7d-4b4c-97c7-df653ca11b51" InheritanceParent="81a44c6a-c30a-4f53-8d64-0c30aabab8f9">
         <Parameter Name="SlotsCount" Guid="446d594d-f192-4311-9828-d30e0fbf33f1" Value="6" Type="int" />
@@ -88,6 +94,11 @@
     <EntityTemplate Name="Condenser" Guid="1855a775-af18-4955-81fa-aafaf97b92bd" InheritanceParent="9681f999-898b-4f5c-9ea8-f8cc331e97b3">
       <MemberComponentTemplate Name="Condenser" Guid="0f199f59-fc7d-4b4c-97c7-df652ca11b51" InheritanceParent="81a44c6a-c30a-4f53-8d64-0c30aabab8f9">
         <Parameter Name="Class" Guid="1c8f9ff1-22f9-45bb-aae3-039ba73b12b6" Value="Game.ComponentCondenser" Type="string" />
+      </MemberComponentTemplate>
+    </EntityTemplate>
+	<EntityTemplate Name="Turbine" Guid="1866a995-af18-4955-81fa-aafaf97b92bd" InheritanceParent="9681f999-898b-4f5c-9ea8-f8cc331e97b3">
+      <MemberComponentTemplate Name="Turbine" Guid="1f122f52-fc7d-4b4c-97c7-df652ca11b51" InheritanceParent="81a44c6a-c30a-4f53-8d64-0c30aabab8f9">
+        <Parameter Name="Class" Guid="7c8f9771-22f9-4577-aae3-039ba73b12b6" Value="Game.ComponentTurbine" Type="string" />
       </MemberComponentTemplate>
     </EntityTemplate>
 	<EntityTemplate Name="RControl" Guid="1866a885-af18-4955-81fa-aaf1197b92bd" InheritanceParent="9681f999-898b-4f5c-9ea8-f8cc331e97b3">
@@ -260,7 +271,7 @@
         <Parameter Name="TextureOverride" Guid="77e14775-837a-4614-a9fe-b1f88d835b11" Value="Textures/SteamBoat" Type="string" />
       </MemberComponentTemplate>
 	  <MemberComponentTemplate Name="Mount" Guid="913f2b61-c83f-4f19-a13f-b2ed5ff96493">
-        <Parameter Name="MountOffset" Guid="36b3746a-89e1-6612-be70-a6b4aae705bc" Value="0,1.25,1.2" Type="Vector3" />
+        <Parameter Name="MountOffset" Guid="36b3746a-89e1-6612-be70-a6b4aae705bc" Value="0,1.25,0.6" Type="Vector3" />
         <Parameter Name="DismountOffset" Guid="bac8f8e4-b009-4fe1-b840-93843edd05b6" Value="0,1.5,0.4" Type="Vector3" />
       </MemberComponentTemplate>
       <MemberComponentTemplate Name="Body" Guid="b6878818-ddd6-407b-bd4d-7be14c05d3eb">

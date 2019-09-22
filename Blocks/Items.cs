@@ -341,6 +341,8 @@ namespace Game
 				new Centrifugal(),
 				new Workshop(),
 				new RControl(),
+				new Hchanger(),
+				new Turbine()
 			};
 			ContentCache.m_contentByName.TryGetValue("CraftingIdTable", out object value);
 			if (!(value is Dictionary<string, int> dict))

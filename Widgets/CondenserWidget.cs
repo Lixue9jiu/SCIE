@@ -43,6 +43,32 @@ namespace Game
 			m_shootButton.IsChecked = mode == MachineMode.Discharger;
 		}
 	}
+
+
+
+	public class TurbineWidget : EntityWidget<ComponentTurbine>
+	{
+		protected readonly ValueBarWidget m_progress;
+
+		public TurbineWidget(IInventory inventory, ComponentTurbine component) : base(inventory, component, "Widgets/TurbineWidget")
+		{
+			m_progress = Children.Find<ValueBarWidget>("Progress");
+		}
+
+		public override void Update()
+		{
+			if (!m_component.IsAddedToProject)
+			{
+				ParentWidget.Children.Remove(this);
+				return;
+			}
+			Children.Find<LabelWidget>("DispenserLabel2").Text = "Voltage " + (m_component.Output*60).ToString() + "V";
+			m_progress.Value = 1f - m_component.Output / 30f;
+		}
+	}
+
+
+
 	public class RControlWidget : CanvasWidget
 	{
 		public SubsystemTerrain m_subsystemTerrain;

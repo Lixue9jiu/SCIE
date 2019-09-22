@@ -187,7 +187,7 @@ namespace Game
 				{
 					int abb = -1;
 					int flag = 0;
-					for (int i = 0; i < 6; i++)
+					for (int i = 0; i < 9; i++)
 					{
 						int va1 = componentEngine4.GetSlotValue(i);
 						if (va1 == Terrain.MakeBlockValue(521, 0, Bullet2Block.SetBulletType(0, Bullet2Block.BulletType.HandBullet)))
@@ -216,7 +216,7 @@ namespace Game
 				{
 					int abb = -1;
 					int flag = 0;
-					for (int i = 0; i < 6; i++)
+					for (int i = 0; i < 9; i++)
 					{
 						int va1 = componentEngine4.GetSlotValue(i);
 						if (va1 == Terrain.MakeBlockValue(521, 0, Bullet2Block.SetBulletType(0, Bullet2Block.BulletType.Shell)))
