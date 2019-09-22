@@ -74,10 +74,9 @@ namespace Game
 				//ComponentBlockEntity blockEntity = m_subsystemBlockEntities.GetBlockEntity(cellFace.X, cellFace.Y, cellFace.Z);
 				if (blockEntity != null)
 				{
-					ComponentSorter inventory = blockEntity.Entity.FindComponent<ComponentSorter>(throwOnError: true);
 					var pickable = worldItem as Pickable;
 					int num = pickable?.Count ?? 1;
-					int num2 = ComponentInventoryBase.AcquireItems(inventory, worldItem.Value, num);
+					int num2 = ComponentInventoryBase.AcquireItems(blockEntity.Entity.FindComponent<ComponentSorter>(true), worldItem.Value, num);
 					if (num2 <= 0)
 					{
 						worldItem.ToRemove = true;
@@ -104,7 +103,7 @@ namespace Game
 					return;
 				}
 				var position = new Vector3(cellFace.Point) + new Vector3(0.5f);
-				ComponentSorter inventory = blockEntity.Entity.FindComponent<ComponentSorter>(throwOnError: true);
+				ComponentSorter inventory = blockEntity.Entity.FindComponent<ComponentSorter>(true);
 				if (inventory.GetSlotValue(0) == worldItem.Value)
 				{
 					worldItem.ToRemove = true;

@@ -1,6 +1,7 @@
+using Engine;
 using GameEntitySystem;
 using TemplatesDatabase;
-using Engine;
+
 namespace Game
 {
 	public class ComponentCondenser : Component
@@ -21,13 +22,15 @@ namespace Game
 		}
 	}
 
-	public class ComponentRControl : ComponentMachine ,IUpdateable
+	public class ComponentRControl : ComponentMachine, IUpdateable
 	{
 		public bool Powered, Charged;
+
 		//public float m_fireTimeRemaining;
 		//public int UpdateOrder => 0;
 		//protected ComponentBlockEntity m_componentBlockEntity;
 		public float output;
+
 		public int fuel;
 		public int carbon;
 		public int control;
@@ -42,6 +45,7 @@ namespace Game
 		public bool cr0;
 		public bool gr0;
 		public bool az5;
+
 		public void Update(float dt)
 		{
 			if (Utils.SubsystemTime.PeriodicGameTimeEvent(0.2, 0.0))
@@ -50,7 +54,7 @@ namespace Game
 				var point = CellFace.FaceToPoint3(Terrain.ExtractData(Utils.Terrain.GetCellValue(coordinates.X, coordinates.Y, coordinates.Z)) >> 15);
 				int num3 = coordinates.X - point.X;
 				int num4 = coordinates.Y - point.Y;
-				int num5 = coordinates.Z - point.Z, v;
+				int num5 = coordinates.Z - point.Z;
 				int cellValue = Terrain.ReplaceLight(Utils.Terrain.GetCellValue(num3, num4, num5), 0);
 				//int cellContents = Terrain.ExtractContents(cellValue);Terrain.ExtractData(value) >> 15
 				fuel = 0;
@@ -61,7 +65,7 @@ namespace Game
 				rcarbon = 0;
 				if (4 == Terrain.ExtractData(cellValue) >> 10)
 				{
-				    var point3 = new Point3(num3, num4, num5);
+					var point3 = new Point3(num3, num4, num5);
 					var entity = Utils.GetBlockEntity(point3);
 					ComponentRCore component3 = entity.Entity.FindComponent<ComponentRCore>();
 					if (entity != null && component3 != null)
@@ -90,19 +94,16 @@ namespace Game
 							}
 						}
 					}
-
-
 				}
-				int cellValue2 = Terrain.ReplaceLight(Utils.Terrain.GetCellValue(num3, num4+1, num5), 0);
+				int cellValue2 = Terrain.ReplaceLight(Utils.Terrain.GetCellValue(num3, num4 + 1, num5), 0);
 				//int cellContents = Terrain.ExtractContents(cellValue);
 				if (5 == Terrain.ExtractData(cellValue2) >> 10)
 				{
-					var point3 = new Point3(num3, num4+1, num5);
+					var point3 = new Point3(num3, num4 + 1, num5);
 					var entity = Utils.GetBlockEntity(point3);
-					Component component3 = entity.Entity.FindComponent<ComponentSorter>();
-					if (entity != null && component3 != null)
+					IInventory inventory = entity?.Entity.FindComponent<ComponentSorter>(true);
+					if (inventory != null)
 					{
-						IInventory inventory = entity.Entity.FindComponent<ComponentSorter>(true);
 						for (int i = 0; i < inventory.SlotsCount; i++)
 						{
 							int va1 = inventory.GetSlotValue(i);
@@ -123,8 +124,6 @@ namespace Game
 							}
 						}
 					}
-
-
 				}
 			}
 			if (fr1 || cr1 || gr1)
@@ -133,7 +132,7 @@ namespace Game
 				var point = CellFace.FaceToPoint3(Terrain.ExtractData(Utils.Terrain.GetCellValue(coordinates.X, coordinates.Y, coordinates.Z)) >> 15);
 				int num3 = coordinates.X - point.X;
 				int num4 = coordinates.Y - point.Y;
-				int num5 = coordinates.Z - point.Z, v;
+				int num5 = coordinates.Z - point.Z;
 				int cellValue = Terrain.ReplaceLight(Utils.Terrain.GetCellValue(num3, num4, num5), 0);
 				bool flag12 = false;
 				//int cellContents = Terrain.ExtractContents(cellValue);Terrain.ExtractData(value) >> 15
@@ -158,11 +157,8 @@ namespace Game
 								flag12 = true;
 								i += inventory.SlotsCount;
 							}
-								
 						}
 					}
-
-
 				}
 				if (!flag12)
 				{
@@ -171,18 +167,17 @@ namespace Game
 					gr1 = false;
 					return;
 				}
-					
+
 				int cellValue2 = Terrain.ReplaceLight(Utils.Terrain.GetCellValue(num3, num4 + 1, num5), 0);
 				//int cellContents = Terrain.ExtractContents(cellValue);
-				int vvv = 0;
+				int vv = 0;
 				if (5 == Terrain.ExtractData(cellValue2) >> 10)
 				{
 					var point3 = new Point3(num3, num4 + 1, num5);
 					var entity = Utils.GetBlockEntity(point3);
-					Component component3 = entity.Entity.FindComponent<ComponentSorter>();
-					if (entity != null && component3 != null)
+					IInventory inventory = entity?.Entity.FindComponent<ComponentSorter>(true);
+					if (inventory != null)
 					{
-						IInventory inventory = entity.Entity.FindComponent<ComponentSorter>(true);
 						for (int i = 0; i < inventory.SlotsCount; i++)
 						{
 							int va1 = inventory.GetSlotValue(i);
@@ -191,31 +186,29 @@ namespace Game
 								if (FuelRodBlock.GetType(va1) == RodType.UFuelRod && fr1)
 								{
 									//inventory.AddSlotItems(i, va1, -1);
-									vvv = va1;
+									vv = va1;
 									inventory.RemoveSlotItems(i, 1);
 									break;
 								}
 								if (FuelRodBlock.GetType(va1) == RodType.ControlRod && cr1)
 								{
 									//inventory.AddSlotItems(i, va1, -1);
-									vvv = va1;
+									vv = va1;
 									inventory.RemoveSlotItems(i, 1);
 									break;
 								}
 								if (FuelRodBlock.GetType(va1) == RodType.CarbonRod && gr1)
 								{
 									//inventory.AddSlotItems(i, va1, -1);
-									vvv = va1;
+									vv = va1;
 									inventory.RemoveSlotItems(i, 1);
 									break;
 								}
 							}
 						}
 					}
-
-
 				}
-				if (vvv == 0)
+				if (vv == 0)
 				{
 					return;
 				}
@@ -236,20 +229,16 @@ namespace Game
 							int va1 = inventory.GetSlotValue(i);
 							if (va1 == 0)
 							{
-								inventory.AddSlotItems(i, vvv, 1);
+								inventory.AddSlotItems(i, vv, 1);
 								//flag12 = true;
 								i += inventory.SlotsCount;
 							}
-
 						}
 					}
-
-
 				}
 				fr1 = false;
 				cr1 = false;
 				gr1 = false;
-
 			}
 			if (fr0 || cr0 || gr0)
 			{
@@ -257,18 +246,17 @@ namespace Game
 				var point = CellFace.FaceToPoint3(Terrain.ExtractData(Utils.Terrain.GetCellValue(coordinates.X, coordinates.Y, coordinates.Z)) >> 15);
 				int num3 = coordinates.X - point.X;
 				int num4 = coordinates.Y - point.Y;
-				int num5 = coordinates.Z - point.Z, v;
-				int cellValue = Terrain.ReplaceLight(Utils.Terrain.GetCellValue(num3, num4+1, num5), 0);
+				int num5 = coordinates.Z - point.Z;
+				int cellValue = Terrain.ReplaceLight(Utils.Terrain.GetCellValue(num3, num4 + 1, num5), 0);
 				bool flag12 = false;
 				//int cellContents = Terrain.ExtractContents(cellValue);Terrain.ExtractData(value) >> 15
 				if (5 == Terrain.ExtractData(cellValue) >> 10)
 				{
 					var point3 = new Point3(num3, num4 + 1, num5);
 					var entity = Utils.GetBlockEntity(point3);
-					Component component3 = entity.Entity.FindComponent<ComponentSorter>();
-					if (entity != null && component3 != null)
+					IInventory inventory = entity?.Entity.FindComponent<ComponentSorter>(true);
+					if (inventory != null)
 					{
-						IInventory inventory = entity.Entity.FindComponent<ComponentSorter>(true);
 						for (int i = 0; i < inventory.SlotsCount; i++)
 						{
 							int va1 = inventory.GetSlotValue(i);
@@ -280,8 +268,6 @@ namespace Game
 							}
 						}
 					}
-
-
 				}
 				if (!flag12)
 				{
@@ -291,17 +277,16 @@ namespace Game
 					return;
 				}
 
-				int cellValue2 = Terrain.ReplaceLight(Utils.Terrain.GetCellValue(num3, num4 , num5), 0);
+				int cellValue2 = Terrain.ReplaceLight(Utils.Terrain.GetCellValue(num3, num4, num5), 0);
 				//int cellContents = Terrain.ExtractContents(cellValue);
-				int vvv = 0;
+				int vv = 0;
 				if (4 == Terrain.ExtractData(cellValue2) >> 10)
 				{
-					var point3 = new Point3(num3, num4 , num5);
+					var point3 = new Point3(num3, num4, num5);
 					var entity = Utils.GetBlockEntity(point3);
 					ComponentRCore component3 = entity.Entity.FindComponent<ComponentRCore>();
 					if (entity != null && component3 != null)
 					{
-						
 						IInventory inventory = entity.Entity.FindComponent<ComponentRCore>(true);
 						for (int i = 0; i < inventory.SlotsCount; i++)
 						{
@@ -311,77 +296,67 @@ namespace Game
 								if (FuelRodBlock.GetType(va1) == RodType.UFuelRod && fr0)
 								{
 									//inventory.AddSlotItems(i, va1, -1);
-									vvv = va1;
+									vv = va1;
 									inventory.RemoveSlotItems(i, 1);
 									break;
 								}
 								if (FuelRodBlock.GetType(va1) == RodType.ControlRod && cr0)
 								{
 									//inventory.AddSlotItems(i, va1, -1);
-									vvv = va1;
+									vv = va1;
 									inventory.RemoveSlotItems(i, 1);
 									break;
 								}
 								if (FuelRodBlock.GetType(va1) == RodType.CarbonRod && gr0)
 								{
 									//inventory.AddSlotItems(i, va1, -1);
-									vvv = va1;
+									vv = va1;
 									inventory.RemoveSlotItems(i, 1);
 									break;
 								}
 							}
 						}
 					}
-
-
 				}
-				if (vvv==0)
+				if (vv == 0)
 				{
 					return;
 				}
 
-
 				if (5 == Terrain.ExtractData(cellValue) >> 10)
 				{
-					var point3 = new Point3(num3, num4+1, num5);
+					var point3 = new Point3(num3, num4 + 1, num5);
 					var entity = Utils.GetBlockEntity(point3);
-					//var point3 = new Point3(num3, num4 + 1, num5);
-					//var entity = Utils.GetBlockEntity(point3);
-					Component component3 = entity.Entity.FindComponent<ComponentSorter>();
-					if (entity != null && component3 != null)
+					ComponentSorter componentSorter = entity?.Entity.FindComponent<ComponentSorter>();
+					if (componentSorter != null)
 					{
-						IInventory inventory = entity.Entity.FindComponent<ComponentSorter>(true);
+						IInventory inventory = componentSorter;
 						//inventory.
 						for (int i = 0; i < inventory.SlotsCount; i++)
 						{
-							//if ()
 							int va1 = inventory.GetSlotValue(i);
 							if (va1 == 0)
 							{
-								inventory.AddSlotItems(i, vvv, 1);
+								inventory.AddSlotItems(i, vv, 1);
 								//flag12 = true;
 								i += inventory.SlotsCount;
 							}
-
 						}
 					}
-
-
 				}
 				fr0 = false;
 				cr0 = false;
 				gr0 = false;
-
 			}
-			if (az5 && rcontrol>0)
+			if (az5 && rcontrol > 0)
 			{
 				cr1 = true;
-			}else
+			}
+			else
 			{
 				az5 = false;
 			}
-		
-	}
+		}
 
 		//public override void Load(ValuesDictionary valuesDictionary, IdToEntityMap idToEntityMap)
 		//{

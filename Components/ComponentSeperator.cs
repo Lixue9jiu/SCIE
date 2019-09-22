@@ -52,7 +52,7 @@ namespace Game
 		}
 	}
 
-	public class ComponentSeparator : ComponentMachine, IUpdateable, IElectricMachine
+	public class ComponentSeparator : ComponentSMachine, IUpdateable, IElectricMachine
 	{
 		public int Cir1SlotIndex => SlotsCount - 2;
 
@@ -69,8 +69,6 @@ namespace Game
 		public override int RemainsSlotIndex => 0;
 
 		public override int ResultSlotIndex => SlotsCount - 1;
-
-		public override int FuelSlotIndex => -1;
 
 		public void Update(float dt)
 		{
@@ -227,10 +225,11 @@ namespace Game
 							result[ItemBlock.IdTable["Graphite"]] = 1;
 						break;
 				}
-				if (GetSlotValue(i) == ItemBlock.IdTable["Slag"] && (m_random.Int() & 1) != 0)
+				if (GetSlotValue(i) == ItemBlock.IdTable["Slag"])
 				{
 					text = 5;
-					result[ItemBlock.IdTable["VanadiumPowder"]] = 1;
+					if ((m_random.Int() & 1) != 0)
+						result[ItemBlock.IdTable["VanadiumOrePowder"]] = 1;
 				}
 			}
 			return FindSmeltingRecipe(text);

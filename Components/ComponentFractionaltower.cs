@@ -4,7 +4,7 @@ using TemplatesDatabase;
 
 namespace Game
 {
-	public class ComponentFractionalTower : ComponentMachine, IUpdateable
+	public class ComponentFractionalTower : ComponentSMachine, IUpdateable
 	{
 		protected int m_time;
 		protected readonly int[] result = new int[3];
@@ -14,14 +14,9 @@ namespace Game
 		//protected int m_music;
 		public bool Powered;
 
-		public int valuein;
-		public int value;
-
-		public override int RemainsSlotIndex => -1;
+		public int valuein, value;
 
 		public override int ResultSlotIndex => SlotsCount - 1;
-
-		public override int FuelSlotIndex => -1;
 
 		public float Heatlevel;
 

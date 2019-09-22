@@ -1,5 +1,6 @@
 ﻿using Chemistry;
 using Engine;
+using Engine.Content;
 using Engine.Graphics;
 using Engine.Media;
 using LibPixz;
@@ -341,23 +342,29 @@ namespace Game
 				new Workshop(),
 				new RControl(),
 			};
-			IdTable = new Dictionary<string, int>(Items.Length)
+			ContentCache.m_contentByName.TryGetValue("CraftingIdTable", out object value);
+			if (!(value is Dictionary<string, int> dict))
 			{
-				{ "Diamond", DiamondChunkBlock.Index }
-			};
+				dict = new Dictionary<string, int>(Items.Length)
+				{
+					{ "Diamond", DiamondChunkBlock.Index }
+				};
+				ContentCache.m_contentByName["CraftingIdTable"] = dict;
+			}
 			int i;
 			for (i = 0; i < Items.Length; i++)
-				IdTable.Add(Items[i].GetCraftingId(), Index | i << 14);
+				dict.Add(Items[i].GetCraftingId(), Index | i << 14);
 			for (i = 0; i < ElementBlock.Devices.Length; i++)
 			{
 				if (ElementBlock.Devices[i] is CubeDevice device)
 					device.Index = i;
-				IdTable.Add(ElementBlock.Devices[i].GetCraftingId(), ElementBlock.Index | i << 14);
+				dict.Add(ElementBlock.Devices[i].GetCraftingId(), ElementBlock.Index | i << 14);
 			}
 			for (i = 1; i < ChemicalBlock.Items.Count; i++)
-				IdTable.Add(ChemicalBlock.Items.Array[i].GetCraftingId(), ChemicalBlock.Index | i << 14);
+				dict.Add(ChemicalBlock.Items.Array[i].GetCraftingId(), ChemicalBlock.Index | i << 14);
 			for (i = 1; i < Chemistry.GunpowderBlock.Items.Length; i++)
-				IdTable.Add(Chemistry.GunpowderBlock.Items[i].GetCraftingId(), GunpowderBlock.Index | i << 14);
+				dict.Add(Chemistry.GunpowderBlock.Items[i].GetCraftingId(), GunpowderBlock.Index | i << 14);
+			IdTable = dict;
 		}
 
 		internal static void Load()

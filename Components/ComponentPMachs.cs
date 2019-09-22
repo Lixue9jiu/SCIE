@@ -25,8 +25,8 @@ namespace Game
 						case FramedGlassBlock.Index:
 						case WindowBlock.Index: text = "BrokenGlass"; break;
 						case MalachiteChunkBlock.Index: text = "CopperOrePowder"; break;
-						case IronIngotBlock.Index: text = "Fe"; break;
-						case CopperIngotBlock.Index: text = "Cu"; break;
+						case IronIngotBlock.Index: text = "Fe"; m_count = 1; break;
+						case CopperIngotBlock.Index: text = "Cu"; m_count = 1; break;
 						case SulphurChunkBlock.Index: text = "S"; break;
 						default:
 							if (BlocksManager.Blocks[Terrain.ExtractContents(value)] is ChunkBlock block)

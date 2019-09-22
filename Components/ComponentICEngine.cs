@@ -4,11 +4,9 @@ using TemplatesDatabase;
 
 namespace Game
 {
-	public class ComponentICEngine : ComponentMachine, IUpdateable
+	public class ComponentICEngine : ComponentSMachine, IUpdateable
 	{
-		public override int RemainsSlotIndex => SlotsCount - 0;
 		public override int ResultSlotIndex => SlotsCount - 1;
-		public override int FuelSlotIndex => -1;
 
 		public int Fuel2SlotIndex => 0;
 
