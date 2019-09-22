@@ -33,6 +33,7 @@
     <EntityTemplate Name="OilPlant" Guid="26ffa277-af17-4955-81fa-aafaf97b92bd" InheritanceParent="9681f999-898b-4f5c-9ea8-f8cc331e97b3">
       <MemberComponentTemplate Name="OilPlant" Guid="0f473a13-ac7d-4b4c-97c7-df652ca11b51" InheritanceParent="81a44c6a-c30a-4f54-8d64-0c30aabab8fa">
         <Parameter Name="Class" Guid="7f2a89ff-22f9-45aa-aae4-039ba73b12b6" Value="Game.ComponentOilPlant" Type="string" />
+		<Parameter Name="SlotsCount" Guid="fb8d5f4d-ff72-4f1b-9828-d30effbf33f1" Value="8" Type="int" />
       </MemberComponentTemplate>
     </EntityTemplate>
 	<EntityTemplate Name="Hchanger" Guid="3711a277-af17-4955-81fa-aafaf97b92bd" InheritanceParent="9681f999-898b-4f5c-9ea8-f8cc331e97b3">

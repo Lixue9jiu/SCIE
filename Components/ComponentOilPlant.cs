@@ -93,6 +93,26 @@ namespace Game
 				text = 1;
 				result[ItemBlock.IdTable["Rubber"]] = 6;
 			}
+			if (GetSlotValue(0) == 786672 && GetSlotCount(0) > 0 && GetSlotValue(1) == ItemBlock.IdTable["NaOH"] && GetSlotCount(1) > 0 && GetSlotValue(2) == ItemBlock.IdTable["CokeCoalPowder"])
+			{
+				text = 3;
+				result[1310960] = 1;
+			}
+			if (GetSlotValue(0) == 1048816 && GetSlotCount(0) > 0 && GetSlotValue(1) == ItemBlock.IdTable["H2"] && GetSlotCount(1) > 1 && GetSlotValue(2) == ItemBlock.IdTable["CokeCoalPowder"])
+			{
+				text = 2;
+				result[ItemBlock.IdTable["液化天然气"]] = 1;
+				result[ItemBlock.IdTable["Ashes"]] = 1;
+				result[ItemBlock.IdTable["C2H4"]] = 1;
+				result[ItemBlock.IdTable["H2"]] = -1;
+			}
+			if (GetSlotValue(0) == ItemBlock.IdTable["液化天然气"] && GetSlotValue(1) == ItemBlock.IdTable["C2H4"] && GetSlotValue(2) == ItemBlock.IdTable["C7H8"] && GetSlotValue(6) == ItemBlock.IdTable["HCl"])
+			{
+				text = 2;
+				result[ItemBlock.IdTable["钢瓶"]] = 3;
+				result[ItemBlock.IdTable["PlasticBar"]] = 1;
+				result[ItemBlock.IdTable["HCl"]] = -1;
+			}
 			return FindSmeltingRecipe(text);
 		}
 	}

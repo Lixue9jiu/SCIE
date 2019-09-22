@@ -188,11 +188,11 @@ namespace Game
 	public class Brick : MeshItem
 	{
 		public string Id;
-		public Brick(string name, string id, Color color, Matrix tcTrarsform, string description = "") : base(Utils.Get(description))
+		public Brick(string name, string id, Color color, Matrix tcTrarsform, string description = "", float length = 1f) : base(Utils.Get(description))
 		{
 			DefaultDisplayName = Utils.Get(name);
 			Id = id;
-			m_standaloneBlockMesh.AppendMesh("Models/Brick", "Brick", Matrix.CreateTranslation(0f, -.02f, 0f) * 1.4f, tcTrarsform, color);
+			m_standaloneBlockMesh.AppendMesh("Models/Brick", "Brick", Matrix.CreateScale(1f, 1f, length) *Matrix.CreateTranslation(0f, -.02f, 0f) * 1.4f , tcTrarsform, color);
 		}
 
 		public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)

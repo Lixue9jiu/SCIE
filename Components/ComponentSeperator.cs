@@ -222,9 +222,14 @@ namespace Game
 					case CoalBlock.Index:
 						text = 4;
 						result[ItemBlock.IdTable["Ashes"]] = 1;
+						result[CoalChunkBlock.Index] = 7;
 						x = m_random.Int() & 1;
 						if (x == 0)
+						{
 							result[ItemBlock.IdTable["Graphite"]] = 1;
+							
+						}
+							
 						break;
 				}
 				if (GetSlotValue(i) == ItemBlock.IdTable["Slag"] && (m_random.Int() & 1) != 0)

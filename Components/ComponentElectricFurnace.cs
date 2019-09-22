@@ -1,6 +1,7 @@
 using Engine;
 using GameEntitySystem;
 using TemplatesDatabase;
+using System.Globalization;
 
 namespace Game
 {
@@ -35,12 +36,14 @@ namespace Game
 			{
 				m_updateSmeltingRecipe = false;
 				CraftingRecipe craftingRecipe = FindSmeltingRecipe2(2000f);
-				if (craftingRecipe != m_smeltingRecipe)
-				{
-					m_smeltingRecipe = craftingRecipe;
-					m_smeltingRecipe2 = craftingRecipe;
-					m_smeltingProgress = 0f;
-				}
+				
+						if (craftingRecipe != m_smeltingRecipe)
+						{
+							m_smeltingRecipe = craftingRecipe;
+							m_smeltingRecipe2 = craftingRecipe;
+							m_smeltingProgress = 0f;
+						}
+				
 			}
 			if (m_smeltingRecipe2 != null)
 			{
@@ -58,6 +61,7 @@ namespace Game
 				m_smeltingProgress = 0f;
 				m_heatLevel = 0f;
 				m_smeltingRecipe = null;
+				return;
 			}
 			if (m_smeltingRecipe == null)
 			{
@@ -99,8 +103,51 @@ namespace Game
 
 		public virtual CraftingRecipe FindSmeltingRecipe2(float heatlevel)
 		{
-			return FindSmeltingRecipe(heatlevel);
-		}
+				for (int i = 0; i < 4; i++)
+				{
+					int slotValue = GetSlotValue(i);
+					int num = Terrain.ExtractContents(slotValue);
+					int num2 = Terrain.ExtractData(slotValue);
+					if (GetSlotCount(i) > 0)
+					{
+						Block block = BlocksManager.Blocks[num];
+						m_matchedIngredients[i] = block.CraftingId + ":" + num2.ToString(CultureInfo.InvariantCulture);
+					}
+					else
+					{
+						m_matchedIngredients[i] = null;
+					}
+				}
+				CraftingRecipe craftingRecipe = CraftingRecipesManager.FindMatchingRecipe(m_subsystemTerrain, m_matchedIngredients, 2000f);
+				if (craftingRecipe != null)
+				{
+					if (craftingRecipe.RequiredHeatLevel <= 0f)
+					{
+						craftingRecipe = null;
+					}
+					if (craftingRecipe != null)
+					{
+						Slot slot = m_slots[ResultSlotIndex];
+						int num3 = Terrain.ExtractContents(craftingRecipe.ResultValue);
+						if (slot.Count != 0 && (craftingRecipe.ResultValue != slot.Value))
+						{
+							craftingRecipe = null;
+						}
+					}
+					if (craftingRecipe != null && craftingRecipe.RemainsValue != 0 && craftingRecipe.RemainsCount > 0)
+					{
+						if (m_slots[RemainsSlotIndex].Count == 0 || m_slots[RemainsSlotIndex].Value == craftingRecipe.RemainsValue)
+						{
+							
+						}
+						else
+						{
+							craftingRecipe = null;
+						}
+					}
+				}
+				return craftingRecipe;
+	     }
 
 		public override void Load(ValuesDictionary valuesDictionary, IdToEntityMap idToEntityMap)
 		{
@@ -108,7 +155,7 @@ namespace Game
 			this.LoadItems(valuesDictionary);
 			m_componentBlockEntity = Entity.FindComponent<ComponentBlockEntity>(true);
 			m_fireTimeRemaining = valuesDictionary.GetValue("FireTimeRemaining", 0f);
-			m_furnaceSize = SlotsCount - 5;
+			m_furnaceSize = SlotsCount - 4;
 			m_updateSmeltingRecipe = true;
 			m_speed = 0.2f;
 		}

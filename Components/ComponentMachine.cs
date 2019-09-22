@@ -331,6 +331,11 @@ namespace Game
 								m_fireTimeRemaining += 1;
 								veloc += 0.2f;
 							}
+							if (FuelRodBlock.GetType(va1) == RodType.UFuelRod)
+							{
+								m_fireTimeRemaining += 5;
+								veloc += 0f;
+							}
 						}
 					}
 				}

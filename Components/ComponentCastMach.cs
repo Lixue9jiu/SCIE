@@ -124,7 +124,7 @@ namespace Game
 			for (int i = 0; i < m_furnaceSize; i++)
 			{
 				if (GetSlotCount(i) <= 0 || slotvalue == 0) continue;
-				if (Terrain.ExtractContents(GetSlotValue(i)) == GlassBlock.Index && heatLevel > 1200f)
+				if (Terrain.ExtractContents(GetSlotValue(i)) == GlassBlock.Index && slotvalue == GlassBlock.Index &&  heatLevel > 1200f)
 				{
 					text = "Bottle";
 				}

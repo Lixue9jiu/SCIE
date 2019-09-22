@@ -213,6 +213,9 @@
     <Recipe Result="RefractoryBrick" ResultCount="4" RequiredHeatLevel="1500" a="clay" b="IronOrePowder" c="AluminumOrePowder" Description="冶炼粘土，铁矿粉和铝矿粉获得耐火砖">
       "abc"
     </Recipe>
+	<Recipe Result="ConcreteBrick" ResultCount="4" RequiredHeatLevel="1500" a="clay" b="sand" c="pigment" d="Ashes"  Description="冶炼粘土，沙子，石灰粉，煤渣获得混凝土砖">
+      "abcd"
+    </Recipe>
     <Recipe Result="CopperIngotBlock" ResultCount="1" RequiredHeatLevel="1000" a="CopperOrePowder" Description="冶炼铜矿粉获得铜">
       "a"
     </Recipe>
@@ -319,6 +322,9 @@
       "aa"
     </Recipe>
 	<Recipe Result="ChromiumIngot" ResultCount="1" RequiredHeatLevel="1850" a="ChromiumOrePowder" b="CokeCoalPowder" Description="将铬粉铸造成铸锭">
+      "abb"
+    </Recipe>
+	<Recipe Result="ChromiumIngot" ResultCount="1" RequiredHeatLevel="1850" Remains="钢瓶" RemainsCount="2" a="ChromiumOrePowder" b="H2" Description="将铬粉铸造成铸锭">
       "abb"
     </Recipe>
     <Recipe Result="SteelIngot" ResultCount="1" RequiredHeatLevel="1400" a="SteelRod" Description="将钢棒锻造成铸锭">
@@ -821,6 +827,38 @@
       "aba"
       " a "
     </Recipe>
+	<Recipe Result="SourBlock:4096" ResultCount="1" RequiredHeatLevel="0" a="LeadPlate" b="Circuit1" c="CarbonTunnel" Description="制作一个反应堆核心">
+      "accca"
+      "bcccb"
+      "ccccc"
+	  "accca"
+	  "aacaa"
+    </Recipe>
+	<Recipe Result="SourBlock:5120" ResultCount="1" RequiredHeatLevel="0" a="LeadPlate" b="Circuit1" c="CarbonTunnel" Description="制作一个反应堆顶盖">
+      "accca"
+      "accca"
+      "accca"
+	  "accca"
+    </Recipe>
+	<Recipe Result="RControl" ResultCount="1" RequiredHeatLevel="0" a="LeadPlate" b="Circuit1" c="CopperWire" d="led" f="button" g="thermometer" Description="制作一个反应堆控制台">
+      "abbba"
+      "abbba"
+      "agdca"
+	  "afffa"
+	  "afffa"
+    </Recipe>
+	<Recipe Result="Hchanger" ResultCount="1" RequiredHeatLevel="0" a="LeadPlate" b="tank:0" c="BrassRod" d="metalblock:32" Description="制作一个热交换器">
+      "bccb"
+      "adda"
+      "abba"
+	  "bccb"
+    </Recipe>
+	<Recipe Result="Turbine" ResultCount="1" RequiredHeatLevel="0" a="SteelFan" b="tank:0" c="Spring" d="metalblock:32" e="Generator" Description="制作一个涡轮发电机">
+      "baab"
+      "ecce"
+      "eaae"
+	  "bddb"
+    </Recipe>
     <Recipe Result="SqueezerBlock" ResultCount="1" RequiredHeatLevel="0" a="SteelGear" b="IndustrialPiston" c="metalblock:0" Description="制作一个挤压器来制作金属线">
       "aba"
       "bcb"
@@ -1105,10 +1143,31 @@
       "bab"
       "bdb"
     </Recipe>
+	<Recipe Result="CarbonTunnel" ResultCount="1" RequiredHeatLevel="0" a="Graphite" Description="制作石墨管">
+      "aa"
+      "aa"
+      "aa"
+	  "aa"
+    </Recipe>
     <Recipe Result="IEBatteryBlock:0" ResultCount="1" RequiredHeatLevel="0" Remains="Bottle" RemainsCount="1" a="H2SO4" b="CopperPlate" c="CopperRod" d="ZincRod" e="tank:0" Description="制作Cu-Zn可携带电池">
       "bcb"
       "bab"
       "ded"
+    </Recipe>
+	<Recipe Result="FuelRodBlock:0" ResultCount="1" RequiredHeatLevel="0" a="IronPlate" b="U235C" c="U238C"  Description="制作燃料棒">
+      "aca"
+      "aca"
+      "aba"
+    </Recipe>
+	<Recipe Result="FuelRodBlock:3" ResultCount="1" RequiredHeatLevel="0" a="IronPlate" b="CarbonTunnel"   Description="制作石墨棒">
+      "aba"
+      "aba"
+      "aba"
+    </Recipe>
+	<Recipe Result="FuelRodBlock:2" ResultCount="1" RequiredHeatLevel="0" a="IronPlate" b="CarbonTunnel" c="B"  Description="制作控制棒">
+      "aca"
+      "aca"
+      "aba"
     </Recipe>
     <Recipe Result="IEBatteryBlock:1" ResultCount="1" RequiredHeatLevel="0" Remains="Bottle" RemainsCount="1" a="H2SO4" b="LeadPlate" c="CopperRod" d="ZincRod" e="tank:0" Description="用铅板锌棒制作铅酸可携带电池">
       "bcb"
