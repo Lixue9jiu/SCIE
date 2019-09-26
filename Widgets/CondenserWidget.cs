@@ -67,6 +67,29 @@ namespace Game
 		}
 	}
 
+	public class LaserWidget : EntityWidget<ComponentLaserG>
+	{
+		protected readonly ValueBarWidget m_progress;
+
+		public LaserWidget(IInventory inventory, ComponentLaserG component) : base(inventory, component, "Widgets/TurbineWidget")
+		{
+			m_progress = Children.Find<ValueBarWidget>("Progress");
+			var label = Children.Find<LabelWidget>("DispenserLabel", false);
+			if (label != null)
+				label.Text = "LaserGenerator";
+		}
+
+		public override void Update()
+		{
+			if (!m_component.IsAddedToProject)
+			{
+				ParentWidget.Children.Remove(this);
+				return;
+			}
+			Children.Find<LabelWidget>("DispenserLabel2").Text = "Energy " + (m_component.m_fireTimeRemaining).ToString() + "/100KE";
+			m_progress.Value = 1f - m_component.m_fireTimeRemaining / 100000f;
+		}
+	}
 
 
 	public class RControlWidget : CanvasWidget

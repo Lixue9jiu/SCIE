@@ -315,22 +315,22 @@ namespace Game
 						{
 							if (FuelRodBlock.GetType(va1) == RodType.UFuelRod)
 							{
-								m_fireTimeRemaining += 2;
+								m_fireTimeRemaining += 5;
 								veo += 0;
 							}
 							if (FuelRodBlock.GetType(va1) == RodType.ControlRod)
 							{
-								m_fireTimeRemaining -= 2;
+								m_fireTimeRemaining -= 4;
 								veloc -= 0.2f;
 							}
 							if (FuelRodBlock.GetType(va1) == RodType.CarbonRod)
 							{
-								m_fireTimeRemaining += 1;
+								m_fireTimeRemaining += 3;
 								veloc += 0.2f;
 							}
-							if (FuelRodBlock.GetType(va1) == RodType.UFuelRod)
+							if (FuelRodBlock.GetType(va1) == RodType.PFuelRod)
 							{
-								m_fireTimeRemaining += 5;
+								m_fireTimeRemaining += 25;
 								veloc += 0f;
 							}
 						}
@@ -476,5 +476,99 @@ namespace Game
 		}
 	}
 
+
+	public class ComponentLaserG : ComponentMachine
+	{
+
+		public int Pressure;
+
+		public int Output;
+		public bool Powered;
+
+		public virtual void Beam()
+		{
+			if (m_fireTimeRemaining >= 1000f)
+			{
+
+				m_fireTimeRemaining -= 1000f;
+				Point3 coordinates = m_componentBlockEntity.Coordinates;
+				int data = Terrain.ExtractData(Utils.Terrain.GetCellValue(coordinates.X, coordinates.Y, coordinates.Z));
+				//int direction = FourDirectionalBlock.GetDirection(Utils.Terrain.GetCellValue(coordinates.X, coordinates.Y, coordinates.Z));
+				int face = Terrain.ExtractData(Utils.Terrain.GetCellValue(coordinates.X, coordinates.Y, coordinates.Z)) >> 15;
+				Laser(coordinates, face);
+			}
+		}
+		protected void Laser(Point3 point, int face)
+		{
+			Vector3 vector = CellFace.FaceToVector3(face);
+			int x = point.X;
+			int y = point.Y;
+			int z = point.Z;
+			Point3 dpoint = new Point3((int)vector.X, (int)vector.Y, (int)vector.Z);
+			Vector3 end = new Vector3(point.X, point.Y, point.Z);
+			for (int d=1;d<50;d++)
+			{
+				bool flag = false;
+				Point3 Npoint = point + d * dpoint;
+				int value=Utils.Terrain.GetCellValueFast(Npoint.X, Npoint.Y,Npoint.Z);
+				int value2 = Utils.Terrain.GetCellContentsFast(Npoint.X, Npoint.Y, Npoint.Z);
+				end = new Vector3(Npoint.X, Npoint.Y, Npoint.Z);
+				var bodies = new DynamicArray<ComponentBody>();
+				var e1 = Utils.SubsystemBodies.Bodies.GetEnumerator();
+				while (e1.MoveNext())
+				{
+					var entity = e1.Current.Entity;
+					ComponentCreature cre = entity.FindComponent<ComponentCreature>();
+					if (cre != null && cre.ComponentBody.Position.X >= Npoint.X  && cre.ComponentBody.Position.X <= Npoint.X + 1f && cre.ComponentBody.Position.Y >= Npoint.Y && cre.ComponentBody.Position.Y <= Npoint.Y + 1f && cre.ComponentBody.Position.Z >= Npoint.Z  && cre.ComponentBody.Position.Z <= Npoint.Z + 1f)
+					{
+						//entity.FindComponent<ComponentHealth>()?.Injure(1f, null, false, "Killed by radiation");
+						int nnn = (int)entity.FindComponent<ComponentHealth>()?.AttackResilience/8;
+						for (int zz=0;zz<=nnn;zz++)
+						Utils.SubsystemPickables.AddPickable(ItemBlock.IdTable["CoalPowder"], 1, cre.ComponentBody.Position, null, null);
+						Utils.SubsystemParticles.AddParticleSystem(new KillParticleSystem(Utils.SubsystemTerrain, cre.ComponentBody.Position,1f));
+						Project.RemoveEntity(entity, true);
+						//cre.ComponentBody.OnEntityRemoved();
+						flag = true;
+						break;
+					}
+					//
+				}
+				if (flag)
+				{
+					break;
+				}
+				if (value != 0)
+				{
+					var block = BlocksManager.Blocks[value2];
+					if (value != GlassBlock.Index)
+					if (block.IsPlaceable)
+					{
+						if (block.ExplosionResilience >= 1000f)
+						{
+						break;
+						}else if (block.DefaultExplosionPressure>0)
+						{
+							Utils.SubsystemExplosions.TryExplodeBlock(Npoint.X, Npoint.Y, Npoint.Z, value);
+						}else if(block.FuelFireDuration > 0)
+						{
+							int v1 = (int)block.FuelFireDuration / 10;
+							for (int zz = 0; zz <= v1; zz++)
+								Utils.SubsystemPickables.AddPickable(ItemBlock.IdTable["CoalPowder"], 1, new Vector3(Npoint.X, Npoint.Y, Npoint.Z), null, null);
+							Utils.SubsystemTerrain.DestroyCell(5, Npoint.X, Npoint.Y, Npoint.Z, 0, true, false);
+						}
+						else
+						Utils.SubsystemTerrain.DestroyCell(5, Npoint.X, Npoint.Y, Npoint.Z,0,false,false);
+						break;
+					}
+				}
+			}
+			Utils.SubsystemLaser.MakeLightningStrike(new Vector3(point.X, point.Y, point.Z) + new Vector3(0.5f),end + new Vector3(0.5f));
+			var e = Utils.SubsystemBodies.Bodies.GetEnumerator();
+			
+
+		}
+
+
+	}
 
 }

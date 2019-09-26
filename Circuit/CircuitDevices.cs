@@ -277,7 +277,7 @@ namespace Game
 				return;
 			if (Component.Charged)
 			{
-				if (voltage > 0 && voltage<8024)
+				if (voltage > 0 && voltage<8024 && Component.m_fireTimeRemaining < 1000000f)
 				{
 					Component.m_fireTimeRemaining = MathUtils.Min(Component.m_fireTimeRemaining + voltage/10f, 1000000f);
 					voltage = 0;
@@ -399,12 +399,37 @@ namespace Game
 		}
 		public override int GetFaceTextureSlot(int face, int value)
 		{
-			return face != 4 && face != 5 ? face == (Terrain.ExtractData(value) >> 15) ? 147 : 125 : 220;
+			return face != 4 && face != 5 ? face == (Terrain.ExtractData(value) >> 15) ? 147 : 125 : 142;
 		}
 		//return face != 4 && face != 5 ? face == (Terrain.ExtractData(value) >> 15) ? 240 : 241 : 147;
 		public override Widget GetWidget(IInventory inventory, ComponentTurbine component)
 		{
 			return new TurbineWidget(inventory, component);
+		}
+	}
+
+	public class LaserG : InventoryEntityDevice<ComponentLaserG>
+	{
+		public LaserG() : base("激光发生器", "激光发生器是一种利用谐振腔及放大介质产生超强激光") {  }
+
+		public override void Simulate(ref int voltage)
+		{
+			if (voltage > 8000)
+				return;
+		    if (voltage > 0 && voltage < 8024 && Component.m_fireTimeRemaining< 100000f)
+				{
+					Component.m_fireTimeRemaining = MathUtils.Min(Component.m_fireTimeRemaining + voltage / 10f, 100000f);
+					voltage = 0;
+				}
+		}
+		public override int GetFaceTextureSlot(int face, int value)
+		{
+			return face != 4 && face != 5 ? face == (Terrain.ExtractData(value) >> 15) ? 120 : 170 : 170;
+		}
+		//return face != 4 && face != 5 ? face == (Terrain.ExtractData(value) >> 15) ? 240 : 241 : 147;
+		public override Widget GetWidget(IInventory inventory, ComponentLaserG component)
+		{
+			return new LaserWidget(inventory, component);
 		}
 	}
 

@@ -344,7 +344,8 @@ namespace Game
 				new Workshop(),
 				new RControl(),
 				new Hchanger(),
-				new Turbine()
+				new Turbine(),
+				new LaserG(),
 			};
 			ContentCache.m_contentByName.TryGetValue("CraftingIdTable", out object value);
 			if (!(value is Dictionary<string, int> dict))

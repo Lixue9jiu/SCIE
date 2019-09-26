@@ -93,6 +93,7 @@
     <Compile Include="Chemistry\ReactionSystem.cs" />
     <Compile Include="Chemistry\Equation.cs" />
     <Compile Include="Circuit\LockFreeQueue.cs" />
+    <Compile Include="Common\LaserBeam.cs" />
     <Compile Include="Common\TelescopeCamera.cs" />
     <Compile Include="Components\ComponentCanpack.cs" />
     <Compile Include="Components\ComponentCharger.cs" />
@@ -146,6 +147,7 @@
     <Compile Include="Circuit\SubsystemCircuit.cs" />
     <Compile Include="Subsystems\SubsystemCommonBlockBehavior.cs" />
     <Compile Include="Subsystems\Subsystem4DirectionalMachinesBehavior.cs" />
+    <Compile Include="Subsystems\SubsystemLaser.cs" />
     <Compile Include="Subsystems\SubsystemMachineBlockBehavior.cs" />
     <Compile Include="Subsystems\SubsystemBlastFurnaceBlockBehavior.cs" />
     <Compile Include="Subsystems\SubsystemFurnaceNBlockBehavior.cs" />

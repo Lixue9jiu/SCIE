@@ -97,6 +97,11 @@
         <Parameter Name="Class" Guid="1c8f9ff1-22f9-45bb-aae3-039ba73b12b6" Value="Game.ComponentCondenser" Type="string" />
       </MemberComponentTemplate>
     </EntityTemplate>
+	<EntityTemplate Name="LaserG" Guid="a8ffa885-1f18-4977-81fa-aafaf97b92bd" InheritanceParent="9681f999-898b-4f5c-9ea8-f8cc331e97b3">
+      <MemberComponentTemplate Name="LaserG" Guid="fff3ff53-fc73-4b4c-37c7-df653ca11b51" InheritanceParent="81a44c6a-c30a-4f53-8d64-0c30aabab8f9">
+        <Parameter Name="Class" Guid="f3839331-2233-4533-aae3-039ba73b12b7" Value="Game.ComponentLaserG" Type="string" />
+      </MemberComponentTemplate>
+    </EntityTemplate>
 	<EntityTemplate Name="Turbine" Guid="1866a995-af18-4955-81fa-aafaf97b92bd" InheritanceParent="9681f999-898b-4f5c-9ea8-f8cc331e97b3">
       <MemberComponentTemplate Name="Turbine" Guid="1f122f52-fc7d-4b4c-97c7-df652ca11b51" InheritanceParent="81a44c6a-c30a-4f53-8d64-0c30aabab8f9">
         <Parameter Name="Class" Guid="7c8f9771-22f9-4577-aae3-039ba73b12b6" Value="Game.ComponentTurbine" Type="string" />
@@ -543,6 +548,9 @@
     </MemberSubsystemTemplate>
     <MemberSubsystemTemplate Name="MachineToolBehavior" Guid="f9d49a4c-bc6a-499f-944e-39390092696e" InheritanceParent="fefb9590-4972-4893-b02a-76063611b745">
       <Parameter Name="Class" Guid="aef8d254-edd0-4fe5-8979-49f7dd023cdb" Value="Game.SubsystemMachineToolBlockBehavior" Type="string" />
+    </MemberSubsystemTemplate>
+	<MemberSubsystemTemplate Name="Laser" Guid="e9d69647-bc6a-488f-974e-39392292696e" InheritanceParent="a3914c13-7801-46a6-b23a-9e2b36e9defb">
+      <Parameter Name="Class" Guid="fef8d254-ead0-2fe5-8271-49f7ff023cdb" Value="Game.SubsystemLaser" Type="string" />
     </MemberSubsystemTemplate>
     <MemberSubsystemTemplate Name="LiquidPumpBlockBehavior" Guid="e663c125-3b60-4dbc-8d70-ca2d70431612" InheritanceParent="fefb9590-4972-4893-b02a-76063611b745">
       <Parameter Name="Class" Guid="4ca17897-d6dc-4e4d-b27f-f02deea1f241" Value="Game.SubsystemLiquidPumpBlockBehavior" Type="string" />

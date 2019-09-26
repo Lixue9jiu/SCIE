@@ -28,6 +28,8 @@ namespace Game
 		public static SubsystemPickables SubsystemPickables;
 		public static SubsystemProjectiles SubsystemProjectiles;
 		public static SubsystemWeather SubsystemWeather;
+		public static SubsystemLaser SubsystemLaser;
+		public static SubsystemParticles SubsystemParticles;
 		public static Terrain Terrain;
 		public static bool LoadedProject;
 
@@ -49,6 +51,8 @@ namespace Game
 			SubsystemPickables = Project.FindSubsystem<SubsystemPickables>(true);
 			SubsystemProjectiles = Project.FindSubsystem<SubsystemProjectiles>(true);
 			SubsystemWeather = Project.FindSubsystem<SubsystemWeather>(true);
+			SubsystemLaser = Project.FindSubsystem<SubsystemLaser>(true);
+			SubsystemParticles = Project.FindSubsystem<SubsystemParticles>(true);
 			Terrain = (SubsystemTerrain = Project.FindSubsystem<SubsystemTerrain>(true)).Terrain;
 			BlockGeometryGenerator = new BlockGeometryGenerator(Terrain, SubsystemTerrain, Project.FindSubsystem<SubsystemElectricity>(true), SubsystemTerrain.SubsystemFurnitureBlockBehavior, Project.FindSubsystem<SubsystemMetersBlockBehavior>(true), SubsystemTerrain.SubsystemPalette);
 			LoadedProject = true;

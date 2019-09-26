@@ -11,14 +11,22 @@ namespace Game
 			IronBullet,
 			HandBullet,
 			Shell,
-			UShell
+			UShell,
+			LaserBeam
 		}
 
 		public const int Index = 521;
+		public BlockMesh m_standaloneBlockMesh = new BlockMesh();
+		protected static readonly string[] m_displayNames = { "LeadBullet", "RifleBullet", "Shell", "UShell" ,"LaserBeam"};
+		protected static readonly float[] m_sizes = { 0.5f, 0.5f, 1f, 1f ,1f};
+		protected static readonly int[] m_textureSlots = { 177, 193, 193, 193 ,193};
 
-		protected static readonly string[] m_displayNames = { "LeadBullet", "RifleBullet", "Shell", "UShell" };
-		protected static readonly float[] m_sizes = { 0.5f, 0.5f, 1f, 1f };
-		protected static readonly int[] m_textureSlots = { 177, 193, 193, 193 };
+		public override void Initialize()
+		{
+			m_standaloneBlockMesh.AppendMesh("Models/Rods", "SteelRod", Matrix.CreateScale(10f,5f,10f) * Matrix.CreateRotationX(1.6f)*Matrix.CreateTranslation(0, -0.5f, 0), Matrix.Identity, Color.Red);
+			base.Initialize();
+
+		}
 
 		public override IEnumerable<int> GetCreativeValues() => new[] { Terrain.MakeBlockValue(521, 0, SetBulletType(0, BulletType.IronBullet)), Terrain.MakeBlockValue(521, 0, SetBulletType(0, BulletType.HandBullet)), Terrain.MakeBlockValue(521, 0, SetBulletType(0, BulletType.Shell)), Terrain.MakeBlockValue(521, 0, SetBulletType(0, BulletType.UShell)), Index | 1 << 10 << 14, Index | 2 << 10 << 14 };
 
@@ -30,6 +38,12 @@ namespace Game
 				return;
 			}
 			int bulletType = (int)GetBulletType(Terrain.ExtractData(value));
+			if (bulletType ==4)
+			{
+				BlockMesh mesh = m_standaloneBlockMesh;
+				BlocksManager.DrawMeshBlock(primitivesRenderer, mesh, color, size, ref matrix, environmentData);
+				return;
+			}
 			float size2 = (bulletType >= 0 && bulletType < m_sizes.Length) ? (size * m_sizes[bulletType]) : size;
 			if (bulletType == 3)
 				color = Color.LightGreen;
