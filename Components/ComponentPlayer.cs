@@ -2,11 +2,111 @@ using Engine;
 using System.Collections.Generic;
 using System.Linq;
 
+
+using GameEntitySystem;
+using TemplatesDatabase;
+
 namespace Game
 {
+
 	public class ComponentNPlayer : ComponentPlayer, IUpdateable
 	{
 		public double m_time2 = 0f;
+
+		public sealed class c__DisplayClass55_0
+		{
+			public MovingBlocksRaycastResult? movingBlocksResult;
+
+			public Vector3 position;
+
+			public Vector3 direction;
+
+			public Vector3 creaturePosition;
+
+			public float reach;
+
+			public bool PickTerrainForDigging_b__0(int value, float distance)
+			{
+				if (movingBlocksResult.HasValue && distance > movingBlocksResult.Value.Distance)
+				{
+					return false;
+				}
+				if (Vector3.Distance(position + distance * direction, creaturePosition) <= reach)
+				{
+					return true;//!BlocksManager.Blocks[Terrain.ExtractContents(value)].IsDiggingTransparent;
+				}
+				return false;
+			}
+		}
+
+		public sealed class c__DisplayClass58_0
+		{
+			public Vector3 position;
+
+			public Vector3 direction;
+
+			public Vector3 creaturePosition;
+
+			public float reach;
+
+			public ComponentMiner __this;
+
+			public bool PickBody_b__0(ComponentBody body, float distance)
+			{
+				if (Vector3.Distance(position + distance * direction, creaturePosition) <= reach && body.Entity != __this.Entity && !body.IsChildOfBody(__this.ComponentCreature.ComponentBody) && !__this.ComponentCreature.ComponentBody.IsChildOfBody(body))
+				{
+					return true;
+				}
+				return false;
+			}
+		}
+
+		public ComponentCreature ComponentCreature
+		{
+			get
+			{
+				return ComponentCreature_;
+			}
+			set
+			{
+				ComponentCreature_ = value;
+			}
+		}
+		public ComponentCreature ComponentCreature_;
+
+		public BodyRaycastResult? PickBody2(Vector3 position, Vector3 direction, float distance)
+		{
+			c__DisplayClass58_0 c__DisplayClass58_ = new c__DisplayClass58_0();
+			c__DisplayClass58_.position = position;
+			c__DisplayClass58_.direction = direction;
+			c__DisplayClass58_.__this = this.ComponentMiner;
+			c__DisplayClass58_.reach = distance;
+			c__DisplayClass58_.direction = Vector3.Normalize(c__DisplayClass58_.direction);
+			c__DisplayClass58_.creaturePosition = ComponentCreature.ComponentCreatureModel.EyePosition;
+			Vector3 end = c__DisplayClass58_.position + c__DisplayClass58_.direction * distance;
+			return Utils.SubsystemBodies.Raycast(c__DisplayClass58_.position, end, 0.35f, c__DisplayClass58_.PickBody_b__0);
+		}
+
+		public TerrainRaycastResult? PickTerrainForDigging2(Vector3 position, Vector3 direction, float distance)
+		{
+			c__DisplayClass55_0 c__DisplayClass55_ = new c__DisplayClass55_0();
+			c__DisplayClass55_.position = position;
+			c__DisplayClass55_.direction = direction;
+			c__DisplayClass55_.reach = distance;
+			float s = distance;
+			c__DisplayClass55_.direction = Vector3.Normalize(c__DisplayClass55_.direction);
+			c__DisplayClass55_.creaturePosition = ComponentCreature.ComponentCreatureModel.EyePosition;
+			Vector3 end = c__DisplayClass55_.position + c__DisplayClass55_.direction * s;
+			c__DisplayClass55_.movingBlocksResult = m_subsystemMovingBlocks.Raycast(c__DisplayClass55_.position, end, extendToFillCells: true);
+			return m_subsystemTerrain.Raycast(c__DisplayClass55_.position, end, useInteractionBoxes: true, skipAirBlocks: true, c__DisplayClass55_.PickTerrainForDigging_b__0);
+		}
+		public SubsystemMovingBlocks m_subsystemMovingBlocks;
+		public override void Load(ValuesDictionary valuesDictionary, IdToEntityMap idToEntityMap)
+		{
+			base.Load(valuesDictionary, idToEntityMap);
+			ComponentCreature = base.Entity.FindComponent<ComponentCreature>(throwOnError: true);
+			m_subsystemMovingBlocks = base.Project.FindSubsystem<SubsystemMovingBlocks>(throwOnError: true);
+		}
 
 		public new void Update(float dt)
 		{
@@ -505,4 +605,6 @@ namespace Game
 			return result;
 		}
 	}
+
+	
 }

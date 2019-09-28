@@ -116,6 +116,8 @@ namespace Game
 						n += 5;
 					else if (value == ItemBlock.IdTable["Cl2"])
 						n += 6;
+					else if (value == ItemBlock.IdTable["Al2O3"])
+						n += 7;
 				}
 			}
 			if (n == 12)
@@ -145,6 +147,16 @@ namespace Game
 				//result[ItemBlock.IdTable["Si"]] = -1;
 				//result[ItemBlock.IdTable["Si"]] = -1;
 				return FindSmeltingRecipe(result, 3);
+			}
+			else if (n == 28)
+			{
+				result[ItemBlock.IdTable["RubyCrystal"]] = 1;
+				all = true;
+				//result[ItemBlock.IdTable["Si"]] = -1;
+				//result[ItemBlock.IdTable["Si"]] = -1;
+				//result[ItemBlock.IdTable["Si"]] = -1;
+				//result[ItemBlock.IdTable["Si"]] = -1;
+				return FindSmeltingRecipe(result, 4);
 			}
 			system = new ReactionSystem();
 			return FindSmeltingRecipe(result, FindSmeltingRecipe(result, system));

@@ -268,6 +268,12 @@ namespace Game
 			new MouldItem("CannonB", "Models/Battery", "Battery",  Matrix.CreateScale(.8f, 2.0f, .8f)*Matrix.CreateRotationX(MathUtils.PI / 2)  * Matrix.CreateTranslation(0.5f, 0.5f, -0.3f), Matrix.CreateTranslation(9f / 16f, -7f / 16f, 0f), "炮管", "炮管", 0.9f),
 			new Mould("Models/Rods", "SteelRod", Matrix.CreateTranslation(0f,-0.5f,0f) * Matrix.CreateScale(4f,1.5f, 4f), Matrix.CreateTranslation(9f / 16f, -3f / 16f, 0f) * Matrix.CreateScale(20f),Color.Black, "CarbonTunnel", "CarbonTunnel"),
 			new Brick("PlasticBar", "PlasticBar", Color.White, Matrix.CreateTranslation(9f / 16f, -7f / 16f, 0f), "塑料条",1.5f),
+			new MeshItem("RubyCyrstal")
+			{
+				DefaultDisplayName = "RubyCrystal"
+			}
+			.AppendMesh("Models/Diamond", "Diamond", Matrix.CreateTranslation(0.0f, 0f, 0.0f)*Matrix.CreateScale(0.8f), Matrix.CreateTranslation(9f / 16f, -12f / 16f, 0f), Color.LightRed),
+			new Brick("RubyMaterial", "RubyMaterial", Color.LightRed, Matrix.CreateTranslation(9f / 16f, -7f / 16f, 0f), "红宝石介质",0.8f),
 			/*nnew Plate("128K RAM", Color.DarkGreen, true),
 			new Plate("256K RAM", Color.DarkGreen, true),
 			new Plate("512K RAM", Color.DarkGreen, true),

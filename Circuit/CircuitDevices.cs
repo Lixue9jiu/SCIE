@@ -424,7 +424,7 @@ namespace Game
 		}
 		public override int GetFaceTextureSlot(int face, int value)
 		{
-			return face != 4 && face != 5 ? face == (Terrain.ExtractData(value) >> 15) ? 120 : 170 : 170;
+			return face != 4 && face != 5 ? face == (Terrain.ExtractData(value) >> 15) ? 148 : 107 : 107;
 		}
 		//return face != 4 && face != 5 ? face == (Terrain.ExtractData(value) >> 15) ? 240 : 241 : 147;
 		public override Widget GetWidget(IInventory inventory, ComponentLaserG component)

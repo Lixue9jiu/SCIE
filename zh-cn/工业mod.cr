@@ -589,6 +589,11 @@
       "aaaa"
       "   a"
     </Recipe>
+	<Recipe Result="Musket5Block" ResultCount="1" RequiredHeatLevel="0" a="LaserG" b="SteelPlate" c="CopperWire" d="SteelRod" e="button" f="电容" Description="制作激光枪">
+      "bbbb"
+      "accf"
+      "bbed"
+    </Recipe>
     <Recipe Result="DrillBlock:0" ResultCount="1" RequiredHeatLevel="0" a="SteelIngot" Description="用钢锭制作钢钻">
       "aaa"
       " a"
@@ -1007,6 +1012,10 @@
       "beb"
       "ada"
     </Recipe>
+	<Recipe Result="RubyMaterial" ResultCount="1" RequiredHeatLevel="0" a="RubyCrystal" Description="制作红宝石介质">
+      "aaaa"
+      "aaaa"
+    </Recipe>
 	<Recipe Result="Workshop" ResultCount="1" RequiredHeatLevel="0" a="Gearbox" b="SteelRod" c="Circuit1" d="machinetool" e="metalblock:32" Description="制造工业车间来制造更多工业产品">
       "ebbe"
       "cddc"
@@ -1220,6 +1229,18 @@
       "baab"
       "bdcb"
       "bcec"
+    </Recipe>
+	<Recipe Result="LaserG" ResultCount="1" RequiredHeatLevel="0" a="RubyMaterial" b="glass" c="SilverPlate" d="ElectricMotor" e="led" f="电容" g="散热片" h="Circuit1" Description="制作激光发生器">
+      "cbaab"
+      "cbaab"
+      "hdeeg"
+      "gfffg"
+    </Recipe>
+	<Recipe Result="散热片" ResultCount="1" RequiredHeatLevel="0" a="IronSheet" b="CopperSheet" Description="制作散热片">
+      "aaa"
+      "bbb"
+      "aaa"
+      "bbb"
     </Recipe>
 	<Recipe Result="Centrifugal" ResultCount="1" RequiredHeatLevel="0" a="CopperWire" b="不锈钢板" c="SteelGear" d="metalblock:32" e="Generator" f="Circuit1" g="Separator" Description="制作离心机以分离原材料">
       "bffb"

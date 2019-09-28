@@ -82,11 +82,13 @@ namespace Game
 			if (n > 7 && SubsystemElectricity.SubsystemTime.GameTime - m_lastDispenseTime > 0.1)
 			{
 				ComponentLaserG laserg = Utils.GetBlockEntity(Point)?.Entity.FindComponent<ComponentLaserG>();
-				if (laserg !=null)
+				if (laserg !=null && SubsystemElectricity.SubsystemTime.GameTime - m_lastDispenseTime > 1.0)
 				{
+					m_lastDispenseTime = SubsystemElectricity.SubsystemTime.GameTime;
 					laserg.Beam();
 					return true;
 				}
+				//m_lastDispenseTime = SubsystemElectricity.SubsystemTime.GameTime;
 				var inventory = Inventory;
 				if (inventory == null)
 					inventory = Utils.GetBlockEntity(Point)?.Entity.FindComponent<ICraftingMachine>();

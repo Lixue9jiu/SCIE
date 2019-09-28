@@ -39,12 +39,12 @@ namespace Game
 					value = GetSlotValue(num);
 					int slotCount = GetSlotCount(num);
 					type = IEBatteryBlock.GetType(value);
-
+					int content = Terrain.ExtractContents(value);
 					if (value != 0 && slotCount > 0 && GetDamage(value) != 0)
 						break;
 					num++;
 				}
-				if (time % 20 == 0)
+				if (time % 5 == 0)
 				{
 					RemoveSlotItems(num, 1);
 					AddSlotItems(num, BlocksManager.DamageItem(value, -1), 1);
@@ -65,15 +65,16 @@ namespace Game
 					}
 
 					value = GetSlotValue(num);
+					int content = Terrain.ExtractContents(value);
 					int slotCount = GetSlotCount(num);
 					type = IEBatteryBlock.GetType(value);
 
-					if (value != 0 && slotCount > 0 && BlocksManager.DamageItem(value, 1) != 0 && GetDamage(value) != BlocksManager.Blocks[Terrain.ExtractContents(value)].Durability && value != BlocksManager.DamageItem(value, 1))
+					if (value != 0 &&  slotCount > 0 && BlocksManager.DamageItem(value, 1) != 0 && value != BlocksManager.DamageItem(value, 1))
 						break;
 
 					num++;
 				}
-				if (time % 20 == 0)
+				if (time % 5 == 0)
 				{
 					RemoveSlotItems(num, 1);
 					AddSlotItems(num, BlocksManager.DamageItem(value, 1), 1);
@@ -98,7 +99,7 @@ namespace Game
 
 		public override int GetSlotCapacity(int slotIndex, int value)
 		{
-			if (Terrain.ExtractContents(value) != IEBatteryBlock.Index)
+			if (Terrain.ExtractContents(value) != IEBatteryBlock.Index && Terrain.ExtractContents(value) != Musket5Block.Index)
 				return 0;
 			return base.GetSlotCapacity(slotIndex, value);
 		}

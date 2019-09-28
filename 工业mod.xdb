@@ -516,6 +516,9 @@
     <MemberSubsystemTemplate Name="Musket4BlockBehavior" Guid="6bf6bba1-4ac1-44a9-9e83-b4c659038fc9" InheritanceParent="fefb9590-4972-4893-b02a-76063611b745">
       <Parameter Name="Class" Guid="f2f1fefa-29ad-42ed-ad2e-ae59da4dbd62" Value="Game.SubsystemMusket4BlockBehavior" Type="string" />
     </MemberSubsystemTemplate>
+	<MemberSubsystemTemplate Name="Musket5BlockBehavior" Guid="62f6bba1-4ac1-44a9-9e83-f4c659038fc9" InheritanceParent="fefb9590-4972-4893-b02a-76063611b745">
+      <Parameter Name="Class" Guid="f3f1defa-29ad-42ed-ad2e-ae59da4dbd62" Value="Game.SubsystemMusket5BlockBehavior" Type="string" />
+    </MemberSubsystemTemplate>
     <MemberSubsystemTemplate Name="HPressBlockBehavior" Guid="9681f999-898b-4f5c-9ea8-f8cc331e97b8" InheritanceParent="fefb9590-4972-4893-b02a-76063611b745">
       <Parameter Name="Class" Guid="861fe9e1-bd64-62e8-b2f0-c25b167da4ad" Value="Game.SubsystemHPressBlockBehavior" Type="string" />
     </MemberSubsystemTemplate>

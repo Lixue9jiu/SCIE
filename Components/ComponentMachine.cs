@@ -164,7 +164,7 @@ namespace Game
 			Dictionary<Compound, int>.Enumerator e;
 			for (e = equation.Reactants.GetEnumerator(); e.MoveNext();)
 			{
-				result[ChemicalBlock.Get(e.Current.Key.ToString())] = -e.Current.Value / 1000;
+				result[ChemicalBlock.Get(e.Current.Key.ToString())] = -1 ;
 			}
 			for (e = system.GetEnumerator(); e.MoveNext();)
 			{
@@ -487,10 +487,10 @@ namespace Game
 
 		public virtual void Beam()
 		{
-			if (m_fireTimeRemaining >= 1000f)
+			if (m_fireTimeRemaining >= 5000f || Utils.SubsystemGameInfo.WorldSettings.GameMode == 0)
 			{
 
-				m_fireTimeRemaining -= 1000f;
+				m_fireTimeRemaining -= 5000f;
 				Point3 coordinates = m_componentBlockEntity.Coordinates;
 				int data = Terrain.ExtractData(Utils.Terrain.GetCellValue(coordinates.X, coordinates.Y, coordinates.Z));
 				//int direction = FourDirectionalBlock.GetDirection(Utils.Terrain.GetCellValue(coordinates.X, coordinates.Y, coordinates.Z));
@@ -506,6 +506,36 @@ namespace Game
 			int z = point.Z;
 			Point3 dpoint = new Point3((int)vector.X, (int)vector.Y, (int)vector.Z);
 			Vector3 end = new Vector3(point.X, point.Y, point.Z);
+
+			int dmax = 50;
+			//var entity = 0;
+			ComponentCreature cre = null;
+			ComponentCreature cre1 = null;
+			var e1 = Utils.SubsystemBodies.Bodies.GetEnumerator();
+			while (e1.MoveNext())
+			{
+				var entity = e1.Current.Entity;
+				cre = entity.FindComponent<ComponentCreature>();
+
+				
+
+				if (cre != null && ((vector.X > 0 && (cre.ComponentBody.Position.X - point.X - 1.0f) > 0f) || (vector.X < 0 && (cre.ComponentBody.Position.X - point.X ) < 0f) || vector.X==0)  &&
+					 ((vector.Z > 0 && (cre.ComponentBody.Position.Z - point.Z - 1.0f) > 0f) || (vector.Z < 0 && (cre.ComponentBody.Position.Z - point.Z ) < 0f) || vector.Z==0) &&
+					((vector.X == 0 && Math.Abs(cre.ComponentBody.Position.X - point.X - 0.5f) <= 0.5f) || (vector.Z == 0 && Math.Abs(cre.ComponentBody.Position.Z - point.Z - 0.5f) <= 0.5f))
+					&& (Math.Abs(cre.ComponentBody.Position.Y - point.Y - 0.5f) <= 0.5f) && cre.ComponentBody.Position.Y - point.Y<1f)
+				{
+					if (dmax > (int)Math.Abs(Vector3.Distance(new Vector3(point)+new Vector3(.5f), cre.ComponentBody.Position)))
+					{
+						dmax = (int)Math.Abs(Vector3.Distance(new Vector3(point) + new Vector3(.5f), cre.ComponentBody.Position));
+						cre1 = cre;
+					}
+					
+				}
+				//
+			}
+
+			
+
 			for (int d=1;d<50;d++)
 			{
 				bool flag = false;
@@ -513,34 +543,28 @@ namespace Game
 				int value=Utils.Terrain.GetCellValueFast(Npoint.X, Npoint.Y,Npoint.Z);
 				int value2 = Utils.Terrain.GetCellContentsFast(Npoint.X, Npoint.Y, Npoint.Z);
 				end = new Vector3(Npoint.X, Npoint.Y, Npoint.Z);
-				var bodies = new DynamicArray<ComponentBody>();
-				var e1 = Utils.SubsystemBodies.Bodies.GetEnumerator();
-				while (e1.MoveNext())
+				//var bodies = new DynamicArray<ComponentBody>();
+				if (d>=dmax)
 				{
-					var entity = e1.Current.Entity;
-					ComponentCreature cre = entity.FindComponent<ComponentCreature>();
-					if (cre != null && cre.ComponentBody.Position.X >= Npoint.X  && cre.ComponentBody.Position.X <= Npoint.X + 1f && cre.ComponentBody.Position.Y >= Npoint.Y && cre.ComponentBody.Position.Y <= Npoint.Y + 1f && cre.ComponentBody.Position.Z >= Npoint.Z  && cre.ComponentBody.Position.Z <= Npoint.Z + 1f)
+					
+					int nnn = (int)cre1.Entity.FindComponent<ComponentHealth>()?.AttackResilience / 8;
+					for (int zz = 0; zz <= nnn; zz++)
+						Utils.SubsystemPickables.AddPickable(ItemBlock.IdTable["CoalPowder"], 1, cre1.ComponentBody.Position, null, null);
+					Utils.SubsystemParticles.AddParticleSystem(new KillParticleSystem(Utils.SubsystemTerrain, cre1.ComponentBody.Position, 1f));
+					//end = cre1.ComponentBody.Position;
+					if (cre1.Entity.FindComponent<ComponentNPlayer>()!=null)
 					{
-						//entity.FindComponent<ComponentHealth>()?.Injure(1f, null, false, "Killed by radiation");
-						int nnn = (int)entity.FindComponent<ComponentHealth>()?.AttackResilience/8;
-						for (int zz=0;zz<=nnn;zz++)
-						Utils.SubsystemPickables.AddPickable(ItemBlock.IdTable["CoalPowder"], 1, cre.ComponentBody.Position, null, null);
-						Utils.SubsystemParticles.AddParticleSystem(new KillParticleSystem(Utils.SubsystemTerrain, cre.ComponentBody.Position,1f));
-						Project.RemoveEntity(entity, true);
-						//cre.ComponentBody.OnEntityRemoved();
-						flag = true;
-						break;
-					}
-					//
-				}
-				if (flag)
-				{
+						cre1.Entity.FindComponent<ComponentHealth>()?.Injure(1f,null,false,"Killed by Laser");
+					}else
+					Project.RemoveEntity(cre1.Entity, true);
 					break;
 				}
+				
+
 				if (value != 0)
 				{
 					var block = BlocksManager.Blocks[value2];
-					if (value != GlassBlock.Index)
+					if (value2 != GlassBlock.Index)
 					if (block.IsPlaceable)
 					{
 						if (block.ExplosionResilience >= 1000f)
@@ -563,7 +587,7 @@ namespace Game
 				}
 			}
 			Utils.SubsystemLaser.MakeLightningStrike(new Vector3(point.X, point.Y, point.Z) + new Vector3(0.5f),end + new Vector3(0.5f));
-			var e = Utils.SubsystemBodies.Bodies.GetEnumerator();
+			//var e = Utils.SubsystemBodies.Bodies.GetEnumerator();
 			
 
 		}
