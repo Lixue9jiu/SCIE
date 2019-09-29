@@ -405,7 +405,21 @@ namespace Game
 				//m_componentPlayer.ComponentClothing.GetClothes(ClothingSlot.Torso);
 				//ClothingBlock.
 			}
+			if (m_subsystemTime.PeriodicGameTimeEvent(5.0, 0.0))
+			{
+				float level = Utils.SubsystemSour.FindNearestCompassTarget(m_componentPlayer.ComponentBody.Position);
+				if (level>=10f)
+					m_componentPlayer.ComponentHealth.Injure(0.01f*level, null, ignoreInvulnerability: false, "Killed by Radiation");
 
+				var e = Utils.SubsystemBodies.Bodies.GetEnumerator();
+				while (e.MoveNext())
+				{
+					var entity = e.Current.Entity;
+					if (entity.FindComponent<ComponentCreature>()!=null)
+					if (Utils.SubsystemSour.FindNearestCompassTarget(entity.FindComponent<ComponentBody>().Position)>=10f)
+					entity.FindComponent<ComponentHealth>()?.Injure(0.1f, null, false, "Killed by radiation");
+				}
+			}
 			if (Temperature <= 0f)
 			{
 				m_componentPlayer.ComponentHealth.Injure(1f, null, ignoreInvulnerability: false, "Froze to death");

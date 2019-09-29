@@ -117,7 +117,7 @@ namespace Game
 					else if (value == ItemBlock.IdTable["Cl2"])
 						n += 6;
 					else if (value == ItemBlock.IdTable["Al2O3"])
-						n += 7;
+						n += 8;
 				}
 			}
 			if (n == 12)
@@ -148,7 +148,7 @@ namespace Game
 				//result[ItemBlock.IdTable["Si"]] = -1;
 				return FindSmeltingRecipe(result, 3);
 			}
-			else if (n == 28)
+			else if (n == 32)
 			{
 				result[ItemBlock.IdTable["RubyCrystal"]] = 1;
 				all = true;

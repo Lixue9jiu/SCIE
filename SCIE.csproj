@@ -61,6 +61,7 @@
     <Compile Include="Blocks\6DirectionalMachines.cs" />
     <Compile Include="Blocks\CubeMachines.cs" />
     <Compile Include="Blocks\FuelRodBlock.cs" />
+    <Compile Include="Blocks\GeigerCounter.cs" />
     <Compile Include="Blocks\MultiDirectionalBlock.cs" />
     <Compile Include="Blocks\Musket3Block.cs" />
     <Compile Include="Blocks\Musket2Block.cs" />

@@ -33,7 +33,7 @@ namespace Game
 				}
 				if (Vector3.Distance(position + distance * direction, creaturePosition) <= reach)
 				{
-					return true;//!BlocksManager.Blocks[Terrain.ExtractContents(value)].IsDiggingTransparent;
+					return !(Terrain.ExtractContents(value)==GlassBlock.Index);
 				}
 				return false;
 			}

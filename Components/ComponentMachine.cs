@@ -162,33 +162,61 @@ namespace Game
 				return 0;
 			system.Normalize();
 			Dictionary<Compound, int>.Enumerator e;
+			Dictionary<Compound, int>.Enumerator e2;
+			//result.Clear();
 			for (e = equation.Reactants.GetEnumerator(); e.MoveNext();)
 			{
-				result[ChemicalBlock.Get(e.Current.Key.ToString())] = -1 ;
+				int num = 1;
+				for (int i = 0; i < m_furnaceSize; i++)
+				{
+					//var item = ChemicalBlock.Get(GetSlotValue(i));
+					if (ChemicalBlock.Get(e.Current.Key.ToString()) == GetSlotValue(i) && GetSlotCount(i) > e.Current.Value)
+					{
+						num = GetSlotCount(i);
+						break;
+					}
+				}
+				num = MathUtils.Max(e.Current.Value, num);
+				result[ChemicalBlock.Get(e.Current.Key.ToString())] = -num;
 			}
+			bool flag=false;
 			for (e = system.GetEnumerator(); e.MoveNext();)
 			{
+				flag = false;
 				int val = ChemicalBlock.Get(e.Current.Key.ToString());
-				if (ChemicalBlock.Get(val) == null)
-					return 0;
-				value = ChemicalBlock.Get(val).GetDamageDestructionValue();
-
-				if (value != 0)
+				for (e2 = equation.Reactants.GetEnumerator(); e2.MoveNext();)
 				{
-					result.TryGetValue(value, out count);
-					count -= e.Current.Value;
-					if (count < 0)
-						continue;
-					if (count > 0)
-						result[value] = count;
+					if (val == ChemicalBlock.Get(e2.Current.Key.ToString()))
+					{
+						flag = true;
+						break;
+					}
+						
 				}
-				value = e.Current.Value;
-				if (value > 999)
-					value /= 1000;
-				if (value > 200)
-					value = 1;
-				result[val] = value;
+				if (!flag)
+				{
+					if (ChemicalBlock.Get(val) == null)
+						return 0;
+					value = ChemicalBlock.Get(val).GetDamageDestructionValue();
+
+					if (value != 0)
+					{
+						result.TryGetValue(value, out count);
+						count = e.Current.Value;
+						if (count < 0)
+							continue;
+						if (count > 0)
+							result[value] = count;
+					}
+					value = e.Current.Value;
+					if (value > 999)
+						value /= 1000;
+					if (value > 200)
+						value = 1;
+					result[val] = value;
+				}
 			}
+			
 			return equation.GetHashCode();
 		}
 	}
@@ -301,6 +329,7 @@ namespace Game
 				
 			{
 				int veo = 0;
+				int sat = 0;
 				if (m_updateSmeltingRecipe)
 				{
 					
@@ -317,6 +346,7 @@ namespace Game
 							{
 								m_fireTimeRemaining += 5;
 								veo += 0;
+								sat++;
 							}
 							if (FuelRodBlock.GetType(va1) == RodType.ControlRod)
 							{
@@ -332,37 +362,79 @@ namespace Game
 							{
 								m_fireTimeRemaining += 25;
 								veloc += 0f;
+								sat++;
 							}
 						}
 					}
 				}
 				veloc = MathUtils.Max(veloc,0);
-				m_fireTimeRemaining = MathUtils.Max(0f, m_fireTimeRemaining );
-				HeatLevel = MathUtils.Max(0f, HeatLevel + m_fireTimeRemaining * 0.5f -0.1f);
-				//HeatLevel += m_fireTimeRemaining*5;
-				Point3 coordinates = m_componentBlockEntity.Coordinates;
-				if (HeatLevel>3000)
-				Utils.SubsystemExplosions.TryExplodeBlock(coordinates.X, coordinates.Y, coordinates.Z, LargeGunpowderKegBlock.Index);
-				if (m_fireTimeRemaining>0)
-				for (int i = 0; i < SlotsCount; i++)
+				if (sat > 0)
 				{
-					//if ()
-					int va1 = GetSlotValue(i);
-					if (Terrain.ExtractContents(va1) == FuelRodBlock.Index)
+					Point3 coor = m_componentBlockEntity.Coordinates;
+					bool flag = false;
+					if (Utils.SubsystemTime.PeriodicGameTimeEvent(1.2, 0.0))
+					for (int iii = 0; iii < Utils.SubsystemSour.m_radations.Count; iii++)
 					{
-						if (Utils.Random.Bool(0.006f*veloc))
-						{
-							RemoveSlotItems(i, 1);
-							if (BlocksManager.DamageItem(va1, 1) !=0)
+
+							if (Utils.SubsystemSour.m_radations.Array[iii] == new Vector4(coor.X, coor.Y, coor.Z, 10f))
 							{
-								AddSlotItems(i, BlocksManager.DamageItem(va1, 1), 1);
+								flag = true; break;
+							}
+					}
+					if (Utils.SubsystemSour.m_radations.Count==0 || !flag)
+						Utils.SubsystemSour.m_radations.Add(new Vector4(coor.X, coor.Y, coor.Z, 10f));
+					m_fireTimeRemaining = MathUtils.Max(0f, m_fireTimeRemaining);
+					HeatLevel = MathUtils.Max(0f, HeatLevel + m_fireTimeRemaining * 0.5f - 0.1f);
+					//HeatLevel += m_fireTimeRemaining*5;
+					Point3 coordinates = m_componentBlockEntity.Coordinates;
+					if (HeatLevel > 3000)
+					{
+							for (int iii = 0; iii < Utils.SubsystemSour.m_radations.Count; iii++)
+							{
+								//Point3 coor = m_componentBlockEntity.Coordinates;
+								if (Utils.SubsystemSour.m_radations.Array[iii] == new Vector4(coor.X, coor.Y, coor.Z, 1f))
+							{
+								Utils.SubsystemSour.m_radations.Remove(new Vector4(coor.X, coor.Y, coor.Z, 1f));
+							}
+									
+							
+						}
+						Utils.SubsystemSour.m_radations.Add(new Vector4(coor.X, coor.Y, coor.Z, 15000f));
+						Utils.SubsystemExplosions.TryExplodeBlock(coordinates.X, coordinates.Y, coordinates.Z, LargeGunpowderKegBlock.Index);
+						Utils.SubsystemParticles.AddParticleSystem(new RParticleSystem(new Vector3(coordinates)+new Vector3(.5f),2f,50f));
+					}
+						
+					if (m_fireTimeRemaining > 0)
+						for (int i = 0; i < SlotsCount; i++)
+						{
+							//if ()
+							int va1 = GetSlotValue(i);
+							if (Terrain.ExtractContents(va1) == FuelRodBlock.Index)
+							{
+								if (Utils.Random.Bool(0.006f * veloc))
+								{
+									RemoveSlotItems(i, 1);
+									if (BlocksManager.DamageItem(va1, 1) != 0)
+									{
+										AddSlotItems(i, BlocksManager.DamageItem(va1, 1), 1);
+									}
+								}
+							}
+							else
+							{
+								RemoveSlotItems(i, 1);
 							}
 						}
-					}
-					else
-					{
-						RemoveSlotItems(i, 1);
-					}
+				}else
+				{
+					if (Utils.SubsystemTime.PeriodicGameTimeEvent(1.2, 0.0))
+						for (int iii = 0; iii < Utils.SubsystemSour.m_radations.Count; iii++)
+						{
+							Point3 coor = m_componentBlockEntity.Coordinates;
+							if (Utils.SubsystemSour.m_radations.Array[iii] == new Vector4(coor.X, coor.Y, coor.Z, 10f))
+								Utils.SubsystemSour.m_radations.Remove(new Vector4(coor.X, coor.Y, coor.Z, 10f));
+						}
+					HeatLevel = MathUtils.Max(0f, HeatLevel - 0.1f);
 				}
 			}
 		}

@@ -1,6 +1,8 @@
 using Engine;
 using System.Collections.Generic;
 using TemplatesDatabase;
+using Engine.Serialization;
+using System.Linq;
 
 namespace Game
 {
@@ -33,6 +35,31 @@ namespace Game
 	{
 		public SubsystemSourBlockBehavior() : base("Sour")
 		{
+		}
+		public DynamicArray<Vector4> m_radations = new DynamicArray<Vector4>();
+
+		public float FindNearestCompassTarget(Vector3 Position)
+		{
+			if (m_radations.Count > 0)
+			{
+				float num = float.MaxValue;
+				float num4 = 0;
+				float v = 0;
+				for (int i = 0; i < m_radations.Count; i++)
+				{
+					Vector4 vector = m_radations.Array[i];
+					float num2 = Vector3.DistanceSquared(Position,  new Vector3(vector.X, vector.Y, vector.Z));
+					float num3 = vector.W / num2;
+					if (num3 > num4 )
+					{
+						num = num2;
+						num4 = num3;
+						
+					}
+				}
+				return num4;
+			}
+			return 0;
 		}
 
 		public SubsystemBlockEntities m_subsystemBlockEntities;
@@ -159,8 +186,15 @@ namespace Game
 			base.Load(valuesDictionary);
 			m_subsystemBlockEntities = Project.FindSubsystem<SubsystemBlockEntities>(throwOnError: true);
 			m_subsystemPickables = Project.FindSubsystem<SubsystemPickables>(throwOnError: true);
+			string value = valuesDictionary.GetValue<string>("Radiation");
+			m_radations = new DynamicArray<Vector4>(HumanReadableConverter.ValuesListFromString<Vector4>(';', value));
 		}
-
+		public override void Save(ValuesDictionary valuesDictionary)
+		{
+			base.Save(valuesDictionary);
+			string value = HumanReadableConverter.ValuesListToString(';', m_radations.ToArray());
+			valuesDictionary.SetValue("Radiation", value);
+		}
 		public override bool OnInteract(TerrainRaycastResult raycastResult, ComponentMiner componentMiner)
 		{
 			int type = Terrain.ExtractData(Utils.Terrain.GetCellValueFast(raycastResult.CellFace.X, raycastResult.CellFace.Y, raycastResult.CellFace.Z)) >> 10;
