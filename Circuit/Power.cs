@@ -124,7 +124,7 @@ namespace Game
 	{
 		public BlockMesh m_standaloneBlockMesh = new BlockMesh();
 		public BoundingBox[] m_collisionBoxes;
-		public SolarPanel(string name, int voltage = 100) : base(name, name, voltage)
+		public SolarPanel(string name, int voltage = 50) : base(name, name, voltage)
 		{
 			Type = ElementType.Supply | ElementType.Connector;
 			Model model = ContentManager.Get<Model>("Models/CellTrapdoor");
@@ -136,10 +136,10 @@ namespace Game
 		public override void Simulate(ref int voltage)
 		{
 			int x = Point.X, z = Point.Z;
-			if (Utils.SubsystemWeather.m_subsystemSky.SkyLightValue < 15 || Utils.Terrain.GetCellLight(x, Point.Y + 1, z) < 15)
+			if (Utils.SubsystemWeather.m_subsystemSky.SkyLightValue < 13 || Utils.Terrain.GetCellLight(x, Point.Y + 1, z) < 13)
 				return;
 			PrecipitationShaftInfo info = Utils.SubsystemWeather.GetPrecipitationShaftInfo(x, z);
-			voltage += info.Intensity > 0f && Point.Y >= info.YLimit - 1 ? 20 : Voltage;
+			voltage += info.Intensity > 0f && Point.Y >= info.YLimit - 1 ? 5 : Voltage;
 		}
 		public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
 		{

@@ -188,7 +188,7 @@ namespace Game
 						{
 							if ((w.Type & ElementType.Supply) != 0)
 							{
-								if (supply) continue;
+								//if (supply) continue;
 								supply = true;
 							}
 							v.Next[count++] = w;
