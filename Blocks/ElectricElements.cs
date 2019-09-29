@@ -254,6 +254,7 @@ namespace Game
 			Explode(x - r, y, z, pressure, r);
 			Explode(x, y, z + r, pressure, r);
 			Explode(x, y, z - r, pressure, r);
+			Utils.SubsystemSour.m_radations.Add(new Vector4(x, y, z, 10000f));
 			return false;
 		}
 
