@@ -51,10 +51,10 @@ namespace Game
 			m_time += dt;
 			
 			FlatBatch3D flatBatch3D = m_primitivesRenderer3d.FlatBatch(0, DepthStencilState.DepthRead, null, BlendState.Additive);
-			Color color = new Color(51, 51, 51, 51);
-			Color color2 = new Color(51, 51, 51, 51);
-			Color color3 = new Color(51, 51, 51, 51);
-			Color color4 = new Color(51, 51, 51, 51);
+			var color = new Color(51, 51, 51, 51);
+			var color2 = new Color(51, 51, 51, 51);
+			var color3 = new Color(51, 51, 51, 51);
+			var color4 = new Color(51, 51, 51, 51);
 			flatBatch3D.QueueLine(m_position, m_position2, color, color2);
 			flatBatch3D.QueueLine(m_position, m_position2, color2, color3);
 			flatBatch3D.QueueLine(m_position, m_position2, color3, color4);

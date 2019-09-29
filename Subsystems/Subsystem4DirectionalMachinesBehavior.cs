@@ -186,8 +186,7 @@ namespace Game
 			base.Load(valuesDictionary);
 			m_subsystemBlockEntities = Project.FindSubsystem<SubsystemBlockEntities>(throwOnError: true);
 			m_subsystemPickables = Project.FindSubsystem<SubsystemPickables>(throwOnError: true);
-			string value = valuesDictionary.GetValue<string>("Radiation");
-			m_radations = new DynamicArray<Vector4>(HumanReadableConverter.ValuesListFromString<Vector4>(';', value));
+			m_radations = new DynamicArray<Vector4>(HumanReadableConverter.ValuesListFromString<Vector4>(';', valuesDictionary.GetValue("Radiation", "")));
 		}
 		public override void Save(ValuesDictionary valuesDictionary)
 		{

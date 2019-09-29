@@ -76,7 +76,7 @@ namespace Game
 
 		public BodyRaycastResult? PickBody2(Vector3 position, Vector3 direction, float distance)
 		{
-			c__DisplayClass58_0 c__DisplayClass58_ = new c__DisplayClass58_0();
+			var c__DisplayClass58_ = new c__DisplayClass58_0();
 			c__DisplayClass58_.position = position;
 			c__DisplayClass58_.direction = direction;
 			c__DisplayClass58_.__this = this.ComponentMiner;
@@ -89,7 +89,7 @@ namespace Game
 
 		public TerrainRaycastResult? PickTerrainForDigging2(Vector3 position, Vector3 direction, float distance)
 		{
-			c__DisplayClass55_0 c__DisplayClass55_ = new c__DisplayClass55_0();
+			var c__DisplayClass55_ = new c__DisplayClass55_0();
 			c__DisplayClass55_.position = position;
 			c__DisplayClass55_.direction = direction;
 			c__DisplayClass55_.reach = distance;
