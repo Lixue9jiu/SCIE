@@ -179,7 +179,7 @@ namespace Game
 				num = MathUtils.Max(e.Current.Value, num);
 				result[ChemicalBlock.Get(e.Current.Key.ToString())] = -num;
 			}
-			bool flag=false;
+			bool flag = false;
 			for (e = system.GetEnumerator(); e.MoveNext();)
 			{
 				flag = false;
@@ -191,7 +191,6 @@ namespace Game
 						flag = true;
 						break;
 					}
-						
 				}
 				if (!flag)
 				{
@@ -216,7 +215,7 @@ namespace Game
 					result[val] = value;
 				}
 			}
-			
+
 			return equation.GetHashCode();
 		}
 	}
@@ -326,13 +325,12 @@ namespace Game
 		public void Update(float dt)
 		{
 			if (Utils.SubsystemTime.PeriodicGameTimeEvent(0.2, 0.0))
-				
+
 			{
 				int veo = 0;
 				int sat = 0;
 				if (m_updateSmeltingRecipe)
 				{
-					
 					m_fireTimeRemaining = 0f;
 					veloc = 1f;
 					for (int i = 0; i < SlotsCount; i++)
@@ -367,21 +365,20 @@ namespace Game
 						}
 					}
 				}
-				veloc = MathUtils.Max(veloc,0);
+				veloc = MathUtils.Max(veloc, 0);
 				if (sat > 0)
 				{
 					Point3 coor = m_componentBlockEntity.Coordinates;
 					bool flag = false;
 					if (Utils.SubsystemTime.PeriodicGameTimeEvent(1.2, 0.0))
-					for (int iii = 0; iii < Utils.SubsystemSour.m_radations.Count; iii++)
-					{
-
+						for (int iii = 0; iii < Utils.SubsystemSour.m_radations.Count; iii++)
+						{
 							if (Utils.SubsystemSour.m_radations.Array[iii] == new Vector4(coor.X, coor.Y, coor.Z, 10f))
 							{
 								flag = true; break;
 							}
-					}
-					if (Utils.SubsystemSour.m_radations.Count==0 || !flag)
+						}
+					if (Utils.SubsystemSour.m_radations.Count == 0 || !flag)
 						Utils.SubsystemSour.m_radations.Add(new Vector4(coor.X, coor.Y, coor.Z, 10f));
 					m_fireTimeRemaining = MathUtils.Max(0f, m_fireTimeRemaining);
 					HeatLevel = MathUtils.Max(0f, HeatLevel + m_fireTimeRemaining * 0.5f - 0.1f);
@@ -389,21 +386,19 @@ namespace Game
 					Point3 coordinates = m_componentBlockEntity.Coordinates;
 					if (HeatLevel > 3000)
 					{
-							for (int iii = 0; iii < Utils.SubsystemSour.m_radations.Count; iii++)
-							{
-								//Point3 coor = m_componentBlockEntity.Coordinates;
-								if (Utils.SubsystemSour.m_radations.Array[iii] == new Vector4(coor.X, coor.Y, coor.Z, 1f))
+						for (int iii = 0; iii < Utils.SubsystemSour.m_radations.Count; iii++)
+						{
+							//Point3 coor = m_componentBlockEntity.Coordinates;
+							if (Utils.SubsystemSour.m_radations.Array[iii] == new Vector4(coor.X, coor.Y, coor.Z, 1f))
 							{
 								Utils.SubsystemSour.m_radations.Remove(new Vector4(coor.X, coor.Y, coor.Z, 1f));
 							}
-									
-							
 						}
 						Utils.SubsystemSour.m_radations.Add(new Vector4(coor.X, coor.Y, coor.Z, 15000f));
 						Utils.SubsystemExplosions.TryExplodeBlock(coordinates.X, coordinates.Y, coordinates.Z, LargeGunpowderKegBlock.Index);
-						Utils.SubsystemParticles.AddParticleSystem(new RParticleSystem(new Vector3(coordinates)+new Vector3(.5f),2f,50f));
+						Utils.SubsystemParticles.AddParticleSystem(new RParticleSystem(new Vector3(coordinates) + new Vector3(.5f), 2f, 50f));
 					}
-						
+
 					if (m_fireTimeRemaining > 0)
 						for (int i = 0; i < SlotsCount; i++)
 						{
@@ -425,7 +420,8 @@ namespace Game
 								RemoveSlotItems(i, 1);
 							}
 						}
-				}else
+				}
+				else
 				{
 					if (Utils.SubsystemTime.PeriodicGameTimeEvent(1.2, 0.0))
 						for (int iii = 0; iii < Utils.SubsystemSour.m_radations.Count; iii++)
@@ -439,9 +435,6 @@ namespace Game
 			}
 		}
 	}
-
-
-
 
 	public class ComponentHChanger : ComponentMachine, IUpdateable
 	{
@@ -475,46 +468,30 @@ namespace Game
 					ComponentRCore component3 = entity.Entity.FindComponent<ComponentRCore>();
 					if (entity != null && component3 != null)
 					{
-						Pressure = (int)(component3.HeatLevel/100);
-
+						Pressure = (int)(component3.HeatLevel / 100);
 
 						if (Pressure > 0)
 						{
-
-							
-								for (int i = 0; i < 8; i++)
+							for (int i = 0; i < 8; i++)
+							{
+								if (base.GetSlotValue(i) == WaterBlock.Index)
 								{
-									int slotValue = GetSlotValue(i);
-									int num = Terrain.ExtractContents(slotValue);
-									if (slotValue == WaterBlock.Index)
-									{
-										if (Utils.SubsystemTime.PeriodicGameTimeEvent((5*30/Pressure/10)/1f, 0.0))
+									if (Utils.SubsystemTime.PeriodicGameTimeEvent((5 * 30 / Pressure / 10) / 1f, 0.0))
 										m_slots[i].Count--;
-										Output += Pressure;
-										component3.HeatLevel -= 2*Output;
-										break;
-										
-									}
-
-								
+									Output += Pressure;
+									component3.HeatLevel -= 2 * Output;
+									break;
+								}
 							}
 						}
-
-
 					}
-				
 				}
-
 			}
-
 		}
 	}
 
-
-
 	public class ComponentTurbine : ComponentMachine, IUpdateable
 	{
-
 		public int Pressure;
 
 		public int Output;
@@ -539,19 +516,14 @@ namespace Game
 					var entity = Utils.GetBlockEntity(point3);
 					ComponentHChanger component3 = entity.Entity.FindComponent<ComponentHChanger>();
 					Output = component3.Output;
-
 				}
 				Powered = Output > 0;
-
 			}
-
 		}
 	}
 
-
 	public class ComponentLaserG : ComponentMachine
 	{
-
 		public int Pressure;
 
 		public int Output;
@@ -561,110 +533,98 @@ namespace Game
 		{
 			if (m_fireTimeRemaining >= 5000f || Utils.SubsystemGameInfo.WorldSettings.GameMode == 0)
 			{
-
 				m_fireTimeRemaining -= 5000f;
 				Point3 coordinates = m_componentBlockEntity.Coordinates;
-				int data = Terrain.ExtractData(Utils.Terrain.GetCellValue(coordinates.X, coordinates.Y, coordinates.Z));
+				//int data = Terrain.ExtractData(Utils.Terrain.GetCellValue(coordinates.X, coordinates.Y, coordinates.Z));
 				//int direction = FourDirectionalBlock.GetDirection(Utils.Terrain.GetCellValue(coordinates.X, coordinates.Y, coordinates.Z));
 				int face = Terrain.ExtractData(Utils.Terrain.GetCellValue(coordinates.X, coordinates.Y, coordinates.Z)) >> 15;
 				Laser(coordinates, face);
 			}
 		}
+
 		protected void Laser(Point3 point, int face)
 		{
 			Vector3 vector = CellFace.FaceToVector3(face);
 			int x = point.X;
 			int y = point.Y;
 			int z = point.Z;
-			Point3 dpoint = new Point3((int)vector.X, (int)vector.Y, (int)vector.Z);
-			Vector3 end = new Vector3(point.X, point.Y, point.Z);
+			var dpoint = Terrain.ToCell(vector);
+			var end = new Vector3(point.X, point.Y, point.Z);
 
 			int dmax = 50;
-			//var entity = 0;
-			ComponentCreature cre = null;
 			ComponentCreature cre1 = null;
 			var e1 = Utils.SubsystemBodies.Bodies.GetEnumerator();
 			while (e1.MoveNext())
 			{
 				var entity = e1.Current.Entity;
-				cre = entity.FindComponent<ComponentCreature>();
+				//var entity = 0;
+				ComponentCreature cre = entity.FindComponent<ComponentCreature>();
 
-				
-
-				if (cre != null && ((vector.X > 0 && (cre.ComponentBody.Position.X - point.X - 1.0f) > 0f) || (vector.X < 0 && (cre.ComponentBody.Position.X - point.X ) < 0f) || vector.X==0)  &&
-					 ((vector.Z > 0 && (cre.ComponentBody.Position.Z - point.Z - 1.0f) > 0f) || (vector.Z < 0 && (cre.ComponentBody.Position.Z - point.Z ) < 0f) || vector.Z==0) &&
+				if (cre != null && ((vector.X > 0 && (cre.ComponentBody.Position.X - point.X - 1.0f) > 0f) || (vector.X < 0 && (cre.ComponentBody.Position.X - point.X) < 0f) || vector.X == 0) &&
+					 ((vector.Z > 0 && (cre.ComponentBody.Position.Z - point.Z - 1.0f) > 0f) || (vector.Z < 0 && (cre.ComponentBody.Position.Z - point.Z) < 0f) || vector.Z == 0) &&
 					((vector.X == 0 && Math.Abs(cre.ComponentBody.Position.X - point.X - 0.5f) <= 0.5f) || (vector.Z == 0 && Math.Abs(cre.ComponentBody.Position.Z - point.Z - 0.5f) <= 0.5f))
-					&& (Math.Abs(cre.ComponentBody.Position.Y - point.Y - 0.5f) <= 0.5f) && cre.ComponentBody.Position.Y - point.Y<1f)
+					&& (Math.Abs(cre.ComponentBody.Position.Y - point.Y - 0.5f) <= 0.5f) && cre.ComponentBody.Position.Y - point.Y < 1f)
 				{
-					if (dmax > (int)Math.Abs(Vector3.Distance(new Vector3(point)+new Vector3(.5f), cre.ComponentBody.Position)))
+					if (dmax > (int)Math.Abs(Vector3.Distance(new Vector3(point) + new Vector3(.5f), cre.ComponentBody.Position)))
 					{
 						dmax = (int)Math.Abs(Vector3.Distance(new Vector3(point) + new Vector3(.5f), cre.ComponentBody.Position));
 						cre1 = cre;
 					}
-					
 				}
-				//
 			}
 
-			
-
-			for (int d=1;d<50;d++)
+			for (int d = 1; d < 50; d++)
 			{
-				bool flag = false;
-				Point3 Npoint = point + d * dpoint;
-				int value=Utils.Terrain.GetCellValueFast(Npoint.X, Npoint.Y,Npoint.Z);
-				int value2 = Utils.Terrain.GetCellContentsFast(Npoint.X, Npoint.Y, Npoint.Z);
-				end = new Vector3(Npoint.X, Npoint.Y, Npoint.Z);
+				Point3 npoint = point + d * dpoint;
+				int value = Utils.Terrain.GetCellValueFast(npoint.X, npoint.Y, npoint.Z);
+				int value2 = Utils.Terrain.GetCellContentsFast(npoint.X, npoint.Y, npoint.Z);
+				end = new Vector3(npoint.X, npoint.Y, npoint.Z);
 				//var bodies = new DynamicArray<ComponentBody>();
-				if (d>=dmax)
+				if (d >= dmax)
 				{
-					
 					int nnn = (int)cre1.Entity.FindComponent<ComponentHealth>()?.AttackResilience / 8;
 					for (int zz = 0; zz <= nnn; zz++)
 						Utils.SubsystemPickables.AddPickable(ItemBlock.IdTable["CoalPowder"], 1, cre1.ComponentBody.Position, null, null);
 					Utils.SubsystemParticles.AddParticleSystem(new KillParticleSystem(Utils.SubsystemTerrain, cre1.ComponentBody.Position, 1f));
 					//end = cre1.ComponentBody.Position;
-					if (cre1.Entity.FindComponent<ComponentNPlayer>()!=null)
+					if (cre1.Entity.FindComponent<ComponentNPlayer>() != null)
 					{
-						cre1.Entity.FindComponent<ComponentHealth>()?.Injure(1f,null,false,"Killed by Laser");
-					}else
-					Project.RemoveEntity(cre1.Entity, true);
+						cre1.Entity.FindComponent<ComponentHealth>()?.Injure(1f, null, false, "Killed by Laser");
+					}
+					else
+						Project.RemoveEntity(cre1.Entity, true);
 					break;
 				}
-				
 
 				if (value != 0)
 				{
 					var block = BlocksManager.Blocks[value2];
 					if (value2 != GlassBlock.Index)
-					if (block.IsPlaceable)
-					{
-						if (block.ExplosionResilience >= 1000f)
+						if (block.IsPlaceable)
 						{
-						break;
-						}else if (block.DefaultExplosionPressure>0)
-						{
-							Utils.SubsystemExplosions.TryExplodeBlock(Npoint.X, Npoint.Y, Npoint.Z, value);
-						}else if(block.FuelFireDuration > 0)
-						{
-							int v1 = (int)block.FuelFireDuration / 10;
-							for (int zz = 0; zz <= v1; zz++)
-								Utils.SubsystemPickables.AddPickable(ItemBlock.IdTable["CoalPowder"], 1, new Vector3(Npoint.X, Npoint.Y, Npoint.Z), null, null);
-							Utils.SubsystemTerrain.DestroyCell(5, Npoint.X, Npoint.Y, Npoint.Z, 0, true, false);
+							if (block.ExplosionResilience >= 1000f)
+							{
+								break;
+							}
+							else if (block.DefaultExplosionPressure > 0)
+							{
+								Utils.SubsystemExplosions.TryExplodeBlock(npoint.X, npoint.Y, npoint.Z, value);
+							}
+							else if (block.FuelFireDuration > 0)
+							{
+								int v1 = (int)block.FuelFireDuration / 10;
+								for (int zz = 0; zz <= v1; zz++)
+									Utils.SubsystemPickables.AddPickable(ItemBlock.IdTable["CoalPowder"], 1, new Vector3(npoint.X, npoint.Y, npoint.Z), null, null);
+								Utils.SubsystemTerrain.DestroyCell(5, npoint.X, npoint.Y, npoint.Z, 0, true, false);
+							}
+							else
+								Utils.SubsystemTerrain.DestroyCell(5, npoint.X, npoint.Y, npoint.Z, 0, false, false);
+							break;
 						}
-						else
-						Utils.SubsystemTerrain.DestroyCell(5, Npoint.X, Npoint.Y, Npoint.Z,0,false,false);
-						break;
-					}
 				}
 			}
-			Utils.SubsystemLaser.MakeLightningStrike(new Vector3(point.X, point.Y, point.Z) + new Vector3(0.5f),end + new Vector3(0.5f));
+			Utils.SubsystemLaser.MakeLightningStrike(new Vector3(point.X, point.Y, point.Z) + new Vector3(0.5f), end + new Vector3(0.5f));
 			//var e = Utils.SubsystemBodies.Bodies.GetEnumerator();
-			
-
 		}
-
-
 	}
-
 }
