@@ -147,7 +147,7 @@ namespace Game
 			}
 			else if (n == 32)
 			{
-				result[ItemBlock.IdTable["RubyCrystal"]] = 1;
+				result[ItemBlock.IdTable["RubyCrystal"]] = 2;
 				all = true;
 				//result[ItemBlock.IdTable["Si"]] = -1;
 				//result[ItemBlock.IdTable["Si"]] = -1;
