@@ -742,33 +742,6 @@ namespace Game
 				var player = m_componentMount.Rider.Entity.FindComponent<ComponentPlayer>(true);
 				player.ComponentLocomotion.LookOrder = player.ComponentInput.PlayerInput.Look;
 			}
-
-			ComponentTrain t = this;
-			int level = 0;
-			for (; t.ParentBody != null; level++) t = t.ParentBody;
-			if (level > 0)
-			{
-				var body = t.m_componentBody;
-				var pos = body.Position;
-				var r = body.Rotation;
-				Utils.SubsystemTime.QueueGameTimeDelayedExecution(Utils.SubsystemTime.GameTime + 0.23 * level, delegate
-				{
-					if (Vector3.Distance(body.Position, m_componentBody.Position) > 1f && body.Velocity.LengthSquared() > 30f)
-					{
-						m_componentBody.Position = pos;
-						m_componentBody.Rotation = r;
-						m_componentBody.Velocity = body.Velocity * 0.01f;
-					}
-				});
-				m_outOfMountTime = Vector3.DistanceSquared(ParentBody.m_componentBody.Position, m_componentBody.Position) > 8f
-					? m_outOfMountTime + dt
-					: 0f;
-				ComponentDamage ComponentDamage = ParentBody.Entity.FindComponent<ComponentDamage>();
-				if (m_outOfMountTime > 1f || (componentDamage != null && componentDamage.Hitpoints <= .05f) || ComponentDamage != null && ComponentDamage.Hitpoints <= .05f)
-					ParentBody = null;
-				return;
-			}
-
 			switch (Direction)
 			{
 				case 0:
@@ -780,11 +753,44 @@ namespace Game
 					m_componentBody.Position = new Vector3(m_componentBody.Position.X, m_componentBody.Position.Y, MathUtils.Floor(m_componentBody.Position.Z) + 0.5f);
 					break;
 			}
+			ComponentTrain t = this;
+			int level = 0;
+			for (; t.ParentBody != null; level++) t = t.ParentBody;
+			if (level > 0)
+			{
+				var body = t.m_componentBody;
+				var pos = body.Position;
+				var r = body.Rotation;
+				//if (ParentBody!=null)
+				if (body.Velocity.LengthSquared() > 20f)
+				Utils.SubsystemTime.QueueGameTimeDelayedExecution(Utils.SubsystemTime.GameTime + 0.23 * level, delegate
+				{
+					if (ParentBody != null && MathUtils.Abs(Vector2.Distance(new Vector2(ParentBody.m_componentBody.Position.X, ParentBody.m_componentBody.Position.Z), new Vector2(m_componentBody.Position.X, m_componentBody.Position.Z))) > 1.5f && body.Velocity.LengthSquared() > 30f)
+					{
+						//m_componentBody.ParentBody.
+						if (MathUtils.Abs(Vector3.Distance(m_componentBody.Position,pos)) > 1f)
+						{
+							m_componentBody.Position = pos;
+							m_componentBody.Rotation = r;
+						}
+						
+						//m_componentBody.Velocity = body.Velocity * 0.01f;
+					}
+				});
+				m_outOfMountTime = MathUtils.Abs(Vector3.DistanceSquared(ParentBody.m_componentBody.Position, m_componentBody.Position)) > 8f
+					? m_outOfMountTime + dt
+					: 0f;
+				ComponentDamage ComponentDamage = ParentBody.Entity.FindComponent<ComponentDamage>();
+				if (m_outOfMountTime > 5f || (componentDamage != null && componentDamage.Hitpoints <= .05f) || ComponentDamage != null && ComponentDamage.Hitpoints <= .05f)
+					ParentBody = null;
+				return;
+			}
 
-			if (ComponentEngine != null && ComponentEngine.HeatLevel >= 100f && m_componentBody.StandingOnValue.HasValue)
+			
+			if (ComponentEngine != null && ComponentEngine.HeatLevel >= 100f && m_componentBody.StandingOnValue.HasValue) //
 			{
 				var result = Utils.SubsystemTerrain.Raycast(m_componentBody.Position, m_componentBody.Position + new Vector3(0, -3f, 0), false, true, null);
-
+				//result.Value.CellFace.Point
 				if (result.HasValue && Terrain.ExtractContents(result.Value.Value) == RailBlock.Index && (dt *= SimulateRail(RailBlock.GetRailType(Terrain.ExtractData(result.Value.Value)))) > 0f)
 					m_componentBody.m_velocity += dt * rotation.ToForwardVector();
 			}

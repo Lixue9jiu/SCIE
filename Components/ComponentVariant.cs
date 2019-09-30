@@ -238,7 +238,7 @@ namespace Game
 
 		public override void OnEntityAdded()
 		{
-			if (Genome.DominantGenes == null)
+			if (Genome.DominantGenes == null || true)
 			{
 				Task.Run((Action)Initialize);
 				return;
@@ -600,6 +600,7 @@ namespace Game
 
 		public void Hybridize()
 		{
+
 			var name = Entity.ValuesDictionary.DatabaseObject.Name;
 			var e = Project.Entities.GetEnumerator();
 			while (e.MoveNext())

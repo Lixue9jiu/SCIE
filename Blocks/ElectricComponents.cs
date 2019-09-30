@@ -57,10 +57,10 @@ namespace Game
 	{
 		public readonly string Id;
 
-		public Circuit(string craftingId, string name ,string name2)
+		public Circuit(string craftingId, string name ,string name2 , int slot =211)
 		{
 			Id = craftingId;
-			DefaultTextureSlot = 211;
+			DefaultTextureSlot = slot;
 			DefaultDisplayName = name;
 			DefaultDescription = name2;
 		}

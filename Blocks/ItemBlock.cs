@@ -66,9 +66,9 @@ namespace Game
 						object obj = ContentManager.Get(name);
 						if (obj is SoundBuffer buffer)
 							new Sound(buffer, volume, AudioManager.ToEnginePitch(pitch), pan, false, true).Play();
-						else if (obj is BaseSound sound)
+						else if (obj is BaseSound sound && sound != null)
 							sound.Play();
-						else if (obj is StreamingSource source)
+						else if (obj is StreamingSource source && false)
 							new StreamingSound(source, volume, AudioManager.ToEnginePitch(pitch), pan, false, true, 0f).Play();
 					}
 					catch { }

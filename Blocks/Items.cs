@@ -274,6 +274,21 @@ namespace Game
 			}
 			.AppendMesh("Models/Diamond", "Diamond", Matrix.CreateTranslation(0.0f, 0f, 0.0f)*Matrix.CreateScale(0.8f), Matrix.CreateTranslation(9f / 16f, -12f / 16f, 0f), Color.LightRed),
 			new Brick("RubyMaterial", "RubyMaterial", Color.LightRed, Matrix.CreateTranslation(9f / 16f, -7f / 16f, 0f), "红宝石介质",0.8f),
+			new MeshItem("电阻")
+			{
+				DefaultDisplayName = "电阻"
+			}
+			.AppendMesh("Models/Rods", "SteelRod", Matrix.CreateScale(1.5f)*Matrix.CreateTranslation(0.0f, -0.7f, 0.0f)  * Matrix.CreateRotationX(1.5f), Matrix.Identity, Color.White)
+			.AppendMesh("Models/Battery", "Battery", Matrix.CreateScale(.7f) * Matrix.CreateTranslation(0f, -0.3f, 0f)* Matrix.CreateRotationX(1.5f), Matrix.CreateTranslation(9 / 16f,-7 / 16 / 16f, 0f) * Matrix.CreateScale(20f), Color.Black),
+			new MeshItem("晶体三极管")
+			{
+				DefaultDisplayName = "晶体三极管"
+			}
+			.AppendMesh("Models/Rods", "SteelRod", Matrix.CreateTranslation(0.25f, -0.8f, 0f), Matrix.Identity, Color.White)
+			.AppendMesh("Models/Rods", "SteelRod", Matrix.CreateTranslation(0.0f, -0.8f, 0f), Matrix.Identity, Color.White)
+			.AppendMesh("Models/Rods", "SteelRod", Matrix.CreateTranslation(-0.25f, -0.8f, 0f), Matrix.Identity, Color.White)
+			.AppendMesh("Models/Battery", "Battery", Matrix.CreateScale(1f,.7f,1f) * Matrix.CreateTranslation(0f, -0.3f, 0f), Matrix.CreateTranslation(9 / 16f,-7 / 16 / 16f, 0f) * Matrix.CreateScale(20f), Color.Black),
+			new Circuit("Circuit2", "高级电路板", "高级电路板，由锡线，晶体管够成的电路板"),
 			/*nnew Plate("128K RAM", Color.DarkGreen, true),
 			new Plate("256K RAM", Color.DarkGreen, true),
 			new Plate("512K RAM", Color.DarkGreen, true),
