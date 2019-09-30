@@ -765,19 +765,18 @@ namespace Game
 				if (body.Velocity.LengthSquared() > 20f)
 				Utils.SubsystemTime.QueueGameTimeDelayedExecution(Utils.SubsystemTime.GameTime + 0.23 * level, delegate
 				{
-					if (ParentBody != null && MathUtils.Abs(Vector2.Distance(new Vector2(ParentBody.m_componentBody.Position.X, ParentBody.m_componentBody.Position.Z), new Vector2(m_componentBody.Position.X, m_componentBody.Position.Z))) > 1.5f && body.Velocity.LengthSquared() > 30f)
+					if (ParentBody != null && Vector2.Distance(ParentBody.m_componentBody.Position.XZ, m_componentBody.Position.XZ) > 1.5f && body.Velocity.LengthSquared() > 30f)
 					{
 						//m_componentBody.ParentBody.
-						if (MathUtils.Abs(Vector3.Distance(m_componentBody.Position,pos)) > 1f)
+						if (Vector3.DistanceSquared(m_componentBody.Position, pos) > 1f)
 						{
 							m_componentBody.Position = pos;
 							m_componentBody.Rotation = r;
 						}
-						
 						//m_componentBody.Velocity = body.Velocity * 0.01f;
 					}
 				});
-				m_outOfMountTime = MathUtils.Abs(Vector3.DistanceSquared(ParentBody.m_componentBody.Position, m_componentBody.Position)) > 8f
+				m_outOfMountTime = Vector3.DistanceSquared(ParentBody.m_componentBody.Position, m_componentBody.Position) > 8f
 					? m_outOfMountTime + dt
 					: 0f;
 				ComponentDamage ComponentDamage = ParentBody.Entity.FindComponent<ComponentDamage>();
@@ -789,9 +788,8 @@ namespace Game
 			
 			if (ComponentEngine != null && ComponentEngine.HeatLevel >= 100f && m_componentBody.StandingOnValue.HasValue) //
 			{
-				var result = Utils.SubsystemTerrain.Raycast(m_componentBody.Position, m_componentBody.Position + new Vector3(0, -3f, 0), false, true, null);
-				//result.Value.CellFace.Point
-				if (result.HasValue && Terrain.ExtractContents(result.Value.Value) == RailBlock.Index && (dt *= SimulateRail(RailBlock.GetRailType(Terrain.ExtractData(result.Value.Value)))) > 0f)
+				var result = Utils.SubsystemTerrain.Raycast(m_componentBody.Position, m_componentBody.Position + new Vector3(0, -3f, 0), false, true, null) ?? default;
+				if (Terrain.ExtractContents(result.Value) == RailBlock.Index && (dt *= SimulateRail(RailBlock.GetRailType(Terrain.ExtractData(result.Value)))) > 0f)
 					m_componentBody.m_velocity += dt * rotation.ToForwardVector();
 			}
 			m_componentBody.Rotation = Quaternion.Slerp(m_componentBody.Rotation, rotation, 0.15f);
