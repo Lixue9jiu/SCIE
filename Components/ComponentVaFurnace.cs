@@ -131,12 +131,10 @@ namespace Game
 				
 					result[ItemBlock.IdTable["¶à¾§¹è"]] = 1;
 				
-					
 				result[ItemBlock.IdTable["HCl"]] = 2;
 				result[ItemBlock.IdTable["H2"]] = -1;
 				result[ItemBlock.IdTable["Si"]] = -1;
 				result[ItemBlock.IdTable["Cl2"]] = -1;
-				return FindSmeltingRecipe(result, 2);
 			}
 			else if (n == 4)
 			{
@@ -146,7 +144,6 @@ namespace Game
 				//result[ItemBlock.IdTable["Si"]] = -1;
 				//result[ItemBlock.IdTable["Si"]] = -1;
 				//result[ItemBlock.IdTable["Si"]] = -1;
-				return FindSmeltingRecipe(result, 3);
 			}
 			else if (n == 32)
 			{
@@ -156,7 +153,6 @@ namespace Game
 				//result[ItemBlock.IdTable["Si"]] = -1;
 				//result[ItemBlock.IdTable["Si"]] = -1;
 				//result[ItemBlock.IdTable["Si"]] = -1;
-				return FindSmeltingRecipe(result, 4);
 			}
 			system = new ReactionSystem();
 			return FindSmeltingRecipe(result, FindSmeltingRecipe(result, system));

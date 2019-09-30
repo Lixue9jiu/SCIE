@@ -238,7 +238,7 @@ namespace Game
 
 		public override void OnEntityAdded()
 		{
-			if (Genome.DominantGenes == null)
+			if (Genome.DominantGenes == null || Genome[Trait.BoxSizeX] < 0.01f)
 			{
 				Task.Run((Action)Initialize);
 				return;
@@ -617,13 +617,12 @@ namespace Game
 
 		public void Update(float dt)
 		{
-			//return;
-			//if (Utils.SubsystemTime.PeriodicGameTimeEvent(60, 0.0))
-			//{
-			//	for (int i = (int)(Utils.SubsystemGameInfo.TotalElapsedGameTime - LastTime) / Period; i-- > 0;)
-			//		Task.Run((Action)Mutate);
-			//	LastTime = Utils.SubsystemGameInfo.TotalElapsedGameTime;
-			//}
+			if (Utils.SubsystemTime.PeriodicGameTimeEvent(60, 0.0))
+			{
+				for (int i = (int)(Utils.SubsystemGameInfo.TotalElapsedGameTime - LastTime) / Period; i-- > 0;)
+					Task.Run((Action)Mutate);
+				LastTime = Utils.SubsystemGameInfo.TotalElapsedGameTime;
+			}
 		}
 	}
 }
