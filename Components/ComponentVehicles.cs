@@ -103,6 +103,7 @@ namespace Game
 		protected ComponentEngineT componentEngine2;
 		protected ComponentEngineT2 componentEngine3;
 		protected ComponentEngineT3 componentEngine4;
+		protected ComponentEngineT4 componentEngine5;
 		protected int use = 0;
 		protected bool jump = false;
 
@@ -320,6 +321,136 @@ namespace Game
 				}
 				return;
 			}
+
+
+
+
+			if (componentEngine5 != null)
+			{
+				componentBody.IsGravityEnabled = true;
+				componentBody.IsGroundDragEnabled = true;
+				Quaternion rotation = componentBody.Rotation;
+				float num = MathUtils.Atan2(2f * rotation.Y * rotation.W - 2f * rotation.X * rotation.Z, 1f - 2f * rotation.Y * rotation.Y - 2f * rotation.Z * rotation.Z);
+				if ((m_turnSpeed += 2.5f * Utils.SubsystemTime.GameTimeDelta * (TurnOrder - m_turnSpeed)) != 0 && componentEngine5.HeatLevel > 0f)
+					num -= m_turnSpeed * dt;
+				componentBody.Rotation = Quaternion.CreateFromAxisAngle(Vector3.UnitY, num);
+				ComponentRider rider = m_componentMount.Rider;
+				if (MoveOrder != 0f)
+				{
+					if (rider != null && componentBody.StandingOnValue.HasValue && componentEngine5 != null && componentEngine5.HeatLevel > 0f)
+						m_componentBody.Velocity += dt * 10f * MoveOrder * m_componentBody.Matrix.Forward;
+					MoveOrder = 0f;
+				}
+				if (componentBody.ImmersionFactor > 0.95f)
+				{
+					m_componentDamage.Damage(0.005f * dt);
+					if (rider != null)
+						rider.StartDismounting();
+				}
+				TurnOrder = 0f;
+				if (componentEngine5.HeatLevel <= 0f || componentBody.Mass > 1200f || !componentBody.StandingOnValue.HasValue || m_componentBody.Velocity.LengthSquared() == 0f)
+					return;
+				if (componentEngine5.HeatLevel == 500f)
+				{
+					int aaaa = -1;
+					int bbbb = 0;
+					for (int i = 0; i < 9; i++)
+					{
+						int va1 = componentEngine5.GetSlotValue(i);
+						//componentEngine5.
+						int con = Terrain.ExtractContents(va1);
+						int data = Terrain.ExtractData(va1);
+						if (con == PaintBucketBlock.Index && componentEngine5.GetSlotCount(i) > 0)
+						{
+							aaaa = i;
+							bbbb = PaintBucketBlock.GetColor(data);
+							break;
+						}
+					}
+					var p2 = Vector3.Normalize(componentBody.Rotation.ToForwardVector());
+					var p3 = Vector3.Transform(p2, Matrix.CreateRotationY(MathUtils.PI / 2));
+					//if (value == SoilBlock.Index)
+					componentBody.IsSneaking = true;
+					
+					for (int aaa = -3; aaa < 3 + 1; aaa++)
+					{
+						var p = Terrain.ToCell(componentBody.Position - p2 * 2f +aaa * p3 + new Vector3(0f, 0.1f, 0f));
+						int value2 = Utils.Terrain.GetCellContentsFast(p.X, p.Y, p.Z);
+						int value4 = Utils.Terrain.GetCellValueFast(p.X, p.Y, p.Z);
+						bool flag = false;
+						IInventory inventory = componentBody.Entity.FindComponent<ComponentEngineT4>(true);
+						if (value2 == 0 && rider != null)
+							for (int i = 0; i < 9; i++)
+							{
+
+								if (inventory.GetSlotValue(i) != 0 && BlocksManager.Blocks[Terrain.ExtractContents(inventory.GetSlotValue(i))].IsPlaceable)
+								{
+									int color = 0;
+									int color2 = 0;
+									//BlocksManager.Blocks[Terrain.ExtractContents(inventory.GetSlotValue(i))].
+									if (aaaa != -1 && (BlocksManager.Blocks[Terrain.ExtractContents(inventory.GetSlotValue(i))] is PaintableItemBlock || BlocksManager.Blocks[Terrain.ExtractContents(inventory.GetSlotValue(i))] is PaintedCubeBlock))
+									{
+										color2 = PaintBucketBlock.SetColor(Terrain.ExtractData(inventory.GetSlotValue(i)),bbbb);
+										//color = 16384 * color2 + Terrain.ExtractContents(inventory.GetSlotValue(i));
+										color = ((IPaintableBlock)BlocksManager.Blocks[Terrain.ExtractContents(inventory.GetSlotValue(i))]).Paint(Utils.SubsystemTerrain, inventory.GetSlotValue(i), bbbb);
+										int value = inventory.GetSlotValue(aaaa);
+										componentEngine5.RemoveSlotItems(aaaa, 1);
+										componentEngine5.AddSlotItems(aaaa, BlocksManager.DamageItem(value, 1), 1);
+									}
+									else {
+										color =inventory.GetSlotValue(i); }
+									Utils.SubsystemTerrain.ChangeCell(p.X, p.Y, p.Z,color);
+									//	inventory.RemoveSlotItems(i, 1);
+										break;
+									//componentMiner.Place(result.Value, value);
+								}
+
+							}
+					}
+				}
+				if (componentEngine5.HeatLevel == 499f)
+				{
+					//bool flagg = false;
+					//int use = 0;
+					
+					//int value; = Terrain.ExtractContents(componentBody.StandingOnValue.Value);
+					var p2 = Vector3.Normalize(componentBody.Rotation.ToForwardVector());
+					var p3 = Vector3.Transform(p2, Matrix.CreateRotationY(MathUtils.PI / 2));
+					//if (value == SoilBlock.Index)
+					    componentBody.IsSneaking = true;
+					    int aaa = 0;
+						var p = Terrain.ToCell(componentBody.Position - p2 * 2f + aaa * p3 + new Vector3(0f, 0.1f, 0f));
+						int value2 = Utils.Terrain.GetCellContentsFast(p.X, p.Y, p.Z);
+						int value4 = Utils.Terrain.GetCellValueFast(p.X, p.Y, p.Z);
+						bool flag = false;
+						IInventory inventory = componentBody.Entity.FindComponent<ComponentEngineT4>(true);
+					if (value2 == 0 && rider != null)
+					for (int i=0;i<9;i++)
+					{
+						
+							if (inventory.GetSlotValue(i)!=0)
+							{
+								var componentMiner = rider.Entity.FindComponent<ComponentMiner>();
+								var result = Utils.SubsystemTerrain.Raycast(componentBody.Position+new Vector3(0f, 1.7f, 0f), componentBody.Position - p2 * 2f - new Vector3(0f, 0.2f, 0f) + aaa * p3, true, true, null);
+								if (componentMiner!=null && result.HasValue && componentMiner.Place(result.Value, inventory.GetSlotValue(i)))
+								{
+									
+									inventory.RemoveSlotItems(i,1);
+									break;
+								}
+									
+								//componentMiner.Place(result.Value, value);
+							}
+
+					}
+					
+				}
+				return;
+			}
+
+
+
+
 			if (componentEngine2 != null)
 			{
 				componentBody.IsGravityEnabled = true;
@@ -549,6 +680,7 @@ namespace Game
 			componentEngine2 = Entity.FindComponent<ComponentEngineT>();
 			componentEngine3 = Entity.FindComponent<ComponentEngineT2>();
 			componentEngine4 = Entity.FindComponent<ComponentEngineT3>();
+			componentEngine5 = Entity.FindComponent<ComponentEngineT4>();
 			m_componentBody.CollidedWithBody += CollidedWithBody;
 			//string value = valuesDictionary.GetValue<string>("ModelName");
 			if (componentEngine4 != null)
@@ -780,6 +912,7 @@ namespace Game
 						//	return;
 						//}
 						float ABS = 6f;
+					//	if (rotation.ToForwardVector().Y != 0f) { ABS = 3f; };
 						m_componentBody.m_velocity = ABS * rotation.ToForwardVector();
 						//m_componentBody.m_velocity.Z = ABS * rotation.ToForwardVector().Z;
 						// m_componentBody.m_velocity.Y += rotation.ToForwardVector().Y * dt2/2;
@@ -800,6 +933,7 @@ namespace Game
 							//m_componentBody.m_velocity.Z = ABS * rotation.ToForwardVector().Z * 0.6f;
 						}
 						m_componentBody.Rotation = Quaternion.Slerp(m_componentBody.Rotation, rotation, 0.715f);
+						
 						//m_componentBody.m_velocity = ParentBody.m_componentBody.m_velocity.Length() * rotation.ToForwardVector() * 0.8f;
 					}
 					
@@ -835,10 +969,15 @@ namespace Game
 			if (ComponentEngine != null && ComponentEngine.HeatLevel >= 100f && m_componentBody.StandingOnValue.HasValue) //
 			{
 				//time = 0;
+				float ABS = 6f;
+				// if (rotation.ToForwardVector().Y != 0f) { ABS = 3f; };
 				var result = Utils.SubsystemTerrain.Raycast(m_componentBody.Position, m_componentBody.Position + new Vector3(0, -3f, 0), false, true, null) ?? default;
 				if (Terrain.ExtractContents(result.Value) == RailBlock.Index && (dt *= SimulateRail(RailBlock.GetRailType(Terrain.ExtractData(result.Value)))) > 0f)
-					m_componentBody.m_velocity = 6f * rotation.ToForwardVector();
-			}else if (ComponentEngine != null && ComponentEngine.HeatLevel < 100f && m_componentBody.m_velocity.Length() - 0.06f> 0f && m_componentBody.StandingOnValue.HasValue)
+					m_componentBody.m_velocity = ABS * rotation.ToForwardVector();
+
+				
+			}
+			else if (ComponentEngine != null && ComponentEngine.HeatLevel < 100f && m_componentBody.m_velocity.Length() - 0.06f> 0f && m_componentBody.StandingOnValue.HasValue)
 			{
 				//float yyy = m_componentBody.m_velocity.Y;
 				//time++;

@@ -117,6 +117,7 @@ namespace Game
 		}
 		public override Vector3 GetIconViewOffset(int value, DrawBlockEnvironmentData environmentData) => new Vector3(-0.6f, 1.2f, 0.5f);
 	}
+	
 	public class Tractor : TexturedMeshItem
 	{
 		public Tractor() : base("拖拉机", "Car", "ChamferBox01", Car.CarTexture, "一种使用内燃机，燃烧汽油获得动力，可以耕地施肥种植收割的农业用具。", 0.5f)
@@ -128,6 +129,20 @@ namespace Game
 		public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
 		{
 			BlocksManager.DrawMeshBlock(primitivesRenderer, m_standaloneBlockMesh, Texture, Color.LightMagenta, size, ref matrix, environmentData);
+		}
+	}
+
+	public class Pavior : TexturedMeshItem
+	{
+		public Pavior() : base("铺路机", "Car", "ChamferBox01", SteamBoat.BoatTexture, "一种使用内燃机，燃烧汽油获得动力，可以把方块铺在后面。", 0.5f)
+		{
+		}
+
+		public override Vector3 GetIconViewOffset(int value, DrawBlockEnvironmentData environmentData) => new Vector3(-0.6f, 0.6f, -0.8f);
+		public override string GetCraftingId() => "Pavior";
+		public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
+		{
+			BlocksManager.DrawMeshBlock(primitivesRenderer, m_standaloneBlockMesh, Texture, Color.Gray, size, ref matrix, environmentData);
 		}
 	}
 

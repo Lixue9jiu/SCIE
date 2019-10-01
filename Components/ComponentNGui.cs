@@ -294,6 +294,9 @@ namespace Game
 			var componentEngine6 = entity.FindComponent<ComponentEngineT3>();
 			if (componentEngine6 != null)
 				return new EngineTWidget(inventory, componentEngine6, "Widgets/TankWidget");
+			var componentEngine7 = entity.FindComponent<ComponentEngineT4>();
+			if (componentEngine7 != null)
+				return new EngineTWidget(inventory, componentEngine7, "Widgets/PaviorWidget");
 			var componentEngine4 = entity.FindComponent<ComponentEngineT>();
 			if (componentEngine4 != null)
 				return new EngineTWidget(inventory, componentEngine4);

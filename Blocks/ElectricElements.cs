@@ -215,6 +215,13 @@ namespace Game
 					int value = Utils.Terrain.GetCellValueFast(Point.X, Point.Y, Point.Z),
 						data = SetMode(Terrain.ExtractData(value));
 					Utils.Terrain.SetCellValueFast(Point.X, Point.Y, Point.Z, Terrain.ReplaceData(value, data));
+					ComponentCondenser laserg = Utils.GetBlockEntity(Point)?.Entity.FindComponent<ComponentCondenser>();
+					if (laserg != null && SubsystemElectricity.SubsystemTime.GameTime - m_lastDispenseTime > 1.0)
+					{
+						m_lastDispenseTime = SubsystemElectricity.SubsystemTime.GameTime;
+						laserg.Charged = !laserg.Charged;
+						return true;
+					}
 				}
 			}
 			else

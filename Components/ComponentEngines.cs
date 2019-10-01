@@ -160,4 +160,8 @@ namespace Game
 	{
 		public Vector3 vet1;
 	}
+	public class ComponentEngineT4 : ComponentEngineT
+	{
+		//public Vector3 vet1;
+	}
 }
