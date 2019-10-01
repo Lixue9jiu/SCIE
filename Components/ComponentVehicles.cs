@@ -688,7 +688,7 @@ namespace Game
 
 		public void CollidedWithBody(ComponentBody body)
 		{
-			if (body.Density - 4.76f <= float.Epsilon)
+			if (body.Density - 9.76f <= float.Epsilon)
 				return;
 			Vector2 v = m_componentBody.Velocity.XZ - body.Velocity.XZ;
 			float amount = v.LengthSquared() * .3f;
@@ -753,7 +753,9 @@ namespace Game
 					m_componentBody.Position = new Vector3(m_componentBody.Position.X, m_componentBody.Position.Y, MathUtils.Floor(m_componentBody.Position.Z) + 0.5f);
 					break;
 			}
+			//
 			ComponentTrain t = this;
+			float dt2 = 0.6f;
 			int level = 0;
 			for (; t.ParentBody != null; level++) t = t.ParentBody;
 			if (level > 0)
@@ -762,39 +764,103 @@ namespace Game
 				var pos = body.Position;
 				var r = body.Rotation;
 				//if (ParentBody!=null)
-				if (body.Velocity.LengthSquared() > 20f)
-				Utils.SubsystemTime.QueueGameTimeDelayedExecution(Utils.SubsystemTime.GameTime + 0.23 * level, delegate
+				//m_componentBody.Rotation = Quaternion.Slerp(m_componentBody.Rotation, rotation, 0.715f);
+				ComponentEngine Com = body.Entity.FindComponent<ComponentEngine>();
+				if (m_componentBody.StandingOnValue.HasValue && Com!=null && Com.HeatLevel >= 100f) //body.Velocity.LengthSquared() > 10f && 
+													  //Utils.SubsystemTime.QueueGameTimeDelayedExecution(Utils.SubsystemTime.GameTime + 0.23 * level, delegate
 				{
-					if (ParentBody != null && Vector2.Distance(ParentBody.m_componentBody.Position.XZ, m_componentBody.Position.XZ) > 1.5f && body.Velocity.LengthSquared() > 30f)
+					var result = Utils.SubsystemTerrain.Raycast(m_componentBody.Position, m_componentBody.Position + new Vector3(0, -3f, 0), false, true, null);
+					//result.Value.CellFace.Point
+					if (result.HasValue && Terrain.ExtractContents(result.Value.Value) == RailBlock.Index && (dt *= SimulateRail(RailBlock.GetRailType(Terrain.ExtractData(result.Value.Value)))) > 0f)
 					{
-						//m_componentBody.ParentBody.
-						if (Vector3.DistanceSquared(m_componentBody.Position, pos) > 1f)
+						//if (rotation.ToForwardVector().Y != 0 || ParentBody.m_componentBody.Position.Y != m_componentBody.Position.Y)
+						//{
+						//	m_componentBody.m_velocity += dt2 * rotation.ToForwardVector();
+						//	m_componentBody.Rotation = Quaternion.Slerp(m_componentBody.Rotation, rotation, 0.15f);
+						//	return;
+						//}
+						float ABS = 6f;
+						m_componentBody.m_velocity = ABS * rotation.ToForwardVector();
+						//m_componentBody.m_velocity.Z = ABS * rotation.ToForwardVector().Z;
+						// m_componentBody.m_velocity.Y += rotation.ToForwardVector().Y * dt2/2;
+						if (ParentBody != null && MathUtils.Abs(Vector3.Distance(ParentBody.m_componentBody.Position, m_componentBody.Position)) > 2f )
 						{
-							m_componentBody.Position = pos;
-							m_componentBody.Rotation = r;
+							m_componentBody.m_velocity = ABS * rotation.ToForwardVector()* 1.4f;
+							//m_componentBody.m_velocity.Z = ABS * rotation.ToForwardVector().Z * 1.4f;
 						}
-						//m_componentBody.Velocity = body.Velocity * 0.01f;
+						//m_componentBody.m_velocity = ParentBody.m_componentBody.m_velocity.Length() * rotation.ToForwardVector() * 1.2f;
+						if (ParentBody != null && MathUtils.Abs(Vector3.Distance(ParentBody.m_componentBody.Position, m_componentBody.Position)) < 1.2f )
+						{
+							m_componentBody.m_velocity = ABS * rotation.ToForwardVector() * 0.3f;
+							//m_componentBody.m_velocity.Z = ABS * rotation.ToForwardVector().Z * 0.6f;
+						}
+						if (ParentBody != null && MathUtils.Abs(Vector3.Distance(ParentBody.m_componentBody.Position, m_componentBody.Position)) < 0.8f)
+						{
+							m_componentBody.m_velocity = ABS * rotation.ToForwardVector() * 0f;
+							//m_componentBody.m_velocity.Z = ABS * rotation.ToForwardVector().Z * 0.6f;
+						}
+						m_componentBody.Rotation = Quaternion.Slerp(m_componentBody.Rotation, rotation, 0.715f);
+						//m_componentBody.m_velocity = ParentBody.m_componentBody.m_velocity.Length() * rotation.ToForwardVector() * 0.8f;
 					}
-				});
-				m_outOfMountTime = Vector3.DistanceSquared(ParentBody.m_componentBody.Position, m_componentBody.Position) > 8f
+					
+						
+					//{
+					//m_componentBody.ParentBody.
+					//	if (MathUtils.Abs(Vector3.Distance(m_componentBody.Position,pos)) > 1f)
+					//	{
+					//		m_componentBody.Position = pos;
+					//		m_componentBody.Rotation = r;
+					//	}
+
+					//m_componentBody.Velocity = body.Velocity * 0.01f;
+					//}
+				}else if (Com != null && Com.HeatLevel < 100f && m_componentBody.m_velocity.Length() - 0.06f > 0f && m_componentBody.StandingOnValue.HasValue)
+				{
+					var result = Utils.SubsystemTerrain.Raycast(m_componentBody.Position, m_componentBody.Position + new Vector3(0, -3f, 0), false, true, null) ?? default;
+					SimulateRail(RailBlock.GetRailType(Terrain.ExtractData(result.Value)));
+					m_componentBody.m_velocity = (m_componentBody.m_velocity.Length() - 0.06f) * rotation.ToForwardVector();
+				}
+				if (!m_componentBody.StandingOnValue.HasValue)
+				{
+					//rotation = Quaternion.CreateFromAxisAngle(Vector3.UnitY, 0);
+					m_componentBody.Rotation = rotation;
+					m_componentBody.m_velocity -= new Vector3(0f, 0.5f, 0f);
+				}
+				//m_componentBody.Rotation = Quaternion.Slerp(m_componentBody.Rotation, rotation, 0.715f);
+				m_componentBody.Rotation = Quaternion.Slerp(m_componentBody.Rotation, rotation, 0.715f);
+				m_outOfMountTime = MathUtils.Abs(Vector3.DistanceSquared(ParentBody.m_componentBody.Position, m_componentBody.Position)) > 24f
 					? m_outOfMountTime + dt
 					: 0f;
 				ComponentDamage ComponentDamage = ParentBody.Entity.FindComponent<ComponentDamage>();
-				if (m_outOfMountTime > 5f || (componentDamage != null && componentDamage.Hitpoints <= .05f) || ComponentDamage != null && ComponentDamage.Hitpoints <= .05f)
+				if (m_outOfMountTime > 12f || (componentDamage != null && componentDamage.Hitpoints <= .05f) || ComponentDamage != null && ComponentDamage.Hitpoints <= .05f)
 					ParentBody = null;
 				return;
 			}
+			if (!m_componentBody.StandingOnValue.HasValue)
+			{
+				//rotation = Quaternion.CreateFromAxisAngle(Vector3.UnitY, 0);
+				m_componentBody.Rotation = rotation;
+				m_componentBody.m_velocity -= new Vector3(0f, 0.5f, 0f);
+			}
 
-			
 			if (ComponentEngine != null && ComponentEngine.HeatLevel >= 100f && m_componentBody.StandingOnValue.HasValue) //
 			{
+				//time = 0;
 				var result = Utils.SubsystemTerrain.Raycast(m_componentBody.Position, m_componentBody.Position + new Vector3(0, -3f, 0), false, true, null) ?? default;
 				if (Terrain.ExtractContents(result.Value) == RailBlock.Index && (dt *= SimulateRail(RailBlock.GetRailType(Terrain.ExtractData(result.Value)))) > 0f)
-					m_componentBody.m_velocity += dt * rotation.ToForwardVector();
+					m_componentBody.m_velocity = 6f * rotation.ToForwardVector();
+			}else if (ComponentEngine != null && ComponentEngine.HeatLevel < 100f && m_componentBody.m_velocity.Length() - 0.06f> 0f && m_componentBody.StandingOnValue.HasValue)
+			{
+				//float yyy = m_componentBody.m_velocity.Y;
+				//time++;
+				var result = Utils.SubsystemTerrain.Raycast(m_componentBody.Position, m_componentBody.Position + new Vector3(0, -3f, 0), false, true, null) ?? default;
+				SimulateRail(RailBlock.GetRailType(Terrain.ExtractData(result.Value)));
+				m_componentBody.m_velocity = (m_componentBody.m_velocity.Length() - 0.06f) * rotation.ToForwardVector();
+				//m_componentBody.m_velocity.Y = yyy;
 			}
-			m_componentBody.Rotation = Quaternion.Slerp(m_componentBody.Rotation, rotation, 0.15f);
+			m_componentBody.Rotation = Quaternion.Slerp(m_componentBody.Rotation, rotation, 0.715f);
 		}
-
+		//public int time=0;
 		private float SimulateRail(int railType)
 		{
 			if (RailBlock.IsCorner(railType))
