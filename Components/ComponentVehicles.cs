@@ -766,7 +766,7 @@ namespace Game
 				//if (ParentBody!=null)
 				//m_componentBody.Rotation = Quaternion.Slerp(m_componentBody.Rotation, rotation, 0.715f);
 				ComponentEngine Com = body.Entity.FindComponent<ComponentEngine>();
-				if (m_componentBody.StandingOnValue.HasValue && Com!=null && Com.HeatLevel >= 100f) //body.Velocity.LengthSquared() > 10f && 
+				if (m_componentBody.StandingOnValue.HasValue && Com!=null && Com.HeatLevel >= 100f && body.m_velocity.Length()>0f) //body.Velocity.LengthSquared() > 10f && 
 													  //Utils.SubsystemTime.QueueGameTimeDelayedExecution(Utils.SubsystemTime.GameTime + 0.23 * level, delegate
 				{
 					var result = Utils.SubsystemTerrain.Raycast(m_componentBody.Position, m_componentBody.Position + new Vector3(0, -3f, 0), false, true, null);
@@ -803,17 +803,6 @@ namespace Game
 						//m_componentBody.m_velocity = ParentBody.m_componentBody.m_velocity.Length() * rotation.ToForwardVector() * 0.8f;
 					}
 					
-						
-					//{
-					//m_componentBody.ParentBody.
-					//	if (MathUtils.Abs(Vector3.Distance(m_componentBody.Position,pos)) > 1f)
-					//	{
-					//		m_componentBody.Position = pos;
-					//		m_componentBody.Rotation = r;
-					//	}
-
-					//m_componentBody.Velocity = body.Velocity * 0.01f;
-					//}
 				}else if (Com != null && Com.HeatLevel < 100f && m_componentBody.m_velocity.Length() - 0.06f > 0f && m_componentBody.StandingOnValue.HasValue)
 				{
 					var result = Utils.SubsystemTerrain.Raycast(m_componentBody.Position, m_componentBody.Position + new Vector3(0, -3f, 0), false, true, null) ?? default;
