@@ -191,6 +191,7 @@ namespace Game
 								//if (supply) continue;
 								supply = true;
 							}
+						//	supply = true;
 							v.Next[count++] = w;
 							Q.Enqueue(w);
 						}

@@ -220,7 +220,7 @@ namespace Game
 					{
 						m_lastDispenseTime = SubsystemElectricity.SubsystemTime.GameTime;
 						laserg.Charged = !laserg.Charged;
-						return true;
+						//return true;
 					}
 				}
 			}

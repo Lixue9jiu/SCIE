@@ -9,12 +9,12 @@ namespace Game
 		public readonly Texture2D Texture;
 		protected readonly string ModelName;
 
-		public TexturedMeshItem(string name, string modelName, string meshName, Texture2D texture, string description = null, float scale = 1) : base(description)
+		public TexturedMeshItem(string name, string modelName, string meshName, Texture2D texture, string description = null, float scale = 1 ,float transform2 = 0f) : base(description)
 		{
 			DefaultDisplayName = name;
 			ModelName = modelName;
 			var model = ContentManager.Get<Model>("Models/" + modelName);
-			Matrix transform = BlockMesh.GetBoneAbsoluteTransform(model.FindMesh(meshName).ParentBone) * Matrix.CreateTranslation(0f, -0.4f, 0f) * Matrix.CreateScale(scale);
+			Matrix transform = BlockMesh.GetBoneAbsoluteTransform(model.FindMesh(meshName).ParentBone) * Matrix.CreateTranslation(0f, -0.4f, 0f) * Matrix.CreateScale(scale) * Matrix.CreateRotationZ(transform2);
 			ModelMeshPart meshPart = model.FindMesh(meshName).MeshParts[0];
 			m_standaloneBlockMesh.AppendModelMeshPart(meshPart, transform, false, false, false, false, Color.White);
 			m_standaloneBlockMesh.AppendModelMeshPart(meshPart, transform, false, true, false, false, Color.White);
@@ -72,13 +72,18 @@ namespace Game
 	{
 		public static Texture2D TrainTexture;
 
-		public Carriage() : base("车厢", "Minecart", "obj1", TrainTexture, "可以过载在火车头的后面，装载大量的货物")
+		public Carriage() : base("车厢", "Minecart", "obj1", TrainTexture, "可以过载在火车头的后面，装载大量的货物",1f,1.6f)
 		{
 		}
-
+		public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
+		{
+			//m_standaloneBlockMesh.AppendMesh
+			//
+			BlocksManager.DrawMeshBlock(primitivesRenderer, m_standaloneBlockMesh , Texture, color, size, ref matrix, environmentData);
+		}
 		public override Vector3 GetIconViewOffset(int value, DrawBlockEnvironmentData environmentData) => new Vector3(-0.6f, 0.6f, -0.8f);
 
-		public override Vector3 GetIconBlockOffset(int value, DrawBlockEnvironmentData environmentData) => new Vector3(0f, 0.2f, 0f);
+		public override Vector3 GetIconBlockOffset(int value, DrawBlockEnvironmentData environmentData) => new Vector3(-0.2f, -0.2f, 0f);
 	}
 
 	public class Airship : TexturedMeshItem

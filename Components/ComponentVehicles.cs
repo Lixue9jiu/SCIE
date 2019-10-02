@@ -374,7 +374,7 @@ namespace Game
 					
 					for (int aaa = -3; aaa < 3 + 1; aaa++)
 					{
-						var p = Terrain.ToCell(componentBody.Position - p2 * 2f +aaa * p3 + new Vector3(0f, 0.1f, 0f));
+						var p = Terrain.ToCell(componentBody.Position + p2 * 2f +aaa * p3 - new Vector3(0f, 0.1f, 0f));
 						int value2 = Utils.Terrain.GetCellContentsFast(p.X, p.Y, p.Z);
 						int value4 = Utils.Terrain.GetCellValueFast(p.X, p.Y, p.Z);
 						bool flag = false;
@@ -400,7 +400,7 @@ namespace Game
 									else {
 										color =inventory.GetSlotValue(i); }
 									Utils.SubsystemTerrain.ChangeCell(p.X, p.Y, p.Z,color);
-									//	inventory.RemoveSlotItems(i, 1);
+										inventory.RemoveSlotItems(i, 1);
 										break;
 									//componentMiner.Place(result.Value, value);
 								}
