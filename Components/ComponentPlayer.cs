@@ -104,8 +104,8 @@ namespace Game
 		public override void Load(ValuesDictionary valuesDictionary, IdToEntityMap idToEntityMap)
 		{
 			base.Load(valuesDictionary, idToEntityMap);
-			ComponentCreature = base.Entity.FindComponent<ComponentCreature>(throwOnError: true);
-			m_subsystemMovingBlocks = base.Project.FindSubsystem<SubsystemMovingBlocks>(throwOnError: true);
+			ComponentCreature = Entity.FindComponent<ComponentCreature>(throwOnError: true);
+			m_subsystemMovingBlocks = Project.FindSubsystem<SubsystemMovingBlocks>(throwOnError: true);
 		}
 
 		public new void Update(float dt)

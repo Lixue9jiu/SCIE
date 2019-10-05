@@ -124,7 +124,7 @@ namespace Game
 									if (component2!=null)
 									{
 										IInventory inventory2 = entity2.Entity.FindComponent<ComponentInventoryBase>();
-										if (ComponentInventoryBase.AcquireItems(inventory2, v, 1) < 1)
+										if (AcquireItems(inventory2, v, 1) < 1)
 										{
 											//ComponentInventoryBase.
 											ComponentMachine component3 = entity.Entity.FindComponent<ComponentMachine>();

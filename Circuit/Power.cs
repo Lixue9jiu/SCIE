@@ -164,8 +164,6 @@ namespace Game
 
 		public override void Simulate(ref int voltage)
 		{
-			Powered = false;
-			return;
 			if (Powered)
 			{
 				voltage += 400;

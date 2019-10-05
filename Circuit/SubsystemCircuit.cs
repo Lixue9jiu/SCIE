@@ -172,7 +172,7 @@ namespace Game
 				var neighbors = new DynamicArray<Device>(6);
 				var Q = new Queue<Device>();
 				int count;
-				bool supply = false;
+				//bool supply = false;
 				Q.Enqueue(v);
 				while (Q.Count > 0)
 				{
@@ -188,12 +188,12 @@ namespace Game
 							continue;
 						if (visited.Add(w))
 						{
-							if ((w.Type & ElementType.Supply) != 0)
+							/*if ((w.Type & ElementType.Supply) != 0)
 							{
-								//if (supply) continue;
+								if (supply) continue;
 								supply = true;
 							}
-							supply = true;
+							supply = true;*/
 							v.Next[count++] = w;
 							Q.Enqueue(w);
 						}
@@ -239,10 +239,9 @@ namespace Game
 					return;
 				else
 				{
-					var elements = request;
 					int voltage = 0;
-					for (int i = 0; i < elements.Length; i++)
-						elements[i].Simulate(ref voltage);
+					for (int i = 0; i < request.Length; i++)
+						request[i].Simulate(ref voltage);
 				}
 				Task.Delay(10).Wait();
 			}

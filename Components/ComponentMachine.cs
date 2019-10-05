@@ -117,7 +117,7 @@ namespace Game
 
 		public new void DropAllItems(Vector3 position)
 		{
-			SubsystemPickables subsystemPickables = base.Project.FindSubsystem<SubsystemPickables>(throwOnError: true);
+			SubsystemPickables subsystemPickables = Project.FindSubsystem<SubsystemPickables>(throwOnError: true);
 			for (int i = 0; i < SlotsCount; i++)
 			{
 				int slotCount = GetSlotCount(i);
@@ -458,18 +458,15 @@ namespace Game
 				var point = CellFace.FaceToPoint3(Terrain.ExtractData(Utils.Terrain.GetCellValue(coordinates.X, coordinates.Y, coordinates.Z)) >> 15);
 				int num3 = coordinates.X - point.X;
 				int num4 = coordinates.Y - point.Y;
-				int num5 = coordinates.Z - point.Z, v;
+				int num5 = coordinates.Z - point.Z;
 				int cellValue = Terrain.ReplaceLight(Utils.Terrain.GetCellValue(num3, num4, num5), 0);
 				//int cellContents = Terrain.ExtractContents(cellValue);Terrain.ExtractData(value) >> 15
 				if (4 == Terrain.ExtractData(cellValue) >> 10)
 				{
-					var point3 = new Point3(num3, num4, num5);
-					var entity = Utils.GetBlockEntity(point3);
-					ComponentRCore component3 = entity.Entity.FindComponent<ComponentRCore>();
-					if (entity != null && component3 != null)
+					var component3 = Utils.GetBlockEntity(new Point3(num3, num4, num5))?.Entity.FindComponent<ComponentRCore>();
+					if (component3 != null)
 					{
 						Pressure = (int)(component3.HeatLevel / 100);
-
 						if (Pressure > 0)
 						{
 							for (int i = 0; i < 8; i++)
@@ -507,7 +504,7 @@ namespace Game
 				var point = CellFace.FaceToPoint3(Terrain.ExtractData(Utils.Terrain.GetCellValue(coordinates.X, coordinates.Y, coordinates.Z)) >> 15);
 				int num3 = coordinates.X - point.X;
 				int num4 = coordinates.Y - point.Y;
-				int num5 = coordinates.Z - point.Z, v;
+				int num5 = coordinates.Z - point.Z;
 				int cellValue = Terrain.ReplaceLight(Utils.Terrain.GetCellValue(num3, num4, num5), 0);
 				//int cellContents = Terrain.ExtractContents(cellValue);Terrain.ExtractData(value) >> 15
 				if (ElementBlock.Block.GetDevice(num3, num4, num5, cellValue) is Hchanger)

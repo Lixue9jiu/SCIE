@@ -229,7 +229,7 @@ namespace Game
 			m_GR0.IsChecked = m_componentDispenser.carbon == 0;
 			if (!m_componentDispenser.IsAddedToProject)
 			{
-				base.ParentWidget.Children.Remove(this);
+				ParentWidget.Children.Remove(this);
 			}
 		}
 	}

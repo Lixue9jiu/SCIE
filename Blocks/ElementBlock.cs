@@ -70,17 +70,17 @@ namespace Game
 			x = point.X;
 			y = point.Y;
 			z = point.Z;
-			if ((elem = GetDevice(terrain, x, y, z + 1)) != null && (elem.Type & type) != 0)
+			if ((elem = GetDevice(terrain, x, y, z + 1)) != null && (elem.Type & type) > ElementType.Supply)
 				list.Add(PathTable[0]);
-			if ((elem = GetDevice(terrain, x + 1, y, z)) != null && (elem.Type & type) != 0)
+			if ((elem = GetDevice(terrain, x + 1, y, z)) != null && (elem.Type & type) > ElementType.Supply)
 				list.Add(PathTable[1]);
-			if ((elem = GetDevice(terrain, x, y, z - 1)) != null && (elem.Type & type) != 0)
+			if ((elem = GetDevice(terrain, x, y, z - 1)) != null && (elem.Type & type) > ElementType.Supply)
 				list.Add(PathTable[2]);
-			if ((elem = GetDevice(terrain, x - 1, y, z)) != null && (elem.Type & type) != 0)
+			if ((elem = GetDevice(terrain, x - 1, y, z)) != null && (elem.Type & type) > ElementType.Supply)
 				list.Add(PathTable[3]);
-			if (y < 127 && (elem = GetDevice(terrain, x, y + 1, z)) != null && (elem.Type & type) != 0)
+			if (y < 127 && (elem = GetDevice(terrain, x, y + 1, z)) != null && (elem.Type & type) > ElementType.Supply)
 				list.Add(PathTable[4]);
-			if (y > 0 && (elem = GetDevice(terrain, x, y - 1, z)) != null && (elem.Type & type) != 0)
+			if (y > 0 && (elem = GetDevice(terrain, x, y - 1, z)) != null && (elem.Type & type) > ElementType.Supply)
 				list.Add(PathTable[5]);
 		}
 
@@ -93,17 +93,17 @@ namespace Game
 			x = point.X;
 			y = point.Y;
 			z = point.Z;
-			if ((elem = GetDevice(terrain, x, y, z + 1)) != null && (elem.Type & type) != 0)
+			if ((elem = GetDevice(terrain, x, y, z + 1)) != null && (elem.Type & type) > ElementType.Supply)
 				list.Add(elem);
-			if ((elem = GetDevice(terrain, x + 1, y, z)) != null && (elem.Type & type) != 0)
+			if ((elem = GetDevice(terrain, x + 1, y, z)) != null && (elem.Type & type) > ElementType.Supply)
 				list.Add(elem);
-			if ((elem = GetDevice(terrain, x, y, z - 1)) != null && (elem.Type & type) != 0)
+			if ((elem = GetDevice(terrain, x, y, z - 1)) != null && (elem.Type & type) > ElementType.Supply)
 				list.Add(elem);
-			if ((elem = GetDevice(terrain, x - 1, y, z)) != null && (elem.Type & type) != 0)
+			if ((elem = GetDevice(terrain, x - 1, y, z)) != null && (elem.Type & type) > ElementType.Supply)
 				list.Add(elem);
-			if (y < 127 && (elem = GetDevice(terrain, x, y + 1, z)) != null && (elem.Type & type) != 0)
+			if (y < 127 && (elem = GetDevice(terrain, x, y + 1, z)) != null && (elem.Type & type) > ElementType.Supply)
 				list.Add(elem);
-			if (y > 0 && (elem = GetDevice(terrain, x, y - 1, z)) != null && (elem.Type & type) != 0)
+			if (y > 0 && (elem = GetDevice(terrain, x, y - 1, z)) != null && (elem.Type & type) > ElementType.Supply)
 				list.Add(elem);
 		}
 
