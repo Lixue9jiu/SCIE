@@ -282,6 +282,9 @@ namespace Game
 
 		public static Widget OpenEntity(IInventory inventory, Entity entity)
 		{
+			var componentEngine8 = entity.FindComponent<ComponentEngineE>();
+			if (componentEngine8 != null)
+				return new ETrainWidget(inventory, componentEngine8);
 			var componentTrain = entity.FindComponent<ComponentTrain>();
 			var componentChest = entity.FindComponent<ComponentChest>();
 			if (componentTrain != null)
@@ -291,6 +294,7 @@ namespace Game
 			var componentEngine5 = entity.FindComponent<ComponentEngineT2>();
 			if (componentEngine5 != null)
 				return new EngineTWidget(inventory, componentEngine5, "Widgets/DiggerWidget");
+			
 			var componentEngine6 = entity.FindComponent<ComponentEngineT3>();
 			if (componentEngine6 != null)
 				return new EngineTWidget(inventory, componentEngine6, "Widgets/TankWidget");

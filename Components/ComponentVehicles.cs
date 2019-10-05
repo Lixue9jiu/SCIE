@@ -869,6 +869,8 @@ namespace Game
 		{
 			if (ComponentEngine != null)
 				ComponentEngine.Coordinates = new Point3((int)m_componentBody.Position.X, (int)m_componentBody.Position.Y, (int)m_componentBody.Position.Z);
+			//if (ComponentEngineE != null)
+			//	ComponentEngineE.Coordinates = new Point3((int)m_componentBody.Position.X, (int)m_componentBody.Position.Y, (int)m_componentBody.Position.Z);
 			if (m_componentMount.Rider != null)
 			{
 				var player = m_componentMount.Rider.Entity.FindComponent<ComponentPlayer>(true);
@@ -897,8 +899,14 @@ namespace Game
 				var r = body.Rotation;
 				//if (ParentBody!=null)
 				//m_componentBody.Rotation = Quaternion.Slerp(m_componentBody.Rotation, rotation, 0.715f);
-				ComponentEngine Com = body.Entity.FindComponent<ComponentEngine>();
-				if (m_componentBody.StandingOnValue.HasValue && Com!=null && Com.HeatLevel >= 100f && body.m_velocity.Length()>0f) //body.Velocity.LengthSquared() > 10f && 
+				var Com = body.Entity.FindComponent<ComponentEngine>();
+				var Com2 = body.Entity.FindComponent<ComponentEngineE>();
+				float HLD = 0f;
+				if (Com != null)
+					HLD = Com.HeatLevel;
+				if (Com2 != null)
+					HLD = Com2.Charged ? 100f : 1f;
+				if (m_componentBody.StandingOnValue.HasValue && HLD >= 100f && body.m_velocity.Length()>0f) //body.Velocity.LengthSquared() > 10f && 
 													  //Utils.SubsystemTime.QueueGameTimeDelayedExecution(Utils.SubsystemTime.GameTime + 0.23 * level, delegate
 				{
 					var result = Utils.SubsystemTerrain.Raycast(m_componentBody.Position, m_componentBody.Position + new Vector3(0, -3f, 0), false, true, null);
@@ -937,7 +945,7 @@ namespace Game
 						//m_componentBody.m_velocity = ParentBody.m_componentBody.m_velocity.Length() * rotation.ToForwardVector() * 0.8f;
 					}
 					
-				}else if (Com != null && Com.HeatLevel < 100f && m_componentBody.m_velocity.Length() - 0.06f > 0f && m_componentBody.StandingOnValue.HasValue)
+				}else if (Com != null && HLD < 100f && m_componentBody.m_velocity.Length() - 0.06f > 0f && m_componentBody.StandingOnValue.HasValue)
 				{
 					var result = Utils.SubsystemTerrain.Raycast(m_componentBody.Position, m_componentBody.Position + new Vector3(0, -3f, 0), false, true, null) ?? default;
 					SimulateRail(RailBlock.GetRailType(Terrain.ExtractData(result.Value)));
@@ -946,8 +954,11 @@ namespace Game
 				if (!m_componentBody.StandingOnValue.HasValue)
 				{
 					//rotation = Quaternion.CreateFromAxisAngle(Vector3.UnitY, 0);
+					var result = Utils.SubsystemTerrain.Raycast(m_componentBody.Position, m_componentBody.Position + new Vector3(0, -3f, 0), false, true, null) ?? default;
+					SimulateRail(RailBlock.GetRailType(Terrain.ExtractData(result.Value)));
 					m_componentBody.Rotation = rotation;
-					m_componentBody.m_velocity -= new Vector3(0f, 0.5f, 0f);
+					m_componentBody.m_velocity -= new Vector3(0f,40f,0f)*dt;
+					//m_componentBody.m_velocity -= new Vector3(0f,0.1f, 0f);
 				}
 				//m_componentBody.Rotation = Quaternion.Slerp(m_componentBody.Rotation, rotation, 0.715f);
 				m_componentBody.Rotation = Quaternion.Slerp(m_componentBody.Rotation, rotation, 0.715f);
@@ -962,11 +973,20 @@ namespace Game
 			if (!m_componentBody.StandingOnValue.HasValue)
 			{
 				//rotation = Quaternion.CreateFromAxisAngle(Vector3.UnitY, 0);
+				var result = Utils.SubsystemTerrain.Raycast(m_componentBody.Position, m_componentBody.Position + new Vector3(0, -3f, 0), false, true, null) ?? default;
+				SimulateRail(RailBlock.GetRailType(Terrain.ExtractData(result.Value)));
 				m_componentBody.Rotation = rotation;
-				m_componentBody.m_velocity -= new Vector3(0f, 0.5f, 0f);
+				m_componentBody.m_velocity -= new Vector3(0f, 40f, 0f) * dt;
+				//m_componentBody.m_velocity -= new Vector3(0f, 0.1f, 0f);
 			}
-
-			if (ComponentEngine != null && ComponentEngine.HeatLevel >= 100f && m_componentBody.StandingOnValue.HasValue) //
+			var Com1 = m_componentBody.Entity.FindComponent<ComponentEngine>();
+			var Com21 = m_componentBody.Entity.FindComponent<ComponentEngineE>();
+			float HLD1 = 0f;
+			if (Com1 != null)
+				HLD1 = Com1.HeatLevel;
+			if (Com21 != null)
+				HLD1 = Com21.Charged ? 100f : 1f;
+			if (HLD1 >= 100f && m_componentBody.StandingOnValue.HasValue) //
 			{
 				//time = 0;
 				float ABS = 6f;
@@ -977,7 +997,7 @@ namespace Game
 
 				
 			}
-			else if (ComponentEngine != null && ComponentEngine.HeatLevel < 100f && m_componentBody.m_velocity.Length() - 0.06f> 0f && m_componentBody.StandingOnValue.HasValue)
+			else if (HLD1 < 100f && m_componentBody.m_velocity.Length() - 0.06f> 0f && m_componentBody.StandingOnValue.HasValue)
 			{
 				//float yyy = m_componentBody.m_velocity.Y;
 				//time++;

@@ -68,6 +68,19 @@ namespace Game
 		public override Vector3 GetIconBlockOffset(int value, DrawBlockEnvironmentData environmentData) => new Vector3(0f, -0.2f, 0f);
 	}
 
+	public class ETrain : TexturedMeshItem
+	{
+		public static Texture2D TrainTexture;
+
+		public ETrain() : base("电力机车", "ETrain", "Cylinder", SteamBoat.BoatTexture, "电力机车是一种通过铁轨下面的电缆中的电来获得前进的动力。 再也不需携带化石燃料了。",1f,1.6f)
+		{
+		}
+		public override string GetCraftingId() => "ETrain";
+		public override Vector3 GetIconViewOffset(int value, DrawBlockEnvironmentData environmentData) => new Vector3(-0.6f, 0.6f, -0.8f);
+
+		public override Vector3 GetIconBlockOffset(int value, DrawBlockEnvironmentData environmentData) => new Vector3(-0.2f, -0.2f, 0f);
+	}
+
 	public class Carriage : TexturedMeshItem
 	{
 		public static Texture2D TrainTexture;

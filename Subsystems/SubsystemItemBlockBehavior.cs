@@ -202,10 +202,10 @@ namespace Game
 					}
 				}
 			}
-			else if ((activeBlockValue == ItemBlock.IdTable["Train"] || activeBlockValue == ItemBlock.IdTable["Minecart"]) && result.HasValue && Terrain.ExtractContents(result.Value.Value) == RailBlock.Index)
+			else if ((activeBlockValue == ItemBlock.IdTable["Train"] || activeBlockValue == ItemBlock.IdTable["Minecart"] || activeBlockValue == ItemBlock.IdTable["ETrain"]) && result.HasValue && Terrain.ExtractContents(result.Value.Value) == RailBlock.Index)
 			{
 				position = new Vector3(result.Value.CellFace.Point) + new Vector3(0.5f);
-				entity = DatabaseManager.CreateEntity(Project, activeBlockValue == ItemBlock.IdTable["Minecart"] ? "Carriage" : "Train", true);
+				entity = DatabaseManager.CreateEntity(Project, activeBlockValue == ItemBlock.IdTable["Minecart"] ? "Carriage" : activeBlockValue == ItemBlock.IdTable["Train"] ? "Train" : "ETrain", true);
 
 				var rotation = componentMiner.ComponentCreature.ComponentCreatureModel.EyeRotation.ToForwardVector();
 				entity.FindComponent<ComponentTrain>(true).SetDirection(RailBlock.IsDirectionX(RailBlock.GetRailType(Terrain.ExtractData(result.Value.Value)))

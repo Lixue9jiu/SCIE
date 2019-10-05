@@ -181,9 +181,11 @@ namespace Game
 					Block.GetAllConnectedNeighbors(Utils.Terrain, v, 4, neighbors);
 					v.Next = new Element[neighbors.Count];
 					count = 0;
-					for (j = 0; j < neighbors.Count; j++)
+					for (j = 0; j < neighbors.Count+1; j++)
 					{
 						var w = neighbors.Array[j];
+						if (w == null)
+							continue;
 						if (visited.Add(w))
 						{
 							if ((w.Type & ElementType.Supply) != 0)
@@ -191,7 +193,7 @@ namespace Game
 								//if (supply) continue;
 								supply = true;
 							}
-						//	supply = true;
+							supply = true;
 							v.Next[count++] = w;
 							Q.Enqueue(w);
 						}

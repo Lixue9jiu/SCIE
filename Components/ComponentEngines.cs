@@ -164,4 +164,24 @@ namespace Game
 	{
 		//public Vector3 vet1;
 	}
+
+	public class ComponentEngineE : ComponentChest
+	{
+		public float Heatlevel;
+		public bool Charged;
+		//public Vector3 vet1;
+		public override void Load(ValuesDictionary valuesDictionary, IdToEntityMap idToEntityMap)
+		{
+			this.LoadItems(valuesDictionary);
+			Charged = valuesDictionary.GetValue("Charged", false);
+			Heatlevel = Charged ? 100f : 1f;
+		}
+
+		public override void Save(ValuesDictionary valuesDictionary, EntityToIdMap entityToIdMap)
+		{
+			this.SaveItems(valuesDictionary);
+			valuesDictionary.SetValue("Charged", Charged);
+			Heatlevel = Charged ? 100f : 1f;
+		}
+	}
 }

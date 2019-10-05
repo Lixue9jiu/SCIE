@@ -290,6 +290,7 @@ namespace Game
 			.AppendMesh("Models/Battery", "Battery", Matrix.CreateScale(1f,.7f,1f) * Matrix.CreateTranslation(0f, -0.3f, 0f), Matrix.CreateTranslation(9 / 16f,-7 / 16 / 16f, 0f) * Matrix.CreateScale(20f), Color.Black),
 			new Circuit("Circuit2", "高级电路板", "高级电路板，由锡线，晶体管够成的电路板",195),
 			new Pavior(),
+			new ETrain(),
 			//new Plane(),
 			/*nnew Plate("128K RAM", Color.DarkGreen, true),
 			new Plate("256K RAM", Color.DarkGreen, true),
