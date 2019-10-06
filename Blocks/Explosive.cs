@@ -53,7 +53,10 @@ namespace Chemistry
 			new Gunpowder(),
 			new PureGunpowder("精制炸药", new Color(24, 24, 24)),
 			new PureGunpowder("TNT", Color.Yellow, 150f),
-			new PureGunpowder("阿马托强力炸药", Color.Black, 180f),
+			new PureGunpowder("阿马托强力炸药", Color.Black, 180f)
+			{
+				DefaultDescription = "阿马托炸药一种由硝酸铵和三硝基甲苯组成的烈性混合炸药"
+			},
 			new PureGunpowder("阿莫丁炸药", new Color(48, 48, 48), 110f),
 			new PureGunpowder("阿莫格尔炸药", Color.Gray, 90f),
 			new PureGunpowder("葛里炸药", Color.DarkYellow, 100f),

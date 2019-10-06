@@ -72,7 +72,7 @@ namespace Game
 	{
 		public static Texture2D TrainTexture;
 
-		public ETrain() : base("电力机车", "ETrain", "Cylinder", SteamBoat.BoatTexture, "电力机车是一种通过铁轨下面的电缆中的电来获得前进的动力。 再也不需携带化石燃料了。",1f,1.6f)
+		public ETrain() : base("电力机车", "Train", "Cylinder", SteamBoat.BoatTexture, "电力机车是一种通过铁轨下面的电缆中的电来获得前进的动力。 再也不需携带化石燃料了。",1f,1.6f)
 		{
 		}
 		public override string GetCraftingId() => "ETrain";

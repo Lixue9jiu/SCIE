@@ -240,7 +240,7 @@ namespace Game
 				int voltage, i;
 				if (request == null || request.Length == 0)
 					return;
-				else if(request[0] == null)
+				else if (request[0] == null)
 				{
 					for (i = 1; i < request.Length; i++)
 					{
