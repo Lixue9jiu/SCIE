@@ -370,6 +370,7 @@ namespace Game
 				new Hchanger(),
 				new Turbine(),
 				new LaserG(),
+				new MHDGenerator(),
 			};
 			ContentCache.m_contentByName.TryGetValue("CraftingIdTable", out object value);
 			if (!(value is Dictionary<string, int> dict))
