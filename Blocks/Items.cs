@@ -292,6 +292,8 @@ namespace Game
 			new Pavior(),
 			new MouldItem("Electrongun", "Models/Electrongun", "Electrongun", Matrix.CreateRotationX(MathUtils.PI / 2) * Matrix.CreateTranslation(0.5f, 0.5f, -0.3f), Matrix.CreateTranslation(9f / 16f, -7f / 16f, 0f), "电子枪", "电子枪", .6f),
 			new ETrain(),
+			new Mould("Models/Battery", "Battery", Matrix.CreateRotationX(MathUtils.PI / 2) * Matrix.CreateTranslation(0.5f, 0.5f, 0f), Matrix.CreateTranslation(9f / 16f, -7f / 16f, 0f) * Matrix.CreateScale(10f), "差速器", "差速器"),
+			new Bottle("洗手液", "HandSanitizer", Color.LightGreen),
 			//new Plane(),
 			/*nnew Plate("128K RAM", Color.DarkGreen, true),
 			new Plate("256K RAM", Color.DarkGreen, true),
@@ -372,6 +374,8 @@ namespace Game
 				new Turbine(),
 				new LaserG(),
 				new MHDGenerator(),
+				new Ultracentrifuge(),
+				new FlowCytometer(),
 			};
 			ContentCache.m_contentByName.TryGetValue("CraftingIdTable", out object value);
 			if (!(value is Dictionary<string, int> dict))

@@ -325,13 +325,21 @@ namespace Game
 		}
 		public override int GetFaceTextureSlot(int face, int value)
 		{
-			//return face != 4 && face != 5 && face == (Terrain.ExtractData(value) >> 15) ? 240 : 147;
 			return face != 4 && face != 5 ? face == (Terrain.ExtractData(value) >> 15) ? 240 : 241 : 147;
 		}
 
 		public override Widget GetWidget(IInventory inventory, ComponentCentrifugal component)
 		{
 			return new SeparatorWidget(inventory, component, "Centrifugal");
+		}
+	}
+
+	public class Ultracentrifuge : Centrifugal
+	{
+		public Ultracentrifuge()
+		{
+			DefaultDisplayName = "超速离心机";
+			DefaultDescription = "超速离心机可用于分离各种细胞器";
 		}
 	}
 
@@ -491,10 +499,18 @@ namespace Game
 		}
 	}
 
+	public class FlowCytometer : CubeDevice
+	{
+		public FlowCytometer() : base("流式细胞仪", "流式细胞仪可用于分析和分选细胞", 130) { }
+		public override int GetFaceTextureSlot(int face, int value)
+		{
+			return face != 4 && face != 5 && face == (Terrain.ExtractData(value) >> 15) ? 220 : 239;
+		}
+	}
 	/*public class ElectricMicroscope : CubeDevice
 	{
 	}
-	public class Dryer : FixedDevice
+	public class Dryer : CubeDevice
 	{
 		public Dryer() : base("烘干机", "烘干机", 130) { }
 		public override int GetFaceTextureSlot(int face, int value)
