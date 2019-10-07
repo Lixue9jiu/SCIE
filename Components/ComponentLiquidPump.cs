@@ -12,10 +12,9 @@ namespace Game
 
 		protected new void Driller(Point3 point, int face)
 		{
-			Vector3 vector = Vector3.UnitY;
-			int x = point.X;
-			int y = point.Y;
-			int z = point.Z;
+			int x = point.X,
+				y = point.Y,
+				z = point.Z;
 			if (!ComponentEngine.IsPowered(Utils.Terrain, x, y, z))
 				return;
 			int num2 = 0;
@@ -99,6 +98,7 @@ namespace Game
 					for (int num5 = 0; num5 < 25; num5++)
 					{
 						x = point.X + array[num5];
+						Vector3 vector = Vector3.UnitY;
 						y = point.Y - (int)vector.Y * n;
 						z = point.Z + array2[num5];
 						//new Vector3((float)array[num5] / (float)n, 0f, (float)array2[num5] / (float)n);

@@ -105,7 +105,7 @@ namespace Game
 			public float Speed;
 		}
 
-		public Game.Random m_random = new Game.Random();
+		public Random m_random = new Random();
 
 		public Vector3 m_position;
 
@@ -139,8 +139,8 @@ namespace Game
 			m_position = position;
 			m_size = size;
 			m_maxVisibilityDistance = maxVisibilityDistance;
-			base.Texture = ContentManager.Get<Texture2D>("Textures/FireParticle2");
-			base.TextureSlotsCount = 3;
+			Texture = ContentManager.Get<Texture2D>("Textures/FireParticle2");
+			TextureSlotsCount = 3;
 			//m_color = new Color(num4, num4, num4);
 		}
 

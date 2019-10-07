@@ -156,9 +156,11 @@ namespace Game
 			int i, j;
 			for (i = 0; i < CircuitPath.Length; i++)
 			{
-				int length = CircuitPath[i].Length;
-				for (j = 1; j < length; j++)
+				if (CircuitPath[i].Length > 0)
+				{
+					CircuitPath[i][0] = null;
 					QueueSimulate(CircuitPath[i]);
+				}
 			}
 			CircuitPath = new Element[Path.Count][];
 			i = 0;
@@ -172,7 +174,7 @@ namespace Game
 				var neighbors = new DynamicArray<Device>(6);
 				var Q = new Queue<Device>();
 				int count;
-				bool supply = false;
+				//bool supply = false;
 				Q.Enqueue(v);
 				while (Q.Count > 0)
 				{
@@ -188,12 +190,12 @@ namespace Game
 							continue;
 						if (visited.Add(w))
 						{
-							if ((w.Type & ElementType.Supply) != 0)
+							/*if ((w.Type & ElementType.Supply) != 0)
 							{
-								//if (supply) continue;
+								if (supply) continue;
 								supply = true;
 							}
-							supply = true;
+							supply = true;*/
 							v.Next[count++] = w;
 							Q.Enqueue(w);
 						}
@@ -235,14 +237,22 @@ namespace Game
 				while (Requests.Count == 0)
 					Task.Delay(10).Wait();
 				var request = Requests.Dequeue();
-				if (request == null)
+				int voltage, i;
+				if (request == null || request.Length == 0)
 					return;
+				else if (request[0] == null)
+				{
+					for (i = 1; i < request.Length; i++)
+					{
+						voltage = 0;
+						request[i].Simulate(ref voltage);
+					}
+				}
 				else
 				{
-					var elements = request;
-					int voltage = 0;
-					for (int i = 0; i < elements.Length; i++)
-						elements[i].Simulate(ref voltage);
+					voltage = 0;
+					for (i = 0; i < request.Length; i++)
+						request[i].Simulate(ref voltage);
 				}
 				Task.Delay(10).Wait();
 			}

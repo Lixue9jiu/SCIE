@@ -7,6 +7,7 @@ using System.Text;
 namespace Chemistry
 {
 	//正数=溶解部分，负数=不溶部分
+	[Serializable]
 	public class ReactionSystem : Dictionary<Compound, int>, ICloneable, IEquatable<ReactionSystem>
 	{
 		public static readonly ReactionSystem Air = new ReactionSystem {

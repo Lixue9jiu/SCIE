@@ -158,7 +158,7 @@ namespace Game
 		}
 	}
 
-	public class ComponentVariant : Component//, IUpdateable
+	public class ComponentVariant : Component, IUpdateable
 	{
 		public Genome Genome;
 		public float[] OGenome;
@@ -600,7 +600,6 @@ namespace Game
 
 		public void Hybridize()
 		{
-
 			var name = Entity.ValuesDictionary.DatabaseObject.Name;
 			var e = Project.Entities.GetEnumerator();
 			while (e.MoveNext())

@@ -42,19 +42,14 @@ namespace Game
 		{
 			if (m_radations.Count > 0)
 			{
-				float num = float.MaxValue;
 				float num4 = 0;
-				float v = 0;
 				for (int i = 0; i < m_radations.Count; i++)
 				{
 					Vector4 vector = m_radations.Array[i];
-					float num2 = Vector3.DistanceSquared(Position,  new Vector3(vector.X, vector.Y, vector.Z));
-					float num3 = vector.W / num2;
-					if (num3 > num4 )
+					float num3 = vector.W / Vector3.DistanceSquared(Position, new Vector3(vector.X, vector.Y, vector.Z));
+					if (num3 > num4)
 					{
-						num = num2;
 						num4 = num3;
-						
 					}
 				}
 				return num4;
@@ -87,11 +82,7 @@ namespace Game
 
 		public override void OnHitByProjectile(CellFace cellFace, WorldItem worldItem)
 		{
-			if (worldItem.ToRemove)
-			{
-				return;
-			}
-			if (Terrain.ExtractData(Utils.Terrain.GetCellValueFast(cellFace.X, cellFace.Y, cellFace.Z)) < 2048)
+			if (worldItem.ToRemove || Terrain.ExtractData(Utils.Terrain.GetCellValueFast(cellFace.X, cellFace.Y, cellFace.Z)) < 2048)
 			{
 				return;
 			}
@@ -120,7 +111,6 @@ namespace Game
 				return;
 			}
 
-			Vector3 v = CellFace.FaceToVector3(cellFace.Face);
 			if (blockEntity != null)
 			{
 				var pickable = worldItem as Pickable;
@@ -131,6 +121,8 @@ namespace Game
 				}
 				var position = new Vector3(cellFace.Point) + new Vector3(0.5f);
 				ComponentSorter inventory = blockEntity.Entity.FindComponent<ComponentSorter>(true);
+
+				Vector3 v = CellFace.FaceToVector3(cellFace.Face);
 				if (inventory.GetSlotValue(0) == worldItem.Value)
 				{
 					worldItem.ToRemove = true;

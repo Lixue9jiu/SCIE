@@ -45,6 +45,19 @@ namespace Game
 			DefaultDisplayName = "交流发电机";
 		}
 	}
+	public class MHDGenerator : Generator
+	{
+		public MHDGenerator() : base(1000)
+		{
+			DefaultDisplayName = "磁流体发电机";
+		}
+
+		public override void Simulate(ref int voltage)
+		{
+			if ((Utils.Random.Int() & 31) != 0)
+				base.Simulate(ref voltage);
+		}
+	}
 	public class Battery : CubeDevice, IHarvestingItem, IInteractiveBlock, IEquatable<Battery>
 	{
 		public int Factor = 1;
@@ -164,8 +177,6 @@ namespace Game
 
 		public override void Simulate(ref int voltage)
 		{
-			Powered = false;
-			return;
 			if (Powered)
 			{
 				voltage += 400;

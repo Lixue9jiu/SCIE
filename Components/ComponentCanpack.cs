@@ -29,7 +29,6 @@ namespace Game
 					//m_music = 0;
 				}
 			}
-
 			if (m_smeltingRecipe2 != null)
 			{
 				if (!Powered)
@@ -41,7 +40,6 @@ namespace Game
 				else if (m_smeltingRecipe == null)
 					m_smeltingRecipe = m_smeltingRecipe2;
 			}
-
 			if (!Powered)
 				m_smeltingRecipe = null;
 			if (m_smeltingRecipe == null)
@@ -50,7 +48,6 @@ namespace Game
 				m_fireTimeRemaining = 0f;
 				//m_music = -1;
 			}
-
 			if (m_smeltingRecipe != null)
 			{
 				SmeltingProgress = MathUtils.Min(SmeltingProgress + 0.15f * dt, 1f);

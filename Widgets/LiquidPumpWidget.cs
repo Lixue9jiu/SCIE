@@ -58,7 +58,7 @@ namespace Game
 			
 			if (!m_component.IsAddedToProject)
 			{
-				base.ParentWidget.Children.Remove(this);
+				ParentWidget.Children.Remove(this);
 			}
 		}
 	}
