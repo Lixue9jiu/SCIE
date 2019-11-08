@@ -5,17 +5,9 @@ namespace Game
 {
 	public class LaserBeam : ParticleSystem<GunSmokeParticleSystem.Particle>
 	{
-		public Random m_random = new Random();
-
 		public float m_time;
 
-		public float m_toGenerate;
-
-		public Vector3 m_position;
-
-		public Vector3 m_direction;
-
-		public Vector3 m_position2;
+		public Vector3 m_position, m_position2;
 		public Color m_color;
 
 		public LaserBeam(SubsystemTerrain terrain, Vector3 position, Vector3 position2)
@@ -25,7 +17,6 @@ namespace Game
 			TextureSlotsCount = 3;
 			m_position = position;
 			m_position2 = position2;
-			//m_direction = Vector3.Normalize(direction);
 			m_lightningStrikeBrightness = 1f;
 			int num = Terrain.ToCell(position.X),
 				num2 = Terrain.ToCell(position.Y),
@@ -49,17 +40,12 @@ namespace Game
 		public override bool Simulate(float dt)
 		{
 			m_time += dt;
-			
 			FlatBatch3D flatBatch3D = m_primitivesRenderer3d.FlatBatch(0, DepthStencilState.DepthRead, null, BlendState.Additive);
 			var color = new Color(51, 51, 51, 51);
-			var color2 = new Color(51, 51, 51, 51);
-			var color3 = new Color(51, 51, 51, 51);
-			var color4 = new Color(51, 51, 51, 51);
-			flatBatch3D.QueueLine(m_position, m_position2, color, color2);
-			flatBatch3D.QueueLine(m_position, m_position2, color2, color3);
-			flatBatch3D.QueueLine(m_position, m_position2, color3, color4);
-				
-			return (m_time >= 0.7f);
+			flatBatch3D.QueueLine(m_position, m_position2, color, color);
+			flatBatch3D.QueueLine(m_position, m_position2, color, color);
+			flatBatch3D.QueueLine(m_position, m_position2, color, color);
+			return m_time >= 0.7f;
 		}
 	}
 }

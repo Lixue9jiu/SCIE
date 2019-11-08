@@ -71,33 +71,39 @@ namespace Game
 
 	public class Mould : MeshItem
 	{
-		public readonly float Size;
+		public float Size;
+		public string Id;
 		public readonly BoundingBox[] m_collisionBoxes;
 
-		public Mould(string modelName, string meshName, Matrix boneTransform, Matrix tcTransform, Color color, float size = 1) : base("")
+		protected Mould(string modelName, string meshName, Matrix boneTransform, Matrix tcTransform, Color color) : base("")
 		{
-			Size = size;
+			Size = 1f;
 			var model = ContentManager.Get<Model>(modelName);
 			m_standaloneBlockMesh.AppendModelMeshPart(model.FindMesh(meshName).MeshParts[0], BlockMesh.GetBoneAbsoluteTransform(model.FindMesh(meshName).ParentBone) * boneTransform, this is LightMould, false, false, false, color);
-			tcTransform *= Matrix.CreateScale(0.05f);
-			m_standaloneBlockMesh.TransformTextureCoordinates(tcTransform);
+			m_standaloneBlockMesh.TransformTextureCoordinates(tcTransform * Matrix.CreateScale(0.05f));
 			m_collisionBoxes = new[] { m_standaloneBlockMesh.CalculateBoundingBox() };
 		}
 
-		public Mould(string meshName, Matrix boneTransform, Matrix tcTransform, string description = "", float size = 1) : this("Models/" + meshName, meshName, boneTransform, tcTransform, Color.LightGray, size)
+		public Mould(string meshName, Matrix boneTransform, Matrix tcTransform, string description = "") : this("Models/" + meshName, meshName, boneTransform, tcTransform, Color.LightGray)
 		{
-			DefaultDisplayName = "Steel" + meshName;
+			if (meshName.Length != 6)
+				meshName = "Steel" + meshName;
+			DefaultDisplayName = Id = meshName;
 			DefaultDescription = description;
 		}
 
-		public Mould(string modelName, string meshName, Matrix boneTransform, Matrix tcTransform, string description = "", string name = "", float size = 1 ) : this(modelName, meshName, boneTransform, tcTransform, Color.LightGray, size)
+		public Mould(string modelName, string meshName, Matrix boneTransform, Matrix tcTransform, string description = "", string name = "") : this(modelName, meshName, boneTransform, tcTransform, Color.LightGray, description, name)
 		{
-			DefaultDisplayName = name;
-			DefaultDescription = description;
 		}
-		public Mould(string modelName, string meshName, Matrix boneTransform, Matrix tcTransform, Color color, string description = "", string name = "" ,float size = 1) : this(modelName, meshName, boneTransform, tcTransform, color, size)
+
+		public Mould(string meshName, Matrix boneTransform, Matrix tcTransform, string description = "", string name = "", string id = "") : this("Models/" + meshName, meshName, boneTransform, tcTransform, description, name)
 		{
-			DefaultDisplayName = name;
+			Id = id;
+		}
+
+		public Mould(string modelName, string meshName, Matrix boneTransform, Matrix tcTransform, Color color = default, string description = "", string name = "") : this(modelName, meshName, boneTransform, tcTransform, color == default ? Color.LightGray : color)
+		{
+			DefaultDisplayName = Id = name;
 			DefaultDescription = description;
 		}
 
@@ -117,6 +123,7 @@ namespace Game
 		}
 
 		public override BoundingBox[] GetCustomCollisionBoxes(SubsystemTerrain terrain, int value) => m_collisionBoxes;
+		public override string GetCraftingId() => Id;
 	}
 
 	public class Bucket : MeshItem

@@ -150,7 +150,7 @@ namespace Game
 			bool flag = false;
 			if (m_visible || true)
 			{
-				m_toGenerate += (IsStopped ? 0f : (5f * dt));
+				m_toGenerate += IsStopped ? 0f : (5f * dt);
 				for (int i = 0; i < Particles.Length; i++)
 				{
 					FireParticleSystem.Particle particle = Particles[i];
@@ -178,8 +178,8 @@ namespace Game
 						particle.Speed = m_random.UniformFloat(0.45f, 0.55f) * m_size / 0.15f;
 						particle.Time = 0f;
 						particle.TimeToLive = m_random.UniformFloat(0.5f, 2f);
-						particle.FlipX = (m_random.UniformInt(0, 1) == 0);
-						particle.FlipY = (m_random.UniformInt(0, 1) == 0);
+						particle.FlipX = m_random.UniformInt(0, 1) == 0;
+						particle.FlipY = m_random.UniformInt(0, 1) == 0;
 						m_toGenerate -= 1f;
 					}
 				}

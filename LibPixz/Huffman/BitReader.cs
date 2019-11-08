@@ -68,7 +68,7 @@ namespace LibPixz
 						if (lockReading) break;
 
 						availableBits += readerSize;
-						readData = (readData << (int)readerSize) | nextChunk;
+						readData = (readData << readerSize) | nextChunk;
 					}
 				}
 				// If already at the end of stream, use only the remaining bits we have read
@@ -82,7 +82,7 @@ namespace LibPixz
 			}
 
 			// We move data left and right in order to get only the bits we require
-			uint cleanData = readData << (int)(dataSize * 2 - availableBits);
+			uint cleanData = readData << dataSize * 2 - availableBits;
 			cleanData >>= (int)(dataSize * 2 - length);
 
 			return (ushort)cleanData;
@@ -104,7 +104,7 @@ namespace LibPixz
 
 			availableBits -= (int)length;
 
-			int shift = (int)(dataSize * 2 - availableBits);
+			int shift = dataSize * 2 - availableBits;
 			// We move data to the left and then right in order to get only the bits we require
 			readData <<= shift;
 			readData >>= shift;

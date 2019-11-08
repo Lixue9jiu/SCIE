@@ -122,7 +122,7 @@ namespace Game
 				var position = new Vector3(cellFace.Point) + new Vector3(0.5f);
 				ComponentSorter inventory = blockEntity.Entity.FindComponent<ComponentSorter>(true);
 
-				Vector3 v = CellFace.FaceToVector3(cellFace.Face);
+				Vector3 v;
 				if (inventory.GetSlotValue(0) == worldItem.Value)
 				{
 					worldItem.ToRemove = true;

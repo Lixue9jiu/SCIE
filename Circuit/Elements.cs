@@ -125,7 +125,7 @@ namespace Game
 			Voltage = voltage;
 		}
 		public override string GetDisplayName(SubsystemTerrain subsystemTerrain, int value) => DefaultDisplayName;
-		public override string GetDescription() => DefaultDescription + (Voltage != 0 ? "(电压：" + Voltage + "V)" : "。");
+		public override string GetDescription() => DefaultDescription + (Voltage != 0 ? (Voltage > 0 ? "(DC" : "(AC") + Voltage + "V)" : "。");
 		public override void Simulate(ref int voltage)
 		{
 			voltage &= 8191;

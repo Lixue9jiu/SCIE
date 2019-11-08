@@ -161,8 +161,7 @@ namespace Game
 			if (equation == null)
 				return 0;
 			system.Normalize();
-			Dictionary<Compound, int>.Enumerator e;
-			Dictionary<Compound, int>.Enumerator e2;
+			Dictionary<Compound, int>.Enumerator e, e2;
 			//result.Clear();
 			for (e = equation.Reactants.GetEnumerator(); e.MoveNext();)
 			{
@@ -179,10 +178,9 @@ namespace Game
 				num = MathUtils.Max(e.Current.Value, num);
 				result[ChemicalBlock.Get(e.Current.Key.ToString())] = -num;
 			}
-			bool flag = false;
 			for (e = system.GetEnumerator(); e.MoveNext();)
 			{
-				flag = false;
+				bool flag = false;
 				int val = ChemicalBlock.Get(e.Current.Key.ToString());
 				for (e2 = equation.Reactants.GetEnumerator(); e2.MoveNext();)
 				{
@@ -215,7 +213,6 @@ namespace Game
 					result[val] = value;
 				}
 			}
-
 			return equation.GetHashCode();
 		}
 	}
@@ -224,11 +221,9 @@ namespace Game
 	{
 		protected int m_count;
 		protected float m_speed;
-		protected string m_smeltingRecipe;
+		protected string m_smeltingRecipe, m_smeltingRecipe2;
 
 		//protected int m_music;
-
-		protected string m_smeltingRecipe2;
 
 		public override int ResultSlotIndex => SlotsCount - 1;
 
@@ -325,10 +320,8 @@ namespace Game
 		public void Update(float dt)
 		{
 			if (Utils.SubsystemTime.PeriodicGameTimeEvent(0.2, 0.0))
-
 			{
-				int veo = 0;
-				int sat = 0;
+				int veo = 0, sat = 0;
 				if (m_updateSmeltingRecipe)
 				{
 					m_fireTimeRemaining = 0f;
@@ -424,10 +417,10 @@ namespace Game
 				else
 				{
 					if (Utils.SubsystemTime.PeriodicGameTimeEvent(1.2, 0.0))
-						for (int iii = 0; iii < Utils.SubsystemSour.m_radations.Count; iii++)
+						for (int ii = 0; ii < Utils.SubsystemSour.m_radations.Count; ii++)
 						{
 							Point3 coor = m_componentBlockEntity.Coordinates;
-							if (Utils.SubsystemSour.m_radations.Array[iii] == new Vector4(coor.X, coor.Y, coor.Z, 10f))
+							if (Utils.SubsystemSour.m_radations.Array[ii] == new Vector4(coor.X, coor.Y, coor.Z, 10f))
 								Utils.SubsystemSour.m_radations.Remove(new Vector4(coor.X, coor.Y, coor.Z, 10f));
 						}
 					HeatLevel = MathUtils.Max(0f, HeatLevel - 0.1f);
@@ -436,17 +429,9 @@ namespace Game
 		}
 	}
 
-	public class ComponentHChanger : ComponentMachine, IUpdateable
+	public class ComponentHChanger : ComponentSMachine, IUpdateable
 	{
-		public override int RemainsSlotIndex => -1;
-
-		public override int ResultSlotIndex => -1;
-
-		public override int FuelSlotIndex => -1;
-
-		public int Pressure;
-
-		public int Output;
+		public int Pressure, Output;
 
 		public void Update(float dt)
 		{
@@ -456,9 +441,9 @@ namespace Game
 				Output = 0;
 				Point3 coordinates = m_componentBlockEntity.Coordinates;
 				var point = CellFace.FaceToPoint3(Terrain.ExtractData(Utils.Terrain.GetCellValue(coordinates.X, coordinates.Y, coordinates.Z)) >> 15);
-				int num3 = coordinates.X - point.X;
-				int num4 = coordinates.Y - point.Y;
-				int num5 = coordinates.Z - point.Z;
+				int num3 = coordinates.X - point.X,
+					num4 = coordinates.Y - point.Y,
+					num5 = coordinates.Z - point.Z;
 				int cellValue = Terrain.ReplaceLight(Utils.Terrain.GetCellValue(num3, num4, num5), 0);
 				//int cellContents = Terrain.ExtractContents(cellValue);Terrain.ExtractData(value) >> 15
 				if (4 == Terrain.ExtractData(cellValue) >> 10)
@@ -473,7 +458,7 @@ namespace Game
 							{
 								if (base.GetSlotValue(i) == WaterBlock.Index)
 								{
-									if (Utils.SubsystemTime.PeriodicGameTimeEvent((5 * 30 / Pressure / 10) / 1f, 0.0))
+									if (Utils.SubsystemTime.PeriodicGameTimeEvent(5 * 30 / Pressure / 10 / 1f, 0.0))
 										m_slots[i].Count--;
 									Output += Pressure;
 									component3.HeatLevel -= 2 * Output;
@@ -489,9 +474,7 @@ namespace Game
 
 	public class ComponentTurbine : ComponentMachine, IUpdateable
 	{
-		public int Pressure;
-
-		public int Output;
+		public int Pressure, Output;
 		public bool Powered;
 
 		public void Update(float dt)
@@ -521,9 +504,7 @@ namespace Game
 
 	public class ComponentLaserG : ComponentMachine
 	{
-		public int Pressure;
-
-		public int Output;
+		public int Pressure, Output;
 		public bool Powered;
 
 		public virtual void Beam()
@@ -542,9 +523,6 @@ namespace Game
 		protected void Laser(Point3 point, int face)
 		{
 			Vector3 vector = CellFace.FaceToVector3(face);
-			int x = point.X;
-			int y = point.Y;
-			int z = point.Z;
 			var dpoint = Terrain.ToCell(vector);
 			var end = new Vector3(point.X, point.Y, point.Z);
 
@@ -574,7 +552,7 @@ namespace Game
 			{
 				Point3 npoint = point + d * dpoint;
 				int value = Utils.Terrain.GetCellValueFast(npoint.X, npoint.Y, npoint.Z);
-				int value2 = Utils.Terrain.GetCellContentsFast(npoint.X, npoint.Y, npoint.Z);
+				int val = Utils.Terrain.GetCellContentsFast(npoint.X, npoint.Y, npoint.Z);
 				end = new Vector3(npoint.X, npoint.Y, npoint.Z);
 				//var bodies = new DynamicArray<ComponentBody>();
 				if (d >= dmax)
@@ -595,8 +573,8 @@ namespace Game
 
 				if (value != 0)
 				{
-					var block = BlocksManager.Blocks[value2];
-					if (value2 != GlassBlock.Index)
+					var block = BlocksManager.Blocks[val];
+					if (val != GlassBlock.Index)
 						if (block.IsPlaceable)
 						{
 							if (block.ExplosionResilience >= 1000f)
@@ -609,8 +587,8 @@ namespace Game
 							}
 							else if (block.FuelFireDuration > 0)
 							{
-								int v1 = (int)block.FuelFireDuration / 10;
-								for (int zz = 0; zz <= v1; zz++)
+								int v = (int)block.FuelFireDuration / 10;
+								for (int zz = 0; zz <= v; zz++)
 									Utils.SubsystemPickables.AddPickable(ItemBlock.IdTable["CoalPowder"], 1, new Vector3(npoint.X, npoint.Y, npoint.Z), null, null);
 								Utils.SubsystemTerrain.DestroyCell(5, npoint.X, npoint.Y, npoint.Z, 0, true, false);
 							}

@@ -139,7 +139,7 @@ namespace Game
 				ParentWidget.Children.Remove(this);
 				return;
 			}
-			Children.Find<LabelWidget>("DispenserLabel2").Text = "Energy " + (m_component.m_fireTimeRemaining).ToString() + "/100KE";
+			Children.Find<LabelWidget>("DispenserLabel2").Text = "Energy " + m_component.m_fireTimeRemaining.ToString() + "/100KE";
 			m_progress.Value = 1f - m_component.m_fireTimeRemaining / 100000f;
 		}
 	}

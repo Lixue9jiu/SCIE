@@ -1,6 +1,6 @@
 <IndustrialMod>
 <Recipe Result="IronIngotBlock" ResultCount="1" new-RequiredHeatLevel="1500" a="ironorechunk:0" Description="冶炼铁矿石以获得铁" />
-<Recipe Result="CopperIngotBlock" ResultCount="1" new-RequiredHeatLevel="1000" a="malachitechunk:0" Description="冶炼铜矿石以获得铜" />
+<Recipe Result="CopperIngotBlock" ResultCount="1" new-RequiredHeatLevel="1085" a="malachitechunk:0" Description="冶炼铜矿石以获得铜" />
 <Recipe Result="GermaniumChunkBlock" ResultCount="1" new-RequiredHeatLevel="900" a="germaniumorechunk:0" Description="冶炼锗矿石以获得锗晶体" />
 <Recipe Result="RodBlock" ResultCount="4" new-RequiredHeatLevel="1500" new-a="ironingot:0" Description="将铁锭锻造成棒" />
   <Smelting>
@@ -16,79 +16,124 @@
     <Recipe Result="IronIngotBlock" ResultCount="8" RequiredHeatLevel="2000" a="IronOrePowder" Description="冶炼铁矿粉获得铁">
       "aaaa"
     </Recipe>
-    <Recipe Result="GoldIngot" ResultCount="1" RequiredHeatLevel="1100" a="GoldOrePowder" Description="冶炼金矿粉获得金">
+    <Recipe Result="AuAmalgam" ResultCount="1" RequiredHeatLevel="1000" a="GoldOrePowder" b="MercuryOreChunk" Description="制取金汞齐">
+      "abab"
+    </Recipe>
+    <Recipe Result="AgAmalgam" ResultCount="1" RequiredHeatLevel="900" a="SilverOrePowder" b="MercuryOreChunk" Description="制取银汞齐">
+      "abab"
+    </Recipe>
+    <Recipe Result="PtAmalgam" ResultCount="1" RequiredHeatLevel="1700" a="PlatinumOrePowder" b="MercuryOreChunk" Description="制取铂汞齐">
+      "abab"
+    </Recipe>
+    <Recipe Result="PbAmalgam" ResultCount="1" RequiredHeatLevel="500" a="LeadOrePowder" b="MercuryOreChunk" Description="制取铅汞齐">
+      "abab"
+    </Recipe>
+    <Recipe Result="ZnAmalgam" ResultCount="1" RequiredHeatLevel="500" a="ZincIngot" b="MercuryOreChunk" Description="制取锌汞齐">
+      "abab"
+    </Recipe>
+    <Recipe Result="CuAmalgam" ResultCount="1" RequiredHeatLevel="1000" a="CopperOrePowder" b="MercuryOreChunk" Description="制取铜汞齐">
+      "abab"
+    </Recipe>
+    <Recipe Result="SnAmalgam" ResultCount="1" RequiredHeatLevel="500" a="StannaryOrePowder" b="MercuryOreChunk" Description="制取锡汞齐">
+      "abab"
+    </Recipe>
+    <Recipe Result="AuAmalgam" ResultCount="1" Remains="EmptyBucketBlock" RemainsCount="1" RequiredHeatLevel="1000" a="GoldOrePowder" b="Hg" Description="制取金汞齐">
+      "aba"
+    </Recipe>
+    <Recipe Result="AgAmalgam" ResultCount="1" Remains="EmptyBucketBlock" RemainsCount="1" RequiredHeatLevel="900" a="SilverOrePowder" b="Hg" Description="制取银汞齐">
+      "aba"
+    </Recipe>
+    <Recipe Result="PtAmalgam" ResultCount="1" Remains="EmptyBucketBlock" RemainsCount="1" RequiredHeatLevel="1700" a="PlatinumOrePowder" b="Hg" Description="制取铂汞齐">
+      "aba"
+    </Recipe>
+    <Recipe Result="PbAmalgam" ResultCount="1" Remains="EmptyBucketBlock" RemainsCount="1" RequiredHeatLevel="300" a="LeadOrePowder" b="Hg" Description="制取铅汞齐">
+      "aba"
+    </Recipe>
+    <Recipe Result="ZnAmalgam" ResultCount="1" Remains="EmptyBucketBlock" RemainsCount="1" RequiredHeatLevel="400" a="ZincIngot" b="Hg" Description="制取锌汞齐">
+      "aba"
+    </Recipe>
+    <Recipe Result="CuAmalgam" ResultCount="1" Remains="EmptyBucketBlock" RemainsCount="1" RequiredHeatLevel="1000" a="CopperOrePowder" b="Hg" Description="制取铜汞齐">
+      "aba"
+    </Recipe>
+    <Recipe Result="SnAmalgam" ResultCount="1" Remains="EmptyBucketBlock" RemainsCount="1" RequiredHeatLevel="200" a="StannaryOrePowder" b="Hg" Description="制取锡汞齐">
+      "aba"
+    </Recipe>
+    <Recipe Result="GoldIngot" ResultCount="1" RequiredHeatLevel="1065" a="GoldOrePowder" Description="冶炼金矿粉获得金">
       "a"
     </Recipe>
-    <Recipe Result="GoldIngot" ResultCount="6" RequiredHeatLevel="1100" a="GoldOrePowder" Description="冶炼金矿粉获得金">
-      "aaaa"
+    <Recipe Result="GoldIngot" ResultCount="3" Remains="Hg" RemainsCount="1" RequiredHeatLevel="600" a="AuAmalgam" b="emptybucket" Description="从金汞齐分离出金">
+      "ab"
     </Recipe>
-    <Recipe Result="GoldIngot" ResultCount="1" RequiredHeatLevel="1100" a="GoldRod" Description="冶炼金棒获得金">
+    <Recipe Result="GoldIngot" ResultCount="1" RequiredHeatLevel="1065" a="GoldRod" Description="冶炼金棒获得金">
       "a"
     </Recipe>
-    <Recipe Result="GoldIngot" ResultCount="1" RequiredHeatLevel="1100" a="GoldOreChunk" Description="冶炼金矿石获得黄金">
+    <Recipe Result="GoldIngot" ResultCount="1" RequiredHeatLevel="1065" a="GoldOreChunk" Description="冶炼金矿石获得黄金">
       "a"
     </Recipe>
-    <Recipe Result="GoldIngot" ResultCount="4" RequiredHeatLevel="1100" a="GoldOreChunk" Description="冶炼金矿获得黄金">
+    <Recipe Result="GoldIngot" ResultCount="4" RequiredHeatLevel="1065" a="GoldOreChunk" Description="冶炼金矿获得黄金">
       "aaa"
     </Recipe>
-    <Recipe Result="SilverIngot" ResultCount="1" RequiredHeatLevel="900" a="SilverOrePowder" Description="熔炼银矿粉获得银">
+    <Recipe Result="SilverIngot" ResultCount="1" RequiredHeatLevel="962" a="SilverOrePowder" Description="熔炼银矿粉获得银">
       "a"
     </Recipe>
-    <Recipe Result="SilverIngot" ResultCount="6" RequiredHeatLevel="900" a="SilverOrePowder" Description="熔炼银矿粉获得银">
-      "aaaa"
+    <Recipe Result="SilverIngot" ResultCount="3" Remains="Hg" RemainsCount="2" RequiredHeatLevel="600" a="AgAmalgam" b="emptybucket" Description="从银汞齐分离出银">
+      "ab"
     </Recipe>
-    <Recipe Result="SilverIngot" ResultCount="1" RequiredHeatLevel="900" a="SilverRod" Description="熔炼银棒获得银">
+    <Recipe Result="SilverIngot" ResultCount="1" RequiredHeatLevel="962" a="SilverRod" Description="熔炼银棒获得银">
       "a"
     </Recipe>
-    <Recipe Result="SilverIngot" ResultCount="1" RequiredHeatLevel="900" a="SilverOreChunk" Description="冶炼银矿石获得银">
+    <Recipe Result="SilverIngot" ResultCount="1" RequiredHeatLevel="962" a="SilverOreChunk" Description="冶炼银矿石获得银">
       "a"
     </Recipe>
-    <Recipe Result="SilverIngot" ResultCount="1" RequiredHeatLevel="900" a="Ag" Description="冶炼银获得银">
+    <Recipe Result="SilverIngot" ResultCount="1" RequiredHeatLevel="962" a="Ag" Description="冶炼银获得银">
       "a"
     </Recipe>
-    <Recipe Result="SilverIngot" ResultCount="4" RequiredHeatLevel="900" a="SilverOreChunk" Description="冶炼银矿石获得银">
+    <Recipe Result="SilverIngot" ResultCount="4" RequiredHeatLevel="962" a="SilverOreChunk" Description="冶炼银矿石获得银">
       "aaa"
     </Recipe>
-    <Recipe Result="PlatinumIngot" ResultCount="1" RequiredHeatLevel="1800" a="PlatinumOrePowder" Description="冶炼铂矿粉得到铂">
+    <Recipe Result="PlatinumIngot" ResultCount="1" RequiredHeatLevel="1700" a="PlatinumOrePowder" Description="冶炼铂矿粉得到铂">
       "a"
     </Recipe>
-    <Recipe Result="PlatinumIngot" ResultCount="6" RequiredHeatLevel="1800" a="PlatinumOrePowder" Description="冶炼铂矿粉得到铂">
-      "aaaa"
+    <Recipe Result="PlatinumIngot" ResultCount="3" Remains="Hg" RemainsCount="1" RequiredHeatLevel="1775" a="PtAmalgam" b="emptybucket" Description="从铂汞齐分离出铂">
+      "ab"
     </Recipe>
-    <Recipe Result="PlatinumIngot" ResultCount="1" RequiredHeatLevel="1800" a="PlatinumRod" Description="冶炼铂矿石得到铂">
+    <Recipe Result="PlatinumIngot" ResultCount="1" RequiredHeatLevel="1775" a="PlatinumRod" Description="冶炼铂矿石得到铂">
       "a"
     </Recipe>
-    <Recipe Result="PlatinumIngot" ResultCount="1" RequiredHeatLevel="1800" a="PlatinumOreChunk" Description="冶炼铂矿石得到铂">
+    <Recipe Result="PlatinumIngot" ResultCount="1" RequiredHeatLevel="1775" a="PlatinumOreChunk" Description="冶炼铂矿石得到铂">
       "a"
     </Recipe>
-    <Recipe Result="PlatinumIngot" ResultCount="1" RequiredHeatLevel="1800" a="Pt" Description="冶炼铂得到铂">
+    <Recipe Result="PlatinumIngot" ResultCount="1" RequiredHeatLevel="1775" a="Pt" Description="冶炼铂得到铂">
       "a"
     </Recipe>
-    <Recipe Result="PlatinumIngot" ResultCount="4" RequiredHeatLevel="1800" a="PlatinumOreChunk" Description="冶炼铂矿粉得到铂">
+    <Recipe Result="PlatinumIngot" ResultCount="4" RequiredHeatLevel="1775" a="PlatinumOreChunk" Description="冶炼铂矿粉得到铂">
       "aaa"
     </Recipe>
-    <Recipe Result="LeadIngot" ResultCount="1" RequiredHeatLevel="300" a="LeadOrePowder" Description="冶炼铅矿粉获得铅">
+    <Recipe Result="LeadIngot" ResultCount="1" RequiredHeatLevel="327" a="LeadOrePowder" Description="冶炼铅矿粉获得铅">
       "a"
     </Recipe>
-    <Recipe Result="LeadIngot" ResultCount="6" RequiredHeatLevel="300" a="LeadOrePowder" Description="冶炼铅矿粉获得铅">
-      "aaaa"
+    <Recipe Result="LeadIngot" ResultCount="3" Remains="Hg" RemainsCount="1" RequiredHeatLevel="327" a="PbAmalgam" b="emptybucket" Description="从铅汞齐分离出铅">
+      "ab"
     </Recipe>
-    <Recipe Result="LeadIngot" ResultCount="1" RequiredHeatLevel="300" a="LeadRod" Description="冶炼铅棒获得铅">
+    <Recipe Result="LeadIngot" ResultCount="1" RequiredHeatLevel="327" a="LeadRod" Description="冶炼铅棒获得铅">
       "a"
     </Recipe>
-    <Recipe Result="LeadIngot" ResultCount="1" RequiredHeatLevel="300" a="Pb" Description="冶炼铅获得铅">
+    <Recipe Result="LeadIngot" ResultCount="1" RequiredHeatLevel="327" a="Pb" Description="冶炼铅获得铅">
       "a"
     </Recipe>
-    <Recipe Result="LeadIngot" ResultCount="1" RequiredHeatLevel="300" a="LeadOreChunk" Description="冶炼铅矿石获得铅">
+    <Recipe Result="LeadIngot" ResultCount="1" RequiredHeatLevel="327" a="LeadOreChunk" Description="冶炼铅矿石获得铅">
       "a"
     </Recipe>
-    <Recipe Result="LeadIngot" ResultCount="4" RequiredHeatLevel="300" a="LeadOreChunk" Description="冶炼铅矿石获得铅">
+    <Recipe Result="LeadIngot" ResultCount="4" RequiredHeatLevel="327" a="LeadOreChunk" Description="冶炼铅矿石获得铅">
       "aaa"
     </Recipe>
-    <Recipe Result="ZincIngot" ResultCount="1" RequiredHeatLevel="800" a="ZincOrePowder" b="CoalPowder" Description="冶炼锌矿粉获得锌">
+    <Recipe Result="ZincIngot" ResultCount="2" Remains="Hg" RemainsCount="1" RequiredHeatLevel="327" a="ZnAmalgam" b="emptybucket" Description="从锌汞齐分离出锌">
+      "ab"
+    </Recipe>
+    <Recipe Result="ZincIngot" ResultCount="1" RequiredHeatLevel="420" a="ZincOrePowder" b="CoalPowder" Description="冶炼锌矿粉获得锌">
       "abb"
     </Recipe>
-    <Recipe Result="ZincIngot" ResultCount="1" RequiredHeatLevel="800" a="Zn" b="CoalPowder" Description="冶炼锌粉获得锌">
+    <Recipe Result="ZincIngot" ResultCount="1" RequiredHeatLevel="420" a="Zn" b="CoalPowder" Description="冶炼锌粉获得锌">
       "abb"
     </Recipe>
     <Recipe Result="BrassIngot" ResultCount="1" RequiredHeatLevel="1200" a="CopperOrePowder" b="CoalPowder" c="ZincOrePowder" Description="冶炼铜矿粉锌矿粉碳粉获得黄铜">
@@ -106,22 +151,22 @@
     <Recipe Result="NickelIngot" ResultCount="1" RequiredHeatLevel="1200" a="Ni" b="CoalPowder" c="pigment" Description="冶炼镍粉获得镍">
       "abc"
     </Recipe>
-    <Recipe Result="StannaryIngot" ResultCount="1" RequiredHeatLevel="300" a="StannaryOrePowder" Description="冶炼锡矿粉获得锡">
+    <Recipe Result="StannaryIngot" ResultCount="1" RequiredHeatLevel="232" a="StannaryOrePowder" Description="冶炼锡矿粉获得锡">
       "a"
     </Recipe>
-    <Recipe Result="StannaryIngot" ResultCount="6" RequiredHeatLevel="300" a="StannaryOrePowder" Description="冶炼锡矿粉获得锡">
-      "aaaa"
+    <Recipe Result="StannaryIngot" ResultCount="3" Remains="Hg" RemainsCount="1" RequiredHeatLevel="232" a="SnAmalgam" b="emptybucket" Description="从锡汞齐分离出锡">
+      "ab"
     </Recipe>
-    <Recipe Result="StannaryIngot" ResultCount="1" RequiredHeatLevel="300" a="StannaryRod" Description="融化锡棒获得锡">
+    <Recipe Result="StannaryIngot" ResultCount="1" RequiredHeatLevel="232" a="StannaryRod" Description="融化锡棒获得锡">
       "a"
     </Recipe>
-    <Recipe Result="StannaryIngot" ResultCount="1" RequiredHeatLevel="300" a="StannaryOreChunk" Description="冶炼锡矿石获得锡">
+    <Recipe Result="StannaryIngot" ResultCount="1" RequiredHeatLevel="232" a="StannaryOreChunk" Description="冶炼锡矿石获得锡">
       "a"
     </Recipe>
-    <Recipe Result="StannaryIngot" ResultCount="1" RequiredHeatLevel="300" a="Sn" Description="冶炼锡获得锡">
+    <Recipe Result="StannaryIngot" ResultCount="1" RequiredHeatLevel="232" a="Sn" Description="冶炼锡获得锡">
       "a"
     </Recipe>
-    <Recipe Result="StannaryIngot" ResultCount="4" RequiredHeatLevel="300" a="StannaryOreChunk" Description="冶炼锡矿石获得锡">
+    <Recipe Result="StannaryIngot" ResultCount="4" RequiredHeatLevel="232" a="StannaryOreChunk" Description="冶炼锡矿石获得锡">
       "aaa"
     </Recipe>
     <Recipe Result="IronIngotBlock" ResultCount="1" RequiredHeatLevel="1500" a="rod:0" Description="从铁棒回收铁">
@@ -134,9 +179,9 @@
       "aaa"
     </Recipe>
     <Recipe Result="钢瓶" ResultCount="1" RequiredHeatLevel="0" a="SteelPlate" Description="用钢板制作钢瓶">
-      " a "
+      " a"
       "a a"
-      " a "
+      " a"
     </Recipe>
     <Recipe Result="MeltingIron" ResultCount="1" RequiredHeatLevel="2800" a="ironingot" Description="加热铁锭以获得融化的铁">
       "a"
@@ -144,16 +189,16 @@
     <Recipe Result="MeltingIron" ResultCount="1" RequiredHeatLevel="2800" a="SteelIngot" Description="加热钢锭以获得融化的铁">
       "a"
     </Recipe>
-    <Recipe Result="MeltingIron" ResultCount="1" RequiredHeatLevel="2800" a="SteelLine" Description="加热钢线以获得融化的铁">
+    <Recipe Result="MeltingIron" ResultCount="1" RequiredHeatLevel="2800" a="SteelLine" Description="加热钢丝以获得融化的铁">
       "a"
     </Recipe>
-    <Recipe Result="MeltingIron" ResultCount="1" RequiredHeatLevel="2800" a="IronLine" Description="加热钢线以获得融化的铁">
+    <Recipe Result="MeltingIron" ResultCount="1" RequiredHeatLevel="2800" a="IronLine" Description="加热铁丝以获得融化的铁">
       "a"
     </Recipe>
-    <Recipe Result="MeltingIron" ResultCount="1" RequiredHeatLevel="2800" a="SteelPlate" Description="加热钢线以获得融化的铁">
+    <Recipe Result="MeltingIron" ResultCount="1" RequiredHeatLevel="2800" a="SteelPlate" Description="加热钢板以获得融化的铁">
       "a"
     </Recipe>
-    <Recipe Result="MeltingIron" ResultCount="1" RequiredHeatLevel="2800" a="IronPlate" Description="加热钢线以获得融化的铁">
+    <Recipe Result="MeltingIron" ResultCount="1" RequiredHeatLevel="2800" a="IronPlate" Description="加热铁板以获得融化的铁">
       "a"
     </Recipe>
     <Recipe Result="MeltingIron" ResultCount="1" RequiredHeatLevel="2800" a="ScrapIron" Description="加热废铁以获得融化的铁">
@@ -168,7 +213,10 @@
     <Recipe Result="MeltingChromium" ResultCount="1" RequiredHeatLevel="2800" a="ChromiumIngot" Description="加热铬锭以获得融化的铬">
       "a"
     </Recipe>
-    <Recipe Result="MeltingChromium" ResultCount="2" RequiredHeatLevel="2800" a="ChromiumRod" Description="加热铬粉以获得融化的铬">
+    <Recipe Result="MeltingChromium" ResultCount="2" RequiredHeatLevel="2800" a="ChromiumRod" Description="加热铬棒以获得融化的铬">
+      "a"
+    </Recipe>
+    <Recipe Result="MeltingChromium" ResultCount="1" RequiredHeatLevel="2800" a="Cr" Description="加热铬粉以获得融化的铬">
       "a"
     </Recipe>
     <Recipe Result="MeltingChromium" ResultCount="1" RequiredHeatLevel="2800" a="ChromiumLine" Description="加热铬线以获得融化的铬">
@@ -177,7 +225,10 @@
     <Recipe Result="MeltingCopper" ResultCount="1" RequiredHeatLevel="2800" a="copperingot" Description="加热铜锭以获得融化的铜">
       "a"
     </Recipe>
-    <Recipe Result="MeltingCopper" ResultCount="2" RequiredHeatLevel="2800" a="CopperRod" Description="加热铜粉以获得融化的铜">
+    <Recipe Result="MeltingCopper" ResultCount="2" RequiredHeatLevel="2800" a="CopperRod" Description="加热铜棒以获得融化的铜">
+      "a"
+    </Recipe>
+    <Recipe Result="MeltingCopper" ResultCount="1" RequiredHeatLevel="2800" a="Cu" Description="加热铜粉以获得融化的铜">
       "a"
     </Recipe>
     <Recipe Result="MeltingCopper" ResultCount="1" RequiredHeatLevel="2800" a="CopperLine" Description="加热铜线以获得融化的铜">
@@ -189,22 +240,28 @@
     <Recipe Result="MeltingNickel" ResultCount="1" RequiredHeatLevel="2800" a="NickelIngot" Description="加热镍锭以获得融化的镍">
       "a"
     </Recipe>
-    <Recipe Result="MeltingNickel" ResultCount="2" RequiredHeatLevel="2800" a="NickelRod" Description="加热镍粉以获得融化的镍">
+    <Recipe Result="MeltingNickel" ResultCount="2" RequiredHeatLevel="2800" a="NickelRod" Description="加热镍棒以获得融化的镍">
+      "a"
+    </Recipe>
+    <Recipe Result="MeltingNickel" ResultCount="1" RequiredHeatLevel="2800" a="Ni" Description="加热镍粉以获得融化的镍">
       "a"
     </Recipe>
     <Recipe Result="MeltingTitanium" ResultCount="1" RequiredHeatLevel="2800" a="TitaniumOrePowder" Description="加热钛锭以获得融化的钛">
       "a"
     </Recipe>
-    <Recipe Result="MeltingZinc" ResultCount="1" RequiredHeatLevel="2800" a="ZincIngot" Description="加热镍锭以获得融化的镍">
+    <Recipe Result="MeltingZinc" ResultCount="1" RequiredHeatLevel="2800" a="ZincIngot" Description="加热锌锭以获得融化的镍">
       "a"
     </Recipe>
-    <Recipe Result="MeltingZinc" ResultCount="2" RequiredHeatLevel="2800" a="ZincRod" Description="加热镍粉以获得融化的镍">
+    <Recipe Result="MeltingZinc" ResultCount="2" RequiredHeatLevel="2800" a="ZincRod" Description="加热锌棒以获得融化的镍">
       "a"
     </Recipe>
-    <Recipe Result="MeltingZinc" ResultCount="1" RequiredHeatLevel="2800" a="ZincPlate" Description="加热镍片以获得融化的镍">
+    <Recipe Result="MeltingZinc" ResultCount="1" RequiredHeatLevel="2800" a="Zn" Description="加热锌粉以获得融化的镍">
       "a"
     </Recipe>
-    <Recipe Result="MeltingAluminium" ResultCount="1" RequiredHeatLevel="2800" a="AluminumIngot" Description="加热镍锭以获得融化的镍">
+    <Recipe Result="MeltingZinc" ResultCount="1" RequiredHeatLevel="2800" a="ZincPlate" Description="加热锌片以获得融化的镍">
+      "a"
+    </Recipe>
+    <Recipe Result="MeltingAluminium" ResultCount="1" RequiredHeatLevel="2800" a="AluminumIngot" Description="加热铝锭以获得融化的镍">
       "a"
     </Recipe>
     <Recipe Result="SteelIngot" ResultCount="2" RequiredHeatLevel="1900" Remains="ScrapIron" RemainsCount="1" a="ironingot" Description="冶炼铁锭以获得钢并去除硫磺">
@@ -213,19 +270,22 @@
     <Recipe Result="RefractoryBrick" ResultCount="4" RequiredHeatLevel="1500" a="clay" b="IronOrePowder" c="AluminumOrePowder" Description="冶炼粘土，铁矿粉和铝矿粉获得耐火砖">
       "abc"
     </Recipe>
-    <Recipe Result="ConcreteBrick" ResultCount="4" RequiredHeatLevel="1500" a="clay" b="sand" c="pigment" d="Ashes"  Description="冶炼粘土，沙子，石灰粉，煤渣获得混凝土砖">
+    <Recipe Result="ConcreteBrick" ResultCount="4" RequiredHeatLevel="1500" a="clay" b="sand" c="pigment" d="Ashes" Description="冶炼粘土，沙子，石灰粉，煤渣获得混凝土砖">
       "abcd"
     </Recipe>
-    <Recipe Result="CopperIngotBlock" ResultCount="1" RequiredHeatLevel="1000" a="CopperOrePowder" Description="冶炼铜矿粉获得铜">
+    <Recipe Result="CopperIngotBlock" ResultCount="2" RequiredHeatLevel="1085" a="CopperOrePowder" b="CoalPowder" Description="冶炼铜矿粉获得铜">
+      "aab"
+    </Recipe>
+    <Recipe Result="CopperIngotBlock" Remains="钢瓶" RemainsCount="1" ResultCount="1" RequiredHeatLevel="1085" a="CopperOrePowder" b="H2" Description="用氢气还原铜矿粉">
+      "ab"
+    </Recipe>
+    <Recipe Result="CopperIngotBlock" ResultCount="1" RequiredHeatLevel="1085" a="Cu" Description="冶炼铜粉获得铜">
       "a"
     </Recipe>
-    <Recipe Result="CopperIngotBlock" ResultCount="1" RequiredHeatLevel="1000" a="Cu" Description="冶炼铜粉获得铜">
-      "a"
+    <Recipe Result="CopperIngotBlock" ResultCount="3" Remains="Hg" RemainsCount="1" RequiredHeatLevel="1085" a="CuAmalgam" b="emptybucket" Description="从铜汞齐分离出铜">
+      "ab"
     </Recipe>
-    <Recipe Result="CopperIngotBlock" ResultCount="6" RequiredHeatLevel="1000" a="CopperOrePowder" Description="冶炼铜矿粉获得铜">
-      "aaaa"
-    </Recipe>
-    <Recipe Result="CopperIngotBlock" ResultCount="4" RequiredHeatLevel="1000" a="malachitechunk:0" Description="冶炼铜矿石获得铜">
+    <Recipe Result="CopperIngotBlock" ResultCount="4" RequiredHeatLevel="1085" a="malachitechunk:0" Description="冶炼铜矿石获得铜">
       "aaa"
     </Recipe>
     <Recipe Result="GermaniumChunkBlock" ResultCount="1" RequiredHeatLevel="900" a="GermaniumOrePowder" Description="冶炼锗矿粉以获得锗晶体">
@@ -240,31 +300,31 @@
     <Recipe Result="SteelRod" ResultCount="2" RequiredHeatLevel="1500" a="SteelIngot" Description="将钢锭锻造成棒">
       "aa"
     </Recipe>
-    <Recipe Result="CopperRod" ResultCount="2" RequiredHeatLevel="1000" a="copperingot:0" Description="将铜锭锭锻造成棒">
+    <Recipe Result="CopperRod" ResultCount="2" RequiredHeatLevel="1085" a="copperingot:0" Description="将铜锭锭锻造成棒">
       "aa"
     </Recipe>
-    <Recipe Result="GoldRod" ResultCount="2" RequiredHeatLevel="1100" a="GoldIngot" Description="将黄金锭锻造成棒">
+    <Recipe Result="GoldRod" ResultCount="2" RequiredHeatLevel="1065" a="GoldIngot" Description="将黄金锭锻造成棒">
       "aa"
     </Recipe>
-    <Recipe Result="SilverRod" ResultCount="2" RequiredHeatLevel="900" a="SilverIngot" Description="将银锭锻造成棒">
+    <Recipe Result="SilverRod" ResultCount="2" RequiredHeatLevel="962" a="SilverIngot" Description="将银锭锻造成棒">
       "aa"
     </Recipe>
-    <Recipe Result="LeadRod" ResultCount="2" RequiredHeatLevel="300" a="LeadIngot" Description="将铅锭锻造成棒">
+    <Recipe Result="LeadRod" ResultCount="2" RequiredHeatLevel="327" a="LeadIngot" Description="将铅锭锻造成棒">
       "aa"
     </Recipe>
     <Recipe Result="BrassRod" ResultCount="2" RequiredHeatLevel="1200" a="BrassIngot" b="CoalPowder" Description="冶炼黄铜矿获得棒">
       "aab"
     </Recipe>
-    <Recipe Result="PlatinumRod" ResultCount="2" RequiredHeatLevel="1800" a="PlatinumIngot" Description="将铂锭锻造成棒">
+    <Recipe Result="PlatinumRod" ResultCount="2" RequiredHeatLevel="1775" a="PlatinumIngot" Description="将铂锭锻造成棒">
       "aa"
     </Recipe>
-    <Recipe Result="ZincRod" ResultCount="2" RequiredHeatLevel="800" a="ZincIngot" b="CoalPowder" Description="将锌锭锻造成棒">
+    <Recipe Result="ZincRod" ResultCount="2" RequiredHeatLevel="420" a="ZincIngot" b="CoalPowder" Description="将锌锭锻造成棒">
       "aab"
     </Recipe>
-    <Recipe Result="ChromiumRod" ResultCount="2" RequiredHeatLevel="1850" a="ChromiumIngot" Description="将铬锭锻造成棒">
+    <Recipe Result="ChromiumRod" ResultCount="2" RequiredHeatLevel="1857" a="ChromiumIngot" Description="将铬锭锻造成棒">
       "aa"
     </Recipe>
-    <Recipe Result="StannaryRod" ResultCount="2" RequiredHeatLevel="300" a="StannaryIngot" Description="将锡锭锻造成棒">
+    <Recipe Result="StannaryRod" ResultCount="2" RequiredHeatLevel="232" a="StannaryIngot" Description="将锡锭锻造成棒">
       "aa"
     </Recipe>
     <Recipe Result="NickelRod" ResultCount="2" RequiredHeatLevel="1200" a="NickelIngot" Description="将镍锭锻造成棒">
@@ -276,22 +336,22 @@
     <Recipe Result="IronIngotBlock" ResultCount="2" RequiredHeatLevel="1500" a="IronPlate" Description="将铁板锻造成铸锭">
       "aaa"
     </Recipe>
-    <Recipe Result="CopperIngotBlock" ResultCount="2" RequiredHeatLevel="1000" a="CopperPlate" Description="将铜板锻造成铸锭">
+    <Recipe Result="CopperIngotBlock" ResultCount="2" RequiredHeatLevel="1085" a="CopperPlate" Description="将铜板锻造成铸锭">
       "aaa"
     </Recipe>
-    <Recipe Result="GoldIngot" ResultCount="2" RequiredHeatLevel="1100" a="GoldPlate" Description="将金板锻造成铸锭">
+    <Recipe Result="GoldIngot" ResultCount="2" RequiredHeatLevel="1065" a="GoldPlate" Description="将金板锻造成铸锭">
       "aaa"
     </Recipe>
-    <Recipe Result="SilverIngot" ResultCount="2" RequiredHeatLevel="900" a="SilverPlate" Description="将银板锻造成铸锭">
+    <Recipe Result="SilverIngot" ResultCount="2" RequiredHeatLevel="962" a="SilverPlate" Description="将银板锻造成铸锭">
       "aaa"
     </Recipe>
-    <Recipe Result="LeadIngot" ResultCount="2" RequiredHeatLevel="300" a="LeadPlate" Description="将铅板锻造成铸锭">
+    <Recipe Result="LeadIngot" ResultCount="2" RequiredHeatLevel="327" a="LeadPlate" Description="将铅板锻造成铸锭">
       "aaa"
     </Recipe>
-    <Recipe Result="PlatinumIngot" ResultCount="2" RequiredHeatLevel="1800" a="PlatinumPlate" Description="将铂金板锻造成铸锭">
+    <Recipe Result="PlatinumIngot" ResultCount="2" RequiredHeatLevel="1775" a="PlatinumPlate" Description="将铂金板锻造成铸锭">
       "aaa"
     </Recipe>
-    <Recipe Result="StannaryIngot" ResultCount="2" RequiredHeatLevel="300" a="StannaryPlate" Description="将锡板锻造成铸锭">
+    <Recipe Result="StannaryIngot" ResultCount="2" RequiredHeatLevel="232" a="StannaryPlate" Description="将锡板锻造成铸锭">
       "aaa"
     </Recipe>
     <Recipe Result="SteelIngot" ResultCount="2" RequiredHeatLevel="1500" a="SteelLine" Description="将钢管锻造成铸锭">
@@ -300,31 +360,31 @@
     <Recipe Result="IronIngotBlock" ResultCount="2" RequiredHeatLevel="1500" a="IronLine" Description="将铁线锻造成铸锭">
       "aa"
     </Recipe>
-    <Recipe Result="CopperIngotBlock" ResultCount="2" RequiredHeatLevel="1000" a="CopperLine" Description="将铜线锻造成铸锭">
+    <Recipe Result="CopperIngotBlock" ResultCount="2" RequiredHeatLevel="1085" a="CopperLine" Description="将铜线锻造成铸锭">
       "aa"
     </Recipe>
-    <Recipe Result="GoldIngot" ResultCount="2" RequiredHeatLevel="1100" a="GoldLine" Description="将金线打造成铸锭">
+    <Recipe Result="GoldIngot" ResultCount="2" RequiredHeatLevel="1065" a="GoldLine" Description="将金线打造成铸锭">
       "aa"
     </Recipe>
-    <Recipe Result="SilverIngot" ResultCount="2" RequiredHeatLevel="900" a="SilverLine" Description="将银线锻造成锭">
+    <Recipe Result="SilverIngot" ResultCount="2" RequiredHeatLevel="962" a="SilverLine" Description="将银线锻造成锭">
       "aa"
     </Recipe>
-    <Recipe Result="LeadIngot" ResultCount="2" RequiredHeatLevel="300" a="LeadLine" Description="将铅线锻造成锭">
+    <Recipe Result="LeadIngot" ResultCount="2" RequiredHeatLevel="327" a="LeadLine" Description="将铅线锻造成锭">
       "aa"
     </Recipe>
-    <Recipe Result="PlatinumIngot" ResultCount="2" RequiredHeatLevel="1800" a="PlatinumLine" Description="将铂金线锻造成铸锭">
+    <Recipe Result="PlatinumIngot" ResultCount="2" RequiredHeatLevel="1775" a="PlatinumLine" Description="将铂金线锻造成铸锭">
       "aa"
     </Recipe>
-    <Recipe Result="StannaryIngot" ResultCount="2" RequiredHeatLevel="300" a="StannaryLine" Description="将锡线铸成锭">
+    <Recipe Result="StannaryIngot" ResultCount="2" RequiredHeatLevel="232" a="StannaryLine" Description="将锡线铸成锭">
       "aa"
     </Recipe>
-    <Recipe Result="ChromiumIngot" ResultCount="2" RequiredHeatLevel="1850" a="ChromiumLine" Description="将铬线铸造成铸锭">
+    <Recipe Result="ChromiumIngot" ResultCount="2" RequiredHeatLevel="1857" a="ChromiumLine" Description="将铬线铸造成铸锭">
       "aa"
     </Recipe>
-    <Recipe Result="ChromiumIngot" ResultCount="1" RequiredHeatLevel="1850" a="ChromiumOrePowder" b="CokeCoalPowder" Description="将铬粉铸造成铸锭">
+    <Recipe Result="ChromiumIngot" ResultCount="1" RequiredHeatLevel="1857" a="ChromiumOrePowder" b="CokeCoalPowder" Description="将铬粉铸造成铸锭">
       "abb"
     </Recipe>
-    <Recipe Result="ChromiumIngot" ResultCount="1" RequiredHeatLevel="1850" Remains="钢瓶" RemainsCount="2" a="ChromiumOrePowder" b="H2" Description="将铬粉铸造成铸锭">
+    <Recipe Result="ChromiumIngot" ResultCount="1" RequiredHeatLevel="1857" Remains="钢瓶" RemainsCount="2" a="ChromiumOrePowder" b="H2" Description="将铬粉铸造成铸锭">
       "abb"
     </Recipe>
     <Recipe Result="SteelIngot" ResultCount="1" RequiredHeatLevel="1400" a="SteelRod" Description="将钢棒锻造成铸锭">
@@ -333,31 +393,31 @@
     <Recipe Result="IronIngotBlock" ResultCount="1" RequiredHeatLevel="1500" a="rod:0" Description="将铁棒锻造成铸锭">
       "aa"
     </Recipe>
-    <Recipe Result="CopperIngotBlock" ResultCount="1" RequiredHeatLevel="1000" a="CopperRod" Description="将铜棒锻造成铸锭">
+    <Recipe Result="CopperIngotBlock" ResultCount="1" RequiredHeatLevel="1085" a="CopperRod" Description="将铜棒锻造成铸锭">
       "a"
     </Recipe>
-    <Recipe Result="GoldIngot" ResultCount="1" RequiredHeatLevel="1100" a="GoldRod" Description="将金棒锻造成铸锭">
+    <Recipe Result="GoldIngot" ResultCount="1" RequiredHeatLevel="1065" a="GoldRod" Description="将金棒锻造成铸锭">
       "a"
     </Recipe>
-    <Recipe Result="SilverIngot" ResultCount="1" RequiredHeatLevel="900" a="SilverRod" Description="将银棒锻造成铸锭">
+    <Recipe Result="SilverIngot" ResultCount="1" RequiredHeatLevel="962" a="SilverRod" Description="将银棒锻造成铸锭">
       "a"
     </Recipe>
-    <Recipe Result="LeadIngot" ResultCount="1" RequiredHeatLevel="300" a="LeadRod" Description="将铅棒锻造成铸锭">
+    <Recipe Result="LeadIngot" ResultCount="1" RequiredHeatLevel="327" a="LeadRod" Description="将铅棒锻造成铸锭">
       "a"
     </Recipe>
-    <Recipe Result="PlatinumIngot" ResultCount="1" RequiredHeatLevel="1800" a="PlatinumRod" Description="将铂棒锻造成铸锭">
+    <Recipe Result="PlatinumIngot" ResultCount="1" RequiredHeatLevel="1775" a="PlatinumRod" Description="将铂棒锻造成铸锭">
       "a"
     </Recipe>
-    <Recipe Result="StannaryIngot" ResultCount="1" RequiredHeatLevel="300" a="StannaryRod" Description="将锡棒棒锻造成铸锭">
+    <Recipe Result="StannaryIngot" ResultCount="1" RequiredHeatLevel="232" a="StannaryRod" Description="将锡棒棒锻造成铸锭">
       "a"
     </Recipe>
-    <Recipe Result="ChromiumIngot" ResultCount="1" RequiredHeatLevel="1850" a="ChromiumRod" Description="将铬棒锻造成铸锭">
+    <Recipe Result="ChromiumIngot" ResultCount="1" RequiredHeatLevel="1857" a="ChromiumRod" Description="将铬棒锻造成铸锭">
       "a"
     </Recipe>
-    <Recipe Result="SteelIngot" ResultCount="1" RequiredHeatLevel="300" a="IndustrialMagnet" Description="将工业磁铁锻造成铸锭">
+    <Recipe Result="SteelIngot" ResultCount="1" RequiredHeatLevel="900" a="IndustrialMagnet" Description="将工业磁铁锻造成铸锭">
       "a"
     </Recipe>
-    <Recipe Result="RottenMeatBlock:96" ResultCount="1" RequiredHeatLevel="300" a="MercuryOreChunk" b="emptybucket" Description="冶炼汞">
+    <Recipe Result="Hg" ResultCount="1" RequiredHeatLevel="500" a="MercuryOreChunk" b="emptybucket" Description="冶炼汞">
       "aba"
     </Recipe>
     <Recipe Result="Industrial Steel" ResultCount="1" RequiredHeatLevel="2000" a="MeltingIron" b="MeltingNickel" Description="铁加镍冶炼工业钢">
@@ -377,6 +437,9 @@
     </Recipe>
     <Recipe Result="Cannon" ResultCount="2" RequiredHeatLevel="2000" a="Gun-Steel" Description="炮钢冶炼炮管">
       "aaaa"
+    </Recipe>
+    <Recipe Result="V2O5" ResultCount="1" RequiredHeatLevel="1800" a="VanadiumOrePowder" Description="制取五氧化二钒">
+      "a"
     </Recipe>
   </Smelting>
   <Materials>
@@ -509,7 +572,7 @@
     <Recipe Result="StannaryIngot" ResultCount="9" RequiredHeatLevel="0" a="metalblock:288" Description="将锡块拆除成锭块">
       "a"
     </Recipe>
-    <Recipe Result="ChromiumIngot" ResultCount="9" RequiredHeatLevel="1850" a="metalblock:320" Description="将铬块拆除成锭块">
+    <Recipe Result="ChromiumIngot" ResultCount="9" RequiredHeatLevel="1857" a="metalblock:320" Description="将铬块拆除成锭块">
       "a"
     </Recipe>
     <Recipe Result="NickelIngot" ResultCount="9" RequiredHeatLevel="0" a="metalblock:384" Description="将镍块拆分成铸锭">
@@ -790,16 +853,16 @@
       "a a"
       " aa"
     </Recipe>
-    <Recipe Result="TankBlock" ResultCount="3" RequiredHeatLevel="1100" a="copperblock:0" Description="将铜锻造成空罐">
+    <Recipe Result="TankBlock" ResultCount="3" RequiredHeatLevel="1085" a="copperblock:0" Description="将铜锻造成空罐">
       "aa"
     </Recipe>
     <Recipe Result="CopperPlate" ResultCount="6" RequiredHeatLevel="0" a="tank:0" Description="拆除一个空罐">
       "a"
     </Recipe>
-    <Recipe Result="CopperIngotBlock" ResultCount="6" RequiredHeatLevel="1100" a="tank:0:0" Description="拆除一个空罐">
+    <Recipe Result="CopperIngotBlock" ResultCount="6" RequiredHeatLevel="1085" a="tank:0" Description="拆除一个空罐">
       "a"
     </Recipe>
-    <Recipe Result="CopperBlock" ResultCount="2" RequiredHeatLevel="1100" a="tank:0:0" Description="将油箱拆分成铜块">
+    <Recipe Result="CopperBlock" ResultCount="2" RequiredHeatLevel="1085" a="tank:0" Description="将油箱拆分成铜块">
       "aaa"
      </Recipe>
     <Recipe Result="EngineBlock:1024" ResultCount="1" RequiredHeatLevel="0" a="tank:0" b="IndustrialPiston" c="metalblock:0" d="furnace" e="SteelRod" Description="做一个斯特林发动机">
@@ -857,6 +920,19 @@
       "adda"
       "abba"
       "bccb"
+    </Recipe>
+    <Recipe Result="LightningCatcher" ResultCount="1" RequiredHeatLevel="0" a="Condenser" b="WireDevice" c="SteelSheet" Description="制作一个雷电捕捉器">
+      "bccccb"
+      "aaaaab"
+      "aaaaab"
+      "aaaaab"
+      "aaaaab"
+      "aaaaab"
+    </Recipe>
+    <Recipe Result="FuelCell" ResultCount="1" Remains="Bottle" RemainsCount="1" RequiredHeatLevel="0" a="PlatinumRod" b="CopperWire" c="H2SO4" d="metalblock:32" e="tank:0" f="WireDevice" Description="用硫酸制作一个燃料电池">
+      "aba"
+      "dcf"
+      "eee"
     </Recipe>
     <Recipe Result="Turbine" ResultCount="1" RequiredHeatLevel="0" a="SteelFan" b="tank:0" c="Spring" d="metalblock:32" e="Generator" Description="制作一个涡轮发电机">
       "baab"
@@ -1374,12 +1450,12 @@
       "cdc"
       "aaa"
     </Recipe>
-    <Recipe Result="OilFractionalTower" ResultCount="1" RequiredHeatLevel="0" a="tank:0:0" b="SteelPlate" c="CopperRod" d="metalblock:32" Description="制造石油裂解塔以获得石油产品">
+    <Recipe Result="OilFractionalTower" ResultCount="1" RequiredHeatLevel="0" a="tank:0" b="SteelPlate" c="CopperRod" d="metalblock:32" Description="制造石油裂解塔以获得石油产品">
       "bdb"
       "cac"
       "aaa"
     </Recipe>
-    <Recipe Result="OilPlant" ResultCount="1" RequiredHeatLevel="0" a="tank:0:0" b="SteelPlate" c="CopperRod" d="metalblock:32" e="creactor" Description="制造石油裂解塔以获得石油产品">
+    <Recipe Result="OilPlant" ResultCount="1" RequiredHeatLevel="0" a="tank:0" b="SteelPlate" c="CopperRod" d="metalblock:32" e="creactor" Description="制造石油裂解塔以获得石油产品">
       "bdb"
       "aea"
       "cac"
@@ -1421,7 +1497,7 @@
       "bbbb"
       "cccc"
     </Recipe>
-    <Recipe Result="EngineBlock:4096" ResultCount="1" RequiredHeatLevel="0" a="Cylinder" b="tank:0:0" c="火花塞" d="SteelGear" e="SteelRod" f="metalblock:32" g="电容" Description="制作内燃机">
+    <Recipe Result="EngineBlock:4096" ResultCount="1" RequiredHeatLevel="0" a="Cylinder" b="tank:0" c="火花塞" d="SteelGear" e="SteelRod" f="metalblock:32" g="电容" Description="制作内燃机">
       "deed"
       "baab"
       "gaac"
@@ -1513,7 +1589,7 @@
     <Recipe Result="CopperLine" ResultCount="8" Remains="SteelRod" RemainsCount="1" RequiredHeatLevel="0" a="CopperWire" Description="拆除铜线">
       "a"
     </Recipe>
-    <Recipe Result="CopperIngotBlock" ResultCount="8" Remains="SteelRod" RemainsCount="1" RequiredHeatLevel="1100" a="CopperWire" Description="拆除铜线">
+    <Recipe Result="CopperIngotBlock" ResultCount="8" Remains="SteelRod" RemainsCount="1" RequiredHeatLevel="1085" a="CopperWire" Description="拆除铜线">
       "a"
     </Recipe>
     <Recipe Result="IronIngotBlock" ResultCount="13" Remains="CopperWire" RemainsCount="8" RequiredHeatLevel="1500" a="Generator" Description="Dismantle the Generator.">

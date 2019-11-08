@@ -62,7 +62,7 @@ namespace Game
 
 		protected readonly Dictionary<int, int> result = new Dictionary<int, int>();
 
-		protected int m_smeltingRecipe, m_smeltingRecipe2;
+		protected int m_smeltingRecipe, m_smeltingRecipe2;//, Type;
 
 		//protected int m_music;
 
@@ -159,17 +159,17 @@ namespace Game
 		{
 			result.Clear();
 			int text = 0;
-			//if (ElementBlock.Block.GetDevice(coordinates.X, coordinates.Y, coordinates.Z, cellValue) is Centrifugal)
-			//	if (GetSlotValue(0)== ItemBlock.IdTable["UraniumOrePowder"])
-			//	{
-			//		text = 8;
-			//		result[ItemBlock.IdTable["U235P"]] = 1;
-			//	}
-			//	return FindSmeltingRecipe(text);
-			//if (ElementBlock.Block.GetDevice(coordinates.X, coordinates.Y, coordinates.Z, cellValue) is UThickener)
-			//	return FindSmeltingRecipe(text);
-			//if (ElementBlock.Block.GetDevice(coordinates.X, coordinates.Y, coordinates.Z, cellValue) is Unpacker)
-			//	return FindSmeltingRecipe(text);
+			/*if (ElementBlock.Block.GetDevice(coordinates.X, coordinates.Y, coordinates.Z, cellValue) is Centrifugal)
+				if (GetSlotValue(0)== ItemBlock.IdTable["UraniumOrePowder"])
+				{
+					text = 8;
+					result[ItemBlock.IdTable["U235P"]] = 1;
+				}
+				return FindSmeltingRecipe(text);
+			if (ElementBlock.Block.GetDevice(coordinates.X, coordinates.Y, coordinates.Z, cellValue) is UThickener)
+				return FindSmeltingRecipe(text);
+			if (ElementBlock.Block.GetDevice(coordinates.X, coordinates.Y, coordinates.Z, cellValue) is Unpacker)
+				return FindSmeltingRecipe(text);*/
 			int i;
 			for (i = 0; i < 1; i++)
 			{
@@ -225,9 +225,7 @@ namespace Game
 						if (x == 0)
 						{
 							result[ItemBlock.IdTable["Graphite"]] = 1;
-							
 						}
-							
 						break;
 				}
 				if (GetSlotValue(i) == ItemBlock.IdTable["Slag"])

@@ -26,7 +26,7 @@ namespace Game
 		public override void Initialize()
 		{
 			m_standaloneBlockMesh.AppendMesh("Models/Rods", "SteelRod", Matrix.CreateTranslation(0f, -0.5f, 0f) * Matrix.CreateScale(3f, 1.6f, 3f), Matrix.CreateTranslation(9f / 16f, -7f / 16f, 0f), Color.White);
-			//m_standaloneBlockMesh.AppendMesh("Models/Battery", "Battery",  Matrix.CreateScale(.6f) * Matrix.CreateTranslation(0.0f, -0.6f, 0.0f), Matrix.CreateTranslation(9f / 16f, -7f / 16f, 0f), Color.DarkGray);
+			//m_standaloneBlockMesh.AppendMesh("Models/Battery", "Battery",  Matrix.CreateScale(.6f) * Matrix.CreateTranslation(0f, -0.6f, 0f), Matrix.CreateTranslation(9f / 16f, -7f / 16f, 0f), Color.DarkGray);
 			base.Initialize();
 		}
 

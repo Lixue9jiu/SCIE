@@ -291,13 +291,15 @@ namespace Game
 	{
 		public readonly ReactionSystem System;
 
-		public Cylinder(string name) : base("Models/Cylinder", "obj1", Matrix.CreateScale(40f, 80f, 40f) * Matrix.CreateTranslation(0.5f, 0f, 0.5f), Matrix.CreateTranslation(9f / 16f, -7f / 16f, 0f), null, name, 1.5f)
+		public Cylinder(string name) : base("Models/Cylinder", "obj1", Matrix.CreateScale(40f, 80f, 40f) * Matrix.CreateTranslation(0.5f, 0f, 0.5f), Matrix.CreateTranslation(9f / 16f, -7f / 16f, 0f), null, null)
 		{
-			DefaultDescription = DefaultDisplayName = (System = new ReactionSystem(name)).ToString();
+			DefaultDescription = DefaultDisplayName = Id = (System = new ReactionSystem(name)).ToString();
+			Size = 1.5f;
 		}
-		public Cylinder(Matrix matrix, string name = "钢瓶") : base("Models/Cylinder", "obj1", matrix * Matrix.CreateTranslation(0.5f, 0f, 0.5f), Matrix.CreateTranslation(9f / 16f, -7f / 16f, 0f), null, name, 1.5f)
+		public Cylinder(Matrix matrix, string name = "钢瓶") : base("Models/Cylinder", "obj1", matrix * Matrix.CreateTranslation(0.5f, 0f, 0.5f), Matrix.CreateTranslation(9f / 16f, -7f / 16f, 0f), null, Utils.Get(name))
 		{
-			DefaultDescription = DefaultDisplayName = Utils.Get(name);
+			Id = DefaultDescription = name;
+			Size = 1.5f;
 		}
 		public override string GetCategory() => Utils.Get("化学");
 		public ReactionSystem GetDispersionSystem() => System;

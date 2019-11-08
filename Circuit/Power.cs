@@ -13,7 +13,7 @@ namespace Game
 		}
 		public override void Simulate(ref int voltage)
 		{
-			if (voltage > 8000)
+			if (voltage > 8191)
 				return;
 			if (Powered)
 				voltage += Voltage;
@@ -45,6 +45,31 @@ namespace Game
 			DefaultDisplayName = "交流发电机";
 		}
 	}
+
+	public class TGenerator : InventoryEntityDevice<ComponentTGenerator>
+	{
+		public TGenerator() : base("热能发电机", "热能发电机是一种利用金属温差发电的装置，它可以把岩浆转换为能量") { Type = ElementType.Supply | ElementType.Connector; Voltage = 310; }
+
+		public override void Simulate(ref int voltage)
+		{
+			if (voltage > 8023)
+			{
+				return;
+			}
+			if (Component.Powered)
+				voltage += Voltage;
+		}
+
+		public override int GetFaceTextureSlot(int face, int value)
+		{
+			return face != 4 && face != 5 && face == (Terrain.ExtractData(value) >> 15) ? 125 : 107;
+		}
+		public override Widget GetWidget(IInventory inventory, ComponentTGenerator component)
+		{
+			return new SeparatorWidget(inventory, component, "ThermalGenerator");
+		}
+	}
+
 	public class MHDGenerator : Generator
 	{
 		public MHDGenerator() : base(1000)
@@ -58,6 +83,23 @@ namespace Game
 				base.Simulate(ref voltage);
 		}
 	}
+	public class FuelCell : TGenerator
+	{
+		public FuelCell()
+		{
+			DefaultDisplayName = DefaultDescription = "燃料电池";
+		}
+
+		public override int GetFaceTextureSlot(int face, int value)
+		{
+			return face != 4 && face != 5 ? face == (Terrain.ExtractData(value) >> 15) ? 240 : 241 : 147;
+		}
+		public override Widget GetWidget(IInventory inventory, ComponentTGenerator component)
+		{
+			return new SeparatorWidget(inventory, component, Utils.Get("燃料电池"));
+		}
+	}
+
 	public class Battery : CubeDevice, IHarvestingItem, IInteractiveBlock, IEquatable<Battery>
 	{
 		public int Factor = 1;

@@ -6,15 +6,13 @@ namespace Game
 {
 	public class MouldItem : Mould
 	{
-		public string Id;
 		public string Category;
-		public MouldItem(string id, string modelName, string meshName, Matrix boneTransform, Matrix tcTransform, string description = "", string name = "", float size = 1) : base(modelName, meshName, boneTransform, tcTransform, description, name, size)
+		public MouldItem(string id, string modelName, string meshName, Matrix boneTransform, Matrix tcTransform, string description = "", string name = "", float size = 1) : base(modelName, meshName, boneTransform, tcTransform, description, name)
 		{
 			Id = id;
+			Size = size;
 			Category = meshName.Length == 4 ? "Tools" : "Items";
 		}
-
-		public override string GetCraftingId() => Id;
 
 		public override BlockPlacementData GetPlacementValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, TerrainRaycastResult raycastResult)
 		{
@@ -24,8 +22,9 @@ namespace Game
 	}
 	public class LightMould : Mould
 	{
-		public LightMould(string modelName, string meshName, Matrix boneTransform, Matrix tcTransform, string description = "", string name = "", float size = 1) : base(modelName, meshName, boneTransform, tcTransform, description, name, size)
+		public LightMould(string modelName, string meshName, Matrix boneTransform, Matrix tcTransform, string description = "", string name = "") : base(modelName, meshName, boneTransform, tcTransform, Color.White, description, name)
 		{
+			Size = 2.9f;
 		}
 
 		public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
@@ -150,18 +149,11 @@ namespace Game
 
 	public class Alloy : Mould
 	{
-		public readonly Color Color;
-		protected string Id;
-
-		public Alloy(Materials type, string name) : base("Models/Alloy", "Torch", Matrix.CreateTranslation(0.5f, 0f, 0.5f) * Matrix.CreateScale(1.2f), Matrix.CreateTranslation(12f / 16f, 1f / 16f, 0f))
+		public Alloy(Materials type, string name) : base("Models/Alloy", "Torch", Matrix.CreateTranslation(0.5f, 0f, 0.5f) * Matrix.CreateScale(1.2f), Matrix.CreateTranslation(12f / 16f, 1f / 16f, 0f),
+			MetalBlock.GetColor(type), "Alloy of " + name + ". Can be crafted into very durable and strong " + name + " items. Very important in the industrial era.", name + Utils.Get("合金"))
 		{
 			Id = name;
-			DefaultDescription = "Alloy of " + name + ". Can be crafted into very durable and strong " + name + " items. Very important in the industrial era.";
-			Color = MetalBlock.GetColor(type);
-			DefaultDisplayName = name + Utils.Get("合金");
 		}
-
-		public override string GetCraftingId() => Id;
 
 		public override Vector3 GetIconBlockOffset(int value, DrawBlockEnvironmentData environmentData) => new Vector3 { Y = 0.45f };
 	}
@@ -169,12 +161,12 @@ namespace Game
 	public class FoodCan : MeshItem
 	{
 		protected BoundingBox[] m_collisionBoxes;
-		protected string Id;
+		public string Id;
 
 		public FoodCan(string name, string id, Color color)
 		{
-			Id = id;
 			DefaultDescription = name;
+			Id = id;
 			DefaultDisplayName = id + Utils.Get("Can");
 			m_standaloneBlockMesh.AppendMesh("Models/Battery", "Battery", Matrix.CreateTranslation(0.5f, 0f, 0.5f), Matrix.CreateTranslation(12f / 16f, 1f / 16f, 0f), color);
 			m_collisionBoxes = new BoundingBox[] { m_standaloneBlockMesh.CalculateBoundingBox() };
@@ -201,7 +193,6 @@ namespace Game
 		}
 
 		public override float GetMeleePower() => 2f;
-
 		public override float GetProjectilePower() => 2f;
 		public override string GetCraftingId() => Id ?? DefaultDisplayName;
 	}

@@ -552,8 +552,8 @@ namespace Game
 					for (int aaa = -3; aaa < 3 + 1; aaa++)
 					{
 						var p = Terrain.ToCell(componentBody.Position + p2 * 2f + aaa * p3 + new Vector3(0f, 0.1f, 0f));
-						int val = Utils.Terrain.GetCellContentsFast(p.X, p.Y, p.Z);
-						int value4 = Utils.Terrain.GetCellValueFast(p.X, p.Y, p.Z);
+						int val = Utils.Terrain.GetCellContentsFast(p.X, p.Y, p.Z),
+							value4 = Utils.Terrain.GetCellValueFast(p.X, p.Y, p.Z);
 						bool flag = false;
 						switch (val)
 						{

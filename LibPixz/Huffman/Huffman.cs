@@ -73,7 +73,7 @@ namespace LibPixz
 
 					code.code = (uint)newCode;
 					code.length = (byte)codeLength;
-					code.number = (ushort)huffmanTable.codes[newCodeIndex++];
+					code.number = huffmanTable.codes[newCodeIndex++];
 
 					huffmanTable.table.Add(code);
 				}
@@ -94,7 +94,7 @@ namespace LibPixz
 
 			foreach (var codeWord in huffmanTable.table)
 			{
-				int shift = huffmanTable.maxCodeLength - (int)codeWord.length;
+				int shift = huffmanTable.maxCodeLength - codeWord.length;
 				uint numCodes = 1U << shift;
 				uint initialCode = codeWord.code << shift;
 

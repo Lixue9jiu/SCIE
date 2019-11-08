@@ -144,7 +144,7 @@ namespace Game
 				if (GetSlotCount(i) > 0)
 				{
 					int value = GetSlotValue(i);
-					if (value == ItemBlock.IdTable["H2SO3"])
+					if (value == ItemBlock.IdTable["S"])
 						n |= 1;
 					else if (value == ItemBlock.IdTable["H2O"])
 						n |= 2;
@@ -154,18 +154,26 @@ namespace Game
 						n |= 8;
 					else if (value == ItemBlock.IdTable["HNO3"])
 						n |= 16;
+					else if (value == ItemBlock.IdTable["V2O5"])
+						n |= 32;
 				}
 			}
-			if (n == 1)
+			if ((n & 3) == 3)
 			{
-				m_speed = 0.1f;
+				m_speed = (n & 32) != 0 ? 0.5f : 0.01f;
 				result[ItemBlock.IdTable["H2SO4"]] = 1;
-				result[EmptyBucketBlock.Index] = 1;
-				//result[ItemBlock.IdTable["S-HCl"]] = 2;
-				//result[ItemBlock.IdTable["钢瓶"]] = 1;
-				result[ItemBlock.IdTable["H2SO3"]] = -1;
-				//result[ItemBlock.IdTable["H2O"]] = -1;
-				//result[ItemBlock.IdTable["Cl2"]] = -1;
+				result[ItemBlock.IdTable["S"]] = -1;
+				result[ItemBlock.IdTable["H2O"]] = -1;
+			}
+			else if (n == 7)
+			{
+				m_speed = 0.5f;
+				result[ItemBlock.IdTable["H2SO4"]] = 1;
+				result[ItemBlock.IdTable["S-HCl"]] = 2;
+				result[ItemBlock.IdTable["钢瓶"]] = 1;
+				result[ItemBlock.IdTable["S"]] = -1;
+				result[ItemBlock.IdTable["H2O"]] = -1;
+				result[ItemBlock.IdTable["Cl2"]] = -1;
 			}
 			else if (n == 6)
 			{

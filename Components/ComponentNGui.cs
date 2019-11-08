@@ -361,7 +361,7 @@ namespace Game
 					str = "feet are";
 					break;
 			}
-			if (m_subsystemTime.PeriodicGameTimeEvent(2.0, 2.0 * (double)GetHashCode() % 1000.0 / 1000.0))
+			if (m_subsystemTime.PeriodicGameTimeEvent(2.0, 2.0 * GetHashCode() % 1000.0 / 1000.0))
 			{
 				int x = Terrain.ToCell(m_componentPlayer.ComponentBody.Position.X);
 				int y = Terrain.ToCell(m_componentPlayer.ComponentBody.Position.Y + 0.1f);
@@ -416,7 +416,7 @@ namespace Game
 			{
 				float level = Utils.SubsystemSour.FindNearestCompassTarget(m_componentPlayer.ComponentBody.Position);
 				if (level>=10f)
-					m_componentPlayer.ComponentHealth.Injure(0.01f*level, null, ignoreInvulnerability: false, "Killed by Radiation");
+					m_componentPlayer.ComponentHealth.Injure(0.01f*level, null, false, "Killed by Radiation");
 
 				var e = Utils.SubsystemBodies.Bodies.GetEnumerator();
 				while (e.MoveNext())
@@ -429,13 +429,13 @@ namespace Game
 			}
 			if (Temperature <= 0f)
 			{
-				m_componentPlayer.ComponentHealth.Injure(1f, null, ignoreInvulnerability: false, "Froze to death");
+				m_componentPlayer.ComponentHealth.Injure(1f, null, false, "Froze to death");
 			}
 			else if (Temperature < 3f)
 			{
 				if (m_subsystemTime.PeriodicGameTimeEvent(10.0, 0.0))
 				{
-					m_componentPlayer.ComponentHealth.Injure(0.05f, null, ignoreInvulnerability: false, "Hypothermia");
+					m_componentPlayer.ComponentHealth.Injure(0.05f, null, false, "Hypothermia");
 					string text = (Wetness > 0f) ? ("Your " + str + " freezing, dry your clothes!") : ((!(num < 1f)) ? ("Your " + str + " freezing, seek shelter!") : ("Your " + str + " freezing, get clothed!"));
 					m_componentPlayer.ComponentGui.DisplaySmallMessage(text, blinking: true, playNotificationSound: false);
 					m_componentPlayer.ComponentGui.TemperatureBarWidget.Flash(10);
@@ -457,7 +457,7 @@ namespace Game
 				if (m_subsystemTime.PeriodicGameTimeEvent(10.0, 0.0))
 				{
 					m_componentPlayer.ComponentGui.DisplaySmallMessage("It's too hot, run away!", blinking: true, playNotificationSound: false);
-					m_componentPlayer.ComponentHealth.Injure(0.05f, null, ignoreInvulnerability: false, "Overheated");
+					m_componentPlayer.ComponentHealth.Injure(0.05f, null, false, "Overheated");
 					m_componentPlayer.ComponentGui.TemperatureBarWidget.Flash(10);
 				}
 				if (m_subsystemTime.PeriodicGameTimeEvent(8.0, 0.0))
@@ -479,7 +479,7 @@ namespace Game
 			float num4 = MathUtils.Saturate(0.5f * m_temperatureBlackoutDuration);
 			m_temperatureBlackoutFactor = MathUtils.Saturate(m_temperatureBlackoutFactor + 2f * gameTimeDelta * (num4 - m_temperatureBlackoutFactor));
 			m_componentPlayer.ComponentScreenOverlays.BlackoutFactor = MathUtils.Max(m_temperatureBlackoutFactor, m_componentPlayer.ComponentScreenOverlays.BlackoutFactor);
-			if ((double)m_temperatureBlackoutFactor > 0.01)
+			if (m_temperatureBlackoutFactor > 0.01)
 			{
 				m_componentPlayer.ComponentScreenOverlays.FloatingMessage = "Ugh...";
 				m_componentPlayer.ComponentScreenOverlays.FloatingMessageFactor = MathUtils.Saturate(10f * (m_temperatureBlackoutFactor - 0.9f));

@@ -76,11 +76,13 @@ namespace Game
 
 		public BodyRaycastResult? PickBody2(Vector3 position, Vector3 direction, float distance)
 		{
-			var c__DisplayClass58_ = new c__DisplayClass58_0();
-			c__DisplayClass58_.position = position;
-			c__DisplayClass58_.direction = direction;
-			c__DisplayClass58_.__this = this.ComponentMiner;
-			c__DisplayClass58_.reach = distance;
+			var c__DisplayClass58_ = new c__DisplayClass58_0
+			{
+				position = position,
+				direction = direction,
+				__this = ComponentMiner,
+				reach = distance
+			};
 			c__DisplayClass58_.direction = Vector3.Normalize(c__DisplayClass58_.direction);
 			c__DisplayClass58_.creaturePosition = ComponentCreature.ComponentCreatureModel.EyePosition;
 			Vector3 end = c__DisplayClass58_.position + c__DisplayClass58_.direction * distance;
@@ -89,16 +91,17 @@ namespace Game
 
 		public TerrainRaycastResult? PickTerrainForDigging2(Vector3 position, Vector3 direction, float distance)
 		{
-			var c__DisplayClass55_ = new c__DisplayClass55_0();
-			c__DisplayClass55_.position = position;
-			c__DisplayClass55_.direction = direction;
-			c__DisplayClass55_.reach = distance;
-			float s = distance;
+			var c__DisplayClass55_ = new c__DisplayClass55_0
+			{
+				position = position,
+				direction = direction,
+				reach = distance
+			};
 			c__DisplayClass55_.direction = Vector3.Normalize(c__DisplayClass55_.direction);
 			c__DisplayClass55_.creaturePosition = ComponentCreature.ComponentCreatureModel.EyePosition;
-			Vector3 end = c__DisplayClass55_.position + c__DisplayClass55_.direction * s;
+			Vector3 end = c__DisplayClass55_.position + c__DisplayClass55_.direction * distance;
 			c__DisplayClass55_.movingBlocksResult = m_subsystemMovingBlocks.Raycast(c__DisplayClass55_.position, end, extendToFillCells: true);
-			return m_subsystemTerrain.Raycast(c__DisplayClass55_.position, end, useInteractionBoxes: true, skipAirBlocks: true, c__DisplayClass55_.PickTerrainForDigging_b__0);
+			return m_subsystemTerrain.Raycast(c__DisplayClass55_.position, end, true, true, c__DisplayClass55_.PickTerrainForDigging_b__0);
 		}
 		public SubsystemMovingBlocks m_subsystemMovingBlocks;
 		public override void Load(ValuesDictionary valuesDictionary, IdToEntityMap idToEntityMap)
@@ -265,7 +268,7 @@ namespace Game
 				{
 					Vector2 value = playerInput.Aim.Value;
 					Vector3 v = View.ActiveCamera.ScreenToWorld(new Vector3(value, 1f), Matrix.Identity);
-					this.ComponentGui.ShowAimingSights(viewPosition2, Vector3.Normalize(v - viewPosition2));
+					ComponentGui.ShowAimingSights(viewPosition2, Vector3.Normalize(v - viewPosition2));
 					componentBoat44.vet1 = Vector3.Normalize(v - viewPosition2);
 					if (componentBoat44.HeatLevel == 499f)
 					{
@@ -464,9 +467,9 @@ namespace Game
 			{
 				num3 = m.CalculateDigTime(cellValue, SteelAxeBlock.Index);
 			}
-			if (activeBlockValue == ItemBlock.IdTable["Screwdriver"] && BlocksManager.Blocks[num22].GetCategory(cellValue) == Utils.Get("»úÆ÷"))
+			if (activeBlockValue == ItemBlock.IdTable["Screwdriver"] && (BlocksManager.Blocks[num22].GetCategory(cellValue) == Utils.Get("»úÆ÷") || BlocksManager.Blocks[num22] is ItemBlock))
 			{
-				num3 = 0.5f;
+				num3 = 0;
 			}
 			m.m_digProgress = num3 > 0f ? MathUtils.Saturate((float)(m_subsystemTime.GameTime - m.m_digStartTime) / num3) : 1f;
 			if (!m.CanUseTool(activeBlockValue))
