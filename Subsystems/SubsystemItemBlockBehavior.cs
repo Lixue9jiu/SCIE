@@ -228,8 +228,9 @@ namespace Game
 			}
 			else if (activeBlockValue == ItemBlock.IdTable["Telescope"])
 			{
-				var view = componentMiner.ComponentPlayer.View;
-				view.ActiveCamera = view.ActiveCamera is TelescopeCamera ? view.FindCamera<FppCamera>(true) : (Camera)new TelescopeCamera(view);
+				ScreensManager.SwitchScreen(new RecipaediaScreen2());
+				//var view = componentMiner.ComponentPlayer.View;
+				//view.ActiveCamera = view.ActiveCamera is TelescopeCamera ? view.FindCamera<FppCamera>(true) : (Camera)new TelescopeCamera(view);
 				return true;
 			}
 			/*else if (activeBlockValue == ItemBlock.IdTable["Minecart"])

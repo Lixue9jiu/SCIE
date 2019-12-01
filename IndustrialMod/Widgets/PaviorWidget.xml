@@ -1,11 +1,11 @@
 <FurnaceWidget xmlns="runtime-namespace:Game">
   <BevelledRectangleWidget Size="714, 382" BevelSize="3" />
-  <CanvasWidget CanvasWidget.Position="232, 52" Size="64, 64">
+  <CanvasWidget CanvasWidget.Position="252, 52" Size="64, 64">
     <LabelWidget Text="Fuel" Font="{Fonts/Pericles24}" Color="0, 0, 0, 64" HorizontalAlignment="Center" VerticalAlignment="Center"/>
   </CanvasWidget>
   <GridPanelWidget Name="InventoryGrid" CanvasWidget.Position="406, 52" ColumnsCount="4" RowsCount="4"/>
-  <GridPanelWidget Name="FurnaceGrid" CanvasWidget.Position="12, 52" ColumnsCount="2" RowsCount="4"/>
-  <CanvasWidget CanvasWidget.Position="222, 129" >
+  <GridPanelWidget Name="FurnaceGrid" CanvasWidget.Position="12, 52" ColumnsCount="3" RowsCount="3"/>
+  <CanvasWidget CanvasWidget.Position="242, 129" >
     <FireWidget Name="Fire" Size="68, 40" HorizontalAlignment="Center" VerticalAlignment="Center"/>
     <StackPanelWidget Direction="Horizontal">
       <BevelledRectangleWidget Size="24, 44" BevelSize="-2" CenterColor="0, 0, 0, 0" />
@@ -19,10 +19,16 @@
       <BevelledButtonWidget Name="ShootButton" Text="CutOff" Style="{Styles/ButtonStyle_160x60}" />
     </StackPanelWidget>
   </CanvasWidget>
+  <CanvasWidget CanvasWidget.Position="0, 250" Size="188, 140" >
+    <StackPanelWidget Direction="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
+      <BevelledButtonWidget Name="DispenseButton2" Text="Pave1*5" Style="{Styles/ButtonStyle_160x60}" />
+      <BevelledButtonWidget Name="ShootButton2" Text="Pave1*1" Style="{Styles/ButtonStyle_160x60}" />
+    </StackPanelWidget>
+  </CanvasWidget>
   <ValueBarWidget Name="Progress" CanvasWidget.Position="344, 52" LayoutDirection="Vertical" BarsCount="12" FlipDirection="false" LitBarColor="96, 48, 0" UnlitBarColor="48, 48, 48, 80" BarSize="24, 24" BarSubtexture="{Textures/Atlas/ProgressBar}"/>
-  <InventorySlotWidget Name="ResultSlot" CanvasWidget.Position="222, 182" />
-  <InventorySlotWidget Name="RemainsSlot" CanvasWidget.Position="222, 52" >
+  <InventorySlotWidget Name="ResultSlot" CanvasWidget.Position="242, 182" />
+  <InventorySlotWidget Name="RemainsSlot" CanvasWidget.Position="242, 52" >
   </InventorySlotWidget>
-  <LabelWidget CanvasWidget.Position="18, 14" Text="Inside" Font="{Fonts/Pericles24}" Color="255, 255, 255, 192"/>
+  <LabelWidget CanvasWidget.Position="18, 14" Text="Pavior" Font="{Fonts/Pericles24}" Color="255, 255, 255, 192"/>
   <LabelWidget CanvasWidget.Position="406, 14" Text="Inventory" Font="{Fonts/Pericles24}" Color="255, 255, 255, 192"/>
 </FurnaceWidget>

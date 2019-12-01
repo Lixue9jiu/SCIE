@@ -372,6 +372,8 @@ namespace Game
 				new Turbine(),
 				new LaserG(),
 				new MHDGenerator(),
+				new TElectricWire(),
+				new HGenerator(),
 			};
 			ContentCache.m_contentByName.TryGetValue("CraftingIdTable", out object value);
 			if (!(value is Dictionary<string, int> dict))

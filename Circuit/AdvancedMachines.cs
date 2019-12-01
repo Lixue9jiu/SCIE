@@ -22,6 +22,12 @@ namespace Game
 				if (Component.GetSlotCount(i) > 0 && voltage<8192)
 				{
 					int value = Terrain.ExtractContents(Component.GetSlotValue(i));
+					if (ChemicalBlock.Get(Component.GetSlotValue(i)) != null && ChemicalBlock.Get(Component.GetSlotValue(i)) is Game.Cylinder)
+					{
+						Component.RemoveSlotItems(i, 1);
+						ComponentInventoryBase.AcquireItems(Component, ItemBlock.IdTable["钢瓶"], 1);
+						return;
+					}
 					switch (value)
 					{
 						case -1:

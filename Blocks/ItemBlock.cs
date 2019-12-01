@@ -21,6 +21,7 @@ namespace Game
 		public static Func<string, int> DecodeResult1;
 		static void Initialize()
 		{
+			
 			BlocksManager.DamageItem1 = DamageItem;
 			BlocksManager.FindBlocksByCraftingId1 = FindBlocksByCraftingId;
 			CraftingRecipesManager.Initialize1 = CRInitialize + CraftingRecipesManager.Initialize1;
@@ -35,6 +36,8 @@ namespace Game
 			AudioManager.PlaySound1 = PlaySound;
 			ScreensManager.Initialized += Init;
 			Utils.TR = new Dictionary<string, string>();
+			ScreensManager.m_screens.Remove("Recipaedia");
+			ScreensManager.AddScreen("Recipaedia", new RecipaediaScreen2());
 		}
 		internal static void Init()
 		{
@@ -43,6 +46,7 @@ namespace Game
 			Carriage.TrainTexture = ContentManager.Get<Texture2D>("Textures/Creatures/Jaguar");
 			Airship.ATexture = ContentManager.Get<Texture2D>("Textures/tex");
 			Car.CarTexture = ContentManager.Get<Texture2D>("Textures/tex2");
+			ETrain.ETrainTexture = ContentManager.Get<Texture2D>("Textures/etex3");
 			var stream = Utils.GetTargetFile("IndustrialMod.png");
 			try
 			{
@@ -90,6 +94,11 @@ namespace Game
 			return damageCount <= (block is IDurability item ? item.GetDurability(value) : block.Durability)
 				? block.SetDamage(value, damageCount)
 				: block.GetDamageDestructionValue(value);
+		}
+		public static void SR()
+		{
+			ScreensManager.m_screens.Remove("Recipaedia");
+			ScreensManager.AddScreen("Recipaedia", new RecipaediaScreen2());
 		}
 		public static void CRInitialize()
 		{

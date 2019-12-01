@@ -1,0 +1,13 @@
+<DispenserWidget xmlns="runtime-namespace:Game">
+  <BevelledRectangleWidget Size="654, 382" BevelSize="3" />
+  <LabelWidget CanvasWidget.Position="12, 14" Name="DispenserLabel" Text="ElectricTrain" Font="{Fonts/Pericles24}" Color="255, 255, 255, 192"/>
+  <LabelWidget CanvasWidget.Position="346, 14" Name="InventoryLabel" Text="Inventory" Font="{Fonts/Pericles24}" Color="255, 255, 255, 192"/>
+  <GridPanelWidget CanvasWidget.Position="12, 52" Name="DispenserGrid" ColumnsCount="4" RowsCount="3"/>
+  <GridPanelWidget CanvasWidget.Position="346, 52" Name="InventoryGrid" ColumnsCount="4" RowsCount="4"/>
+  <CanvasWidget CanvasWidget.Position="12, 270" Size="228, 140" >
+    <StackPanelWidget Direction="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+      <BevelledButtonWidget Name="DispenseButton" Text="Activated" Style="{Styles/ButtonStyle_160x60}" />
+      <BevelledButtonWidget Name="ShootButton" Text="CutOff" Style="{Styles/ButtonStyle_160x60}" />
+    </StackPanelWidget>
+  </CanvasWidget>
+</DispenserWidget>
