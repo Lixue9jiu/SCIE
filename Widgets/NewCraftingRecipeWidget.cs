@@ -207,6 +207,8 @@ namespace Game
 
 		public GridPanelWidget m_gridWidget;
 
+		public CraftingRecipeSlotWidget m_gridWidget2;
+
 		public FireWidget m_fireWidget;
 
 		public CraftingRecipeSlotWidget m_resultWidget;
@@ -251,13 +253,14 @@ namespace Game
 
 		public CastRecipeWidget()
 		{
-			XElement node = ContentManager.Get<XElement>("Widgets/4MRecipe");
+			XElement node = ContentManager.Get<XElement>("Widgets/CastRecipe");
 			WidgetsManager.LoadWidgetContents(this, this, node);
-			m_nameWidget = Children.Find<LabelWidget>("4MRecipeWidget.Name");
-			m_descriptionWidget = Children.Find<LabelWidget>("4MRecipeWidget.Description");
-			m_gridWidget = Children.Find<GridPanelWidget>("4MRecipeWidget.Ingredients");
-			//m_fireWidget = Children.Find<FireWidget>("SmeltingRecipeWidget.Fire");
-			m_resultWidget = Children.Find<CraftingRecipeSlotWidget>("4MRecipeWidget.Result");
+			m_nameWidget = Children.Find<LabelWidget>("CastRecipeWidget.Name");
+			m_descriptionWidget = Children.Find<LabelWidget>("CastRecipeWidget.Description");
+			m_gridWidget = Children.Find<GridPanelWidget>("CastRecipeWidget.Ingredients");
+			m_gridWidget2 = Children.Find<CraftingRecipeSlotWidget>("CastRecipeWidget.Ingredients2");
+			m_fireWidget = Children.Find<FireWidget>("CastRecipeWidget.Fire");
+			m_resultWidget = Children.Find<CraftingRecipeSlotWidget>("CastRecipeWidget.Result");
 			for (int i = 0; i < m_gridWidget.RowsCount; i++)
 			{
 				for (int j = 0; j < m_gridWidget.ColumnsCount; j++)
@@ -293,6 +296,11 @@ namespace Game
 					Point2 widgetCell = m_gridWidget.GetWidgetCell(child);
 					child.SetIngredient(m_recipe.Ingredients[widgetCell.X + widgetCell.Y * 6]);
 				}
+				//foreach (CraftingRecipeSlotWidget child in m_gridWidget2.Children)
+				//{
+				//	Point2 widgetCell = m_gridWidget.GetWidgetCell(child);
+				m_gridWidget2.SetIngredient(m_recipe.Ingredients[1]);
+				//}
 				m_resultWidget.SetResult(m_recipe.ResultValue, m_recipe.ResultCount);
 				m_fireWidget.ParticlesPerSecond = 40f;
 			}
@@ -309,4 +317,363 @@ namespace Game
 			}
 		}
 	}
+
+	public class BFRecipeWidget : CanvasWidget
+	{
+		public LabelWidget m_nameWidget;
+
+		public LabelWidget m_descriptionWidget;
+
+		public GridPanelWidget m_gridWidget;
+
+		//public CraftingRecipeSlotWidget m_gridWidget2;
+
+		public FireWidget m_fireWidget;
+
+		public CraftingRecipeSlotWidget m_resultWidget;
+
+		public CraftingRecipe m_recipe;
+
+		public string m_nameSuffix;
+
+		public bool m_dirty = true;
+
+		public string NameSuffix
+		{
+			get
+			{
+				return m_nameSuffix;
+			}
+			set
+			{
+				if (value != m_nameSuffix)
+				{
+					m_nameSuffix = value;
+					m_dirty = true;
+				}
+			}
+		}
+
+		public CraftingRecipe Recipe
+		{
+			get
+			{
+				return m_recipe;
+			}
+			set
+			{
+				if (value != m_recipe)
+				{
+					m_recipe = value;
+					m_dirty = true;
+				}
+			}
+		}
+
+		public BFRecipeWidget()
+		{
+			XElement node = ContentManager.Get<XElement>("Widgets/BFRecipe");
+			WidgetsManager.LoadWidgetContents(this, this, node);
+			m_nameWidget = Children.Find<LabelWidget>("BFWidget.Name");
+			m_descriptionWidget = Children.Find<LabelWidget>("BFWidget.Description");
+			m_gridWidget = Children.Find<GridPanelWidget>("BFWidget.Ingredients");
+			//m_gridWidget2 = Children.Find<CraftingRecipeSlotWidget>("EightRecipeWidget.Ingredients2");
+			m_fireWidget = Children.Find<FireWidget>("BFWidget.Fire");
+			m_resultWidget = Children.Find<CraftingRecipeSlotWidget>("BFWidget.Result");
+			for (int i = 0; i < m_gridWidget.RowsCount; i++)
+			{
+				for (int j = 0; j < m_gridWidget.ColumnsCount; j++)
+				{
+					CraftingRecipeSlotWidget widget = new CraftingRecipeSlotWidget();
+					m_gridWidget.Children.Add(widget);
+					m_gridWidget.SetWidgetCell(widget, new Point2(j, i));
+				}
+			}
+		}
+
+		public override void MeasureOverride(Vector2 parentAvailableSize)
+		{
+			if (m_dirty)
+			{
+				UpdateWidgets();
+			}
+			base.MeasureOverride(parentAvailableSize);
+		}
+
+		public void UpdateWidgets()
+		{
+			m_dirty = false;
+			if (m_recipe != null)
+			{
+				Block block = BlocksManager.Blocks[Terrain.ExtractContents(m_recipe.ResultValue)];
+				m_nameWidget.Text = block.GetDisplayName(null, m_recipe.ResultValue) + ((!string.IsNullOrEmpty(NameSuffix)) ? NameSuffix : string.Empty);
+				m_descriptionWidget.Text = m_recipe.Description;
+				m_nameWidget.IsVisible = true;
+				m_descriptionWidget.IsVisible = true;
+				foreach (CraftingRecipeSlotWidget child in m_gridWidget.Children)
+				{
+					Point2 widgetCell = m_gridWidget.GetWidgetCell(child);
+					child.SetIngredient(m_recipe.Ingredients[widgetCell.X + widgetCell.Y * 6]);
+				}
+				//foreach (CraftingRecipeSlotWidget child in m_gridWidget2.Children)
+				//{
+				//	Point2 widgetCell = m_gridWidget.GetWidgetCell(child);
+				//m_gridWidget2.SetIngredient(m_recipe.Ingredients[1]);
+				//}
+				m_resultWidget.SetResult(m_recipe.ResultValue, m_recipe.ResultCount);
+				m_fireWidget.ParticlesPerSecond = 40f;
+			}
+			else
+			{
+				m_nameWidget.IsVisible = false;
+				m_descriptionWidget.IsVisible = false;
+				foreach (CraftingRecipeSlotWidget child2 in m_gridWidget.Children)
+				{
+					child2.SetIngredient(null);
+				}
+				m_resultWidget.SetResult(0, 0);
+				m_fireWidget.ParticlesPerSecond = 0f;
+			}
+		}
+	}
+
+
+	public class CFRecipeWidget : CanvasWidget
+	{
+		public LabelWidget m_nameWidget;
+
+		public LabelWidget m_descriptionWidget;
+
+		public GridPanelWidget m_gridWidget;
+
+		//public CraftingRecipeSlotWidget m_gridWidget2;
+
+		public FireWidget m_fireWidget;
+
+		public CraftingRecipeSlotWidget m_resultWidget;
+
+		public CraftingRecipe m_recipe;
+
+		public string m_nameSuffix;
+
+		public bool m_dirty = true;
+
+		public string NameSuffix
+		{
+			get
+			{
+				return m_nameSuffix;
+			}
+			set
+			{
+				if (value != m_nameSuffix)
+				{
+					m_nameSuffix = value;
+					m_dirty = true;
+				}
+			}
+		}
+
+		public CraftingRecipe Recipe
+		{
+			get
+			{
+				return m_recipe;
+			}
+			set
+			{
+				if (value != m_recipe)
+				{
+					m_recipe = value;
+					m_dirty = true;
+				}
+			}
+		}
+
+		public CFRecipeWidget()
+		{
+			XElement node = ContentManager.Get<XElement>("Widgets/CFRecipe");
+			WidgetsManager.LoadWidgetContents(this, this, node);
+			m_nameWidget = Children.Find<LabelWidget>("CFWidget.Name");
+			m_descriptionWidget = Children.Find<LabelWidget>("CFWidget.Description");
+			m_gridWidget = Children.Find<GridPanelWidget>("CFWidget.Ingredients");
+			//m_gridWidget2 = Children.Find<CraftingRecipeSlotWidget>("EightRecipeWidget.Ingredients2");
+			m_fireWidget = Children.Find<FireWidget>("CFWidget.Fire");
+			m_resultWidget = Children.Find<CraftingRecipeSlotWidget>("CFWidget.Result");
+			for (int i = 0; i < m_gridWidget.RowsCount; i++)
+			{
+				for (int j = 0; j < m_gridWidget.ColumnsCount; j++)
+				{
+					CraftingRecipeSlotWidget widget = new CraftingRecipeSlotWidget();
+					m_gridWidget.Children.Add(widget);
+					m_gridWidget.SetWidgetCell(widget, new Point2(j, i));
+				}
+			}
+		}
+
+		public override void MeasureOverride(Vector2 parentAvailableSize)
+		{
+			if (m_dirty)
+			{
+				UpdateWidgets();
+			}
+			base.MeasureOverride(parentAvailableSize);
+		}
+
+		public void UpdateWidgets()
+		{
+			m_dirty = false;
+			if (m_recipe != null)
+			{
+				Block block = BlocksManager.Blocks[Terrain.ExtractContents(m_recipe.ResultValue)];
+				m_nameWidget.Text = block.GetDisplayName(null, m_recipe.ResultValue) + ((!string.IsNullOrEmpty(NameSuffix)) ? NameSuffix : string.Empty);
+				m_descriptionWidget.Text = m_recipe.Description;
+				m_nameWidget.IsVisible = true;
+				m_descriptionWidget.IsVisible = true;
+				foreach (CraftingRecipeSlotWidget child in m_gridWidget.Children)
+				{
+					Point2 widgetCell = m_gridWidget.GetWidgetCell(child);
+					child.SetIngredient(m_recipe.Ingredients[widgetCell.X + widgetCell.Y * 6]);
+				}
+				//foreach (CraftingRecipeSlotWidget child in m_gridWidget2.Children)
+				//{
+				//	Point2 widgetCell = m_gridWidget.GetWidgetCell(child);
+				//m_gridWidget2.SetIngredient(m_recipe.Ingredients[1]);
+				//}
+				m_resultWidget.SetResult(m_recipe.ResultValue, m_recipe.ResultCount);
+				m_fireWidget.ParticlesPerSecond = 40f;
+			}
+			else
+			{
+				m_nameWidget.IsVisible = false;
+				m_descriptionWidget.IsVisible = false;
+				foreach (CraftingRecipeSlotWidget child2 in m_gridWidget.Children)
+				{
+					child2.SetIngredient(null);
+				}
+				m_resultWidget.SetResult(0, 0);
+				m_fireWidget.ParticlesPerSecond = 0f;
+			}
+		}
+	}
+
+	public class SRecipeWidget : CanvasWidget
+	{
+		public LabelWidget m_nameWidget;
+
+		public LabelWidget m_descriptionWidget;
+
+		public GridPanelWidget m_gridWidget;
+
+		//public CraftingRecipeSlotWidget m_gridWidget2;
+
+		//public FireWidget m_fireWidget;
+
+		public CraftingRecipeSlotWidget m_resultWidget;
+
+		public CraftingRecipe m_recipe;
+
+		public string m_nameSuffix;
+
+		public bool m_dirty = true;
+
+		public string NameSuffix
+		{
+			get
+			{
+				return m_nameSuffix;
+			}
+			set
+			{
+				if (value != m_nameSuffix)
+				{
+					m_nameSuffix = value;
+					m_dirty = true;
+				}
+			}
+		}
+
+		public CraftingRecipe Recipe
+		{
+			get
+			{
+				return m_recipe;
+			}
+			set
+			{
+				if (value != m_recipe)
+				{
+					m_recipe = value;
+					m_dirty = true;
+				}
+			}
+		}
+
+		public SRecipeWidget()
+		{
+			XElement node = ContentManager.Get<XElement>("Widgets/3MRecipe");
+			WidgetsManager.LoadWidgetContents(this, this, node);
+			m_nameWidget = Children.Find<LabelWidget>("3MRecipeWidget.Name");
+			m_descriptionWidget = Children.Find<LabelWidget>("3MRecipeWidget.Description");
+			m_gridWidget = Children.Find<GridPanelWidget>("3MRecipeWidget.Ingredients");
+			//m_gridWidget2 = Children.Find<CraftingRecipeSlotWidget>("EightRecipeWidget.Ingredients2");
+			//m_fireWidget = Children.Find<FireWidget>("3MWidget.Fire");
+			m_resultWidget = Children.Find<CraftingRecipeSlotWidget>("3MRecipeWidget.Result");
+			for (int i = 0; i < m_gridWidget.RowsCount; i++)
+			{
+				for (int j = 0; j < m_gridWidget.ColumnsCount; j++)
+				{
+					CraftingRecipeSlotWidget widget = new CraftingRecipeSlotWidget();
+					m_gridWidget.Children.Add(widget);
+					m_gridWidget.SetWidgetCell(widget, new Point2(j, i));
+				}
+			}
+		}
+
+		public override void MeasureOverride(Vector2 parentAvailableSize)
+		{
+			if (m_dirty)
+			{
+				UpdateWidgets();
+			}
+			base.MeasureOverride(parentAvailableSize);
+		}
+
+		public void UpdateWidgets()
+		{
+			m_dirty = false;
+			if (m_recipe != null)
+			{
+				Block block = BlocksManager.Blocks[Terrain.ExtractContents(m_recipe.ResultValue)];
+				m_nameWidget.Text = block.GetDisplayName(null, m_recipe.ResultValue) + ((!string.IsNullOrEmpty(NameSuffix)) ? NameSuffix : string.Empty);
+				m_descriptionWidget.Text = m_recipe.Description;
+				m_nameWidget.IsVisible = true;
+				m_descriptionWidget.IsVisible = true;
+				foreach (CraftingRecipeSlotWidget child in m_gridWidget.Children)
+				{
+					Point2 widgetCell = m_gridWidget.GetWidgetCell(child);
+					child.SetIngredient(m_recipe.Ingredients[widgetCell.X + widgetCell.Y * 6]);
+				}
+				//foreach (CraftingRecipeSlotWidget child in m_gridWidget2.Children)
+				//{
+				//	Point2 widgetCell = m_gridWidget.GetWidgetCell(child);
+				//m_gridWidget2.SetIngredient(m_recipe.Ingredients[1]);
+				//}
+				m_resultWidget.SetResult(m_recipe.ResultValue, m_recipe.ResultCount);
+				//m_fireWidget.ParticlesPerSecond = 40f;
+			}
+			else
+			{
+				m_nameWidget.IsVisible = false;
+				m_descriptionWidget.IsVisible = false;
+				foreach (CraftingRecipeSlotWidget child2 in m_gridWidget.Children)
+				{
+					child2.SetIngredient(null);
+				}
+				m_resultWidget.SetResult(0, 0);
+				//m_fireWidget.ParticlesPerSecond = 0f;
+			}
+		}
+	}
+
 }

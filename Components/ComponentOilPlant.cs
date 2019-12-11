@@ -93,7 +93,7 @@ namespace Game
 				text = 1;
 				result[ItemBlock.IdTable["Rubber"]] = 6;
 			}
-			if (GetSlotValue(0) == 786672 && GetSlotCount(0) > 0 && GetSlotValue(1) == ItemBlock.IdTable["NaOH"] && GetSlotCount(1) > 0 && GetSlotValue(2) == ItemBlock.IdTable["CokeCoalPowder"])
+			if (GetSlotValue(0) == 786672 && GetSlotCount(0) > 0 && GetSlotValue(1) == ItemBlock.IdTable["S-NaOH"] && GetSlotCount(1) > 0 && GetSlotValue(2) == ItemBlock.IdTable["CokeCoalPowder"])
 			{
 				text = 3;
 				result[1310960] = 1;

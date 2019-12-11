@@ -128,7 +128,7 @@ namespace Game
 				}
 			}
 			var craftingRecipe = CraftingRecipesManager.FindMatchingRecipe(Utils.SubsystemTerrain, m_matchedIngredients, 0f);
-			if (craftingRecipe != null)
+			if (craftingRecipe != null && craftingRecipe.RequiredHeatLevel>=0)
 			{
 				m_matchedRecipe = craftingRecipe;
 				m_slots[ResultSlotIndex].Value = craftingRecipe.ResultValue;

@@ -7,6 +7,7 @@ namespace Game
 	public class ComponentEngineA : ComponentSMachine, IUpdateable
 	{
 		protected string m_smeltingRecipe;
+		public float velo;
 
 		//protected int m_music;
 

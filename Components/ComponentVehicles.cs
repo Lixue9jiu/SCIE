@@ -62,38 +62,169 @@ namespace Game
 	{
 		protected ComponentEngineA componentEngine;
 
+		public void CollidedWithBody(ComponentBody body)
+		{
+			Vector2 v = m_componentBody.Velocity.XZ - body.Velocity.XZ;
+			float amount = v.LengthSquared() * .3f;
+			if (amount < .02f || m_componentBody.Velocity.XZ.LengthSquared() < 1f || m_componentBody.Mass <300) return;
+			var health = body.Entity.FindComponent<ComponentHealth>();
+			if (health != null)
+				health.Injure(amount / health.AttackResilience, null, false, "Struck by a plane");
+			else
+				body.Entity.FindComponent<ComponentDamage>()?.Damage(amount);
+			m_componentBody.Entity.FindComponent<ComponentHealth>().Injure(amount / health.AttackResilience, null, false, "Accident");
+			body.ApplyImpulse(MathUtils.Clamp(2.5f * MathUtils.Pow(m_componentBody.Mass / body.Mass, 0.33f), 0f, 6f) * Vector3.Normalize(body.Position - m_componentBody.Position));
+		}
+
+		public Model m_model;
+		public ModelBone m_bodyBone,
+						 m_headBone;
+		public Matrix?[] m_boneTransforms;
+		public Matrix m_headT = ContentManager.Get<Model>("Models/Plane").FindBone("Body").Transform;
+
+		public Matrix? GetBoneTransform(int boneIndex)
+		{
+			return m_boneTransforms[boneIndex];
+		}
+
+		public void SetBoneTransform(int boneIndex, Matrix? transformation)
+		{
+			m_boneTransforms[boneIndex] = transformation;
+		}
+
+		public void SetModel(Model model)
+		{
+			m_model = model;
+			if (m_model != null)
+			{
+				m_boneTransforms = new Matrix?[m_model.Bones.Count];
+				m_bodyBone = m_model.FindBone("Body");
+				m_headT = ContentManager.Get<Model>("Models/Plane").FindBone("Body").Transform;
+				//m_boneTransforms[0] = m_bodyBone;
+			}
+			else
+			{
+				m_bodyBone = null;
+				m_headBone = null;
+				m_boneTransforms = null;
+			}
+		}
+
+		public float time = 0f;
 		public new void Update(float dt)
 		{
 			var componentBody = m_componentBody;
-			componentBody.IsGravityEnabled = false;
-			componentBody.IsGroundDragEnabled = false;
+			componentBody.IsGravityEnabled = true;
 			Quaternion rotation = componentBody.Rotation;
-			float num = MathUtils.Atan2(2f * rotation.Y * rotation.W - 2f * rotation.X * rotation.Z, 1f - 2f * rotation.Y * rotation.Y - 2f * rotation.Z * rotation.Z);
-			if ((m_turnSpeed += 2.5f * Utils.SubsystemTime.GameTimeDelta * (TurnOrder - m_turnSpeed)) != 0 && componentEngine.HeatLevel > 0f)
-				num -= m_turnSpeed * dt;
-			componentBody.Rotation = Quaternion.CreateFromAxisAngle(Vector3.UnitY, num);
-			ComponentRider rider = m_componentMount.Rider;
-			if (MoveOrder != 0f)
+			if (componentBody.Mass == 250)
 			{
-				if (rider != null)
-					componentBody.Velocity += dt * (componentEngine != null ? componentEngine.HeatLevel * 0.01f : 3f) * MoveOrder * rider.ComponentCreature.ComponentCreatureModel.EyeRotation.ToForwardVector();
-				MoveOrder = 0f;
-			}
-			if (componentBody.ImmersionFactor > 0.95f)
+				componentBody.IsGravityEnabled = false;
+				componentBody.IsGroundDragEnabled = false;
+				float num = MathUtils.Atan2(2f * rotation.Y * rotation.W - 2f * rotation.X * rotation.Z, 1f - 2f * rotation.Y * rotation.Y - 2f * rotation.Z * rotation.Z);
+				if ((m_turnSpeed += 2.5f * Utils.SubsystemTime.GameTimeDelta * (TurnOrder - m_turnSpeed)) != 0 && componentEngine.HeatLevel > 0f)
+					num -= m_turnSpeed * dt;
+				componentBody.Rotation = Quaternion.CreateFromAxisAngle(Vector3.UnitY, num);
+				ComponentRider rider = m_componentMount.Rider;
+				if (MoveOrder != 0f)
+				{
+					if (rider != null)
+						componentBody.Velocity += dt * (componentEngine != null ? componentEngine.HeatLevel * 0.01f : 3f) * MoveOrder * rider.ComponentCreature.ComponentCreatureModel.EyeRotation.ToForwardVector();
+					MoveOrder = 0f;
+				}
+				if (componentBody.ImmersionFactor > 0.95f)
+				{
+					m_componentDamage.Damage(0.005f * dt);
+					if (rider != null)
+						rider.StartDismounting();
+				}
+				TurnOrder = 0f;
+			}else
 			{
-				m_componentDamage.Damage(0.005f * dt);
-				if (rider != null)
-					rider.StartDismounting();
+				float dt2 = 0.2f;
+				//	if (m_componentBody.StandingOnValue == null)
+				//	m_componentBody.Position -= 9f * dt * new Vector3(0f, 1f, 0f);
+				//componentBody.IsGravityEnabled = true;
+				//componentBody.ImmersionFactor = 0f;
+				componentBody.IsGravityEnabled = true;
+				componentBody.IsGroundDragEnabled = true;
+				ComponentRider rider = m_componentMount.Rider;
+				if (componentEngine.HeatLevel == 0f)
+				{
+					componentEngine.velo -= dt2 * 1f;
+				//	m_bodyBone.Transform = m_headT;
+					componentEngine.velo = MathUtils.Max(componentEngine.velo, 0f);
+					componentBody.m_velocity.XZ = componentEngine.velo * m_componentBody.Matrix.Forward.XZ;
+					//m_componentBody.Position += componentEngine.velo * m_componentBody.Matrix.Forward *dt;
+				}
+				if (componentEngine.HeatLevel > 0f)
+				{
+					componentEngine.velo += dt2 * 5f;
+					//float num3 = 1f + dt *
+					time = time + dt2 * 100f;
+					//Matrix.
+					if (rider !=null)
+					m_bodyBone.Transform = m_headT * Matrix.CreateTranslation(0f, 0f, -120f) * Matrix.CreateRotationY(time) * Matrix.CreateTranslation(0f, 0f, +120f);
+					//m_bodyBone.Transform = m_headT * Matrix.CreateRotationY(time);
+					componentEngine.velo = MathUtils.Min(componentEngine.velo,100f);
+					//m_componentBody.m_velocity = componentEngine.velo * m_componentBody.Matrix.Forward;
+					componentBody.m_velocity.XZ = componentEngine.velo * m_componentBody.Matrix.Forward.XZ;
+				}
+				
+				if (rider != null && MoveOrder!=0 && componentEngine.HeatLevel > 0f)
+				{
+					//float num2 = 0f;
+					if ((MoveOrder>0 && componentEngine.velo > 40f) || MoveOrder<0f)
+					componentBody.m_velocity += dt2 * 5f * new Vector3(0f,1f,0f)*MoveOrder;
+				//	float num2 = MathUtils.Atan2(2f * rotation.X * rotation.Z - 2f * rotation.W * rotation.Y, 1f - 2f * rotation.X * rotation.X - 2f * rotation.Y * rotation.Y);
+				//	if ((m_turnSpeed += 2.5f * Utils.SubsystemTime.GameTimeDelta * (MoveOrder - m_turnSpeed)) != 0)
+				//		num2 -= m_turnSpeed * dt;
+				//	componentBody.Rotation = Quaternion.CreateFromAxisAngle(Vector3.UnitX,num2);
+					//componentBody.Rotation = Quaternion.CreateFromAxisAngle(Vector3.UnitZ, MoveOrder*dt);
+				}
+				if (componentEngine.velo < 40f && !m_componentBody.StandingOnValue.HasValue)
+				{
+					componentBody.m_velocity -= dt2 * 5f * new Vector3(0f, 1f, 0f);
+				}
+				if (componentEngine.velo > 40f && MoveOrder==0)
+				{
+					componentBody.m_velocity = new Vector3(componentBody.m_velocity.X, 0,componentBody.m_velocity.Z); 
+				}
+				if (componentBody.m_position.Y>=120f)
+				{
+					componentBody.m_velocity = new Vector3(componentBody.m_velocity.X, 0, componentBody.m_velocity.Z);
+				}
+				float num = MathUtils.Atan2(2f * rotation.Y * rotation.W - 2f * rotation.X * rotation.Z, 1f - 2f * rotation.Y * rotation.Y - 2f * rotation.Z * rotation.Z);
+				if ((m_turnSpeed += 2.5f * Utils.SubsystemTime.GameTimeDelta * (TurnOrder - m_turnSpeed)) != 0)
+					num -= m_turnSpeed * dt;
+				componentBody.Rotation = Quaternion.CreateFromAxisAngle(Vector3.UnitY, num);
+				if (componentBody.ImmersionFactor > 0.95f)
+				{
+					m_componentDamage.Damage(0.005f * dt);
+					if (rider != null)
+						rider.StartDismounting();
+				}
+				float num4 = MathUtils.Abs(m_componentBody.CollisionVelocityChange.Length());
+				if (num4 > 50 && componentEngine.velo>40)
+				{
+					if (num4 > 75)
+						Utils.SubsystemExplosions.AddExplosion((int)m_componentBody.Position.X, (int)m_componentBody.Position.Y, (int)m_componentBody.Position.Z,100f,true,false);
+					float amount = MathUtils.Sqr(MathUtils.Max(num4 - 5, 0f)) / 15f;
+					m_componentDamage.Damage(amount);
+					
+				}
+				MoveOrder = 0f;	
+				TurnOrder = 0f;
 			}
-			TurnOrder = 0f;
 		}
 
 		public override void Load(ValuesDictionary valuesDictionary, IdToEntityMap idToEntityMap)
 		{
 			m_componentMount = Entity.FindComponent<ComponentMount>(true);
 			m_componentBody = Entity.FindComponent<ComponentBody>(true);
+			m_componentBody.ImmersionFactor = 0f;
 			m_componentDamage = Entity.FindComponent<ComponentDamage>(true);
 			componentEngine = Entity.FindComponent<ComponentEngineA>();
+			SetModel(ContentManager.Get<Model>("Models/Plane"));
 		}
 	}
 
