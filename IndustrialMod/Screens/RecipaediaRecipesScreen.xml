@@ -16,6 +16,10 @@
           <NewCraftingRecipeWidget Name="CraftingRecipe" HorizontalAlignment="Center" VerticalAlignment="Center" IsVisible="false"/>
           <SmeltingRecipeWidget Name="SmeltingRecipe" HorizontalAlignment="Center" VerticalAlignment="Center" IsVisible="false"/>
 		  <AllRecipeWidget Name="AllRecipe" HorizontalAlignment="Center" VerticalAlignment="Center" IsVisible="false"/>
+		  <CastRecipeWidget Name="CastRecipe" HorizontalAlignment="Center" VerticalAlignment="Center" IsVisible="false"/>
+		  <CFRecipeWidget Name="CFRecipe" HorizontalAlignment="Center" VerticalAlignment="Center" IsVisible="false"/>
+		  <BFRecipeWidget Name="BFRecipe" HorizontalAlignment="Center" VerticalAlignment="Center" IsVisible="false"/>
+		  <SRecipeWidget Name="SRecipe" HorizontalAlignment="Center" VerticalAlignment="Center" IsVisible="false"/>
         </CanvasWidget>
         <BevelledButtonWidget Style="{Styles/ButtonStyle_ArrowRight}" Name="NextRecipe" Margin="20, 0" VerticalAlignment="Center"/>
       </StackPanelWidget>
