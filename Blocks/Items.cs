@@ -408,6 +408,8 @@ namespace Game
 				new Turbine(),
 				new LaserG(),
 				new MHDGenerator(),
+				new TElectricWire(),
+				new HGenerator(),
 				new Ultracentrifuge(),
 				new FlowCytometer(),
 				new LightningCatcher(),

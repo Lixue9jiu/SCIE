@@ -165,6 +165,7 @@
     <Compile Include="Subsystems\SubsystemSourceOfFireBlockBehavior.cs" />
     <Compile Include="BeltTransport\SubsystemFactorioTransportBeltBlockBehavior.cs" />
     <Compile Include="Widgets\CanpackWidget.cs" />
+    <Compile Include="Widgets\RecipeAll.cs" />
     <Compile Include="Widgets\CReactorWidget.cs" />
     <Compile Include="Widgets\DrillerWidgets.cs" />
     <Compile Include="Widgets\FurnaceWidgets.cs" />

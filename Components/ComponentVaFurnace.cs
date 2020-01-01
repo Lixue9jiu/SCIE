@@ -135,11 +135,13 @@ namespace Game
 				result[ItemBlock.IdTable["H2"]] = -1;
 				result[ItemBlock.IdTable["Si"]] = -1;
 				result[ItemBlock.IdTable["Cl2"]] = -1;
+				return FindSmeltingRecipe(result, n);
 			}
 			else if (n == 4)
 			{
 				result[ItemBlock.IdTable["¶à¾§¹è"]] = 1;
 				all = true;
+				return FindSmeltingRecipe(result, n);
 				//result[ItemBlock.IdTable["Si"]] = -1;
 				//result[ItemBlock.IdTable["Si"]] = -1;
 				//result[ItemBlock.IdTable["Si"]] = -1;
@@ -149,6 +151,7 @@ namespace Game
 			{
 				result[ItemBlock.IdTable["RubyCrystal"]] = 2;
 				all = true;
+				return FindSmeltingRecipe(result, n);
 				//result[ItemBlock.IdTable["Si"]] = -1;
 				//result[ItemBlock.IdTable["Si"]] = -1;
 				//result[ItemBlock.IdTable["Si"]] = -1;

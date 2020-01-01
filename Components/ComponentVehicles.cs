@@ -749,6 +749,7 @@ namespace Game
 		protected float m_outOfMountTime;
 		private ComponentMount m_componentMount;
 		public ComponentEngine ComponentEngine;
+		public ComponentEngineE ComponentEngineE;
 		private int m_forwardDirection;
 		private Quaternion rotation;
 		private Vector3 forwardVector;
@@ -772,7 +773,7 @@ namespace Game
 			m_componentBody = Entity.FindComponent<ComponentBody>(true);
 			componentDamage = Entity.FindComponent<ComponentDamage>();
 			m_componentMount = Entity.FindComponent<ComponentMount>(true);
-			if ((ComponentEngine = Entity.FindComponent<ComponentEngine>()) != null)
+			if ((ComponentEngine = Entity.FindComponent<ComponentEngine>()) != null || (ComponentEngineE = Entity.FindComponent<ComponentEngineE>()) != null)
 				m_componentBody.CollidedWithBody += CollidedWithBody;
 			else
 				ParentBody = valuesDictionary.GetValue("ParentBody", default(EntityReference)).GetComponent<ComponentTrain>(Entity, idToEntityMap, false);
@@ -791,7 +792,7 @@ namespace Game
 
 		public void CollidedWithBody(ComponentBody body)
 		{
-			if (body.Density - 9.76f <= float.Epsilon)
+			if (MathUtils.Abs(body.Density - 9.76f) <= float.Epsilon)
 				return;
 			Vector2 v = m_componentBody.Velocity.XZ - body.Velocity.XZ;
 			float amount = v.LengthSquared() * .3f;
@@ -872,9 +873,17 @@ namespace Game
 				var Com2 = body.Entity.FindComponent<ComponentEngineE>();
 				float HLD = 0f;
 				if (Com != null)
-					HLD = Com.HeatLevel;
+					HLD = Com.HeatLevel >= 100f ? 100f : 1f;
 				if (Com2 != null)
-					HLD = Com2.Charged ? 100f : 1f;
+				{
+					var result = Utils.SubsystemTerrain.Raycast(m_componentBody.Position, m_componentBody.Position + new Vector3(0, 3f, 0), false, true, null) ?? default;
+					if ((ElementBlock.Block.GetDevice(result.CellFace.X, result.CellFace.Y, result.CellFace.Z, result.Value) is TElectricWire em ) )
+					{
+						HLD = Com2.Charged ? 200f : 1f;
+					}
+					//HLD = Com2.Charged ? 200f : 1f;
+				}
+					//HLD = Com2.Charged ? 200f : 1f;
 				if (m_componentBody.StandingOnValue.HasValue && HLD >= 100f && body.m_velocity.Length() > 0f) //body.Velocity.LengthSquared() > 10f &&
 																											  //Utils.SubsystemTime.QueueGameTimeDelayedExecution(Utils.SubsystemTime.GameTime + 0.23 * level, delegate
 				{
@@ -889,6 +898,8 @@ namespace Game
 						//	return;
 						//}
 						float ABS = 6f;
+						if (HLD>=200f)
+						ABS = 30f; 
 						//	if (rotation.ToForwardVector().Y != 0f) { ABS = 3f; };
 						m_componentBody.m_velocity = ABS * rotation.ToForwardVector();
 						//m_componentBody.m_velocity.Z = ABS * rotation.ToForwardVector().Z;
@@ -952,13 +963,23 @@ namespace Game
 			var Com21 = m_componentBody.Entity.FindComponent<ComponentEngineE>();
 			float HLD1 = 0f;
 			if (Com1 != null)
-				HLD1 = Com1.HeatLevel;
+				HLD1 = Com1.HeatLevel >= 100f ? 100f : 1f;
 			if (Com21 != null)
-				HLD1 = Com21.Charged ? 100f : 1f;
+			{
+				var result = Utils.SubsystemTerrain.Raycast(m_componentBody.Position, m_componentBody.Position + new Vector3(0, 3f, 0), false, true, null) ?? default;
+				if (ElementBlock.Block.GetDevice(result.CellFace.X, result.CellFace.Y, result.CellFace.Z, result.Value) is TElectricWire em )
+				{
+					HLD1 = Com21.Charged ? 200f : 1f;
+				}
+				//HLD1 = Com21.Charged ? 200f : 1f;
+			}
+				
 			if (HLD1 >= 100f && m_componentBody.StandingOnValue.HasValue) //
 			{
 				//time = 0;
 				float ABS = 6f;
+				if (HLD1 >= 200f)
+					ABS = 30f;
 				// if (rotation.ToForwardVector().Y != 0f) { ABS = 3f; };
 				var result = Utils.SubsystemTerrain.Raycast(m_componentBody.Position, m_componentBody.Position + new Vector3(0, -3f, 0), false, true, null) ?? default;
 				if (Terrain.ExtractContents(result.Value) == RailBlock.Index && (dt *= SimulateRail(RailBlock.GetRailType(Terrain.ExtractData(result.Value)))) > 0f)

@@ -1,5 +1,5 @@
 ﻿using Engine;
-
+using Engine.Graphics;
 namespace Game
 {
 	public class Fridge : InventoryEntityDevice<ComponentNewChest>
@@ -264,6 +264,15 @@ namespace Game
 		}
 	}
 
+	public class TElectricWire : CubeDevice
+	{
+		public TElectricWire() : base("电车电缆", "铺在电车车上方给电车供电的", 0) { Type = ElementType.None; }
+    
+		public override int GetFaceTextureSlot(int face, int value)
+		{
+			return face == 4 || face == 5 ? 170 : 131;
+		}
+	}
 	public class Condenser : InteractiveEntityDevice<ComponentCondenser>, IElectricElementBlock, IItemAcceptableBlock
 	{
 		public Condenser() : base("超大电容", "超大电容允许你存储一些电量，并在需要的时候释放出去") { Type = ElementType.Supply | ElementType.Connector; }
@@ -355,6 +364,56 @@ namespace Game
 		public override Widget GetWidget(IInventory inventory, ComponentCharger component)
 		{
 			return new ChargerWidget(inventory, component);
+		}
+	}
+
+	public class TGenerator : InventoryEntityDevice<ComponentTGenerator>
+	{
+		public TGenerator() : base("热能发电机", "热能发电机是一种利用金属温差发电的装置，它可以把岩浆转换为能量") { Type = ElementType.Supply | ElementType.Connector; }
+
+		public override void Simulate(ref int voltage)
+		{
+			if (voltage > 8023)
+			{
+				return;
+			}
+			if (Component.Powered)
+				voltage += 310;
+		}
+
+		public override int GetFaceTextureSlot(int face, int value)
+		{
+			return face != 4 && face != 5 && face == (Terrain.ExtractData(value) >> 15) ? 125 : 107;
+		}
+		//return face != 4 && face != 5 ? face == (Terrain.ExtractData(value) >> 15) ? 240 : 241 : 147;
+		public override Widget GetWidget(IInventory inventory, ComponentTGenerator component)
+		{
+			return new SeparatorWidget(inventory, component,"ThermalGenerator");
+		}
+	}
+
+	public class HGenerator : InventoryEntityDevice<ComponentHGenerator>
+	{
+		public HGenerator() : base("氢动力发电机", "氢动力发电机是一种利用氢氧化产生电能 120V") { Type = ElementType.Supply | ElementType.Connector; }
+
+		public override void Simulate(ref int voltage)
+		{
+			if (voltage > 8023)
+			{
+				return;
+			}
+			if (Component.Powered)
+				voltage += 120;
+		}
+
+		public override int GetFaceTextureSlot(int face, int value)
+		{
+			return face != 4 && face != 5 && face == (Terrain.ExtractData(value) >> 15) ? 149 : 107;
+		}
+		//return face != 4 && face != 5 ? face == (Terrain.ExtractData(value) >> 15) ? 240 : 241 : 147;
+		public override Widget GetWidget(IInventory inventory, ComponentHGenerator component)
+		{
+			return new SeparatorWidget(inventory, component, "HydrogenGenerator");
 		}
 	}
 
