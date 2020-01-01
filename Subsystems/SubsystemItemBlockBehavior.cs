@@ -228,9 +228,9 @@ namespace Game
 			}
 			else if (activeBlockValue == ItemBlock.IdTable["Telescope"])
 			{
-				ScreensManager.SwitchScreen(new RecipaediaScreen2());
-				//var view = componentMiner.ComponentPlayer.View;
-				//view.ActiveCamera = view.ActiveCamera is TelescopeCamera ? view.FindCamera<FppCamera>(true) : (Camera)new TelescopeCamera(view);
+				//ScreensManager.SwitchScreen(new RecipaediaScreen2());
+				var view = componentMiner.ComponentPlayer.View;
+				view.ActiveCamera = view.ActiveCamera is TelescopeCamera ? view.FindCamera<FppCamera>(true) : (Camera)new TelescopeCamera(view);
 				return true;
 			}
 			/*else if (activeBlockValue == ItemBlock.IdTable["Minecart"])
@@ -303,6 +303,18 @@ namespace Game
 				else if (activeBlockValue == ItemBlock.IdTable["Airship"])
 				{
 					entity = DatabaseManager.CreateEntity(Project, "Airship", true);
+					entity.FindComponent<ComponentFrame>(true).Rotation = Quaternion.CreateFromAxisAngle(Vector3.UnitY, m_random.UniformFloat(0f, 6.283185f));
+					goto put;
+				}
+				else if (activeBlockValue == ItemBlock.IdTable["Airship"])
+				{
+					entity = DatabaseManager.CreateEntity(Project, "Airship", true);
+					entity.FindComponent<ComponentFrame>(true).Rotation = Quaternion.CreateFromAxisAngle(Vector3.UnitY, m_random.UniformFloat(0f, 6.283185f));
+					goto put;
+				}
+				else if (activeBlockValue == ItemBlock.IdTable["Plane"])
+				{
+					entity = DatabaseManager.CreateEntity(Project, "Plane", true);
 					entity.FindComponent<ComponentFrame>(true).Rotation = Quaternion.CreateFromAxisAngle(Vector3.UnitY, m_random.UniformFloat(0f, 6.283185f));
 					goto put;
 				}

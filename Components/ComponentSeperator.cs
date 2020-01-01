@@ -19,6 +19,13 @@ namespace Game
 				text = 1;
 				result[Utils.Random.Bool(.0072f) ? ItemBlock.IdTable["U235P"] : ItemBlock.IdTable["U238P"]] = 1;
 			}
+			if (value == SandBlock.Index)
+			{
+				text = 1;
+				if (Utils.Random.Bool(.08f))
+				result[ItemBlock.IdTable["B"]] = 1;
+				result[StoneChunkBlock.Index] = 1;
+			}
 			return text != 0 ? FindSmeltingRecipe(text) : base.FindSmeltingRecipe();
 		}
 	}

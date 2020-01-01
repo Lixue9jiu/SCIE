@@ -1190,6 +1190,13 @@
       "beaeb"
 	  "bcdcb"
     </Recipe>
+	<Recipe Result="Plane" ResultCount="1" RequiredHeatLevel="0" a="metalblock:32" b="Gearbox" c="sengine:4096" e="液压元件" f="AluminumPlate" g="Industrial Steel" h="SteelFan" Description="飞机，一种快速移动工具">
+      "ffhff"
+      "gbcbg"
+      "feaef"
+      "feaef"
+	  "ffgff"
+    </Recipe>
     <Recipe Result="Airship" ResultCount="1" RequiredHeatLevel="0" a="H2" b="boat" d="SteelRod" c="sengine:4096" e="AluminumPlate" f="SteelFan" Description="飞艇，一种空中交通工具">
       "eeee"
       "eaae"
@@ -1794,6 +1801,12 @@
 	<Recipe Result="S" ResultCount="1"  RequiredHeatLevel="-1"  a="sulphurchunk"  Description="在粉碎机把硫矿磨成粉">
       "a"
     </Recipe>
+	<Recipe Result="Al" ResultCount="1"  RequiredHeatLevel="-1"  a="AluminumIngot"  Description="在粉碎机把铝锭磨成粉">
+      "a"
+    </Recipe>
+	<Recipe Result="CokeCoalPowder" ResultCount="2"  RequiredHeatLevel="-1"  a="CokeCoalChunk"  Description="在粉碎机把焦煤磨成粉">
+      "a"
+    </Recipe>
 	<Recipe Result="RifleBarrel" ResultCount="1"  RequiredHeatLevel="-1"  a="SteelRod"  Description="在膛线机打磨钢棍">
       "a"
     </Recipe>
@@ -1801,6 +1814,136 @@
       "a"
     </Recipe>
 	<Recipe Result="CannonB" ResultCount="1"  RequiredHeatLevel="-1"  a="Cannon"  Description="在膛线机打磨炮管">
+      "a"
+    </Recipe>
+	<Recipe Result="Bottle" ResultCount="1"  RequiredHeatLevel="-2"  a="glass"  Description="在铸造机制造玻璃瓶">
+      "aa"
+    </Recipe>
+	<Recipe Result="SteelGear" ResultCount="1"  RequiredHeatLevel="-2"  a="SteelIngot" b="SteelGearMould" Description="在铸造机制造齿轮">
+      "ab"
+    </Recipe>
+	<Recipe Result="SteelWheel" ResultCount="1"  RequiredHeatLevel="-2"  a="SteelIngot" b="SteelWheelMould" Description="在铸造机制造轮子">
+      "ab"
+    </Recipe>
+	<Recipe Result="IronIngotBlock" ResultCount="10"  RequiredHeatLevel="-3"  a="IronOrePowder" b="sand" c="pigment" d="CoalPowder" Description="在高炉炼制铁锭">
+      "aaaa"
+	  "abcd"
+	</Recipe>
+	<Recipe Result="SteelIngot" ResultCount="3"  RequiredHeatLevel="-3"  a="ironingot" b="pigment" d="CoalPowder" Description="在高炉炼制钢锭">
+      "aaaa"
+	  "abbd"
+	</Recipe>
+	<Recipe Result="CoalChunkBlock" ResultCount="1"  RequiredHeatLevel="-4"  a="cactus" Description="在焦炉炼制煤">
+      "aaa"
+	  "aaa"
+    </Recipe>
+	<Recipe Result="CoalChunkBlock" ResultCount="2"  RequiredHeatLevel="-4"  a="planks" Description="在焦炉炼制煤">
+      "aaa"
+	  "aaa"
+    </Recipe>
+	<Recipe Result="CoalChunkBlock" ResultCount="2"  RequiredHeatLevel="-4"  a="wood" Description="在焦炉炼制煤">
+      "aaa"
+	  "aaa"
+    </Recipe>
+	<Recipe Result="CokeCoalChunk" ResultCount="1"  RequiredHeatLevel="-4"  a="coalchunk" Description="在焦炉炼制焦煤">
+      "aaa"
+	  "aaa"
+    </Recipe>
+	<Recipe Result="CokeCoalPowder" ResultCount="2"  RequiredHeatLevel="-4"  a="CoalPowder" Description="在焦炉炼制焦煤粉">
+      "aaa"
+	  "aaa"
+    </Recipe>
+	<Recipe Result="IndustrialMagnet" ResultCount="1"  RequiredHeatLevel="-1"  a="SteelIngot"  Description="在磁化机制作工业磁铁">
+      "a"
+    </Recipe>
+	<Recipe Result="AluminumOrePowder" ResultCount="1"  RequiredHeatLevel="-1"  a="dirt"  Description="在分离机获得铝矿粉">
+      "a"
+    </Recipe>
+	<Recipe Result="Cryolite" ResultCount="1"  RequiredHeatLevel="-1"  a="gravel"  Description="在分离机获得冰晶石">
+      "a"
+    </Recipe>
+	<Recipe Result="Graphite" ResultCount="1"  RequiredHeatLevel="-1"  a="coalblock"  Description="在分离机获得石墨">
+      "a"
+    </Recipe>
+	<Recipe Result="SteelIngot" ResultCount="4"  RequiredHeatLevel="-4"  a="ironingot" b="CokeCoalPowder" Description="在平炉炼制钢锭">
+      "aaa"
+	  "abb"
+    </Recipe>
+	<Recipe Result="SteelIngot" ResultCount="4"  RequiredHeatLevel="-4"  a="ScrapIron" b="CokeCoalPowder" Description="在平炉炼制钢锭">
+      "aaa"
+	  "abb"
+    </Recipe>
+	<Recipe Result="FeAlCrAlloyIngot" ResultCount="1"  RequiredHeatLevel="-4"  a="ironingot" b="AluminumOrePowder" c="ChromiumOrePowder" d="CokeCoalPowder" Description="在平炉炼制铁铝铬锭">
+      "aab"
+	  "cdd"
+    </Recipe>
+	<Recipe Result="H2SO4" ResultCount="1"  RequiredHeatLevel="-5"  a="S" b="H2O" Description="在化学反应堆用硫粉和蒸馏水制取硫酸">
+      "ab"
+    </Recipe>
+	<Recipe Result="S-HCl" ResultCount="1"  RequiredHeatLevel="-5"  a="Cl2" b="H2O" Description="在化学反应堆用氯气和蒸馏水制取盐酸">
+      "ab"
+    </Recipe>
+	<Recipe Result="TNT" ResultCount="1"  RequiredHeatLevel="-5"  a="C7H8" b="Cl2" c="HNO3" Description="在化学反应堆用氯气硝酸C7H8制取TNT">
+      "abc"
+    </Recipe>
+	<Recipe Result="Al2O3" ResultCount="1"  RequiredHeatLevel="-5"  a="Al" b="O2" Description="在真空炉用铝粉氧气制取Al2O3">
+      "aabb"
+    </Recipe>
+	<Recipe Result="单晶硅" ResultCount="1"  RequiredHeatLevel="-5"  a="Si" Description="在真空炉用硅粉制取单晶硅">
+      "aaaa"
+    </Recipe>
+	<Recipe Result="单晶硅" ResultCount="1"  RequiredHeatLevel="-5"  a="Si" b="Cl2" c="H2" Description="在真空炉用硅粉氢气氯气制取单晶硅">
+      "abc"
+    </Recipe>
+	<Recipe Result="RubyCrystal" ResultCount="1"  RequiredHeatLevel="-5"  a="Al2O3" Description="在真空炉用Al2O3制取红宝石晶体">
+      "aaaa"
+    </Recipe>
+	<Recipe Result="AluminumIngot" ResultCount="2"  RequiredHeatLevel="-5"  a="AluminumOrePowder" b="Cryolite" Description="在电解机用铝粉制取铝锭">
+      "ab"
+    </Recipe>
+	<Recipe Result="AluminumIngot" ResultCount="1"  RequiredHeatLevel="-5"  a="AluminumOrePowder"  Description="在电解机用铝粉制取铝锭">
+      "a"
+    </Recipe>
+	<Recipe Result="S-NaOH" ResultCount="1"  RequiredHeatLevel="-5"  a="S-NaCl"  Description="在电解机用盐水制取NaOH">
+      "a"
+    </Recipe>
+	<Recipe Result="HNO3" ResultCount="1"  RequiredHeatLevel="-5"  a="saltpeterchunk" b="Bottle" Description="在电解机用硝石制取硝酸">
+      "a"
+    </Recipe>
+	<Recipe Result="Rubber" ResultCount="6"  RequiredHeatLevel="-5"  a="rottenmeat:48" b="CokeCoalPowder" c="wood" Description="在石油化工厂用焦炭粉橡树木制取橡胶">
+      "abc"
+    </Recipe>
+	<Recipe Result="RottenMeatBlock:80" ResultCount="1"  RequiredHeatLevel="-5"  a="rottenmeat:48" b="S-NaOH" c="CokeCoalPowder" Description="在石油化工厂用NaOH焦炭粉制取汽油">
+      "abc"
+    </Recipe>
+	<Recipe Result="C2H4" ResultCount="1"  RequiredHeatLevel="-5"  a="rottenmeat:64" b="H2" c="CokeCoalPowder" Description="在石油化工厂用氢气焦炭粉裂解重油">
+      "abc"
+    </Recipe>
+	<Recipe Result="液化天然气" ResultCount="1"  RequiredHeatLevel="-5"  a="rottenmeat:64" b="H2" c="CokeCoalPowder" Description="在石油化工厂用氢气焦炭粉裂解重油">
+      "abc"
+    </Recipe>
+	<Recipe Result="PlasticBar" ResultCount="1"  RequiredHeatLevel="-5"  a="液化天然气" b="C2H4" c="C7H8" d="HCl" Description="在石油化工厂液化天然气,C2H4,C7H8,HCl合成塑料">
+      "abcd"
+    </Recipe>
+	<Recipe Result="U235P" ResultCount="1"  RequiredHeatLevel="-1"  a="UraniumOrePowder"  Description="在离心机获得U235">
+      "a"
+    </Recipe>
+	<Recipe Result="U238P" ResultCount="1"  RequiredHeatLevel="-1"  a="UraniumOrePowder"  Description="在离心机获得U238">
+      "a"
+    </Recipe>
+	<Recipe Result="B" ResultCount="1"  RequiredHeatLevel="-1"  a="sand"  Description="在离心机获得B">
+      "a"
+    </Recipe>
+	<Recipe Result="U235C" ResultCount="1"  RequiredHeatLevel="-5"  a="U235P" b="H2SO4" Description="在铀浓缩机用硫酸U235粉获得U235饼">
+      "ab"
+    </Recipe>
+	<Recipe Result="U238C" ResultCount="1"  RequiredHeatLevel="-5"  a="U238P" b="H2SO4" Description="在铀浓缩机用硫酸U235粉获得U238饼">
+      "ab"
+    </Recipe>
+	<Recipe Result="S-NaCl" ResultCount="1"  RequiredHeatLevel="-5"  a="CrudeSalt" b="canvas" c="Bottle" Description="在沉淀池用粗盐获得NaCl溶液">
+      "abc"
+    </Recipe>
+	<Recipe Result="SiO2" ResultCount="1"  RequiredHeatLevel="-5"  a="QuartzPowder" Description="在沉淀池用石英获得粗硅">
       "a"
     </Recipe>
   </Items>

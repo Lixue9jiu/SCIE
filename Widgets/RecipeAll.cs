@@ -11,6 +11,10 @@ namespace Game
 	public class RecipeAll : RecipaediaRecipesScreen
 	{
 		public AllRecipeWidget m_AllRecipeWidget;
+		public CastRecipeWidget m_CastRecipeWidget;
+		public BFRecipeWidget m_BFRecipeWidget;
+		public CFRecipeWidget m_CFRecipeWidget;
+		public SRecipeWidget m_MRecipeWidget;
 		public RecipeAll() : base()
 		{
 			//XElement node = ContentManager.Get<XElement>("Screens/RecipaediaRecipesScreen2");
@@ -18,6 +22,10 @@ namespace Game
 			//m_craftingRecipeWidget = Children.Find<NewCraftingRecipeWidget>("CraftingRecipe");
 			//m_smeltingRecipeWidget = Children.Find<SmeltingRecipeWidget>("SmeltingRecipe");
 			m_AllRecipeWidget = Children.Find<AllRecipeWidget>("AllRecipe");
+			m_CastRecipeWidget = Children.Find<CastRecipeWidget>("CastRecipe");
+			m_CFRecipeWidget = Children.Find<CFRecipeWidget>("CFRecipe");
+			m_BFRecipeWidget = Children.Find<BFRecipeWidget>("BFRecipe");
+			m_MRecipeWidget = Children.Find<SRecipeWidget>("SRecipe");
 			//m_prevRecipeButton = Children.Find<ButtonWidget>("PreviousRecipe");
 			//m_nextRecipeButton = Children.Find<ButtonWidget>("NextRecipe");
 		}
@@ -42,6 +50,10 @@ namespace Game
 					m_craftingRecipeWidget.IsVisible = true;
 					m_smeltingRecipeWidget.IsVisible = false;
 					m_AllRecipeWidget.IsVisible = false;
+					m_CastRecipeWidget.IsVisible = false;
+					m_CFRecipeWidget.IsVisible = false;
+					m_BFRecipeWidget.IsVisible = false;
+					m_MRecipeWidget.IsVisible = false;
 				}
 				else if (craftingRecipe.RequiredHeatLevel == -1f)
 				{
@@ -50,6 +62,62 @@ namespace Game
 					m_craftingRecipeWidget.IsVisible = false;
 					m_smeltingRecipeWidget.IsVisible = false;
 					m_AllRecipeWidget.IsVisible = true;
+					m_CastRecipeWidget.IsVisible = false;
+					m_CFRecipeWidget.IsVisible = false;
+					m_BFRecipeWidget.IsVisible = false;
+					m_MRecipeWidget.IsVisible = false;
+				}
+				else if (craftingRecipe.RequiredHeatLevel == -2f)
+				{
+					m_CastRecipeWidget.Recipe = craftingRecipe;
+					m_AllRecipeWidget.NameSuffix = $" (recipe #{m_recipeIndex + 1})";
+					m_craftingRecipeWidget.IsVisible = false;
+					m_smeltingRecipeWidget.IsVisible = false;
+					m_CastRecipeWidget.IsVisible = true;
+					m_AllRecipeWidget.IsVisible = false;
+					m_CFRecipeWidget.IsVisible = false;
+					m_BFRecipeWidget.IsVisible = false;
+					m_MRecipeWidget.IsVisible = false;
+					//m_CastRecipeWidget.IsVisible = false;
+				}
+				else if (craftingRecipe.RequiredHeatLevel == -3f)
+				{
+					m_BFRecipeWidget.Recipe = craftingRecipe;
+					m_AllRecipeWidget.NameSuffix = $" (recipe #{m_recipeIndex + 1})";
+					m_craftingRecipeWidget.IsVisible = false;
+					m_smeltingRecipeWidget.IsVisible = false;
+					m_CastRecipeWidget.IsVisible = false;
+					m_AllRecipeWidget.IsVisible = false;
+					m_CFRecipeWidget.IsVisible = false;
+					m_BFRecipeWidget.IsVisible = true;
+					m_MRecipeWidget.IsVisible = false;
+					//m_CastRecipeWidget.IsVisible = false;
+				}
+				else if (craftingRecipe.RequiredHeatLevel == -4f)
+				{
+					m_CFRecipeWidget.Recipe = craftingRecipe;
+					m_AllRecipeWidget.NameSuffix = $" (recipe #{m_recipeIndex + 1})";
+					m_craftingRecipeWidget.IsVisible = false;
+					m_smeltingRecipeWidget.IsVisible = false;
+					m_CastRecipeWidget.IsVisible = false;
+					m_AllRecipeWidget.IsVisible = false;
+					m_CFRecipeWidget.IsVisible = true;
+					m_BFRecipeWidget.IsVisible = false;
+					m_MRecipeWidget.IsVisible = false;
+					//m_CastRecipeWidget.IsVisible = false;
+				}
+				else if (craftingRecipe.RequiredHeatLevel == -5f)
+				{
+					m_MRecipeWidget.Recipe = craftingRecipe;
+					m_AllRecipeWidget.NameSuffix = $" (recipe #{m_recipeIndex + 1})";
+					m_craftingRecipeWidget.IsVisible = false;
+					m_smeltingRecipeWidget.IsVisible = false;
+					m_CastRecipeWidget.IsVisible = false;
+					m_AllRecipeWidget.IsVisible = false;
+					m_CFRecipeWidget.IsVisible = false;
+					m_BFRecipeWidget.IsVisible = false;
+					m_MRecipeWidget.IsVisible = true;
+					//m_CastRecipeWidget.IsVisible = false;
 				}
 				else
 				{
@@ -58,6 +126,10 @@ namespace Game
 					m_smeltingRecipeWidget.IsVisible = true;
 					m_craftingRecipeWidget.IsVisible = false;
 					m_AllRecipeWidget.IsVisible = false;
+					m_CastRecipeWidget.IsVisible = false;
+					m_CFRecipeWidget.IsVisible = false;
+					m_BFRecipeWidget.IsVisible = false;
+					m_MRecipeWidget.IsVisible = false;
 				}
 			}
 			m_prevRecipeButton.IsEnabled = (m_recipeIndex > 0);

@@ -1,0 +1,14 @@
+<SRecipeWidget xmlns="runtime-namespace:Game">
+  <StackPanelWidget Direction="Vertical">
+    <LabelWidget Name="3MRecipeWidget.Name" Font="{Fonts/Pericles32}" HorizontalAlignment="Center" Margin="0, 10"/>
+    <CanvasWidget Size="400, 50" HorizontalAlignment="Center" Margin="0, 10">
+      <LabelWidget Name="3MRecipeWidget.Description" Font="{Fonts/Pericles18}" HorizontalAlignment="Center" VerticalAlignment="Near" TextAnchor="HorizontalCenter" WordWrap="true"/>
+    </CanvasWidget>
+    <CanvasWidget Name="3MRecipeWidget.Canvas" HorizontalAlignment="Center" Margin="0, 10">
+      <BevelledRectangleWidget Size="400, 280" BevelSize="3" />
+      <GridPanelWidget Name="3MRecipeWidget.Ingredients" CanvasWidget.Position="18, 104" ColumnsCount="4" RowsCount="1" Margin="20, 0"/>
+      <CraftingRecipeSlotWidget Name="3MRecipeWidget.Result" CanvasWidget.Position="295, 104" />
+      <ArrowLineWidget Color="0, 0, 0, 96" Width="8" ArrowWidth="24" PointsString="262, 140; 275, 140" AbsoluteCoordinates="true"/>
+    </CanvasWidget>
+  </StackPanelWidget>
+</SRecipeWidget>

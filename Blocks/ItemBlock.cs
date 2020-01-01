@@ -36,8 +36,7 @@ namespace Game
 			AudioManager.PlaySound1 = PlaySound;
 			ScreensManager.Initialized += Init;
 			Utils.TR = new Dictionary<string, string>();
-			ScreensManager.m_screens.Remove("Recipaedia");
-			ScreensManager.AddScreen("Recipaedia", new RecipaediaScreen2());
+			
 		}
 		internal static void Init()
 		{
@@ -47,6 +46,7 @@ namespace Game
 			Airship.ATexture = ContentManager.Get<Texture2D>("Textures/tex");
 			Car.CarTexture = ContentManager.Get<Texture2D>("Textures/tex2");
 			ETrain.ETrainTexture = ContentManager.Get<Texture2D>("Textures/etex3");
+			Airplane.PTexture = ContentManager.Get<Texture2D>("Textures/tex4");
 			var stream = Utils.GetTargetFile("IndustrialMod.png");
 			try
 			{
@@ -57,6 +57,7 @@ namespace Game
 			{
 				Task = Task.Run((Action)ItemBlock.InitItems);
 			}
+			((LoadingScreen)ScreensManager.CurrentScreen).AddLoadAction(SR);
 		}
 		public static bool True(object obj) => true;
 		public static void PlaySound(string name, float volume, float pitch, float pan)
@@ -97,8 +98,7 @@ namespace Game
 		}
 		public static void SR()
 		{
-			ScreensManager.m_screens.Remove("Recipaedia");
-			ScreensManager.AddScreen("Recipaedia", new RecipaediaScreen2());
+			ScreensManager.m_screens["Recipaedia"] = new RecipaediaScreen2();
 		}
 		public static void CRInitialize()
 		{

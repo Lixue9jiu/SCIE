@@ -212,6 +212,35 @@
         <Parameter Name="Mass" Guid="ae127d38-1570-4901-a319-b21a8dc22175" Value="1000" Type="float" />
       </MemberComponentTemplate>
     </EntityTemplate>
+	<EntityTemplate Name="Plane" Guid="393a7771-1ce4-43fa-9614-47d69bf788ba" InheritanceParent="3f3abb7e-1ce4-43fa-9612-47d69bf788bb">
+      <MemberComponentTemplate Name="SimpleModel" Guid="459a8ad2-0db8-4614-9ff8-8504dbd3c7b1">
+        <Parameter Name="ModelName" Guid="fe4ed117-297f-47fa-951a-930ea7d6e881" Value="Models/Plane" Type="string" />
+        <Parameter Name="TextureOverride" Guid="ff1476e5-837a-4514-a9fe-baf88d835b51" Value="Textures/tex4" Type="string" />
+      </MemberComponentTemplate>
+      <MemberComponentTemplate Name="Handle" Guid="a374d5da-5317-4df6-9294-a51abcd70387" InheritanceParent="b05700ed-7e4e-4679-98f5-b597f421496b">
+        <Parameter Name="Class" Guid="5a7249b2-7adc-4d17-8459-d94513c52184" Value="Game.ComponentAirship" Type="string" />
+      </MemberComponentTemplate>
+      <MemberComponentTemplate Name="EngineA" Guid="e82429a1-17c6-4a2c-9ea5-725178ee2225" InheritanceParent="98fdc888-8ca8-4d0f-af8d-25bfe9b56a19" />
+      <MemberComponentTemplate Name="OnFire" Guid="717df5a1-2f5a-4c6d-98a8-9b5ad07b32e5" InheritanceParent="93590d78-63b9-4cd6-bc41-e66864cbb050" />
+      <MemberComponentTemplate Name="Mount" Guid="913f2b77-c991-4f1f-a130-b2ed5ff96493">
+        <Parameter Name="MountOffset" Guid="36b454ca-89e1-4412-be71-a6b4aae705bc" Value="0,1.35,0" Type="Vector3" />
+        <Parameter Name="DismountOffset" Guid="bff5c4e4-b009-4fe1-b841-93843edd05b6" Value="0.5,0.5,0.4" Type="Vector3" />
+      </MemberComponentTemplate>
+      <MemberComponentTemplate Name="Body" Guid="b6867145-ddd6-417b-bd4d-7be14c05d3eb">
+        <Parameter Name="WaterSwayAngle" Guid="16cc6498-eb31-4958-850f-a12f2a86c16a" Value="0.04" Type="float" />
+        <Parameter Name="MaxSmoothRiseHeight" Guid="191579b4-e6f6-4604-aae9-7d0a3273c987" Value="0.3" Type="float" />
+        <Parameter Name="BoxSize" Guid="532179ba-8c27-4667-a19e-605afa72e335" Value="2.50,1.5,2.50" Type="Vector3" />
+        <Parameter Name="WaterDrag" Guid="6549df11-9d10-417f-b0b0-4cdf89dcdae4" Value="6,4" Type="Vector2" />
+        <Parameter Name="Mass" Guid="ae129d38-1176-4971-a719-b21a8dc27175" Value="550" Type="float" />
+        <Parameter Name="AirDrag" Guid="d851479d-da17-409b-9b32-a7df09fc82a4" Value="1,0" Type="Vector2" />
+        <Parameter Name="Density" Guid="f2894d8d-51f9-44c5-887e-7724611e3cd5" Value="17.0" Type="float" />
+      </MemberComponentTemplate>
+      <MemberComponentTemplate Name="Damage" Guid="eb11229d-8903-41bd-b663-545dea83af91">
+        <Parameter Name="AttackResilience" Guid="32f5b829-e2ba-4441-9f06-6b8710a8bcdf" Value="500" Type="float" />
+        <Parameter Name="FireResilience" Guid="39f5b859-e2ba-4241-9f06-6b8710a8bcdf" Value="150" Type="float" />
+		<Parameter Name="FallResilience" Guid="fdcf9ff5-f89e-4a96-b565-1fe4b28831f9" Value="9999" Type="float" />
+      </MemberComponentTemplate>
+    </EntityTemplate>
     <EntityTemplate Name="Airship" Guid="3f3abb7e-1ce4-43fa-9614-47d69bf788ba" InheritanceParent="3f3abb7e-1ce4-43fa-9612-47d69bf788bb">
       <MemberComponentTemplate Name="SimpleModel" Guid="459a8ad2-0db8-4604-9ee8-8504dbd3c7b1">
         <Parameter Name="ModelName" Guid="fe4ed217-297f-47ca-950a-930ea7d6e881" Value="Models/Airship" Type="string" />

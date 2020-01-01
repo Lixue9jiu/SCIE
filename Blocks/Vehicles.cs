@@ -111,6 +111,19 @@ namespace Game
 		public override Vector3 GetIconBlockOffset(int value, DrawBlockEnvironmentData environmentData) => new Vector3(0.3f, -0.4f, 0f);
 	}
 
+	public class Airplane : TexturedMeshItem
+	{
+		public static Texture2D PTexture;
+		public Airplane() : base("飞机", "Plane", "Plane", PTexture, "使用螺旋桨，铝制机身内燃机的快速交通工具，不过要准备一座飞机场。", 0.4f)
+		{
+			m_standaloneBlockMesh.AppendMesh("Models/Plane", "Body", Matrix.CreateScale(0.4f) * Matrix.CreateTranslation(0f, -0.2f, 0f), Matrix.Identity, Color.White);
+		}
+
+		public override Vector3 GetIconViewOffset(int value, DrawBlockEnvironmentData environmentData) => new Vector3(-0.6f, 0.6f, -0.8f);
+
+		public override Vector3 GetIconBlockOffset(int value, DrawBlockEnvironmentData environmentData) => new Vector3(-2.6f, 2.0f, 0f);
+	}
+
 	public class Car : TexturedMeshItem
 	{
 		public static Texture2D CarTexture;
