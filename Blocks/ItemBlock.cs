@@ -24,7 +24,7 @@ namespace Game
 			
 			BlocksManager.DamageItem1 = DamageItem;
 			BlocksManager.FindBlocksByCraftingId1 = FindBlocksByCraftingId;
-			CraftingRecipesManager.Initialize1 = CRInitialize + CraftingRecipesManager.Initialize1;
+			CraftingRecipesManager.Initialize1 = (Action)Delegate.Combine(new Action(CRInitialize), CraftingRecipesManager.Initialize1);
 			DecodeResult1 = CraftingRecipesManager.DecodeResult1;
 			CraftingRecipesManager.DecodeResult1 = DecodeResult;
 			CraftingRecipesManager.MatchRecipe1 = MatchRecipe;

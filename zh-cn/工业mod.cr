@@ -1,8 +1,8 @@
 <IndustrialMod>
-<Recipe Result="IronIngotBlock" ResultCount="1" new-RequiredHeatLevel="1500" a="ironorechunk:0" Description="冶炼铁矿石以获得铁" />
-<Recipe Result="CopperIngotBlock" ResultCount="1" new-RequiredHeatLevel="1000" a="malachitechunk:0" Description="冶炼铜矿石以获得铜" />
-<Recipe Result="GermaniumChunkBlock" ResultCount="1" new-RequiredHeatLevel="900" a="germaniumorechunk:0" Description="冶炼锗矿石以获得锗晶体" />
-<Recipe Result="RodBlock" ResultCount="4" new-RequiredHeatLevel="1500" new-a="ironingot:0" Description="将铁锭锻造成棒" />
+<Recipe Result="IronIngotBlock" ResultCount="1" new-RequiredHeatLevel="1500" a="ironorechunk" Description="冶炼铁矿石以获得铁" />
+<Recipe Result="CopperIngotBlock" ResultCount="1" new-RequiredHeatLevel="1000" a="malachitechunk" Description="冶炼铜矿石以获得铜" />
+<Recipe Result="GermaniumChunkBlock" ResultCount="1" new-RequiredHeatLevel="900" a="germaniumorechunk" Description="冶炼锗矿石以获得锗晶体" />
+<Recipe Result="RodBlock" ResultCount="4" new-RequiredHeatLevel="1500" new-a="ironingot" Description="将铁锭锻造成棒" />
   <Smelting>
     <Recipe Result="GunpowderBlock:1" ResultCount="3" RequiredHeatLevel="0" a="saltpeterchunk" b="S" c="CoalPowder" Description="将煤，硫和硝石混合制成火药">
       "abc"
@@ -485,10 +485,10 @@
     <Recipe Result="SteelIngot" ResultCount="9" RequiredHeatLevel="1400" a="metalblock:96" Description="将钢块铸成锭">
       "a"
     </Recipe>
-    <Recipe Result="SteelPlate" ResultCount="12" RequiredHeatLevel="0" Remains="CopperPlate" RemainsCount="4" a="metalblock:32" Description="拆除基础机箱">
+    <Recipe Result="SteelPlate" ResultCount="2" RequiredHeatLevel="0" Remains="CopperPlate" RemainsCount="4" a="metalblock:32" Description="拆除基础机箱">
       "a"
     </Recipe>
-    <Recipe Result="SteelIngot" ResultCount="12" RequiredHeatLevel="1400" Remains="CopperIngotBlock" RemainsCount="4" a="metalblock:32" Description="拆除高级机箱">
+    <Recipe Result="SteelPlate" ResultCount="4" RequiredHeatLevel="1400" Remains="CopperIngotBlock" RemainsCount="4" a="metalblock:32" Description="拆除高级机箱">
       "a"
     </Recipe>
     <Recipe Result="GoldIngot" ResultCount="9" RequiredHeatLevel="0" a="metalblock:128" Description="将金块拆分成铸锭">
@@ -1391,6 +1391,18 @@
       "cbbc"
 	  "adda"
     </Recipe>
+	<Recipe Result="Circuit2" ResultCount="2" RequiredHeatLevel="0" a="truthtablecircuit" b="晶体三极管" c="counter" d="memorybank" e="realtimeclock" f="andgate" g="notgate" h="PlasticBar" i="电阻" Description="用晶体三极管，制作高级电路板">
+      "abcge"
+      "igbfc"
+      "hbcbh"
+	  "fidgf"
+	  "gddbg"
+    </Recipe>
+	<Recipe Result="TEDC" ResultCount="1" RequiredHeatLevel="0" a="Circuit1" b="Circuit2" c="metalblock:32" d="电容" e="CopperWire" Description="制作一台晶体管计算机">
+      "dbabd"
+      "eacae"
+      "dbabd"
+    </Recipe>
     <Recipe Result="Charger" ResultCount="1" RequiredHeatLevel="0" a="CopperWire" b="WireDevice" c="metalblock:32" Description="充电放电装置，可以给电器充电也可以放电">
       "bbb"
       "aca"
@@ -1583,6 +1595,17 @@
     </Recipe>
     <Recipe Result="Wrench" ResultCount="1" RequiredHeatLevel="1500" Remains="ScrapIron" RemainsCount="2" a="SteelRod" Description="制作扳手">
       "aa"
+    </Recipe>
+	<Recipe Result="电阻" ResultCount="4" RequiredHeatLevel="0" a="FeAlCrAlloyLine" b="CopperLine" c="StannaryLine" Description="用铁铝铬合金线铜线锡线制作电阻">
+      " cc"
+	  "baab"
+	  " cc"
+    </Recipe>
+	<Recipe Result="晶体三极管" ResultCount="2" RequiredHeatLevel="0" a="单晶硅" b="CopperLine" c="StannaryLine" d="晶圆" e="PlasticBar" f="germaniumchunk" Description="用单晶硅铜线锡线晶圆塑料锗块制作晶体三极管">
+      "ecdce"
+	  "aadaa"
+	  "ffdff"
+	  "b b b"
     </Recipe>
 	<Recipe Result="IronPlate" ResultCount="1"  RequiredHeatLevel="-1"  a="ironingot"  Description="在压板机把铁锭压成铁板">
       "a"
@@ -1813,7 +1836,13 @@
 	<Recipe Result="Al2O3" ResultCount="1"  RequiredHeatLevel="-5"  a="Al" b="O2" Description="在真空炉用铝粉氧气制取Al2O3">
       "aabb"
     </Recipe>
-	<Recipe Result="单晶硅" ResultCount="1"  RequiredHeatLevel="-5"  a="Si" Description="在真空炉用硅粉制取单晶硅">
+	<Recipe Result="多晶硅" ResultCount="1"  RequiredHeatLevel="-5"  a="Si" Description="在真空炉用硅粉制取多晶硅">
+      "aaaa"
+    </Recipe>
+	<Recipe Result="单晶硅" ResultCount="1"  RequiredHeatLevel="-5"  a="多晶硅" Description="在真空炉用多晶硅粉制取单晶硅">
+      "aaaa"
+    </Recipe>
+	<Recipe Result="晶圆" ResultCount="1"  RequiredHeatLevel="-5"  a="单晶硅" Description="在真空炉用单晶硅粉制取晶圆">
       "aaaa"
     </Recipe>
 	<Recipe Result="单晶硅" ResultCount="1"  RequiredHeatLevel="-5"  a="Si" b="Cl2" c="H2" Description="在真空炉用硅粉氢气氯气制取单晶硅">
