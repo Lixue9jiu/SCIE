@@ -37,6 +37,7 @@ namespace Game
 		{
 		}
 		public DynamicArray<Vector4> m_radations = new DynamicArray<Vector4>();
+		public DynamicArray<Vector4> m_radio = new DynamicArray<Vector4>();
 
 		public float FindNearestCompassTarget(Vector3 Position)
 		{
@@ -179,12 +180,15 @@ namespace Game
 			m_subsystemBlockEntities = Project.FindSubsystem<SubsystemBlockEntities>(throwOnError: true);
 			m_subsystemPickables = Project.FindSubsystem<SubsystemPickables>(throwOnError: true);
 			m_radations = new DynamicArray<Vector4>(HumanReadableConverter.ValuesListFromString<Vector4>(';', valuesDictionary.GetValue("Radiation", "")));
+			m_radio = new DynamicArray<Vector4>(HumanReadableConverter.ValuesListFromString<Vector4>(';', valuesDictionary.GetValue("Radio", "")));
 		}
 		public override void Save(ValuesDictionary valuesDictionary)
 		{
 			base.Save(valuesDictionary);
 			string value = HumanReadableConverter.ValuesListToString(';', m_radations.ToArray());
+			string value2 = HumanReadableConverter.ValuesListToString(';', m_radio.ToArray());
 			valuesDictionary.SetValue("Radiation", value);
+			valuesDictionary.SetValue("Radio", value2);
 		}
 		public override bool OnInteract(TerrainRaycastResult raycastResult, ComponentMiner componentMiner)
 		{

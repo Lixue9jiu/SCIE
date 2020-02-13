@@ -181,7 +181,7 @@ namespace Game
 			DefaultDescription = DefaultDisplayName = name;
 		}
 
-		public float GetFuelFireDuration(int value) => 28f;
+		public float GetFuelFireDuration(int value) => 25f;
 		public float GetHeatLevel(int value) => 7.5e3f;
 		public override float GetExplosionPressure() => 150f;
 		public override BlockPlacementData GetPlacementValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, TerrainRaycastResult raycastResult)
@@ -195,14 +195,14 @@ namespace Game
 	public class HBomb : ABomb, IFuel
 	{
 		public HBomb() : base("氢弹") { }
-		public new float GetFuelFireDuration(int value) => 32f;
+		public new float GetFuelFireDuration(int value) => 40f;
 		public new float GetHeatLevel(int value) => 1.5e4f;
 	}
 
 	public class HABomb : ABomb, IFuel
 	{
 		public HABomb() : base("三相弹") { }
-		public new float GetFuelFireDuration(int value) => 48f;
+		public new float GetFuelFireDuration(int value) => 60f;
 		public new float GetHeatLevel(int value) => 2.5e4f;
 	}
 

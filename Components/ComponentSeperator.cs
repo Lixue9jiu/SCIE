@@ -26,6 +26,13 @@ namespace Game
 				result[ItemBlock.IdTable["B"]] = 1;
 				result[StoneChunkBlock.Index] = 1;
 			}
+			if (value == ItemBlock.IdTable["UsedUpFuel"])
+			{
+				text = 1;
+				if (Utils.Random.Bool(.2f))
+					result[ItemBlock.IdTable["PU239P"]] = 1;
+				result[ItemBlock.IdTable["U238P"]] = 1;
+			}
 			return text != 0 ? FindSmeltingRecipe(text) : base.FindSmeltingRecipe();
 		}
 	}

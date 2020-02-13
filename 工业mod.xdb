@@ -97,6 +97,16 @@
         <Parameter Name="Class" Guid="1c8f9ff1-22f9-45bb-aae3-039ba73b12b6" Value="Game.ComponentCondenser" Type="string" />
       </MemberComponentTemplate>
     </EntityTemplate>
+	<EntityTemplate Name="RadioC" Guid="f855af75-af18-4f55-81fa-aafaf97b92bd" InheritanceParent="9681f999-898b-4f5c-9ea8-f8cc331e97b3">
+      <MemberComponentTemplate Name="RadioC" Guid="0f199f59-fc9d-4b9c-9797-df652ca11b51" InheritanceParent="81a44c6a-c30a-4f53-8d64-0c30aabab8f9">
+        <Parameter Name="Class" Guid="1c8594f2-22f9-45bb-aa13-039ba73b12b6" Value="Game.ComponentRadioC" Type="string" />
+      </MemberComponentTemplate>
+    </EntityTemplate>
+	<EntityTemplate Name="RadioR" Guid="f855af75-af18-4f15-81fa-aafaf17b92bd" InheritanceParent="9681f999-898b-4f5c-9ea8-f8cc331e97b3">
+      <MemberComponentTemplate Name="RadioR" Guid="1f199f79-fc9d-4b9c-9797-df652ca11b51" InheritanceParent="81a44c6a-c30a-4f53-8d64-0c30aabab8f9">
+        <Parameter Name="Class" Guid="1c9594f2-22f9-47bb-a713-039ba73b12b6" Value="Game.ComponentRadioR" Type="string" />
+      </MemberComponentTemplate>
+    </EntityTemplate>
 	<EntityTemplate Name="LaserG" Guid="a8ffa885-1f18-4977-81fa-aafaf97b92bd" InheritanceParent="9681f999-898b-4f5c-9ea8-f8cc331e97b3">
       <MemberComponentTemplate Name="LaserG" Guid="fff3ff53-fc73-4b4c-37c7-df653ca11b51" InheritanceParent="81a44c6a-c30a-4f53-8d64-0c30aabab8f9">
         <Parameter Name="Class" Guid="f3839331-2233-4533-aae3-039ba73b12b7" Value="Game.ComponentLaserG" Type="string" />
@@ -615,6 +625,7 @@
     <MemberSubsystemTemplate Name="SourBlockBehavior" Guid="c1affe62-402f-4b96-987a-6050eb7ed2d4" InheritanceParent="fefb9590-4972-4893-b02a-76063611b745">
       <Parameter Name="Class" Guid="a62f532b-5607-40f1-8704-4c42f35ec016" Value="Game.SubsystemSourBlockBehavior" Type="string" />
 	  <Parameter Name="Radiation" Description="List of magnet positions in the world" Guid="f9a653e2-854a-4805-a7e9-e74bd77de984" Value="" Type="string" />
+	  <Parameter Name="Radio" Description="List of magnet positions in the world" Guid="ffa653e2-874a-4865-a7e1-e74bd77de984" Value="" Type="string" />
     </MemberSubsystemTemplate>
     <MemberSubsystemTemplate Name="CReactorBlockBehavior" Guid="c0fffe92-402f-4b96-987a-6050eb7ed2d4" InheritanceParent="fefb9590-4972-4893-b02a-76063611b745">
       <Parameter Name="Class" Guid="a618537b-5607-40f1-8704-4c42f35ec016" Value="Game.SubsystemCReactorBlockBehavior" Type="string" />

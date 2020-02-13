@@ -162,13 +162,13 @@ namespace Game
 				result[ItemBlock.IdTable["µ¥¾§¹è"]] = 1;
 				result[ItemBlock.IdTable["¶à¾§¹è"]] = 1;
 				all = true;
-				return FindSmeltingRecipe(result, n);
+				return FindSmeltingRecipe(result, 64);
 			}
 			else if (GetSlotValue(0) == ItemBlock.IdTable["µ¥¾§¹è"] && GetSlotValue(1) == ItemBlock.IdTable["µ¥¾§¹è"] && GetSlotValue(2) == ItemBlock.IdTable["µ¥¾§¹è"] && GetSlotValue(3) == ItemBlock.IdTable["µ¥¾§¹è"])
 			{
 				result[ItemBlock.IdTable["¾§Ô²"]] = 1;
 				all = true;
-				return FindSmeltingRecipe(result, n);
+				return FindSmeltingRecipe(result, 128);
 			}
 			system = new ReactionSystem();
 			return FindSmeltingRecipe(result, FindSmeltingRecipe(result, system));

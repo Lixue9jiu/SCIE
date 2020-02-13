@@ -44,6 +44,61 @@ namespace Game
 		}
 	}
 
+	public class RadioCWidget : MultiStateMachWidget<ComponentRadioC>
+	{
+
+		public RadioCWidget(IInventory inventory, ComponentRadioC component) : base(inventory, component, "Widgets/RadioC")
+		{
+			
+		}
+
+		public override void Update()
+		{
+			if (!m_component.IsAddedToProject)
+			{
+				ParentWidget.Children.Remove(this);
+				return;
+			}
+			Children.Find<LabelWidget>("DispenserLabel2").Text = m_component.m_fireTimeRemaining.ToString() + "/KHz";
+			if (m_dispenseButton.IsClicked && m_component.m_fireTimeRemaining<50000f)
+			{
+				m_component.m_fireTimeRemaining += 1000;
+			}
+			if (m_shootButton.IsClicked && m_component.m_fireTimeRemaining > 1000f)
+			{
+				m_component.m_fireTimeRemaining -= 1000;
+			}
+		}
+	}
+
+	public class RadioRWidget : MultiStateMachWidget<ComponentRadioR>
+	{
+
+		public RadioRWidget(IInventory inventory, ComponentRadioR component) : base(inventory, component, "Widgets/RadioC")
+		{
+			Children.Find<LabelWidget>("DispenserLabel").Text = "RadioReceiver";
+		}
+
+		public override void Update()
+		{
+			if (!m_component.IsAddedToProject)
+			{
+				ParentWidget.Children.Remove(this);
+				return;
+			}
+			Children.Find<LabelWidget>("DispenserLabel2").Text = m_component.m_fireTimeRemaining.ToString() + "/KHz";
+			if (m_dispenseButton.IsClicked && m_component.m_fireTimeRemaining < 50000f)
+			{
+				m_component.m_fireTimeRemaining += 1000;
+			}
+			if (m_shootButton.IsClicked && m_component.m_fireTimeRemaining > 1000f)
+			{
+				m_component.m_fireTimeRemaining -= 1000;
+			}
+		}
+	}
+
+
 	public class ETrainWidget : MultiStateMachWidget<ComponentEngineE>
 	{
 		//protected readonly ValueBarWidget m_progress;

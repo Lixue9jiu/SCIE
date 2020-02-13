@@ -467,6 +467,47 @@ namespace Game
 		}
 	}
 
+
+	public class RadioC : InventoryEntityDevice<ComponentRadioC>
+	{
+		public RadioC() : base("无线电发射装置", "无线电发射装置是一种利用线圈通电发射无线电的装置，可以发出给定频率的脉冲信号",100) { }
+
+		public override void Simulate(ref int voltage)
+		{
+			if (voltage > 8000)
+				return;
+			base.Simulate(ref voltage);
+			Component.Powered = Powered;
+		}
+		public override int GetFaceTextureSlot(int face, int value)
+		{
+			return face != 4 && face != 5 ? face == (Terrain.ExtractData(value) >> 15) ? 150 : 107 : 107;
+		}
+		//return face != 4 && face != 5 ? face == (Terrain.ExtractData(value) >> 15) ? 240 : 241 : 147;
+		public override Widget GetWidget(IInventory inventory, ComponentRadioC component)
+		{
+			return new RadioCWidget(inventory, component);
+		}
+	}
+
+	public class RadioR : InventoryEntityDevice2<ComponentRadioR>
+	{
+		public RadioR() : base("无线电接受装置", "无线电接受装置是一种利用简单线圈回路接受无线电的装置，可以接受给定频率的脉冲信号，有时候会出现接受不到的情况") { }
+
+		public override void Simulate(ref int voltage)
+		{
+		}
+		public override int GetFaceTextureSlot(int face, int value)
+		{
+			return face != 4 && face != 5 ? face == (Terrain.ExtractData(value) >> 15) ? 151 : 107 : 107;
+		}
+		//return face != 4 && face != 5 ? face == (Terrain.ExtractData(value) >> 15) ? 240 : 241 : 147;
+		public override Widget GetWidget(IInventory inventory, ComponentRadioR component)
+		{
+			return new RadioRWidget(inventory, component);
+		}
+	}
+
 	public class Recycler : InventoryEntityDevice<ComponentRecycler>
 	{
 		public Recycler() : base("回收机", "回收机", 110)

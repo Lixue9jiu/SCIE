@@ -412,12 +412,32 @@ namespace Game
 									if (BlocksManager.DamageItem(va1, 1) != 0)
 									{
 										AddSlotItems(i, BlocksManager.DamageItem(va1, 1), 1);
+									}else
+									{
+										if (Terrain.ExtractContents(va1) == FuelRodBlock.Index)
+										{
+											if (FuelRodBlock.GetType(va1) == RodType.UFuelRod)
+											{
+												//inventory.AddSlotItems(i, va1, -1);
+												AddSlotItems(i, ItemBlock.IdTable["UsedUpFuel"], 1);
+											}
+											if (FuelRodBlock.GetType(va1) == RodType.ControlRod)
+											{
+												//inventory.AddSlotItems(i, va1, -1);
+												AddSlotItems(i, ItemBlock.IdTable["B"], 1);
+											}
+											if (FuelRodBlock.GetType(va1) == RodType.CarbonRod)
+											{
+												//inventory.AddSlotItems(i, va1, -1);
+												AddSlotItems(i, ItemBlock.IdTable["C"], 1);
+											}
+										}
 									}
 								}
 							}
 							else
 							{
-								RemoveSlotItems(i, 1);
+								//RemoveSlotItems(i, 1);
 							}
 						}
 				}
@@ -518,6 +538,82 @@ namespace Game
 			}
 		}
 	}
+
+
+	public class ComponentRadioC : ComponentMachine, IUpdateable
+	{
+		public int Frequency;
+		public double time;
+		public int Output;
+		public bool Powered;
+		public bool flag;
+		public void Update(float dt)
+		{
+			if (Utils.SubsystemTime.GameTime - time > 0.7f)
+			{
+				flag = false;
+				InActive();
+			}
+		}
+
+		public virtual void Delete()
+		{
+			InActive();
+		}
+
+		public virtual void Active()
+		{
+			Point3 coor = m_componentBlockEntity.Coordinates;
+			for (int iii = 0; iii < Utils.SubsystemSour.m_radio.Count; iii++)
+			{
+				if (Utils.SubsystemSour.m_radio.Array[iii] == new Vector4(coor.X, coor.Y, coor.Z, Utils.SubsystemSour.m_radio.Array[iii].W))
+				{
+					Utils.SubsystemSour.m_radio.Remove(Utils.SubsystemSour.m_radio.Array[iii]);
+				}
+			}
+			if (m_fireTimeRemaining >= 1000f && Powered)
+			{
+				flag = true;
+				time = Utils.SubsystemTime.GameTime;
+				Utils.SubsystemSour.m_radio.Add(new Vector4(coor.X, coor.Y, coor.Z, m_fireTimeRemaining));
+			}
+		}
+
+		public virtual void InActive()
+		{
+			Point3 coor = m_componentBlockEntity.Coordinates;
+			for (int iii = 0; iii < Utils.SubsystemSour.m_radio.Count; iii++)
+			{
+				if (Utils.SubsystemSour.m_radio.Array[iii] == new Vector4(coor.X, coor.Y, coor.Z, Utils.SubsystemSour.m_radio.Array[iii].W))
+				{
+					Utils.SubsystemSour.m_radio.Remove(Utils.SubsystemSour.m_radio.Array[iii]);
+				}
+			}
+
+		}
+	}
+
+	public class ComponentRadioR : ComponentMachine
+	{
+		public int Frequency;
+
+		public int Output;
+		public bool Powered;
+
+		public virtual bool Active()
+		{
+			Point3 coor = m_componentBlockEntity.Coordinates;
+			for (int iii = 0; iii < Utils.SubsystemSour.m_radio.Count; iii++)
+			{
+				if (Utils.SubsystemSour.m_radio.Array[iii].W == m_fireTimeRemaining)
+				{
+					return true;
+				}
+			}
+			return false;
+		}
+	}
+
 
 	public class ComponentLaserG : ComponentMachine
 	{

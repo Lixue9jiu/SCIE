@@ -213,7 +213,6 @@ namespace Game
 	public abstract class InventoryEntityDevice<T> : InteractiveEntityDevice<T>, IElectricElementBlock where T : Component
 	{
 		protected InventoryEntityDevice(string name, string description, int voltage = 0) : base(name, description, voltage) { }
-
 		public ElectricElement CreateElectricElement(SubsystemElectricity subsystemElectricity, int value, int x, int y, int z)
 		{
 			return new MachineElectricElement(subsystemElectricity, new Point3(x, y, z));
@@ -221,6 +220,24 @@ namespace Game
 		public ElectricConnectorType? GetConnectorType(SubsystemTerrain terrain, int value, int face, int connectorFace, int x, int y, int z)
 		{
 			return face == 4 || face == 5 ? (ElectricConnectorType?)ElectricConnectorType.Input : null;
+		}
+		public int GetConnectionMask(int value)
+		{
+			int? color = PaintableItemBlock.GetColor(Terrain.ExtractData(value));
+			return color.HasValue ? 1 << color.Value : 2147483647;
+		}
+	}
+
+	public abstract class InventoryEntityDevice2<T> : InteractiveEntityDevice<T>, IElectricElementBlock where T : Component
+	{
+		protected InventoryEntityDevice2(string name, string description, int voltage = 0) : base(name, description, voltage) { }
+		public ElectricElement CreateElectricElement(SubsystemElectricity subsystemElectricity, int value, int x, int y, int z)
+		{
+			return new MachineElectricElement2(subsystemElectricity, new Point3(x, y, z));
+		}
+		public ElectricConnectorType? GetConnectorType(SubsystemTerrain terrain, int value, int face, int connectorFace, int x, int y, int z)
+		{
+			return (ElectricConnectorType?)ElectricConnectorType.Output;
 		}
 		public int GetConnectionMask(int value)
 		{

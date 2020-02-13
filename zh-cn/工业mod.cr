@@ -1408,6 +1408,17 @@
       "aca"
       "bbb"
     </Recipe>
+	<Recipe Result="RadioC" ResultCount="1" RequiredHeatLevel="0" a="CopperWire" b="WireDevice" c="metalblock:32" d="电阻" e="电容" f="电子二极管" Description="制作一台无线电发射器">
+      "afa"
+      "dcd"
+      "ebe"
+	  "bdb"
+    </Recipe>
+	<Recipe Result="RadioR" ResultCount="1" RequiredHeatLevel="0" a="CopperWire" b="WireDevice" c="SteelPlate" d="电阻" e="电容" f="battery" Description="制作一台无线电接收器">
+      "aea"
+      "cbc"
+      "fdf"
+    </Recipe>
     <Recipe Result="Cylinder" ResultCount="1" RequiredHeatLevel="0" a="Industrial Steel" b="不锈钢板" c="CopperPlate" d="Rubber" Description="不锈钢板,工业钢合成气缸，内燃机的重要部件">
       "dad"
       "bab"
@@ -1532,12 +1543,15 @@
       "cbc"
       "cac"
     </Recipe>
-	<Recipe Result="ABomb" ResultCount="1" RequiredHeatLevel="0" a="电容" b="SteelPlate" c="U235C" d="Circuit1" e="TNT" f="CopperWire" Description="利用U235饼制作枪式核弹">
-      "bbbbb"
+	<Recipe Result="ABomb" ResultCount="1" RequiredHeatLevel="0" a="metalblock:32" b="SteelPlate" c="U235C" d="Circuit1" e="TNT" f="CopperWire" Description="利用U235饼制作枪式核弹">
       "bcdfe"
-      "bc ce"
+      "bcace"
 	  "bcdfe"
-	  "bbbbb"
+    </Recipe>
+	<Recipe Result="ABomb" ResultCount="1" RequiredHeatLevel="0" a="metalblock:32" b="SteelPlate" c="PU239C" d="Circuit1" e="TNT" f="CopperWire" Description="利用PU239饼制作内爆式核弹">
+      " fed"
+      "becea"
+	  " def"
     </Recipe>
     <Recipe Result="SteelIngot" ResultCount="1" RequiredHeatLevel="1400" a="SteelGear" Description="拆除钢制齿轮">
       "a"
@@ -1608,6 +1622,15 @@
 	  "b b b"
     </Recipe>
 	<Recipe Result="IronPlate" ResultCount="1"  RequiredHeatLevel="-1"  a="ironingot"  Description="在压板机把铁锭压成铁板">
+      "a"
+    </Recipe>
+	<Recipe Result="UsedUpFuel" ResultCount="1"  RequiredHeatLevel="-1"  a="fuelrod:0"  Description="在核电站中用完燃料棒">
+      "a"
+    </Recipe>
+	<Recipe Result="PU239P" ResultCount="1"  RequiredHeatLevel="-1"  a="UsedUpFuel"  Description="在离心机中分离用尽的燃料棒">
+      "a"
+    </Recipe>
+	<Recipe Result="PU239C" ResultCount="1"  RequiredHeatLevel="-1"  a="PU239P"  Description="在电解机中电离钚粉">
       "a"
     </Recipe>
 	<Recipe Result="SteelPlate" ResultCount="1"  RequiredHeatLevel="-1"  a="SteelIngot"  Description="在压板机把钢锭压成钢板">
@@ -1816,7 +1839,7 @@
       "aaa"
 	  "abb"
     </Recipe>
-	<Recipe Result="SteelIngot" ResultCount="4"  RequiredHeatLevel="-4"  a="ScrapIron" b="CokeCoalPowder" Description="在平炉炼制钢锭">
+	<Recipe Result="IronIngotBlock" ResultCount="4"  RequiredHeatLevel="-4"  a="ScrapIron" b="CokeCoalPowder" Description="在平炉炼制铁锭">
       "aaa"
 	  "abb"
     </Recipe>

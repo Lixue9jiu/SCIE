@@ -177,6 +177,7 @@ namespace Game
 			"燃气轮机",
 			"内燃机",
 			"柴油发动机",
+			"核冲程发动机",
 		};
 
 		public static readonly string[] Descriptions =
@@ -187,6 +188,7 @@ namespace Game
 			"燃气轮机",
 			"内燃机是一种高效发动机，它通过燃料在气缸内的燃烧膨胀进行做功，进而输出能量。",
 			"柴油发动机",
+			"一种利用核能加热气体做功的发动机，做功时会输出核污染。"
 		};
 
 		public static readonly int[] TSlots =
@@ -198,12 +200,13 @@ namespace Game
 			187<<8|171,
 			124<<8|124,
 			124<<8|124,
+			124<<8|124,
 		};
 
 		public override IEnumerable<int> GetCreativeValues()
 		{
-			var arr = new int[17 * 6];
-			for (int i = 0; i < 6; i++)
+			var arr = new int[17 * 7];
+			for (int i = 0; i < 7; i++)
 			{
 				arr[i * 17] = BlockIndex | i << 24;
 				for (int j = 1; j < 17; j++)
@@ -217,6 +220,8 @@ namespace Game
 		}
 		public override int GetFaceTextureSlot(int face, int value)
 		{
+			if (Terrain.ExtractData(value) >> 10 == 6)
+				return 137;
 			if (face == 4 || face == 5)
 				return 107;
 			int direction = GetDirection(value), slot = TSlots[Terrain.ExtractData(value) >> 10];

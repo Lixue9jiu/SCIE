@@ -210,6 +210,12 @@ namespace Game
 					result[0] = ItemBlock.IdTable["HNO3"];
 					break;
 				}
+				if (GetSlotValue(0) == ItemBlock.IdTable["PU239P"])
+				{
+					text = 11;
+					result[0] = ItemBlock.IdTable["PU239C"];
+					break;
+				}
 			}
 			if (text == 3)
 			{

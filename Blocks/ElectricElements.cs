@@ -48,12 +48,58 @@ namespace Game
 		}
 	}
 
+	public class MachineElectricElement2 : ElectricElement
+	{
+		public float m_voltage;
+		public Point3 Point;
+		public MachineElectricElement2(SubsystemElectricity subsystemElectricity, Point3 point)
+			: base(subsystemElectricity, new List<CellFace>
+		{
+			new CellFace(point.X, point.Y, point.Z, 0),
+			new CellFace(point.X, point.Y, point.Z, 1),
+			new CellFace(point.X, point.Y, point.Z, 2),
+			new CellFace(point.X, point.Y, point.Z, 3),
+			new CellFace(point.X, point.Y, point.Z, 4),
+			new CellFace(point.X, point.Y, point.Z, 5)
+		})
+		{
+			m_voltage = CalculateVoltage();
+			Point = point;
+		}
+
+		public override float GetOutputVoltage(int face)
+		{
+			return m_voltage;
+		}
+
+		public override bool Simulate()
+		{
+			float voltage = m_voltage;
+			m_voltage = CalculateVoltage();
+			base.SubsystemElectricity.QueueElectricElementForSimulation(this, base.SubsystemElectricity.CircuitStep + MathUtils.Max(50, 1));
+			return m_voltage != voltage;
+		}
+
+		public float CalculateVoltage()
+		{
+			bool flag=false;
+			ComponentRadioR laserg2 = Utils.GetBlockEntity(Point)?.Entity.FindComponent<ComponentRadioR>();
+			if (laserg2 != null)
+			{
+				flag = laserg2.Active();
+			}
+			return flag ? 15f : 0f;
+		}
+	}
+
+
+
 	public class MachineElectricElement : ElectricElement
 	{
 		public Point3 Point;
 		protected ICraftingMachine Inventory;
 		protected double m_lastDispenseTime = double.NegativeInfinity;
-
+		
 		public MachineElectricElement(SubsystemElectricity subsystemElectricity, Point3 point)
 			: base(subsystemElectricity, new List<CellFace>
 		{
@@ -81,6 +127,16 @@ namespace Game
 			}
 			if (n > 7 && SubsystemElectricity.SubsystemTime.GameTime - m_lastDispenseTime > 0.1)
 			{
+				ComponentRadioC laserg2 = Utils.GetBlockEntity(Point)?.Entity.FindComponent<ComponentRadioC>();
+				if (laserg2 != null)
+				{
+					m_lastDispenseTime = SubsystemElectricity.SubsystemTime.GameTime;
+					laserg2.Active();
+					return true;
+				}
+			}
+			if (n > 7 && SubsystemElectricity.SubsystemTime.GameTime - m_lastDispenseTime > 0.1)
+			{
 				ComponentLaserG laserg = Utils.GetBlockEntity(Point)?.Entity.FindComponent<ComponentLaserG>();
 				if (laserg !=null && SubsystemElectricity.SubsystemTime.GameTime - m_lastDispenseTime > 1.0)
 				{
@@ -88,6 +144,7 @@ namespace Game
 					laserg.Beam();
 					return true;
 				}
+				
 				//m_lastDispenseTime = SubsystemElectricity.SubsystemTime.GameTime;
 				var inventory = Inventory;
 				if (inventory == null)
@@ -257,21 +314,29 @@ namespace Game
 				}
 				if (!(Bomb is HABomb)) return false;
 			}
-			Explode(x, y, z, 3e3f, 8);
+			Explode(x, y, z, 3e2f, 8);
 			Explode2(x, y, z, (int)pressure / 100, (int)Bomb.GetFuelFireDuration(0) / 4);
+			var e1 = Utils.SubsystemBodies.Bodies.GetEnumerator();
+			while (e1.MoveNext())
+			{
+				var entity = e1.Current.Entity;
+				entity.FindComponent<ComponentHealth>()?.Injure(1f, null, false, "Killed by radiation");
+				if (entity.FindComponent<ComponentPlayer>() != null)
+					entity.FindComponent<ComponentPlayer>().ComponentGui.TemperatureBarWidget.Flash(10);
+			}
 			if (Bomb is HBomb)
 			{
-				Utils.SubsystemParticles.AddParticleSystem(new NParticleSystem2(new Vector3(x, y, z), 30f, 400f));
+				Utils.SubsystemParticles.AddParticleSystem(new NParticleSystem2(new Vector3(x, y, z), 40f, 400f));
 				return false;
 			}
 			if (Bomb is HABomb)
 			{
-				Utils.SubsystemParticles.AddParticleSystem(new NParticleSystem2(new Vector3(x, y, z), 30f, 400f));
+				Utils.SubsystemParticles.AddParticleSystem(new NParticleSystem2(new Vector3(x, y, z), 60f, 400f));
 				return false;
 			}
 			if (Bomb is ABomb)
 			{
-				Utils.SubsystemParticles.AddParticleSystem(new NParticleSystem(new Vector3(x, y, z), 10f, 400f));
+				//Utils.SubsystemParticles.AddParticleSystem(new NParticleSystem(new Vector3(x, y, z), 10f, 400f));
 				Utils.SubsystemParticles.AddParticleSystem(new NParticleSystem2(new Vector3(x, y, z), 10f, 400f));
 			}
 			Utils.SubsystemSour.m_radations.Add(new Vector4(x, y, z, 10000f));
@@ -299,14 +364,16 @@ namespace Game
 			se.AddExplosion(x, y, z - r, pressure, false, false);
 		}
 
-		public static void Explode2(int x, int y, int z, int r, int level=1)
+		public void Explode2(int x, int y, int z, int r, int level=1)
 		{
 			var se = Utils.SubsystemTerrain;
 			for (int x1=-r;x1<r+1;x1++)
-				for (int y1 = -r; y1 < r + 1; y1++)
+				for (int y1 = -r/6; y1 < r/6 + 1; y1++)
 					for (int z1 = -r; z1 < r + 1; z1++)
-						if (Utils.Random.Bool(60f*level/Vector3.DistanceSquared(new Vector3(0,0,0),new Vector3(x1,y1,z1))) && y+y1>1)
-						se.DestroyCell(3,x+x1,y+y1,z+z1,0,true,true);
+						if (Utils.Random.Bool(60f*level*level/Vector3.DistanceSquared(new Vector3(0,0,0),new Vector3(x1,y1*6,z1))) && y+y1>1 && Vector3.DistanceSquared(new Vector3(0, 0, 0), new Vector3(x1, y1*6, z1))<=r*r)
+								se.ChangeCell(x + x1, y + y1, z + z1, 0,true);
+							//se.Terrain.SetCellValueFast(x + x1, y + y1, z + z1, 0);
+			//	se.DestroyCell(3,x+x1,y+y1,z+z1,0,true,true);
 
 		}
 	}
