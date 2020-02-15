@@ -589,6 +589,11 @@
       "aaaa"
       "   a"
     </Recipe>
+	<Recipe Result="Musket6Block" ResultCount="1" RequiredHeatLevel="0" a="planks" b="SteelPlate" c="枪管" d="SteelRod" e="Spring" Description="用钢板，枪管和木板弹簧制作霰弹枪">
+      "cceb"
+      "adea"
+      "   a"
+    </Recipe>
 	<Recipe Result="Musket5Block" ResultCount="1" RequiredHeatLevel="0" a="LaserG" b="SteelPlate" c="CopperWire" d="SteelRod" e="button" f="电容" Description="制作激光枪">
       "bbbb"
       "accf"
@@ -631,6 +636,30 @@
       "bccb"
       " bbd"
 	  "bccb"
+    </Recipe>
+	<Recipe Result="Bullet2Block:4" ResultCount="20" RequiredHeatLevel="0" a="bullet:1" b="BrassSheet" c="TNT" d="detonator" e="LeadSheet" Description="制作定装散弹">
+      "eae"
+      "bcb"
+      " d"
+    </Recipe>
+	<Recipe Result="中子反射板" ResultCount="4" RequiredHeatLevel="0" a="U238C" b="LeadPlate" c="GoldPlate" Description="用U238铅板金板饼制作中子反射板">
+      "abcab"
+      "bcabc"
+      "cabca"
+	  "abcab"
+	  "bcabc"
+    </Recipe>
+	<Recipe Result="SourBlock:6144" ResultCount="1" RequiredHeatLevel="0" a="中子反射板" Description="用中子反射板制作中子反射方块">
+      "aaa"
+      "a a"
+      "aaa"
+    </Recipe>
+	<Recipe Result="SourBlock:7168" ResultCount="1" RequiredHeatLevel="0" a="中子反射板" b="CarbonTunnel" c="rottenmeat:15" Description="用中子反射板碳管重水制作快中子反应堆">
+      "abbba"
+      "abbba"
+      "cbbbc"
+	  "acbca"
+	  "aacaa"
     </Recipe>
     <Recipe Result="RifleBarrel" ResultCount="2" RequiredHeatLevel="0" Remains="SteelPlate" RemainsCount="1" a="musket2" Description="拆除步枪">
       "a"
@@ -1185,6 +1214,11 @@
       "aca"
       "aba"
     </Recipe>
+	<Recipe Result="FuelRodBlock:0" ResultCount="1" RequiredHeatLevel="0" a="IronPlate" b="PU239C" c="U238C"  Description="制作燃料棒">
+      "aca"
+      "aca"
+      "aba"
+    </Recipe>
 	<Recipe Result="FuelRodBlock:3" ResultCount="1" RequiredHeatLevel="0" a="IronPlate" b="CarbonTunnel"   Description="制作石墨棒">
       "aba"
       "aba"
@@ -1286,6 +1320,16 @@
       "baab"
       "bggb"
       "bceb"
+    </Recipe>
+	<Recipe Result="WaterExtractor" ResultCount="1" RequiredHeatLevel="0" a="CopperWire" b="不锈钢板" c="SteelGear" d="metalblock:32" e="tank:0" f="Circuit1" g="Separator" h="Centrifugal" Description="制作重水提取机以提取重水">
+      " e"
+      "fhf"
+      " e"
+    </Recipe>
+	<Recipe Result="WireBlock2" ResultCount="1" RequiredHeatLevel="0" a="CopperWire" b="SteelRod" c="metalblock:32" Description="制作电子方块">
+      "aba"
+      "aca"
+      "aba"
     </Recipe>
     <Recipe Result="IEBatteryBlock:6" ResultCount="1" RequiredHeatLevel="0" a="ElectricMotor" b="SteelSheet" c="SteelRod" d="SteelPlate" e="CuZnBattery" f="SteelGear" Description="制作电锯">
       "bbbb"
@@ -1482,6 +1526,13 @@
       "gaac"
       "dfed"
     </Recipe>
+	<Recipe Result="EngineBlock:6144" ResultCount="1" Remains="CarbonTunnel" RemainsCount="12" RequiredHeatLevel="0" a="Cylinder" b="tank:0:0" c="sour:4096" d="SteelGear" e="SteelRod" f="metalblock:32" g="Circuit1" h="piston" i="CopperWire" Description="制作核冲程发动机">
+      "fbidh"
+      "aagaa"
+      "deced"
+      "aagaa"
+	  "hdibf"
+    </Recipe>
     <Recipe Result="ClothingBlock:38" ResultCount="1" RequiredHeatLevel="0" a="SteelPlate" Description="用钢制造头盔">
       " a"
       "a a"
@@ -1537,6 +1588,27 @@
 	<Recipe Result="ClothingBlock:49" ResultCount="1" RequiredHeatLevel="0" a="string" b="SteelLine" c="O2" Description="制作氧气瓶">
       "acca"
       " bb "
+    </Recipe>
+	<Recipe Result="ClothingBlock:50" ResultCount="1" RequiredHeatLevel="0" a="LeadPlate" b="PlasticBar" c="canvas" d="SilverLine" e="glass" Description="铅板塑料棉布银线制作防辐射头盔">
+      " aaa"
+      "daead"
+      "dcbcd"
+    </Recipe>
+	<Recipe Result="ClothingBlock:51" ResultCount="1" RequiredHeatLevel="0" a="LeadPlate" b="PlasticBar" c="canvas" d="SilverLine" Description="铅板塑料棉布银线制作防辐射热服">
+      "abcda"
+      "adcba"
+      "abdca"
+    </Recipe>
+	<Recipe Result="ClothingBlock:52" ResultCount="1" RequiredHeatLevel="0" a="LeadPlate" b="PlasticBar" c="canvas" d="SilverLine" Description="铅板塑料棉布银线布制作防辐射热裤">
+      "abba"
+      "acca"
+      "adda"
+	  "acca"
+    </Recipe>
+	<Recipe Result="ClothingBlock:53" ResultCount="1" RequiredHeatLevel="0" a="LeadPlate" b="PlasticBar" c="canvas" d="SilverLine" Description="铅板塑料棉布银线制作防辐射热靴">
+      "cccc"
+      "adda"
+	  "abba"
     </Recipe>
     <Recipe Result="IEBatteryBlock:4" ResultCount="1" RequiredHeatLevel="0" a="CuZnBattery" b="Switch" c="SteelSheet" d="lightbulb" Description="制作手电筒">
       "cdc"

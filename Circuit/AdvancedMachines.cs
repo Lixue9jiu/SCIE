@@ -366,19 +366,19 @@ namespace Game
 		}
 	}
 
-	public class WaterExtractor : Separator
+	public class WaterExtractor : InventoryEntityDevice<ComponentSMachine>
 	{
-		public WaterExtractor()
+		public WaterExtractor() : base("重水提取机", "重水提取机，可以从蒸汽中提取重水", 200)
 		{
-			DefaultDisplayName = DefaultDescription = "重水提取机";
+			//DefaultDisplayName = DefaultDescription = "重水提取机";
 		}
 
 		public override int GetFaceTextureSlot(int face, int value)
 		{
-			return face != 4 && face != 5 && face == (Terrain.ExtractData(value) >> 15) ? 236 : 224;
+			return face != 4 && face != 5 ?  face == (Terrain.ExtractData(value) >> 15) ? 236 : 224 : 107;
 		}
 
-		public override Widget GetWidget(IInventory inventory, ComponentSeparator component)
+		public override Widget GetWidget(IInventory inventory, ComponentSMachine component)
 		{
 			return new SeparatorWidget(inventory, component, "WaterExtractor");
 		}

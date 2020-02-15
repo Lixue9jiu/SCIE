@@ -190,6 +190,7 @@ namespace Game
 		public override void Load(ValuesDictionary valuesDictionary, IdToEntityMap idToEntityMap)
 		{
 			base.Load(valuesDictionary, idToEntityMap);
+			return;
 			Period = valuesDictionary.GetValue("Period", 4000);
 			LastTime = valuesDictionary.GetValue("LastTime", 900.0);
 			float[] dGenes = new float[68], rGenes = new float[68];
@@ -448,6 +449,7 @@ namespace Game
 		public void Initialize()
 		{
 			Genome = new Genome(new float[68], new float[68]);
+			return;
 			var caj = Entity.FindComponent<ComponentAutoJump>();
 			if (caj != null)
 				Genome[Trait.JumpStrength] = caj.m_jumpStrength;

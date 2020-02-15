@@ -2,7 +2,7 @@ using Engine;
 using GameEntitySystem;
 using TemplatesDatabase;
 using System.Globalization;
-
+using System;
 namespace Game
 {
 	public class ComponentElectricFurnace : ComponentFurnace, IUpdateable, IElectricMachine
@@ -118,7 +118,7 @@ namespace Game
 						m_matchedIngredients[i] = null;
 					}
 				}
-				CraftingRecipe craftingRecipe = CraftingRecipesManager.FindMatchingRecipe(m_subsystemTerrain, m_matchedIngredients, 2000f);
+				CraftingRecipe craftingRecipe = FindMatchingRecipe1(m_subsystemTerrain, m_matchedIngredients, 2000f);
 				if (craftingRecipe != null)
 				{
 					if (craftingRecipe.RequiredHeatLevel <= 0f)
@@ -148,6 +148,39 @@ namespace Game
 				}
 				return craftingRecipe;
 	     }
+
+		public static CraftingRecipe FindMatchingRecipe1(SubsystemTerrain terrain, string[] ingredients, float heatLevel)
+		{
+			Func<SubsystemTerrain, string[], float, CraftingRecipe> findMatchingRecipe = CraftingRecipesManager.FindMatchingRecipe1;
+			if (findMatchingRecipe != null)
+			{
+				return findMatchingRecipe(terrain, ingredients, heatLevel);
+			}
+			Block[] blocks = BlocksManager.Blocks;
+			for (int i = 0; i < blocks.Length; i++)
+			{
+				CraftingRecipe adHocCraftingRecipe = blocks[i].GetAdHocCraftingRecipe(terrain, ingredients, heatLevel);
+				if (adHocCraftingRecipe == null)
+					continue;
+				if (adHocCraftingRecipe != null && adHocCraftingRecipe.RequiredHeatLevel > 0 && heatLevel >= adHocCraftingRecipe.RequiredHeatLevel && CraftingRecipesManager.MatchRecipe(adHocCraftingRecipe.Ingredients, ingredients))
+				{
+					return adHocCraftingRecipe;
+				}
+			}
+			int count = CraftingRecipesManager.Recipes.Count;
+			for (int i = 0; i < count; i++)
+			{
+				CraftingRecipe adHocCraftingRecipe = CraftingRecipesManager.Recipes[i];
+				if (adHocCraftingRecipe == null)
+					continue;
+				if (heatLevel >= adHocCraftingRecipe.RequiredHeatLevel && adHocCraftingRecipe.RequiredHeatLevel > 0 && CraftingRecipesManager.MatchRecipe(adHocCraftingRecipe.Ingredients, ingredients))
+				{
+					return adHocCraftingRecipe;
+				}
+			}
+			return null;
+		}
+
 
 		public override void Load(ValuesDictionary valuesDictionary, IdToEntityMap idToEntityMap)
 		{

@@ -22,7 +22,8 @@ public class RottenMeatBlock : FluidBlock
 		Diesel,
 		GasolineBucket,
 		LightOilBucket,
-		HeavyOilBucket
+		HeavyOilBucket,
+		HeavyWaterBucket,
 	}
 	public const int Index = 240;
 	public BlockMesh m_standaloneBlockMesh;
@@ -30,6 +31,7 @@ public class RottenMeatBlock : FluidBlock
 	public BlockMesh StandaloneBlockMesh2;
 	public BlockMesh StandaloneBlockMesh3 = new BlockMesh();
 	public BlockMesh StandaloneBlockMesh4 = new BlockMesh();
+	public BlockMesh StandaloneBlockMesh5 = new BlockMesh();
 	public static Color[] Colors;
 
 	public RottenMeatBlock() : base(1) { }
@@ -52,7 +54,8 @@ public class RottenMeatBlock : FluidBlock
 			Color.White,
 			Color.White,
 			Color.White,
-			Color.White
+			Color.White,
+			Color.White,
 		};
 		var model = ContentManager.Get<Model>("Models/FullBucket");
 		var meshParts = model.FindMesh("Contents").MeshParts;
@@ -65,9 +68,12 @@ public class RottenMeatBlock : FluidBlock
 		StandaloneBlockMesh3.TransformTextureCoordinates(Matrix.CreateTranslation(0.8125f, 0.6875f, 0f));
 		StandaloneBlockMesh4.AppendModelMeshPart(meshParts[0], BlockMesh.GetBoneAbsoluteTransform(model.FindMesh("Contents").ParentBone) * Matrix.CreateRotationY(MathUtils.PI) * Matrix.CreateTranslation(0f, -0.3f, 0f), false, false, false, false, new Color(255, 231, 186));
 		StandaloneBlockMesh4.TransformTextureCoordinates(Matrix.CreateTranslation(0.8125f, 0.6875f, 0f));
+		StandaloneBlockMesh5.AppendModelMeshPart(meshParts[0], BlockMesh.GetBoneAbsoluteTransform(model.FindMesh("Contents").ParentBone) * Matrix.CreateRotationY(MathUtils.PI) * Matrix.CreateTranslation(0f, -0.3f, 0f), false, false, false, false, new Color(32, 80, 224));
+		StandaloneBlockMesh5.TransformTextureCoordinates(Matrix.CreateTranslation(0.8125f, 0.6875f, 0f));
 		meshParts = model.FindMesh("Bucket").MeshParts;
 		StandaloneBlockMesh3.AppendModelMeshPart(meshParts[0], BlockMesh.GetBoneAbsoluteTransform(model.FindMesh("Bucket").ParentBone) * Matrix.CreateRotationY(MathUtils.PI) * Matrix.CreateTranslation(0f, -0.3f, 0f), false, false, false, false, Color.White);
 		StandaloneBlockMesh4.AppendModelMeshPart(meshParts[0], BlockMesh.GetBoneAbsoluteTransform(model.FindMesh("Bucket").ParentBone) * Matrix.CreateRotationY(MathUtils.PI) * Matrix.CreateTranslation(0f, -0.3f, 0f), false, false, false, false,Color.White );
+		StandaloneBlockMesh5.AppendModelMeshPart(meshParts[0], BlockMesh.GetBoneAbsoluteTransform(model.FindMesh("Bucket").ParentBone) * Matrix.CreateRotationY(MathUtils.PI) * Matrix.CreateTranslation(0f, -0.3f, 0f), false, false, false, false, Color.White);
 		var rottenMeatBlock = new Game.RottenMeatBlock
 		{
 			DefaultShadowStrength = -1
@@ -84,8 +90,8 @@ public class RottenMeatBlock : FluidBlock
 	}
 	public override IEnumerable<int> GetCreativeValues()
 	{
-		var arr = new int[15];
-		for (int i = 0; i < 15; i++)
+		var arr = new int[16];
+		for (int i = 0; i < 16; i++)
 		{
 			arr[i] = Index | i << 18;
 		}
@@ -101,6 +107,9 @@ public class RottenMeatBlock : FluidBlock
 				return;
 			case Type.Hg:
 				BlocksManager.DrawMeshBlock(primitivesRenderer, StandaloneBlockMesh2, color, 2f * size, ref matrix, environmentData);
+				return;
+			case Type.HeavyWaterBucket:
+				BlocksManager.DrawMeshBlock(primitivesRenderer, StandaloneBlockMesh5, color, 2f * size, ref matrix, environmentData);
 				return;
 			case Type.GasolineBucket:
 				BlocksManager.DrawMeshBlock(primitivesRenderer, StandaloneBlockMesh2, color, 2f * size, ref matrix, environmentData);

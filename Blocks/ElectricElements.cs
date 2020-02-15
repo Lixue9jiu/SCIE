@@ -305,6 +305,7 @@ namespace Game
 			{
 				Explode(x, y, z, 3e3f, 8);
 				var e = Utils.SubsystemBodies.Bodies.GetEnumerator();
+				Utils.SubsystemParticles.AddParticleSystem(new NParticleSystem2(new Vector3(x, y, z), 8f, 400f));
 				while (e.MoveNext())
 				{
 					var entity = e.Current.Entity;
@@ -320,7 +321,7 @@ namespace Game
 			while (e1.MoveNext())
 			{
 				var entity = e1.Current.Entity;
-				entity.FindComponent<ComponentHealth>()?.Injure(1f, null, false, "Killed by radiation");
+				entity.FindComponent<ComponentHealth>()?.Injure(8f/entity.FindComponent<ComponentHealth>().AttackResilience, null, false, "Killed by radiation");
 				if (entity.FindComponent<ComponentPlayer>() != null)
 					entity.FindComponent<ComponentPlayer>().ComponentGui.TemperatureBarWidget.Flash(10);
 			}

@@ -87,4 +87,83 @@ namespace Game
 				: 0;
 		}
 	}
+
+
+
+	public class ComponentNEngine : ComponentSMachine, IUpdateable
+	{
+		public override int ResultSlotIndex => SlotsCount - 1;
+
+		public int Fuel2SlotIndex => 0;
+
+		public void Update(float dt)
+		{
+			
+				int value = GetSlotValue(0);
+				if (m_fireTimeRemaining == 1000f && value != 0 && Terrain.ExtractContents(value) == FuelRodBlock.Index && FuelRodBlock.GetType(value) == RodType.UFuelRod)
+				{
+					HeatLevel = 1000f;
+				if (Utils.Random.Bool(0.005f))
+				{
+					RemoveSlotItems(0, 1);
+					if (BlocksManager.DamageItem(value, 1) != value)
+					{
+						AddSlotItems(0, BlocksManager.DamageItem(value, 1), 1);
+					}
+					else
+					{
+						AddSlotItems(0, ItemBlock.IdTable["UsedUpFuel"], 1);
+					}
+				}
+				
+
+
+			}
+				else
+				{
+					m_fireTimeRemaining = 0f;
+					HeatLevel = 0f;
+				}
+			
+			if (m_componentBlockEntity != null)
+			{
+				var c = m_componentBlockEntity.Coordinates;
+				if (Utils.SubsystemTime.PeriodicGameTimeEvent(1.5, 0.0) && HeatLevel>0f)
+				{
+					bool flag = false;
+					if (Utils.SubsystemTime.PeriodicGameTimeEvent(1.2, 0.0))
+						for (int iii = 0; iii < Utils.SubsystemSour.m_radations.Count; iii++)
+						{
+							if (Utils.SubsystemSour.m_radations.Array[iii] == new Vector4(c.X, c.Y, c.Z, 30f))
+							{
+								flag = true; break;
+							}
+						}
+					if (!flag)
+						Utils.SubsystemSour.m_radations.Add(new Vector4(c.X, c.Y, c.Z, 30f));
+				}
+
+				TerrainChunk chunk = Utils.Terrain.GetChunkAtCell(c.X, c.Z);
+				if (chunk != null && chunk.State == TerrainChunkState.Valid)
+				{
+					int cellValue = chunk.GetCellValueFast(c.X & 15, c.Y, c.Z & 15);
+					Utils.SubsystemTerrain.ChangeCell(c.X, c.Y, c.Z, Terrain.ReplaceData(cellValue, FurnaceNBlock.SetHeatLevel(Terrain.ExtractData(cellValue), (int)MathUtils.Sign(HeatLevel))));
+				}
+			}
+		}
+
+		public override void Load(ValuesDictionary valuesDictionary, IdToEntityMap idToEntityMap)
+		{
+			base.Load(valuesDictionary, idToEntityMap);
+			m_furnaceSize = SlotsCount - 1;
+			m_fireTimeRemaining = valuesDictionary.GetValue("FireTimeRemaining", 0f);
+			HeatLevel = valuesDictionary.GetValue("HeatLevel", 0f);
+		}
+
+		public override int GetSlotCapacity(int slotIndex, int value)
+		{
+			return (Terrain.ExtractContents(value) == FuelRodBlock.Index && FuelRodBlock.GetType(value) == RodType.UFuelRod) || value == ItemBlock.IdTable["UsedUpFuel"] ? base.GetSlotCapacity(slotIndex, value)
+			: 0;
+		}
+	}
 }

@@ -316,6 +316,73 @@ namespace Game
 	{
 	}
 
+	public class ComponentFRCore : ComponentSMachine, IUpdateable
+	{
+		//public override float m_fireTimeRemaining;
+		//public float HeatLevel;
+		public float veloc;
+
+		public void Update(float dt)
+		{
+			if (Utils.SubsystemTime.PeriodicGameTimeEvent(10.0, 0.0))
+			{
+				Point3 coordinates = m_componentBlockEntity.Coordinates;
+
+				int num = 1, num2 = 0;
+				int num3 = coordinates.X;
+				int num4 = coordinates.Y - 1;
+				int num5 = coordinates.Z, v;
+				for (int i = -1; i < 2; i++)
+				{
+					for (int j = -1; j < 2; j++)
+					{
+						for (int k = -1; k < 2; k++)
+						{
+							int cellValue = Terrain.ReplaceLight(Utils.Terrain.GetCellValue(num3 + i, num4 + j, num5 + k), 0);
+							int cellContents = Terrain.ExtractContents(cellValue);
+							if ((j==0 && i==0 && k==0) || (j == 1 && i == 0 && k == 0))
+							{
+
+							}else
+							{
+								if (Terrain.ExtractData(cellValue) >> 10 != 6 || cellContents!= 507)
+								{
+									num = 0;
+									return;
+								}
+							}
+
+						}
+					}
+				}
+
+
+				int i235 = 0;
+				int i239 = 0;
+				for (int i = 0; i < SlotsCount; i++)
+				{
+					int va1 = GetSlotValue(i);
+					if (va1 == ItemBlock.IdTable["U235C"])
+						i235+=GetSlotCount(i);
+					if (va1 == ItemBlock.IdTable["PU239C"])
+						i239+= GetSlotCount(i);
+				}
+				veloc = i235 * 0.000001f + i239 * 0.002f;
+				for (int i = 0; i < SlotsCount; i++)
+				{
+					int va1 = GetSlotValue(i);
+					if (va1 == ItemBlock.IdTable["U238C"] && Utils.Random.Bool(veloc/ GetSlotCount(i)))
+					{
+						int aaa = GetSlotCount(i);
+						RemoveSlotItems(i, aaa);
+						AddSlotItems(i, ItemBlock.IdTable["U235C"], aaa);
+					}
+				}
+			}
+		}
+	}
+
+
 	public class ComponentRCore : ComponentSMachine, IUpdateable
 	{
 		//public override float m_fireTimeRemaining;
@@ -325,7 +392,6 @@ namespace Game
 		public void Update(float dt)
 		{
 			if (Utils.SubsystemTime.PeriodicGameTimeEvent(0.2, 0.0))
-
 			{
 				int veo = 0;
 				int sat = 0;
@@ -409,7 +475,7 @@ namespace Game
 								if (Utils.Random.Bool(0.006f * veloc))
 								{
 									RemoveSlotItems(i, 1);
-									if (BlocksManager.DamageItem(va1, 1) != 0)
+									if (BlocksManager.DamageItem(va1, 1) != va1)
 									{
 										AddSlotItems(i, BlocksManager.DamageItem(va1, 1), 1);
 									}else
@@ -503,6 +569,30 @@ namespace Game
 						}
 					}
 				}
+
+				if (ElementBlock.Block.GetDevice(coordinates.X, coordinates.Y+1, coordinates.Z, Utils.Terrain.GetCellValue(coordinates.X, coordinates.Y+1, coordinates.Z)) is WaterExtractor em && em.Powered)
+				{
+					var point3 = new Point3(coordinates.X, coordinates.Y + 1, coordinates.Z);
+					var entity = Utils.GetBlockEntity(point3);
+					Component component3 = entity.Entity.FindComponent<ComponentSMachine>();
+					if (entity != null && component3 != null)
+					{
+						IInventory inventory = entity.Entity.FindComponent<ComponentSMachine>(true);
+						for (int i = 0; i < 6; i++)
+						{
+							int va1 = inventory.GetSlotValue(i);
+							if (Utils.Random.Bool(0.0002f * Pressure))
+							{
+								if (va1 == EmptyBucketBlock.Index && AcquireItems(inventory, RottenMeatBlock.Index | 15 << 18, 1) == 0)
+								{
+									inventory.RemoveSlotItems(i, 1);
+								}
+							}
+						}
+					}
+				}
+
+
 			}
 		}
 	}

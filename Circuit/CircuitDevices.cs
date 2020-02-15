@@ -264,6 +264,16 @@ namespace Game
 		}
 	}
 
+	public class WireBlock2 : CubeDevice
+	{
+		public WireBlock2() : base("电子方块", "电子方块是一种导电的，可以传输电能的方块") { }
+
+		public override int GetFaceTextureSlot(int face, int value)
+		{
+			return face == 4 || face == 5 ? 107 : 156;
+		}
+	}
+
 	public class TElectricWire : CubeDevice
 	{
 		public TElectricWire() : base("电车电缆", "铺在电车车上方给电车供电的", 0) { Type = ElementType.None; }

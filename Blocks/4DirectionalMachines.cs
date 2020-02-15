@@ -200,7 +200,7 @@ namespace Game
 			187<<8|171,
 			124<<8|124,
 			124<<8|124,
-			124<<8|124,
+			153<<8|152,
 		};
 
 		public override IEnumerable<int> GetCreativeValues()
@@ -220,11 +220,11 @@ namespace Game
 		}
 		public override int GetFaceTextureSlot(int face, int value)
 		{
-			if (Terrain.ExtractData(value) >> 10 == 6)
-				return 137;
 			if (face == 4 || face == 5)
-				return 107;
+				return Terrain.ExtractData(value) >> 10 == 6 ? 137 : 107;
 			int direction = GetDirection(value), slot = TSlots[Terrain.ExtractData(value) >> 10];
+			if (Terrain.ExtractData(value) >> 10 == 6)
+				return face == direction ? GetHeatLevel(value) > 0 ? slot >> 8 : slot & 255 : 141;
 			return face == direction ? GetHeatLevel(value) > 0 ? slot >> 8 : slot & 255 : face == CellFace.OppositeFace(direction) ? 107 : 159;
 		}
 		public override string GetDisplayName(SubsystemTerrain subsystemTerrain, int value)

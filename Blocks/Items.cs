@@ -296,6 +296,7 @@ namespace Game
 			new MouldItem("UsedUpFuel", "Models/Rods", "SteelRod", Matrix.CreateTranslation(0.0f, -0.5f, 0f)* Matrix.CreateScale(1.6f,1f,1.6f), Matrix.Identity, "用尽的核燃料","用尽的核燃料",2.3f),
 			new Powder("PU239P", "PU239P", Color.DarkGray),
 			new Mould("Models/Rods", "SteelRod", Matrix.CreateTranslation(0f,-0.5f,0f) * Matrix.CreateScale(16f,0.5f, 16f), Matrix.CreateTranslation(9f / 16f, -3f / 16f, 0f) * Matrix.CreateScale(20f),Color.DarkGray, "PU239C", "PU239C"),
+			new Flat("中子反射板","可以反射一部分中子",154),
 			//new Plane(),
 			/*nnew Plate("128K RAM", Color.DarkGreen, true),
 			new Plate("256K RAM", Color.DarkGreen, true),
@@ -380,6 +381,7 @@ namespace Game
 				new HGenerator(),
 				new RadioC(),
 				new RadioR(),
+				new WireBlock2(),
 			};
 			ContentCache.m_contentByName.TryGetValue("CraftingIdTable", out object value);
 			if (!(value is Dictionary<string, int> dict))

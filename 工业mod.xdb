@@ -156,6 +156,11 @@
         <Parameter Name="Class" Guid="1c9b89ff-22f9-45bb-aae3-039ba73b12b6" Value="Game.ComponentElectrobath" Type="string" />
       </MemberComponentTemplate>
     </EntityTemplate>
+	<EntityTemplate Name="WaterExtractor" Guid="0855a597-af17-4953-33fa-aafaf97b92bd" InheritanceParent="9681f999-898b-4f5c-9ea8-f8cc331e97b3">
+      <MemberComponentTemplate Name="WaterExtractor" Guid="0f334a26-ac7d-4b4c-97c7-df652ca11b51" InheritanceParent="81a44c6a-c30a-4f54-8d64-0c30aabab8fa">
+        <Parameter Name="Class" Guid="1c9b89ff-22f9-4533-aae3-039ba73b12b6" Value="Game.ComponentSMachine" Type="string" />
+      </MemberComponentTemplate>
+    </EntityTemplate>
     <EntityTemplate Name="Unloader" Guid="2955a387-af17-4955-81fa-aafaf97b92bd" InheritanceParent="9681f999-898b-4f5c-9ea8-f8cc331e97b3">
       <MemberComponentTemplate Name="Unloader" Guid="0f173a26-ac7d-4b4c-97c7-df652ca11b51" InheritanceParent="7312ec8c-10c7-4133-85b4-4a35bd44c956">
         <Parameter Name="Class" Guid="1c9b89f0-22f9-45aa-aae3-039ba73b12b6" Value="Game.ComponentUnloader" Type="string" />
@@ -379,6 +384,12 @@
         <Parameter Name="Class" Guid="fb6c27ea-1d3c-467e-81bc-1796f686be51" Value="Game.ComponentICEngine" Type="string" />
       </MemberComponentTemplate>
     </EntityTemplate>
+	<EntityTemplate Name="NEngine" Guid="b4a43168-d371-415f-9a43-803260a915a9" InheritanceParent="9681f999-898b-4f5c-9ea8-f8cc331e97b3">
+      <MemberComponentTemplate Name="Engine" Guid="e7b458dd-dfe9-4531-900e-4c5f3ce25348" InheritanceParent="81a44c6a-c30a-4f53-8d64-0c30aabab8fa">
+        <Parameter Name="Class" Guid="fb6c27ea-1f7c-467f-81bc-1796f686be51" Value="Game.ComponentNEngine" Type="string" />
+		<Parameter Name="SlotsCount" Guid="f1c761a1-06f1-4313-9162-480eaee2bf4c" Value="1" Type="int" />
+      </MemberComponentTemplate>
+    </EntityTemplate>
     <EntityTemplate Name="CastMach" Guid="b4a43058-d37d-455f-9a43-803260a915a9" InheritanceParent="9681f999-898b-4f5c-9ea8-f8cc331e97b3">
       <MemberComponentTemplate Name="CastMach" Guid="e7b41846-dfe9-4331-900e-4c5f3ce25348" InheritanceParent="c93f7909-de35-4e94-ba6e-90cd55cd19d4" />
     </EntityTemplate>
@@ -416,6 +427,12 @@
       <MemberComponentTemplate Name="RCore" Guid="88141871-dfe9-4331-900e-8c5f3ce56348" InheritanceParent="81a44c6a-c30a-4f54-8d64-0c30aabab8fa">
         <Parameter Name="Class" Guid="1f42461e-2d3c-467e-81bc-1796f686be51" Value="Game.ComponentRCore" Type="string" />
 		<Parameter Name="SlotsCount" Guid="8fef5979-a4cf-4ad5-85f9-813ef26dff6b" Value="16" Type="int" />
+      </MemberComponentTemplate>
+    </EntityTemplate>
+	<EntityTemplate Name="FRCore" Guid="b4fffa68-8f8d-477f-1f43-803260a915a9" InheritanceParent="9681f999-898b-4f5c-9ea8-f8cc331e97b3">
+      <MemberComponentTemplate Name="FRCore" Guid="88122871-dfe9-4331-900e-8c5f3ce56348" InheritanceParent="81a44c6a-c30a-4f54-8d64-0c30aabab8fa">
+        <Parameter Name="Class" Guid="1662461e-2d3c-467e-81bc-1796f686be51" Value="Game.ComponentFRCore" Type="string" />
+		<Parameter Name="SlotsCount" Guid="8fef5979-a4cf-4a11-85f9-813ef26d116b" Value="16" Type="int" />
       </MemberComponentTemplate>
     </EntityTemplate>
 	<EntityTemplate Name="RHead" Guid="b5f22a87-f47d-455f-9a43-813268a915a9" InheritanceParent="b4f88a67-f47d-455f-9a43-803260a915a9">
@@ -609,6 +626,9 @@
     </MemberSubsystemTemplate>
 	<MemberSubsystemTemplate Name="Musket5BlockBehavior" Guid="62f6bba1-4ac1-44a9-9e83-f4c659038fc9" InheritanceParent="fefb9590-4972-4893-b02a-76063611b745">
       <Parameter Name="Class" Guid="f3f1defa-29ad-42ed-ad2e-ae59da4dbd62" Value="Game.SubsystemMusket5BlockBehavior" Type="string" />
+    </MemberSubsystemTemplate>
+	<MemberSubsystemTemplate Name="Musket6BlockBehavior" Guid="62f6bba1-4ac1-55a7-9e83-f4c659038fc9" InheritanceParent="fefb9590-4972-4893-b02a-76063611b745">
+      <Parameter Name="Class" Guid="f3f1defa-291d-42ed-ad2e-ae59da422d62" Value="Game.SubsystemMusket6BlockBehavior" Type="string" />
     </MemberSubsystemTemplate>
     <MemberSubsystemTemplate Name="HPressBlockBehavior" Guid="9681f999-898b-4f5c-9ea8-f8cc331e97b8" InheritanceParent="fefb9590-4972-4893-b02a-76063611b745">
       <Parameter Name="Class" Guid="861fe9e1-bd64-62e8-b2f0-c25b167da4ad" Value="Game.SubsystemHPressBlockBehavior" Type="string" />

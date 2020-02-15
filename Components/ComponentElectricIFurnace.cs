@@ -1,7 +1,7 @@
 using GameEntitySystem;
 using System.Globalization;
 using TemplatesDatabase;
-
+using System;
 namespace Game
 {
 	public class ComponentElectricIFurnace : ComponentElectricFurnace, IUpdateable, ICraftingMachine
@@ -32,7 +32,7 @@ namespace Game
 						m_matchedIngredients[i] = null;
 					}
 				}
-				CraftingRecipe craftingRecipe = CraftingRecipesManager.FindMatchingRecipe(m_subsystemTerrain, m_matchedIngredients, heatLevel);
+				CraftingRecipe craftingRecipe = FindMatchingRecipe3(m_subsystemTerrain, m_matchedIngredients, 2800f);
 				if (craftingRecipe != null)
 				{
 					if (craftingRecipe.RequiredHeatLevel != 2800f)
@@ -67,5 +67,41 @@ namespace Game
 			}
 			return null;
 		}
+
+
+		public static CraftingRecipe FindMatchingRecipe3(SubsystemTerrain terrain, string[] ingredients, float heatLevel)
+		{
+			Func<SubsystemTerrain, string[], float, CraftingRecipe> findMatchingRecipe = CraftingRecipesManager.FindMatchingRecipe1;
+			if (findMatchingRecipe != null)
+			{
+				return findMatchingRecipe(terrain, ingredients, heatLevel);
+			}
+			Block[] blocks = BlocksManager.Blocks;
+			for (int i = 0; i < blocks.Length; i++)
+			{
+				CraftingRecipe adHocCraftingRecipe = blocks[i].GetAdHocCraftingRecipe(terrain, ingredients, heatLevel);
+				if (adHocCraftingRecipe == null)
+					continue;
+				if (adHocCraftingRecipe != null && adHocCraftingRecipe.RequiredHeatLevel > 0 && heatLevel == adHocCraftingRecipe.RequiredHeatLevel && CraftingRecipesManager.MatchRecipe(adHocCraftingRecipe.Ingredients, ingredients))
+				{
+					return adHocCraftingRecipe;
+				}
+			}
+			int count = CraftingRecipesManager.Recipes.Count;
+			for (int i = 0; i < count; i++)
+			{
+				CraftingRecipe adHocCraftingRecipe = CraftingRecipesManager.Recipes[i];
+				if (adHocCraftingRecipe == null)
+					continue;
+				if (heatLevel == adHocCraftingRecipe.RequiredHeatLevel && adHocCraftingRecipe.RequiredHeatLevel > 0 && CraftingRecipesManager.MatchRecipe(adHocCraftingRecipe.Ingredients, ingredients))
+				{
+					return adHocCraftingRecipe;
+				}
+			}
+			return null;
+		}
+
+
+
 	}
 }

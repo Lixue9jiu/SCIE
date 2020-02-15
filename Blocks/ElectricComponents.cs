@@ -17,6 +17,25 @@ namespace Game
 		}
 		public override string GetCraftingId() => Id;
 	}
+
+	public class Flat : FlatItem
+	{
+		protected readonly string Id;
+		public Flat(string name,string des,int texture)
+		{
+			DefaultTextureSlot = texture;
+			Id = name;
+			DefaultDisplayName = name;
+			DefaultDescription = des;
+			Color = Color.White;
+		}
+		public override string GetCraftingId() => Id;
+		public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
+		{
+			ItemBlock.DrawFlatBlock(primitivesRenderer, value, size, ref matrix, ItemBlock.Texture, Color.White, false, environmentData);
+		}
+	}
+
 	public class Fan : FlatItem
 	{
 		protected readonly string Id;

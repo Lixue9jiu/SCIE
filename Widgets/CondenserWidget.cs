@@ -71,6 +71,36 @@ namespace Game
 		}
 	}
 
+	public class NuclearWidget : MultiStateMachWidget<ComponentMachine>
+	{
+		public readonly FireWidget m_fire;
+		public NuclearWidget(IInventory inventory, ComponentMachine component) : base(inventory, component, "Widgets/NuclearWidget")
+		{
+			InitGrid();
+			m_fire = Children.Find<FireWidget>("Fire");
+		}
+		public override void Update()
+		{
+			if (!m_component.IsAddedToProject)
+			{
+				ParentWidget.Children.Remove(this);
+				return;
+			}
+			m_fire.m_colorTransform = Color.Green;
+			m_fire.ParticlesPerSecond = m_component.HeatLevel > 0f ? 24f : 0f;
+			if (m_dispenseButton.IsClicked && m_component.m_fireTimeRemaining == 0f)
+			{
+				m_component.m_fireTimeRemaining = 1000f;
+			}
+			if (m_shootButton.IsClicked && m_component.m_fireTimeRemaining == 1000f)
+			{
+				m_component.m_fireTimeRemaining = 0f;
+			}
+			m_dispenseButton.IsChecked = m_component.HeatLevel > 0f;
+		}
+	}
+
+
 	public class RadioRWidget : MultiStateMachWidget<ComponentRadioR>
 	{
 

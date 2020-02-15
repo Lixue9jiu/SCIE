@@ -106,7 +106,8 @@ namespace Game
 			"钢箱子",
 			"石墨核反应堆核心",
 			"石墨核反应堆顶部",
-			//"热交换器"
+			"中子反射方块",
+			"快中子反应堆"
 		};
 
 		public static readonly string[] Descriptions =
@@ -117,13 +118,14 @@ namespace Game
 			"钢箱子，更大的容积",
 			"石墨核反应堆核心，用来进行核反应的核心装置，以石墨作为减速剂的初代核装置",
 			"石墨核反应堆顶部",
-			//"热交换器，当其中有水时，反应堆输出的热量让水转变成蒸汽"
+			"中子反射方块，可反射一部分中子",
+			"快中子反应堆，依靠中子撞击铀238获得核燃料的增殖"
 		};
 
 		public override IEnumerable<int> GetCreativeValues()
 		{
-			var arr = new int[17 * 6];
-			for (int i = 0; i < 6; i++)
+			var arr = new int[17 * 8];
+			for (int i = 0; i < 8; i++)
 			{
 				arr[i * 17] = BlockIndex | i << 24;
 				for (int j = 1; j < 17; j++)
@@ -141,8 +143,10 @@ namespace Game
 				return face == 4 || face == 5 ? 107 : 134;
 			if (value == 4)
 				return face == 4 || face == 5 ? 138 : 137;
+			if (value == 7)
+				return face == 4 || face == 5 ? 155 : 137;
 			if (value == 6)
-				return face == 4 || face == 5 ? 141 : 140;
+				return 154;
 			if (value == 5)
 				return face == 4 || face == 5 ? 138 : 141;
 			return value == 0 ? face == 4 ? 116 : 115 : face == 4 ? 224 : 107;

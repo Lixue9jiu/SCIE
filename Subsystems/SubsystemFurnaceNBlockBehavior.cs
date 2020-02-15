@@ -33,7 +33,8 @@ namespace Game
 			"SteamEngine",
 			"HeatEngine",
 			"ICEngine",
-			"ICEngine"
+			"ICEngine",
+			"NEngine"
 		};
 		public override int[] HandledBlocks => new[] { EngineBlock.Index };
 
@@ -64,6 +65,8 @@ namespace Game
 				case 1:
 				case 3:
 					return new FireBoxWidget<ComponentMachine>(inventory, component, "Widgets/EngineHWidget");
+				case 6:
+					return new NuclearWidget(inventory, component);
 			}
 			return new ICEngineWidget(inventory, component);
 		}
