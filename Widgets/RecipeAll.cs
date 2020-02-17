@@ -93,7 +93,7 @@ namespace Game
 					m_MRecipeWidget.IsVisible = false;
 					//m_CastRecipeWidget.IsVisible = false;
 				}
-				else if (craftingRecipe.RequiredHeatLevel == -4f)
+				else if (craftingRecipe.RequiredHeatLevel == -4f || craftingRecipe.RequiredHeatLevel == 3000f)
 				{
 					m_CFRecipeWidget.Recipe = craftingRecipe;
 					m_AllRecipeWidget.NameSuffix = $" (recipe #{m_recipeIndex + 1})";

@@ -166,4 +166,12 @@ namespace Game
 			: 0;
 		}
 	}
+	public class ComponentCabiner : ComponentChest
+	{
+		public override int GetSlotCapacity(int slotIndex, int value)
+		{
+			return (Terrain.ExtractContents(value) == Bullet2Block.Index && value == Terrain.MakeBlockValue(521, 0, Bullet2Block.SetBulletType(0, Bullet2Block.BulletType.HandBullet))) ? base.GetSlotCapacity(slotIndex, value)
+			: 0;
+		}
+	}
 }

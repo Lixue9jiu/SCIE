@@ -29,9 +29,48 @@ namespace Game
 			if (value == ItemBlock.IdTable["UsedUpFuel"])
 			{
 				text = 1;
-				if (Utils.Random.Bool(.2f))
+				if (Utils.Random.Bool(.05f))
 					result[ItemBlock.IdTable["PU239P"]] = 1;
 				result[ItemBlock.IdTable["U238P"]] = 1;
+			}
+			return text != 0 ? FindSmeltingRecipe(text) : base.FindSmeltingRecipe();
+		}
+	}
+
+
+	public class ComponentLiquid : ComponentSeparator, IUpdateable
+	{
+		protected override int FindSmeltingRecipe()
+		{
+			result.Clear();
+			int text = 0;
+			const int i = 0;
+			if (GetSlotCount(i) <= 0) return 0;
+			int value = GetSlotValue(i);
+			if (value == ItemBlock.IdTable["H2"])
+			{
+				text = 1;
+				result[ItemBlock.IdTable["LH2"]] = 1;
+			}
+			if (value == ItemBlock.IdTable["O2"])
+			{
+				text = 1;
+				result[ItemBlock.IdTable["LO2"]] = 1;
+			}
+			if (value == ItemBlock.IdTable["N2"])
+			{
+				text = 1;
+				result[ItemBlock.IdTable["LN2"]] = 1;
+			}
+			if (value == ItemBlock.IdTable["D2"])
+			{
+				text = 1;
+				result[ItemBlock.IdTable["LD2"]] = 1;
+			}
+			if (value == ItemBlock.IdTable["Cl2"])
+			{
+				text = 1;
+				result[ItemBlock.IdTable["LCl2"]] = 1;
 			}
 			return text != 0 ? FindSmeltingRecipe(text) : base.FindSmeltingRecipe();
 		}

@@ -305,11 +305,14 @@ namespace Game
 			{
 				Explode(x, y, z, 3e3f, 8);
 				var e = Utils.SubsystemBodies.Bodies.GetEnumerator();
-				Utils.SubsystemParticles.AddParticleSystem(new NParticleSystem2(new Vector3(x, y, z), 8f, 400f));
+				Utils.SubsystemParticles.AddParticleSystem(new NParticleSystem2(new Vector3(x, y, z), 6f, 400f));
+				Explode2(x, y, z, 6, 30);
 				while (e.MoveNext())
 				{
+
 					var entity = e.Current.Entity;
-					entity.FindComponent<ComponentHealth>()?.Injure(1f, null, false, "Killed by radiation");
+				//	if (Vector3.Distance(entity.FindComponent<ComponentBody>().m_position, new Vector3(x, y, z))<30f)
+					entity.FindComponent<ComponentHealth>()?.Injure(1f * Vector3.Distance(entity.FindComponent<ComponentBody>().m_position, new Vector3(x, y, z))*40f, null, false, "Killed by radiation");
 					if (entity.FindComponent<ComponentPlayer>() != null)
 						entity.FindComponent<ComponentPlayer>().ComponentGui.TemperatureBarWidget.Flash(10);
 				}
@@ -321,7 +324,7 @@ namespace Game
 			while (e1.MoveNext())
 			{
 				var entity = e1.Current.Entity;
-				entity.FindComponent<ComponentHealth>()?.Injure(8f/entity.FindComponent<ComponentHealth>().AttackResilience, null, false, "Killed by radiation");
+				entity.FindComponent<ComponentHealth>()?.Injure(Bomb.GetFuelFireDuration(0) / 4f / entity.FindComponent<ComponentHealth>().AttackResilience  *Vector3.Distance(entity.FindComponent<ComponentBody>().m_position, new Vector3(x, y, z)) * (pressure/100f), null, false, "Killed by radiation");
 				if (entity.FindComponent<ComponentPlayer>() != null)
 					entity.FindComponent<ComponentPlayer>().ComponentGui.TemperatureBarWidget.Flash(10);
 			}

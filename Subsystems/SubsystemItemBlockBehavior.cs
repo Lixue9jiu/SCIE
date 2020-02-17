@@ -192,7 +192,7 @@ namespace Game
 				if (body.HasValue && (!result.HasValue || body.Value.Distance < result.Value.Distance))
 				{
 					entity = body.Value.ComponentBody.Entity;
-					if (entity.FindComponent<ComponentTrain>() != null || entity.FindComponent<ComponentBoatI>() != null)
+					if (entity.FindComponent<ComponentTrain>() != null || entity.FindComponent<ComponentBoatI>() != null || entity.FindComponent<ComponentBoat>() != null)
 					{
 						for (var i = entity.FindComponents<IInventory>().GetEnumerator(); i.MoveNext();)
 							i.Current.DropAllItems(position);
@@ -298,6 +298,12 @@ namespace Game
 				{
 					entity = DatabaseManager.CreateEntity(Project, "Icebreaker", true);
 					entity.FindComponent<ComponentFrame>(true).Rotation = Quaternion.CreateFromAxisAngle(Vector3.UnitY, 0f);
+					goto put;
+				}
+				else if (activeBlockValue == ItemBlock.IdTable["MGun"])
+				{
+					entity = DatabaseManager.CreateEntity(Project, "MGun", true);
+					entity.FindComponent<ComponentFrame>(true).Rotation = Quaternion.CreateFromAxisAngle(Vector3.UnitY, m_random.UniformFloat(0f, 6.283185f));
 					goto put;
 				}
 				else if (activeBlockValue == ItemBlock.IdTable["Airship"])
