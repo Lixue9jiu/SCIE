@@ -298,14 +298,14 @@ namespace Game
 				ParentWidget.Children.Remove(this);
 				return;
 			}
-			if (m_component.m_slots[0].Value == ItemBlock.IdTable["LH2"] && m_component.m_slots[0].Count>0  && (int)m_component.m_fireTimeRemaining / 1000 < 1000 && (m_component.m_slots[1].Value==0 || m_component.m_slots[1].Value== ItemBlock.IdTable["멀틸"]))
+			if (m_component.m_slots[0].Value == ItemBlock.IdTable["LH2"] && m_component.m_slots[0].Count>0  && (int)m_component.m_fireTimeRemaining / 1000 < 1000 && (m_component.m_slots[1].Count==0 || m_component.m_slots[1].Value == ItemBlock.IdTable["멀틸"]))
 			{
 				m_component.m_slots[1].Value = ItemBlock.IdTable["멀틸"];
 				m_component.m_slots[1].Count ++;
 				m_component.m_slots[0].Count --;
 				m_component.m_fireTimeRemaining += 1f * 1000f;
 			}
-			if (m_component.m_slots[0].Value == ItemBlock.IdTable["LO2"] && m_component.m_slots[0].Count > 0 && (int)m_component.m_fireTimeRemaining % 1000 < 1000 && (m_component.m_slots[1].Value == 0 || m_component.m_slots[1].Value == ItemBlock.IdTable["멀틸"]))
+			if (m_component.m_slots[0].Value == ItemBlock.IdTable["LO2"] && m_component.m_slots[0].Count > 0 && (int)m_component.m_fireTimeRemaining % 1000 < 1000 && (m_component.m_slots[1].Count == 0 || m_component.m_slots[1].Value == ItemBlock.IdTable["멀틸"]))
 			{
 				m_component.m_slots[1].Value = ItemBlock.IdTable["멀틸"];
 				m_component.m_slots[1].Count++;

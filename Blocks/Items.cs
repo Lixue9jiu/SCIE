@@ -312,6 +312,21 @@ namespace Game
 			new MouldItem("LCl2","Models/Cylinder", "obj1", Matrix.CreateScale(40f, 80f, 40f) * Matrix.CreateTranslation(0.5f, 0f, 0.5f), Matrix.CreateTranslation(9f / 16f, -7f / 16f, 0f), "液态氯", "液态氯", 1.5f),
 			new Mould("Models/Brick", "Brick", Matrix.CreateScale(2f, 0.5f, 1f)*Matrix.CreateScale(3f), Matrix.CreateTranslation(9f / 16f, -7f / 16f, 0f) * Matrix.CreateScale(20f), "钛合金板", "钛合金板"),
 			new Rocket(),
+			new MeshItem("卫星")
+			{
+				DefaultDisplayName = "卫星",
+				DefaultDescription = "给予提供侦察功能"
+			}
+			.AppendMesh("Models/Battery", "Battery", Matrix.CreateScale(0.7f) * Matrix.CreateTranslation(0f, -0.3f, 0f) * Matrix.CreateRotationZ(1.5f), Matrix.CreateTranslation(9f / 16f, -7f / 16f, 0f), Color.DarkGray)
+			.AppendMesh("Models/EmptyBucket", "Bucket", Matrix.CreateScale(0.6f)*Matrix.CreateTranslation(0.05f, 0.3f, 0.0f)  * Matrix.CreateRotationZ(-1.5f), Matrix.CreateTranslation(9f / 16f,-12f / 16 / 16f, 0f), Color.Black)
+			.AppendMesh("Models/Brick", "Brick",Matrix.CreateScale(1f, 0.015f, 3f)*Matrix.CreateScale(1.8f), Matrix.CreateTranslation(9f / 16f, -7f / 16f, 0f) * Matrix.CreateScale(20f), Color.Blue),
+			new MeshItem("卫星连接器")
+			{
+				DefaultDisplayName = "卫星连接器",
+				DefaultDescription = "卫星连接器，可以探查地形。"
+			}
+			.AppendMesh("Models/Brick", "Brick", Matrix.CreateScale(1f, 0.25f, 1f), Matrix.CreateTranslation(9f / 16f, -7f / 16f, 0f) * Matrix.CreateScale(20f), Color.Black)
+			.AppendMesh("Models/Brick", "Brick", Matrix.CreateScale(0.5f, 0.25f, 0.5f)*Matrix.CreateTranslation(0f,0.05f,0f), Matrix.CreateTranslation(9f / 16f, -7f / 16f, 0f) * Matrix.CreateScale(20f), Color.Gray),
 			//new MouldItem("LH2","Models/Cylinder", "obj1", Matrix.CreateScale(40f, 80f, 40f) * Matrix.CreateTranslation(0.5f, 0f, 0.5f), Matrix.CreateTranslation(9f / 16f, -7f / 16f, 0f), "液态氢", "液态氢", 1.5f),
 			//new MouldItem("LO2","Models/Cylinder", "obj1", Matrix.CreateScale(40f, 80f, 40f) * Matrix.CreateTranslation(0.5f, 0f, 0.5f), Matrix.CreateTranslation(9f / 16f, -7f / 16f, 0f), "液态氧", "液态氧", 1.5f),
 			//new Plane(),

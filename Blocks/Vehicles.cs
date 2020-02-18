@@ -46,7 +46,7 @@ namespace Game
 	{
 
 		public static Texture2D RocketTexture;
-		public Rocket() : base("火箭", "Ra1", "Cylinder", RocketTexture, "蒸汽船可让您更安全，更快速地穿越大面积的水，就像您拥有足够的燃料一样，在最初的工业时代，这是一种强大的运输工具。")
+		public Rocket() : base("初级火箭", "Ra1", "Cylinder", RocketTexture, "一种比较初级的小型火箭，可以用来发射卫星，或者进行大气层核试验")
 		{
 		}
 

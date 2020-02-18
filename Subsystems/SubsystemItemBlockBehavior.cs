@@ -233,6 +233,31 @@ namespace Game
 				view.ActiveCamera = view.ActiveCamera is TelescopeCamera ? view.FindCamera<FppCamera>(true) : (Camera)new TelescopeCamera(view);
 				return true;
 			}
+			else if (activeBlockValue == ItemBlock.IdTable["卫星连接器"])
+			{
+				bool find=false;
+				for (int iii = 0; iii < Utils.SubsystemSour.m_radio.Count; iii++)
+				{
+					if (Utils.SubsystemSour.m_radio.Array[iii].W == 12345)
+					{
+						find = true;
+						break;
+					}
+				}
+				if(find)
+				{
+					var view = componentMiner.ComponentPlayer.View;
+					componentMiner.ComponentPlayer.ComponentGui.DisplaySmallMessage("Satellite Connected", blinking: true, playNotificationSound: true);
+					view.ActiveCamera = view.ActiveCamera is DebugCamera2 ? view.FindCamera<FppCamera>(true) : (Camera)new DebugCamera2(view);
+					return true;
+
+				}else
+				{
+					componentMiner.ComponentPlayer.ComponentGui.DisplaySmallMessage("No Satellite Found", blinking: true, playNotificationSound: true);
+				}
+				//ScreensManager.SwitchScreen(new RecipaediaScreen2());
+				
+			}
 			/*else if (activeBlockValue == ItemBlock.IdTable["Minecart"])
 			{
 				entity = DatabaseManager.CreateEntity(Project, "Carriage", true);

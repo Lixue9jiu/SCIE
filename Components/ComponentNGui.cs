@@ -296,7 +296,7 @@ namespace Game
 				return new EngineTWidget(inventory, componentEngine5, "Widgets/DiggerWidget");
 			var componentEngine51 = entity.FindComponent<ComponentCabiner>();
 			if (componentEngine51 != null)
-				return new NewChestWidget(inventory, componentEngine51,"MachineGunCabiner");
+				return new NewChestWidget(inventory, componentEngine51, "MachineGunCabiner");
 			var componentEngine52 = entity.FindComponent<ComponentRocketEngine>();
 			if (componentEngine52 != null)
 				return new RocketWidget(inventory, componentEngine52);
@@ -384,7 +384,7 @@ namespace Game
 				Temperature = 12f;
 			}
 
-			
+
 			int numm = 0;
 			ReadOnlyList<int> readOnlyList = m_componentPlayer.ComponentClothing.GetClothes(ClothingSlot.Head);
 			if (readOnlyList.Count > 0 && ClothingBlock.GetClothingData(Terrain.ExtractData(readOnlyList[readOnlyList.Count - 1])).Index == 45)
@@ -433,7 +433,7 @@ namespace Game
 						float level2 = Utils.SubsystemSour.FindNearestCompassTarget(entity.FindComponent<ComponentBody>().Position);
 						if (level2 >= 10f)
 						{
-							if (entity.FindComponent<ComponentPlayer>() !=null)
+							if (entity.FindComponent<ComponentPlayer>() != null)
 							{
 								int numm2 = 0;
 								ReadOnlyList<int> readOnlyList1 = m_componentPlayer.ComponentClothing.GetClothes(ClothingSlot.Head);
@@ -452,8 +452,9 @@ namespace Game
 								{
 									entity.FindComponent<ComponentHealth>()?.Injure(0.01f * level2, null, false, "Killed by radiation");
 								}
-							}else 
-							entity.FindComponent<ComponentHealth>()?.Injure(0.01f * level2, null, false, "Killed by radiation");
+							}
+							else
+								entity.FindComponent<ComponentHealth>()?.Injure(0.01f * level2, null, false, "Killed by radiation");
 						}
 					}
 				}
@@ -545,4 +546,38 @@ namespace Game
 			}
 		}
 	}
+
+	public class ComponentNDamage : ComponentDamage, IUpdateable
+	{
+		public new void Update(float dt)
+		{
+			Vector3 position = m_componentBody.Position;
+			if (Hitpoints <= 0f)
+			{
+				m_subsystemParticles.AddParticleSystem(new BlockDebrisParticleSystem(m_subsystemTerrain, position + m_componentBody.BoxSize.Y / 2f * Vector3.UnitY, m_debrisStrength, m_debrisScale, Color.White, m_debrisTextureSlot));
+				m_subsystemAudio.PlayRandomSound(DamageSoundName, 1f, 0f, m_componentBody.Position, 4f, autoDelay: true);
+				base.Project.RemoveEntity(base.Entity, disposeEntity: true);
+			}
+			float num = MathUtils.Abs(m_componentBody.CollisionVelocityChange.Y);
+			if (num > m_fallResilience)
+			{
+				float amount = MathUtils.Sqr(MathUtils.Max(num - m_fallResilience, 0f)) / 15f;
+				Damage(amount);
+			}
+			if (position.Y < -10f)
+			{
+				Damage(Hitpoints);
+			}
+			if (m_componentOnFire != null && (m_componentOnFire.IsOnFire || m_componentOnFire.TouchesFire))
+			{
+				Damage(dt / m_fireResilience);
+			}
+			HitpointsChange = Hitpoints - m_lastHitpoints;
+			m_lastHitpoints = Hitpoints;
+		}
+
+
+	}
+
+
 }

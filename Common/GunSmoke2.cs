@@ -394,7 +394,7 @@ namespace Game
 						particle.Position = m_position + 0.25f * m_size * new Vector3(m_random.UniformFloat(-1f, 1f), 0f, m_random.UniformFloat(-1f, 1f));
 						particle.Color = Color.White;
 						particle.Size = new Vector2(m_size);
-						particle.Speed = m_random.UniformFloat(0.45f, 0.55f)  *m_size/ 0.15f /6f;
+						particle.Speed = m_random.UniformFloat(0.45f, 0.55f)  *10f/ 0.15f /6f;
 						particle.Time = 0f;
 						particle.TimeToLive = m_random.UniformFloat(0.5f, 2f);
 						particle.FlipX = (m_random.UniformInt(0, 1) == 0);

@@ -11,6 +11,7 @@ namespace Game
 	{
 		private ComponentRocketEngine componentEngine;
 		private ComponentBody componentBody;
+		private ComponentDamage componentDamage;
 		public int num = 0;
 		public int UpdateOrder => 0;
 		public new void Update(float dt)
@@ -26,15 +27,38 @@ namespace Game
 				}
 				if ((int)componentEngine.m_fireTimeRemaining/1000 >0 && (int)componentEngine.m_fireTimeRemaining % 1000 > 0 && componentEngine.HeatLevel==100f)
 				{
-					//componentEngine.m_fireTimeRemaining -= 1f;
-					//componentEngine.m_fireTimeRemaining -= 1000f;
+					if (Utils.SubsystemTime.PeriodicGameTimeEvent(0.2, 0))
+					{
+						componentEngine.m_fireTimeRemaining -= 1f;
+						componentEngine.m_fireTimeRemaining -= 1000f;
+					}
 					componentBody.m_velocity.Y += 0.2f;
 					componentBody.m_subsystemParticles.AddParticleSystem(new GunSmokeParticleSystem2(Utils.SubsystemTerrain, componentBody.Position + new Vector3(0f,0.5f,0f) , new Vector3(0f,-1f,0f) ));
+					Utils.SubsystemAudio.PlaySound("Audio/Fire", 1f, 0f, componentBody.Position + new Vector3(0f, 0.5f, 0f), 30f, true);
 				}
 			}
-			if (componentBody.Position.Y >= 140)
+			float num4 = MathUtils.Abs(componentBody.CollisionVelocityChange.Length());
+			if (num4 > 20f)
 			{
-				
+				Utils.SubsystemExplosions.AddExplosion((int)componentBody.Position.X, (int)componentBody.Position.Y, (int)componentBody.Position.Z, 1000f, true, false);
+			}
+			if (componentBody.Position.Y >= 500)
+			{
+				componentDamage.Damage(componentDamage.Hitpoints);
+				if (componentEngine.m_slots[2].Value == ItemBlock.IdTable["ABomb"] || componentEngine.m_slots[2].Value == ItemBlock.IdTable["HBomb"] || componentEngine.m_slots[2].Value == ItemBlock.IdTable["NBomb"])
+				{
+					Utils.SubsystemParticles.AddParticleSystem(new NParticleSystem2(componentBody.Position, 300f, 400f));
+					var componentMiner = Utils.SubsystemPlayers.FindNearestPlayer(componentBody.Position);
+					componentMiner.ComponentGui.TemperatureBarWidget.Flash(10);
+				}
+				if (componentEngine.m_slots[2].Value == ItemBlock.IdTable["卫星"])
+				{
+					var componentMiner = Utils.SubsystemPlayers.FindNearestPlayer(componentBody.Position);
+					componentMiner.ComponentGui.DisplaySmallMessage("Satellite Launch Success", blinking: true, playNotificationSound: true);
+					Utils.SubsystemSour.m_radio.Add(new Vector4(componentBody.Position.X, componentBody.Position.Y, componentBody.Position.Z, 12345));
+				}
+				//var componentMiner = Utils.SubsystemPlayers.FindNearestPlayer(componentBody.Position);
+				//componentMiner.ComponentGui.DisplaySmallMessage("Rocket Launch Success", blinking: true, playNotificationSound: true);
 			}
 		}
 		public override void Load(ValuesDictionary valuesDictionary, IdToEntityMap idToEntityMap)
@@ -42,6 +66,7 @@ namespace Game
 			base.Load(valuesDictionary, idToEntityMap);
 			componentEngine = Entity.FindComponent<ComponentRocketEngine>();
 			componentBody = Entity.FindComponent<ComponentBody>();
+			componentDamage = Entity.FindComponent<ComponentDamage>();
 		}
 	}
 
@@ -231,6 +256,10 @@ namespace Game
 						componentBody.Velocity += dt * (componentEngine != null ? componentEngine.HeatLevel * 0.01f : 3f) * MoveOrder * rider.ComponentCreature.ComponentCreatureModel.EyeRotation.ToForwardVector();
 					MoveOrder = 0f;
 				}
+				if (componentBody.m_position.Y >= 220f)
+				{
+					componentBody.m_velocity = new Vector3(componentBody.m_velocity.X, 0, componentBody.m_velocity.Z);
+				}
 				if (componentBody.ImmersionFactor > 0.95f)
 				{
 					m_componentDamage.Damage(0.005f * dt);
@@ -289,7 +318,7 @@ namespace Game
 				{
 					componentBody.m_velocity = new Vector3(componentBody.m_velocity.X, 0,componentBody.m_velocity.Z); 
 				}
-				if (componentBody.m_position.Y>=120f)
+				if (componentBody.m_position.Y>=220f)
 				{
 					componentBody.m_velocity = new Vector3(componentBody.m_velocity.X, 0, componentBody.m_velocity.Z);
 				}
