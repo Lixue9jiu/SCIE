@@ -86,6 +86,24 @@
         <Parameter Name="Class" Guid="1c8a9aed-22f9-45aa-aae3-039ba73b12b6" Value="Game.ComponentElectricIFurnace" Type="string" />
       </MemberComponentTemplate>
     </EntityTemplate>
+	<EntityTemplate Name="ElectricHFurnace" Guid="0855a279-af17-6655-81fa-aafaf97b92bd" InheritanceParent="9681f999-898b-4f5c-9ea8-f8cc331e97b3">
+      <MemberComponentTemplate Name="ElectricHFurnace" Guid="0f177a56-ac7d-4b4c-97c7-df652ca11b51" InheritanceParent="81a44c6a-c30a-4f54-8d64-0c30aabab8fa">
+        <Parameter Name="Class" Guid="1c8a9aed-2889-45aa-aae3-039ba73b12b6" Value="Game.ComponentElectricHFurnace" Type="string" />
+		<Parameter Name="SlotsCount" Guid="0b8d876f-ff72-431b-9828-d30e0fbf33f1" Value="10" Type="int" />
+      </MemberComponentTemplate>
+    </EntityTemplate>
+	<EntityTemplate Name="AutoGun" Guid="08556679-af17-6655-81fa-aafaf97b92bd" InheritanceParent="9681f999-898b-4f5c-9ea8-f8cc331e97b3">
+      <MemberComponentTemplate Name="AutoGun" Guid="0f17885f-ac7d-4b4c-97c7-df652ca11b51" InheritanceParent="81a44c6a-c30a-4f54-8d64-0c30aabab8fa">
+        <Parameter Name="Class" Guid="1c8a9aed-2889-4566-aae3-039ba73b12b6" Value="Game.ComponentAGun" Type="string" />
+		<Parameter Name="SlotsCount" Guid="0b8d876f-f772-43fb-9828-d30e0fbf33f1" Value="12" Type="int" />
+      </MemberComponentTemplate>
+    </EntityTemplate>
+	<EntityTemplate Name="Liquid" Guid="08511679-af17-6655-81fa-aafaf97b92bd" InheritanceParent="9681f999-898b-4f5c-9ea8-f8cc331e97b3">
+      <MemberComponentTemplate Name="Liquid" Guid="0f17811f-ac7d-4b4c-97c7-df652ca11b51" InheritanceParent="81a44c6a-c30a-4f54-8d64-0c30aabab8fa">
+        <Parameter Name="Class" Guid="1c8a9aed-2889-4116-aae3-039ba73b12b6" Value="Game.ComponentLiquid" Type="string" />
+		<Parameter Name="SlotsCount" Guid="0b8d876f-1172-43fb-9828-d30e0fbf33f1" Value="6" Type="int" />
+      </MemberComponentTemplate>
+    </EntityTemplate>
     <EntityTemplate Name="Charger" Guid="0855a779-af18-4955-81fa-aafaf97b92bd" InheritanceParent="9681f999-898b-4f5c-9ea8-f8cc331e97b3">
       <MemberComponentTemplate Name="Charger" Guid="0f197a59-ac7d-4b4c-97c7-df652ca11b51" InheritanceParent="81a44c6a-c30a-4f53-8d64-0c30aabab8f9">
         <Parameter Name="SlotsCount" Guid="0b8d996f-f972-431b-9828-d30e0fbf33f1" Value="4" Type="int" />
@@ -215,6 +233,54 @@
         <Parameter Name="Mass" Guid="ae127d38-1576-4901-a319-b21a8dc22175" Value="250" Type="float" />
         <Parameter Name="AirDrag" Guid="d850431d-da38-409b-9b32-aadf09fc82a4" Value="0.25,0.5" Type="Vector2" />
         <Parameter Name="Density" Guid="f2894d7d-5ef9-44c5-881e-a724610e3cd5" Value="0.2" Type="float" />
+      </MemberComponentTemplate>
+    </EntityTemplate>
+	<EntityTemplate Name="MGun" Guid="3f3acc7e-1ce4-43fa-9612-47d69bf788ba" InheritanceParent="3f3abb7e-1ce4-43fa-9612-47d69bf788bb">
+      <MemberComponentTemplate Name="MGun" Guid="acc2d5da-5307-4df6-929e-a51abcd70387" InheritanceParent="b05700ed-7e4e-4679-98f5-b597f421496b">
+        <Parameter Name="Class" Guid="5a7229b2-7adc-4cc3-8889-d94503c52184" Value="Game.ComponentMGun" Type="string" />
+      </MemberComponentTemplate>
+	  <MemberComponentTemplate Name="MGunChest" Guid="aff2d5da-5307-4df6-929e-a51abcd70387" InheritanceParent="81a44c6a-c30a-4f53-8d64-0c30aabab8f9">
+        <Parameter Name="Class" Guid="5a7229b2-7adc-4cc3-8ff9-d94503c52184" Value="Game.ComponentCabiner" Type="string" />
+		<Parameter Name="SlotsCount" Guid="3ddd5623-a4c0-ffd5-85f8-813ef26dae6b" Value="16" Type="int" />
+      </MemberComponentTemplate>
+	  <MemberComponentTemplate Name="Mount" Guid="cfff7911-de35-4e94-ba6e-90cd55cd19d4" InheritanceParent="d0b14127-39ce-4490-af00-fb4111e9c51e">
+        <Parameter Name="MountOffset" Guid="36b011ca-89e1-4412-be70-a6b4aae705bc" Value="0,0.8,0.5" Type="Vector3" />
+        <Parameter Name="DismountOffset" Guid="bac11ce4-b009-4fe1-b840-93843edd05b6" Value="0,0,0.8" Type="Vector3" />
+      </MemberComponentTemplate>
+      <MemberComponentTemplate Name="SimpleModel" Guid="4cca8ad1-0db8-4604-9ee8-8504dbd3c7b1">
+        <Parameter Name="ModelName" Guid="fe4ed206-297f-4cca-950a-930ea7d6e881" Value="Models/MGun4" Type="string" />
+        <Parameter Name="TextureOverride" Guid="ffe056e5-0cca-4504-a9fe-baf88d835b11" Value="Textures/Creatures/Jaguar" Type="string" />
+      </MemberComponentTemplate>
+      <MemberComponentTemplate Name="Body" Guid="b680dd15-ddd6-407b-bd4d-7be14c05d3eb">
+        <Parameter Name="WaterSwayAngle" Guid="00cdd408-eb39-4058-850f-a12f2a86c16a" Value="0.04" Type="float" />
+        <Parameter Name="MaxSmoothRiseHeight" Guid="1dd519b4-e6f6-4604-aae9-7d0a3273c987" Value="0.3" Type="float" />
+        <Parameter Name="BoxSize" Guid="5323f9ba-8cdd-4667-a19e-605afa72e335" Value="0.60,1.5,0.60" Type="Vector3" />
+        <Parameter Name="WaterDrag" Guid="6547df11-9dd0-410f-b0b0-4cdf89dcdae4" Value="6,4" Type="Vector2" />
+        <Parameter Name="Mass" Guid="ae127d38-1576-4dd1-a319-b21a8dc22175" Value="250" Type="float" />
+        <Parameter Name="AirDrag" Guid="d850431d-da38-4ddb-9b32-aadf09fc82a4" Value="1,0" Type="Vector2" />
+        <Parameter Name="Density" Guid="f2894d7d-5ef9-4dd5-881e-a724610e3cd5" Value="17.0" Type="float" />
+      </MemberComponentTemplate>
+    </EntityTemplate>
+	<EntityTemplate Name="Rocket" Guid="ff3acf7e-1ce4-43fa-9f12-47d69bf788ba" InheritanceParent="3f3abb7e-1ce4-43fa-9612-47d69bf788bc">
+      <MemberComponentTemplate Name="Rocket" Guid="acf2d5da-53f7-4aa6-929e-a51abcd70387" InheritanceParent="b05700ed-7e4e-4679-98f5-b597f421496b">
+        <Parameter Name="Class" Guid="5a7229b2-7adc-4cf3-8f89-daa503c52184" Value="Game.ComponentRocket" Type="string" />
+      </MemberComponentTemplate>
+	  <MemberComponentTemplate Name="MGunChest" Guid="afaad5da-53f7-4df6-929e-a51abcd70387" InheritanceParent="81a44c6a-c30a-4f53-8d64-0c30aabab8f9">
+        <Parameter Name="Class" Guid="5a72f9b2-7aaa-4cc3-8fff-d94503c52184" Value="Game.ComponentRocketEngine" Type="string" />
+		<Parameter Name="SlotsCount" Guid="3dfd5aa3-a4cf-ffd5-85f8-813ef26dae6b" Value="3" Type="int" />
+      </MemberComponentTemplate>
+      <MemberComponentTemplate Name="SimpleModel" Guid="4faa8ad1-0db8-4604-9ee8-8504dbd3c7b1">
+        <Parameter Name="ModelName" Guid="fe4ed206-297f-4fca-9aaa-930ea7d6e881" Value="Models/Ra1" Type="string" />
+        <Parameter Name="TextureOverride" Guid="ffe0f6e5-aaca-4504-a9fe-baf88d835b11" Value="Textures/Rocket" Type="string" />
+      </MemberComponentTemplate>
+      <MemberComponentTemplate Name="Body" Guid="b68fad15-ddd6-407b-bd4d-7be14c05d3eb">
+        <Parameter Name="WaterSwayAngle" Guid="f0cddaa8-eb39-4058-850f-a12f2a86c16a" Value="0.04" Type="float" />
+        <Parameter Name="MaxSmoothRiseHeight" Guid="1dfa19b4-e6f6-4604-aae9-7d0a3273c987" Value="0.3" Type="float" />
+        <Parameter Name="BoxSize" Guid="5323f9bf-8cdd-4aa7-a19e-605afa72e335" Value="1.00,7.5,1.00" Type="Vector3" />
+        <Parameter Name="WaterDrag" Guid="6547df11-9dfa-410f-b0b0-4cdf89dcdae4" Value="6,4" Type="Vector2" />
+        <Parameter Name="Mass" Guid="ae127d38-1576-4dfa-a319-b21a8dc22175" Value="250" Type="float" />
+        <Parameter Name="AirDrag" Guid="d850431d-da38-4dfb-9baa-aadf09fc82a4" Value="1,0" Type="Vector2" />
+        <Parameter Name="Density" Guid="f2894d7d-5ef9-4df5-8aae-a724610e3cd5" Value="17.0" Type="float" />
       </MemberComponentTemplate>
     </EntityTemplate>
     <EntityTemplate Name="Icebreaker" Guid="3f3abb7e-2ce4-43fa-9612-47d69bf788ba" InheritanceParent="3f3abb7e-1ce4-43fa-9612-47d69bf788ba">

@@ -42,6 +42,20 @@ namespace Game
 		public override float GetIconViewScale(int value, DrawBlockEnvironmentData environmentData) => 0.45f;
 	}
 
+	public class Rocket : TexturedMeshItem
+	{
+
+		public static Texture2D RocketTexture;
+		public Rocket() : base("火箭", "Ra1", "Cylinder", RocketTexture, "蒸汽船可让您更安全，更快速地穿越大面积的水，就像您拥有足够的燃料一样，在最初的工业时代，这是一种强大的运输工具。")
+		{
+		}
+
+		public override Vector3 GetIconViewOffset(int value, DrawBlockEnvironmentData environmentData) => new Vector3(-0.7f, 0.8f, -1);
+		public override Vector3 GetIconBlockOffset(int value, DrawBlockEnvironmentData environmentData) => new Vector3(0f, -0.9f, 0f);
+		public override float GetIconViewScale(int value, DrawBlockEnvironmentData environmentData) => 0.25f;
+		public override string GetCraftingId() => "Rocket";
+	}
+
 	public class MGun : TexturedMeshItem
 	{
 		//public static Texture2D BoatTexture;

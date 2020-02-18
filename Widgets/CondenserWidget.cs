@@ -278,6 +278,57 @@ namespace Game
 	}
 
 
+	public class RocketWidget : MultiStateMachWidget<ComponentRocketEngine>
+	{
+		protected readonly InventorySlotWidget m_resultSlot,m_itemSlot;
+
+		public RocketWidget(IInventory inventory, ComponentRocketEngine component) : base(inventory, component, "Widgets/REngineWidget")
+		{
+			int num = InitGrid();
+			m_resultSlot = Children.Find<InventorySlotWidget>("ResultSlot");
+			m_resultSlot.AssignInventorySlot(component, num++);
+			m_itemSlot = Children.Find<InventorySlotWidget>("ItemSlot");
+			m_itemSlot.AssignInventorySlot(component, num++);
+		}
+
+		public override void Update()
+		{
+			if (!m_component.IsAddedToProject)
+			{
+				ParentWidget.Children.Remove(this);
+				return;
+			}
+			if (m_component.m_slots[0].Value == ItemBlock.IdTable["LH2"] && m_component.m_slots[0].Count>0  && (int)m_component.m_fireTimeRemaining / 1000 < 1000 && (m_component.m_slots[1].Value==0 || m_component.m_slots[1].Value== ItemBlock.IdTable["멀틸"]))
+			{
+				m_component.m_slots[1].Value = ItemBlock.IdTable["멀틸"];
+				m_component.m_slots[1].Count ++;
+				m_component.m_slots[0].Count --;
+				m_component.m_fireTimeRemaining += 1f * 1000f;
+			}
+			if (m_component.m_slots[0].Value == ItemBlock.IdTable["LO2"] && m_component.m_slots[0].Count > 0 && (int)m_component.m_fireTimeRemaining % 1000 < 1000 && (m_component.m_slots[1].Value == 0 || m_component.m_slots[1].Value == ItemBlock.IdTable["멀틸"]))
+			{
+				m_component.m_slots[1].Value = ItemBlock.IdTable["멀틸"];
+				m_component.m_slots[1].Count++;
+				m_component.m_slots[0].Count--;
+				m_component.m_fireTimeRemaining += 1f;
+			}
+			if (m_dispenseButton.IsClicked && m_component.HeatLevel <= 0f)
+			{
+				m_component.HeatLevel = 1200f;
+			}
+			if (m_shootButton.IsClicked && m_component.HeatLevel > 0f)
+			{
+				m_component.HeatLevel = 0f;
+			}
+			m_dispenseButton.IsChecked = m_component.HeatLevel != 0f;
+			//m_shootButton.IsChecked = m_component.HeatLevel == 0f;
+			Children.Find<LabelWidget>("DispenserLabel2").Text = "H2 " + ((int)m_component.m_fireTimeRemaining / 1000).ToString();
+			Children.Find<LabelWidget>("DispenserLabel3").Text = "O2 " + ((int)m_component.m_fireTimeRemaining%1000).ToString();
+
+		}
+	}
+
+
 	public class RControlWidget : CanvasWidget
 	{
 		public SubsystemTerrain m_subsystemTerrain;

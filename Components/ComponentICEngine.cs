@@ -4,6 +4,14 @@ using TemplatesDatabase;
 
 namespace Game
 {
+	public class ComponentRocketEngine : ComponentSMachine
+	{
+		public int Fuel2SlotIndex => 0;
+		public float h2a;
+		public float o2a;
+		public bool start;
+	}
+
 	public class ComponentICEngine : ComponentSMachine, IUpdateable
 	{
 		public override int ResultSlotIndex => SlotsCount - 1;

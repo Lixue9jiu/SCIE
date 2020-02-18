@@ -47,6 +47,7 @@ namespace Game
 			Car.CarTexture = ContentManager.Get<Texture2D>("Textures/tex2");
 			ETrain.ETrainTexture = ContentManager.Get<Texture2D>("Textures/etex3");
 			Airplane.PTexture = ContentManager.Get<Texture2D>("Textures/tex4");
+			Rocket.RocketTexture = ContentManager.Get<Texture2D>("Textures/Rocket");
 			var stream = Utils.GetTargetFile("IndustrialMod.png");
 			try
 			{

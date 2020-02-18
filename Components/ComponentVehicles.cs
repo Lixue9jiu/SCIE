@@ -7,6 +7,44 @@ using TemplatesDatabase;
 
 namespace Game
 {
+	public class ComponentRocket : Component, IUpdateable
+	{
+		private ComponentRocketEngine componentEngine;
+		private ComponentBody componentBody;
+		public int num = 0;
+		public int UpdateOrder => 0;
+		public new void Update(float dt)
+		{
+			if (componentEngine.HeatLevel>0f)
+			{
+				if (Utils.SubsystemTime.PeriodicGameTimeEvent(1.0, 0) && componentEngine.HeatLevel != 100f)
+				{
+					
+					var componentMiner = Utils.SubsystemPlayers.FindNearestPlayer(componentBody.Position);
+					componentMiner.ComponentGui.DisplaySmallMessage(((int)componentEngine.HeatLevel/100-2).ToString(), blinking: true, playNotificationSound: true);
+					componentEngine.HeatLevel -= 100f;
+				}
+				if ((int)componentEngine.m_fireTimeRemaining/1000 >0 && (int)componentEngine.m_fireTimeRemaining % 1000 > 0 && componentEngine.HeatLevel==100f)
+				{
+					//componentEngine.m_fireTimeRemaining -= 1f;
+					//componentEngine.m_fireTimeRemaining -= 1000f;
+					componentBody.m_velocity.Y += 0.2f;
+					componentBody.m_subsystemParticles.AddParticleSystem(new GunSmokeParticleSystem2(Utils.SubsystemTerrain, componentBody.Position + new Vector3(0f,0.5f,0f) , new Vector3(0f,-1f,0f) ));
+				}
+			}
+			if (componentBody.Position.Y >= 140)
+			{
+				
+			}
+		}
+		public override void Load(ValuesDictionary valuesDictionary, IdToEntityMap idToEntityMap)
+		{
+			base.Load(valuesDictionary, idToEntityMap);
+			componentEngine = Entity.FindComponent<ComponentRocketEngine>();
+			componentBody = Entity.FindComponent<ComponentBody>();
+		}
+	}
+
 	public class ComponentMGun : ComponentBoat, IUpdateable
 	{
 		private ComponentChest componentEngine;

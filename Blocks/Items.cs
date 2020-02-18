@@ -310,6 +310,8 @@ namespace Game
 			new MouldItem("LD2","Models/Cylinder", "obj1", Matrix.CreateScale(40f, 80f, 40f) * Matrix.CreateTranslation(0.5f, 0f, 0.5f), Matrix.CreateTranslation(9f / 16f, -7f / 16f, 0f), "液态D2", "液态D2", 1.5f),
 			new MouldItem("LN2","Models/Cylinder", "obj1", Matrix.CreateScale(40f, 80f, 40f) * Matrix.CreateTranslation(0.5f, 0f, 0.5f), Matrix.CreateTranslation(9f / 16f, -7f / 16f, 0f), "液态氮", "液态氮", 1.5f),
 			new MouldItem("LCl2","Models/Cylinder", "obj1", Matrix.CreateScale(40f, 80f, 40f) * Matrix.CreateTranslation(0.5f, 0f, 0.5f), Matrix.CreateTranslation(9f / 16f, -7f / 16f, 0f), "液态氯", "液态氯", 1.5f),
+			new Mould("Models/Brick", "Brick", Matrix.CreateScale(2f, 0.5f, 1f)*Matrix.CreateScale(3f), Matrix.CreateTranslation(9f / 16f, -7f / 16f, 0f) * Matrix.CreateScale(20f), "钛合金板", "钛合金板"),
+			new Rocket(),
 			//new MouldItem("LH2","Models/Cylinder", "obj1", Matrix.CreateScale(40f, 80f, 40f) * Matrix.CreateTranslation(0.5f, 0f, 0.5f), Matrix.CreateTranslation(9f / 16f, -7f / 16f, 0f), "液态氢", "液态氢", 1.5f),
 			//new MouldItem("LO2","Models/Cylinder", "obj1", Matrix.CreateScale(40f, 80f, 40f) * Matrix.CreateTranslation(0.5f, 0f, 0.5f), Matrix.CreateTranslation(9f / 16f, -7f / 16f, 0f), "液态氧", "液态氧", 1.5f),
 			//new Plane(),
