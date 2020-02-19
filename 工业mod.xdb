@@ -7,6 +7,7 @@
   <Parameter Name="Class" Guid="794afcc5-7af7-43ee-92c9-a6ba54084068" new-Value="Game.SubsystemNRotBlockBehavior" Type="string" />
   <Parameter Name="Class" Guid="9ef8d250-edd0-4fe5-8979-49f7dd023cdb" new-Value="Game.SubsystemNSoilBlockBehavior" Type="string" />
   <Parameter Name="Class" Guid="5fb21b86-aa45-4991-97cf-0f78ce5ccde3" new-Value="Game.SubsystemSourceOfFireBlockBehavior" Type="string" />
+  <Parameter Name="Class" Guid="7ad857be-6874-4ef3-b9cc-f70a79ef3dc4" new-Value="Game.ComponentNDamage" Type="string" />
   <EntityTemplate Name="AICreature" Guid="3f077159-f492-419b-859a-bb051de6339f" InheritanceParent="bc5be211-c1f8-4e50-9ffb-4fde625d2692">
     <MemberComponentTemplate Name="Variant" Guid="da33b9ad-acfa-4b82-83ac-0eb3bb1dfa11" InheritanceParent="8547d74d-d347-4644-a839-14adf11731d0" />
   </EntityTemplate>
@@ -281,6 +282,11 @@
         <Parameter Name="Mass" Guid="ae127d38-1576-4dfa-a319-b21a8dc22175" Value="250" Type="float" />
         <Parameter Name="AirDrag" Guid="d850431d-da38-4dfb-9baa-aadf09fc82a4" Value="1,0" Type="Vector2" />
         <Parameter Name="Density" Guid="f2894d7d-5ef9-4df5-8aae-a724610e3cd5" Value="17.0" Type="float" />
+      </MemberComponentTemplate>
+	  <MemberComponentTemplate Name="Damage" Guid="eb11779d-8903-41bd-b663-545dea83af91">
+        <Parameter Name="AttackResilience" Guid="32f57729-e2ba-4441-9f06-6b8710a8bcdf" Value="800" Type="float" />
+        <Parameter Name="FireResilience" Guid="39f57759-e2ba-4241-9f06-6b8710a8bcdf" Value="600" Type="float" />
+		<Parameter Name="FallResilience" Guid="fdcf77f5-f89e-4a96-b565-1fe4b28831f9" Value="900" Type="float" />
       </MemberComponentTemplate>
     </EntityTemplate>
     <EntityTemplate Name="Icebreaker" Guid="3f3abb7e-2ce4-43fa-9612-47d69bf788ba" InheritanceParent="3f3abb7e-1ce4-43fa-9612-47d69bf788ba">

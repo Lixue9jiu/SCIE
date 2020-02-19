@@ -192,7 +192,7 @@ namespace Game
 				if (body.HasValue && (!result.HasValue || body.Value.Distance < result.Value.Distance))
 				{
 					entity = body.Value.ComponentBody.Entity;
-					if (entity.FindComponent<ComponentTrain>() != null || entity.FindComponent<ComponentBoatI>() != null || entity.FindComponent<ComponentBoat>() != null)
+					if (entity.FindComponent<ComponentTrain>() != null || entity.FindComponent<ComponentBoatI>() != null || entity.FindComponent<ComponentBoat>() != null || entity.FindComponent<ComponentRocket>() != null)
 					{
 						for (var i = entity.FindComponents<IInventory>().GetEnumerator(); i.MoveNext();)
 							i.Current.DropAllItems(position);
@@ -247,7 +247,8 @@ namespace Game
 				if(find)
 				{
 					var view = componentMiner.ComponentPlayer.View;
-					componentMiner.ComponentPlayer.ComponentGui.DisplaySmallMessage("Satellite Connected", blinking: true, playNotificationSound: true);
+					if (!(view.ActiveCamera is DebugCamera2))
+					componentMiner.ComponentPlayer.ComponentGui.DisplaySmallMessage("Satellite Connected  " + componentMiner.ComponentPlayer.View.ActiveCamera.ViewPosition.ToString(), blinking: true, playNotificationSound: true);
 					view.ActiveCamera = view.ActiveCamera is DebugCamera2 ? view.FindCamera<FppCamera>(true) : (Camera)new DebugCamera2(view);
 					return true;
 

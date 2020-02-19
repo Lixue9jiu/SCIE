@@ -378,12 +378,44 @@
 	<Recipe Result="Cannon" ResultCount="2" RequiredHeatLevel="2000" a="Gun-Steel" Description="炮钢冶炼炮管">
       "aaaa"
     </Recipe>
+	<Recipe Result="Si-Steel" ResultCount="1" RequiredHeatLevel="2000" a="Si" b="MeltingIron" Description="冶炼硅钢">
+      "abbb"
+    </Recipe>
+	<Recipe Result="Super Aluminium" ResultCount="2" RequiredHeatLevel="3000" a="MeltingAluminium" b="MeltingCopper" c="MeltingZinc" d="Si" Description="铝铜锌硅冶炼铝合金">
+      "aaa"
+	  "bcd"
+    </Recipe>
+	<Recipe Result="Titanium Steel" ResultCount="2" RequiredHeatLevel="3000" a="MeltingTitanium" b="MeltingAluminium" c="MeltingNickel" d="MeltingIron" Description="钛铝镍铁冶炼钛合金">
+      "aaa"
+	  "bcd"
+    </Recipe>
+	<Recipe Result="Industrial Steel" ResultCount="2" RequiredHeatLevel="3000" a="MeltingIron" b="MeltingNickel" Description="铁加镍冶炼工业钢">
+      "aaa"
+	  "bbb"
+    </Recipe>
+	<Recipe Result="Stainless Steel" ResultCount="2" RequiredHeatLevel="3000" a="MeltingIron" b="MeltingChromium" Description="铁加铬冶炼不锈钢">
+      "aaa"
+	  "bbb"
+    </Recipe>
+	<Recipe Result="Gun-Steel" ResultCount="2" RequiredHeatLevel="3000" a="MeltingIron" b="MeltingChromium" c="MeltingNickel" d="PlatinumOrePowder" Description="铁铬镍铂粉冶炼炮钢">
+      "aab"
+	  "bcd"
+    </Recipe>
+	<Recipe Result="Si-Steel" ResultCount="2" RequiredHeatLevel="3000" a="Si" b="MeltingIron" Description="冶炼硅钢">
+      "aab"
+	  "bbb"
+    </Recipe>
   </Smelting>
   <Materials>
     <Recipe Result="MetalBlock:0" ResultCount="1" RequiredHeatLevel="0" a="IronPlate" Description="结合许多铁板来获得基本的机箱">
       "aa"
       "a a"
       " aa"
+    </Recipe>
+	<Recipe Result="MetalBlock:352" ResultCount="1" RequiredHeatLevel="0" a="钛合金板" b="Titanium Steel" Description="结合许多钛合金板来获得钛合金外壳">
+      "aab"
+      "a a"
+      "baa"
     </Recipe>
     <Recipe Result="MetalBlock:0" ResultCount="1" RequiredHeatLevel="0" a="SteelPlate" Description="结合许多钢板来获得基本的机箱">
       " aa"
@@ -589,6 +621,12 @@
       "aaaa"
       "   a"
     </Recipe>
+	<Recipe Result="MGun" ResultCount="1" RequiredHeatLevel="0" a="metalblock:32" b="SteelPlate" c="枪管" d="SteelRod" e="Spring" f="tank:0" g="waterbucket" Description="用钢板，枪管和木板弹簧冷水制作重型机枪">
+      "cceb"
+      "cfea"
+      "gdea"
+	  "ddd"
+    </Recipe>
 	<Recipe Result="Musket6Block" ResultCount="1" RequiredHeatLevel="0" a="planks" b="SteelPlate" c="枪管" d="SteelRod" e="Spring" Description="用钢板，枪管和木板弹簧制作霰弹枪">
       "cceb"
       "adea"
@@ -642,19 +680,25 @@
       "bcb"
       " d"
     </Recipe>
-	<Recipe Result="中子反射板" ResultCount="4" RequiredHeatLevel="0" a="U238C" b="LeadPlate" c="GoldPlate" Description="用U238铅板金板饼制作中子反射板">
+	<Recipe Result="中子反射板" ResultCount="2" RequiredHeatLevel="0" a="U238C" b="LeadPlate" c="GoldPlate" Description="用U238铅板金板饼制作中子反射板">
       "abcab"
       "bcabc"
       "cabca"
 	  "abcab"
 	  "bcabc"
     </Recipe>
+	<Recipe Result="AutoGun" ResultCount="1" RequiredHeatLevel="0" a="TEDC" b="motiondetector" c="RifleBarrel" d="CopperWire" e="电容" f="metalblock:32" Description="枪管运动探测器制作一台自动机枪">
+      "bcbcb"
+      "cdadc"
+	  "befeb"
+	  "cbcbc"
+    </Recipe>
 	<Recipe Result="SourBlock:6144" ResultCount="1" RequiredHeatLevel="0" a="中子反射板" Description="用中子反射板制作中子反射方块">
       "aaa"
       "a a"
       "aaa"
     </Recipe>
-	<Recipe Result="SourBlock:7168" ResultCount="1" RequiredHeatLevel="0" a="中子反射板" b="CarbonTunnel" c="rottenmeat:15" Description="用中子反射板碳管重水制作快中子反应堆">
+	<Recipe Result="SourBlock:7168" ResultCount="1" RequiredHeatLevel="0" a="中子反射板" b="CarbonTunnel" c="rottenmeat:240" Description="用中子反射板碳管重水制作快中子反应堆">
       "abbba"
       "abbba"
       "cbbbc"
@@ -1031,6 +1075,30 @@
       "bad"
       "ece"
     </Recipe>
+	<Recipe Result="火箭发动机" ResultCount="1" RequiredHeatLevel="0" a="metalblock:352" b="tank:0" c="钛合金板" d="Titanium Steel" e="火花塞" f="AirPump" Description="钛合金制作火箭发动机">
+      "cbc"
+      "cfc"
+      "dade"
+	  "cac"
+    </Recipe>
+	<Recipe Result="Rocket" ResultCount="1" RequiredHeatLevel="0" a="metalblock:352" b="tank:0" c="钛合金板" d="Titanium Steel" e="火箭发动机" f="PlasticBar" Description="钛合金制作火箭">
+      "fffff"
+      "faaaf"
+      "fbbbf"
+	  "caaac"
+	  "ecece"
+    </Recipe>
+	<Recipe Result="卫星" ResultCount="1" RequiredHeatLevel="0" a="TEDC" b="metalblock:352" c="SolarPanel100" d="Condenser" e="RadioR" f="RadioC" g="photodiode" Description="制作卫星">
+	  "cgggc"
+      "ccgcc"
+      "cebfc"
+	  "ccacc"
+      "ccdcc"
+    </Recipe>
+	<Recipe Result="卫星连接器" ResultCount="1" RequiredHeatLevel="0" a="Circuit2" b="Circuit1" c="电容" d="PlasticBar" e="RadioR" Description="制作卫星连接器">
+      "caec"
+      "cbac"
+    </Recipe>
     <Recipe Result="BlastFurnaceBlock" ResultCount="1" RequiredHeatLevel="0" a="brick" b="furnaceN:0" Description="制作高炉鼓风机">
       "aaa"
       "aba"
@@ -1326,10 +1394,21 @@
       "fhf"
       " e"
     </Recipe>
-	<Recipe Result="WireBlock2" ResultCount="1" RequiredHeatLevel="0" a="CopperWire" b="SteelRod" c="metalblock:32" Description="制作电子方块">
+	<Recipe Result="Liquid" ResultCount="1" RequiredHeatLevel="0" a="CopperWire" b="不锈钢板" c="SteelGear" d="metalblock:32" e="tank:0" f="Circuit1" g="AirCompressor" h="AirPresser" Description="制作液化机">
+      " e"
+      "hfg"
+      " e"
+    </Recipe>
+	<Recipe Result="WireBlock2" ResultCount="1" RequiredHeatLevel="0" a="CopperWire" b="Si-Steel" c="metalblock:32" Description="硅钢制作电子方块">
       "aba"
       "aca"
       "aba"
+    </Recipe>
+	<Recipe Result="ElectricHFurnace" ResultCount="1" RequiredHeatLevel="0" a="WireBlock2" b="metalblock:64" c="metalblock:32" d="CopperWire" e="Circuit2" Description="制作电子工业高炉">
+      "aebba"
+      "accea"
+      "aecca"
+	  "abbea"
     </Recipe>
     <Recipe Result="IEBatteryBlock:6" ResultCount="1" RequiredHeatLevel="0" a="ElectricMotor" b="SteelSheet" c="SteelRod" d="SteelPlate" e="CuZnBattery" f="SteelGear" Description="制作电锯">
       "bbbb"
@@ -1619,6 +1698,19 @@
       "bcdfe"
       "bcace"
 	  "bcdfe"
+    </Recipe>
+	<Recipe Result="HBomb" ResultCount="1" RequiredHeatLevel="0" a="ABomb" b="SteelPlate" c="中子反射板" d="LD2" e="TNT" f="CopperWire" Description="利用液态D2制作增压式氢弹">
+      "ccccc"
+	  "cdddc"
+      "cdadc"
+	  "cdddc"
+	  "cbbbc"
+    </Recipe>
+	<Recipe Result="NBomb" ResultCount="3" RequiredHeatLevel="0" a="ABomb" b="SteelPlate" c="中子反射板" d="LD2" e="TNT" f="CopperWire" Description="利用液态D2制作中子弹">
+      " bbb"
+	  "bdddb"
+      "bdadb"
+	  "bdddb"
     </Recipe>
 	<Recipe Result="ABomb" ResultCount="1" RequiredHeatLevel="0" a="metalblock:32" b="SteelPlate" c="PU239C" d="Circuit1" e="TNT" f="CopperWire" Description="利用PU239饼制作内爆式核弹">
       " fed"

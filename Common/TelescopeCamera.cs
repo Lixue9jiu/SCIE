@@ -201,16 +201,20 @@ namespace Game
     public class DebugCamera2 : DebugCamera
 	{
 
-		public override bool UsesMovementControls => get_UsesMovementControls1?.Invoke(this) ?? true;
-
-		public override bool IsEntityControlEnabled => get_IsEntityControlEnabled1?.Invoke(this) ?? false;
-
 		public DebugCamera2(View view)
 			: base(view)
 		{
 			ctor1?.Invoke(this, view);
 		}
+		public override bool UsesMovementControls
+		{
+			get { return true; }
+		}
 
+		public override bool IsEntityControlEnabled
+		{
+			get { return true; }
+		}
 		public override void Activate(Camera previousCamera)
 		{
 			Action<DebugCamera2, Camera> activate = Activate1;
@@ -237,41 +241,45 @@ namespace Game
 				return;
 			}
 			Vector3 zero = Vector3.Zero;
-			if (Keyboard.IsKeyDown(Key.A))
+			ComponentPlayer componentPlayer = View.PlayerData.ComponentPlayer;
+			//componentPlayer.ComponentInput.
+			
+			if (componentPlayer.ComponentInput.m_componentGui.m_sneakButtonWidget.IsChecked)
 			{
-				zero.X = -1f;
-			}
-			if (Keyboard.IsKeyDown(Key.D))
+				if (componentPlayer.ComponentInput.m_playerInput.CameraSneakMove.Z< 0)
+				{
+					zero.Y = -1f;
+				}
+				if (componentPlayer.ComponentInput.m_playerInput.CameraSneakMove.Z> 0 && m_position.Y<200)
+				{
+					zero.Y = 1f;
+				}
+			}else
 			{
-				zero.X = 1f;
-			}
-			if (Keyboard.IsKeyDown(Key.W))
-			{
-				zero.Z = 1f;
-			}
-			if (Keyboard.IsKeyDown(Key.S))
-			{
-				zero.Z = -1f;
-			}
-			if (Keyboard.IsKeyDown(Key.Space))
-			{
-				zero.Y = 1f;
-			}
-			if (Keyboard.IsKeyDown(Key.Shift))
-			{
-				zero.Y = -1f;
+				if (componentPlayer.ComponentInput.m_playerInput.CameraSneakMove.X < 0)
+				{
+					zero.X = -1f;
+				}
+				if (componentPlayer.ComponentInput.m_playerInput.CameraSneakMove.X > 0)
+				{
+					zero.X = 1f;
+				}
+				if (componentPlayer.ComponentInput.m_playerInput.CameraSneakMove.Z > 0)
+				{
+					zero.Z = 1f;
+				}
+				if (componentPlayer.ComponentInput.m_playerInput.CameraSneakMove.Z < 0)
+				{
+					zero.Z = -1f;
+				}
 			}
 			Vector2 vector = 0.03f * new Vector2(Mouse.MouseMovement.X, -Mouse.MouseMovement.Y);
-			bool num = Keyboard.IsKeyDown(Key.Shift);
-			bool flag = Keyboard.IsKeyDown(Key.Control);
+			
 			Vector3 direction = m_direction;
 			Vector3 unitY = Vector3.UnitY;
 			Vector3 vector2 = Vector3.Normalize(Vector3.Cross(direction, unitY));
 			float num2 = 18f;
-			if (flag)
-			{
-				//num2 /= 10f;
-			}
+			
 			
 			Vector3 zero2 = Vector3.Zero;
 			zero2 += num2 * zero.X * vector2;

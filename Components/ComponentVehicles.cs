@@ -32,7 +32,8 @@ namespace Game
 						componentEngine.m_fireTimeRemaining -= 1f;
 						componentEngine.m_fireTimeRemaining -= 1000f;
 					}
-					componentBody.m_velocity.Y += 0.2f;
+					if (Utils.SubsystemTime.PeriodicGameTimeEvent(0.1, 0))
+						componentBody.m_velocity.Y += 1.2f;
 					componentBody.m_subsystemParticles.AddParticleSystem(new GunSmokeParticleSystem2(Utils.SubsystemTerrain, componentBody.Position + new Vector3(0f,0.5f,0f) , new Vector3(0f,-1f,0f) ));
 					Utils.SubsystemAudio.PlaySound("Audio/Fire", 1f, 0f, componentBody.Position + new Vector3(0f, 0.5f, 0f), 30f, true);
 				}
@@ -42,13 +43,14 @@ namespace Game
 			{
 				Utils.SubsystemExplosions.AddExplosion((int)componentBody.Position.X, (int)componentBody.Position.Y, (int)componentBody.Position.Z, 1000f, true, false);
 			}
-			if (componentBody.Position.Y >= 500)
+			if (componentBody.Position.Y >= 1500)
 			{
 				componentDamage.Damage(componentDamage.Hitpoints);
 				if (componentEngine.m_slots[2].Value == ItemBlock.IdTable["ABomb"] || componentEngine.m_slots[2].Value == ItemBlock.IdTable["HBomb"] || componentEngine.m_slots[2].Value == ItemBlock.IdTable["NBomb"])
 				{
-					Utils.SubsystemParticles.AddParticleSystem(new NParticleSystem2(componentBody.Position, 300f, 400f));
+					Utils.SubsystemParticles.AddParticleSystem(new NParticleSystem2(componentBody.Position, 500f, 2000f));
 					var componentMiner = Utils.SubsystemPlayers.FindNearestPlayer(componentBody.Position);
+					//componentMiner.ComponentGui.DisplaySmallMessage("Nuclear Launch Success", blinking: true, playNotificationSound: true);
 					componentMiner.ComponentGui.TemperatureBarWidget.Flash(10);
 				}
 				if (componentEngine.m_slots[2].Value == ItemBlock.IdTable["卫星"])
