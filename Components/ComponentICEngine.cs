@@ -111,16 +111,19 @@ namespace Game
 				if (m_fireTimeRemaining == 1000f && value != 0 && Terrain.ExtractContents(value) == FuelRodBlock.Index && FuelRodBlock.GetType(value) == RodType.UFuelRod)
 				{
 					HeatLevel = 1000f;
-				if (Utils.Random.Bool(0.005f))
+				if (Utils.Random.Bool(0.0005f))
 				{
-					RemoveSlotItems(0, 1);
-					if (BlocksManager.DamageItem(value, 1) != value)
+					
+					if (BlocksManager.DamageItem(value, 800) != BlocksManager.DamageItem(value, 2000))
 					{
+						RemoveSlotItems(0, 1);
 						AddSlotItems(0, BlocksManager.DamageItem(value, 1), 1);
 					}
 					else
 					{
-						AddSlotItems(0, ItemBlock.IdTable["UsedUpFuel"], 1);
+						m_fireTimeRemaining = 0;
+						//AddSlotItems(0, ItemBlock.IdTable["UsedUpFuel"], 1);
+
 					}
 				}
 				

@@ -164,6 +164,7 @@
     <Compile Include="Subsystems\SubsystemMusket6BlockBehavior.cs" />
     <Compile Include="Subsystems\SubsystemRailBlockBehavior.cs" />
     <Compile Include="Subsystems\SubsystemNewBlockBehavior.cs" />
+    <Compile Include="Subsystems\SubsystemSky2.cs" />
     <Compile Include="Subsystems\SubsystemSourceOfFireBlockBehavior.cs" />
     <Compile Include="BeltTransport\SubsystemFactorioTransportBeltBlockBehavior.cs" />
     <Compile Include="Widgets\CanpackWidget.cs" />

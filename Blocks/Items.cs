@@ -417,6 +417,9 @@ namespace Game
 				new ElectricHFurnace(),
 				new AutoGun(),
 				new Liquid(),
+				new ColdBlock(),
+				new TControl(),
+				new FireIBlock(),
 			};
 			ContentCache.m_contentByName.TryGetValue("CraftingIdTable", out object value);
 			if (!(value is Dictionary<string, int> dict))

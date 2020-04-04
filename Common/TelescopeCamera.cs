@@ -250,7 +250,7 @@ namespace Game
 				{
 					zero.Y = -1f;
 				}
-				if (componentPlayer.ComponentInput.m_playerInput.CameraSneakMove.Z> 0 && m_position.Y<200)
+				if (componentPlayer.ComponentInput.m_playerInput.CameraSneakMove.Z> 0 && m_position.Y<2000)
 				{
 					zero.Y = 1f;
 				}

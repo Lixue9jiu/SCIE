@@ -487,8 +487,11 @@ namespace Game
 				value,
 				v = Utils.Terrain.GetCellValueFast(x, y, z);
 			base.Simulate(ref voltage);
+			if (m_glowPoint == null)
+				return;
 			if (Powered)
 			{
+				
 				m_glowPoint.Color = Color.White;
 				value = v | 1 << 31;
 				goto a;

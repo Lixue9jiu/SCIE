@@ -447,9 +447,27 @@ namespace Game
 					if (Utils.SubsystemSour.m_radations.Count == 0 || !flag)
 						Utils.SubsystemSour.m_radations.Add(new Vector4(coor.X, coor.Y, coor.Z, 10f));
 					m_fireTimeRemaining = MathUtils.Max(0f, m_fireTimeRemaining);
-					HeatLevel = MathUtils.Max(0f, HeatLevel + m_fireTimeRemaining * 0.5f - 0.1f);
-					//HeatLevel += m_fireTimeRemaining*5;
+					//bool vap = false;
 					Point3 coordinates = m_componentBlockEntity.Coordinates;
+					HeatLevel = MathUtils.Max(0f, HeatLevel + m_fireTimeRemaining * 0.5f - 0.1f);
+					if (ElementBlock.Block.GetDevice(coordinates.X, coordinates.Y - 1, coordinates.Z, Utils.Terrain.GetCellValue(coordinates.X, coordinates.Y - 1, coordinates.Z)) is TControl)
+					{
+						var point3 = new Point3(coordinates.X, coordinates.Y - 1, coordinates.Z);
+						var entity = Utils.GetBlockEntity(point3);
+						ComponentTControl component3 = entity.Entity.FindComponent<ComponentTControl>();
+						if (component3 != null)
+						{
+							HeatLevel = MathUtils.Min(component3.m_fireTimeRemaining,HeatLevel);
+						}
+
+						//IInventory inventory = entity.Entity.FindComponent<ComponentSMachine>(true);
+						//vap = true;
+					}
+
+
+					
+					//HeatLevel += m_fireTimeRemaining*5;
+					//Point3 coordinates = m_componentBlockEntity.Coordinates;
 					if (HeatLevel > 3000)
 					{
 						for (int iii = 0; iii < Utils.SubsystemSour.m_radations.Count; iii++)
@@ -534,13 +552,24 @@ namespace Game
 
 		public int Output;
 
+		public bool vap;
+
 		public void Update(float dt)
 		{
 			if (Utils.SubsystemTime.PeriodicGameTimeEvent(0.5, 0.0))
 			{
+
 				Pressure = 0;
 				Output = 0;
+				vap = false;
 				Point3 coordinates = m_componentBlockEntity.Coordinates;
+
+				if (ElementBlock.Block.GetDevice(coordinates.X, coordinates.Y + 1, coordinates.Z, Utils.Terrain.GetCellValue(coordinates.X, coordinates.Y + 1, coordinates.Z)) is ColdBlock em && em.Powered)
+				{
+					vap = true;
+				}
+
+				
 				var point = CellFace.FaceToPoint3(Terrain.ExtractData(Utils.Terrain.GetCellValue(coordinates.X, coordinates.Y, coordinates.Z)) >> 15);
 				int num3 = coordinates.X - point.X;
 				int num4 = coordinates.Y - point.Y;
@@ -559,7 +588,7 @@ namespace Game
 							{
 								if (base.GetSlotValue(i) == WaterBlock.Index)
 								{
-									if (Utils.SubsystemTime.PeriodicGameTimeEvent(( 30f / Pressure ) / 10f, 0.0))
+									if (Utils.SubsystemTime.PeriodicGameTimeEvent(( 30f / Pressure ) / 10f, 0.0) && !vap)
 										m_slots[i].Count--;
 									Output += Pressure;
 									component3.HeatLevel -= 2 * Output;
@@ -570,7 +599,7 @@ namespace Game
 					}
 				}
 
-				if (ElementBlock.Block.GetDevice(coordinates.X, coordinates.Y+1, coordinates.Z, Utils.Terrain.GetCellValue(coordinates.X, coordinates.Y+1, coordinates.Z)) is WaterExtractor em && em.Powered)
+				if (ElementBlock.Block.GetDevice(coordinates.X, coordinates.Y+1, coordinates.Z, Utils.Terrain.GetCellValue(coordinates.X, coordinates.Y+1, coordinates.Z)) is WaterExtractor em2 && em2.Powered)
 				{
 					var point3 = new Point3(coordinates.X, coordinates.Y + 1, coordinates.Z);
 					var entity = Utils.GetBlockEntity(point3);
@@ -704,6 +733,13 @@ namespace Game
 		}
 	}
 
+	public class ComponentTControl : ComponentMachine
+	{
+		public int Frequency;
+
+		public int Output;
+		public bool Powered;
+	}
 
 	public class ComponentLaserG : ComponentMachine
 	{

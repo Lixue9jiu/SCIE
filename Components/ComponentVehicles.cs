@@ -16,6 +16,16 @@ namespace Game
 		public int UpdateOrder => 0;
 		public new void Update(float dt)
 		{
+
+			if (componentEngine.HeatLevel == 0f && Utils.SubsystemTime.PeriodicGameTimeEvent(1.5, 0))
+			{
+				var result = Utils.SubsystemTerrain.Raycast(componentBody.Position, componentBody.Position - new Vector3(0, 0.5f, 0), false, true, null) ?? default;
+				if (ElementBlock.Block.GetDevice(result.CellFace.X, result.CellFace.Y, result.CellFace.Z, result.Value) is FireIBlock em && em.Powered)
+				{
+					componentEngine.HeatLevel = 100f;
+				}
+			}
+
 			if (componentEngine.HeatLevel>0f)
 			{
 				if (Utils.SubsystemTime.PeriodicGameTimeEvent(1.0, 0) && componentEngine.HeatLevel != 100f)
@@ -33,8 +43,9 @@ namespace Game
 						componentEngine.m_fireTimeRemaining -= 1000f;
 					}
 					if (Utils.SubsystemTime.PeriodicGameTimeEvent(0.1, 0))
-						componentBody.m_velocity.Y += 1.2f;
+						componentBody.m_velocity.Y += 1.4f;
 					componentBody.m_subsystemParticles.AddParticleSystem(new GunSmokeParticleSystem2(Utils.SubsystemTerrain, componentBody.Position + new Vector3(0f,0.5f,0f) , new Vector3(0f,-1f,0f) ));
+					componentBody.m_subsystemParticles.AddParticleSystem(new GunSmokeParticleSystem(Utils.SubsystemTerrain, componentBody.Position + new Vector3(0f, 0.5f, 0f), new Vector3(0f, -1f, 0f)));
 					Utils.SubsystemAudio.PlaySound("Audio/Fire", 1f, 0f, componentBody.Position + new Vector3(0f, 0.5f, 0f), 30f, true);
 				}
 			}
@@ -174,6 +185,51 @@ namespace Game
 			m_componentBody.Rotation = Quaternion.CreateFromAxisAngle(Vector3.UnitY, num);
 			if (obj && MoveOrder != 0f)
 				m_componentBody.Velocity += dt * num2 / 90f * MoveOrder * m_componentBody.Matrix.Forward;
+			if (num2>0 && Utils.SubsystemTime.PeriodicGameTimeEvent(5.5, 0.0))
+			{
+				int abb = -1;
+				int flag2 = 0;
+				for (int i = 0; i < 16; i++)
+				{
+					int va1 = componentEngine.GetSlotValue(i);
+					//DrillType type = DrillBlock.GetType(va1);
+					if (Terrain.ExtractContents(va1)==DrillBlock.Index && DrillBlock.GetType(va1)==DrillType.FishingNet)
+					{
+						abb = i;
+						flag2 = -1;
+						break;
+					}
+				}
+				if (flag2 == -1)
+				{
+					var e1 = Utils.SubsystemBodies.Bodies.GetEnumerator();
+					while (e1.MoveNext())
+					{
+						var entity = e1.Current.Entity;
+						ComponentCreature cre = entity.FindComponent<ComponentCreature>();
+						if (Vector3.Distance(entity.FindComponent<ComponentBody>().Position,m_componentBody.Position)<=32f && m_componentBody.Position.Y-entity.FindComponent<ComponentBody>().Position.Y<=20f)
+						if (cre !=null && cre.ComponentLocomotion.m_swimming && entity.FindComponent<ComponentNPlayer>() ==null)
+						{
+							var list = cre.Entity.FindComponent<ComponentLoot>().m_lootList;
+							if (list !=null && list[0].Value==161)
+							{
+								ComponentInventoryBase inventory = componentEngine.Entity.FindComponent<ComponentInventoryBase>(true);
+								if (ComponentInventoryBase.AcquireItems(inventory, list[0].Value, list.Count+1)==0)
+							    Project.RemoveEntity(cre.Entity, true);
+									int va2 = componentEngine.GetSlotValue(abb);
+								    inventory.RemoveSlotItems(abb, 1);
+									if (BlocksManager.DamageItem(va2, 1) != va2)
+										inventory.AddSlotItems(abb, BlocksManager.DamageItem(va2, 1), 1);
+								break;
+									
+							}
+
+							//componentEngine.AcquireItems(inventory, , 1)
+							//Project.RemoveEntity(cre.Entity, true);
+						}
+					}
+				}
+			}
 			if (flag)
 			{
 				m_componentDamage.Damage(0.005f * dt);
@@ -260,7 +316,7 @@ namespace Game
 				}
 				if (componentBody.m_position.Y >= 220f)
 				{
-					componentBody.m_velocity = new Vector3(componentBody.m_velocity.X, 0, componentBody.m_velocity.Z);
+					componentBody.m_velocity = new Vector3(componentBody.m_velocity.X,MathUtils.Min(componentBody.m_velocity.Y,0), componentBody.m_velocity.Z);
 				}
 				if (componentBody.ImmersionFactor > 0.95f)
 				{
@@ -322,7 +378,7 @@ namespace Game
 				}
 				if (componentBody.m_position.Y>=220f)
 				{
-					componentBody.m_velocity = new Vector3(componentBody.m_velocity.X, 0, componentBody.m_velocity.Z);
+					componentBody.m_velocity = new Vector3(componentBody.m_velocity.X, MathUtils.Min(componentBody.m_velocity.Y, 0), componentBody.m_velocity.Z);
 				}
 				float num = MathUtils.Atan2(2f * rotation.Y * rotation.W - 2f * rotation.X * rotation.Z, 1f - 2f * rotation.Y * rotation.Y - 2f * rotation.Z * rotation.Z);
 				if ((m_turnSpeed += 2.5f * Utils.SubsystemTime.GameTimeDelta * (TurnOrder - m_turnSpeed)) != 0)

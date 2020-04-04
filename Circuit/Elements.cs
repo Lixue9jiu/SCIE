@@ -141,9 +141,11 @@ namespace Game
 
 		public override BlockPlacementData GetPlacementValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, TerrainRaycastResult raycastResult)
 		{
+			//raycastResult.CellFace.Face;
+			Vector3 vec = CellFace.FaceToVector3(raycastResult.CellFace.Face) + new Vector3(raycastResult.CellFace.Point);
 			return new BlockPlacementData
 			{
-				Value = Terrain.ReplaceData(value, Terrain.ExtractData(value) & -229377 | Utils.GetDirectionXZ(componentMiner) << 15 | Index),
+				Value = subsystemTerrain.Terrain.GetCellContentsFast((int)vec.X, (int)vec.Y, (int)vec.Z)==ElementBlock.Index? 0:Terrain.ReplaceData(value, Terrain.ExtractData(value) & -229377 | Utils.GetDirectionXZ(componentMiner) << 15 | Index),
 				CellFace = raycastResult.CellFace
 			};
 		}

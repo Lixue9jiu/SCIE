@@ -100,6 +100,44 @@ namespace Game
 		}
 	}
 
+	public class SIWidget : MultiStateMachWidget<ComponentSInserter>
+	{
+		protected readonly ButtonWidget m_dispenseButton2,
+										m_shootButton2;
+		public SIWidget(IInventory inventory, ComponentSInserter component) : base(inventory, component, "Widgets/SIWidget")
+		{
+			InitGrid("ChestGrid");
+			m_dispenseButton2 = Children.Find<ButtonWidget>("DispenseButton1");
+			m_shootButton2 = Children.Find<ButtonWidget>("ShootButton1");
+		}
+		public override void Update()
+		{
+			if (!m_component.IsAddedToProject)
+			{
+				ParentWidget.Children.Remove(this);
+				return;
+			}
+			Children.Find<LabelWidget>("DispenserLabel2").Text = "In: " + m_component.innum.ToString();
+			Children.Find<LabelWidget>("DispenserLabel3").Text = "Out: " + m_component.outnum.ToString();
+			if (m_dispenseButton.IsClicked)
+			{
+				m_component.innum ++;
+			}
+			if (m_shootButton.IsClicked && m_component.innum >0)
+			{
+				m_component.innum --;
+			}
+			if (m_dispenseButton2.IsClicked)
+			{
+				m_component.outnum++;
+			}
+			if (m_shootButton2.IsClicked && m_component.outnum > 0)
+			{
+				m_component.outnum--;
+			}
+			//m_dispenseButton.IsChecked = m_component.innum > 0;
+		}
+	}
 
 	public class RadioRWidget : MultiStateMachWidget<ComponentRadioR>
 	{
@@ -128,6 +166,32 @@ namespace Game
 		}
 	}
 
+	public class TControlWidget : MultiStateMachWidget<ComponentTControl>
+	{
+
+		public TControlWidget(IInventory inventory, ComponentTControl component) : base(inventory, component, "Widgets/RadioC")
+		{
+			Children.Find<LabelWidget>("DispenserLabel").Text = "Temperature Control";
+		}
+
+		public override void Update()
+		{
+			if (!m_component.IsAddedToProject)
+			{
+				ParentWidget.Children.Remove(this);
+				return;
+			}
+			Children.Find<LabelWidget>("DispenserLabel2").Text = "Set Limit to "+m_component.m_fireTimeRemaining.ToString() + "/T";
+			if (m_dispenseButton.IsClicked && m_component.m_fireTimeRemaining < 3000f)
+			{
+				m_component.m_fireTimeRemaining += 100;
+			}
+			if (m_shootButton.IsClicked && m_component.m_fireTimeRemaining > 0f)
+			{
+				m_component.m_fireTimeRemaining -= 100;
+			}
+		}
+	}
 
 	public class ETrainWidget : MultiStateMachWidget<ComponentEngineE>
 	{

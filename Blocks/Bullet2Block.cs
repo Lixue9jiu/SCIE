@@ -28,7 +28,7 @@ namespace Game
 
 		}
 
-		public override IEnumerable<int> GetCreativeValues() => new[] { Terrain.MakeBlockValue(521, 0, SetBulletType(0, BulletType.IronBullet)), Terrain.MakeBlockValue(521, 0, SetBulletType(0, BulletType.HandBullet)), Terrain.MakeBlockValue(521, 0, SetBulletType(0, BulletType.Shell)), Terrain.MakeBlockValue(521, 0, SetBulletType(0, BulletType.UShell)), Terrain.MakeBlockValue(521, 0, SetBulletType(0, BulletType.BucketBullet)), Index | 1 << 10 << 14, Index | 2 << 10 << 14 };
+		public override IEnumerable<int> GetCreativeValues() => new[] { Terrain.MakeBlockValue(521, 0, SetBulletType(0, BulletType.IronBullet)), Terrain.MakeBlockValue(521, 0, SetBulletType(0, BulletType.HandBullet)), Terrain.MakeBlockValue(521, 0, SetBulletType(0, BulletType.Shell)), Terrain.MakeBlockValue(521, 0, SetBulletType(0, BulletType.UShell)), Terrain.MakeBlockValue(521, 0, SetBulletType(0, BulletType.BucketBullet)), Index | 1 << 10 << 14, Index | 2 << 10 << 14 , Index | 3 << 10 << 14 };
 
 		public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
 		{
@@ -57,6 +57,8 @@ namespace Game
 				return Utils.Get("放置机");
 			if ((Terrain.ExtractData(value) >> 10) == 2)
 				return Utils.Get("Inserter");
+			if ((Terrain.ExtractData(value) >> 10) == 3)
+				return Utils.Get("SmartInserter");
 			return m_displayNames[Terrain.ExtractData(value)];
 		}
 
@@ -66,6 +68,8 @@ namespace Game
 				return Utils.Get("放置机");
 			if ((Terrain.ExtractData(value) >> 10) == 2)
 				return Utils.Get("Inserter");
+			if ((Terrain.ExtractData(value) >> 10) == 3)
+				return Utils.Get("SmartInserter");
 			return DefaultDescription;
 		}
 
@@ -85,6 +89,8 @@ namespace Game
 				return face == GetDirection(value) ? 111 : 170;
 			if ((Terrain.ExtractData(value) >> 10) == 2)
 				return face == GetDirection(value) ? 131 : 170;
+			if ((Terrain.ExtractData(value) >> 10) == 3)
+				return face == GetDirection(value) ? 167 : 170;
 			int bulletType = (int)GetBulletType(Terrain.ExtractData(value));
 			return bulletType < 0 || bulletType >= m_textureSlots.Length ? 177 : m_textureSlots[bulletType];
 		}
@@ -105,6 +111,8 @@ namespace Game
 				return new UnloaderElectricElement(subsystemElectricity, new Point3(x, y, z));
 			if ((Terrain.ExtractData(value) >> 10) == 2)
 				return new InserterElectricElement(subsystemElectricity, new Point3(x, y, z));
+			if ((Terrain.ExtractData(value) >> 10) == 3)
+				return new SInserterElectricElement(subsystemElectricity, new Point3(x, y, z));
 			return null;
 		}
 
@@ -180,6 +188,44 @@ namespace Game
 				if (blockEntity != null)
 				{
 					var componentUnloader = blockEntity.Entity.FindComponent<ComponentInserter>();
+					if (componentUnloader != null)
+						componentUnloader.Place();
+				}
+				//if (placed)
+				m_lastDispenseTime = SubsystemElectricity.SubsystemTime.GameTime;
+			}
+			return false;
+		}
+	}
+
+	public class SInserterElectricElement : MachineElectricElement
+	{
+		public SInserterElectricElement(SubsystemElectricity subsystemElectricity, Point3 point) : base(subsystemElectricity, point)
+		{
+		}
+
+		public override bool Simulate()
+		{
+			int n = 0;
+			for (int i = 0; i < Connections.Count; i++)
+			{
+				var connection = Connections[i];
+				if (connection.ConnectorType != ElectricConnectorType.Output && connection.NeighborConnectorType != 0)
+					n = MathUtils.Max(n, (int)MathUtils.Round(connection.NeighborElectricElement.GetOutputVoltage(connection.NeighborConnectorFace) * 15f));
+			}
+			int y = Point.Y;
+			//if ((n & 7) != 0 && (n & 7) != 7 && y >= 0 && y < 128)
+			//	{
+			//		int value = Utils.Terrain.GetCellValueFast(Point.X, y, Point.Z);
+			//		Utils.SubsystemTerrain.ChangeCell(Point.X, y, Point.Z, Terrain.ReplaceData(value, FourDirectionalBlock.SetDirection(Terrain.ExtractData(value), (n & 7) - 1)));
+			//	}
+			if (n > 7 && SubsystemElectricity.SubsystemTime.GameTime - m_lastDispenseTime > 0.1)
+			{
+				ComponentBlockEntity blockEntity = Utils.SubsystemBlockEntities.GetBlockEntity(Point.X, y, Point.Z);
+				//bool placed = false;
+				if (blockEntity != null)
+				{
+					var componentUnloader = blockEntity.Entity.FindComponent<ComponentSInserter>();
 					if (componentUnloader != null)
 						componentUnloader.Place();
 				}

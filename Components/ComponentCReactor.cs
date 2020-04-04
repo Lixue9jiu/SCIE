@@ -139,7 +139,7 @@ namespace Game
 		{
 			result.Clear();
 			int n = 0;
-			for (int i = 0; i < m_furnaceSize; i++)
+			for (int i = 0; i < 3; i++)
 			{
 				if (GetSlotCount(i) > 0)
 				{

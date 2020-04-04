@@ -49,32 +49,105 @@ namespace Game
 				m_collisionBoxesByFace[i] = new BoundingBox(Vector3.Min(v4, v5), Vector3.Max(v4, v5));
 			}
 		}
-
-		public override void GenerateTerrainVertices(Block block, BlockGeometryGenerator generator, TerrainGeometrySubsets geometry, int value, int x, int y, int z)
+		
+		public override BoundingBox[] GetCustomCollisionBoxes(SubsystemTerrain terrain, int value)
 		{
-			GenerateWireVertices(generator, value, x, y, z, 4, 0f, Vector2.Zero, geometry.SubsetOpaque);
+			BoundingBox[] array = new BoundingBox[6];
+			for (int i = 0; i < 6; i++)
+			{
+				if (WireExistsOnFace(value, i))
+				{
+					array[i] =  m_collisionBoxesByFace[i];
+				}
+				else
+				{
+					array[i] = default(BoundingBox);
+				}
+			}
+			return array;
 		}
 
 		public override BlockPlacementData GetPlacementValue(SubsystemTerrain subsystemTerrain, ComponentMiner componentMiner, int value, TerrainRaycastResult raycastResult)
 		{
+			Point3 point = CellFace.FaceToPoint3(raycastResult.CellFace.Face);
+			int cellValue = subsystemTerrain.Terrain.GetCellValue(raycastResult.CellFace.X + point.X, raycastResult.CellFace.Y + point.Y, raycastResult.CellFace.Z + point.Z);
+			int cellValue2 = subsystemTerrain.Terrain.GetCellValue(raycastResult.CellFace.X, raycastResult.CellFace.Y, raycastResult.CellFace.Z);
+			int num = Terrain.ExtractContents(cellValue);
+			Block block = BlocksManager.Blocks[num];
+			int wireFacesBitmask = GetWireFacesBitmask(cellValue);
+			int num2 = wireFacesBitmask | (1 << raycastResult.CellFace.Face);
+			//BlockPlacementData result;
+			if (num2 != wireFacesBitmask || !(ElementBlock.Block.GetDevice(raycastResult.CellFace.X + point.X, raycastResult.CellFace.Y + point.Y, raycastResult.CellFace.Z + point.Z, cellValue) is WireDevice))
+			{
+				//result = default(BlockPlacementData);
+				//result.Value = SetWireFacesBitmask(value, num2);
+				//result.CellFace = raycastResult.CellFace;
+				//return result;
+
+				return new BlockPlacementData
+				{
+					Value = SetWireFacesBitmask(value, num2),
+					CellFace = raycastResult.CellFace
+				};
+			}
 			return new BlockPlacementData
 			{
-				Value = raycastResult.CellFace.Face == 4 ? value : 0,
+				Value = value,
 				CellFace = raycastResult.CellFace
 			};
 		}
 
-		public override BoundingBox[] GetCustomCollisionBoxes(SubsystemTerrain terrain, int value)
+		public override void GenerateTerrainVertices(Block block, BlockGeometryGenerator generator, TerrainGeometrySubsets geometry, int value, int x, int y, int z)
 		{
-			var arr = new BoundingBox[6];
-			arr[4] = m_collisionBoxesByFace[4];
-			return arr;
+			for (int i = 0; i < 6; i++)
+			{
+				//value
+				if (WireExistsOnFace(value, i))
+				{
+					GenerateWireVertices(generator, value, x, y, z, i, 0f, Vector2.Zero, geometry.SubsetOpaque);
+					//generator.GenerateWireVertices(SetWireFacesBitmask2(WireBlock.Index, GetWireFacesBitmask(value)), x, y, z, i, 0f, Vector2.Zero, geometry.SubsetOpaque);
+				}
+			}
 		}
+		public static int SetWireFacesBitmask2(int value, int bitmask)
+		{
+			int num = Terrain.ExtractData(value);
+			num &= -64;
+			num |= (bitmask & 0x3F);
+			return Terrain.ReplaceData(Terrain.ReplaceContents(value, 133), num);
+		}
+		
+		public static bool WireExistsOnFace(int value, int face)
+		{
+			return (GetWireFacesBitmask(value) & (1 << face)) != 0;
+		}
+
+		public static int GetWireFacesBitmask(int value)
+		{
+			if (Terrain.ExtractContents(value) == ElementBlock.Index && (Terrain.ExtractData(value) & 1023)==5)
+			{
+				return (int)MathUtils.Pow(2,((value - 82421)/16384/16384));
+			}
+			return 0;
+		}
+		public static int SetWireFacesBitmask(int value, int bitmask)
+		{
+			int num = Terrain.ExtractData(value);
+			return 82421+ (int)(MathUtils.Log(bitmask)/MathUtils.Log(2))*16384*16384  ;
+			//return Terrain.ReplaceData(Terrain.ReplaceContents(value, ElementBlock.Index), num);
+		}
+		//public override BoundingBox[] GetCustomCollisionBoxes(SubsystemTerrain terrain, int value)
+		//{
+		//	var arr = new BoundingBox[6];
+		//	arr[4] = m_collisionBoxesByFace[4];
+		//	return arr;
+		//}
 
 		public override bool IsFaceTransparent(SubsystemTerrain subsystemTerrain, int face, int value) => true;
 
 		public static void GenerateWireVertices(BlockGeometryGenerator generator, int value, int x, int y, int z, int mountingFace, float centerBoxSize, Vector2 centerOffset, TerrainGeometrySubset subset)
 		{
+			//mountingFace = 4;
 			var terrain = generator.Terrain;
 			Color color = WireBlock.WireColor;
 			int num = Terrain.ExtractContents(value);
@@ -96,7 +169,7 @@ namespace Game
 			Vector3 vector2 = CellFace.FaceToVector3(SubsystemElectricity.GetConnectorFace(mountingFace, ElectricConnectorDirection.Left)) * centerOffset.X + v4 * centerOffset.Y;
 			int num4 = 0;
 			var paths = new DynamicArray<ElectricConnectionPath>();
-			ElementBlock.Block.GetAllConnectedNeighbors(terrain, ElementBlock.Block.GetDevice(x, y, z, value), mountingFace, paths);
+			ElementBlock.Block.GetAllConnectedNeighbors(terrain, ElementBlock.Block.GetDevice(x, y, z, value), 4, paths);
 			foreach (ElectricConnectionPath tmpConnectionPath in paths)
 			{
 				if ((num4 & (1 << tmpConnectionPath.ConnectorFace)) == 0)
@@ -104,7 +177,7 @@ namespace Game
 					ElectricConnectorDirection? connectorDirection = SubsystemElectricity.GetConnectorDirection(mountingFace, 0, tmpConnectionPath.ConnectorFace);
 					if (centerOffset != Vector2.Zero || connectorDirection != ElectricConnectorDirection.In)
 					{
-						num4 |= 1 << tmpConnectionPath.ConnectorFace;
+						num4 |= 1 << tmpConnectionPath.ConnectorFace; //tmpConnectionPath.ConnectorFace
 						Color color3 = color;
 						if (num != ElementBlock.Index)
 						{
@@ -144,6 +217,7 @@ namespace Game
 						float num10 = LightingManager.CalculateLighting(-vector4);
 						float num11 = LightingManager.CalculateLighting(vector4);
 						float num12 = LightingManager.CalculateLighting(vector);
+						//float num12 = LightingManager.CalculateLighting(-vector);
 						float num13 = num10 * num3;
 						float num14 = num10 * num9;
 						float num15 = num11 * num9;
@@ -193,7 +267,7 @@ namespace Game
 			{
 				for (int i = 0; i < 6; i++)
 				{
-					if (i != mountingFace && i != CellFace.OppositeFace(mountingFace) && (num4 & (1 << i)) == 0)
+					if (i != mountingFace && i != CellFace.OppositeFace(mountingFace) && (num4 & (1 << i)) == 0) //
 					{
 						Vector3 vector17 = CellFace.FaceToVector3(i);
 						var v6 = Vector3.Cross(vector, vector17);

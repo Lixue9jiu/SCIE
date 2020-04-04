@@ -263,6 +263,7 @@ namespace Game
 		{
 			"Unloader",
 			"Inserter",
+			"SInserter",
 		};
 
 		public SubsystemUnloaderBlockBehavior() : base("Unloader")
@@ -290,6 +291,9 @@ namespace Game
 					return new NewChestWidget(inventory, component, "Unloader");
 				case 2:
 					return new NewChestWidget(inventory, component, "Inserter", "Widgets/NewChest2Widget");
+				case 3:
+					var b = component.Entity.FindComponent<ComponentSInserter>(true);
+					return new SIWidget(inventory, b);
 			}
 			return null;
 		}

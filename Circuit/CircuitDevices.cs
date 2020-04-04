@@ -254,6 +254,16 @@ namespace Game
 		}
 	}
 
+	public class FireIBlock : CubeDevice
+	{
+		public FireIBlock() : base("电子点火器", "电子点火器是一种给火箭点火的机器", 170) { }
+
+		public override int GetFaceTextureSlot(int face, int value)
+		{
+			return face == 4 || face == 5 ? 166: 107;
+		}
+	}
+
 
 	public class ElectricHFurnace : InventoryEntityDevice<ComponentElectricHFurnace>
 	{
@@ -298,6 +308,17 @@ namespace Game
 		}
 	}
 
+
+	public class ColdBlock : CubeDevice
+	{
+		public ColdBlock() : base("冷却机", "冷却机是一种可以冷却蒸汽的机器", 230) { }
+
+		public override int GetFaceTextureSlot(int face, int value)
+		{
+			return face == 4 || face == 5 ? 241 : 162;
+		}
+	}
+
 	public class TElectricWire : CubeDevice
 	{
 		public TElectricWire() : base("电车电缆", "铺在电车车上方给电车供电的", 0) { Type = ElementType.None; }
@@ -307,6 +328,9 @@ namespace Game
 			return face == 4 || face == 5 ? 170 : 131;
 		}
 	}
+
+
+
 	public class Condenser : InteractiveEntityDevice<ComponentCondenser>, IElectricElementBlock, IItemAcceptableBlock
 	{
 		public Condenser() : base("超大电容", "超大电容允许你存储一些电量，并在需要的时候释放出去") { Type = ElementType.Supply | ElementType.Connector; }
@@ -580,6 +604,24 @@ namespace Game
 			return new RadioRWidget(inventory, component);
 		}
 	}
+
+	public class TControl : InventoryEntityDevice<ComponentTControl>
+	{
+		public TControl() : base("温度控制器", "温度控制器通过改变核电站燃料棒的位置进行温度的精细控制") { }
+		public override void Simulate(ref int voltage)
+		{
+		}
+		public override int GetFaceTextureSlot(int face, int value)
+		{
+			return face != 4 && face != 5 ? face == (Terrain.ExtractData(value) >> 15) ? 163 : 107 : 107;
+		}
+		//return face != 4 && face != 5 ? face == (Terrain.ExtractData(value) >> 15) ? 240 : 241 : 147;
+		public override Widget GetWidget(IInventory inventory, ComponentTControl component)
+		{
+			return new TControlWidget(inventory, component);
+		}
+	}
+
 
 	public class Recycler : InventoryEntityDevice<ComponentRecycler>
 	{

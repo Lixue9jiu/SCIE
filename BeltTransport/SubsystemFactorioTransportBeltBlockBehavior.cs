@@ -375,6 +375,11 @@ namespace Game
 					if (j == 5)
 						return;
 					i--;
+					if (worldItem is Pickable)
+					{
+						Pickable pickable = worldItem as Pickable;
+						pickable.Count = i;
+					}
 					if (i == 0)
 					{
 						worldItem.ToRemove = true;
