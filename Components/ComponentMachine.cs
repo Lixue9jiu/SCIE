@@ -779,7 +779,7 @@ namespace Game
 				//var entity = 0;
 				ComponentCreature cre = entity.FindComponent<ComponentCreature>();
 
-				if (cre != null && ((vector.X > 0 && (cre.ComponentBody.Position.X - point.X - 1.0f) > 0f) || (vector.X < 0 && (cre.ComponentBody.Position.X - point.X) < 0f) || vector.X == 0) &&
+				if (cre != null && cre.DisplayName != "T-100" && ((vector.X > 0 && (cre.ComponentBody.Position.X - point.X - 1.0f) > 0f) || (vector.X < 0 && (cre.ComponentBody.Position.X - point.X) < 0f) || vector.X == 0) &&
 					 ((vector.Z > 0 && (cre.ComponentBody.Position.Z - point.Z - 1.0f) > 0f) || (vector.Z < 0 && (cre.ComponentBody.Position.Z - point.Z) < 0f) || vector.Z == 0) &&
 					((vector.X == 0 && Math.Abs(cre.ComponentBody.Position.X - point.X - 0.5f) <= 0.5f) || (vector.Z == 0 && Math.Abs(cre.ComponentBody.Position.Z - point.Z - 0.5f) <= 0.5f))
 					&& (Math.Abs(cre.ComponentBody.Position.Y - point.Y - 0.5f) <= 0.5f) && cre.ComponentBody.Position.Y - point.Y < 1f)

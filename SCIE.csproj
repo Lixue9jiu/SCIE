@@ -148,6 +148,7 @@
     <Compile Include="Common\Interfaces.cs" />
     <Compile Include="Blocks\Items.cs" />
     <Compile Include="Circuit\SubsystemCircuit.cs" />
+    <Compile Include="Subsystems\SubsystemCreatureS.cs" />
     <Compile Include="Subsystems\SubsystemCommonBlockBehavior.cs" />
     <Compile Include="Subsystems\Subsystem4DirectionalMachinesBehavior.cs" />
     <Compile Include="Subsystems\SubsystemLaser.cs" />

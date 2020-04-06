@@ -8,6 +8,10 @@
   <Parameter Name="Class" Guid="9ef8d250-edd0-4fe5-8979-49f7dd023cdb" new-Value="Game.SubsystemNSoilBlockBehavior" Type="string" />
   <Parameter Name="Class" Guid="5fb21b86-aa45-4991-97cf-0f78ce5ccde3" new-Value="Game.SubsystemSourceOfFireBlockBehavior" Type="string" />
   <Parameter Name="Class" Guid="7ad857be-6874-4ef3-b9cc-f70a79ef3dc4" new-Value="Game.ComponentNDamage" Type="string" />
+  <Parameter Name="Class" Guid="3c28d383-dc6e-4d55-8084-5d914abd4d79" new-Value="Game.SubsystemSky2" Type="string" />
+  <Parameter Name="Class" Guid="4e14ce27-fdef-46ca-8ea0-26af43c215e5" new-Value="Game.ComponentNHealth" Type="string" />
+  <Parameter Name="Class" Guid="d3764c71-e1e7-48b1-b12a-17428daad169" new-Value="Game.SubsystemCreatureS" />
+  <Parameter Name="Class" Guid="0bb9a8b6-796f-4aa7-bb73-543259efe513" new-Value="Game.ComponentChaseBehavior2" />
   <EntityTemplate Name="AICreature" Guid="3f077159-f492-419b-859a-bb051de6339f" InheritanceParent="bc5be211-c1f8-4e50-9ffb-4fde625d2692">
     <MemberComponentTemplate Name="Variant" Guid="da33b9ad-acfa-4b82-83ac-0eb3bb1dfa11" InheritanceParent="8547d74d-d347-4644-a839-14adf11731d0" />
   </EntityTemplate>
@@ -121,6 +125,11 @@
         <Parameter Name="Class" Guid="1c8594f2-22f9-45bb-aa13-039ba73b12b6" Value="Game.ComponentRadioC" Type="string" />
       </MemberComponentTemplate>
     </EntityTemplate>
+	<EntityTemplate Name="TControl" Guid="f8551175-af18-4f55-81fa-aafaf97b92bd" InheritanceParent="9681f999-898b-4f5c-9ea8-f8cc331e97b3">
+      <MemberComponentTemplate Name="TControl" Guid="0f229f59-fc9d-4b9c-9797-df652ca11b51" InheritanceParent="81a44c6a-c30a-4f53-8d64-0c30aabab8f9">
+        <Parameter Name="Class" Guid="1c8594f2-22f9-22bb-aa13-039ba73b12b6" Value="Game.ComponentTControl" Type="string" />
+      </MemberComponentTemplate>
+    </EntityTemplate>
 	<EntityTemplate Name="RadioR" Guid="f855af75-af18-4f15-81fa-aafaf17b92bd" InheritanceParent="9681f999-898b-4f5c-9ea8-f8cc331e97b3">
       <MemberComponentTemplate Name="RadioR" Guid="1f199f79-fc9d-4b9c-9797-df652ca11b51" InheritanceParent="81a44c6a-c30a-4f53-8d64-0c30aabab8f9">
         <Parameter Name="Class" Guid="1c9594f2-22f9-47bb-a713-039ba73b12b6" Value="Game.ComponentRadioR" Type="string" />
@@ -189,6 +198,14 @@
       <MemberComponentTemplate Name="Inserter" Guid="3f173a26-ac7d-4b4c-37c7-df6523a33b51" InheritanceParent="7312ec8c-10c7-4133-85b4-4a35bd44c956">
 	    <Parameter Name="SlotsCount" Guid="fcfd686f-f972-431b-9828-d31effbf33f1" Value="1" Type="int" />
         <Parameter Name="Class" Guid="2f1b89f1-22f9-4566-aae3-039ba73b12b6" Value="Game.ComponentInserter" Type="string" />
+      </MemberComponentTemplate>
+    </EntityTemplate>
+	<EntityTemplate Name="SInserter" Guid="2911a317-af17-4955-81fa-aafaf97b92bd" InheritanceParent="9681f999-898b-4f5c-9ea8-f8cc331e97b3">
+      <MemberComponentTemplate Name="SInserter" Guid="3f113a21-ac7d-4b4c-37c7-df6523a33b51" InheritanceParent="7312ec8c-10c7-4133-85b4-4a35bd44c956">
+	    <Parameter Name="SlotsCount" Guid="fc1d6861-f971-431b-9828-d31effbf33f1" Value="1" Type="int" />
+        <Parameter Name="Class" Guid="211b81f1-22f9-4566-aae3-039ba73b12b6" Value="Game.ComponentSInserter" Type="string" />
+		<Parameter Name="Innum" Guid="f14123ff-7d3c-467e-81bc-1796f686be51" Value="0" Type="int" />
+		<Parameter Name="Outnum" Guid="fb4c23f5-5d3c-567e-815c-1756f686be51" Value="0" Type="int" />
       </MemberComponentTemplate>
     </EntityTemplate>
     <EntityTemplate Name="HPress" Guid="2955a387-af18-4955-81fa-aafaf97b92bd" InheritanceParent="9681f999-898b-4f5c-9ea8-f8cc331e97b3">
@@ -676,6 +693,90 @@
         <Parameter Name="AttackResilience" Guid="32e5b809-e2ba-4291-9f06-6b8710a8bcdf" Value="50" Type="float" />
       </MemberComponentTemplate>
     </EntityTemplate>
+	
+	
+		<EntityTemplate Name="Robot" Guid="49a9815c-3810-4192-ba53-df213d10d563" InheritanceParent="e4275171-a39f-413f-8888-4c472868364d">
+            <MemberComponentTemplate Name="Health" Guid="5213fc21-0b2c-4ea8-a9a4-180d1baf83ee">
+              <Parameter Name="AttackResilience" Guid="221b0c92-b51e-4fd7-a774-29df81e827d1" Value="2500" Type="float" />
+              <Parameter Name="FireResilience" Guid="d6b315a9-9543-411a-951b-2da1bceebf5a" Value="1500" Type="float" />
+			  <Parameter Name="FallResilience" Guid="1dc99f17-736e-4a96-b565-1f14b28831f9" Value="9999" Type="float" />
+            </MemberComponentTemplate>
+            <MemberComponentTemplate Name="Body" Guid="641167f3-3176-4687-9f07-0ecc8b96a15e">
+              <Parameter Name="BoxSize" Guid="7f96c9fe-6b07-4314-b7bf-9c67f821074e" Value="1.0,1.0,1.0" Type="Vector3" />
+              <Parameter Name="Mass" Guid="e8c41971-1e5d-4ba7-9fde-810d6a34b67a" Value="400000" Type="float" />
+            </MemberComponentTemplate>
+            <MemberComponentTemplate Name="Locomotion" Guid="6ef01a6b0-cafa-4c61-9c24-a5f7aa8fb3ac">
+              <Parameter Name="FlySpeed" Guid="2e16cc03-a39d-4b18-b99a-42d6001cc4b8" Value="0" Type="float" />
+              <Parameter Name="LadderSpeed" Guid="63d10d44-fba1-45fd-a703-43ef8d1deae1" Value="0" Type="float" />
+              <Parameter Name="WalkSpeed" Guid="67221372-3053-4874-b86d-419759c6d9b2" Value="4" Type="float" />
+              <Parameter Name="TurnSpeed" Guid="6d166a13-0dc7-4414-bcc3-211705a6f2fb" Value="8" Type="float" />
+            </MemberComponentTemplate>
+            <MemberComponentTemplate Name="AvoidFireBehavior" Guid="711581ba-1712-4216-1bdb-ca54f1d6633c" InheritanceParent="885b2df5-b47b-4c53-bda0-5c1a0c988a3c" />
+            <MemberComponentTemplate Name="OnFire" Guid="78ad1436-d19d-4d10-8f72-03b85b4c879f" />
+            <MemberComponentTemplate Name="FourLeggedModel" Guid="9aa77947-8978-4b11-8cda-6ceb1199ab75" InheritanceParent="76d24f74-5f25-4d30-92ef-658c1a4d66c8">
+              <Parameter Name="UseCanterSound" Guid="02a5a45f-9671-4180-96fd-c7d1054e05b1" Value="False" Type="bool" />
+              <Parameter Name="WalkFrontLegsAngle" Guid="108717ae-2f8d-4712-a0e5-2b6998a5f5a7" Value="0.55" Type="float" />
+              <Parameter Name="CanterLegsAngleFactor" Guid="3da20d1a-d0bb-4276-991f-b79daab18aee" Value="1.65" Type="float" />
+              <Parameter Name="WalkHindLegsAngle" Guid="6c6d58cd-3e78-4ed4-9fc1-5d2952d8cdbf" Value="0.4" Type="float" />
+              <Parameter Name="ModelName" Guid="c627bb2b-3405-470e-a6df-4471b3ddd615" Value="Models/KCar" Type="string" />
+              <Parameter Name="CanTrot" Guid="db73a29f-4891-4438-9cec-8d1ea7882c96" Value="True" Type="bool" />
+              <Parameter Name="WalkAnimationSpeed" Guid="dc3b5a7a-131d-4fec-91f6-ad19e77e8155" Value="0.9" Type="float" />
+              <Parameter Name="TextureOverride" Guid="df6b8187-259f-46c1-adf7-8c8858804b27" Value="" Type="string" />
+            </MemberComponentTemplate>
+			<MemberComponentTemplate Name="Miner" Guid="92d977b0-477d-4bb8-a481-156bbb9739a0" InheritanceParent="8acca888-ba39-464f-bcf5-6ae15e448c62">
+              <Parameter Name="AttackPower" Guid="5bcc1b2c-ff71-45f8-8783-4f9b93f797dc" Value="1" Type="float" />
+            </MemberComponentTemplate>
+            <MemberComponentTemplate Name="WalkAroundBehavior" Guid="b07774d4-ac92-41bb-9309-47d73b13bbd7" InheritanceParent="aebb86ce-4ee6-4ca0-850d-cd60051e1d71" />
+            <MemberComponentTemplate Name="FeedBehavior" Guid="bb675e39-5fb3-4b05-782b-cea029e07959" InheritanceParent="3d5c9b46-1592-45de-ae90-9d050021a5ad">
+              <Parameter Name="AutoFeed" Guid="d5a2f7b0-b37e-42b5-8f7c-b7bd873d7b9a" Value="False" Type="bool" />
+            </MemberComponentTemplate>
+            <MemberComponentTemplate Name="FindPlayerBehavior" Guid="c51a8ed2-e377-47f6-856f-46756bb0f87f" InheritanceParent="44c9a961-258c-4eb3-81d1-d3ae249ae031" />
+			 <MemberComponentTemplate Name="AvoidPlayerBehavior" Guid="d5ea9ab5-c55d-421d-6bcb-c20a9e62c096" InheritanceParent="3942e891-6b50-467c-8da5-a15bc63e59e0">
+              <Parameter Name="NightRange" Guid="9fa99623-d083-440e-9036-968e6f90f18c" Value="0" Type="float" />
+            </MemberComponentTemplate>
+            <MemberComponentTemplate Name="HerdBehavior" Guid="e642667c-816e-4679-8451-6ca05d062e4e" InheritanceParent="dfe7218e-ce14-4bde-8dac-f919c38e9efe">
+              <Parameter Name="AutoNearbyCreaturesHelp" Guid="37d268bd-d10a-46e4-80fb-0ce67187bd06" Value="True" Type="bool" />
+            </MemberComponentTemplate>
+            <MemberComponentTemplate Name="Loot" Guid="f2487a27-a118-4b2b-baa3-1e62ce312017">
+              <ParameterSet Name="Loot" Guid="57646c1a-c8d3-4d1a-8841-d52b378f3fe7">
+                <Parameter Name="1" Guid="0a173479-4e15-4a19-a055-163807d37435" Value="IronIngotBlock;1;1" Type="string" />
+                <Parameter Name="2" Guid="1bcb1e75-f317-4130-a99a-516616707918" Value="CopperIngotBlock;1;1;0.5" Type="string" />
+              </ParameterSet>
+              <ParameterSet Name="LootOnFire" Guid="7717a63e-a611-4fff-ab02-105ea96f3104" />
+            </MemberComponentTemplate>
+            <MemberComponentTemplate Name="Creature" Guid="fc90161e-b186-4f2c-a14b-80197db03d40">
+             <Parameter Name="Description" Guid="463f512e-119f-4890-ab90-3f2c6ea90972" Value="A Killing Machine." Type="string" />
+              <Parameter Name="KillVerbs" Guid="60166a6b-8414-40e1-1df5-bcd5a1dbe895" Value="massacred" Type="string" />
+              <Parameter Name="Category" Guid="8e8d6a37-eb15-41c1-814f-3c95d52ef05d" Value="LandPredator" Type="Game.CreatureCategory" />
+              <Parameter Name="DisplayName" Guid="a23e18f5-01a2-4a0f-8046-b890f0ca5a94" Value="Robot" Type="string" />
+            </MemberComponentTemplate>
+          </EntityTemplate>
+		
+	
+	     <EntityTemplate Name="T-100" Guid="3cfc3729-3807-4ffc-82e1-07dda02a89ba" InheritanceParent="49a9815c-3810-4192-ba53-df213d10d563">
+            <MemberComponentTemplate Name="Creature" Guid="249d70ff-5c4f-4f63-a660-04955ac089e9">
+              <Parameter Name="DisplayName" Guid="bbf00f8b-e0e0-44f6-87ef-995a4d4f3a9a" Value="T-100" Type="string" />
+              <Parameter Name="Description" Guid="d65fecd0-d78b-41f1-add8-6b66ecfef1cb" Value="A Killing Machine." Type="string" />
+            </MemberComponentTemplate>
+			<MemberComponentTemplate Name="ChaseBehavior" Guid="31894441-d90a-4549-9264-101101000000" InheritanceParent="31894441-d90a-4549-9264-db9dbe20e234">
+              <Parameter Name="NightChaseRange" Guid="75b4e87f-74e4-44ea-a346-00e2ca33b748" Value="40" Type="float" />
+              <Parameter Name="DayChaseRange" Guid="947fc4a4-d126-4e8b-b446-bfd4a4d15372" Value="40" Type="float" />
+              <Parameter Name="NightChaseTime" Guid="c9417c42-4ecd-4df1-8a96-6b809adf1f1b" Value="150" Type="float" />
+              <Parameter Name="ChaseNonPlayerProbability" Guid="d646b183-b64b-4034-9419-8e05d74facea" Value="1.00" Type="float" />
+            </MemberComponentTemplate>
+            <MemberComponentTemplate Name="FourLeggedModel" Guid="8f91e5d4-c7f9-4a11-a53f-3223852fe350">
+              <Parameter Name="TextureOverride" Guid="2217bc3f-8266-4bd2-ff9c-c655ecd3c8ff" Value="Textures/SteamBoat" Type="string" />
+            </MemberComponentTemplate>
+            <MemberComponentTemplate Name="HerdBehavior" Guid="b5fd7d4d-79d3-4f27-8d55-9c6a690e34bc">
+              <Parameter Name="HerdName" Guid="1df493df-6f89-41c2-81a5-64d02ef91c59" Value="T-100" Type="string" />
+            </MemberComponentTemplate>
+            <ParameterSet Name="CreatureEggData" Guid="1a12d4e9-b9f1-4b6f-be45-11ab485b819f">
+              <Parameter Name="EggTypeIndex" Guid="f2a62f2f-26f1-41c0-b77f-9891f9feae8c" Value="47" Type="int" />
+              <Parameter Name="Color" Guid="15a8448b-f57a-48c5-94e9-9d31f7fc2331" Value="123,123,123" Type="Color" />
+              <Parameter Name="DisplayName" Guid="3b3b99cd-ee01-4f4a-b4ef-fc64d6045595" Value="T-100 Spawner" Type="string" />
+              <Parameter Name="TextureSlot" Guid="98dbf435-2fba-4b31-8060-8abe5657ead7" Value="163" Type="int" />
+            </ParameterSet>
+        </EntityTemplate>
   </Folder>
   <ProjectTemplate Name="Project" Guid="85023bf8-1c90-4dd1-9442-e6c13691d078">
     <MemberSubsystemTemplate Name="CrusherBlockBehavior" Guid="f9d44a4c-bc6a-499f-944e-39390092696e" InheritanceParent="fefb9590-4972-4893-b02a-76063611b745">
@@ -794,5 +895,5 @@
     <ComponentTemplate Name="Variant" Description="Defines variants of a creature" Guid="8547d74d-d347-4644-a839-14adf11731d0" InheritanceParent="b05700ed-7e4e-4679-98f5-b597f421496b">
       <Parameter Name="Class" Guid="6bbdd35e-8db2-4ed0-a99a-7f3c05513941" Value="Game.ComponentVariant" Type="string" />
     </ComponentTemplate>
-  </Folder>
+	</Folder>
 </IndustrialMod>

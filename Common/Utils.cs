@@ -32,6 +32,7 @@ namespace Game
 		public static SubsystemParticles SubsystemParticles;
 		public static SubsystemSourBlockBehavior SubsystemSour;
 		public static Terrain Terrain;
+		public static SubsystemTimeOfDay SubsystemTimeOfDay;
 		public static bool LoadedProject;
 
 		public static void Load(Project Project)
@@ -55,6 +56,7 @@ namespace Game
 			SubsystemLaser = Project.FindSubsystem<SubsystemLaser>(true);
 			SubsystemParticles = Project.FindSubsystem<SubsystemParticles>(true);
 			SubsystemSour = Project.FindSubsystem<SubsystemSourBlockBehavior>(true);
+			SubsystemTimeOfDay = Project.FindSubsystem<SubsystemTimeOfDay>(true);
 			Terrain = (SubsystemTerrain = Project.FindSubsystem<SubsystemTerrain>(true)).Terrain;
 			BlockGeometryGenerator = new BlockGeometryGenerator(Terrain, SubsystemTerrain, Project.FindSubsystem<SubsystemElectricity>(true), SubsystemTerrain.SubsystemFurnitureBlockBehavior, Project.FindSubsystem<SubsystemMetersBlockBehavior>(true), SubsystemTerrain.SubsystemPalette);
 			LoadedProject = true;

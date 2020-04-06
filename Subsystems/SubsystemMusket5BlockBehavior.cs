@@ -85,7 +85,7 @@ namespace Game
 									if (body.HasValue && (!result.HasValue || body.Value.Distance < result.Value.Distance))
 									{
 										ComponentCreature cre1 = body.Value.ComponentBody.Entity.FindComponent<ComponentCreature>();
-										if (cre1 != null)
+										if (cre1 != null && cre1.DisplayName !="T-100")
 										{
 											int nnn = (int)cre1.Entity.FindComponent<ComponentHealth>()?.AttackResilience / 8;
 											for (int zz = 0; zz <= nnn; zz++)
