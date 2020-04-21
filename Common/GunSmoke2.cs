@@ -378,6 +378,7 @@ namespace Game
 							
 							if (particle.Size.LengthSquared() / m_size < 60f)
 								particle.Size *= 1f + dt;
+							particle.Position.Y += particle.Speed * dt;
 							particle.TextureSlot = (int)MathUtils.Min(9f * particle.Time / 1.25f, 4f);
 							if (9f * particle.Time / 1.25f >= 4f)
 								particle.Time = 0f;
@@ -393,7 +394,7 @@ namespace Game
 						particle.Position = m_position + 0.25f * m_size * new Vector3(m_random.UniformFloat(-1f, 1f), 0f, m_random.UniformFloat(-1f, 1f));
 						particle.Color = Color.White;
 						particle.Size = new Vector2(m_size);
-						particle.Speed = m_random.UniformFloat(0.45f, 0.55f) * m_size / 0.15f;
+						particle.Speed = m_random.UniformFloat(0.45f, 0.55f)  *10f/ 0.15f /6f;
 						particle.Time = 0f;
 						particle.TimeToLive = m_random.UniformFloat(0.5f, 2f);
 						particle.FlipX = (m_random.UniformInt(0, 1) == 0);
@@ -401,6 +402,7 @@ namespace Game
 						m_toGenerate -= 1f;
 					}
 				}
+				m_position += 0.5f * m_size / 0.15f * dt * new Vector3(0f, 1f, 0f) / 6f;
 				m_toGenerate = MathUtils.Remainder(m_toGenerate, 1f);
 			}
 			if (m_age >= 15f)

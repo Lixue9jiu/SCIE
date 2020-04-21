@@ -1,5 +1,7 @@
 ﻿using Engine;
 using System;
+using Engine.Graphics;
+using Engine.Input;
 
 namespace Game
 {
@@ -189,6 +191,116 @@ namespace Game
 		public static Vector3 m_direction;
 		public Vector2 m_angles = new Vector2(0f, MathUtils.DegToRad(30f));
 		public float m_distance = 10f;
+	}
+
+
+
+
+	
+
+    public class DebugCamera2 : DebugCamera
+	{
+
+		public DebugCamera2(View view)
+			: base(view)
+		{
+			ctor1?.Invoke(this, view);
+		}
+		public override bool UsesMovementControls
+		{
+			get { return true; }
+		}
+
+		public override bool IsEntityControlEnabled
+		{
+			get { return true; }
+		}
+		public override void Activate(Camera previousCamera)
+		{
+			Action<DebugCamera2, Camera> activate = Activate1;
+			if (activate != null)
+			{
+				activate(this, previousCamera);
+				return;
+			}
+			m_position = previousCamera.ViewPosition;
+			m_direction = previousCamera.ViewDirection;
+			m_position.Y = 120;
+			m_direction.X = 0;
+			m_direction.Z = 0;
+			m_direction.Y = -1;
+			SetupPerspectiveCamera(m_position, m_direction, Vector3.UnitY);
+		}
+
+		public override void Update(float dt)
+		{
+			Action<DebugCamera2, float> update = Update1;
+			if (update != null)
+			{
+				update(this, dt);
+				return;
+			}
+			Vector3 zero = Vector3.Zero;
+			ComponentPlayer componentPlayer = View.PlayerData.ComponentPlayer;
+			//componentPlayer.ComponentInput.
+			
+			if (componentPlayer.ComponentInput.m_componentGui.m_sneakButtonWidget.IsChecked)
+			{
+				if (componentPlayer.ComponentInput.m_playerInput.CameraSneakMove.Z< 0)
+				{
+					zero.Y = -1f;
+				}
+				if (componentPlayer.ComponentInput.m_playerInput.CameraSneakMove.Z> 0 && m_position.Y<200)
+				{
+					zero.Y = 1f;
+				}
+			}else
+			{
+				if (componentPlayer.ComponentInput.m_playerInput.CameraSneakMove.X < 0)
+				{
+					zero.X = -1f;
+				}
+				if (componentPlayer.ComponentInput.m_playerInput.CameraSneakMove.X > 0)
+				{
+					zero.X = 1f;
+				}
+				if (componentPlayer.ComponentInput.m_playerInput.CameraSneakMove.Z > 0)
+				{
+					zero.Z = 1f;
+				}
+				if (componentPlayer.ComponentInput.m_playerInput.CameraSneakMove.Z < 0)
+				{
+					zero.Z = -1f;
+				}
+			}
+			Vector2 vector = 0.03f * new Vector2(Mouse.MouseMovement.X, -Mouse.MouseMovement.Y);
+			
+			Vector3 direction = m_direction;
+			Vector3 unitY = Vector3.UnitY;
+			Vector3 vector2 = Vector3.Normalize(Vector3.Cross(direction, unitY));
+			float num2 = 18f;
+			
+			
+			Vector3 zero2 = Vector3.Zero;
+			zero2 += num2 * zero.X * vector2;
+			zero2 += num2 * zero.Y * unitY;
+			zero2 += num2 * zero.Z * new Vector3(-MathUtils.Sqrt(1-vector2.X* vector2.X),0f, -MathUtils.Sqrt(1 - vector2.Z * vector2.Z));
+			TerrainRaycastResult? terrainRaycastResult = View.SubsystemViews.SubsystemTerrain.Raycast(m_position, m_position + 1f * zero2, false, true, (value, distance) => !(Terrain.ExtractContents(value) == 0));
+			if (terrainRaycastResult == null)
+			{
+				m_position += zero2 * dt;
+			}
+			
+			//m_direction = Vector3.Transform(m_direction, Matrix.CreateFromAxisAngle(unitY, -4f * vector.X * dt));
+			//m_direction = Vector3.Transform(m_direction, Matrix.CreateFromAxisAngle(vector2, 4f * vector.Y * dt));
+			SetupPerspectiveCamera(m_position, m_direction, Vector3.UnitY);
+			Vector2 v = base.View.GameWidget.GameViewWidget.ActualSize / 2f;
+			FlatBatch2D flatBatch2D = WidgetsManager.PrimitivesRenderer2D.FlatBatch(0, DepthStencilState.None);
+			int count = flatBatch2D.LineVertices.Count;
+			flatBatch2D.QueueLine(v - new Vector2(5f, 0f), v + new Vector2(5f, 0f), 0f, Color.White);
+			flatBatch2D.QueueLine(v - new Vector2(0f, 5f), v + new Vector2(0f, 5f), 0f, Color.White);
+			flatBatch2D.TransformLines(WidgetMatrix, count);
+		}
 	}
 
 }

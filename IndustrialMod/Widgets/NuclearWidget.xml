@@ -1,0 +1,19 @@
+<DispenserWidget xmlns="runtime-namespace:Game">
+  <BevelledRectangleWidget Size="614, 382" BevelSize="3" />
+  <LabelWidget CanvasWidget.Position="12, 14" Name="DispenserLabel" Text="NuclearEngine" Font="{Fonts/Pericles24}" Color="255, 255, 255, 192"/>
+  <LabelWidget CanvasWidget.Position="306, 14" Name="InventoryLabel" Text="Inventory" Font="{Fonts/Pericles24}" Color="255, 255, 255, 192"/>
+  <GridPanelWidget CanvasWidget.Position="306, 52" Name="InventoryGrid" ColumnsCount="4" RowsCount="4"/>
+  <GridPanelWidget CanvasWidget.Position="40, 52" Name="FurnaceGrid" ColumnsCount="1" RowsCount="1"/>
+  <CanvasWidget CanvasWidget.Position="12, 240" Size="228, 140" >
+    <StackPanelWidget Direction="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
+      <BevelledButtonWidget Name="DispenseButton" Text="Ignite" Style="{Styles/ButtonStyle_160x60}" />
+      <BevelledButtonWidget Name="ShootButton" Text="Halt" Style="{Styles/ButtonStyle_160x60}" />
+    </StackPanelWidget>
+  </CanvasWidget>
+  <CanvasWidget CanvasWidget.Position="40, 152" >
+    <FireWidget Name="Fire" Size="68, 40" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+    <StackPanelWidget Direction="Horizontal">
+      <BevelledRectangleWidget Size="72, 44" BevelSize="-2" CenterColor="0, 0, 0, 0" />
+    </StackPanelWidget>
+  </CanvasWidget>
+</DispenserWidget>

@@ -311,6 +311,73 @@ namespace Game
 	{
 	}
 
+	public class ComponentFRCore : ComponentSMachine, IUpdateable
+	{
+		//public override float m_fireTimeRemaining;
+		//public float HeatLevel;
+		public float veloc;
+
+		public void Update(float dt)
+		{
+			if (Utils.SubsystemTime.PeriodicGameTimeEvent(10.0, 0.0))
+			{
+				Point3 coordinates = m_componentBlockEntity.Coordinates;
+
+				int num = 1, num2 = 0;
+				int num3 = coordinates.X;
+				int num4 = coordinates.Y - 1;
+				int num5 = coordinates.Z, v;
+				for (int i = -1; i < 2; i++)
+				{
+					for (int j = -1; j < 2; j++)
+					{
+						for (int k = -1; k < 2; k++)
+						{
+							int cellValue = Terrain.ReplaceLight(Utils.Terrain.GetCellValue(num3 + i, num4 + j, num5 + k), 0);
+							int cellContents = Terrain.ExtractContents(cellValue);
+							if ((j==0 && i==0 && k==0) || (j == 1 && i == 0 && k == 0))
+							{
+
+							}else
+							{
+								if (Terrain.ExtractData(cellValue) >> 10 != 6 || cellContents!= 507)
+								{
+									num = 0;
+									return;
+								}
+							}
+
+						}
+					}
+				}
+
+
+				int i235 = 0;
+				int i239 = 0;
+				for (int i = 0; i < SlotsCount; i++)
+				{
+					int va1 = GetSlotValue(i);
+					if (va1 == ItemBlock.IdTable["U235C"])
+						i235+=GetSlotCount(i);
+					if (va1 == ItemBlock.IdTable["PU239C"])
+						i239+= GetSlotCount(i);
+				}
+				veloc = i235 * 0.000001f + i239 * 0.002f;
+				for (int i = 0; i < SlotsCount; i++)
+				{
+					int va1 = GetSlotValue(i);
+					if (va1 == ItemBlock.IdTable["U238C"] && Utils.Random.Bool(veloc/ GetSlotCount(i)))
+					{
+						int aaa = GetSlotCount(i);
+						RemoveSlotItems(i, aaa);
+						AddSlotItems(i, ItemBlock.IdTable["U235C"], aaa);
+					}
+				}
+			}
+		}
+	}
+
+
 	public class ComponentRCore : ComponentSMachine, IUpdateable
 	{
 		//public override float m_fireTimeRemaining;
@@ -402,15 +469,35 @@ namespace Game
 								if (Utils.Random.Bool(0.006f * veloc))
 								{
 									RemoveSlotItems(i, 1);
-									if (BlocksManager.DamageItem(va1, 1) != 0)
+									if (BlocksManager.DamageItem(va1, 1) != va1)
 									{
 										AddSlotItems(i, BlocksManager.DamageItem(va1, 1), 1);
+									}else
+									{
+										if (Terrain.ExtractContents(va1) == FuelRodBlock.Index)
+										{
+											if (FuelRodBlock.GetType(va1) == RodType.UFuelRod)
+											{
+												//inventory.AddSlotItems(i, va1, -1);
+												AddSlotItems(i, ItemBlock.IdTable["UsedUpFuel"], 1);
+											}
+											if (FuelRodBlock.GetType(va1) == RodType.ControlRod)
+											{
+												//inventory.AddSlotItems(i, va1, -1);
+												AddSlotItems(i, ItemBlock.IdTable["B"], 1);
+											}
+											if (FuelRodBlock.GetType(va1) == RodType.CarbonRod)
+											{
+												//inventory.AddSlotItems(i, va1, -1);
+												AddSlotItems(i, ItemBlock.IdTable["C"], 1);
+											}
+										}
 									}
 								}
 							}
 							else
 							{
-								RemoveSlotItems(i, 1);
+								//RemoveSlotItems(i, 1);
 							}
 						}
 				}
@@ -458,7 +545,7 @@ namespace Game
 							{
 								if (base.GetSlotValue(i) == WaterBlock.Index)
 								{
-									if (Utils.SubsystemTime.PeriodicGameTimeEvent(5 * 30 / Pressure / 10 / 1f, 0.0))
+									if (Utils.SubsystemTime.PeriodicGameTimeEvent(( 30f / Pressure ) / 10f, 0.0))
 										m_slots[i].Count--;
 									Output += Pressure;
 									component3.HeatLevel -= 2 * Output;
@@ -468,6 +555,30 @@ namespace Game
 						}
 					}
 				}
+
+				if (ElementBlock.Block.GetDevice(coordinates.X, coordinates.Y+1, coordinates.Z, Utils.Terrain.GetCellValue(coordinates.X, coordinates.Y+1, coordinates.Z)) is WaterExtractor em && em.Powered)
+				{
+					var point3 = new Point3(coordinates.X, coordinates.Y + 1, coordinates.Z);
+					var entity = Utils.GetBlockEntity(point3);
+					Component component3 = entity.Entity.FindComponent<ComponentSMachine>();
+					if (entity != null && component3 != null)
+					{
+						IInventory inventory = entity.Entity.FindComponent<ComponentSMachine>(true);
+						for (int i = 0; i < 6; i++)
+						{
+							int va1 = inventory.GetSlotValue(i);
+							if (Utils.Random.Bool(0.0002f * Pressure))
+							{
+								if (va1 == EmptyBucketBlock.Index && AcquireItems(inventory, RottenMeatBlock.Index | 15 << 18, 1) == 0)
+								{
+									inventory.RemoveSlotItems(i, 1);
+								}
+							}
+						}
+					}
+				}
+
+
 			}
 		}
 	}
@@ -501,6 +612,82 @@ namespace Game
 			}
 		}
 	}
+
+
+	public class ComponentRadioC : ComponentMachine, IUpdateable
+	{
+		public int Frequency;
+		public double time;
+		public int Output;
+		public bool Powered;
+		public bool flag;
+		public void Update(float dt)
+		{
+			if (Utils.SubsystemTime.GameTime - time > 0.7f)
+			{
+				flag = false;
+				InActive();
+			}
+		}
+
+		public virtual void Delete()
+		{
+			InActive();
+		}
+
+		public virtual void Active()
+		{
+			Point3 coor = m_componentBlockEntity.Coordinates;
+			for (int iii = 0; iii < Utils.SubsystemSour.m_radio.Count; iii++)
+			{
+				if (Utils.SubsystemSour.m_radio.Array[iii] == new Vector4(coor.X, coor.Y, coor.Z, Utils.SubsystemSour.m_radio.Array[iii].W))
+				{
+					Utils.SubsystemSour.m_radio.Remove(Utils.SubsystemSour.m_radio.Array[iii]);
+				}
+			}
+			if (m_fireTimeRemaining >= 1000f && Powered)
+			{
+				flag = true;
+				time = Utils.SubsystemTime.GameTime;
+				Utils.SubsystemSour.m_radio.Add(new Vector4(coor.X, coor.Y, coor.Z, m_fireTimeRemaining));
+			}
+		}
+
+		public virtual void InActive()
+		{
+			Point3 coor = m_componentBlockEntity.Coordinates;
+			for (int iii = 0; iii < Utils.SubsystemSour.m_radio.Count; iii++)
+			{
+				if (Utils.SubsystemSour.m_radio.Array[iii] == new Vector4(coor.X, coor.Y, coor.Z, Utils.SubsystemSour.m_radio.Array[iii].W))
+				{
+					Utils.SubsystemSour.m_radio.Remove(Utils.SubsystemSour.m_radio.Array[iii]);
+				}
+			}
+
+		}
+	}
+
+	public class ComponentRadioR : ComponentMachine
+	{
+		public int Frequency;
+
+		public int Output;
+		public bool Powered;
+
+		public virtual bool Active()
+		{
+			Point3 coor = m_componentBlockEntity.Coordinates;
+			for (int iii = 0; iii < Utils.SubsystemSour.m_radio.Count; iii++)
+			{
+				if (Utils.SubsystemSour.m_radio.Array[iii].W == m_fireTimeRemaining)
+				{
+					return true;
+				}
+			}
+			return false;
+		}
+	}
+
 
 	public class ComponentLaserG : ComponentMachine
 	{
@@ -600,6 +787,86 @@ namespace Game
 			}
 			Utils.SubsystemLaser.MakeLightningStrike(new Vector3(point.X, point.Y, point.Z) + new Vector3(0.5f), end + new Vector3(0.5f));
 			//var e = Utils.SubsystemBodies.Bodies.GetEnumerator();
+		}
+	}
+
+
+
+	public class ComponentAGun : ComponentMachine, IUpdateable
+	{
+		public int Pressure;
+		public SubsystemPlayers subsystemPlayers;
+		public int Output;
+		public bool Powered;
+
+		public override void Load(ValuesDictionary valuesDictionary, IdToEntityMap idToEntityMap)
+		{
+			base.Load(valuesDictionary, idToEntityMap);
+			subsystemPlayers = Project.FindSubsystem<SubsystemPlayers>(true);
+		}
+
+		public override int GetSlotCapacity(int slotIndex, int value)
+		{
+			return (Terrain.ExtractContents(value) == Bullet2Block.Index && value == Terrain.MakeBlockValue(521, 0, Bullet2Block.SetBulletType(0, Bullet2Block.BulletType.HandBullet))) ? base.GetSlotCapacity(slotIndex, value)
+			: 0;
+		}
+
+		public void Update(float dt)
+		{
+
+			if (Utils.SubsystemTime.PeriodicGameTimeEvent(0.34, 0.0) && Powered && HeatLevel==1f)
+			{
+
+
+				int abb = -1;
+				int flag2 = 0;
+				for (int i = 0; i < 12; i++)
+				{
+					int va1 = GetSlotValue(i);
+					if (va1 == Terrain.MakeBlockValue(521, 0, Bullet2Block.SetBulletType(0, Bullet2Block.BulletType.HandBullet)))
+					{
+						abb = i;
+						flag2 = -1;
+						break;
+					}
+				}
+				if (flag2 == 0)
+					return;
+
+
+				Point3 c = m_componentBlockEntity.Coordinates;
+				var componentMiner = subsystemPlayers.FindNearestPlayer(new Vector3(c.X, c.Y, c.Z) + new Vector3(0.5f)).ComponentMiner.Entity.FindComponent<ComponentNPlayer>();
+				//var componentMiner = componentMiner1.Entity.FindComponent<ComponentNPlayer>();
+				//var player = componentMiner.Entity.FindComponent<ComponentMiner>();
+				Vector3 po = new Vector3(c.X, c.Y, c.Z) + new Vector3(0.5f);
+				var e1 = Utils.SubsystemBodies.Bodies.GetEnumerator();
+				while (e1.MoveNext())
+				{
+					var entity = e1.Current.Entity;
+					//var entity = 0;
+					ComponentCreature cre = entity.FindComponent<ComponentCreature>();
+					if (cre != null && entity.FindComponent<ComponentNPlayer>() == null && entity.FindComponent<ComponentHealth>().Health>0)
+					{
+						ComponentBody cra = entity.FindComponent<ComponentBody>();
+						Vector3 vec = new Vector3(cra.BoundingBox.Center().X - po.X, cra.BoundingBox.Center().Y - po.Y, cra.BoundingBox.Center().Z - po.Z);
+						var body = componentMiner.PickBody2(po + 1f * Vector3.Normalize(vec), Vector3.Normalize(vec),50f);
+						var result = componentMiner.PickTerrainForDigging2(po+ 1f* Vector3.Normalize(vec), Vector3.Normalize(vec), 50f);
+						if (body.HasValue && (!result.HasValue || body.Value.Distance < result.Value.Distance))
+						{
+
+							if (vec.Length() < 20f)
+							{
+								Utils.SubsystemProjectiles.FireProjectile(Terrain.MakeBlockValue(214, 0, BulletBlock.SetBulletType(0, BulletBlock.BulletType.IronBullet)), po + Vector3.Normalize(vec) * 1f, Vector3.Normalize(vec) * 260f, Vector3.Zero, null);
+								Utils.SubsystemAudio.PlaySound("Audio/MusketFire", 1f, 0f, new Vector3(c.X + 0.5f, c.Y + 0.5f, c.Z + 0.5f), 10f, true);
+								m_slots[abb].Count -= 1;
+								break;
+							}
+						}
+					}
+				}
+
+			}
+
 		}
 	}
 }

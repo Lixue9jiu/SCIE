@@ -56,6 +56,16 @@ namespace Game
 			if (device == null)
 				return;
 			UpdatePath = true;
+			if (device is RadioC)
+			{
+				for (int iii = 0; iii < Utils.SubsystemSour.m_radio.Count; iii++)
+				{
+					if (Utils.SubsystemSour.m_radio.Array[iii] == new Vector4(x, y, z, Utils.SubsystemSour.m_radio.Array[iii].W))
+					{
+						Utils.SubsystemSour.m_radio.Remove(Utils.SubsystemSour.m_radio.Array[iii]);
+					}
+				}
+			}
 			if (device is IBlockBehavior behavior)
 				behavior.OnBlockRemoved(SubsystemTerrain, value, newValue);
 			if (device.Next != null)

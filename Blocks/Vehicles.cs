@@ -42,6 +42,35 @@ namespace Game
 		public override float GetIconViewScale(int value, DrawBlockEnvironmentData environmentData) => 0.45f;
 	}
 
+	public class Rocket : TexturedMeshItem
+	{
+
+		public static Texture2D RocketTexture;
+		public Rocket() : base("初级火箭", "Ra1", "Cylinder", RocketTexture, "一种比较初级的小型火箭，可以用来发射卫星，或者进行大气层核试验")
+		{
+		}
+
+		public override Vector3 GetIconViewOffset(int value, DrawBlockEnvironmentData environmentData) => new Vector3(-0.7f, 0.8f, -1);
+		public override Vector3 GetIconBlockOffset(int value, DrawBlockEnvironmentData environmentData) => new Vector3(0f, -0.9f, 0f);
+		public override float GetIconViewScale(int value, DrawBlockEnvironmentData environmentData) => 0.25f;
+		public override string GetCraftingId() => "Rocket";
+	}
+
+	public class MGun : TexturedMeshItem
+	{
+		//public static Texture2D BoatTexture;
+
+		public MGun() : base("重机枪", "MGun3", "Musket", Carriage.TrainTexture, "重型机枪，一种利冷水冷却枪管，连射机，弹舱来获得强大持续火力的机器。")
+		{
+		}
+
+		public override Vector3 GetIconViewOffset(int value, DrawBlockEnvironmentData environmentData) => new Vector3(-0.7f, 0.8f, -1);
+
+		public override float GetIconViewScale(int value, DrawBlockEnvironmentData environmentData) => 1.4f;
+		public override Vector3 GetIconBlockOffset(int value, DrawBlockEnvironmentData environmentData) => new Vector3(0f, 0.8f, 0f);
+		public override string GetCraftingId() => "MGun";
+	}
+
 	public class Icebreaker : TexturedMeshItem
 	{
 		public Icebreaker() : base("破冰船", "SteamBoat", "Cylinder", SteamBoat.BoatTexture, "破冰船")

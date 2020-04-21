@@ -56,11 +56,13 @@ namespace Game
 		{
 			int type = GetType(value);
 			color = (type < 3 ? Colors[type] : GetColor((Materials)(type - 3))) * SubsystemPalette.GetColor(environmentData, GetPaintColor(value));
-			if (type > 1)
+			if (type > 1 && type !=11)
 			{
 				BlocksManager.DrawCubeBlock(primitivesRenderer, value, new Vector3(size), ref matrix, color, color, environmentData);
 				return;
 			}
+			if (type == 11)
+				color = Color.DarkGray;
 			ItemBlock.DrawCubeBlock(primitivesRenderer, value, new Vector3(size), ref matrix, color, color, environmentData);
 		}
 
@@ -71,7 +73,7 @@ namespace Game
 		public override void GenerateTerrainVertices(BlockGeometryGenerator generator, TerrainGeometrySubsets geometry, int value, int x, int y, int z)
 		{
 			int type = GetType(value);
-			if (type > 1)
+			if (type > 1 && type != 11)
 			{
 				generator.GenerateCubeVertices(this, value, x, y, z, (type < 3 ? Colors[type] : GetColor((Materials)(type - 3))) * SubsystemPalette.GetColor(generator, GetPaintColor(value)), geometry.OpaqueSubsetsByFace);
 				return;
@@ -99,7 +101,8 @@ namespace Game
 				case Materials.Iron: return Color.White;
 				case Materials.Copper: return new Color(255, 127, 80);
 				case Materials.FeAlCrAlloy: return new Color(200, 200, 200);
-                case Materials.Brass: return new Color(255, 228, 196);
+				case Materials.Titanium: return Color.DarkGray;
+				case Materials.Brass: return new Color(255, 228, 196);
             }
 			return new Color(232, 232, 232);
 		}
@@ -108,6 +111,10 @@ namespace Game
 			int type = GetType(value);
 			if (type < 3)
 				return Utils.Get(Names[type]);
+			if (type == 11)
+			{
+				return "钛合金外壳";
+			}
 			type -= 3;
 			return type > 11 ? Utils.Get("混凝土墙") : Utils.Get("固态") + ((Materials)type).ToStr() + Utils.Get("块");
 		}
@@ -118,6 +125,7 @@ namespace Game
 				case 0: return Utils.Get("一些机器的基础外壳。 非常重且耐用。对 挖掘和爆炸都非常有抗性。 可以用多个铁板或钢锭制成。");
 				case 1: return Utils.Get("某些机器或设备的高级外壳。 非常重且耐用。 对挖掘和爆炸都有非常有抗性。 可以用多个钢板制作。");
 				case 2: return Utils.Get("防火砖墙可以通过将几块防火砖组合在一起并用砂浆粘合而制成。 它是一种多功能，坚固且美观的工业材料。");
+				case 11: return Utils.Get("一些机器的高级外壳。通常运用在航天上。");
 				default:
 					var type = (Materials)(GetType(value) - 3);
 					return type > Materials.Uranium ? Utils.Get("它是一种多功能，坚固且美观的工业材料。") : type == Materials.Steel
@@ -135,6 +143,7 @@ namespace Game
 			switch (GetType(value))
 			{
 				case 0:
+				case 11:
 				case 1: return 107;
 				case 2: return 39;
 				case 15: return 5;

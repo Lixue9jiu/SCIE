@@ -24,7 +24,7 @@ namespace Game
 			
 			BlocksManager.DamageItem1 = DamageItem;
 			BlocksManager.FindBlocksByCraftingId1 = FindBlocksByCraftingId;
-			CraftingRecipesManager.Initialize1 = CRInitialize + CraftingRecipesManager.Initialize1;
+			CraftingRecipesManager.Initialize1 = (Action)Delegate.Combine(new Action(CRInitialize), CraftingRecipesManager.Initialize1);
 			DecodeResult1 = CraftingRecipesManager.DecodeResult1;
 			CraftingRecipesManager.DecodeResult1 = DecodeResult;
 			CraftingRecipesManager.MatchRecipe1 = MatchRecipe;
@@ -47,6 +47,7 @@ namespace Game
 			Car.CarTexture = ContentManager.Get<Texture2D>("Textures/tex2");
 			ETrain.ETrainTexture = ContentManager.Get<Texture2D>("Textures/etex3");
 			Airplane.PTexture = ContentManager.Get<Texture2D>("Textures/tex4");
+			Rocket.RocketTexture = ContentManager.Get<Texture2D>("Textures/Rocket");
 			var stream = Utils.GetTargetFile("IndustrialMod.png");
 			try
 			{

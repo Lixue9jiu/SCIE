@@ -44,6 +44,91 @@ namespace Game
 		}
 	}
 
+	public class RadioCWidget : MultiStateMachWidget<ComponentRadioC>
+	{
+
+		public RadioCWidget(IInventory inventory, ComponentRadioC component) : base(inventory, component, "Widgets/RadioC")
+		{
+			
+		}
+
+		public override void Update()
+		{
+			if (!m_component.IsAddedToProject)
+			{
+				ParentWidget.Children.Remove(this);
+				return;
+			}
+			Children.Find<LabelWidget>("DispenserLabel2").Text = m_component.m_fireTimeRemaining.ToString() + "/KHz";
+			if (m_dispenseButton.IsClicked && m_component.m_fireTimeRemaining<50000f)
+			{
+				m_component.m_fireTimeRemaining += 1000;
+			}
+			if (m_shootButton.IsClicked && m_component.m_fireTimeRemaining > 1000f)
+			{
+				m_component.m_fireTimeRemaining -= 1000;
+			}
+		}
+	}
+
+	public class NuclearWidget : MultiStateMachWidget<ComponentMachine>
+	{
+		public readonly FireWidget m_fire;
+		public NuclearWidget(IInventory inventory, ComponentMachine component) : base(inventory, component, "Widgets/NuclearWidget")
+		{
+			InitGrid();
+			m_fire = Children.Find<FireWidget>("Fire");
+		}
+		public override void Update()
+		{
+			if (!m_component.IsAddedToProject)
+			{
+				ParentWidget.Children.Remove(this);
+				return;
+			}
+			m_fire.m_colorTransform = Color.Green;
+			m_fire.ParticlesPerSecond = m_component.HeatLevel > 0f ? 24f : 0f;
+			if (m_dispenseButton.IsClicked && m_component.m_fireTimeRemaining == 0f)
+			{
+				m_component.m_fireTimeRemaining = 1000f;
+			}
+			if (m_shootButton.IsClicked && m_component.m_fireTimeRemaining == 1000f)
+			{
+				m_component.m_fireTimeRemaining = 0f;
+			}
+			m_dispenseButton.IsChecked = m_component.HeatLevel > 0f;
+		}
+	}
+
+
+	public class RadioRWidget : MultiStateMachWidget<ComponentRadioR>
+	{
+
+		public RadioRWidget(IInventory inventory, ComponentRadioR component) : base(inventory, component, "Widgets/RadioC")
+		{
+			Children.Find<LabelWidget>("DispenserLabel").Text = "RadioReceiver";
+		}
+
+		public override void Update()
+		{
+			if (!m_component.IsAddedToProject)
+			{
+				ParentWidget.Children.Remove(this);
+				return;
+			}
+			Children.Find<LabelWidget>("DispenserLabel2").Text = m_component.m_fireTimeRemaining.ToString() + "/KHz";
+			if (m_dispenseButton.IsClicked && m_component.m_fireTimeRemaining < 50000f)
+			{
+				m_component.m_fireTimeRemaining += 1000;
+			}
+			if (m_shootButton.IsClicked && m_component.m_fireTimeRemaining > 1000f)
+			{
+				m_component.m_fireTimeRemaining -= 1000;
+			}
+		}
+	}
+
+
 	public class ETrainWidget : MultiStateMachWidget<ComponentEngineE>
 	{
 		//protected readonly ValueBarWidget m_progress;
@@ -75,11 +160,7 @@ namespace Game
 				ParentWidget.Children.Remove(this);
 				return;
 			}
-			//Children.Find<LabelWidget>("DispenserLabel2").Text = m_component.m_fireTimeRemaining.ToString() + "/1M E";
-			//Point3 coordinates = m_componentBlockEntity.Coordinates;
-			//int value = Utils.Terrain.GetCellValue(coordinates.X, coordinates.Y, coordinates.Z);
-			//int data = Terrain.ExtractData(value);
-			//MachineMode mode = GetMode(data);
+			
 			if (m_dispenseButton.IsClicked && m_component.Charged == false)
 			{
 				//data = SetMode(data);
@@ -98,6 +179,58 @@ namespace Game
 			m_shootButton.IsChecked = !m_component.Charged;
 		}
 	}
+
+	public class AGunWidget : MultiStateMachWidget<ComponentMachine>
+	{
+		//protected readonly ValueBarWidget m_progress;
+
+		public AGunWidget(IInventory inventory, ComponentMachine component) : base(inventory, component, "Widgets/AGunWidget")
+		{
+			//InitGrid("DispenserGrid");
+			var name = "DispenserGrid";
+			m_furnaceGrid = Children.Find<GridPanelWidget>(name);
+			int num = 0, y, x;
+			//var component = m_component;
+			for (y = 0; y < m_furnaceGrid.RowsCount; y++)
+			{
+				for (x = 0; x < m_furnaceGrid.ColumnsCount; x++)
+				{
+					var inventorySlotWidget = new InventorySlotWidget();
+					inventorySlotWidget.AssignInventorySlot(component, num++);
+					m_furnaceGrid.Children.Add(inventorySlotWidget);
+					m_furnaceGrid.SetWidgetCell(inventorySlotWidget, new Point2(x, y));
+				}
+			}
+			//	m_progress = Children.Find<ValueBarWidget>("Progress");
+		}
+
+		public override void Update()
+		{
+			if (!m_component.IsAddedToProject)
+			{
+				ParentWidget.Children.Remove(this);
+				return;
+			}
+
+			if (m_dispenseButton.IsClicked && m_component.HeatLevel == 0f)
+			{
+				//data = SetMode(data);
+				//Utils.Terrain.SetCellValueFast(coordinates.X, coordinates.Y, coordinates.Z, Terrain.ReplaceData(value, data));
+				m_component.HeatLevel = 1f;
+			}
+			if (m_shootButton.IsClicked && m_component.HeatLevel == 1f)
+			{
+				//data = SetMode(data);
+				//Utils.Terrain.SetCellValueFast(coordinates.X, coordinates.Y, coordinates.Z, Terrain.ReplaceData(value, data));
+				m_component.HeatLevel = 0f;
+			}
+
+			//m_progress.Value = 1f - m_component.m_fireTimeRemaining / 1000000f;
+			m_dispenseButton.IsChecked = m_component.HeatLevel == 1f;
+			//m_shootButton.IsChecked = !m_component.Charged;
+		}
+	}
+
 
 	public class TurbineWidget : EntityWidget<ComponentTurbine>
 	{
@@ -141,6 +274,57 @@ namespace Game
 			}
 			Children.Find<LabelWidget>("DispenserLabel2").Text = "Energy " + m_component.m_fireTimeRemaining.ToString() + "/100KE";
 			m_progress.Value = 1f - m_component.m_fireTimeRemaining / 100000f;
+		}
+	}
+
+
+	public class RocketWidget : MultiStateMachWidget<ComponentRocketEngine>
+	{
+		protected readonly InventorySlotWidget m_resultSlot,m_itemSlot;
+
+		public RocketWidget(IInventory inventory, ComponentRocketEngine component) : base(inventory, component, "Widgets/REngineWidget")
+		{
+			int num = InitGrid();
+			m_resultSlot = Children.Find<InventorySlotWidget>("ResultSlot");
+			m_resultSlot.AssignInventorySlot(component, num++);
+			m_itemSlot = Children.Find<InventorySlotWidget>("ItemSlot");
+			m_itemSlot.AssignInventorySlot(component, num++);
+		}
+
+		public override void Update()
+		{
+			if (!m_component.IsAddedToProject)
+			{
+				ParentWidget.Children.Remove(this);
+				return;
+			}
+			if (m_component.m_slots[0].Value == ItemBlock.IdTable["LH2"] && m_component.m_slots[0].Count>0  && (int)m_component.m_fireTimeRemaining / 1000 < 1000 && (m_component.m_slots[1].Count==0 || m_component.m_slots[1].Value == ItemBlock.IdTable["멀틸"]))
+			{
+				m_component.m_slots[1].Value = ItemBlock.IdTable["멀틸"];
+				m_component.m_slots[1].Count ++;
+				m_component.m_slots[0].Count --;
+				m_component.m_fireTimeRemaining += 1f * 1000f;
+			}
+			if (m_component.m_slots[0].Value == ItemBlock.IdTable["LO2"] && m_component.m_slots[0].Count > 0 && (int)m_component.m_fireTimeRemaining % 1000 < 1000 && (m_component.m_slots[1].Count == 0 || m_component.m_slots[1].Value == ItemBlock.IdTable["멀틸"]))
+			{
+				m_component.m_slots[1].Value = ItemBlock.IdTable["멀틸"];
+				m_component.m_slots[1].Count++;
+				m_component.m_slots[0].Count--;
+				m_component.m_fireTimeRemaining += 1f;
+			}
+			if (m_dispenseButton.IsClicked && m_component.HeatLevel <= 0f)
+			{
+				m_component.HeatLevel = 1200f;
+			}
+			if (m_shootButton.IsClicked && m_component.HeatLevel > 0f)
+			{
+				m_component.HeatLevel = 0f;
+			}
+			m_dispenseButton.IsChecked = m_component.HeatLevel != 0f;
+			//m_shootButton.IsChecked = m_component.HeatLevel == 0f;
+			Children.Find<LabelWidget>("DispenserLabel2").Text = "H2 " + ((int)m_component.m_fireTimeRemaining / 1000).ToString();
+			Children.Find<LabelWidget>("DispenserLabel3").Text = "O2 " + ((int)m_component.m_fireTimeRemaining%1000).ToString();
+
 		}
 	}
 

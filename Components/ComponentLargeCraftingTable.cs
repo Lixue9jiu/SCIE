@@ -127,7 +127,7 @@ namespace Game
 						m_matchedIngredients[num2] = null;
 				}
 			}
-			var craftingRecipe = CraftingRecipesManager.FindMatchingRecipe(Utils.SubsystemTerrain, m_matchedIngredients, 0f);
+			var craftingRecipe = FindMatchingRecipe1(Utils.SubsystemTerrain, m_matchedIngredients, 0f);
 			if (craftingRecipe != null && craftingRecipe.RequiredHeatLevel>=0)
 			{
 				m_matchedRecipe = craftingRecipe;
@@ -141,5 +141,40 @@ namespace Game
 				m_slots[ResultSlotIndex].Count = 0;
 			}
 		}
+
+
+		public static CraftingRecipe FindMatchingRecipe1(SubsystemTerrain terrain, string[] ingredients, float heatLevel)
+		{
+			Func<SubsystemTerrain, string[], float, CraftingRecipe> findMatchingRecipe = CraftingRecipesManager.FindMatchingRecipe1;
+			if (findMatchingRecipe != null)
+			{
+				return findMatchingRecipe(terrain, ingredients, heatLevel);
+			}
+			Block[] blocks = BlocksManager.Blocks;
+			for (int i = 0; i < blocks.Length; i++)
+			{
+				CraftingRecipe adHocCraftingRecipe = blocks[i].GetAdHocCraftingRecipe(terrain, ingredients, heatLevel);
+				if (adHocCraftingRecipe == null)
+					continue;
+				if (adHocCraftingRecipe != null && adHocCraftingRecipe.RequiredHeatLevel == 0 && heatLevel >= adHocCraftingRecipe.RequiredHeatLevel && CraftingRecipesManager.MatchRecipe(adHocCraftingRecipe.Ingredients, ingredients))
+				{
+					return adHocCraftingRecipe;
+				}
+			}
+			int count = CraftingRecipesManager.Recipes.Count;
+			for (int i = 0; i < count; i++)
+			{
+				CraftingRecipe adHocCraftingRecipe = CraftingRecipesManager.Recipes[i];
+				if (adHocCraftingRecipe == null)
+					continue;
+				if (heatLevel >= adHocCraftingRecipe.RequiredHeatLevel && adHocCraftingRecipe.RequiredHeatLevel == 0 && CraftingRecipesManager.MatchRecipe(adHocCraftingRecipe.Ingredients, ingredients))
+				{
+					return adHocCraftingRecipe;
+				}
+			}
+			return null;
+		}
+
+
 	}
 }

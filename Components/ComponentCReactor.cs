@@ -173,7 +173,7 @@ namespace Game
 				result[ItemBlock.IdTable["钢瓶"]] = 1;
 				result[ItemBlock.IdTable["S"]] = -1;
 				result[ItemBlock.IdTable["H2O"]] = -1;
-				result[ItemBlock.IdTable["Cl2"]] = -1;
+				//result[ItemBlock.IdTable["Cl2"]] = -1;
 			}
 			else if (n == 6)
 			{

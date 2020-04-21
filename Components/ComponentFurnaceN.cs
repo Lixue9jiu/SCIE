@@ -1,6 +1,6 @@
 using Engine;
 using System;
-
+using System.Globalization;
 namespace Game
 {
 	public class ComponentFurnaceN : ComponentFurnace, IUpdateable, ICraftingMachine
@@ -47,7 +47,7 @@ namespace Game
 						heatLevel = block is IFuel fuel ? fuel.GetHeatLevel(slot.Value) : block.FuelHeatLevel;
 					}
 				}
-				CraftingRecipe craftingRecipe = FindSmeltingRecipe(heatLevel);
+				CraftingRecipe craftingRecipe = FindSmeltingRecipe2(heatLevel);
 				if (craftingRecipe != m_smeltingRecipe)
 				{
 					m_smeltingRecipe = craftingRecipe;
@@ -124,5 +124,96 @@ namespace Game
 				m_subsystemTerrain.ChangeCell(coordinates.X, coordinates.Y, coordinates.Z, (Terrain.ExtractContents(cellValue) >> 1) == 32 ? Terrain.ReplaceContents(cellValue, (m_heatLevel > 0f) ? 65 : 64) : Terrain.ReplaceData(cellValue, FurnaceNBlock.SetHeatLevel(Terrain.ExtractData(cellValue), HeatLevel > 0f ? 1 : 0)));
 			}
 		}
+
+
+		public CraftingRecipe FindSmeltingRecipe2(float heatLevel)
+		{
+			if (heatLevel > 0f)
+			{
+				for (int i = 0; i < m_furnaceSize; i++)
+				{
+					int slotValue = GetSlotValue(i);
+					int num = Terrain.ExtractContents(slotValue);
+					int num2 = Terrain.ExtractData(slotValue);
+					if (GetSlotCount(i) > 0)
+					{
+						Block block = BlocksManager.Blocks[num];
+						m_matchedIngredients[i] = block.CraftingId + ":" + num2.ToString(CultureInfo.InvariantCulture);
+					}
+					else
+					{
+						m_matchedIngredients[i] = null;
+					}
+				}
+				CraftingRecipe craftingRecipe = FindMatchingRecipe1(m_subsystemTerrain, m_matchedIngredients, heatLevel);
+				if (craftingRecipe != null)
+				{
+					if (craftingRecipe.RequiredHeatLevel <= 0f)
+					{
+						craftingRecipe = null;
+					}
+					if (craftingRecipe != null)
+					{
+						Slot slot = m_slots[ResultSlotIndex];
+						int num3 = Terrain.ExtractContents(craftingRecipe.ResultValue);
+						if (slot.Count != 0 && (craftingRecipe.ResultValue != slot.Value || craftingRecipe.ResultCount + slot.Count > BlocksManager.Blocks[num3].MaxStacking))
+						{
+							craftingRecipe = null;
+						}
+					}
+					if (craftingRecipe != null && craftingRecipe.RemainsValue != 0 && craftingRecipe.RemainsCount > 0)
+					{
+						if (m_slots[RemainsSlotIndex].Count == 0 || m_slots[RemainsSlotIndex].Value == craftingRecipe.RemainsValue)
+						{
+							if (BlocksManager.Blocks[Terrain.ExtractContents(craftingRecipe.RemainsValue)].MaxStacking - m_slots[RemainsSlotIndex].Count < craftingRecipe.RemainsCount)
+							{
+								craftingRecipe = null;
+							}
+						}
+						else
+						{
+							craftingRecipe = null;
+						}
+					}
+				}
+				return craftingRecipe;
+			}
+			return null;
+		}
+
+
+		public static CraftingRecipe FindMatchingRecipe1(SubsystemTerrain terrain, string[] ingredients, float heatLevel)
+		{
+			Func<SubsystemTerrain, string[], float, CraftingRecipe> findMatchingRecipe = CraftingRecipesManager.FindMatchingRecipe1;
+			if (findMatchingRecipe != null)
+			{
+				return findMatchingRecipe(terrain, ingredients, heatLevel);
+			}
+			Block[] blocks = BlocksManager.Blocks;
+			for (int i = 0; i < blocks.Length; i++)
+			{
+				CraftingRecipe adHocCraftingRecipe = blocks[i].GetAdHocCraftingRecipe(terrain, ingredients, heatLevel);
+				if (adHocCraftingRecipe == null)
+					continue;
+				if (adHocCraftingRecipe != null && adHocCraftingRecipe.RequiredHeatLevel > 0  && heatLevel >= adHocCraftingRecipe.RequiredHeatLevel && CraftingRecipesManager.MatchRecipe(adHocCraftingRecipe.Ingredients, ingredients))
+				{
+					return adHocCraftingRecipe;
+				}
+			}
+			int count = CraftingRecipesManager.Recipes.Count;
+			for (int i = 0; i < count; i++)
+			{
+				CraftingRecipe adHocCraftingRecipe = CraftingRecipesManager.Recipes[i];
+				if (adHocCraftingRecipe == null)
+					continue;
+				if (heatLevel >= adHocCraftingRecipe.RequiredHeatLevel && adHocCraftingRecipe.RequiredHeatLevel > 0  && CraftingRecipesManager.MatchRecipe(adHocCraftingRecipe.Ingredients, ingredients))
+				{
+					return adHocCraftingRecipe;
+				}
+			}
+			return null;
+		}
+
 	}
+
 }

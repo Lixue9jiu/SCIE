@@ -17,23 +17,24 @@ namespace Game
 			SBullet,
 			MiniBullet,
 			Shell,
-			UShell
+			UShell,
+			BuckB
 		}
 
 		public const int Index = 214;
 
 		protected static readonly string[] m_displayNames =
 		{
-			"Musket Ball", "Buckshot", "Buckshot Ball", "IronBullet", "C-Bullet", "SnpierBullet", "MiniShell", "Shell", "UShell"
+			"Musket Ball", "Buckshot", "Buckshot Ball", "IronBullet", "C-Bullet", "SnpierBullet", "MiniShell", "Shell", "UShell","Buckshot Ball"
 		};
 
-		protected static readonly float[] m_sizes = { 1f, 1f, 0.33f, 1f, 0.5f, 0.8f ,1f,2f,2f};
+		protected static readonly float[] m_sizes = { 1f, 1f, 0.33f, 1f, 0.5f, 0.8f ,1f,2f,2f,0.4f};
 
-		protected static readonly int[] m_textureSlots = { 229, 231, 229, 229, 229, 229 ,229,229,229};
+		protected static readonly int[] m_textureSlots = { 229, 231, 229, 229, 229, 229 ,229,229,229,229};
 
-		protected static readonly float[] m_weaponPowers = { 60f, 0f, 3.6f, 90f, 50f, 200f ,150f,400f,800f};
+		protected static readonly float[] m_weaponPowers = { 60f, 0f, 3.6f, 90f, 50f, 200f ,150f,400f,800f,10f};
 
-		protected static readonly float[] m_explosionPressures = { 0f, 0f, 0f, 0.1f, 0.1f, 0.1f ,30f,400f,800f};
+		protected static readonly float[] m_explosionPressures = { 0f, 0f, 0f, 0.1f, 0.1f, 0.1f ,30f,400f,800f,0.1f};
 
 		public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
 		{

@@ -37,6 +37,7 @@ namespace Game
 		{
 		}
 		public DynamicArray<Vector4> m_radations = new DynamicArray<Vector4>();
+		public DynamicArray<Vector4> m_radio = new DynamicArray<Vector4>();
 
 		public float FindNearestCompassTarget(Vector3 Position)
 		{
@@ -67,7 +68,8 @@ namespace Game
 			"SChest",
 			"RCore",
 			"RHead",
-			"TChange"
+			null,
+			"FRCore"
 		};
 
 		public override int[] HandledBlocks => new[] { SourBlock.Index };
@@ -179,18 +181,23 @@ namespace Game
 			m_subsystemBlockEntities = Project.FindSubsystem<SubsystemBlockEntities>(throwOnError: true);
 			m_subsystemPickables = Project.FindSubsystem<SubsystemPickables>(throwOnError: true);
 			m_radations = new DynamicArray<Vector4>(HumanReadableConverter.ValuesListFromString<Vector4>(';', valuesDictionary.GetValue("Radiation", "")));
+			m_radio = new DynamicArray<Vector4>(HumanReadableConverter.ValuesListFromString<Vector4>(';', valuesDictionary.GetValue("Radio", "")));
 		}
 		public override void Save(ValuesDictionary valuesDictionary)
 		{
 			base.Save(valuesDictionary);
 			string value = HumanReadableConverter.ValuesListToString(';', m_radations.ToArray());
+			string value2 = HumanReadableConverter.ValuesListToString(';', m_radio.ToArray());
 			valuesDictionary.SetValue("Radiation", value);
+			valuesDictionary.SetValue("Radio", value2);
 		}
 		public override bool OnInteract(TerrainRaycastResult raycastResult, ComponentMiner componentMiner)
 		{
 			int type = Terrain.ExtractData(Utils.Terrain.GetCellValueFast(raycastResult.CellFace.X, raycastResult.CellFace.Y, raycastResult.CellFace.Z)) >> 10;
-			if (base.OnInteract(raycastResult, componentMiner) && type != 0 && componentMiner.ComponentPlayer.ComponentGui.ModalPanelWidget is StoveWidget widget)
-				widget.Children.Find<LabelWidget>("Label", false).Text = Utils.Get(SourBlock.Names[type]);
+			if (base.OnInteract(raycastResult, componentMiner) && type != 0 && componentMiner.ComponentPlayer.ComponentGui.ModalPanelWidget is StoveWidget widget && type != 7)
+				widget.Children.Find<LabelWidget>("Label", false).Text = Utils.Get(SourBlock.Names[type]) ;
+			if (type == 6)
+				return false;
 			return true;
 		}
 
@@ -212,7 +219,9 @@ namespace Game
 				case 5:
 					return new NewChestWidget(inventory, component ,"RactorHead");
 				case 6:
-					return new SteelChestWidget(inventory, component);
+					return null;
+				case 7:
+					return new NewChestWidget(inventory, component, "HotNeutronReactor");
 			}
 			return null;
 		}

@@ -268,7 +268,8 @@ namespace Game
 				{
 					Vector2 value = playerInput.Aim.Value;
 					Vector3 v = View.ActiveCamera.ScreenToWorld(new Vector3(value, 1f), Matrix.Identity);
-					ComponentGui.ShowAimingSights(viewPosition2, Vector3.Normalize(v - viewPosition2));
+					//Vector3 vv = componentBoat44
+					this.ComponentGui.ShowAimingSights(viewPosition2, Vector3.Normalize(v - viewPosition2));
 					componentBoat44.vet1 = Vector3.Normalize(v - viewPosition2);
 					if (componentBoat44.HeatLevel == 499f)
 					{
@@ -282,6 +283,35 @@ namespace Game
 					//}
 					return;
 				}
+
+				var componentBoat45 = mount.Entity.FindComponent<ComponentMGun>();
+				if (playerInput.Aim.HasValue && componentBoat45 != null)
+				{
+					Vector2 value = playerInput.Aim.Value;
+					Vector3 v = View.ActiveCamera.ScreenToWorld(new Vector3(value, 1f), Matrix.Identity);
+					Vector3 vv = mount.ComponentBody.Matrix.Forward;
+					Vector3 vv2 = Vector3.Normalize(v - viewPosition2);
+
+					Vector3 vv3 = new Vector3(0f, 0f, 0f);
+					if (Vector3.Cross(vv,vv2).Length()>0.5f)
+					{
+						return;
+					}
+					this.ComponentGui.ShowAimingSights(viewPosition2, vv2);
+					componentBoat45.vect = vv2;
+					if (componentBoat45.fire == 0f)
+					{
+						componentBoat45.fire = 1;
+					}
+
+					//if (componentBoat44.HeatLevel == 500f && m_subsystemTime.GameTime - m_time2>1f)
+					//{
+					//componentBoat44.HeatLevel -= 10f;
+					m_time2 = m_subsystemTime.GameTime;
+					//}
+					return;
+				}
+
 				if (m_subsystemTime.GameTime - m_time2 < 2 * dt && m_time2 != 0)
 				{
 					if (componentBoat44.HeatLevel == 500f)

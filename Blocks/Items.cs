@@ -330,6 +330,42 @@ namespace Game
 			/*new Plane(),
 			new Plate("128K RAM", Color.DarkGreen, true),
 			new Airplane(),
+			new MouldItem("UsedUpFuel", "Models/Rods", "SteelRod", Matrix.CreateTranslation(0.0f, -0.5f, 0f)* Matrix.CreateScale(1.6f,1f,1.6f), Matrix.Identity, "用尽的核燃料","用尽的核燃料",2.3f),
+			new Powder("PU239P", "PU239P", Color.DarkGray),
+			new Mould("Models/Rods", "SteelRod", Matrix.CreateTranslation(0f,-0.5f,0f) * Matrix.CreateScale(16f,0.5f, 16f), Matrix.CreateTranslation(9f / 16f, -3f / 16f, 0f) * Matrix.CreateScale(20f),Color.DarkGray, "PU239C", "PU239C"),
+			new Flat("中子反射板","可以反射一部分中子",154),
+			new MGun(),
+			new MeshItem("火箭发动机")
+			{
+				DefaultDisplayName = "火箭发动机",
+				DefaultDescription = "火箭发动机，火箭的必备组件，提供强大的推力"
+			}
+			.AppendMesh("Models/EmptyBucket", "Bucket", Matrix.CreateScale(1f)*Matrix.CreateTranslation(0.0f, 0.5f, 0.0f)  * Matrix.CreateRotationX(1.5f), Matrix.CreateTranslation(9f / 16f,-12f / 16 / 16f, 0f), Color.Black)
+			.AppendMesh("Models/Battery", "Battery", Matrix.CreateScale(1.2f) * Matrix.CreateTranslation(0f, -0.6f, 0f)* Matrix.CreateRotationX(1.5f), Matrix.CreateTranslation(9f / 16f, -7f / 16f, 0f), Color.Gray),
+			new MouldItem("LH2","Models/Cylinder", "obj1", Matrix.CreateScale(40f, 80f, 40f) * Matrix.CreateTranslation(0.5f, 0f, 0.5f), Matrix.CreateTranslation(9f / 16f, -7f / 16f, 0f), "液态氢", "液态氢", 1.5f),
+			new MouldItem("LO2","Models/Cylinder", "obj1", Matrix.CreateScale(40f, 80f, 40f) * Matrix.CreateTranslation(0.5f, 0f, 0.5f), Matrix.CreateTranslation(9f / 16f, -7f / 16f, 0f), "液态氧", "液态氧", 1.5f),
+			new MouldItem("LD2","Models/Cylinder", "obj1", Matrix.CreateScale(40f, 80f, 40f) * Matrix.CreateTranslation(0.5f, 0f, 0.5f), Matrix.CreateTranslation(9f / 16f, -7f / 16f, 0f), "液态D2", "液态D2", 1.5f),
+			new MouldItem("LN2","Models/Cylinder", "obj1", Matrix.CreateScale(40f, 80f, 40f) * Matrix.CreateTranslation(0.5f, 0f, 0.5f), Matrix.CreateTranslation(9f / 16f, -7f / 16f, 0f), "液态氮", "液态氮", 1.5f),
+			new MouldItem("LCl2","Models/Cylinder", "obj1", Matrix.CreateScale(40f, 80f, 40f) * Matrix.CreateTranslation(0.5f, 0f, 0.5f), Matrix.CreateTranslation(9f / 16f, -7f / 16f, 0f), "液态氯", "液态氯", 1.5f),
+			new Mould("Models/Brick", "Brick", Matrix.CreateScale(2f, 0.5f, 1f)*Matrix.CreateScale(3f), Matrix.CreateTranslation(9f / 16f, -7f / 16f, 0f) * Matrix.CreateScale(20f), "钛合金板", "钛合金板"),
+			new Rocket(),
+			new MeshItem("卫星")
+			{
+				DefaultDisplayName = "卫星",
+				DefaultDescription = "给予提供侦察功能"
+			}
+			.AppendMesh("Models/Battery", "Battery", Matrix.CreateScale(0.7f) * Matrix.CreateTranslation(0f, -0.3f, 0f) * Matrix.CreateRotationZ(1.5f), Matrix.CreateTranslation(9f / 16f, -7f / 16f, 0f), Color.DarkGray)
+			.AppendMesh("Models/EmptyBucket", "Bucket", Matrix.CreateScale(0.6f)*Matrix.CreateTranslation(0.05f, 0.3f, 0.0f)  * Matrix.CreateRotationZ(-1.5f), Matrix.CreateTranslation(9f / 16f,-12f / 16 / 16f, 0f), Color.Black)
+			.AppendMesh("Models/Brick", "Brick",Matrix.CreateScale(1f, 0.015f, 3f)*Matrix.CreateScale(1.8f), Matrix.CreateTranslation(9f / 16f, -7f / 16f, 0f) * Matrix.CreateScale(20f), Color.Blue),
+			new MeshItem("卫星连接器")
+			{
+				DefaultDisplayName = "卫星连接器",
+				DefaultDescription = "卫星连接器，可以探查地形。"
+			}
+			.AppendMesh("Models/Brick", "Brick", Matrix.CreateScale(1f, 0.25f, 1f), Matrix.CreateTranslation(9f / 16f, -7f / 16f, 0f) * Matrix.CreateScale(20f), Color.Black)
+			.AppendMesh("Models/Brick", "Brick", Matrix.CreateScale(0.5f, 0.25f, 0.5f)*Matrix.CreateTranslation(0f,0.05f,0f), Matrix.CreateTranslation(9f / 16f, -7f / 16f, 0f) * Matrix.CreateScale(20f), Color.Gray),
+			//new MouldItem("LH2","Models/Cylinder", "obj1", Matrix.CreateScale(40f, 80f, 40f) * Matrix.CreateTranslation(0.5f, 0f, 0.5f), Matrix.CreateTranslation(9f / 16f, -7f / 16f, 0f), "液态氢", "液态氢", 1.5f),
+			//new MouldItem("LO2","Models/Cylinder", "obj1", Matrix.CreateScale(40f, 80f, 40f) * Matrix.CreateTranslation(0.5f, 0f, 0.5f), Matrix.CreateTranslation(9f / 16f, -7f / 16f, 0f), "液态氧", "液态氧", 1.5f),
 			//new Plane(),
 			/*nnew Plate("128K RAM", Color.DarkGreen, true),
 			new Plate("256K RAM", Color.DarkGreen, true),
@@ -413,6 +449,12 @@ namespace Game
 				new MHDGenerator(),
 				new TElectricWire(),
 				new HGenerator(),
+				new RadioC(),
+				new RadioR(),
+				new WireBlock2(),
+				new ElectricHFurnace(),
+				new AutoGun(),
+				new Liquid(),
 				new Ultracentrifuge(),
 				new FlowCytometer(),
 				new LightningCatcher(),

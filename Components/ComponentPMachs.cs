@@ -125,6 +125,8 @@ namespace Game
 						text = "不锈钢板";
 					else if (value == ItemBlock.IdTable["Industrial Steel"])
 						text = "工业钢板";
+					else if (value == ItemBlock.IdTable["Titanium Steel"])
+						text = "钛合金板";
 					else
 					{
 						var item = Item.Block.GetItem(ref value);

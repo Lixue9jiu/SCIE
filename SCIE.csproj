@@ -67,6 +67,7 @@
     <Compile Include="Blocks\Musket2Block.cs" />
     <Compile Include="Blocks\Musket4Block.cs" />
     <Compile Include="Blocks\Musket5Block.cs" />
+    <Compile Include="Blocks\Musket6Block.cs" />
     <Compile Include="Blocks\SteelTools.cs" />
     <Compile Include="Blocks\TankBlock.cs" />
     <Compile Include="Blocks\DrillBlock.cs" />
@@ -160,6 +161,7 @@
     <Compile Include="Subsystems\SubsystemMusket3BlockBehavior.cs" />
     <Compile Include="Subsystems\SubsystemMusket4BlockBehavior.cs" />
     <Compile Include="Subsystems\SubsystemMusket5BlockBehavior.cs" />
+    <Compile Include="Subsystems\SubsystemMusket6BlockBehavior.cs" />
     <Compile Include="Subsystems\SubsystemRailBlockBehavior.cs" />
     <Compile Include="Subsystems\SubsystemNewBlockBehavior.cs" />
     <Compile Include="Subsystems\SubsystemSourceOfFireBlockBehavior.cs" />
@@ -264,7 +266,9 @@
     <None Include="IndustrialMod\Models\GearMould.dae" />
     <None Include="IndustrialMod\Models\Ingots.dae" />
     <None Include="IndustrialMod\Models\Minecart.dae" />
-    <None Include="IndustrialMod\Models\Nuclearbomb.dae" />
+    <None Include="IndustrialMod\Models\Nuclearbomb.dae">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="IndustrialMod\Models\Piston.dae" />
     <None Include="IndustrialMod\Models\Piston2.dae" />
     <None Include="IndustrialMod\Models\Rods.dae" />

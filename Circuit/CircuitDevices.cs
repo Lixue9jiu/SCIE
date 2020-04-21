@@ -152,7 +152,7 @@ namespace Game
 	{
 		public int Level = -1;
 
-		public AirBlower() : base("鼓风机", "鼓风机是一种将空气输送到需要大量热空气的大型机器中的装置。", 300)
+		public AirBlower() : base("鼓风机", "鼓风机是一种将空气输送到需要大量热空气的大型机器中的装置。", 250)
 		{
 		}
 
@@ -254,6 +254,30 @@ namespace Game
 		}
 	}
 
+
+	public class ElectricHFurnace : InventoryEntityDevice<ComponentElectricHFurnace>
+	{
+		public ElectricHFurnace() : base("工业电子高炉", "工业电子高炉是一种通过电来加热物体的机器，主要用来冶炼合金", 1300) { }
+		public override void Simulate(ref int voltage)
+		{
+			base.Simulate(ref voltage);
+			Component.Powered = Powered;
+		}
+		public override void OnBlockAdded(SubsystemTerrain subsystemTerrain, int value, int oldValue)
+		{
+			base.OnBlockAdded(subsystemTerrain, value, oldValue);
+			Component.Powered = false;
+		}
+		public override int GetFaceTextureSlot(int face, int value)
+		{
+			return face != 4 && face != 5 && face == (Terrain.ExtractData(value) >> 15) ? 157 : 107;
+		}
+		public override Widget GetWidget(IInventory inventory, ComponentElectricHFurnace component)
+		{
+			return new ElectricFurnaceWidget(inventory, component, "Widgets/ElectricHFurnaceWidget");
+		}
+	}
+
 	public class ElectricMotor : CubeDevice
 	{
 		public ElectricMotor() : base("电动机", "电动机是一种可以把电能转化为动能的机器", 310) { }
@@ -261,6 +285,16 @@ namespace Game
 		public override int GetFaceTextureSlot(int face, int value)
 		{
 			return face == 4 || face == 5 ? 107 : 147;
+		}
+	}
+
+	public class WireBlock2 : CubeDevice
+	{
+		public WireBlock2() : base("电子方块", "电子方块是一种导电的，可以传输电能的方块",0) { }
+
+		public override int GetFaceTextureSlot(int face, int value)
+		{
+			return face == 4 || face == 5 ? 107 : 156;
 		}
 	}
 
@@ -464,6 +498,86 @@ namespace Game
 		public override Widget GetWidget(IInventory inventory, ComponentLaserG component)
 		{
 			return new LaserWidget(inventory, component);
+		}
+	}
+
+	public class AutoGun : InventoryEntityDevice<ComponentAGun>
+	{
+		public AutoGun() : base("自动机枪塔", "自动机枪塔是一种自动朝着非主角单位发射子弹的机器",220) { }
+
+		public override void Simulate(ref int voltage)
+		{
+			base.Simulate(ref voltage);
+			Component.Powered = Powered;
+		}
+		public override int GetFaceTextureSlot(int face, int value)
+		{
+			return face != 4 && face != 5 ? 161 : 107;
+		}
+		//return face != 4 && face != 5 ? face == (Terrain.ExtractData(value) >> 15) ? 240 : 241 : 147;
+		public override Widget GetWidget(IInventory inventory, ComponentAGun component)
+		{
+			return new AGunWidget(inventory, component);
+		}
+	}
+
+	public class Liquid : InventoryEntityDevice<ComponentLiquid>
+	{
+		public Liquid() : base("液化机", "液化机是一种把特定的气体液化的机器", 310) { }
+
+		public override void Simulate(ref int voltage)
+		{
+			base.Simulate(ref voltage);
+			Component.Powered = Powered;
+		}
+		public override int GetFaceTextureSlot(int face, int value)
+		{
+			return face != 4 && face != 5 ? face == (Terrain.ExtractData(value) >> 15) ? 160 : 107 : 107;
+		}
+		//return face != 4 && face != 5 ? face == (Terrain.ExtractData(value) >> 15) ? 240 : 241 : 147;
+		public override Widget GetWidget(IInventory inventory, ComponentLiquid component)
+		{
+			return new SeparatorWidget(inventory, component, "Liquefier");
+		}
+	}
+
+	public class RadioC : InventoryEntityDevice<ComponentRadioC>
+	{
+		public RadioC() : base("无线电发射装置", "无线电发射装置是一种利用线圈通电发射无线电的装置，可以发出给定频率的脉冲信号",100) { }
+
+		public override void Simulate(ref int voltage)
+		{
+			if (voltage > 8000)
+				return;
+			base.Simulate(ref voltage);
+			Component.Powered = Powered;
+		}
+		public override int GetFaceTextureSlot(int face, int value)
+		{
+			return face != 4 && face != 5 ? face == (Terrain.ExtractData(value) >> 15) ? 150 : 107 : 107;
+		}
+		//return face != 4 && face != 5 ? face == (Terrain.ExtractData(value) >> 15) ? 240 : 241 : 147;
+		public override Widget GetWidget(IInventory inventory, ComponentRadioC component)
+		{
+			return new RadioCWidget(inventory, component);
+		}
+	}
+
+	public class RadioR : InventoryEntityDevice2<ComponentRadioR>
+	{
+		public RadioR() : base("无线电接受装置", "无线电接受装置是一种利用简单线圈回路接受无线电的装置，可以接受给定频率的脉冲信号，有时候会出现接受不到的情况") { }
+
+		public override void Simulate(ref int voltage)
+		{
+		}
+		public override int GetFaceTextureSlot(int face, int value)
+		{
+			return face != 4 && face != 5 ? face == (Terrain.ExtractData(value) >> 15) ? 151 : 107 : 107;
+		}
+		//return face != 4 && face != 5 ? face == (Terrain.ExtractData(value) >> 15) ? 240 : 241 : 147;
+		public override Widget GetWidget(IInventory inventory, ComponentRadioR component)
+		{
+			return new RadioRWidget(inventory, component);
 		}
 	}
 

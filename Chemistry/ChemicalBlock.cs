@@ -154,6 +154,8 @@ namespace Game
 				new PurePowder("PCl₃"),
 				new PurePowder("PCl₅"),
 				new Bottle("C7H8"),
+				new Cylinder("D₂"),
+				//
 			};
 			for (int i = 0; i < Cations.Length; i++)
 			{
@@ -207,6 +209,9 @@ namespace Game
 			list.Add(new PurePowder("Ca(CN)₂"));
 			list.Add(new PurePowder("Ba(CN)₂"));
 			list.Add(new Cylinder("C₂H₄"));
+			//new Cylinder("L H₂"),
+			//new Cylinder("L O₂"),
+			//new Cylinder("L Cl₂"),
 			//list.Add(new PurePowder("AgBr", Color.LightYellow));
 			//list.Add(new PurePowder("AgI", Color.Yellow));
 			Items = list;

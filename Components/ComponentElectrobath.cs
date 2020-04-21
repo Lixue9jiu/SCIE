@@ -106,6 +106,45 @@ namespace Game
 							}
 						}
 					}
+					if (m_slots[0].Value == (RottenMeatBlock.Index | 15 << 18))
+					{
+						Point3 coordinates = m_componentBlockEntity.Coordinates;
+						int num31 = coordinates.X;
+						int num41 = coordinates.Y;
+						int num51 = coordinates.Z;
+						int cellValue1 = Terrain.ReplaceLight(Utils.Terrain.GetCellValue(num31, num41 + 1, num51), 0);
+						if (ElementBlock.Block.GetDevice(num31, num41 + 1, num51, cellValue1) is AirPresser em && em.Powered)
+						{
+							var point3 = new Point3(num31, num41 + 1, num51);
+							var entity = Utils.GetBlockEntity(point3);
+							Component component3 = entity.Entity.FindComponent<ComponentAirPresser>();
+							if (entity != null && component3 != null)
+							{
+								IInventory inventory = entity.Entity.FindComponent<ComponentAirPresser>(true);
+								for (int i = 0; i < 6; i++)
+								{
+									//int value23 = 0;
+									int va1 = inventory.GetSlotValue(i);
+									if (Utils.Random.Bool(0.660f))
+									{
+										if (va1 == ItemBlock.IdTable["멀틸"] && AcquireItems(inventory, ItemBlock.IdTable["D2"], 1) == 0)
+										{
+											inventory.RemoveSlotItems(i, 1);
+											i += 6;
+										}
+									}
+									else
+									{
+										if (va1 == ItemBlock.IdTable["멀틸"] && AcquireItems(inventory, ItemBlock.IdTable["O2"], 1) == 0)
+										{
+											inventory.RemoveSlotItems(i, 1);
+											i += 6;
+										}
+									}
+								}
+							}
+						}
+					}
 					if (m_slots[0].Value == ItemBlock.IdTable["S-NaCl"])
 					{
 						Point3 coordinates = m_componentBlockEntity.Coordinates;
@@ -188,6 +227,10 @@ namespace Game
 				{
 					text |= 1;
 				}
+				if (value == ItemBlock.IdTable["Al"] && v)
+				{
+					text |= 3;
+				}
 				if (value == ItemBlock.IdTable["Cryolite"])
 				{
 					text |= 2;
@@ -208,6 +251,18 @@ namespace Game
 				{
 					text = 10;
 					result[0] = ItemBlock.IdTable["HNO3"];
+					break;
+				}
+				if (GetSlotValue(0) == ItemBlock.IdTable["PU239P"])
+				{
+					text = 11;
+					result[0] = ItemBlock.IdTable["PU239C"];
+					break;
+				}
+				if (GetSlotValue(0) == (RottenMeatBlock.Index | 15 << 18))
+				{
+					text = 12;
+					result[0] = WaterBucketBlock.Index;
 					break;
 				}
 			}

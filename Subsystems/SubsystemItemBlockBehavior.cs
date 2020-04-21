@@ -192,7 +192,7 @@ namespace Game
 				if (body.HasValue && (!result.HasValue || body.Value.Distance < result.Value.Distance))
 				{
 					entity = body.Value.ComponentBody.Entity;
-					if (entity.FindComponent<ComponentTrain>() != null || entity.FindComponent<ComponentBoatI>() != null)
+					if (entity.FindComponent<ComponentTrain>() != null || entity.FindComponent<ComponentBoatI>() != null || entity.FindComponent<ComponentBoat>() != null || entity.FindComponent<ComponentRocket>() != null)
 					{
 						for (var i = entity.FindComponents<IInventory>().GetEnumerator(); i.MoveNext();)
 							i.Current.DropAllItems(position);
@@ -232,6 +232,32 @@ namespace Game
 				var view = componentMiner.ComponentPlayer.View;
 				view.ActiveCamera = view.ActiveCamera is TelescopeCamera ? view.FindCamera<FppCamera>(true) : (Camera)new TelescopeCamera(view);
 				return true;
+			}
+			else if (activeBlockValue == ItemBlock.IdTable["卫星连接器"])
+			{
+				bool find=false;
+				for (int iii = 0; iii < Utils.SubsystemSour.m_radio.Count; iii++)
+				{
+					if (Utils.SubsystemSour.m_radio.Array[iii].W == 12345)
+					{
+						find = true;
+						break;
+					}
+				}
+				if(find)
+				{
+					var view = componentMiner.ComponentPlayer.View;
+					if (!(view.ActiveCamera is DebugCamera2))
+					componentMiner.ComponentPlayer.ComponentGui.DisplaySmallMessage("Satellite Connected  " + componentMiner.ComponentPlayer.View.ActiveCamera.ViewPosition.ToString(), blinking: true, playNotificationSound: true);
+					view.ActiveCamera = view.ActiveCamera is DebugCamera2 ? view.FindCamera<FppCamera>(true) : (Camera)new DebugCamera2(view);
+					return true;
+
+				}else
+				{
+					componentMiner.ComponentPlayer.ComponentGui.DisplaySmallMessage("No Satellite Found", blinking: true, playNotificationSound: true);
+				}
+				//ScreensManager.SwitchScreen(new RecipaediaScreen2());
+				
 			}
 			/*else if (activeBlockValue == ItemBlock.IdTable["Minecart"])
 			{
@@ -294,10 +320,22 @@ namespace Game
 					entity.FindComponent<ComponentFrame>(true).Rotation = Quaternion.CreateFromAxisAngle(Vector3.UnitY, 0f);
 					goto put;
 				}
+				if (activeBlockValue == ItemBlock.IdTable["Rocket"])
+				{
+					entity = DatabaseManager.CreateEntity(Project, "Rocket", true);
+					entity.FindComponent<ComponentFrame>(true).Rotation = Quaternion.CreateFromAxisAngle(Vector3.UnitY, 0f);
+					goto put;
+				}
 				else if (activeBlockValue == ItemBlock.IdTable["Icebreaker"])
 				{
 					entity = DatabaseManager.CreateEntity(Project, "Icebreaker", true);
 					entity.FindComponent<ComponentFrame>(true).Rotation = Quaternion.CreateFromAxisAngle(Vector3.UnitY, 0f);
+					goto put;
+				}
+				else if (activeBlockValue == ItemBlock.IdTable["MGun"])
+				{
+					entity = DatabaseManager.CreateEntity(Project, "MGun", true);
+					entity.FindComponent<ComponentFrame>(true).Rotation = Quaternion.CreateFromAxisAngle(Vector3.UnitY, m_random.UniformFloat(0f, 6.283185f));
 					goto put;
 				}
 				else if (activeBlockValue == ItemBlock.IdTable["Airship"])
