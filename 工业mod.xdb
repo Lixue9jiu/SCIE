@@ -12,6 +12,7 @@
   <Parameter Name="Class" Guid="4e14ce27-fdef-46ca-8ea0-26af43c215e5" new-Value="Game.ComponentNHealth" Type="string" />
   <Parameter Name="Class" Guid="d3764c71-e1e7-48b1-b12a-17428daad169" new-Value="Game.SubsystemCreatureS" />
   <Parameter Name="Class" Guid="0bb9a8b6-796f-4aa7-bb73-543259efe513" new-Value="Game.ComponentChaseBehavior2" />
+  <Parameter Name="Class" Guid="b4f7e5b0-df22-47ea-a1eb-df191df54f2e" new-Value="Game.SubsystemWeather2" />
   <EntityTemplate Name="AICreature" Guid="3f077159-f492-419b-859a-bb051de6339f" InheritanceParent="bc5be211-c1f8-4e50-9ffb-4fde625d2692">
     <MemberComponentTemplate Name="Variant" Guid="da33b9ad-acfa-4b82-83ac-0eb3bb1dfa11" InheritanceParent="8547d74d-d347-4644-a839-14adf11731d0" />
   </EntityTemplate>
@@ -35,16 +36,22 @@
         <Parameter Name="Class" Guid="1c8a89ff-22f9-45aa-aae3-039ba73b12b6" Value="Game.ComponentMagnetizer" Type="string" />
       </MemberComponentTemplate>
     </EntityTemplate>
+	<EntityTemplate Name="AutoFactory" Guid="0815a217-af17-1955-81fa-aafaf97b92bd" InheritanceParent="9681f999-898b-4f5c-9ea8-f8cc331e97b3">
+      <MemberComponentTemplate Name="AutoFactory" Guid="1f191a13-ac7d-4b4c-97c7-df652ca11b51" InheritanceParent="81a44c6a-c30a-4f53-8d64-0c30aabab8f9">
+        <Parameter Name="SlotsCount" Guid="0b1d5741-f972-431b-9828-d30e0fbf33f1" Value="9" Type="int" />
+        <Parameter Name="Class" Guid="1c8a19f1-22f9-45aa-aae3-039ba73b12b1" Value="Game.ComponentAutoFactory" Type="string" />
+      </MemberComponentTemplate>
+    </EntityTemplate>
     <EntityTemplate Name="OilPlant" Guid="26ffa277-af17-4955-81fa-aafaf97b92bd" InheritanceParent="9681f999-898b-4f5c-9ea8-f8cc331e97b3">
       <MemberComponentTemplate Name="OilPlant" Guid="0f473a13-ac7d-4b4c-97c7-df652ca11b51" InheritanceParent="81a44c6a-c30a-4f54-8d64-0c30aabab8fa">
         <Parameter Name="Class" Guid="7f2a89ff-22f9-45aa-aae4-039ba73b12b6" Value="Game.ComponentOilPlant" Type="string" />
-        <Parameter Name="SlotsCount" Guid="fb8d5f4d-ff72-4f1b-9828-d30effbf33f1" Value="8" Type="int" />
+		<Parameter Name="SlotsCount" Guid="fb8d5f4d-ff72-4f1b-9828-d30effbf33f1" Value="8" Type="int" />
       </MemberComponentTemplate>
     </EntityTemplate>
-    <EntityTemplate Name="Hchanger" Guid="3711a277-af17-4955-81fa-aafaf97b92bd" InheritanceParent="9681f999-898b-4f5c-9ea8-f8cc331e97b3">
+	<EntityTemplate Name="Hchanger" Guid="3711a277-af17-4955-81fa-aafaf97b92bd" InheritanceParent="9681f999-898b-4f5c-9ea8-f8cc331e97b3">
       <MemberComponentTemplate Name="Hchanger" Guid="8f883a13-ac7d-4b4c-97c7-df652ca11b51" InheritanceParent="81a44c6a-c30a-4f54-8d64-0c30aabab8fa">
         <Parameter Name="Class" Guid="7f2a89ff-88f9-4588-aae4-039ba73b12b6" Value="Game.ComponentHChanger" Type="string" />
-        <Parameter Name="SlotsCount" Guid="3b83574d-f373-431b-9828-d30e0fbf33f1" Value="8" Type="int" />
+		<Parameter Name="SlotsCount" Guid="3b83574d-f373-431b-9828-d30e0fbf33f1" Value="8" Type="int" />
       </MemberComponentTemplate>
     </EntityTemplate>
     <EntityTemplate Name="Centrifugal" Guid="26ffa288-af17-4966-81fa-aafaf97b92bf" InheritanceParent="9681f999-898b-4f5c-9ea8-f8cc331e97b3">
@@ -53,15 +60,15 @@
         <Parameter Name="Class" Guid="71338944-27f9-45aa-ffe4-039ba73b12b6" Value="Game.ComponentCentrifugal" Type="string" />
       </MemberComponentTemplate>
     </EntityTemplate>
-    <EntityTemplate Name="UThickener" Guid="2611a299-aa27-4966-81fa-aafaf97b92bf" InheritanceParent="9681f999-898b-4f5c-9ea8-f8cc331e97b3">
+	<EntityTemplate Name="UThickener" Guid="2611a299-aa27-4966-81fa-aafaf97b92bf" InheritanceParent="9681f999-898b-4f5c-9ea8-f8cc331e97b3">
       <MemberComponentTemplate Name="UThickener" Guid="0f486a24-af8d-4b4c-a7c7-df653ca11b51" InheritanceParent="81a44c6a-c30a-4f53-8d64-0c30aabab8f9">
         <Parameter Name="SlotsCount" Guid="556d794d-f192-4314-9828-d30e0fbf44f1" Value="6" Type="int" />
         <Parameter Name="Class" Guid="71348955-2719-45aa-ffe4-539ba73b12b6" Value="Game.ComponentUThicker" Type="string" />
       </MemberComponentTemplate>
     </EntityTemplate>
-    <EntityTemplate Name="Workshop" Guid="2611a299-af18-4966-81fa-aafaf97b92bf" InheritanceParent="9681f999-898b-4f5c-9ea8-f8cc331e97b3">
+	<EntityTemplate Name="Workshop" Guid="2611a299-af18-4966-81fa-aafaf97b92bf" InheritanceParent="9681f999-898b-4f5c-9ea8-f8cc331e97b3">
       <MemberComponentTemplate Name="Workshop" Guid="5f484a24-ac7d-4b4c-97c7-df653ca11b51" InheritanceParent="81a44c6a-c30a-4f53-8d64-0c30aabab8f9">
-      <Parameter Name="SlotsCount" Guid="446d594d-f193-4344-9828-d30e0fbf33f1" Value="27" Type="int" />
+	  <Parameter Name="SlotsCount" Guid="446d594d-f193-4344-9828-d30e0fbf33f1" Value="27" Type="int" />
       <Parameter Name="Class" Guid="71668955-27f9-45ff-ffe4-039ba73b12b6" Value="Game.ComponentLargeCraftingTable" Type="string" />
       </MemberComponentTemplate>
     </EntityTemplate>
@@ -103,6 +110,12 @@
 		<Parameter Name="SlotsCount" Guid="0b8d876f-f772-43fb-9828-d30e0fbf33f1" Value="12" Type="int" />
       </MemberComponentTemplate>
     </EntityTemplate>
+	<EntityTemplate Name="AutoLaser" Guid="18551679-af17-1659-81fa-a1faf97b92bd" InheritanceParent="9681f999-898b-4f5c-9ea8-f8cc331e97b3">
+      <MemberComponentTemplate Name="AutoLaser" Guid="0f17895f-ac9d-4b9c-97c7-df652ca11b51" InheritanceParent="81a44c6a-c30a-4f54-8d64-0c30aabab8fa">
+        <Parameter Name="Class" Guid="1c8a9aed-2899-4596-9a93-039ba73b12b6" Value="Game.ComponentALaser" Type="string" />
+		<Parameter Name="SlotsCount" Guid="9b8d976f-9772-93fb-9828-d30e0fbf33f1" Value="0" Type="int" />
+      </MemberComponentTemplate>
+    </EntityTemplate>
 	<EntityTemplate Name="Liquid" Guid="08511679-af17-6655-81fa-aafaf97b92bd" InheritanceParent="9681f999-898b-4f5c-9ea8-f8cc331e97b3">
       <MemberComponentTemplate Name="Liquid" Guid="0f17811f-ac7d-4b4c-97c7-df652ca11b51" InheritanceParent="81a44c6a-c30a-4f54-8d64-0c30aabab8fa">
         <Parameter Name="Class" Guid="1c8a9aed-2889-4116-aae3-039ba73b12b6" Value="Game.ComponentLiquid" Type="string" />
@@ -140,19 +153,19 @@
         <Parameter Name="Class" Guid="f3839331-2233-4533-aae3-039ba73b12b7" Value="Game.ComponentLaserG" Type="string" />
       </MemberComponentTemplate>
     </EntityTemplate>
-    <EntityTemplate Name="Turbine" Guid="1866a995-af18-4955-81fa-aafaf97b92bd" InheritanceParent="9681f999-898b-4f5c-9ea8-f8cc331e97b3">
+	<EntityTemplate Name="Turbine" Guid="1866a995-af18-4955-81fa-aafaf97b92bd" InheritanceParent="9681f999-898b-4f5c-9ea8-f8cc331e97b3">
       <MemberComponentTemplate Name="Turbine" Guid="1f122f52-fc7d-4b4c-97c7-df652ca11b51" InheritanceParent="81a44c6a-c30a-4f53-8d64-0c30aabab8f9">
         <Parameter Name="Class" Guid="7c8f9771-22f9-4577-aae3-039ba73b12b6" Value="Game.ComponentTurbine" Type="string" />
       </MemberComponentTemplate>
     </EntityTemplate>
-    <EntityTemplate Name="RControl" Guid="1866a885-af18-4955-81fa-aaf1197b92bd" InheritanceParent="9681f999-898b-4f5c-9ea8-f8cc331e97b3">
+	<EntityTemplate Name="RControl" Guid="1866a885-af18-4955-81fa-aaf1197b92bd" InheritanceParent="9681f999-898b-4f5c-9ea8-f8cc331e97b3">
       <MemberComponentTemplate Name="RControl" Guid="7f188f59-fc7d-4b4c-97c7-df652ca11b51" InheritanceParent="81a44c6a-c30a-4f53-8d64-0c30aabab8f9">
         <Parameter Name="Class" Guid="1c7f9771-22f9-45bb-88e3-039ba73b12b6" Value="Game.ComponentRControl" Type="string" />
       </MemberComponentTemplate>
     </EntityTemplate>
     <EntityTemplate Name="TGenerator" Guid="1877a775-af18-4955-81fa-aafaf97b92bd" InheritanceParent="9681f999-898b-4f5c-9ea8-f8cc331e97b3">
       <MemberComponentTemplate Name="TGenerator" Guid="0f1aaf59-fc7d-4b4c-97c7-df652ca11b51" InheritanceParent="81a44c6a-c30a-4f54-8d64-0c30aabab8fa">
-        <Parameter Name="SlotsCount" Guid="fb12aa6f-f972-431f-9828-d30e0fbf33f1" Value="6" Type="int" />
+	  <Parameter Name="SlotsCount" Guid="fb12aa6f-f972-431f-9828-d30e0fbf33f1" Value="6" Type="int" />
         <Parameter Name="Class" Guid="1d8f9ff2-22f9-45bb-aae3-039ba73b22b6" Value="Game.ComponentTGenerator" Type="string" />
       </MemberComponentTemplate>
     </EntityTemplate>
@@ -160,11 +173,6 @@
       <MemberComponentTemplate Name="TGenerator" Guid="cf1bbf59-fc7d-7b4c-97c7-df652ca11b51" InheritanceParent="81a44c6a-c30a-4f54-8d64-0c30aabab8fa">
 	  <Parameter Name="SlotsCount" Guid="fb12456f-f972-461f-9828-d30e0fbf33f1" Value="6" Type="int" />
         <Parameter Name="Class" Guid="1d8f9ff2-22f9-45b7-aae3-039ba83b62b6" Value="Game.ComponentHGenerator" Type="string" />
-      </MemberComponentTemplate>
-    </EntityTemplate>
-    <EntityTemplate Name="FuelCell" Guid="1877a776-af18-4955-81fa-aafaf97b92bd" InheritanceParent="1877a775-af18-4955-81fa-aafaf97b92bd">
-      <MemberComponentTemplate Name="TGenerator" Guid="0f1aaf59-fc7e-4b4c-97c7-df652ca11b51">
-        <Parameter Name="Speed" Guid="1d8f9ff3-22f9-45bb-aae3-039ba73b22b6" Value="0.2" Type="float" />
       </MemberComponentTemplate>
     </EntityTemplate>
     <EntityTemplate Name="Separator" Guid="0855a387-af17-4955-81fa-aafaf97b92bd" InheritanceParent="9681f999-898b-4f5c-9ea8-f8cc331e97b3">
@@ -199,9 +207,9 @@
         <Parameter Name="Class" Guid="1c9b89f0-22f9-45aa-aae3-039ba73b12b6" Value="Game.ComponentUnloader" Type="string" />
       </MemberComponentTemplate>
     </EntityTemplate>
-    <EntityTemplate Name="Inserter" Guid="2977a377-af17-4955-81fa-aafaf97b92bd" InheritanceParent="9681f999-898b-4f5c-9ea8-f8cc331e97b3">
+	<EntityTemplate Name="Inserter" Guid="2977a377-af17-4955-81fa-aafaf97b92bd" InheritanceParent="9681f999-898b-4f5c-9ea8-f8cc331e97b3">
       <MemberComponentTemplate Name="Inserter" Guid="3f173a26-ac7d-4b4c-37c7-df6523a33b51" InheritanceParent="7312ec8c-10c7-4133-85b4-4a35bd44c956">
-        <Parameter Name="SlotsCount" Guid="fcfd686f-f972-431b-9828-d31effbf33f1" Value="1" Type="int" />
+	    <Parameter Name="SlotsCount" Guid="fcfd686f-f972-431b-9828-d31effbf33f1" Value="1" Type="int" />
         <Parameter Name="Class" Guid="2f1b89f1-22f9-4566-aae3-039ba73b12b6" Value="Game.ComponentInserter" Type="string" />
       </MemberComponentTemplate>
     </EntityTemplate>
@@ -256,6 +264,32 @@
         <Parameter Name="Mass" Guid="ae127d38-1576-4901-a319-b21a8dc22175" Value="250" Type="float" />
         <Parameter Name="AirDrag" Guid="d850431d-da38-409b-9b32-aadf09fc82a4" Value="0.25,0.5" Type="Vector2" />
         <Parameter Name="Density" Guid="f2894d7d-5ef9-44c5-881e-a724610e3cd5" Value="0.2" Type="float" />
+      </MemberComponentTemplate>
+    </EntityTemplate>
+	<EntityTemplate Name="Submarine" Guid="9f9abb7e-1ce4-43fa-9612-47d69bf788ba" InheritanceParent="3f3abb7e-1ce4-43fa-9612-47d69bf788bb">
+      <MemberComponentTemplate Name="BoatI" Guid="a972d5da-5397-4df6-929e-a51abcd70387" InheritanceParent="b05700ed-7e4e-4679-98f5-b597f421496b">
+        <Parameter Name="Class" Guid="5a7229b2-7adc-4d19-9889-d94503c52184" Value="Game.ComponentBoatI" Type="string" />
+      </MemberComponentTemplate>
+      <MemberComponentTemplate Name="SteamEngine" Guid="982420a9-19c6-4a2c-9ea5-725fffee2229" InheritanceParent="c93f7906-de35-4e94-ba6e-90cd55cd19d4">
+        <Parameter Name="SlotsCount" Guid="3ddd5623-a4c0-4a95-8598-813ef26dae6b" Value="15" Type="int" />
+      </MemberComponentTemplate>
+      <MemberComponentTemplate Name="SimpleModel" Guid="499a8ad1-9db8-4694-9ee8-8504dbd3c7b1">
+        <Parameter Name="ModelName" Guid="fe4ed206-297f-47ca-959a-939ea7d6e881" Value="Models/QST" Type="string" />
+        <Parameter Name="TextureOverride" Guid="ffe956e5-937a-4504-a9fe-baf88d835b11" Value="Textures/QST" Type="string" />
+      </MemberComponentTemplate>
+	  <MemberComponentTemplate Name="Mount" Guid="cfff9996-de39-4e94-9a6e-90cd55cd19d4" InheritanceParent="d0b14127-39ce-4490-af00-fb4111e9c51e">
+        <Parameter Name="MountOffset" Guid="36b000ca-89e1-4912-be90-a6b49ae705bc" Value="0,0.55,-1.35" Type="Vector3" />
+        <Parameter Name="DismountOffset" Guid="bac5cc94-b909-4fe1-b840-93843edd05b6" Value="0,1.5,0.4" Type="Vector3" />
+      </MemberComponentTemplate>
+      <MemberComponentTemplate Name="OnFire" Guid="7f79b5a2-295a-4c6d-98a8-9b5ad07b32e5" InheritanceParent="93590d78-63b9-4cd6-bc41-e66864cbb050" />
+      <MemberComponentTemplate Name="Body" Guid="b6900915-ddd6-407b-bd4d-7be14c05d3eb">
+        <Parameter Name="WaterSwayAngle" Guid="09cc6498-eb39-4058-850f-a12f2a86c16a" Value="0.00" Type="float" />
+        <Parameter Name="MaxSmoothRiseHeight" Guid="119519b4-e696-4604-aae9-7d0a3273c987" Value="0.0" Type="float" />
+        <Parameter Name="BoxSize" Guid="5329f9ba-8c20-4667-a19e-605afa92e395" Value="2.00,2.0,8.50" Type="Vector3" />
+        <Parameter Name="WaterDrag" Guid="6597df11-9d90-419f-b9b0-4cdf89dcdae4" Value="0,0" Type="Vector2" />
+        <Parameter Name="Mass" Guid="ae127d39-1576-4901-a319-b91a8dc22975" Value="25000" Type="float" />
+        <Parameter Name="AirDrag" Guid="d850439d-da38-4099-9b39-aadf09fc82a4" Value="0.25,0.5" Type="Vector2" />
+        <Parameter Name="Density" Guid="f2894d79-5ef9-4495-881e-a724619e3cd5" Value="1.0" Type="float" />
       </MemberComponentTemplate>
     </EntityTemplate>
 	<EntityTemplate Name="MGun" Guid="3f3acc7e-1ce4-43fa-9612-47d69bf788ba" InheritanceParent="3f3abb7e-1ce4-43fa-9612-47d69bf788bb">
@@ -411,23 +445,24 @@
         <Parameter Name="Mass" Guid="ae127d38-1571-4901-a319-b21a8dc22175" Value="1000" Type="float" />
       </MemberComponentTemplate>
     </EntityTemplate>
-    <EntityTemplate Name="Tank" Guid="3f4a127e-2ce4-43fa-9612-47d69bf788ba" InheritanceParent="3f3acc8e-1ce4-43fa-9614-47d69bf788ba">
+	<EntityTemplate Name="Tank" Guid="3f4a127e-2ce4-43fa-9612-47d69bf788ba" InheritanceParent="3f3acc8e-1ce4-43fa-9614-47d69bf788ba">
       <MemberComponentTemplate Name="EngineT2" Guid="f82ff5a9-10c6-4a2c-9ea5-725fffee2225" InheritanceParent="81a44c6a-c30a-4f53-8d64-0c30aabab8f9">
         <Parameter Name="Class" Guid="2b1c662e-2d3c-467e-81bc-1796f68fbe52" Value="Game.ComponentEngineT3" Type="string" />
-        <Parameter Name="SlotsCount" Guid="3d777734-a4c4-4ad5-85f8-814ef26dae6b" Value="11" Type="int" />
+		<Parameter Name="SlotsCount" Guid="3d777734-a4c4-4ad5-85f8-814ef26dae6b" Value="11" Type="int" />
       </MemberComponentTemplate>
-      <MemberComponentTemplate Name="SimpleModel" Guid="488a1fd2-0db8-4684-9ee8-8504dbd3c7b1">
-        <Parameter Name="ModelName" Guid="244ef777-297f-47ca-950a-930ea7d6e881" Value="Models/Tank" Type="string" />
-        <Parameter Name="TextureOverride" Guid="77e14775-837a-4614-a9fe-b1f88d835b11" Value="Textures/SteamBoat" Type="string" />
+      <MemberComponentTemplate Name="SimpleModel" Guid="411a1fd2-0d18-4604-9ee8-8504dbd3c7b1" InheritanceParent="1c514e72-0df9-4a1f-a42e-ecb5a2a71af4">
+        <Parameter Name="ModelName" Guid="241ef237-297f-47ca-950a-9301a7d6e181" Value="Models/Tank" Type="string" />
+		<Parameter Name="CastsShadow" Guid="1ed1af6d-a7d1-46d9-8d12-55d0b08a157b" Value="True" Type="bool" />
+        <Parameter Name="TextureOverride" Guid="41e146e5-837a-4614-a91e-b1f88d835b11" Value="Textures/SteamBoat" Type="string" />
       </MemberComponentTemplate>
-      <MemberComponentTemplate Name="Mount" Guid="913f2b61-c83f-4f19-a13f-b2ed5ff96493">
-        <Parameter Name="MountOffset" Guid="36b3746a-89e1-6612-be70-a6b4aae705bc" Value="0,1.25,0.6" Type="Vector3" />
+	  <MemberComponentTemplate Name="Mount" Guid="913f2b61-c83f-4f19-a13f-b2ed5ff96493">
+        <Parameter Name="MountOffset" Guid="36b3746a-89e1-6612-be70-a6b4aae705bc" Value="0,1.25,0.5" Type="Vector3" />
         <Parameter Name="DismountOffset" Guid="bac8f8e4-b009-4fe1-b840-93843edd05b6" Value="0,1.5,0.4" Type="Vector3" />
       </MemberComponentTemplate>
       <MemberComponentTemplate Name="Body" Guid="b6878818-ddd6-407b-bd4d-7be14c05d3eb">
-        <Parameter Name="Mass" Guid="77127d38-1571-4971-a319-b21a8dc22175" Value="9000" Type="float" />
+        <Parameter Name="Mass" Guid="77127d38-1571-4971-a319-b21a8dc22175" Value="9000000" Type="float" />
       </MemberComponentTemplate>
-      <MemberComponentTemplate Name="Damage" Guid="fb61728d-8ff3-41bd-b693-545dea83af91">
+	  <MemberComponentTemplate Name="Damage" Guid="fb61728d-8ff3-41bd-b693-545dea83af91">
         <Parameter Name="AttackResilience" Guid="f2e5b8ff-e2ba-4291-9f06-6b8710a8bcdf" Value="50000" Type="float" />
         <Parameter Name="FireResilience" Guid="f9e5ff00-e2ba-4221-9f96-6b8710a8bcdf" Value="50000" Type="float" />
       </MemberComponentTemplate>
@@ -445,7 +480,7 @@
         <Parameter Name="Mass" Guid="fe127d39-1571-4931-a319-b21a8dc22475" Value="1000" Type="float" />
       </MemberComponentTemplate>
     </EntityTemplate>
-    <EntityTemplate Name="Pavior" Guid="4896df7e-2ce4-43fa-9612-47d69bf788ba" InheritanceParent="3f3acc8e-1ce4-43fa-9614-47d69bf788ba">
+	<EntityTemplate Name="Pavior" Guid="4896df7e-2ce4-43fa-9612-47d69bf788ba" InheritanceParent="3f3acc8e-1ce4-43fa-9614-47d69bf788ba">
       <MemberComponentTemplate Name="EngineT2" Guid="97df85a9-10c6-4a2c-9fa5-725fffee2225" InheritanceParent="81a44c6a-c30a-4f53-8d64-0c30aabab8f9">
         <Parameter Name="Class" Guid="2b8f881e-2d3c-467e-81bc-1786f68fbe51" Value="Game.ComponentEngineT4" Type="string" />
         <Parameter Name="SlotsCount" Guid="3d767834-a4c8-4ad5-85f8-813ef26dae6b" Value="11" Type="int" />
@@ -517,16 +552,22 @@
         <Parameter Name="SlotsCount" Guid="7ded5979-a4c7-4ad5-85f9-813ef26dff6b" Value="25" Type="int" />
       </MemberComponentTemplate>
     </EntityTemplate>
-    <EntityTemplate Name="RCore" Guid="b4f88a68-838d-477f-1f43-803260a915a9" InheritanceParent="9681f999-898b-4f5c-9ea8-f8cc331e97b3">
+	<EntityTemplate Name="RCore" Guid="b4f88a68-838d-477f-1f43-803260a915a9" InheritanceParent="9681f999-898b-4f5c-9ea8-f8cc331e97b3">
       <MemberComponentTemplate Name="RCore" Guid="88141871-dfe9-4331-900e-8c5f3ce56348" InheritanceParent="81a44c6a-c30a-4f54-8d64-0c30aabab8fa">
         <Parameter Name="Class" Guid="1f42461e-2d3c-467e-81bc-1796f686be51" Value="Game.ComponentRCore" Type="string" />
-        <Parameter Name="SlotsCount" Guid="8fef5979-a4cf-4ad5-85f9-813ef26dff6b" Value="16" Type="int" />
+		<Parameter Name="SlotsCount" Guid="8fef5979-a4cf-4ad5-85f9-813ef26dff6b" Value="16" Type="int" />
       </MemberComponentTemplate>
     </EntityTemplate>
 	<EntityTemplate Name="FRCore" Guid="b4fffa68-8f8d-477f-1f43-803260a915a9" InheritanceParent="9681f999-898b-4f5c-9ea8-f8cc331e97b3">
       <MemberComponentTemplate Name="FRCore" Guid="88122871-dfe9-4331-900e-8c5f3ce56348" InheritanceParent="81a44c6a-c30a-4f54-8d64-0c30aabab8fa">
         <Parameter Name="Class" Guid="1662461e-2d3c-467e-81bc-1796f686be51" Value="Game.ComponentFRCore" Type="string" />
 		<Parameter Name="SlotsCount" Guid="8fef5979-a4cf-4a11-85f9-813ef26d116b" Value="16" Type="int" />
+      </MemberComponentTemplate>
+    </EntityTemplate>
+	<EntityTemplate Name="GasF" Guid="b4f1fa68-8f1d-477f-1f43-803260a915a9" InheritanceParent="9681f999-898b-4f5c-9ea8-f8cc331e97b3">
+      <MemberComponentTemplate Name="GasF" Guid="18112871-d1e9-4331-900e-8c5f3ce56348" InheritanceParent="81a44c6a-c30a-4f54-8d64-0c30aabab8fa">
+        <Parameter Name="Class" Guid="16114612-2d3c-461e-81bc-1796f686be59" Value="Game.ComponentGasFurnace" Type="string" />
+		<Parameter Name="SlotsCount" Guid="1fef5979-11cf-4a21-85f9-813ef26d1169" Value="6" Type="int" />
       </MemberComponentTemplate>
     </EntityTemplate>
 	<EntityTemplate Name="RHead" Guid="b5f22a87-f47d-455f-9a43-813268a915a9" InheritanceParent="b4f88a67-f47d-455f-9a43-803260a915a9">
@@ -742,15 +783,20 @@
             <MemberComponentTemplate Name="HerdBehavior" Guid="e642667c-816e-4679-8451-6ca05d062e4e" InheritanceParent="dfe7218e-ce14-4bde-8dac-f919c38e9efe">
               <Parameter Name="AutoNearbyCreaturesHelp" Guid="37d268bd-d10a-46e4-80fb-0ce67187bd06" Value="True" Type="bool" />
             </MemberComponentTemplate>
-            <MemberComponentTemplate Name="Loot" Guid="f2487a27-a118-4b2b-baa3-1e62ce312017">
-              <ParameterSet Name="Loot" Guid="57646c1a-c8d3-4d1a-8841-d52b378f3fe7">
-                <Parameter Name="1" Guid="0a173479-4e15-4a19-a055-163807d37435" Value="IronIngotBlock;1;1" Type="string" />
-                <Parameter Name="2" Guid="1bcb1e75-f317-4130-a99a-516616707918" Value="CopperIngotBlock;1;1;0.5" Type="string" />
+			<MemberComponentTemplate Name="Loot" Guid="12481a21-a118-4b21-baa3-1e62ce312017" InheritanceParent="1547d14d-d341-4744-a839-14adf11731d0">
+			<ParameterSet Name="LootOnFire" Guid="4690d861-eca3-4674-13a3-9cd178dd5e84">
               </ParameterSet>
-              <ParameterSet Name="LootOnFire" Guid="7717a63e-a611-4fff-ab02-105ea96f3104" />
-            </MemberComponentTemplate>
+              <ParameterSet Name="Loot" Guid="d114fb4d-1398-4643-b356-68b6032b5c7d">
+			  <Parameter Name="1" Guid="0a173479-4e15-4a19-a055-163807d37435" Value="Industrial Steel;3;4;1.0" Type="string" />
+                <Parameter Name="2" Guid="1bcb1e75-f317-4130-a99a-516616707918" Value="Circuit1;2;6;0.5" Type="string" />
+				<Parameter Name="3" Guid="1bcb1e75-f311-4110-a99a-516116707918" Value="Circuit2;1;4;0.2" Type="string" />
+				<Parameter Name="4" Guid="1bcb1e75-f311-4130-a99a-511616707918" Value="Condenser;1;1;0.4" Type="string" />
+				<Parameter Name="5" Guid="1b5b1e75-f371-4170-a97a-517616707918" Value="SolarPanel100;1;2;0.4" Type="string" />
+				<Parameter Name="6" Guid="1b5b1e75-1371-1170-a17a-517616707918" Value="Bullet2Block;6;20;1.0" Type="string" />
+              </ParameterSet>
+			</MemberComponentTemplate>
             <MemberComponentTemplate Name="Creature" Guid="fc90161e-b186-4f2c-a14b-80197db03d40">
-             <Parameter Name="Description" Guid="463f512e-119f-4890-ab90-3f2c6ea90972" Value="A Killing Machine." Type="string" />
+             <Parameter Name="Description" Guid="463f512e-119f-4890-ab90-3f2c6ea90972" Value="A Killing Machine. Who build it?" Type="string" />
               <Parameter Name="KillVerbs" Guid="60166a6b-8414-40e1-1df5-bcd5a1dbe895" Value="massacred" Type="string" />
               <Parameter Name="Category" Guid="8e8d6a37-eb15-41c1-814f-3c95d52ef05d" Value="LandPredator" Type="Game.CreatureCategory" />
               <Parameter Name="DisplayName" Guid="a23e18f5-01a2-4a0f-8046-b890f0ca5a94" Value="Robot" Type="string" />
@@ -802,7 +848,7 @@
     <MemberSubsystemTemplate Name="Musket4BlockBehavior" Guid="6bf6bba1-4ac1-44a9-9e83-b4c659038fc9" InheritanceParent="fefb9590-4972-4893-b02a-76063611b745">
       <Parameter Name="Class" Guid="f2f1fefa-29ad-42ed-ad2e-ae59da4dbd62" Value="Game.SubsystemMusket4BlockBehavior" Type="string" />
     </MemberSubsystemTemplate>
-    <MemberSubsystemTemplate Name="Musket5BlockBehavior" Guid="62f6bba1-4ac1-44a9-9e83-f4c659038fc9" InheritanceParent="fefb9590-4972-4893-b02a-76063611b745">
+	<MemberSubsystemTemplate Name="Musket5BlockBehavior" Guid="62f6bba1-4ac1-44a9-9e83-f4c659038fc9" InheritanceParent="fefb9590-4972-4893-b02a-76063611b745">
       <Parameter Name="Class" Guid="f3f1defa-29ad-42ed-ad2e-ae59da4dbd62" Value="Game.SubsystemMusket5BlockBehavior" Type="string" />
     </MemberSubsystemTemplate>
 	<MemberSubsystemTemplate Name="Musket6BlockBehavior" Guid="62f6bba1-4ac1-55a7-9e83-f4c659038fc9" InheritanceParent="fefb9590-4972-4893-b02a-76063611b745">
@@ -843,7 +889,7 @@
     <MemberSubsystemTemplate Name="MachineToolBehavior" Guid="f9d49a4c-bc6a-499f-944e-39390092696e" InheritanceParent="fefb9590-4972-4893-b02a-76063611b745">
       <Parameter Name="Class" Guid="aef8d254-edd0-4fe5-8979-49f7dd023cdb" Value="Game.SubsystemMachineToolBlockBehavior" Type="string" />
     </MemberSubsystemTemplate>
-    <MemberSubsystemTemplate Name="Laser" Guid="e9d69647-bc6a-488f-974e-39392292696e" InheritanceParent="a3914c13-7801-46a6-b23a-9e2b36e9defb">
+	<MemberSubsystemTemplate Name="Laser" Guid="e9d69647-bc6a-488f-974e-39392292696e" InheritanceParent="a3914c13-7801-46a6-b23a-9e2b36e9defb">
       <Parameter Name="Class" Guid="fef8d254-ead0-2fe5-8271-49f7ff023cdb" Value="Game.SubsystemLaser" Type="string" />
     </MemberSubsystemTemplate>
     <MemberSubsystemTemplate Name="LiquidPumpBlockBehavior" Guid="e663c125-3b60-4dbc-8d70-ca2d70431612" InheritanceParent="fefb9590-4972-4893-b02a-76063611b745">
@@ -899,6 +945,15 @@
     </ComponentTemplate>
     <ComponentTemplate Name="Variant" Description="Defines variants of a creature" Guid="8547d74d-d347-4644-a839-14adf11731d0" InheritanceParent="b05700ed-7e4e-4679-98f5-b597f421496b">
       <Parameter Name="Class" Guid="6bbdd35e-8db2-4ed0-a99a-7f3c05513941" Value="Game.ComponentVariant" Type="string" />
+    </ComponentTemplate>
+	<ComponentTemplate Name="SimpleModel2" Description="Model that takes it's root bone transformation from attached frame" Guid="1c514e72-0df9-4a1f-a42e-ecb5a2a71af4" InheritanceParent="79f776b5-94f4-4bce-b119-971a9cf6255c">
+       <Parameter Name="Class" Guid="d5c76951-1151-4d4e-a250-9e88644e5e77" Value="Game.ComponentTwoBodyModel" Type="string" />
+    </ComponentTemplate>
+	<ComponentTemplate Name="Loot2" Description="Defines what items drop when you kill a creature" Guid="1547d14d-d341-4744-a839-14adf11731d0" InheritanceParent="b05700ed-7e4e-4679-98f5-b597f421496b">
+          <ParameterSet Name="LootOnFire" Description="The same as Loot, but used when entity is on fire" Guid="13714cc2-a190-411c-8ac1-121617e38163" />
+          <ParameterSet Name="Loot" Description="Contains parameters in format &quot;ItemName;MinCount;MaxCount;[Probability]&quot;, e.g. &quot;Dirt;1;3;0.1&quot;" Guid="4f1e4d43-e9bc-4101-9dd1-716a26fc792a" />
+          <Parameter Name="Class" Guid="1bbdd35e-81b2-4e10-a991-7f1c05513941" Value="Game.ComponentLoot2" Type="string" />
+          <Parameter Name="LootDropped" Description="Whether the loot was already dropped" Guid="fb091aff-c1bc-491d-9db8-a61c34b66cea" Value="False" Type="bool" />
     </ComponentTemplate>
 	</Folder>
 </IndustrialMod>
