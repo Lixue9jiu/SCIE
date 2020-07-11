@@ -24,6 +24,7 @@ namespace Game
 			
 			BlocksManager.DamageItem1 = DamageItem;
 			BlocksManager.FindBlocksByCraftingId1 = FindBlocksByCraftingId;
+			BlocksManager.FindBlockByTypeName1 = FindBlockByTypeName;
 			CraftingRecipesManager.Initialize1 = (Action)Delegate.Combine(new Action(CRInitialize), CraftingRecipesManager.Initialize1);
 			DecodeResult1 = CraftingRecipesManager.DecodeResult1;
 			CraftingRecipesManager.DecodeResult1 = DecodeResult;
@@ -48,6 +49,7 @@ namespace Game
 			ETrain.ETrainTexture = ContentManager.Get<Texture2D>("Textures/etex3");
 			Airplane.PTexture = ContentManager.Get<Texture2D>("Textures/tex4");
 			Rocket.RocketTexture = ContentManager.Get<Texture2D>("Textures/Rocket");
+			Submarine.SubmarineTexture = ContentManager.Get<Texture2D>("Textures/QST");
 			var stream = Utils.GetTargetFile("IndustrialMod.png");
 			try
 			{
@@ -87,6 +89,20 @@ namespace Game
 			var c__DisplayClass = new BlocksManager.c__DisplayClass14_0 { craftingId = craftingId };
 			return BlocksManager.Blocks.Where(c__DisplayClass.FindBlocksByCraftingId_b__0).ToArray();
 		}
+		public static Block FindBlockByTypeName(string typeName, bool throwIfNotFound)
+		{
+			if (ItemBlock.IdTable.TryGetValue(typeName, out int value))
+				return BlocksManager.Blocks[ItemBlock.Index] ;
+			BlocksManager.c__DisplayClass13_0 c__DisplayClass13_ = new BlocksManager.c__DisplayClass13_0 { typeName = typeName };
+			c__DisplayClass13_.typeName = typeName;
+			Block block = BlocksManager.Blocks.FirstOrDefault(c__DisplayClass13_.FindBlockByTypeName_b__0);
+			if (block == null && throwIfNotFound)
+			{
+				throw new InvalidOperationException($"Block with type {c__DisplayClass13_.typeName} not found.");
+			}
+			return block;
+		}
+
 		public static int DamageItem(int value, int damageCount)
 		{
 			var block = BlocksManager.Blocks[Terrain.ExtractContents(value)];

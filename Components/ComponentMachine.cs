@@ -659,6 +659,8 @@ namespace Game
 	}
 
 
+	
+
 	public class ComponentRadioC : ComponentMachine, IUpdateable
 	{
 		public int Frequency;
@@ -779,7 +781,7 @@ namespace Game
 				//var entity = 0;
 				ComponentCreature cre = entity.FindComponent<ComponentCreature>();
 
-				if (cre != null && cre.DisplayName != "T-100" && ((vector.X > 0 && (cre.ComponentBody.Position.X - point.X - 1.0f) > 0f) || (vector.X < 0 && (cre.ComponentBody.Position.X - point.X) < 0f) || vector.X == 0) &&
+				if (cre != null && ((vector.X > 0 && (cre.ComponentBody.Position.X - point.X - 1.0f) > 0f) || (vector.X < 0 && (cre.ComponentBody.Position.X - point.X) < 0f) || vector.X == 0) &&
 					 ((vector.Z > 0 && (cre.ComponentBody.Position.Z - point.Z - 1.0f) > 0f) || (vector.Z < 0 && (cre.ComponentBody.Position.Z - point.Z) < 0f) || vector.Z == 0) &&
 					((vector.X == 0 && Math.Abs(cre.ComponentBody.Position.X - point.X - 0.5f) <= 0.5f) || (vector.Z == 0 && Math.Abs(cre.ComponentBody.Position.Z - point.Z - 0.5f) <= 0.5f))
 					&& (Math.Abs(cre.ComponentBody.Position.Y - point.Y - 0.5f) <= 0.5f) && cre.ComponentBody.Position.Y - point.Y < 1f)
@@ -801,6 +803,13 @@ namespace Game
 				//var bodies = new DynamicArray<ComponentBody>();
 				if (d >= dmax)
 				{
+					if (cre1.ComponentHealth.AttackResilience>1000)
+					{
+						cre1.Entity.FindComponent<ComponentDamage>().Damage(100/ cre1.ComponentHealth.AttackResilience);
+						break;
+					}
+
+
 					int nnn = (int)cre1.Entity.FindComponent<ComponentHealth>()?.AttackResilience / 8;
 					for (int zz = 0; zz <= nnn; zz++)
 						Utils.SubsystemPickables.AddPickable(ItemBlock.IdTable["CoalPowder"], 1, cre1.ComponentBody.Position, null, null);
@@ -918,6 +927,75 @@ namespace Game
 								m_slots[abb].Count -= 1;
 								break;
 							}
+						}
+					}
+				}
+
+			}
+
+		}
+	}
+
+
+	public class ComponentALaser : ComponentMachine, IUpdateable
+	{
+		public int Pressure;
+		public SubsystemPlayers subsystemPlayers;
+		public int Output;
+		public bool Powered;
+
+		public override void Load(ValuesDictionary valuesDictionary, IdToEntityMap idToEntityMap)
+		{
+			base.Load(valuesDictionary, idToEntityMap);
+			subsystemPlayers = Project.FindSubsystem<SubsystemPlayers>(true);
+		}
+
+
+		public void Update(float dt)
+		{
+
+			if (Utils.SubsystemTime.PeriodicGameTimeEvent(0.75, 0.0) && (m_fireTimeRemaining>5000f || Utils.SubsystemGameInfo.WorldSettings.GameMode == 0))
+			{
+
+				Point3 c = m_componentBlockEntity.Coordinates;
+				var componentMiner = subsystemPlayers.FindNearestPlayer(new Vector3(c.X, c.Y, c.Z) + new Vector3(0.5f)).ComponentMiner.Entity.FindComponent<ComponentNPlayer>();
+				//var componentMiner = componentMiner1.Entity.FindComponent<ComponentNPlayer>();
+				//var player = componentMiner.Entity.FindComponent<ComponentMiner>();
+				Vector3 po = new Vector3(c.X, c.Y, c.Z) + new Vector3(0.5f);
+				var e1 = Utils.SubsystemBodies.Bodies.GetEnumerator();
+				while (e1.MoveNext())
+				{
+					var entity = e1.Current.Entity;
+					//var entity = 0;
+					ComponentCreature cre = entity.FindComponent<ComponentCreature>();
+					if (cre != null && entity.FindComponent<ComponentNPlayer>() == null && entity.FindComponent<ComponentHealth>().Health > 0)
+					{
+						ComponentBody cra = entity.FindComponent<ComponentBody>();
+						Vector3 vec = new Vector3(cra.BoundingBox.Center().X - po.X, cra.BoundingBox.Center().Y - po.Y, cra.BoundingBox.Center().Z - po.Z);
+						var body = componentMiner.PickBody2(po + 1f * Vector3.Normalize(vec), Vector3.Normalize(vec), 50f);
+						var result = componentMiner.PickTerrainForDigging2(po + 1f * Vector3.Normalize(vec), Vector3.Normalize(vec), 50f);
+						if (body.HasValue && (!result.HasValue || body.Value.Distance < result.Value.Distance))
+						{
+							BoundingBox boundingBox = cre.ComponentBody.BoundingBox;
+							Vector3 v = 0.5f * (boundingBox.Min + boundingBox.Max);
+							m_fireTimeRemaining -= 5000f;
+							if (cre.ComponentHealth.AttackResilience > 1000)
+							{
+								cre.ComponentHealth.Injure(100f/ cre.ComponentHealth.AttackResilience,null,false,"Killed by Laser");
+								Utils.SubsystemLaser.MakeLightningStrike(new Vector3(po.X, po.Y, po.Z), v);
+								break;
+							}
+							
+
+							int nnn = (int)cre.Entity.FindComponent<ComponentHealth>()?.AttackResilience / 8;
+							for (int zz = 0; zz <= nnn; zz++)
+								Utils.SubsystemPickables.AddPickable(ItemBlock.IdTable["CoalPowder"], 1, cre.ComponentBody.Position, null, null);
+							Utils.SubsystemParticles.AddParticleSystem(new KillParticleSystem(Utils.SubsystemTerrain, cre.ComponentBody.Position, 1f));
+							//end = cre1.ComponentBody.Position;
+								Project.RemoveEntity(cre.Entity, true);
+							Utils.SubsystemLaser.MakeLightningStrike(new Vector3(po.X, po.Y, po.Z), v);
+							break;
+
 						}
 					}
 				}

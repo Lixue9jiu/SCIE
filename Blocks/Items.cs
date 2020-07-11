@@ -327,6 +327,7 @@ namespace Game
 			}
 			.AppendMesh("Models/Brick", "Brick", Matrix.CreateScale(1f, 0.25f, 1f), Matrix.CreateTranslation(9f / 16f, -7f / 16f, 0f) * Matrix.CreateScale(20f), Color.Black)
 			.AppendMesh("Models/Brick", "Brick", Matrix.CreateScale(0.5f, 0.25f, 0.5f)*Matrix.CreateTranslation(0f,0.05f,0f), Matrix.CreateTranslation(9f / 16f, -7f / 16f, 0f) * Matrix.CreateScale(20f), Color.Gray),
+			new Submarine(),
 			//new MouldItem("LH2","Models/Cylinder", "obj1", Matrix.CreateScale(40f, 80f, 40f) * Matrix.CreateTranslation(0.5f, 0f, 0.5f), Matrix.CreateTranslation(9f / 16f, -7f / 16f, 0f), "液态氢", "液态氢", 1.5f),
 			//new MouldItem("LO2","Models/Cylinder", "obj1", Matrix.CreateScale(40f, 80f, 40f) * Matrix.CreateTranslation(0.5f, 0f, 0.5f), Matrix.CreateTranslation(9f / 16f, -7f / 16f, 0f), "液态氧", "液态氧", 1.5f),
 			//new Plane(),
@@ -361,7 +362,7 @@ namespace Game
 				{
 					Voltage = 36
 				},
-				new Pipe(0),
+				new Pipe(0),//13
 				new Pipe(1),
 				new Pipe(2),
 				new Pipe(3),
@@ -369,7 +370,7 @@ namespace Game
 				new Pipe(5),
 				new Pipe(6),
 				new Pipe(7),
-				new AirCompressor(),
+				new AirCompressor(),//21
 				new Switch(),
 				new Relay(),
 				new ElectricIFurnace(),
@@ -420,6 +421,8 @@ namespace Game
 				new ColdBlock(),
 				new TControl(),
 				new FireIBlock(),
+				new AutoLaser(),
+				new AutoFactory(),
 			};
 			ContentCache.m_contentByName.TryGetValue("CraftingIdTable", out object value);
 			if (!(value is Dictionary<string, int> dict))

@@ -69,7 +69,8 @@ namespace Game
 			"RCore",
 			"RHead",
 			null,
-			"FRCore"
+			"FRCore",
+			"GasF"
 		};
 
 		public override int[] HandledBlocks => new[] { SourBlock.Index };
@@ -194,7 +195,7 @@ namespace Game
 		public override bool OnInteract(TerrainRaycastResult raycastResult, ComponentMiner componentMiner)
 		{
 			int type = Terrain.ExtractData(Utils.Terrain.GetCellValueFast(raycastResult.CellFace.X, raycastResult.CellFace.Y, raycastResult.CellFace.Z)) >> 10;
-			if (base.OnInteract(raycastResult, componentMiner) && type != 0 && componentMiner.ComponentPlayer.ComponentGui.ModalPanelWidget is StoveWidget widget && type != 7)
+			if (base.OnInteract(raycastResult, componentMiner) && type != 0 && componentMiner.ComponentPlayer.ComponentGui.ModalPanelWidget is StoveWidget widget && type != 7 && type != 8)
 				widget.Children.Find<LabelWidget>("Label", false).Text = Utils.Get(SourBlock.Names[type]) ;
 			if (type == 6)
 				return false;
@@ -222,6 +223,8 @@ namespace Game
 					return null;
 				case 7:
 					return new NewChestWidget(inventory, component, "HotNeutronReactor");
+				case 8:
+					return new GasWidget(inventory, component);
 			}
 			return null;
 		}

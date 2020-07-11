@@ -98,6 +98,7 @@
     <Compile Include="Circuit\LockFreeQueue.cs" />
     <Compile Include="Common\LaserBeam.cs" />
     <Compile Include="Common\TelescopeCamera.cs" />
+    <Compile Include="Components\TwoBody.cs" />
     <Compile Include="Components\ComponentCanpack.cs" />
     <Compile Include="Components\ComponentCharger.cs" />
     <Compile Include="Components\ComponentCondenser.cs" />

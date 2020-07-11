@@ -97,6 +97,19 @@ namespace Game
 		public override Vector3 GetIconBlockOffset(int value, DrawBlockEnvironmentData environmentData) => new Vector3(0f, -0.2f, 0f);
 	}
 
+	public class Submarine : TexturedMeshItem
+	{
+		public static Texture2D SubmarineTexture;
+
+		public Submarine() : base("潜水艇", "QST", "WaiKe", SubmarineTexture, "潜水艇是一种可以在水下航行的载具，它使用核反应堆作为自己的动力来源。",0.2f)
+		{
+		}
+
+		public override Vector3 GetIconViewOffset(int value, DrawBlockEnvironmentData environmentData) => new Vector3(-0.6f, 0.6f, -0.8f);
+
+		public override Vector3 GetIconBlockOffset(int value, DrawBlockEnvironmentData environmentData) => new Vector3(0f, -0.2f, 0f);
+	}
+
 	public class ETrain : TexturedMeshItem
 	{
 		public static Texture2D ETrainTexture;

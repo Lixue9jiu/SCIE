@@ -2,6 +2,9 @@
 using TemplatesDatabase;
 using GameEntitySystem;
 using System;
+using System.Globalization;
+using System.Collections.Generic;
+
 namespace Game
 {
 	class SubsystemCreatureS : SubsystemCreatureSpawn
@@ -104,7 +107,7 @@ namespace Game
 							Vector3 vector = 0.5f * (boundingBox2.Min + boundingBox2.Max) - v;
 							Utils.SubsystemProjectiles.FireProjectile(Terrain.MakeBlockValue(214, 0, BulletBlock.SetBulletType(0, BulletBlock.BulletType.MiniBullet)), v + Vector3.Normalize(vector) * 1.5f, Vector3.Normalize(vector) * 200f, Vector3.Zero, m_componentCreature);
 							Utils.SubsystemAudio.PlaySound("Audio/MusketFire", 1f, 0f, v, 20f, true);
-							Utils.SubsystemParticles.AddParticleSystem(new GunSmokeParticleSystem2(Utils.SubsystemTerrain, v + Vector3.Normalize(vector) * 1.0f, Vector3.Normalize(vector)));
+							Utils.SubsystemParticles.AddParticleSystem(new GunSmokeParticleSystem2(Utils.SubsystemTerrain, v + Vector3.Normalize(vector) * 1.0f + new Vector3(0f, 0.5f, 0f), Vector3.Normalize(vector)));
 					
 						
 					}
@@ -170,6 +173,33 @@ namespace Game
 			return 0f;
 		}
 
+		public new void Load_b__40_3()
+		{
+			if (IsActive)
+			{
+				m_stateMachine.TransitionTo("Chasing");
+			}
+			else if (m_autoChaseSuppressionTime <= 0f && (m_target == null || ScoreTarget(m_target) <= 0f) && m_componentCreature.ComponentHealth.Health > 0.4f)
+			{
+				m_range = ((m_subsystemSky.SkyLightIntensity < 0.2f) ? m_nightChaseRange : m_dayChaseRange);
+				ComponentCreature componentCreature = FindTarget();
+				if (componentCreature != null)
+				{
+					m_targetInRangeTime += m_dt;
+				}
+				else
+				{
+					m_targetInRangeTime = 0f;
+				}
+				if (m_targetInRangeTime > 3f)
+				{
+					bool flag = m_subsystemSky.SkyLightIntensity >= 0.1f;
+					float maxRange = flag ? (m_dayChaseRange + 6f) : (m_nightChaseRange + 6f);
+					float maxChaseTime = flag ? (m_dayChaseTime * m_random.UniformFloat(0.75f, 1f)) : (m_nightChaseTime * m_random.UniformFloat(0.75f, 1f));
+					Attack(componentCreature, maxRange, maxChaseTime, (!flag) ? true : false);
+				}
+			}
+		}
 
 		public bool IsTargetInAttackRange2(ComponentBody target)
 		{
@@ -185,7 +215,7 @@ namespace Game
 			if (num < 30f)
 			{
 
-				TerrainRaycastResult? terrainRaycastResult = Utils.SubsystemTerrain.Raycast(v, 0.5f * (boundingBox2.Min + boundingBox2.Max), false, true, (value, distance) => !(Terrain.ExtractContents(value) == 0 || Terrain.ExtractContents(value) == WaterBlock.Index || Terrain.ExtractContents(value) == TallGrassBlock.Index || Terrain.ExtractContents(value) == GlassBlock.Index || Terrain.ExtractContents(value) == WoodenDoorBlock.Index));
+				TerrainRaycastResult? terrainRaycastResult = Utils.SubsystemTerrain.Raycast(v, 0.5f * (boundingBox2.Min + boundingBox2.Max), false, true, (value, distance) => !(Terrain.ExtractContents(value) == 0 || Terrain.ExtractContents(value) == WaterBlock.Index || Terrain.ExtractContents(value) == TallGrassBlock.Index || Terrain.ExtractContents(value) == GlassBlock.Index || Terrain.ExtractContents(value) == WoodenDoorBlock.Index || Terrain.ExtractContents(value) == WoodenSlabBlock.Index));
 				if (terrainRaycastResult == null )
 				{
 					return true;
@@ -197,4 +227,72 @@ namespace Game
 		}
 
 	}
+
+
+	public class ComponentLoot2 : ComponentLoot, IUpdateable
+	{
+		public new static Loot ParseLoot(string lootString)
+		{
+			string[] array = lootString.Split(';');
+			if (array.Length >= 3)
+			{
+				Loot result = default(Loot);
+				if (ItemBlock.IdTable.TryGetValue(array[0], out int value))
+				{
+					result.Value = value;
+					result.MinCount = int.Parse(array[1], CultureInfo.InvariantCulture);
+					result.MaxCount = int.Parse(array[2], CultureInfo.InvariantCulture);
+					result.Probability = ((array.Length >= 4) ? float.Parse(array[3], CultureInfo.InvariantCulture) : 1f);
+					return result;
+				}
+				Block block = BlocksManager.FindBlockByTypeName(array[0], throwIfNotFound: true);
+				
+				result.Value = block.BlockIndex;
+				result.MinCount = int.Parse(array[1], CultureInfo.InvariantCulture);
+				result.MaxCount = int.Parse(array[2], CultureInfo.InvariantCulture);
+				result.Probability = ((array.Length >= 4) ? float.Parse(array[3], CultureInfo.InvariantCulture) : 1f);
+				return result;
+			}
+			throw new InvalidOperationException("Invalid loot string.");
+		}
+
+		public override void Load(ValuesDictionary valuesDictionary, IdToEntityMap idToEntityMap)
+		{
+			m_subsystemGameInfo = base.Project.FindSubsystem<SubsystemGameInfo>(throwOnError: true);
+			m_subsystemPickables = base.Project.FindSubsystem<SubsystemPickables>(throwOnError: true);
+			m_componentCreature = base.Entity.FindComponent<ComponentCreature>(throwOnError: true);
+			m_lootDropped = valuesDictionary.GetValue<bool>("LootDropped");
+			m_lootList = ParseLootList(valuesDictionary.GetValue<ValuesDictionary>("Loot"));
+			m_lootOnFireList = ParseLootList(valuesDictionary.GetValue<ValuesDictionary>("LootOnFire"));
+		}
+
+		public new static List<Loot> ParseLootList(ValuesDictionary lootVd)
+		{
+			List<Loot> list = new List<Loot>();
+			foreach (string value in lootVd.Values)
+			{
+				list.Add(ParseLoot(value));
+			}
+			list.Sort(c._.ParseLootList_b__10_0);
+			return list;
+		}
+
+		[Serializable]
+		public new sealed class c
+		{
+			// Token: 0x060004B1 RID: 1201 RVA: 0x0001C2F8 File Offset: 0x0001A4F8
+			public int ParseLootList_b__10_0(ComponentLoot2.Loot l1, ComponentLoot2.Loot l2)
+			{
+				return l1.Value - l2.Value;
+			}
+
+			// Token: 0x04000365 RID: 869
+			public static readonly ComponentLoot2.c _ = new ComponentLoot2.c();
+
+			// Token: 0x04000366 RID: 870
+			public static Comparison<ComponentLoot2.Loot> __10_0;
+		}
+	}
+
+
 }

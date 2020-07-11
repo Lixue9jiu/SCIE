@@ -115,19 +115,20 @@ namespace Game
 			int value = Index, i = 0, j;
 			for (; i < Devices.Length; i++)
 			{
-				list.Add(value);
-				for (j = 1; j < 16; j++)
-					list.Add(Paint(null, value, j));
-				value += 1 << 14;
+					list.Add(value);
+					for (j = 1; j < 16; j++)
+						list.Add(Paint(null, value, j));
+					value += 1 << 14;
+				
 			}
-			for (i = 13; i < 20; i++)
-			{
-				for (j = 0; j < (16 << 3); j++)
-				{
-					value = Index | i << 14 | (j >> 4) << (14 + 12);
-					list.Add(Paint(null, value, j & 15));
-				}
-			}
+			//for (i = 13; i < 20; i++)
+			//{
+			//	for (j = 0; j < (16 << 3); j++)
+			//	{
+			//		value = Index | i << 14 | (j >> 4) << (14 + 12);
+			//		list.Add(Paint(null, value, j & 15));
+			//	}
+			//}
 			return list;
 		}
 

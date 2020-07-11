@@ -27,6 +27,7 @@ namespace Game
 			//	Charged = false;
 			//}
 			time++;
+			int beshu=1;
 			if (Charged && Powered == true && m_slots[0].Count + m_slots[1].Count + m_slots[2].Count + m_slots[3].Count != 0)
 			{
 				int num = 0;
@@ -40,12 +41,17 @@ namespace Game
 					int slotCount = GetSlotCount(num);
 					type = IEBatteryBlock.GetType(value);
 					int content = Terrain.ExtractContents(value);
+					if (ClothingBlock.Index == content)
+					{
+						beshu = 200;
+					}
 					if (value != 0 && slotCount > 0 && GetDamage(value) != 0)
-						break;
+					break;
 					num++;
 				}
-				if (time % 5 == 0)
+				if (time % (5*beshu) == 0)
 				{
+					
 					RemoveSlotItems(num, 1);
 					AddSlotItems(num, BlocksManager.DamageItem(value, -1), 1);
 				}
@@ -68,13 +74,16 @@ namespace Game
 					int content = Terrain.ExtractContents(value);
 					int slotCount = GetSlotCount(num);
 					type = IEBatteryBlock.GetType(value);
-
+					if (ClothingBlock.Index == content)
+					{
+						beshu = 200;
+					}
 					if (value != 0 &&  slotCount > 0 && BlocksManager.DamageItem(value, 1) != 0 && value != BlocksManager.DamageItem(value, 1))
 						break;
 
 					num++;
 				}
-				if (time % 5 == 0)
+				if (time % (5 * beshu) == 0)
 				{
 					RemoveSlotItems(num, 1);
 					AddSlotItems(num, BlocksManager.DamageItem(value, 1), 1);
@@ -99,7 +108,7 @@ namespace Game
 
 		public override int GetSlotCapacity(int slotIndex, int value)
 		{
-			if (Terrain.ExtractContents(value) != IEBatteryBlock.Index && Terrain.ExtractContents(value) != Musket5Block.Index)
+			if (Terrain.ExtractContents(value) != IEBatteryBlock.Index && Terrain.ExtractContents(value) != Musket5Block.Index && ClothingBlock.GetClothingData(Terrain.ExtractData(value)).DisplayName == "¿ó¹¤Ã±" && ClothingBlock.GetClothingData(Terrain.ExtractData(value)).DisplayName == "³äµç±³°ü")
 				return 0;
 			return base.GetSlotCapacity(slotIndex, value);
 		}

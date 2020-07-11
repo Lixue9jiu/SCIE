@@ -108,6 +108,17 @@ namespace Game
 			m_subsystemMovingBlocks = Project.FindSubsystem<SubsystemMovingBlocks>(throwOnError: true);
 		}
 
+		public int SetDamage(int value, int damage)
+		{
+			int num = Terrain.ExtractData(value);
+			num = ((num & -3841) | ((damage & 0xF) << 8));
+			return Terrain.ReplaceData(value, num);
+		}
+		public int GetDamage(int value)
+		{
+			return (Terrain.ExtractData(value) >> 8) & 0xF;
+		}
+
 		public new void Update(float dt)
 		{
 			PlayerInput playerInput = ComponentInput.PlayerInput;
@@ -128,17 +139,7 @@ namespace Game
 			//				ComponentScreenOverlays.BlackoutFactor = 1f;
 			//			ComponentHealth.Air = 1f;
 			//		}
-			//ReadOnlyList<int> readOnlyList2 = ComponentClothing.GetClothes(ClothingSlot.Torso);
-			//if (readOnlyList2.Count > 0 && ClothingBlock.GetClothingData(Terrain.ExtractData(readOnlyList[readOnlyList2.Count - 1])).DisplayName == Utils.Get("防热服"))
-			//{
-			//if (ComponentBody.ImmersionFluidBlock != null && ComponentBody.ImmersionFluidBlock.BlockIndex == RottenMeatBlock.Index && ComponentBody.ImmersionDepth > 0.8f)
-			//	ComponentScreenOverlays.BlackoutFactor = 1f;
-			//	ComponentHealth.m_componentOnFire.m_fireDuration = 0f;
-			//ComponentHealth.m_componentPlayer.ComponentVitalStats.m_lastTemperature = 10f;
-			//this.
-			//	ComponentVitalStats.m_temperature = 8f;
-			//}
-			//	}
+			
 			ComponentMount mount = ComponentRider.Mount;
 			if (mount != null)
 			{
@@ -220,6 +221,65 @@ namespace Game
 			}
 			ComponentLocomotion.LookOrder += playerInput.Look * (SettingsManager.FlipVerticalAxis ? new Vector2(0f, -1f) : new Vector2(0f, 1f));
 			bool flag = false;
+			ReadOnlyList<int> readOnlyList2 = ComponentClothing.GetClothes(ClothingSlot.Torso);
+			//if (readOnlyList2.Count > 0 && ClothingBlock.GetClothingData(Terrain.ExtractData(readOnlyList[readOnlyList2.Count - 1])).DisplayName == Utils.Get("防热服"))
+			//{
+			//if (ComponentBody.ImmersionFluidBlock != null && ComponentBody.ImmersionFluidBlock.BlockIndex == RottenMeatBlock.Index && ComponentBody.ImmersionDepth > 0.8f)
+			//	ComponentScreenOverlays.BlackoutFactor = 1f;
+			//	ComponentHealth.m_componentOnFire.m_fireDuration = 0f;
+			//ComponentHealth.m_componentPlayer.ComponentVitalStats.m_lastTemperature = 10f;
+			//this.
+			//	ComponentVitalStats.m_temperature = 8f;
+			//}
+			//	}
+			if (readOnlyList2.Count > 0 && ClothingBlock.GetClothingData(Terrain.ExtractData(readOnlyList2[readOnlyList2.Count - 1])).DisplayName == Utils.Get("喷气背包"))
+			{
+				if (playerInput.Jump && this.ComponentBody.m_position.Y < 200)
+					this.ComponentBody.m_velocity += new Vector3(0f, 10f, 0f);
+				if (playerInput.Move.Z > 0.5f)
+				{
+					Vector3 right = ComponentBody.Matrix.Right;
+					Vector3 vector2 = Vector3.Transform(ComponentBody.Matrix.Forward, Quaternion.CreateFromAxisAngle(right, ComponentLocomotion.LookAngles.Y));
+					Vector3 vector3 = new Vector3(ComponentLocomotion.WalkOrder.Value.X, 0f, ComponentLocomotion.WalkOrder.Value.Y);
+					Vector3 v = (ComponentInput.IsControlledByTouch) ? Vector3.Normalize(vector2 + 0.1f * Vector3.UnitY) : Vector3.Normalize(vector2 * new Vector3(1f, 0f, 1f));
+					Vector3 v2 = 12f * (right * vector3.X + Vector3.UnitY * vector3.Y + v * vector3.Z);
+					float num222 = (vector3 == Vector3.Zero) ? 6f : 3f;
+					this.ComponentBody.m_velocity += MathUtils.Saturate(5f * num222 * dt) * (v2 - this.ComponentBody.m_velocity);
+				}
+				//	this.ComponentBody.m_velocity += 10f * new Vector3(ComponentLocomotion.WalkOrder.Value.X, 0f, ComponentLocomotion.WalkOrder.Value.Y);
+				if (this.ComponentBody.m_velocity.Y < -5 && this.ComponentBody.m_position.Y<200)
+					this.ComponentBody.m_velocity += new Vector3(0f, 1f, 0f);
+				if (m_subsystemTime.PeriodicGameTimeEvent(0.5, 0))
+				{
+					Utils.SubsystemParticles.AddParticleSystem(new GunSmokeParticleSystem(Utils.SubsystemTerrain, this.ComponentBody.Position + new Vector3(0f, 0.5f, 0f), new Vector3(0f, -1f, 0f)));
+					Utils.SubsystemAudio.PlaySound("Audio/Fire", 1f, 0f, this.ComponentBody.Position + new Vector3(0f, 0.5f, 0f), 30f, true);
+				}
+				//this.ComponentLocomotion.;
+			}
+			//foreach (Projectile projectile in Utils.SubsystemProjectiles.m_projectiles)
+			//{
+			//	Vector3 dir = projectile.Position - this.ComponentBody.Position;
+			//	if ((dir).Length()<5f)
+			//	projectile.Velocity += Vector3.Normalize(dir)*1000f;
+			//}
+			if (m_subsystemTime.PeriodicGameTimeEvent(0.1, 0))
+			if (readOnlyList2.Count > 0 && ClothingBlock.GetClothingData(Terrain.ExtractData(readOnlyList2[readOnlyList2.Count - 1])).DisplayName == Utils.Get("充电背包"))
+			{
+				int vaaa = ComponentMiner.ActiveBlockValue;
+				int vaaa2 = ComponentClothing.m_clothes[ClothingSlot.Torso][0];
+				if (Musket5Block.Index== Terrain.ExtractContents(vaaa))
+				{
+					if (IEBatteryBlock.Index == Terrain.ExtractContents(vaaa) || BlocksManager.DamageItem(vaaa, -3) != 0 && GetDamage(vaaa2) < 15)
+					{
+						ComponentMiner.DamageActiveTool(-3);
+					    if (Utils.Random.Bool(0.01f))
+						ComponentClothing.m_clothes[ClothingSlot.Torso][0] = SetDamage(vaaa2, GetDamage(vaaa2)+1);
+						//ComponentClothing.RemoveSlotItems(1, 1);// = BlocksManager.DamageItem(vaaa, 1);
+						//ComponentClothing.AddSlotItems(1, BlocksManager.DamageItem(vaaa, 1), 1);
+					}
+				}
+				//this.ComponentLocomotion.;
+			}
 			if (playerInput.Interact.HasValue && !flag && m_subsystemTime.GameTime - m_lastActionTime > 0.33000001311302185)
 			{
 				Vector3 viewPosition = View.ActiveCamera.ViewPosition;

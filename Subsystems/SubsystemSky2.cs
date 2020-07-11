@@ -40,7 +40,7 @@ namespace Game
 
 		public new void DrawStars(Camera camera)
 		{
-			float globalPrecipitationIntensity = m_subsystemWeather.GlobalPrecipitationIntensity;
+			float globalPrecipitationIntensity = camera.ViewPosition.Y>1000f ? 0f : m_subsystemWeather.GlobalPrecipitationIntensity;
 			float timeOfDay = m_subsystemTimeOfDay.TimeOfDay;
 			if (m_starsVertexBuffer == null || m_starsIndexBuffer == null)
 			{
@@ -154,9 +154,7 @@ namespace Game
 
 		public void DrawEarth(Camera camera)
 		{
-			if (camera.ViewPosition.Y < 1000)
-				return;
-			float globalPrecipitationIntensity = m_subsystemWeather.GlobalPrecipitationIntensity;
+			float globalPrecipitationIntensity = 0f;
 			float timeOfDay = 12f;
 			float f = MathUtils.Max(CalculateDawnGlowIntensity(timeOfDay), CalculateDuskGlowIntensity(timeOfDay));
 			float num = 2f * timeOfDay * (float)Math.PI;
@@ -164,7 +162,7 @@ namespace Game
 			float num2 = MathUtils.Lerp(90f, 160f, f);
 			float num3 = MathUtils.Lerp(60f, 80f, f);
 			Color c = Color.Lerp(new Color(255, 255, 255), new Color(255, 255, 160), f);
-			Color white = Color.White;
+			Color white = new Color(255, 255, 255);
 			white *= 1f - 0f;
 			c *= MathUtils.Lerp(1f, 0f, globalPrecipitationIntensity);
 			white *= MathUtils.Lerp(1f, 0f, globalPrecipitationIntensity);
@@ -176,6 +174,12 @@ namespace Game
 			//QueueCelestialBody(batch, camera.ViewPosition, color, 900f, 3.5f * num2, num);
 			//QueueCelestialBody(batch, camera.ViewPosition, color2, 900f, 3.5f * num3, angle);
 			//QueueCelestialBody(batch2, camera.ViewPosition, c, 900f, num2, num);
+			if (camera.ViewPosition.Y <= 1000f && camera.ViewPosition.Y>200f)
+			{
+				QueueCelestialBody(batch2, camera.ViewPosition, white, camera.ViewPosition.Y/100f, num3*1000f/camera.ViewPosition.Y*4f, angle - ang);
+			}
+			//	QueueCelestialBody(batch2, camera.ViewPosition, white, camera.ViewPosition.Y / 400f, num3, angle - ang);
+			if (camera.ViewPosition.Y > 1000f)
 			QueueCelestialBody(batch2, camera.ViewPosition, white, camera.ViewPosition.Y/400f, num3, angle- ang);
 		}
 
@@ -256,15 +260,39 @@ namespace Game
 			}
 			else
 			{
+				//if (camera.ViewPosition.Y<1000)
 				DrawLightning(camera);
 				m_primitivesRenderer3d.Flush(camera.ViewProjectionMatrix);
 			}
 		}
-
+		public new void DrawSunAndMoon(Camera camera)
+		{
+			float globalPrecipitationIntensity = camera.ViewPosition.Y > 1000f ? 0f : m_subsystemWeather.GlobalPrecipitationIntensity;
+			float timeOfDay = m_subsystemTimeOfDay.TimeOfDay;
+			float f = MathUtils.Max(CalculateDawnGlowIntensity(timeOfDay), CalculateDuskGlowIntensity(timeOfDay));
+			float num = 2f * timeOfDay * (float)Math.PI;
+			float angle = num + (float)Math.PI;
+			float num2 = MathUtils.Lerp(90f, 160f, f);
+			float num3 = MathUtils.Lerp(60f, 80f, f);
+			Color c = Color.Lerp(new Color(255, 255, 255), new Color(255, 255, 160), f);
+			Color white = Color.White;
+			white *= 1f - SkyLightIntensity;
+			c *= MathUtils.Lerp(1f, 0f, globalPrecipitationIntensity);
+			white *= MathUtils.Lerp(1f, 0f, globalPrecipitationIntensity);
+			Color color = c * 0.6f * MathUtils.Lerp(1f, 0f, globalPrecipitationIntensity);
+			Color color2 = c * 0.2f * MathUtils.Lerp(1f, 0f, globalPrecipitationIntensity);
+			TexturedBatch3D batch = m_primitivesRenderer3d.TexturedBatch(m_glowTexture, useAlphaTest: false, 0, DepthStencilState.DepthRead, null, BlendState.Additive);
+			TexturedBatch3D batch2 = m_primitivesRenderer3d.TexturedBatch(m_sunTexture, useAlphaTest: false, 1, DepthStencilState.DepthRead, null, BlendState.AlphaBlend);
+			TexturedBatch3D batch3 = m_primitivesRenderer3d.TexturedBatch(m_moonTextures[MoonPhase], useAlphaTest: false, 1, DepthStencilState.DepthRead, null, BlendState.AlphaBlend);
+			QueueCelestialBody(batch, camera.ViewPosition, color, 900f, 3.5f * num2, num);
+			QueueCelestialBody(batch, camera.ViewPosition, color2, 900f, 3.5f * num3, angle);
+			QueueCelestialBody(batch2, camera.ViewPosition, c, 900f, num2, num);
+			QueueCelestialBody(batch3, camera.ViewPosition, white, 900f, num3, angle);
+		}
 
 		public new void DrawClouds(Camera camera)
 		{
-			if (SettingsManager.SkyRenderingMode == SkyRenderingMode.NoClouds)
+			if (SettingsManager.SkyRenderingMode == SkyRenderingMode.NoClouds || camera.ViewPosition.Y>1000f)
 			{
 				return;
 			}
@@ -330,6 +358,167 @@ namespace Game
 				}
 			}
 			bool drawCloudsWireframe = DrawCloudsWireframe;
+		}
+
+	}
+
+
+
+	public class SubsystemWeather2 : SubsystemWeather, IDrawable, IUpdateable
+	{
+		public bool space;
+		public new void Draw(Camera camera, int drawOrder)
+		{
+			space = camera.ViewPosition.Y>300f ? true : false;
+			int num = (SettingsManager.VisibilityRange >= 512) ? 9 : ((SettingsManager.VisibilityRange >= 256) ? 8 : ((SettingsManager.VisibilityRange < 128) ? 6 : 7));
+			int num2 = num * num;
+			Dictionary<Point2, Shaft> activeShafts = GetActiveShafts(camera.View);
+			byte b = (byte)(255f * MathUtils.Lerp(0.1f, 1f, m_subsystemSky.SkyLightIntensity));
+			m_snowColor = new Color(b, b, b);
+			byte b2 = (byte)(255f * MathUtils.Lerp(0.1f, 1f, m_subsystemSky.SkyLightIntensity));
+			m_rainColor = new Color(b2, b2, b2);
+			Vector2 vector = new Vector2(camera.ViewPosition.X, camera.ViewPosition.Z);
+			Point2 point = Terrain.ToCell(vector);
+			Vector2? value = null;
+			m_lastShaftsUpdatePositions.TryGetValue(camera.View, out value);
+			if (!value.HasValue || Vector2.DistanceSquared(value.Value, vector) > 1f)
+			{
+				m_lastShaftsUpdatePositions[camera.View] = vector;
+				m_toRemove.Clear();
+				foreach (Shaft value3 in activeShafts.Values)
+				{
+					if (MathUtils.Sqr((float)value3.Point.X + 0.5f - vector.X) + MathUtils.Sqr((float)value3.Point.Y + 0.5f - vector.Y) > (float)num2 + 1f)
+					{
+						m_toRemove.Add(value3);
+					}
+				}
+				foreach (Shaft item in m_toRemove)
+				{
+					FreeShaft(item);
+					activeShafts.Remove(item.Point);
+				}
+				for (int i = point.X - num; i <= point.X + num; i++)
+				{
+					for (int j = point.Y - num; j <= point.Y + num; j++)
+					{
+						if (MathUtils.Sqr((float)i + 0.5f - vector.X) + MathUtils.Sqr((float)j + 0.5f - vector.Y) <= (float)num2)
+						{
+							Point2 point2 = new Point2(i, j);
+							if (!activeShafts.ContainsKey(point2))
+							{
+								Shaft value2 = AllocateShaft(camera.View, point2);
+								activeShafts.Add(point2, value2);
+							}
+						}
+					}
+				}
+			}
+			if (m_subsystemTime.PeriodicGameTimeEvent(1.0, 0.0) || !m_lastShaftsUpdateLightIntensity.HasValue || MathUtils.Abs(m_lastShaftsUpdateLightIntensity.Value - m_subsystemSky.SkyLightIntensity) > 0.1f)
+			{
+				m_lastShaftsUpdateLightIntensity = m_subsystemSky.SkyLightIntensity;
+				foreach (Shaft value4 in activeShafts.Values)
+				{
+					UpdateShaft(value4);
+				}
+			}
+		}
+
+		public new void Update(float dt)
+		{
+			if (m_subsystemGameInfo.TotalElapsedGameTime > m_precipitationEndTime)
+			{
+				if (m_precipitationEndTime == 0.0)
+				{
+					m_precipitationStartTime = m_subsystemGameInfo.TotalElapsedGameTime + (double)(60f * m_random.UniformFloat(3f, 6f));
+					m_lightningIntensity = m_random.UniformFloat(0.33f, 0.66f);
+				}
+				else
+				{
+					m_precipitationStartTime = m_subsystemGameInfo.TotalElapsedGameTime + (double)(60f * m_random.UniformFloat(5f, 45f));
+					m_lightningIntensity = ((m_random.UniformFloat(0f, 1f) < 0.5f) ? m_random.UniformFloat(0.33f, 1f) : 0f);
+				}
+				m_precipitationEndTime = m_precipitationStartTime + (double)(60f * m_random.UniformFloat(3f, 6f));
+			}
+			float num = (float)MathUtils.Max(0.0, MathUtils.Min(m_subsystemGameInfo.TotalElapsedGameTime - m_precipitationStartTime, m_precipitationEndTime - m_subsystemGameInfo.TotalElapsedGameTime));
+			m_globalPrecipitationIntensity = (m_subsystemGameInfo.WorldSettings.AreWeatherEffectsEnabled && !space ? MathUtils.Saturate(num * 0.04f) : 0f);
+			if (space)
+				return;
+			if (m_globalPrecipitationIntensity == 1f && m_subsystemTime.PeriodicGameTimeEvent(1.0, 0.0))
+			{
+				TerrainChunk[] allocatedChunks = m_subsystemTerrain.Terrain.AllocatedChunks;
+				for (int i = 0; i < allocatedChunks.Length; i++)
+				{
+					TerrainChunk terrainChunk = allocatedChunks[m_random.UniformInt(0, allocatedChunks.Length - 1)];
+					if (terrainChunk.State < TerrainChunkState.InvalidVertices1 || !m_random.Bool(m_lightningIntensity * 0.0002f))
+					{
+						continue;
+					}
+					int num2 = terrainChunk.Origin.X + m_random.UniformInt(0, 15);
+					int num3 = terrainChunk.Origin.Y + m_random.UniformInt(0, 15);
+					Vector3? vector = null;
+					for (int j = num2 - 8; j < num2 + 8; j++)
+					{
+						for (int k = num3 - 8; k < num3 + 8; k++)
+						{
+							int topHeight = m_subsystemTerrain.Terrain.GetTopHeight(j, k);
+							if (!vector.HasValue || (float)topHeight > vector.Value.Y)
+							{
+								vector = new Vector3(j, topHeight, k);
+							}
+						}
+					}
+					if (vector.HasValue)
+					{
+						m_subsystemSky.MakeLightningStrike(vector.Value);
+						return;
+					}
+				}
+			}
+			if (Time.PeriodicEvent(0.5, 0.0))
+			{
+				float num4 = 0f;
+				if (m_globalPrecipitationIntensity > 0f)
+				{
+					float num5 = 0f;
+					foreach (Vector3 listenerPosition in m_subsystemAudio.ListenerPositions)
+					{
+						int num6 = Terrain.ToCell(listenerPosition.X) - 5;
+						int num7 = Terrain.ToCell(listenerPosition.Z) - 5;
+						int num8 = Terrain.ToCell(listenerPosition.X) + 5;
+						int num9 = Terrain.ToCell(listenerPosition.Z) + 5;
+						for (int l = num6; l <= num8; l++)
+						{
+							for (int m = num7; m <= num9; m++)
+							{
+								PrecipitationShaftInfo precipitationShaftInfo = GetPrecipitationShaftInfo(l, m);
+								if (precipitationShaftInfo.Type == PrecipitationType.Rain && precipitationShaftInfo.Intensity > 0f)
+								{
+									Vector3 vector2 = default(Vector3);
+									vector2.X = (float)l + 0.5f;
+									vector2.Y = MathUtils.Max(precipitationShaftInfo.YLimit, listenerPosition.Y);
+									vector2.Z = (float)m + 0.5f;
+									float num10 = vector2.X - listenerPosition.X;
+									float num11 = 8f * (vector2.Y - listenerPosition.Y);
+									float num12 = vector2.Z - listenerPosition.Z;
+									float distance = MathUtils.Sqrt(num10 * num10 + num11 * num11 + num12 * num12);
+									num5 += m_subsystemAudio.CalculateVolume(distance, 1.5f) * precipitationShaftInfo.Intensity;
+								}
+							}
+						}
+					}
+					num4 = MathUtils.Max(num4, num5);
+				}
+				m_targetRainSoundVolume = MathUtils.Saturate(1.5f * num4 / m_rainVolumeFactor);
+			}
+			m_rainSound.Volume = MathUtils.Saturate(MathUtils.Lerp(m_rainSound.Volume, SettingsManager.SoundsVolume * m_targetRainSoundVolume, 5f * dt));
+			if (m_rainSound.Volume > AudioManager.MinAudibleVolume)
+			{
+				m_rainSound.Play();
+			}
+			else
+			{
+				m_rainSound.Pause();
+			}
 		}
 
 	}

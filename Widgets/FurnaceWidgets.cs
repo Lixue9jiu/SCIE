@@ -50,7 +50,7 @@ namespace Game
 			m_fire = Children.Find<FireWidget>("Fire");
 			m_resultSlot = Children.Find<InventorySlotWidget>("ResultSlot");
 			m_remainsSlot = Children.Find<InventorySlotWidget>("RemainsSlot");
-			m_acceptsDropsBox = Children.Find<CheckboxWidget>("AcceptsElectBox");
+			//m_acceptsDropsBox = Children.Find<CheckboxWidget>("AcceptsElectBox");
 			m_cir1 = Children.Find<InventorySlotWidget>("CircuitSlot1", false);
 			m_cir2 = Children.Find<InventorySlotWidget>("CircuitSlot2", false);
 			m_progress = Children.Find<ValueBarWidget>("Progress");
@@ -72,6 +72,40 @@ namespace Game
 		{
 			m_fire.ParticlesPerSecond = m_component.HeatLevel > 0f ? 24f : 0f;
 			m_progress.Value = m_component.SmeltingProgress;
+			base.Update();
+		}
+	}
+
+	public class GasWidget : FurnaceWidget<ComponentMachine>
+	{
+		protected readonly ValueBarWidget m_progress2;
+		public GasWidget(IInventory inventory, ComponentMachine component, string path = "Widgets/GasWidget") : base(inventory, component, path)
+		{
+			m_resultSlot.AssignInventorySlot(component, 2);
+			m_remainsSlot.AssignInventorySlot(component, 3);
+			m_cir1.AssignInventorySlot(component, 4);
+			m_cir2.AssignInventorySlot(component, 5);
+			m_progress2 = Children.Find<ValueBarWidget>("Progress2");
+		}
+
+		public override void Update()
+		{
+			m_fire.ParticlesPerSecond = m_component.HeatLevel > 0f ? 24f : 0f;
+			m_progress.Value = m_component.SmeltingProgress;
+			m_progress2.Value = m_component.m_fireTimeRemaining/10000f;
+			if (m_component.GetSlotCount(4)>0 && m_component.m_fireTimeRemaining<10000f)
+			{
+				var block = BlocksManager.Blocks[Terrain.ExtractContents(m_component.GetSlotValue(4))];
+				if (block is IFuel fuel && block.BlockIndex != ElementBlock.Index)
+				{
+					m_component.m_fireTimeRemaining += fuel.GetFuelFireDuration(m_component.GetSlotValue(4));
+					m_component.AddSlotItems(5, ItemBlock.IdTable["¸ÖÆ¿"], 1);
+					m_component.RemoveSlotItems(4, 1);
+				}
+			}
+			
+
+
 			base.Update();
 		}
 	}

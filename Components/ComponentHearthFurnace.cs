@@ -227,4 +227,162 @@ namespace Game
 			return flag;
 		}
 	}
+
+	public class ComponentAutoFactory : ComponentMachine, IUpdateable
+	{
+		protected int m_time;
+		public bool Powered;
+		protected readonly int[] m_matchedIngredients2 = new int[12];
+
+		protected readonly int[] m_matchedIngredients = new int[36];
+
+		protected bool m_smeltingRecipe, m_smeltingRecipe2;
+		protected readonly int[] result = new int[4];
+		public override int RemainsSlotIndex => 9 - 2;
+
+		public override int ResultSlotIndex => 9 - 3;
+
+		
+		public void Update(float dt)
+		{
+			if (m_updateSmeltingRecipe || Utils.SubsystemTime.PeriodicGameTimeEvent(0.5, 0.0))
+			{
+				m_updateSmeltingRecipe = false;
+				//result[0] = GetSlotValue(ResultSlotIndex);
+				//result[2] = GetSlotValue(RemainsSlotIndex);
+				bool flag = FindSmeltingRecipe(5f);
+				if ((result[0] != GetSlotValue(ResultSlotIndex) && GetSlotCount(ResultSlotIndex) >0 ) || (result[2] != GetSlotValue(RemainsSlotIndex) && GetSlotCount(RemainsSlotIndex) > 0))
+				{
+					SmeltingProgress = 0f;
+					m_time = 0;
+				}
+				m_smeltingRecipe2 = flag;
+				if (flag != m_smeltingRecipe)
+				{
+					m_smeltingRecipe = flag;
+					SmeltingProgress = 0f;
+					m_time = 0;
+				}
+			}
+			if (Powered)
+			{
+				if (m_smeltingRecipe)
+				{
+					SmeltingProgress = MathUtils.Min(SmeltingProgress + 0.1f * dt, 1f);
+					if (SmeltingProgress >= 1f)
+					{
+						m_slots[ResultSlotIndex].Value = result[0];
+						m_slots[ResultSlotIndex].Count += result[1];
+						m_slots[RemainsSlotIndex].Value = result[2];
+						m_slots[RemainsSlotIndex].Count += result[3];
+						SmeltingProgress = 0f;
+						for (int i1 = 0; i1 < 6; i1++)
+						{
+							if (m_slots[i1].Value == m_matchedIngredients2[i1 * 2])
+								m_slots[i1].Count = m_matchedIngredients2[i1 * 2 + 1];
+						}
+						//m_heatLevel = 0f;
+					}
+				}
+			}
+			
+		}
+
+		public override void Load(ValuesDictionary valuesDictionary, IdToEntityMap idToEntityMap)
+		{
+			base.Load(valuesDictionary, idToEntityMap);
+			m_furnaceSize = SlotsCount - 2;
+		}
+
+		protected bool FindSmeltingRecipe(float heatLevel)
+		{
+			Point3 coordinates = m_componentBlockEntity.Coordinates;
+			int num3 = coordinates.X;
+			int num4 = coordinates.Y-1;
+			int num5 = coordinates.Z;
+			var component3 = Utils.GetBlockEntity(new Point3(num3, num4, num5))?.Entity.FindComponent<ComponentLargeCraftingTable>();
+			result[0] = 0;
+			result[1] = 0;
+			result[2] = 0;
+			result[3] = 0;
+			if (component3 != null && component3.GetSlotValue(component3.ResultSlotIndex)>0 && component3.m_matchedRecipe != null && component3.m_matchedRecipe.ResultCount>0)
+			{
+				result[0] = component3.m_matchedRecipe.ResultValue;
+				result[1] = component3.m_matchedRecipe.ResultCount;
+				result[2] = component3.m_matchedRecipe.RemainsValue;
+				result[3] = component3.m_matchedRecipe.RemainsCount;
+				for (int i1 =0; i1 <6; i1++)
+				{
+					m_matchedIngredients[i1 * 2] = GetSlotValue(i1);
+					m_matchedIngredients[i1 * 2+1] = GetSlotCount(i1);
+					m_matchedIngredients2[i1 * 2] = GetSlotValue(i1);
+					m_matchedIngredients2[i1 * 2 + 1] = GetSlotCount(i1);
+				}
+				for (int ii = 0; ii < component3.m_craftingGridSize * component3.m_craftingGridSize; ii++)
+				{
+					int yy = component3.GetSlotValue(ii);
+					int num = MathUtils.Min(1,component3.GetSlotCount(ii));
+					//if (num == 0) break;
+					for (int i1 = 0; i1 < 6; i1++)
+					{
+						if (m_matchedIngredients2[i1 * 2] == yy && m_matchedIngredients2[i1 * 2 + 1] >= num)
+						{
+							m_matchedIngredients2[i1 * 2 + 1] -= num;
+							i1 = 6;
+						}
+						if (i1==5)
+						return false;
+					}
+				}
+
+
+
+				return true;
+			}
+			if (component3 != null && component3.GetSlotValue(component3.ResultSlotIndex) > 0)
+			{
+				result[0] = component3.GetSlotValue(component3.ResultSlotIndex);
+				result[1] = component3.GetSlotCount(component3.ResultSlotIndex);
+				result[2] = component3.GetSlotValue(component3.RemainsSlotIndex);
+				result[3] = component3.GetSlotCount(component3.RemainsSlotIndex);
+				for (int i1 = 0; i1 < 6; i1++)
+				{
+					m_matchedIngredients[i1 * 2] = GetSlotValue(i1);
+					m_matchedIngredients[i1 * 2 + 1] = GetSlotCount(i1);
+					m_matchedIngredients2[i1 * 2] = GetSlotValue(i1);
+					m_matchedIngredients2[i1 * 2 + 1] = GetSlotCount(i1);
+				}
+				int min = 9999999;
+				for (int ii = 0; ii < component3.m_craftingGridSize * component3.m_craftingGridSize; ii++)
+				{
+					int num = component3.GetSlotCount(ii);
+					if (num>0)
+					{
+						min = MathUtils.Min(min, num);
+					}
+				}
+				for (int ii = 0; ii < component3.m_craftingGridSize * component3.m_craftingGridSize; ii++)
+				{
+					int yy = component3.GetSlotValue(ii);
+					int num = MathUtils.Min(min,component3.GetSlotCount(ii));
+					//if (num == 0) break;
+					for (int i1 = 0; i1 < 6; i1++)
+					{
+						if (m_matchedIngredients2[i1 * 2] == yy && m_matchedIngredients2[i1 * 2 + 1] >= num)
+						{
+							m_matchedIngredients2[i1 * 2 + 1] -= num;
+							i1 = 6;
+						}
+						if (i1 == 5)
+							return false;
+					}
+				}
+				return true;
+			}
+
+			return false;
+		}
+	}
+
+
 }

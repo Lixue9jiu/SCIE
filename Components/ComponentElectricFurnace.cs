@@ -390,4 +390,208 @@ namespace Game
 			}
 		}
 	}
+
+
+	public class ComponentGasFurnace : ComponentMachine, IUpdateable
+	{
+		protected float m_speed;
+		protected CraftingRecipe m_smeltingRecipe2;
+
+		public CraftingRecipe m_smeltingRecipe;
+
+		public new int RemainsSlotIndex => 3;
+
+		public new int ResultSlotIndex => 2;
+
+		public new int FuelSlotIndex => SlotsCount;
+
+		public float m_heatLevel;
+		public bool m_updateSmeltingRecipe;
+		//public CraftingRecipe m_smeltingRecipe;
+		public float m_smeltingProgress;
+
+
+		public int Cir1SlotIndex => 4;
+
+		public int Cir2SlotIndex => 5;
+		public void Update(float dt)
+		{
+			if (HeatLevel > 0f)
+			{
+				m_fireTimeRemaining = MathUtils.Max(0f, m_fireTimeRemaining - dt);
+				if (m_fireTimeRemaining == 0f)
+					m_heatLevel = 0f;
+			}
+			if (m_updateSmeltingRecipe)
+			{
+				m_updateSmeltingRecipe = false;
+				CraftingRecipe craftingRecipe = FindSmeltingRecipe2(1000f);
+
+				if (craftingRecipe != m_smeltingRecipe)
+				{
+					m_smeltingRecipe = craftingRecipe;
+					m_smeltingRecipe2 = craftingRecipe;
+					m_smeltingProgress = 0f;
+				}
+
+			}
+			if (m_smeltingRecipe2 != null)
+			{
+				if (false)
+				{
+					m_smeltingProgress = 0f;
+					m_heatLevel = 0f;
+					m_smeltingRecipe = null;
+				}
+				else if (m_smeltingRecipe == null)
+					m_smeltingRecipe = m_smeltingRecipe2;
+			}
+			if (m_smeltingRecipe == null)
+			{
+				m_heatLevel = 0f;
+				HeatLevel = 0f;
+				m_smeltingProgress = 0f;
+				SmeltingProgress = 0f;
+				//m_fireTimeRemaining = 0f;
+			}
+			if (m_smeltingRecipe != null)
+			{
+				m_heatLevel = 1000f;
+				HeatLevel = m_heatLevel;
+				//m_fireTimeRemaining = 100f;
+			}
+			if (m_fireTimeRemaining <= 0f)
+			{
+				m_smeltingRecipe = null;
+				m_smeltingProgress = 0f;
+				SmeltingProgress = m_smeltingProgress;
+				m_heatLevel = 0f;
+				HeatLevel = m_heatLevel;
+			}
+			if (m_smeltingRecipe != null)
+			{
+				m_smeltingProgress = MathUtils.Min(SmeltingProgress + 0.5f * dt, 1f);
+				SmeltingProgress = m_smeltingProgress;
+				if (SmeltingProgress >= 1f)
+				{
+					for (int i = 0; i < 2; i++)
+						if (m_slots[i].Count > 0)
+							m_slots[i].Count--;
+					m_slots[ResultSlotIndex].Value = m_smeltingRecipe.ResultValue;
+					m_slots[ResultSlotIndex].Count += m_smeltingRecipe.ResultCount;
+					if (m_smeltingRecipe.RemainsValue != 0 && m_smeltingRecipe.RemainsCount > 0)
+					{
+						m_slots[RemainsSlotIndex].Value = m_smeltingRecipe.RemainsValue;
+						m_slots[RemainsSlotIndex].Count += m_smeltingRecipe.RemainsCount;
+					}
+					m_smeltingRecipe = null;
+					m_smeltingRecipe2 = null;
+					m_smeltingProgress = 0f;
+					SmeltingProgress = 0f;
+					m_updateSmeltingRecipe = true;
+				}
+			}
+		}
+		public string[] m_matchedIngredients;
+		public override void Load(ValuesDictionary valuesDictionary, IdToEntityMap idToEntityMap)
+		{
+			base.Load(valuesDictionary,idToEntityMap);
+			m_matchedIngredients = new string[36];
+			//this.LoadItems(valuesDictionary);
+			m_componentBlockEntity = Entity.FindComponent<ComponentBlockEntity>(true);
+			m_fireTimeRemaining = valuesDictionary.GetValue("FireTimeRemaining", 0f);
+			//m_furnaceSize = SlotsCount - 4;
+			m_updateSmeltingRecipe = true;
+			m_speed = 0.2f;
+		}
+		public virtual CraftingRecipe FindSmeltingRecipe2(float heatlevel)
+		{
+			for (int i = 0; i < 2; i++)
+			{
+				int slotValue = GetSlotValue(i);
+				int num = Terrain.ExtractContents(slotValue);
+				int num2 = Terrain.ExtractData(slotValue);
+				if (GetSlotCount(i) > 0)
+				{
+					Block block = BlocksManager.Blocks[num];
+					m_matchedIngredients[i] = block.CraftingId + ":" + num2.ToString(CultureInfo.InvariantCulture);
+				}
+				else
+				{
+					m_matchedIngredients[i] = null;
+				}
+			}
+			CraftingRecipe craftingRecipe = FindMatchingRecipe1(Utils.SubsystemTerrain, m_matchedIngredients, 2000f);
+			if (craftingRecipe != null)
+			{
+				if (craftingRecipe.RequiredHeatLevel <= 0f)
+				{
+					craftingRecipe = null;
+				}
+				if (craftingRecipe != null)
+				{
+					Slot slot = m_slots[ResultSlotIndex];
+					int num3 = Terrain.ExtractContents(craftingRecipe.ResultValue);
+					if (slot.Count != 0 && (craftingRecipe.ResultValue != slot.Value))
+					{
+						craftingRecipe = null;
+					}
+				}
+				if (craftingRecipe != null && craftingRecipe.RemainsValue != 0 && craftingRecipe.RemainsCount > 0)
+				{
+					if (m_slots[RemainsSlotIndex].Count == 0 || m_slots[RemainsSlotIndex].Value == craftingRecipe.RemainsValue)
+					{
+
+					}
+					else
+					{
+						craftingRecipe = null;
+					}
+				}
+			}
+			return craftingRecipe;
+		}
+
+		public static CraftingRecipe FindMatchingRecipe1(SubsystemTerrain terrain, string[] ingredients, float heatLevel)
+		{
+			Func<SubsystemTerrain, string[], float, CraftingRecipe> findMatchingRecipe = CraftingRecipesManager.FindMatchingRecipe1;
+			if (findMatchingRecipe != null)
+			{
+				return findMatchingRecipe(terrain, ingredients, heatLevel);
+			}
+			Block[] blocks = BlocksManager.Blocks;
+			for (int i = 0; i < blocks.Length; i++)
+			{
+				CraftingRecipe adHocCraftingRecipe = blocks[i].GetAdHocCraftingRecipe(terrain, ingredients, heatLevel);
+				if (adHocCraftingRecipe == null)
+					continue;
+				if (adHocCraftingRecipe != null && adHocCraftingRecipe.RequiredHeatLevel > 0 && heatLevel >= adHocCraftingRecipe.RequiredHeatLevel && CraftingRecipesManager.MatchRecipe(adHocCraftingRecipe.Ingredients, ingredients))
+				{
+					return adHocCraftingRecipe;
+				}
+			}
+			int count = CraftingRecipesManager.Recipes.Count;
+			for (int i = 0; i < count; i++)
+			{
+				CraftingRecipe adHocCraftingRecipe = CraftingRecipesManager.Recipes[i];
+				if (adHocCraftingRecipe == null)
+					continue;
+				if (heatLevel >= adHocCraftingRecipe.RequiredHeatLevel && adHocCraftingRecipe.RequiredHeatLevel > 0 && CraftingRecipesManager.MatchRecipe(adHocCraftingRecipe.Ingredients, ingredients))
+				{
+					return adHocCraftingRecipe;
+				}
+			}
+			return null;
+		}
+		public override void AddSlotItems(int slotIndex, int value, int count)
+		{
+			base.AddSlotItems(slotIndex, value, count);
+			m_updateSmeltingRecipe = true;
+		}
+		public override int RemoveSlotItems(int slotIndex, int count)
+		{
+			m_updateSmeltingRecipe = true;
+			return base.RemoveSlotItems(slotIndex, count);
+		}
+	}
 }

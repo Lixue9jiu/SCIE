@@ -85,20 +85,27 @@ namespace Game
 									if (body.HasValue && (!result.HasValue || body.Value.Distance < result.Value.Distance))
 									{
 										ComponentCreature cre1 = body.Value.ComponentBody.Entity.FindComponent<ComponentCreature>();
-										if (cre1 != null && cre1.DisplayName !="T-100")
+										if (cre1 != null)
 										{
-											int nnn = (int)cre1.Entity.FindComponent<ComponentHealth>()?.AttackResilience / 8;
-											for (int zz = 0; zz <= nnn; zz++)
-												Utils.SubsystemPickables.AddPickable(ItemBlock.IdTable["CoalPowder"], 1, cre1.ComponentBody.Position, null, null);
-											Utils.SubsystemParticles.AddParticleSystem(new KillParticleSystem(Utils.SubsystemTerrain, cre1.ComponentBody.Position, 1f));
-											end = MathUtils.Abs(Vector3.Distance(cre1.ComponentBody.Position,vectorp));
-											//end = vectorp + direction * 100f;
-											if (cre1.Entity.FindComponent<ComponentNPlayer>() != null)
+											if (cre1.ComponentHealth.AttackResilience > 1000)
 											{
-												cre1.Entity.FindComponent<ComponentHealth>()?.Injure(1f, null, false, "Killed by Laser");
+												cre1.Entity.FindComponent<ComponentHealth>()?.Injure(100f / cre1.ComponentHealth.AttackResilience, componentMiner.ComponentCreature, false, "Killed by Laser");
 											}
 											else
-												Project.RemoveEntity(cre1.Entity, true);
+											{
+												int nnn = (int)cre1.Entity.FindComponent<ComponentHealth>()?.AttackResilience / 8;
+												for (int zz = 0; zz <= nnn; zz++)
+													Utils.SubsystemPickables.AddPickable(ItemBlock.IdTable["CoalPowder"], 1, cre1.ComponentBody.Position, null, null);
+												Utils.SubsystemParticles.AddParticleSystem(new KillParticleSystem(Utils.SubsystemTerrain, cre1.ComponentBody.Position, 1f));
+												end = MathUtils.Abs(Vector3.Distance(cre1.ComponentBody.Position, vectorp));
+												//end = vectorp + direction * 100f;
+												if (cre1.Entity.FindComponent<ComponentNPlayer>() != null)
+												{
+													cre1.Entity.FindComponent<ComponentHealth>()?.Injure(1f, null, false, "Killed by Laser");
+												}
+												else
+													Project.RemoveEntity(cre1.Entity, true);
+											}
 										}
 									}
 									else if (result.HasValue)
