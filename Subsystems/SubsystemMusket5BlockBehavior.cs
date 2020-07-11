@@ -156,7 +156,7 @@ namespace Game
 			}
 			return false;
 		}
-		public int GetDamage(int value)
+		public static int GetDamage(int value)
 		{
 			return (Terrain.ExtractData(value) >> 4) & 4095;
 		}

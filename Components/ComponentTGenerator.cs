@@ -1,9 +1,19 @@
 using Engine;
+using GameEntitySystem;
+using TemplatesDatabase;
 
 namespace Game
 {
 	public class ComponentTGenerator : ComponentSeparator, IUpdateable
 	{
+		protected float m_speed = 0.01f;
+
+		public override void Load(ValuesDictionary valuesDictionary, IdToEntityMap idToEntityMap)
+		{
+			m_speed = valuesDictionary.GetValue("Speed", 0.01f);
+			base.Load(valuesDictionary, idToEntityMap);
+		}
+
 		public new void Update(float dt)
 		{
 			if (m_updateSmeltingRecipe)
@@ -23,7 +33,7 @@ namespace Game
 			if (m_smeltingRecipe != 0)
 			{
 				Powered = true;
-				m_fireTimeRemaining = MathUtils.Min(m_fireTimeRemaining - 0.01f * dt, 1f);
+				m_fireTimeRemaining = MathUtils.Min(m_fireTimeRemaining - 0.05f * dt, 1f);
 				SmeltingProgress = 1f - m_fireTimeRemaining;
 				if (SmeltingProgress >= 1f)
 				{
@@ -53,11 +63,20 @@ namespace Game
 			for (i = 0; i < 1; i++)
 			{
 				if (GetSlotCount(i) <= 0) continue;
-				if (Terrain.ExtractContents(GetSlotValue(i)) == MagmaBucketBlock.Index)
+				int value = GetSlotValue(i);
+				if (m_speed < 0.05f)
+				{
+					if (Terrain.ExtractContents(value) == MagmaBucketBlock.Index)
+					{
+						text = 1;
+						result[EmptyBucketBlock.Index] = 1;
+						result[BasaltBlock.Index] = 1;
+					}
+				}
+				else if (value == ItemBlock.IdTable["H2"])
 				{
 					text = 1;
-					result[EmptyBucketBlock.Index] = 1;
-					result[BasaltBlock.Index] = 1;
+					result[ItemBlock.IdTable["¸ÖÆ¿"]] = 1;
 				}
 			}
 			return FindSmeltingRecipe(text);

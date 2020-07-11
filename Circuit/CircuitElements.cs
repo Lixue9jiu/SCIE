@@ -6,15 +6,15 @@ namespace Game
 {
 	public class Switch : CubeDevice, IInteractiveBlock
 	{
-		public BlockMesh m_standaloneBlockMesh = new BlockMesh();
-		public BlockMesh m_standaloneBlockMesh2 = new BlockMesh();
+		public BlockMesh m_standaloneBlockMesh = new BlockMesh(),
+						 m_standaloneBlockMesh2 = new BlockMesh();
 		public BoundingBox[] m_collisionBoxes;
 
 		public Switch() : base("电闸", "电闸控制工业电路的通断")
 		{
 			Model model = ContentManager.Get<Model>("Models/Switch");
-			Matrix boneAbsoluteTransform = BlockMesh.GetBoneAbsoluteTransform(model.FindMesh("Body").ParentBone) * Matrix.CreateTranslation(.5f, 0, .5f);
-			Matrix boneAbsoluteTransform2 = BlockMesh.GetBoneAbsoluteTransform(model.FindMesh("Lever").ParentBone);
+			Matrix boneAbsoluteTransform = BlockMesh.GetBoneAbsoluteTransform(model.FindMesh("Body").ParentBone) * Matrix.CreateTranslation(.5f, 0, .5f),
+					boneAbsoluteTransform2 = BlockMesh.GetBoneAbsoluteTransform(model.FindMesh("Lever").ParentBone);
 			ModelMeshPart meshPart = model.FindMesh("Body").MeshParts[0];
 			m_standaloneBlockMesh.AppendModelMeshPart(meshPart, boneAbsoluteTransform, false, false, false, false, Color.White);
 			m_standaloneBlockMesh2.AppendModelMeshPart(meshPart, boneAbsoluteTransform, false, false, false, false, Color.White);
@@ -134,11 +134,11 @@ namespace Game
 	}
 	public class Fuseblock : CubeDevice
 	{
-		public Fuseblock() : base("熔丝盒", "熔丝盒", 0) { }
+		public Fuseblock() : base("熔丝盒", "熔丝盒", 700) { }
 
 		public override void Simulate(ref int voltage)
 		{
-			if (voltage > 700)
+			if (voltage > Voltage)
 				voltage = 0;
 		}
 

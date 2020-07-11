@@ -122,8 +122,9 @@ namespace Game
 		public float ExplosionPressure;
 		public double Delay;
 		public MineType MineType;
-		public Mine(MineType type = MineType.Medium, double delay = 0, string description = "Mine") : base("Models/Snowball", "Snowball", Matrix.CreateTranslation(Vector3.Zero), Matrix.CreateTranslation(Vector3.Zero) * Matrix.CreateScale(20f), (type & MineType.Incendiary) != 0 ? Color.DarkRed : Color.LightGray, 2.5f)
+		public Mine(MineType type = MineType.Medium, double delay = 0, string description = "Mine") : base("Models/Snowball", "Snowball", Matrix.Identity, Matrix.CreateScale(20f), (type & MineType.Incendiary) != 0 ? Color.DarkRed : Color.LightGray)
 		{
+			Size = 2.5f;
 			DefaultDescription = description;
 			switch (MineType & MineType.Large)
 			{

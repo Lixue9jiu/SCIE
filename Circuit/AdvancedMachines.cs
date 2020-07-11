@@ -516,6 +516,30 @@ namespace Game
 			return face != 4 && face != 5 && face == (Terrain.ExtractData(value) >> 15) ? 220 : 239;
 		}
 	}
+	public class Cyclotron : CubeDevice
+	{
+		public Cyclotron() : base("回旋加速器", "回旋加速器可用于生产人工放射性核素", -4000) { }
+		public override int GetFaceTextureSlot(int face, int value)
+		{
+			return face != 4 && face != 5 ? 236 : 220;
+		}
+	}
+	public class CloudChamber : CubeDevice
+	{
+		public CloudChamber() : base("云室", "云室是显示能导致电离的粒子径迹的装置", 60) { }
+		public override int GetFaceTextureSlot(int face, int value)
+		{
+			return face != 4 && face != 5 ? 236 : 241;
+		}
+	}
+	public class LightningCatcher : CubeDevice
+	{
+		public LightningCatcher() : base("雷电捕捉器", "雷电捕捉器", 8000) { }
+		public override int GetFaceTextureSlot(int face, int value)
+		{
+			return face != 4 && face != 5 ? 236 : 121;
+		}
+	}
 	/*public class ElectricMicroscope : CubeDevice
 	{
 	}
@@ -558,7 +582,7 @@ namespace Game
 
 		public override int GetFaceTextureSlot(int face, int value) => face > 3 ? 109 : Powered ? 109 : 111;
 
-		public void Execute(string code)
+		public static void Execute(string code)
 		{
 			/*if (string.IsNullOrWhiteSpace(code)) return;
 			try

@@ -1,11 +1,9 @@
-﻿// Game.SubsystemSky
-using Engine;
+﻿using Engine;
 using Engine.Graphics;
-using GameEntitySystem;
 
 namespace Game
 {
-	public class SubsystemLaser : Subsystem, IDrawable
+	public class SubsystemLaser : SubsystemBlockBehavior, IDrawable
 	{
 		public PrimitivesRenderer3D m_primitivesRenderer3d = new PrimitivesRenderer3D();
 
@@ -20,6 +18,8 @@ namespace Game
 		public int[] m_drawOrders = new[] { 500 };
 
 		public int[] DrawOrders => m_drawOrders;
+
+		public override int[] HandledBlocks => new[] { ChemicalBlock.Index };
 
 		public void MakeLightningStrike(Vector3 targetPosition, Vector3 startPosition)
 		{
@@ -61,6 +61,32 @@ namespace Game
 				}
 			}
 			m_primitivesRenderer3d.Flush(camera.ViewProjectionMatrix);
+		}
+
+		public override bool OnInteract(TerrainRaycastResult raycastResult, ComponentMiner componentMiner)
+		{
+			CellFace cellFace = raycastResult.CellFace;
+			if (ChemicalBlock.Get(Utils.Terrain.GetCellValueFast(cellFace.X, cellFace.Y, cellFace.Z)) is Cylinder)
+			{
+				SubsystemTerrain.ChangeCell(cellFace.X, cellFace.Y, cellFace.Z, ItemBlock.IdTable["钢瓶"]);
+			}
+			return false;
+		}
+
+		public override bool OnAim(Vector3 start, Vector3 direction, ComponentMiner componentMiner, AimState state)
+		{
+			if (ChemicalBlock.Get(componentMiner.ActiveBlockValue) is Bottle)
+			{
+				if (state == AimState.Completed)
+				{
+					var inventory = componentMiner.Inventory;
+					int activeSlotIndex = inventory.ActiveSlotIndex, count = inventory.GetSlotCount(activeSlotIndex);
+					inventory.RemoveSlotItems(activeSlotIndex, count);
+					inventory.AddSlotItems(activeSlotIndex, ItemBlock.IdTable["Bottle"], count);
+				}
+				return state != AimState.InProgress;
+			}
+			return false;
 		}
 	}
 }

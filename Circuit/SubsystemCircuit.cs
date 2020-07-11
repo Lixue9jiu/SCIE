@@ -193,7 +193,7 @@ namespace Game
 					Block.GetAllConnectedNeighbors(Utils.Terrain, v, 4, neighbors);
 					v.Next = new Element[neighbors.Count];
 					count = 0;
-					for (j = 0; j < neighbors.Count+1; j++)
+					for (j = 0; j < neighbors.Count; j++)
 					{
 						var w = neighbors.Array[j];
 						if (w == null)

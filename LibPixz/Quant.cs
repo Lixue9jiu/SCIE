@@ -25,7 +25,7 @@
 			{
 				for (int x = 0; x < tam; x++)
 				{
-					coefDct[y, x] = (float)(pixQnt[y, x] * matriz[y * tam + x]);
+					coefDct[y, x] = pixQnt[y, x] * matriz[y * tam + x];
 				}
 			}
 		}
