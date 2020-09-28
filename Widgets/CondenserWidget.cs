@@ -104,11 +104,14 @@ namespace Game
 	{
 		protected readonly ButtonWidget m_dispenseButton2,
 										m_shootButton2;
-		public SIWidget(IInventory inventory, ComponentSInserter component) : base(inventory, component, "Widgets/SIWidget")
+		protected string tex1, tex2;
+		public SIWidget(IInventory inventory, ComponentSInserter component, string text1="In: ",string text2="Out: ") : base(inventory, component, "Widgets/SIWidget")
 		{
 			InitGrid("ChestGrid");
 			m_dispenseButton2 = Children.Find<ButtonWidget>("DispenseButton1");
 			m_shootButton2 = Children.Find<ButtonWidget>("ShootButton1");
+			tex1 = text1;
+			tex2 = text2;
 		}
 		public override void Update()
 		{
@@ -117,8 +120,8 @@ namespace Game
 				ParentWidget.Children.Remove(this);
 				return;
 			}
-			Children.Find<LabelWidget>("DispenserLabel2").Text = "In: " + m_component.innum.ToString();
-			Children.Find<LabelWidget>("DispenserLabel3").Text = "Out: " + m_component.outnum.ToString();
+			Children.Find<LabelWidget>("DispenserLabel2").Text = tex1 + m_component.innum.ToString();
+			Children.Find<LabelWidget>("DispenserLabel3").Text = tex2 + m_component.outnum.ToString();
 			if (m_dispenseButton.IsClicked)
 			{
 				m_component.innum ++;
@@ -134,6 +137,48 @@ namespace Game
 			if (m_shootButton2.IsClicked && m_component.outnum > 0)
 			{
 				m_component.outnum--;
+			}
+			//m_dispenseButton.IsChecked = m_component.innum > 0;
+		}
+	}
+
+	public class CannonWidget : MultiStateMachWidget<ComponentCabinerC>
+	{
+		protected readonly ButtonWidget m_dispenseButton2,
+										m_shootButton2;
+		protected string tex1, tex2;
+		public CannonWidget(IInventory inventory, ComponentCabinerC component, string text1 = "Angle: ", string text2 = "Pressure: ") : base(inventory, component, "Widgets/SIWidget")
+		{
+			InitGrid("ChestGrid");
+			m_dispenseButton2 = Children.Find<ButtonWidget>("DispenseButton1");
+			m_shootButton2 = Children.Find<ButtonWidget>("ShootButton1");
+			tex1 = text1;
+			tex2 = text2;
+		}
+		public override void Update()
+		{
+			if (!m_component.IsAddedToProject)
+			{
+				ParentWidget.Children.Remove(this);
+				return;
+			}
+			Children.Find<LabelWidget>("DispenserLabel2").Text = tex1 + (m_component.angle+15).ToString();
+			Children.Find<LabelWidget>("DispenserLabel3").Text = tex2 + (m_component.presure+40).ToString();
+			if (m_dispenseButton.IsClicked && m_component.angle < 70)
+			{
+				m_component.angle++;
+			}
+			if (m_shootButton.IsClicked && m_component.angle > 0)
+			{
+				m_component.angle--;
+			}
+			if (m_dispenseButton2.IsClicked && m_component.presure < 120)
+			{
+				m_component.presure++;
+			}
+			if (m_shootButton2.IsClicked && m_component.presure > 0)
+			{
+				m_component.presure--;
 			}
 			//m_dispenseButton.IsChecked = m_component.innum > 0;
 		}

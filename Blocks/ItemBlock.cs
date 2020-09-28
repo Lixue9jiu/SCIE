@@ -188,8 +188,8 @@ namespace Game
 						continue;
 					recipes.Add(new CraftingRecipe
 					{
-						ResultValue = Terrain.ReplaceData(BlocksManager.FindBlocksByCraftingId(craftingId)[0].BlockIndex, num.Value),
-						ResultCount = GetCount(ingredients),
+						ResultValue = craftingRecipe.ResultValue,//Terrain.ReplaceData(BlocksManager.FindBlocksByCraftingId(craftingId)[0].BlockIndex, num.Value),
+						ResultCount = craftingRecipe.ResultCount/2,//GetCount(ingredients),
 						RemainsValue = craftingRecipe.RemainsValue,
 						RemainsCount = craftingRecipe.RemainsCount,
 						RequiredHeatLevel = 1f,

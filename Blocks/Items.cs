@@ -328,6 +328,10 @@ namespace Game
 			.AppendMesh("Models/Brick", "Brick", Matrix.CreateScale(1f, 0.25f, 1f), Matrix.CreateTranslation(9f / 16f, -7f / 16f, 0f) * Matrix.CreateScale(20f), Color.Black)
 			.AppendMesh("Models/Brick", "Brick", Matrix.CreateScale(0.5f, 0.25f, 0.5f)*Matrix.CreateTranslation(0f,0.05f,0f), Matrix.CreateTranslation(9f / 16f, -7f / 16f, 0f) * Matrix.CreateScale(20f), Color.Gray),
 			new Submarine(),
+			new Cannon(),
+			new MouldItem("测距仪", "Models/Battery", "Battery", Matrix.CreateRotationX(MathUtils.PI / 2) * Matrix.CreateScale(.5f, .5f, 1.2f) * Matrix.CreateTranslation(0.5f, 0.5f, -0.3f), Matrix.CreateTranslation(9f / 16f, -7f / 16f, 0f), "测距仪", "测距仪", 0.6f)
+			.AppendMesh("Models/Battery", "Battery", Matrix.CreateRotationX(MathUtils.PI / 2) * Matrix.CreateScale(.7f) * Matrix.CreateTranslation(0.5f, 0.5f, 0.5f), Matrix.CreateTranslation(9f / 16f, -7f / 16f, 0f), Color.DarkGray),
+			new Circuit("Circuit3", "集成电路", "集成电路，由光刻机制作的集成电路板",198),
 			//new MouldItem("LH2","Models/Cylinder", "obj1", Matrix.CreateScale(40f, 80f, 40f) * Matrix.CreateTranslation(0.5f, 0f, 0.5f), Matrix.CreateTranslation(9f / 16f, -7f / 16f, 0f), "液态氢", "液态氢", 1.5f),
 			//new MouldItem("LO2","Models/Cylinder", "obj1", Matrix.CreateScale(40f, 80f, 40f) * Matrix.CreateTranslation(0.5f, 0f, 0.5f), Matrix.CreateTranslation(9f / 16f, -7f / 16f, 0f), "液态氧", "液态氧", 1.5f),
 			//new Plane(),
@@ -423,6 +427,7 @@ namespace Game
 				new FireIBlock(),
 				new AutoLaser(),
 				new AutoFactory(),
+				new ElectricSiphonPump(),
 			};
 			ContentCache.m_contentByName.TryGetValue("CraftingIdTable", out object value);
 			if (!(value is Dictionary<string, int> dict))

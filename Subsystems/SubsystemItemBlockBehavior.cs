@@ -233,6 +233,39 @@ namespace Game
 				view.ActiveCamera = view.ActiveCamera is TelescopeCamera ? view.FindCamera<FppCamera>(true) : (Camera)new TelescopeCamera(view);
 				return true;
 			}
+			else if (activeBlockValue == ItemBlock.IdTable["测距仪"])
+			{
+				Vector3 eyePosition = componentMiner.ComponentCreature.ComponentCreatureModel.EyePosition;
+				Matrix matrix = componentMiner.ComponentCreature.ComponentBody.Matrix;
+				ComponentNPlayer miner2 = componentMiner.Entity.FindComponent<ComponentNPlayer>();
+				Vector3 vectorp = eyePosition + matrix.Right * 0.3f - matrix.Up * 0.2f;
+				//componentMiner.ComponentPlayer?.ComponentGui.DisplaySmallMessage((99999999).ToString(), blinking: true, playNotificationSound: false);
+				result = miner2.PickTerrainForDigging2(vectorp, direction, 200f);
+				body = miner2.PickBody2(vectorp, direction, 200f);
+				
+				//componentMiner.ComponentPlayer?.ComponentGui.DisplaySmallMessage((11111111).ToString(), blinking: true, playNotificationSound: false);
+				float end = 100f;
+				if (body.HasValue && (!result.HasValue || body.Value.Distance < result.Value.Distance))
+				{
+					//ComponentCreature cre1 = body.Value.ComponentBody.Entity.FindComponent<ComponentCreature>();
+					//if (cre1 != null)
+					//{
+						componentMiner.ComponentPlayer.ComponentGui.DisplaySmallMessage("Distance  "+ body.Value.Distance.ToString(), blinking: true, playNotificationSound: true);
+						return true;
+					//}
+				}
+				else if (result.HasValue)
+				{
+					componentMiner.ComponentPlayer.ComponentGui.DisplaySmallMessage("Distance  " + result.Value.Distance.ToString(), blinking: true, playNotificationSound: true);
+					return true;
+
+				}
+				componentMiner.ComponentPlayer.ComponentGui.DisplaySmallMessage("Distance Error ", blinking: true, playNotificationSound: true);
+				//ScreensManager.SwitchScreen(new RecipaediaScreen2());
+				//var view = componentMiner.ComponentPlayer.View;
+				//view.ActiveCamera = view.ActiveCamera is TelescopeCamera ? view.FindCamera<FppCamera>(true) : (Camera)new TelescopeCamera(view);
+				return true;
+			}
 			else if (activeBlockValue == ItemBlock.IdTable["卫星连接器"])
 			{
 				bool find=false;
@@ -341,6 +374,12 @@ namespace Game
 				else if (activeBlockValue == ItemBlock.IdTable["MGun"])
 				{
 					entity = DatabaseManager.CreateEntity(Project, "MGun", true);
+					entity.FindComponent<ComponentFrame>(true).Rotation = Quaternion.CreateFromAxisAngle(Vector3.UnitY, m_random.UniformFloat(0f, 6.283185f));
+					goto put;
+				}
+				else if (activeBlockValue == ItemBlock.IdTable["Cannonw"])
+				{
+					entity = DatabaseManager.CreateEntity(Project, "Cannonw", true);
 					entity.FindComponent<ComponentFrame>(true).Rotation = Quaternion.CreateFromAxisAngle(Vector3.UnitY, m_random.UniformFloat(0f, 6.283185f));
 					goto put;
 				}

@@ -33,6 +33,7 @@ namespace Game
 		public static SubsystemSourBlockBehavior SubsystemSour;
 		public static Terrain Terrain;
 		public static SubsystemTimeOfDay SubsystemTimeOfDay;
+		//public static SubsystemTimeOfDay SubsystemTimeOfDay;
 		public static bool LoadedProject;
 
 		public static void Load(Project Project)

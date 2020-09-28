@@ -71,6 +71,21 @@ namespace Game
 		public override string GetCraftingId() => "MGun";
 	}
 
+	public class Cannon : TexturedMeshItem
+	{
+		//public static Texture2D BoatTexture;
+
+		public Cannon() : base("迫击炮", "Cannonw", "Musket", Carriage.TrainTexture, "迫击炮，一种发射炮弹的武器。")
+		{
+		}
+
+		public override Vector3 GetIconViewOffset(int value, DrawBlockEnvironmentData environmentData) => new Vector3(-0.7f, 0.8f, -1);
+
+		public override float GetIconViewScale(int value, DrawBlockEnvironmentData environmentData) => 1.4f;
+		public override Vector3 GetIconBlockOffset(int value, DrawBlockEnvironmentData environmentData) => new Vector3(0f, 0.8f, 0f);
+		public override string GetCraftingId() => "Cannonw";
+	}
+
 	public class Icebreaker : TexturedMeshItem
 	{
 		public Icebreaker() : base("破冰船", "SteamBoat", "Cylinder", SteamBoat.BoatTexture, "破冰船")

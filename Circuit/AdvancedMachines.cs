@@ -113,6 +113,34 @@ namespace Game
 		}
 	}
 
+	public class ElectricSiphonPump : CubeDevice
+	{
+		public ElectricSiphonPump() : base("电子虹吸泵", "电子泵虹吸是一种可以直接吸收下方的水于上方的机器", 100)
+		{
+			Type |= ElementType.Pipe;
+		}
+
+		public override void Simulate(ref int voltage)
+		{
+			if (voltage >= 100 && Utils.SubsystemTime.PeriodicGameTimeEvent(0.2, 0.0))
+			{
+				//Point3 coordinates = Utils.ComponentBlockEntity.Coordinates;
+				//var point3 = new Point3(coordinates.X, coordinates.Y + 1, coordinates.Z);
+				//var entity = Utils.GetBlockEntity(Point);
+				var component3 = Utils.GetBlockEntity(new Point3(Point.X, Point.Y+1, Point.Z))?.Entity.FindComponent<ComponentMachine>();
+				if (component3 != null && Utils.Terrain.GetCellContentsFast(Point.X, Point.Y-1, Point.Z)==WaterBlock.Index)
+				{
+					ComponentInventoryBase.AcquireItems(component3, WaterBlock.Index, 1);
+				}
+			}
+		}
+
+		public override int GetFaceTextureSlot(int face, int value)
+		{
+			return face == 4 || face == 5 ? 107 : 128;
+		}
+	}
+
 	public class OilPlant : InventoryEntityDevice<ComponentOilPlant>
 	{
 		public ComponentOilPlant Inventory;

@@ -105,8 +105,20 @@ namespace Game
 							BoundingBox boundingBox2 = m_target.ComponentBody.BoundingBox;
 							Vector3 v = 0.5f * (boundingBox.Min + boundingBox.Max);
 							Vector3 vector = 0.5f * (boundingBox2.Min + boundingBox2.Max) - v;
+						//float dis = Vector3.Distance(v,vector);
+						if (vector.Length()>=10f)
 							Utils.SubsystemProjectiles.FireProjectile(Terrain.MakeBlockValue(214, 0, BulletBlock.SetBulletType(0, BulletBlock.BulletType.MiniBullet)), v + Vector3.Normalize(vector) * 1.5f, Vector3.Normalize(vector) * 200f, Vector3.Zero, m_componentCreature);
-							Utils.SubsystemAudio.PlaySound("Audio/MusketFire", 1f, 0f, v, 20f, true);
+						if (vector.Length() < 10f)
+						{
+							for (int i = 0; i < 12; i++)
+							{
+								Vector3 v4 = m_random.UniformFloat(-0.01f, 0.01f) * Vector3.UnitX + m_random.UniformFloat(-0.01f, 0.01f) * Vector3.UnitY + m_random.UniformFloat(-0.01f, 0.01f) * Vector3.UnitZ;
+								Utils.SubsystemProjectiles.FireProjectile(Terrain.MakeBlockValue(214, 0, BulletBlock.SetBulletType(0, BulletBlock.BulletType.CBullet)), v + Vector3.Normalize(vector) * 1.5f, (Vector3.Normalize(vector)+v4) * 200f, Vector3.Zero, m_componentCreature);
+								
+							}
+						}
+							//Utils.SubsystemProjectiles.FireProjectile(Terrain.MakeBlockValue(214, 0, BulletBlock.SetBulletType(0, BulletBlock.BulletType.CBullet)), v + Vector3.Normalize(vector) * 1.5f, Vector3.Normalize(vector) * 200f, Vector3.Zero, m_componentCreature);
+						    Utils.SubsystemAudio.PlaySound("Audio/MusketFire", 1f, 0f, v, 20f, true);
 							Utils.SubsystemParticles.AddParticleSystem(new GunSmokeParticleSystem2(Utils.SubsystemTerrain, v + Vector3.Normalize(vector) * 1.0f + new Vector3(0f, 0.5f, 0f), Vector3.Normalize(vector)));
 					
 						

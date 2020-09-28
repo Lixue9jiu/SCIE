@@ -185,4 +185,29 @@ namespace Game
 			: 0;
 		}
 	}
+
+	public class ComponentCabinerC : ComponentChest
+	{
+
+		public override void Load(ValuesDictionary valuesDictionary, IdToEntityMap idToEntityMap)
+		{
+			this.LoadItems(valuesDictionary);
+			angle = valuesDictionary.GetValue("Angle", 0f);
+			presure = valuesDictionary.GetValue("Pre", 0f);
+		}
+
+		public override void Save(ValuesDictionary valuesDictionary, EntityToIdMap entityToIdMap)
+		{
+			this.SaveItems(valuesDictionary);
+				valuesDictionary.SetValue("Angle", angle);
+				valuesDictionary.SetValue("Pre", presure);
+		}
+		public float angle;
+		public float presure;
+		public override int GetSlotCapacity(int slotIndex, int value)
+		{
+			return (Terrain.ExtractContents(value) == Bullet2Block.Index && (value == Terrain.MakeBlockValue(521, 0, Bullet2Block.SetBulletType(0, Bullet2Block.BulletType.Shell))) || value == Terrain.MakeBlockValue(521, 0, Bullet2Block.SetBulletType(0, Bullet2Block.BulletType.UShell)) || value == Terrain.MakeBlockValue(521, 0, Bullet2Block.SetBulletType(0, Bullet2Block.BulletType.BShell))) ? base.GetSlotCapacity(slotIndex, value)
+			: 0;
+		}
+	}
 }

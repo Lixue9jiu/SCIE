@@ -68,7 +68,7 @@ namespace Game
 				//float f2 = translation.Z - num3;
 				num = MathUtils.Clamp(Utils.SubsystemSour.FindNearestCompassTarget(new Vector3(Terrain.ToCell(translation))), 0f, 100f);
 			}
-			Matrix mat2 = Matrix.CreateScale(2f * size) * Matrix.CreateTranslation(0f, -0.1f, 0f) * matrix;
+			Matrix mat2 = Matrix.CreateScale(8f * size) * Matrix.CreateTranslation(0f, -0.1f, 0f) * matrix;
 			Matrix mat3 = m_invPointerMatrix * Matrix.CreateRotationX(-MathUtils.Lerp(1.5f, -1.5f, num / 100f)) * m_pointerMatrix * mat2;
 			BlocksManager.DrawMeshBlock(primitivesRenderer, m_caseMesh, color, size, ref mat2, environmentData);
 			BlocksManager.DrawMeshBlock(primitivesRenderer, m_pointerMesh, color, size, ref mat3, environmentData);

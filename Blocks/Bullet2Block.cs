@@ -12,14 +12,15 @@ namespace Game
 			HandBullet,
 			Shell,
 			UShell,
-			BucketBullet
+			BucketBullet,
+			BShell
 		}
 
 		public const int Index = 521;
 		public BlockMesh m_standaloneBlockMesh = new BlockMesh();
-		protected static readonly string[] m_displayNames = { "LeadBullet", "RifleBullet", "Shell", "UShell" , "BucketBullet" };
-		protected static readonly float[] m_sizes = { 0.5f, 0.5f, 1f, 1f ,0.6f};
-		protected static readonly int[] m_textureSlots = { 177, 193, 193, 193 ,196};
+		protected static readonly string[] m_displayNames = { "LeadBullet", "RifleBullet", "Shell", "UShell" , "BucketBullet","BShell" };
+		protected static readonly float[] m_sizes = { 0.5f, 0.5f, 1f, 1f ,0.6f,1f};
+		protected static readonly int[] m_textureSlots = { 177, 193, 193, 193 ,196,196};
 
 		public override void Initialize()
 		{
@@ -28,7 +29,7 @@ namespace Game
 
 		}
 
-		public override IEnumerable<int> GetCreativeValues() => new[] { Terrain.MakeBlockValue(521, 0, SetBulletType(0, BulletType.IronBullet)), Terrain.MakeBlockValue(521, 0, SetBulletType(0, BulletType.HandBullet)), Terrain.MakeBlockValue(521, 0, SetBulletType(0, BulletType.Shell)), Terrain.MakeBlockValue(521, 0, SetBulletType(0, BulletType.UShell)), Terrain.MakeBlockValue(521, 0, SetBulletType(0, BulletType.BucketBullet)), Index | 1 << 10 << 14, Index | 2 << 10 << 14 , Index | 3 << 10 << 14 };
+		public override IEnumerable<int> GetCreativeValues() => new[] { Terrain.MakeBlockValue(521, 0, SetBulletType(0, BulletType.IronBullet)), Terrain.MakeBlockValue(521, 0, SetBulletType(0, BulletType.HandBullet)), Terrain.MakeBlockValue(521, 0, SetBulletType(0, BulletType.Shell)), Terrain.MakeBlockValue(521, 0, SetBulletType(0, BulletType.UShell)), Terrain.MakeBlockValue(521, 0, SetBulletType(0, BulletType.BucketBullet)), Terrain.MakeBlockValue(521, 0, SetBulletType(0, BulletType.BShell)), Index | 1 << 10 << 14, Index | 2 << 10 << 14 , Index | 3 << 10 << 14 };
 
 		public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
 		{

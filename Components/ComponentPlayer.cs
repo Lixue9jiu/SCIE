@@ -372,11 +372,39 @@ namespace Game
 					return;
 				}
 
+				var componentBoat46 = mount.Entity.FindComponent<ComponentCannon>();
+				if (playerInput.Aim.HasValue && componentBoat46 != null)
+				{
+					Vector2 value = playerInput.Aim.Value;
+					Vector3 v = View.ActiveCamera.ScreenToWorld(new Vector3(value, 1f), Matrix.Identity);
+					Vector3 vv = mount.ComponentBody.Matrix.Forward;
+					Vector3 vv2 = Vector3.Normalize(v - viewPosition2);
+					
+					Vector3 vv3 = new Vector3(0f, 0f, 0f);
+					this.ComponentGui.ShowAimingSights(viewPosition2, vv2);
+					componentBoat46.vect = vv2;
+
+					//if (componentBoat44.HeatLevel == 500f && m_subsystemTime.GameTime - m_time2>1f)
+					//{
+					//componentBoat44.HeatLevel -= 10f;
+					m_time2 = m_subsystemTime.GameTime;
+					//}
+					return;
+				}
+				
+
 				if (m_subsystemTime.GameTime - m_time2 < 2 * dt && m_time2 != 0)
 				{
+					if (componentBoat46 != null && componentBoat46.fire == 0f)
+					{
+						m_time2 = 0;
+						componentBoat46.fire = 1;
+						return;
+					}
 					if (componentBoat44.HeatLevel == 500f)
 						componentBoat44.HeatLevel -= 10f;
 					return;
+
 				}
 			}
 			if (playerInput.Aim.HasValue && block.IsAimable && m_subsystemTime.GameTime - m_lastActionTime > num2)
